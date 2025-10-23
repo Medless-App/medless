@@ -1,3 +1,30 @@
+// Global medications list
+let allMedications = [];
+
+// Load medications on page load
+async function loadMedications() {
+  try {
+    const response = await axios.get('/api/medications');
+    if (response.data.success) {
+      allMedications = response.data.medications;
+      console.log(`Loaded ${allMedications.length} medications for autocomplete`);
+    }
+  } catch (error) {
+    console.error('Failed to load medications:', error);
+  }
+}
+
+// Initialize autocomplete on page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadMedications();
+  
+  // Setup autocomplete for initial input
+  const initialInput = document.querySelector('input[name="medication_name[]"]');
+  if (initialInput) {
+    setupAutocomplete(initialInput);
+  }
+});
+
 // Tab switching
 document.getElementById('tab-text')?.addEventListener('click', () => {
   showTab('text');
@@ -30,18 +57,139 @@ function showTab(tab) {
   }
 }
 
+// Setup autocomplete for input field
+function setupAutocomplete(input) {
+  let autocompleteList = null;
+  let selectedIndex = -1;
+
+  input.addEventListener('input', function(e) {
+    const value = this.value.toLowerCase().trim();
+    
+    // Remove existing autocomplete list
+    closeAllLists();
+    
+    if (!value || value.length < 2) {
+      return;
+    }
+    
+    // Filter medications
+    const matches = allMedications.filter(med => 
+      med.name.toLowerCase().includes(value) || 
+      (med.generic_name && med.generic_name.toLowerCase().includes(value))
+    ).slice(0, 10); // Limit to 10 results
+    
+    if (matches.length === 0) {
+      return;
+    }
+    
+    // Create autocomplete list
+    autocompleteList = document.createElement('div');
+    autocompleteList.className = 'autocomplete-list absolute z-50 bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto w-full';
+    autocompleteList.style.width = input.offsetWidth + 'px';
+    
+    matches.forEach((med, index) => {
+      const item = document.createElement('div');
+      item.className = 'autocomplete-item px-4 py-3 cursor-pointer hover:bg-purple-50 border-b border-gray-100';
+      
+      // Highlight matching text
+      const nameMatch = med.name.toLowerCase().indexOf(value);
+      let displayName = med.name;
+      if (nameMatch !== -1) {
+        displayName = med.name.substring(0, nameMatch) + 
+                     '<strong>' + med.name.substring(nameMatch, nameMatch + value.length) + '</strong>' +
+                     med.name.substring(nameMatch + value.length);
+      }
+      
+      item.innerHTML = `
+        <div class="font-semibold text-gray-800">${displayName}</div>
+        ${med.generic_name ? `<div class="text-sm text-gray-600">${med.generic_name}</div>` : ''}
+        <div class="text-xs text-gray-500 mt-1">
+          <span class="inline-block px-2 py-1 bg-${med.risk_level === 'high' || med.risk_level === 'very_high' ? 'red' : med.risk_level === 'medium' ? 'yellow' : 'green'}-100 rounded">
+            ${med.category_name}
+          </span>
+        </div>
+      `;
+      
+      item.addEventListener('click', function() {
+        input.value = med.name;
+        
+        // Auto-fill dosage if available
+        const dosageInput = input.parentElement.querySelector('input[name="medication_dosage[]"]');
+        if (dosageInput && med.common_dosage && !dosageInput.value) {
+          dosageInput.value = med.common_dosage;
+        }
+        
+        closeAllLists();
+      });
+      
+      autocompleteList.appendChild(item);
+    });
+    
+    // Position the list
+    const rect = input.getBoundingClientRect();
+    input.parentElement.style.position = 'relative';
+    input.parentElement.appendChild(autocompleteList);
+  });
+  
+  // Keyboard navigation
+  input.addEventListener('keydown', function(e) {
+    if (!autocompleteList) return;
+    
+    const items = autocompleteList.getElementsByClassName('autocomplete-item');
+    
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+      setActiveItem(items);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectedIndex = Math.max(selectedIndex - 1, 0);
+      setActiveItem(items);
+    } else if (e.key === 'Enter' && selectedIndex >= 0) {
+      e.preventDefault();
+      items[selectedIndex].click();
+    } else if (e.key === 'Escape') {
+      closeAllLists();
+    }
+  });
+  
+  function setActiveItem(items) {
+    for (let i = 0; i < items.length; i++) {
+      items[i].classList.remove('bg-purple-100');
+      if (i === selectedIndex) {
+        items[i].classList.add('bg-purple-100');
+        items[i].scrollIntoView({ block: 'nearest' });
+      }
+    }
+  }
+  
+  function closeAllLists() {
+    const lists = document.getElementsByClassName('autocomplete-list');
+    Array.from(lists).forEach(list => list.remove());
+    selectedIndex = -1;
+  }
+  
+  // Close list when clicking outside
+  document.addEventListener('click', function(e) {
+    if (e.target !== input) {
+      closeAllLists();
+    }
+  });
+}
+
 // Add medication input
 let medicationCount = 1;
 
 document.getElementById('add-medication')?.addEventListener('click', () => {
   medicationCount++;
   const container = document.getElementById('medication-inputs');
-  const newInput = document.createElement('div');
-  newInput.className = 'medication-input-group flex gap-3';
-  newInput.innerHTML = `
+  const newInputGroup = document.createElement('div');
+  newInputGroup.className = 'medication-input-group flex gap-3';
+  newInputGroup.style.position = 'relative';
+  newInputGroup.innerHTML = `
     <input type="text" name="medication_name[]" 
            placeholder="z.B. Ibuprofen, Marcumar, Prozac..." 
-           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+           class="medication-name-input flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
            required>
     <input type="text" name="medication_dosage[]" 
            placeholder="Dosierung (z.B. 400mg täglich)" 
@@ -50,11 +198,15 @@ document.getElementById('add-medication')?.addEventListener('click', () => {
         <i class="fas fa-times"></i>
     </button>
   `;
-  container.appendChild(newInput);
+  container.appendChild(newInputGroup);
+
+  // Setup autocomplete for new input
+  const newInput = newInputGroup.querySelector('.medication-name-input');
+  setupAutocomplete(newInput);
 
   // Add remove handler
-  newInput.querySelector('.remove-medication').addEventListener('click', function() {
-    newInput.remove();
+  newInputGroup.querySelector('.remove-medication').addEventListener('click', function() {
+    newInputGroup.remove();
     medicationCount--;
   });
 });

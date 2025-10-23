@@ -240,6 +240,17 @@ app.get('/', (c) => {
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
           }
+          
+          /* Autocomplete styles */
+          .autocomplete-list {
+            animation: fadeIn 0.2s ease-out;
+          }
+          .autocomplete-item {
+            transition: background-color 0.15s ease;
+          }
+          .autocomplete-item:last-child {
+            border-bottom: none;
+          }
         </style>
     </head>
     <body class="bg-gray-50">
@@ -362,10 +373,10 @@ app.get('/', (c) => {
                                 Ihre Medikamente
                             </label>
                             <div id="medication-inputs" class="space-y-3">
-                                <div class="medication-input-group flex gap-3">
+                                <div class="medication-input-group flex gap-3" style="position: relative;">
                                     <input type="text" name="medication_name[]" 
-                                           placeholder="z.B. Ibuprofen, Marcumar, Prozac..." 
-                                           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                           placeholder="z.B. Tippen Sie 'IBU' für Ibuprofen..." 
+                                           class="medication-name-input flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                                            required>
                                     <input type="text" name="medication_dosage[]" 
                                            placeholder="Dosierung (z.B. 400mg täglich)" 
