@@ -580,7 +580,7 @@ function downloadPDF() {
   // Title
   doc.setFontSize(20);
   doc.setTextColor(102, 126, 234);
-  doc.text('Ihr persoenlicher CBD Ausgleichsplan', 105, yPos, { align: 'center' });
+  doc.text('Ihr persönlicher CBD Ausgleichsplan', 105, yPos, { align: 'center' });
   
   yPos += 10;
   doc.setFontSize(12);
@@ -603,11 +603,11 @@ function downloadPDF() {
   doc.setTextColor(60, 60, 60);
   doc.setFont(undefined, 'normal');
   
-  const welcomeText = `herzlich willkommen zu Ihrem persoenlichen CBD-Ausgleichsplan! Wir freuen uns, dass Sie den Schritt wagen, Ihr Endocannabinoid-System (ECS) zu staerken und damit Ihren Koerper auf natuerliche Weise zu unterstuetzen.
+  const welcomeText = `herzlich willkommen zu Ihrem persönlichen CBD-Ausgleichsplan! Wir freuen uns, dass Sie den Schritt wagen, Ihr Endocannabinoid-System (ECS) zu stärken und damit Ihren Körper auf natürliche Weise zu unterstützen.
 
-Dieser Plan wurde speziell fuer Sie und Ihre aktuelle Medikation erstellt. Er basiert auf wissenschaftlichen Erkenntnissen ueber Wechselwirkungen zwischen CBD und Medikamenten und soll Ihnen helfen, CBD sicher und effektiv in Ihren Alltag zu integrieren.
+Dieser Plan wurde speziell für Sie und Ihre aktuelle Medikation erstellt. Er basiert auf wissenschaftlichen Erkenntnissen über Wechselwirkungen zwischen CBD und Medikamenten und soll Ihnen helfen, CBD sicher und effektiv in Ihren Alltag zu integrieren.
 
-Unser Ziel ist es, Sie auf Ihrem Weg zu begleiten - einem Weg, der Sie moeglicherweise langfristig dabei unterstuetzt, weniger auf Medikamente angewiesen zu sein. Exogene Cannabinoide wie CBD koennen Ihr ECS von aussen staerken und Ihrem Koerper helfen, sein natuerliches Gleichgewicht wiederzufinden.`;
+Unser Ziel ist es, Sie auf Ihrem Weg zu begleiten - einem Weg, der Sie möglicherweise langfristig dabei unterstützt, weniger auf Medikamente angewiesen zu sein. Exogene Cannabinoide wie CBD können Ihr ECS von außen stärken und Ihrem Körper helfen, sein natürliches Gleichgewicht wiederzufinden.`;
   
   const welcomeLines = doc.splitTextToSize(welcomeText, 180);
   doc.text(welcomeLines, 15, yPos);
@@ -641,7 +641,7 @@ Unser Ziel ist es, Sie auf Ihrem Weg zu begleiten - einem Weg, der Sie moegliche
   doc.text(`Anpassung alle ${guidelines?.adjustment_period_days || 14} Tage`, 15, yPos);
   yPos += 5;
   doc.setFont(undefined, 'bold');
-  doc.text('Einnahme: 2x taeglich - Morgens (40%) und Abends (60%)', 15, yPos);
+  doc.text('Einnahme: 2x täglich - Morgens (40%) und Abends (60%)', 15, yPos);
   
   yPos += 12;
   
@@ -715,11 +715,11 @@ Unser Ziel ist es, Sie auf Ihrem Weg zu begleiten - einem Weg, der Sie moegliche
   doc.setFont(undefined, 'normal');
   doc.setTextColor(60, 60, 60);
   const instructions = [
-    '• 2x taeglich: Morgens 40% der Tagesdosis, Abends 60% der Tagesdosis',
-    '• Einnahme zu den Mahlzeiten (Fruehstueck & Abendessen)',
-    '• CBD-Oel 60-90 Sekunden unter der Zunge halten',
-    '• Ausreichend Wasser trinken (2-3 Liter taeglich)',
-    '• Symptom-Tagebuch fuehren',
+    '• 2x täglich: Morgens 40% der Tagesdosis, Abends 60% der Tagesdosis',
+    '• Einnahme zu den Mahlzeiten (Frühstück & Abendessen)',
+    '• CBD-Öl 60-90 Sekunden unter der Zunge halten',
+    '• Ausreichend Wasser trinken (2-3 Liter täglich)',
+    '• Symptom-Tagebuch führen',
     '• Bei Nebenwirkungen Dosis reduzieren oder pausieren',
     '• Bei Unsicherheiten immer Arzt konsultieren'
   ];
@@ -797,13 +797,13 @@ Unser Ziel ist es, Sie auf Ihrem Weg zu begleiten - einem Weg, der Sie moegliche
   
   const disclaimerText = `Dies ist KEINE medizinische Beratung und ersetzt NICHT den Besuch bei Ihrem Arzt!
 
-Die hier bereitgestellten Informationen dienen ausschliesslich zu Bildungszwecken und zur ersten Orientierung. Sie basieren auf oeffentlich zugaenglichen wissenschaftlichen Studien ueber Wechselwirkungen zwischen CBD und Medikamenten.
+Die hier bereitgestellten Informationen dienen ausschließlich zu Bildungszwecken und zur ersten Orientierung. Sie basieren auf öffentlich zugänglichen wissenschaftlichen Studien über Wechselwirkungen zwischen CBD und Medikamenten.
 
-WICHTIG: Konsultieren Sie UNBEDINGT Ihren Arzt oder Apotheker, bevor Sie CBD einnehmen, insbesondere wenn Sie Medikamente einnehmen. Wechselwirkungen koennen gesundheitsgefaehrdend sein!
+WICHTIG: Konsultieren Sie UNBEDINGT Ihren Arzt oder Apotheker, bevor Sie CBD einnehmen, insbesondere wenn Sie Medikamente einnehmen. Wechselwirkungen können gesundheitsgefährdend sein!
 
-Aendern Sie NIEMALS ohne aerztliche Ruecksprache Ihre Medikation. CBD kann Sie beim Ausschleichen von Medikamenten begleiten, aber NUR unter aerztlicher Aufsicht.
+Ändern Sie NIEMALS ohne ärztliche Rücksprache Ihre Medikation. CBD kann Sie beim Ausschleichen von Medikamenten begleiten, aber NUR unter ärztlicher Aufsicht.
 
-Nehmen Sie diesen Plan unbedingt zu Ihrem naechsten Arztgespraech mit und besprechen Sie die Einnahme von CBD mit Ihrem behandelnden Arzt.`;
+Nehmen Sie diesen Plan unbedingt zu Ihrem nächsten Arztgespräch mit und besprechen Sie die Einnahme von CBD mit Ihrem behandelnden Arzt.`;
   
   const disclaimerLines = doc.splitTextToSize(disclaimerText, 180);
   doc.text(disclaimerLines, 15, yPos);
