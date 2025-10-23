@@ -277,6 +277,60 @@ app.get('/', (c) => {
 
         <div class="max-w-6xl mx-auto px-4 py-8">
             
+            <!-- Mission Statement - NEU -->
+            <div class="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 p-8 mb-8 rounded-xl shadow-lg fade-in">
+                <div class="flex items-start">
+                    <i class="fas fa-heart text-green-600 text-4xl mr-6 mt-1"></i>
+                    <div class="w-full">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                            <i class="fas fa-seedling mr-2"></i>
+                            Ihr Weg zu weniger Tabletten - natürlich mit exogenen Cannabinoiden
+                        </h2>
+                        <p class="text-gray-700 text-lg mb-4 leading-relaxed">
+                            <strong>Viele Menschen wünschen sich, von ihrer Medikation loszukommen.</strong> Diese Plattform bietet Ihnen einen wissenschaftlich fundierten Ansatz, um Ihr <strong>Endocannabinoid-System (ECS)</strong> zu stärken und Ihren Körper dabei zu unterstützen, sein natürliches Gleichgewicht wiederzufinden.
+                        </p>
+                        
+                        <div class="bg-white/70 p-4 rounded-lg mb-4">
+                            <h3 class="font-bold text-gray-800 mb-2">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                                Warum exogene Cannabinoide?
+                            </h3>
+                            <p class="text-gray-700 mb-2">
+                                Das <strong>Endocannabinoid-System (ECS)</strong> ist ein körpereigenes Regulationssystem, das Schlaf, Stimmung, Schmerz, Entzündungen und viele weitere Prozesse steuert. Wenn dieses System geschwächt ist, können Beschwerden entstehen.
+                            </p>
+                            <p class="text-gray-700">
+                                <strong>Exogene Cannabinoide</strong> (wie CBD) aus der Cannabispflanze können Ihr ECS von außen unterstützen und stärken - ähnlich wie Vitamine einen Mangel ausgleichen können.
+                            </p>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-3 gap-4 mt-4">
+                            <div class="bg-green-100 p-4 rounded-lg">
+                                <i class="fas fa-pills text-green-600 text-2xl mb-2"></i>
+                                <h4 class="font-bold text-gray-800 mb-1">Medikamente reduzieren</h4>
+                                <p class="text-sm text-gray-700">Viele Studien zeigen: CBD kann beim Ausschleichen von Opioiden, Antidepressiva und anderen Medikamenten unterstützen</p>
+                            </div>
+                            <div class="bg-blue-100 p-4 rounded-lg">
+                                <i class="fas fa-brain text-blue-600 text-2xl mb-2"></i>
+                                <h4 class="font-bold text-gray-800 mb-1">ECS stärken</h4>
+                                <p class="text-sm text-gray-700">Ihr Körper verfügt über ein mächtiges Selbstheilungssystem - das ECS. CBD hilft, es zu aktivieren und zu balancieren</p>
+                            </div>
+                            <div class="bg-purple-100 p-4 rounded-lg">
+                                <i class="fas fa-leaf text-purple-600 text-2xl mb-2"></i>
+                                <h4 class="font-bold text-gray-800 mb-1">Natürlicher Ansatz</h4>
+                                <p class="text-sm text-gray-700">Exogene Cannabinoide bieten eine pflanzliche Alternative mit weniger Nebenwirkungen als viele Medikamente</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4 rounded">
+                            <p class="text-gray-700 font-semibold">
+                                <i class="fas fa-user-md text-blue-600 mr-2"></i>
+                                <strong>Wissenschaftlich belegt:</strong> Studien zeigen, dass CBD Entzugssymptome lindern, Schmerzen reduzieren und die Lebensqualität verbessern kann. Unser Plan berücksichtigt mögliche Wechselwirkungen mit Ihren aktuellen Medikamenten.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Disclaimer -->
             <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 mb-8 rounded-lg shadow fade-in">
                 <div class="flex items-start">
@@ -294,7 +348,8 @@ app.get('/', (c) => {
                             <li>Konsultieren Sie vor der Einnahme von CBD <strong>unbedingt Ihren Arzt</strong></li>
                             <li>Wechselwirkungen mit Medikamenten können gesundheitsgefährdend sein</li>
                             <li>Nehmen Sie diesen Plan zu Ihrem Arztgespräch mit</li>
-                            <li>Ändern Sie niemals ohne ärztliche Rücksprache Ihre Medikation</li>
+                            <li><strong>Ändern Sie niemals ohne ärztliche Rücksprache Ihre Medikation</strong></li>
+                            <li>CBD kann Sie beim Medikamenten-Ausschleichen begleiten, aber <strong>NUR unter ärztlicher Aufsicht</strong></li>
                         </ul>
                     </div>
                 </div>
