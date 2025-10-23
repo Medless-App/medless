@@ -242,9 +242,21 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
   e.preventDefault();
   
   const form = e.target;
+  const firstName = form.querySelector('input[name="first_name"]').value.trim();
+  const gender = form.querySelector('input[name="gender"]:checked')?.value;
   const medicationNames = form.querySelectorAll('input[name="medication_name[]"]');
   const medicationDosages = form.querySelectorAll('input[name="medication_dosage[]"]');
   const durationWeeks = parseInt(form.querySelector('input[name="duration_weeks"]').value);
+
+  if (!firstName) {
+    alert('Bitte geben Sie Ihren Vornamen an.');
+    return;
+  }
+
+  if (!gender) {
+    alert('Bitte wählen Sie Ihr Geschlecht aus.');
+    return;
+  }
 
   const medications = [];
   medicationNames.forEach((nameInput, index) => {
@@ -261,7 +273,7 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
     return;
   }
 
-  await analyzeMedications(medications, durationWeeks);
+  await analyzeMedications(medications, durationWeeks, firstName, gender);
 });
 
 // Handle upload form submission
@@ -305,7 +317,7 @@ document.getElementById('upload-form')?.addEventListener('submit', async (e) => 
 });
 
 // Analyze medications
-async function analyzeMedications(medications, durationWeeks) {
+async function analyzeMedications(medications, durationWeeks, firstName = '', gender = '') {
   // Show loading
   document.getElementById('loading').classList.remove('hidden');
   document.getElementById('results').classList.add('hidden');
@@ -318,7 +330,7 @@ async function analyzeMedications(medications, durationWeeks) {
     });
 
     if (response.data.success) {
-      displayResults(response.data);
+      displayResults(response.data, firstName, gender);
     } else {
       throw new Error(response.data.error || 'Analyse fehlgeschlagen');
     }
@@ -330,7 +342,7 @@ async function analyzeMedications(medications, durationWeeks) {
 }
 
 // Display results
-function displayResults(data) {
+function displayResults(data, firstName = '', gender = '') {
   const resultsDiv = document.getElementById('results');
   const { analysis, maxSeverity, guidelines, weeklyPlan, warnings } = data;
 
@@ -546,8 +558,8 @@ function displayResults(data) {
     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 100);
 
-  // Store data globally for PDF generation
-  window.currentPlanData = { analysis, weeklyPlan, guidelines, maxSeverity };
+  // Store data globally for PDF generation (including personal data)
+  window.currentPlanData = { analysis, weeklyPlan, guidelines, maxSeverity, firstName, gender };
 }
 
 // Download PDF function using jsPDF
@@ -558,7 +570,7 @@ function downloadPDF() {
   }
   
   const { jsPDF } = window.jspdf;
-  const { analysis, weeklyPlan, guidelines, maxSeverity } = window.currentPlanData;
+  const { analysis, weeklyPlan, guidelines, maxSeverity, firstName, gender } = window.currentPlanData;
   
   // Create PDF
   const doc = new jsPDF();
@@ -568,7 +580,7 @@ function downloadPDF() {
   // Title
   doc.setFontSize(20);
   doc.setTextColor(102, 126, 234);
-  doc.text('CBD Ausgleichsplan', 105, yPos, { align: 'center' });
+  doc.text('Ihr persoenlicher CBD Ausgleichsplan', 105, yPos, { align: 'center' });
   
   yPos += 10;
   doc.setFontSize(12);
@@ -577,20 +589,30 @@ function downloadPDF() {
   
   yPos += 15;
   
-  // Disclaimer
-  doc.setFillColor(255, 243, 205);
-  doc.rect(10, yPos, 190, 30, 'F');
-  doc.setFontSize(10);
-  doc.setTextColor(200, 100, 0);
+  // Personalized Greeting
+  const greeting = gender === 'female' ? 'Liebe' : 'Lieber';
+  doc.setFontSize(14);
+  doc.setTextColor(88, 28, 135);
   doc.setFont(undefined, 'bold');
-  doc.text('WICHTIGER HINWEIS:', 15, yPos + 7);
-  doc.setFont(undefined, 'normal');
-  doc.setTextColor(100, 100, 100);
-  const disclaimerText = 'Dies ist KEINE medizinische Beratung. Konsultieren Sie unbedingt Ihren Arzt vor der CBD-Einnahme. Wechselwirkungen mit Medikamenten können gesundheitsgefaehrdend sein. Nehmen Sie diesen Plan zu Ihrem Arztgespraech mit!';
-  const disclaimerLines = doc.splitTextToSize(disclaimerText, 180);
-  doc.text(disclaimerLines, 15, yPos + 14);
+  doc.text(`${greeting} ${firstName},`, 15, yPos);
   
-  yPos += 40;
+  yPos += 10;
+  
+  // Welcoming Introduction Text
+  doc.setFontSize(11);
+  doc.setTextColor(60, 60, 60);
+  doc.setFont(undefined, 'normal');
+  
+  const welcomeText = `herzlich willkommen zu Ihrem persoenlichen CBD-Ausgleichsplan! Wir freuen uns, dass Sie den Schritt wagen, Ihr Endocannabinoid-System (ECS) zu staerken und damit Ihren Koerper auf natuerliche Weise zu unterstuetzen.
+
+Dieser Plan wurde speziell fuer Sie und Ihre aktuelle Medikation erstellt. Er basiert auf wissenschaftlichen Erkenntnissen ueber Wechselwirkungen zwischen CBD und Medikamenten und soll Ihnen helfen, CBD sicher und effektiv in Ihren Alltag zu integrieren.
+
+Unser Ziel ist es, Sie auf Ihrem Weg zu begleiten - einem Weg, der Sie moeglicherweise langfristig dabei unterstuetzt, weniger auf Medikamente angewiesen zu sein. Exogene Cannabinoide wie CBD koennen Ihr ECS von aussen staerken und Ihrem Koerper helfen, sein natuerliches Gleichgewicht wiederzufinden.`;
+  
+  const welcomeLines = doc.splitTextToSize(welcomeText, 180);
+  doc.text(welcomeLines, 15, yPos);
+  
+  yPos += welcomeLines.length * 5 + 10;
   
   // Severity warning if critical
   if (maxSeverity === 'critical' || maxSeverity === 'high') {
@@ -753,7 +775,40 @@ function downloadPDF() {
     yPos += 8;
   });
   
-  // Footer
+  yPos += 10;
+  
+  // DISCLAIMER AT THE END - CRITICAL MEDICAL/LEGAL NOTICE
+  if (yPos > 210) {
+    doc.addPage();
+    yPos = 20;
+  }
+  
+  doc.setFillColor(255, 243, 205);
+  doc.rect(10, yPos, 190, 65, 'F');
+  doc.setFontSize(14);
+  doc.setTextColor(200, 100, 0);
+  doc.setFont(undefined, 'bold');
+  doc.text('WICHTIGER HAFTUNGSAUSSCHLUSS', 105, yPos + 10, { align: 'center' });
+  
+  yPos += 18;
+  doc.setFontSize(10);
+  doc.setTextColor(100, 100, 100);
+  doc.setFont(undefined, 'normal');
+  
+  const disclaimerText = `Dies ist KEINE medizinische Beratung und ersetzt NICHT den Besuch bei Ihrem Arzt!
+
+Die hier bereitgestellten Informationen dienen ausschliesslich zu Bildungszwecken und zur ersten Orientierung. Sie basieren auf oeffentlich zugaenglichen wissenschaftlichen Studien ueber Wechselwirkungen zwischen CBD und Medikamenten.
+
+WICHTIG: Konsultieren Sie UNBEDINGT Ihren Arzt oder Apotheker, bevor Sie CBD einnehmen, insbesondere wenn Sie Medikamente einnehmen. Wechselwirkungen koennen gesundheitsgefaehrdend sein!
+
+Aendern Sie NIEMALS ohne aerztliche Ruecksprache Ihre Medikation. CBD kann Sie beim Ausschleichen von Medikamenten begleiten, aber NUR unter aerztlicher Aufsicht.
+
+Nehmen Sie diesen Plan unbedingt zu Ihrem naechsten Arztgespraech mit und besprechen Sie die Einnahme von CBD mit Ihrem behandelnden Arzt.`;
+  
+  const disclaimerLines = doc.splitTextToSize(disclaimerText, 180);
+  doc.text(disclaimerLines, 15, yPos);
+  
+  // Footer on all pages
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
   const pageCount = doc.internal.getNumberOfPages();
@@ -763,6 +818,8 @@ function downloadPDF() {
     doc.text('ECS Aktivierung - www.ecs-aktivierung.de', 105, 285, { align: 'center' });
   }
   
-  // Save PDF
-  doc.save(`CBD-Ausgleichsplan_${new Date().toISOString().split('T')[0]}.pdf`);
+  // Save PDF with personalized filename
+  const dateStr = new Date().toISOString().split('T')[0];
+  const sanitizedName = firstName.replace(/[^a-zA-Z0-9]/g, '_');
+  doc.save(`CBD-Ausgleichsplan_${sanitizedName}_${dateStr}.pdf`);
 }

@@ -422,6 +422,42 @@ app.get('/', (c) => {
                 <!-- Text Input Tab -->
                 <div id="content-text" class="tab-content">
                     <form id="medication-form">
+                        <!-- Persönliche Angaben -->
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-3">
+                                    <i class="fas fa-user mr-2"></i>
+                                    Ihr Vorname
+                                </label>
+                                <input type="text" id="first-name" name="first_name" 
+                                       placeholder="z.B. Maria" 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                       required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-3">
+                                    <i class="fas fa-venus-mars mr-2"></i>
+                                    Geschlecht
+                                </label>
+                                <div class="flex gap-6 items-center h-full">
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="radio" name="gender" value="female" class="w-5 h-5 text-purple-600 focus:ring-purple-500" required>
+                                        <span class="ml-3 text-gray-700 font-medium">
+                                            <i class="fas fa-venus text-pink-500 mr-1"></i>
+                                            Weiblich
+                                        </span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="radio" name="gender" value="male" class="w-5 h-5 text-purple-600 focus:ring-purple-500" required>
+                                        <span class="ml-3 text-gray-700 font-medium">
+                                            <i class="fas fa-mars text-blue-500 mr-1"></i>
+                                            Männlich
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3">
                                 <i class="fas fa-pills mr-2"></i>
