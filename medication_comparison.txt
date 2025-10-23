@@ -1,0 +1,293 @@
+# MEDIKAMENTEN-VERGLEICH: Text vs. Datenbank
+
+## KATEGORIEN IM TEXT (139 Medikamente laut Penn State Study):
+
+### 1. ANTIKOAGULANZIEN (Gerinnungshemmer) - 10 Medikamente im Text
+- Warfarin (Coumadin)
+- Phenprocoumon (Marcumar)
+- Acenocoumarol (Sintrom)
+- Dicumarol
+- Fluindion (Previscan)
+- Chlorindion
+- Diphenadion
+- Dabigatran etexilat (Pradaxa)
+- Argatroban (Argatra)
+
+### 2. ANTIEPILEPTIKA - 8 Medikamente im Text
+- Clobazam (Frisium)
+- Lamotrigin (Lamictal)
+- Valproinsäure (Depakine)
+- Carbamazepin (Tegretal)
+- Ethosuximid (Petinutin)
+- Phenytoin (Epanutin)
+- Fosphenytoin (Pro-Epanutin)
+- Phenobarbital (Luminal)
+
+### 3. ANTIDEPRESSIVA - 12 Medikamente im Text
+- Amitriptylin (Saroten)
+- Nortriptylin (Nortrilen)
+- Imipramin (Tofranil)
+- Desipramin (Pertofran)
+- Clomipramin (Anafranil)
+- Doxepin (Aponal)
+- Dosulepin (Prothiaden)
+- Trimipramin (Stangyl)
+- Lofepramin (Gamanil)
+- Melitracen (Melixeran)
+- Bupropion (Elontril)
+- Duloxetin (Cymbalta)
+
+### 4. ANTIPSYCHOTIKA - 4 Medikamente im Text
+- Clozapin (Leponex)
+- Lurasidon (Latuda)
+- Quetiapin (Seroquel)
+- Pimozid (Orap)
+
+### 5. SEDATIVA, ANXIOLYTIKA & SCHLAFMITTEL - 10 Medikamente im Text
+- Alprazolam (Tafil)
+- Lorazepam (Tavor)
+- Diazepam (Valium)
+- Midazolam (Dormicum)
+- Triazolam (Halcion)
+- Zolpidem (Stilnox)
+- Buspiron (Buspar)
+- Melatonin (Circadin)
+- Ramelteon (Rozerem)
+- Cyclobenzaprin (Flexeril)
+
+### 6. ANALGETIKA & ANÄSTHETIKA (Opioide) - 7 Medikamente im Text
+- Fentanyl (Durogesic)
+- Alfentanil (Rapifen)
+- Meperidin/Pethidin (Dolantin)
+- Morphin (MS Mundipharma)
+- Levacetylmethadol (LAAM)
+- Pentobarbital
+- Propofol (Disoprivan)
+
+### 7. NICHT-OPIOIDE ANALGETIKA - 3 Medikamente im Text
+- Paracetamol (Ben-u-ron)
+- Celecoxib (Celebrex)
+- Diflunisal (Dolobid)
+
+### 8. MIGRÄNETHERAPIE - 4 Medikamente im Text
+- Ergotamin (Ergomar)
+- Dihydroergotamin (Dihydergot)
+- Methysergid (Deseril)
+- Eletriptan (Relpax)
+
+### 9. ANTIHISTAMINIKA - 2 Medikamente im Text
+- Astemizol (Hismanal)
+- Ebastin (Kestine)
+
+### 10. HERZ-KREISLAUF & LIPIDSENKER - 17 Medikamente im Text
+- Amiodaron (Cordarone)
+- Dronedaron (Multaq)
+- Clonidin (Catapresan)
+- Felodipin (Plendil)
+- Nisoldipin (Baymycard)
+- Digitoxin (Digimerck)
+- Quinidin
+- Atorvastatin (Sortis)
+- Lovastatin (Mevinacor)
+- Lomitapid (Lojuxta)
+- Gemfibrozil (Lopid)
+- Fenofibrat (Lipanthyl)
+- Avanafil (Spedra)
+- Vardenafil (Levitra)
+
+### 11. ANTIDIABETIKA - 3 Medikamente im Text
+- Glimepirid (Amaryl)
+- Pioglitazon (Actos)
+- Repaglinid (NovoNorm)
+
+### 12. IMMUNSUPPRESSIVA & ONKOLOGIKA - 8 Medikamente im Text
+- Cyclosporin (Sandimmun)
+- Everolimus (Certican)
+- Mycophenolat-Mofetil (CellCept)
+- Ibrutinib (Imbruvica)
+- Dasatinib (Sprycel)
+- Busulfan (Myleran)
+- Paclitaxel (Taxol)
+
+### 13. ANTIINFEKTIVA - 10 Medikamente im Text
+- Indinavir (Crixivan)
+- Darunavir (Prezista)
+- Lopinavir (Kaletra)
+- Efavirenz (Sustiva)
+- Maraviroc (Celsentri)
+- Voriconazol (Vfend)
+- Isavuconazol (Cresemba)
+- Amphotericin B (AmBisome)
+- Clindamycin (Clindasol)
+
+### 14. GASTROINTESTINALE MITTEL - 8 Medikamente im Text
+- Omeprazol (Antra)
+- Lansoprazol (Agopton)
+- Rabeprazol (Pariet)
+- Cisaprid (Propulsid)
+- Alosetron (Lotronex)
+- Aprepitant (Emend)
+- Fosaprepitant (Ivemend)
+- Ramosetron (Nasea)
+
+### 15. HORMONELLE WIRKSTOFFE - 3 Medikamente im Text
+- Levothyroxin (Euthyrox/L-Thyroxin)
+- Ethinylestradiol (in Pille)
+- Bromocriptin (Pravidel)
+
+### 16. ATEMWEGS-THERAPEUTIKA - 3 Medikamente im Text
+- Aminophyllin (Theophyllin)
+- Budesonid (Pulmicort)
+- Montelukast (Singulair)
+
+### 17. WEITERE ARZNEISTOFFE - 6 Medikamente im Text
+- Naloxegol (Moventig)
+- Darifenacin (Emselex)
+- Conivaptan (Vaprisol)
+- Tolvaptan (Samsca)
+- Colchicin (Colchicin AL)
+- Pirfenidon (Esbriet)
+- Koffein
+
+---
+
+## UNSERE DATENBANK (126 Medikamente):
+
+### Kategorien in unserer DB:
+1. Blutverdünner: 4
+2. Antidepressiva: 11
+3. Antiepileptika: 10
+4. Schmerzmittel: 15
+5. Psychopharmaka: 12
+6. Statine: 5
+7. Antibiotika: 5
+8. Immunsuppressiva: 6
+9. Schilddrüsenmedikamente: 2
+10. Blutdrucksenker: 18
+11. Protonenpumpenhemmer: 6
+12. Diabetesmedikamente: 7
+13. Asthma-Medikamente: 3
+14. ADHS-Medikamente: 2
+15. Antihistaminika: 3
+16. Diuretika: 4
+17. Nahrungsergänzungsmittel: 10
+18. Hormone: 3
+
+---
+
+## ANALYSE: WAS FEHLT IN UNSERER DATENBANK?
+
+### WICHTIGE FEHLENDE KATEGORIEN:
+
+#### A) SEDATIVA & ANXIOLYTIKA (10 im Text, 0 in DB)
+FEHLT KOMPLETT:
+- Alprazolam (Tafil)
+- Lorazepam (Tavor) 
+- Diazepam (Valium)
+- Midazolam (Dormicum)
+- Triazolam (Halcion)
+- Zolpidem (Stilnox)
+- Buspiron (Buspar)
+- Melatonin (Circadin)
+- Cyclobenzaprin (Flexeril)
+
+#### B) OPIOIDE SCHMERZMITTEL (7 im Text, teilweise in DB)
+FEHLT:
+- Fentanyl (Durogesic) - KRITISCH!
+- Alfentanil (Rapifen)
+- Pethidin (Dolantin)
+- Morphin (MS Mundipharma)
+- Methadon (LAAM)
+- Propofol (Disoprivan)
+
+#### C) MIGRÄNE-MEDIKAMENTE (4 im Text, 0 in DB)
+FEHLT KOMPLETT:
+- Ergotamin
+- Dihydroergotamin
+- Methysergid
+- Eletriptan (Relpax)
+
+#### D) ANTIINFEKTIVA/HIV-MEDIKAMENTE (10 im Text, 0 in DB)
+FEHLT KOMPLETT:
+- Indinavir, Darunavir, Lopinavir (HIV)
+- Voriconazol, Isavuconazol (Antimykotika)
+- Amphotericin B
+- Clindamycin
+
+#### E) WEITERE BLUTVERDÜNNER (9 im Text, 4 in DB)
+FEHLT:
+- Acenocoumarol (Sintrom)
+- Fluindion (Previscan)
+- Dabigatran (Pradaxa) - SEHR WICHTIG!
+- Argatroban
+
+#### F) WEITERE HERZ-KREISLAUF (17 im Text, 18 in DB)
+FEHLT teilweise:
+- Amiodaron (Cordarone) - KRITISCH!
+- Dronedaron (Multaq)
+- Digitoxin
+- Quinidin
+- PDE-5-Hemmer: Avanafil, Vardenafil
+
+#### G) WEITERE ANTIEPILEPTIKA (8 im Text, 10 in DB)
+FEHLT:
+- Clobazam (Frisium)
+- Ethosuximid
+- Phenobarbital (Luminal)
+
+#### H) WEITERE ANTIDEPRESSIVA (12 im Text, 11 in DB)
+FEHLT:
+- Dosulepin (Prothiaden)
+- Lofepramin (Gamanil)
+- Melitracen (Melixeran)
+- Bupropion (Elontril)
+
+#### I) WEITERE GASTROINTESTINALE MITTEL (8 im Text, 6 PPIs in DB)
+FEHLT:
+- Cisaprid (Propulsid)
+- Antiemetika: Aprepitant, Fosaprepitant
+- Alosetron, Ramosetron
+
+#### J) WEITERE STOFFE
+FEHLT:
+- Koffein (!)
+- Colchicin (Gicht)
+- Pirfenidon (Lungenfibrose)
+- Naloxegol
+- Darifenacin
+- Conivaptan, Tolvaptan
+
+---
+
+## ZUSAMMENFASSUNG:
+
+### TEXT HAT: ~139 Medikamente
+### UNSERE DB HAT: 126 Medikamente
+
+### KRITISCHE LÜCKEN (hochriskant):
+1. ❌ Benzodiazepine & Schlafmittel (10 Medikamente)
+2. ❌ Starke Opioide (Fentanyl, Morphin, etc.)
+3. ❌ Migräne-Medikamente (4 Medikamente)
+4. ❌ HIV/Antimykotika (10 Medikamente)
+5. ❌ Amiodaron (Herz-Rhythmus)
+6. ❌ Dabigatran (moderner Blutverdünner)
+7. ❌ Koffein (Alltags-Substanz!)
+
+### GUT ABGEDECKT:
+✅ Top-10 Deutschland
+✅ Blutdrucksenker
+✅ Antidepressiva (größtenteils)
+✅ Antiepileptika (größtenteils)
+✅ Statine
+✅ Protonenpumpenhemmer
+✅ Diabetesmedikamente
+✅ Nahrungsergänzungsmittel
+
+### EMPFEHLUNG:
+Wir sollten MINDESTENS diese kritischen Kategorien hinzufügen:
+1. Benzodiazepine/Anxiolytika (neue Kategorie)
+2. Starke Opioide (zu Schmerzmittel hinzufügen)
+3. Migräne-Therapeutika (neue Kategorie)
+4. Amiodaron zu Herz-Kreislauf
+5. Dabigatran zu Blutverdünner
+6. Koffein als wichtige Alltags-Substanz
