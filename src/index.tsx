@@ -160,9 +160,8 @@ app.post('/api/analyze', async (c) => {
       
       weeklyPlan.push({
         week,
-        morningDosage: Math.round(dosage * 0.3 * 10) / 10,
-        middayDosage: Math.round(dosage * 0.3 * 10) / 10,
-        eveningDosage: Math.round(dosage * 0.4 * 10) / 10,
+        morningDosage: Math.round(dosage * 0.4 * 10) / 10,
+        eveningDosage: Math.round(dosage * 0.6 * 10) / 10,
         totalDaily: Math.round(dosage * 10) / 10,
         notes: week === 1 ? 'Einschleichphase - beobachten Sie mögliche Reaktionen' : 
                week === durationWeeks ? 'Ende der Ausgleichsphase - ärztliche Nachkontrolle empfohlen' : ''
@@ -476,6 +475,7 @@ app.get('/', (c) => {
         </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         <script src="/static/app.js"></script>
     </body>
     </html>

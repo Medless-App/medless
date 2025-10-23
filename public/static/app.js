@@ -304,7 +304,7 @@ function displayResults(data) {
 
   // Weekly Plan
   html += `
-    <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in">
+    <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in" id="dosage-plan-section">
       <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
         <i class="fas fa-calendar-check text-green-600 mr-3"></i>
         Ihr persönlicher CBD-Ausgleichsplan
@@ -320,16 +320,18 @@ function displayResults(data) {
           Maximaldosis: ${guidelines?.max_dosage_mg || 50} mg/Tag • 
           Anpassung alle ${guidelines?.adjustment_period_days || 14} Tage
         </p>
+        <p class="text-blue-700 text-sm mt-2">
+          <strong>Einnahme:</strong> 2x täglich - Morgens (40%) und Abends (60%)
+        </p>
       </div>
 
       <div class="overflow-x-auto">
-        <table class="w-full">
+        <table class="w-full" id="dosage-table">
           <thead class="bg-purple-100">
             <tr>
               <th class="px-4 py-3 text-left text-purple-900 font-semibold">Woche</th>
-              <th class="px-4 py-3 text-center text-purple-900 font-semibold">Morgens</th>
-              <th class="px-4 py-3 text-center text-purple-900 font-semibold">Mittags</th>
-              <th class="px-4 py-3 text-center text-purple-900 font-semibold">Abends</th>
+              <th class="px-4 py-3 text-center text-purple-900 font-semibold">Morgens (40%)</th>
+              <th class="px-4 py-3 text-center text-purple-900 font-semibold">Abends (60%)</th>
               <th class="px-4 py-3 text-center text-purple-900 font-semibold">Gesamt/Tag</th>
               <th class="px-4 py-3 text-left text-purple-900 font-semibold">Hinweise</th>
             </tr>
@@ -342,7 +344,6 @@ function displayResults(data) {
       <tr class="${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}">
         <td class="px-4 py-3 font-semibold">Woche ${week.week}</td>
         <td class="px-4 py-3 text-center">${week.morningDosage} mg</td>
-        <td class="px-4 py-3 text-center">${week.middayDosage} mg</td>
         <td class="px-4 py-3 text-center">${week.eveningDosage} mg</td>
         <td class="px-4 py-3 text-center font-bold text-purple-700">${week.totalDaily} mg</td>
         <td class="px-4 py-3 text-sm text-gray-600">${week.notes}</td>
@@ -361,12 +362,14 @@ function displayResults(data) {
           Wichtige Hinweise zur Einnahme:
         </h3>
         <ul class="text-green-700 space-y-2 ml-6 list-disc">
-          <li>Nehmen Sie CBD am besten zu den Mahlzeiten ein</li>
-          <li>Halten Sie CBD-Öl unter der Zunge für 60-90 Sekunden</li>
+          <li><strong>Einnahme 2x täglich:</strong> Morgens 40% der Tagesdosis, Abends 60% der Tagesdosis</li>
+          <li>Nehmen Sie CBD am besten zu den Mahlzeiten ein (Frühstück & Abendessen)</li>
+          <li>Halten Sie CBD-Öl unter der Zunge für 60-90 Sekunden, bevor Sie schlucken</li>
           <li>Trinken Sie ausreichend Wasser (2-3 Liter täglich)</li>
           <li>Führen Sie ein Tagebuch über Ihre Symptome und Wirkungen</li>
           <li>Bei Nebenwirkungen reduzieren Sie die Dosis oder pausieren Sie</li>
           <li>Konsultieren Sie bei Unsicherheiten immer Ihren Arzt</li>
+          <li><strong>Nehmen Sie diesen Plan zu Ihrem Arztgespräch mit!</strong></li>
         </ul>
       </div>
 
@@ -395,15 +398,219 @@ function displayResults(data) {
   window.currentPlanData = { analysis, weeklyPlan, guidelines, maxSeverity };
 }
 
-// Download PDF function (placeholder - will use jsPDF when implemented)
+// Download PDF function using jsPDF
 function downloadPDF() {
-  if (!window.currentPlanData) {
-    alert('Keine Daten zum Herunterladen verfügbar');
+  if (!window.currentPlanData || typeof jspdf === 'undefined') {
+    alert('PDF-Bibliothek wird geladen... Bitte versuchen Sie es in einigen Sekunden erneut.');
     return;
   }
   
-  // For now, just trigger print
-  // TODO: Implement proper PDF generation with jsPDF
-  alert('PDF-Download wird vorbereitet. Verwenden Sie vorerst die Druckfunktion (Strg+P oder Cmd+P).');
-  window.print();
+  const { jsPDF } = window.jspdf;
+  const { analysis, weeklyPlan, guidelines, maxSeverity } = window.currentPlanData;
+  
+  // Create PDF
+  const doc = new jsPDF();
+  
+  let yPos = 20;
+  
+  // Title
+  doc.setFontSize(20);
+  doc.setTextColor(102, 126, 234);
+  doc.text('CBD Ausgleichsplan', 105, yPos, { align: 'center' });
+  
+  yPos += 10;
+  doc.setFontSize(12);
+  doc.setTextColor(100, 100, 100);
+  doc.text('ECS Aktivierung - Personalisierte Dosierungsempfehlung', 105, yPos, { align: 'center' });
+  
+  yPos += 15;
+  
+  // Disclaimer
+  doc.setFillColor(255, 243, 205);
+  doc.rect(10, yPos, 190, 30, 'F');
+  doc.setFontSize(10);
+  doc.setTextColor(200, 100, 0);
+  doc.setFont(undefined, 'bold');
+  doc.text('WICHTIGER HINWEIS:', 15, yPos + 7);
+  doc.setFont(undefined, 'normal');
+  doc.setTextColor(100, 100, 100);
+  const disclaimerText = 'Dies ist KEINE medizinische Beratung. Konsultieren Sie unbedingt Ihren Arzt vor der CBD-Einnahme. Wechselwirkungen mit Medikamenten können gesundheitsgefaehrdend sein. Nehmen Sie diesen Plan zu Ihrem Arztgespraech mit!';
+  const disclaimerLines = doc.splitTextToSize(disclaimerText, 180);
+  doc.text(disclaimerLines, 15, yPos + 14);
+  
+  yPos += 40;
+  
+  // Severity warning if critical
+  if (maxSeverity === 'critical' || maxSeverity === 'high') {
+    doc.setFillColor(254, 226, 226);
+    doc.rect(10, yPos, 190, 15, 'F');
+    doc.setFontSize(11);
+    doc.setTextColor(220, 38, 38);
+    doc.setFont(undefined, 'bold');
+    doc.text('WARNUNG: Kritische Wechselwirkungen erkannt!', 15, yPos + 10);
+    yPos += 20;
+  }
+  
+  // Guidelines
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.setFont(undefined, 'bold');
+  doc.text('Dosierungsrichtlinie:', 15, yPos);
+  yPos += 7;
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.setTextColor(100, 100, 100);
+  doc.text(`Startdosis: ${guidelines?.recommended_start_mg || 5} mg/Tag`, 15, yPos);
+  yPos += 5;
+  doc.text(`Maximaldosis: ${guidelines?.max_dosage_mg || 50} mg/Tag`, 15, yPos);
+  yPos += 5;
+  doc.text(`Anpassung alle ${guidelines?.adjustment_period_days || 14} Tage`, 15, yPos);
+  yPos += 5;
+  doc.setFont(undefined, 'bold');
+  doc.text('Einnahme: 2x taeglich - Morgens (40%) und Abends (60%)', 15, yPos);
+  
+  yPos += 12;
+  
+  // Dosage Table
+  doc.setFontSize(14);
+  doc.setTextColor(0, 0, 0);
+  doc.setFont(undefined, 'bold');
+  doc.text('Wochenplan:', 15, yPos);
+  yPos += 8;
+  
+  // Table Header
+  doc.setFillColor(237, 233, 254);
+  doc.rect(10, yPos - 5, 190, 10, 'F');
+  doc.setFontSize(10);
+  doc.setTextColor(88, 28, 135);
+  doc.text('Woche', 15, yPos);
+  doc.text('Morgens', 60, yPos);
+  doc.text('Abends', 95, yPos);
+  doc.text('Gesamt/Tag', 125, yPos);
+  doc.text('Hinweise', 165, yPos);
+  
+  yPos += 8;
+  
+  // Table Rows
+  doc.setFontSize(9);
+  doc.setTextColor(60, 60, 60);
+  doc.setFont(undefined, 'normal');
+  
+  weeklyPlan.forEach((week, index) => {
+    if (yPos > 270) {
+      doc.addPage();
+      yPos = 20;
+    }
+    
+    if (index % 2 === 0) {
+      doc.setFillColor(249, 250, 251);
+      doc.rect(10, yPos - 5, 190, 8, 'F');
+    }
+    
+    doc.text(`Woche ${week.week}`, 15, yPos);
+    doc.text(`${week.morningDosage} mg`, 60, yPos);
+    doc.text(`${week.eveningDosage} mg`, 95, yPos);
+    doc.setFont(undefined, 'bold');
+    doc.text(`${week.totalDaily} mg`, 125, yPos);
+    doc.setFont(undefined, 'normal');
+    
+    if (week.notes) {
+      const noteText = doc.splitTextToSize(week.notes, 30);
+      doc.text(noteText, 165, yPos - 2);
+    }
+    
+    yPos += 8;
+  });
+  
+  yPos += 5;
+  
+  // Important Notes
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+  
+  doc.setFillColor(236, 253, 245);
+  doc.rect(10, yPos, 190, 60, 'F');
+  doc.setFontSize(11);
+  doc.setTextColor(22, 101, 52);
+  doc.setFont(undefined, 'bold');
+  doc.text('Wichtige Einnahmehinweise:', 15, yPos + 7);
+  
+  doc.setFontSize(9);
+  doc.setFont(undefined, 'normal');
+  doc.setTextColor(60, 60, 60);
+  const instructions = [
+    '• 2x taeglich: Morgens 40% der Tagesdosis, Abends 60% der Tagesdosis',
+    '• Einnahme zu den Mahlzeiten (Fruehstueck & Abendessen)',
+    '• CBD-Oel 60-90 Sekunden unter der Zunge halten',
+    '• Ausreichend Wasser trinken (2-3 Liter taeglich)',
+    '• Symptom-Tagebuch fuehren',
+    '• Bei Nebenwirkungen Dosis reduzieren oder pausieren',
+    '• Bei Unsicherheiten immer Arzt konsultieren'
+  ];
+  
+  let instructionY = yPos + 15;
+  instructions.forEach(instruction => {
+    doc.text(instruction, 15, instructionY);
+    instructionY += 6;
+  });
+  
+  yPos += 65;
+  
+  // Medications List
+  if (yPos > 250) {
+    doc.addPage();
+    yPos = 20;
+  }
+  
+  doc.setFontSize(11);
+  doc.setTextColor(0, 0, 0);
+  doc.setFont(undefined, 'bold');
+  doc.text('Ihre Medikamente:', 15, yPos);
+  yPos += 7;
+  
+  doc.setFontSize(9);
+  doc.setFont(undefined, 'normal');
+  doc.setTextColor(60, 60, 60);
+  
+  analysis.forEach((item, index) => {
+    if (yPos > 270) {
+      doc.addPage();
+      yPos = 20;
+    }
+    
+    const med = item.medication;
+    doc.setFont(undefined, 'bold');
+    doc.text(`${index + 1}. ${med.name}`, 15, yPos);
+    doc.setFont(undefined, 'normal');
+    yPos += 5;
+    doc.text(`   Dosierung: ${item.dosage}`, 15, yPos);
+    
+    if (item.interactions && item.interactions.length > 0) {
+      const maxSev = item.interactions.reduce((max, i) => {
+        const order = { low: 1, medium: 2, high: 3, critical: 4 };
+        return order[i.severity] > order[max.severity] ? i : max;
+      });
+      yPos += 5;
+      doc.setTextColor(220, 38, 38);
+      doc.text(`   Wechselwirkung: ${maxSev.severity === 'critical' ? 'KRITISCH' : maxSev.severity === 'high' ? 'Hoch' : 'Mittel'}`, 15, yPos);
+      doc.setTextColor(60, 60, 60);
+    }
+    
+    yPos += 8;
+  });
+  
+  // Footer
+  doc.setFontSize(8);
+  doc.setTextColor(150, 150, 150);
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.text(`Erstellt: ${new Date().toLocaleDateString('de-DE')} | Seite ${i} von ${pageCount}`, 105, 290, { align: 'center' });
+    doc.text('ECS Aktivierung - www.ecs-aktivierung.de', 105, 285, { align: 'center' });
+  }
+  
+  // Save PDF
+  doc.save(`CBD-Ausgleichsplan_${new Date().toISOString().split('T')[0]}.pdf`);
 }
