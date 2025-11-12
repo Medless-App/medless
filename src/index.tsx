@@ -418,14 +418,23 @@ app.get('/', (c) => {
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
         <style>
+          :root {
+            --primary: #0f766e;      /* Teal-700 - Medical trustworthy */
+            --primary-light: #14b8a6; /* Teal-500 */
+            --primary-dark: #115e59;  /* Teal-800 */
+            --accent: #059669;        /* Emerald-600 - Nature/Cannabis */
+            --warning: #dc2626;       /* Red-600 - Critical warnings */
+            --info: #0891b2;          /* Cyan-600 - Information */
+            --neutral: #64748b;       /* Slate-500 */
+            --bg-subtle: #f8fafc;     /* Slate-50 */
+          }
+          
           @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
           }
           .fade-in { animation: fadeIn 0.6s ease-out; }
-          .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          }
+          
           .card-hover {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
           }
@@ -443,24 +452,41 @@ app.get('/', (c) => {
           .autocomplete-item:last-child {
             border-bottom: none;
           }
+          
+          /* Professional medical design */
+          .section-card {
+            background: white;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          }
+          
+          .info-box {
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+          }
+          
+          .warning-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+          }
         </style>
     </head>
-    <body class="bg-gray-50">
+    <body class="bg-slate-50">
         <!-- Header -->
-        <header class="gradient-bg text-white py-8 shadow-lg">
+        <header class="bg-gradient-to-r from-teal-700 to-teal-800 text-white py-12 shadow-md">
             <div class="max-w-6xl mx-auto px-4">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-4xl font-bold mb-2">
-                            <i class="fas fa-leaf mr-3"></i>
+                        <h1 class="text-4xl font-bold mb-3">
+                            <i class="fas fa-leaf mr-3 text-teal-300"></i>
                             ECS Aktivierung
                         </h1>
-                        <p class="text-purple-100 text-lg">Ihr Weg zu weniger Medikamenten durch ein starkes Endocannabinoid-System</p>
+                        <p class="text-teal-100 text-lg font-light">Ihr Weg zu weniger Medikamenten durch ein starkes Endocannabinoid-System</p>
                     </div>
-                    <div class="text-right">
-                        <div class="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
-                            <i class="fas fa-heart-pulse mr-2"></i>
-                            <span class="text-sm">Medikamenten-Reduktion</span>
+                    <div class="text-right hidden md:block">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20">
+                            <i class="fas fa-heart-pulse mr-2 text-teal-300"></i>
+                            <span class="text-sm font-medium">Medikamenten-Reduktion</span>
                         </div>
                     </div>
                 </div>
@@ -470,23 +496,26 @@ app.get('/', (c) => {
         <div class="max-w-6xl mx-auto px-4 py-8">
             
             <!-- Hero Section: The Problem -->
-            <div class="bg-gradient-to-r from-red-50 to-orange-50 border-l-4 border-red-400 p-8 mb-8 rounded-xl shadow-lg fade-in">
-                <div class="flex items-start">
-                    <i class="fas fa-pills text-red-500 text-5xl mr-6 mt-2"></i>
-                    <div class="w-full">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-4">
-                            💊 Zu viele Tabletten? Sie sind nicht allein.
+            <div class="section-card p-8 mb-8 rounded-lg fade-in">
+                <div class="flex items-start gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-pills text-red-600 text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                            Zu viele Tabletten? Sie sind nicht allein.
                         </h2>
-                        <p class="text-gray-800 text-lg mb-4 leading-relaxed">
+                        <p class="text-gray-700 text-base mb-6 leading-relaxed">
                             Millionen Menschen in Deutschland und Österreich nehmen täglich Medikamente – oft mehrere gleichzeitig. Viele möchten ihre <strong>Medikation reduzieren</strong> oder sogar <strong>komplett ausschleichen</strong>, wissen aber nicht, wie sie das sicher angehen können.
                         </p>
-                        <div class="bg-white p-5 rounded-lg border-l-4 border-orange-400">
-                            <p class="text-gray-800 font-semibold mb-2">
-                                <i class="fas fa-question-circle text-orange-500 mr-2"></i>
+                        <div class="info-box p-4 rounded-lg">
+                            <p class="text-gray-800 font-semibold mb-2 text-sm uppercase tracking-wide text-teal-700">
                                 Die zentrale Frage:
                             </p>
-                            <p class="text-gray-700 text-lg">
-                                <strong>"Wie kann ich meine Abhängigkeit von Medikamenten verringern – natürlich und ohne Risiko?"</strong>
+                            <p class="text-gray-900 text-lg font-medium">
+                                "Wie kann ich meine Abhängigkeit von Medikamenten verringern – natürlich und ohne Risiko?"
                             </p>
                         </div>
                     </div>
@@ -494,52 +523,83 @@ app.get('/', (c) => {
             </div>
             
             <!-- The Solution: Strong ECS -->
-            <div class="bg-gradient-to-r from-green-50 to-teal-50 border-2 border-green-300 p-8 mb-8 rounded-xl shadow-lg fade-in">
-                <div class="flex items-start">
-                    <i class="fas fa-heart-pulse text-green-600 text-5xl mr-6 mt-2"></i>
-                    <div class="w-full">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-4">
-                            🌿 Die Lösung: Ein starkes Endocannabinoid-System (ECS)
+            <div class="section-card p-8 mb-8 rounded-lg fade-in">
+                <div class="flex items-start gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-heart-pulse text-teal-700 text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                            Die Lösung: Ein starkes Endocannabinoid-System (ECS)
                         </h2>
-                        <p class="text-gray-800 text-lg mb-4 leading-relaxed">
+                        <p class="text-gray-700 text-base mb-6 leading-relaxed">
                             Ihr Körper besitzt das <strong>stärkste Regulationssystem</strong>, das die Wissenschaft kennt: das <strong>Endocannabinoid-System (ECS)</strong>. Es steuert Schmerz, Stimmung, Schlaf, Immunsystem und vieles mehr – <strong>die gleichen Funktionen, für die Sie heute Medikamente nehmen.</strong>
                         </p>
                         
                         <div class="grid md:grid-cols-2 gap-6 mb-6">
-                            <div class="bg-white p-5 rounded-lg shadow">
-                                <h3 class="font-bold text-green-800 mb-3 text-lg">
-                                    <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                                <h3 class="font-semibold text-gray-900 mb-4 text-base">
                                     Ein gesundes ECS kann:
                                 </h3>
-                                <ul class="text-gray-700 space-y-2">
-                                    <li><i class="fas fa-arrow-right text-green-500 mr-2"></i> <strong>Schmerzen natürlich regulieren</strong> (statt Schmerzmittel)</li>
-                                    <li><i class="fas fa-arrow-right text-green-500 mr-2"></i> <strong>Stimmung stabilisieren</strong> (statt Antidepressiva)</li>
-                                    <li><i class="fas fa-arrow-right text-green-500 mr-2"></i> <strong>Schlaf verbessern</strong> (statt Schlafmittel)</li>
-                                    <li><i class="fas fa-arrow-right text-green-500 mr-2"></i> <strong>Entzündungen hemmen</strong> (statt Cortison)</li>
-                                    <li><i class="fas fa-arrow-right text-green-500 mr-2"></i> <strong>Immunsystem stärken</strong> (statt Immunsuppressiva)</li>
+                                <ul class="text-gray-700 space-y-2.5 text-sm">
+                                    <li class="flex items-start">
+                                        <span class="text-teal-600 mr-2 mt-0.5">•</span>
+                                        <span><strong>Schmerzen natürlich regulieren</strong> (statt Schmerzmittel)</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-teal-600 mr-2 mt-0.5">•</span>
+                                        <span><strong>Stimmung stabilisieren</strong> (statt Antidepressiva)</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-teal-600 mr-2 mt-0.5">•</span>
+                                        <span><strong>Schlaf verbessern</strong> (statt Schlafmittel)</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-teal-600 mr-2 mt-0.5">•</span>
+                                        <span><strong>Entzündungen hemmen</strong> (statt Cortison)</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-teal-600 mr-2 mt-0.5">•</span>
+                                        <span><strong>Immunsystem stärken</strong> (statt Immunsuppressiva)</span>
+                                    </li>
                                 </ul>
                             </div>
-                            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-400 shadow">
-                                <h3 class="font-bold text-red-800 mb-3 text-lg">
-                                    <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>
-                                    Aber: Modernes Leben schwächt Ihr ECS
+                            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                                <h3 class="font-semibold text-gray-900 mb-4 text-base">
+                                    Modernes Leben schwächt Ihr ECS:
                                 </h3>
-                                <ul class="text-gray-700 space-y-2">
-                                    <li><i class="fas fa-times text-red-500 mr-2"></i> <strong>Medikamente</strong> stören ECS-Funktion</li>
-                                    <li><i class="fas fa-times text-red-500 mr-2"></i> <strong>Chronischer Stress</strong> erschöpft Endocannabinoide</li>
-                                    <li><i class="fas fa-times text-red-500 mr-2"></i> <strong>Schlechte Ernährung</strong> (Omega-6-Überschuss)</li>
-                                    <li><i class="fas fa-times text-red-500 mr-2"></i> <strong>Bewegungsmangel</strong> reduziert ECS-Aktivität</li>
-                                    <li><i class="fas fa-times text-red-500 mr-2"></i> <strong>Umweltgifte</strong> (Pestizide, Plastik)</li>
+                                <ul class="text-gray-700 space-y-2.5 text-sm">
+                                    <li class="flex items-start">
+                                        <span class="text-slate-400 mr-2 mt-0.5">•</span>
+                                        <span><strong>Medikamente</strong> stören ECS-Funktion</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-slate-400 mr-2 mt-0.5">•</span>
+                                        <span><strong>Chronischer Stress</strong> erschöpft Endocannabinoide</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-slate-400 mr-2 mt-0.5">•</span>
+                                        <span><strong>Schlechte Ernährung</strong> (Omega-6-Überschuss)</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-slate-400 mr-2 mt-0.5">•</span>
+                                        <span><strong>Bewegungsmangel</strong> reduziert ECS-Aktivität</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-slate-400 mr-2 mt-0.5">•</span>
+                                        <span><strong>Umweltgifte</strong> (Pestizide, Plastik)</span>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                         
-                        <div class="bg-gradient-to-r from-blue-100 to-purple-100 p-6 rounded-lg border-2 border-blue-300">
-                            <h3 class="font-bold text-gray-900 mb-3 text-xl">
-                                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                        <div class="info-box p-6 rounded-lg">
+                            <h3 class="font-semibold text-gray-900 mb-3 text-base">
                                 Die wissenschaftliche Erkenntnis:
                             </h3>
-                            <p class="text-gray-800 text-lg leading-relaxed">
+                            <p class="text-gray-700 text-base leading-relaxed">
                                 Ein <strong>geschwächtes ECS</strong> führt zu einer <strong>klinischen Endocannabinoid-Defizienz (CED)</strong> – Ihr Körper kann sich nicht mehr selbst regulieren. Die Folge: <strong>Sie brauchen Medikamente für Funktionen, die Ihr Körper eigentlich selbst übernehmen könnte.</strong>
                             </p>
                         </div>
@@ -548,44 +608,46 @@ app.get('/', (c) => {
             </div>
             
             <!-- The Method: Exogenous Cannabinoids -->
-            <div class="bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-300 p-8 mb-8 rounded-xl shadow-lg fade-in">
-                <div class="flex items-start">
-                    <i class="fas fa-leaf text-purple-600 text-5xl mr-6 mt-2"></i>
-                    <div class="w-full">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-4">
-                            🧬 Der Weg: Exogene Cannabinoide stärken Ihr ECS
+            <div class="section-card p-8 mb-8 rounded-lg fade-in">
+                <div class="flex items-start gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-emerald-700 text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                            Der Weg: Exogene Cannabinoide stärken Ihr ECS
                         </h2>
-                        <p class="text-gray-800 text-lg mb-4 leading-relaxed">
+                        <p class="text-gray-700 text-base mb-6 leading-relaxed">
                             Wenn Ihr Körper nicht genug <strong>eigene Endocannabinoide</strong> produziert, können Sie ihn mit <strong>exogenen Cannabinoiden</strong> (von außen zugeführt) unterstützen. Diese Pflanzenstoffe – wie CBD – wirken <strong>genauso wie körpereigene Endocannabinoide</strong> und helfen Ihrem ECS, seine Funktion wiederzuerlangen.
                         </p>
                         
-                        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-                            <h3 class="font-bold text-purple-900 mb-4 text-xl">
-                                <i class="fas fa-dna text-purple-600 mr-2"></i>
+                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-6">
+                            <h3 class="font-semibold text-gray-900 mb-4 text-base">
                                 Wissenschaftlich belegt:
                             </h3>
                             <div class="grid md:grid-cols-3 gap-4">
-                                <div class="border-l-4 border-green-500 pl-4">
-                                    <p class="font-semibold text-green-700 mb-1">Schmerzreduktion</p>
-                                    <p class="text-sm text-gray-600">CBD aktiviert Schmerz-Rezeptoren und hemmt Entzündungen</p>
+                                <div class="border-l-3 border-teal-600 pl-4">
+                                    <p class="font-semibold text-gray-900 mb-1 text-sm">Schmerzreduktion</p>
+                                    <p class="text-xs text-gray-600">CBD aktiviert Schmerz-Rezeptoren und hemmt Entzündungen</p>
                                 </div>
-                                <div class="border-l-4 border-blue-500 pl-4">
-                                    <p class="font-semibold text-blue-700 mb-1">Angstlösung</p>
-                                    <p class="text-sm text-gray-600">Aktiviert Serotonin-Rezeptoren, reduziert Stresshormone</p>
+                                <div class="border-l-3 border-teal-600 pl-4">
+                                    <p class="font-semibold text-gray-900 mb-1 text-sm">Angstlösung</p>
+                                    <p class="text-xs text-gray-600">Aktiviert Serotonin-Rezeptoren, reduziert Stresshormone</p>
                                 </div>
-                                <div class="border-l-4 border-purple-500 pl-4">
-                                    <p class="font-semibold text-purple-700 mb-1">Schlafverbesserung</p>
-                                    <p class="text-sm text-gray-600">Reguliert Schlaf-Wach-Rhythmus über ECS</p>
+                                <div class="border-l-3 border-teal-600 pl-4">
+                                    <p class="font-semibold text-gray-900 mb-1 text-sm">Schlafverbesserung</p>
+                                    <p class="text-xs text-gray-600">Reguliert Schlaf-Wach-Rhythmus über ECS</p>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="bg-gradient-to-r from-orange-100 to-yellow-100 p-5 rounded-lg border-l-4 border-orange-400">
-                            <h4 class="font-bold text-gray-900 mb-2">
-                                <i class="fas fa-chart-line text-orange-600 mr-2"></i>
+                        <div class="info-box p-5 rounded-lg">
+                            <h4 class="font-semibold text-gray-900 mb-2 text-base">
                                 Das Ziel: Medikamenten-Reduktion durch starkes ECS
                             </h4>
-                            <p class="text-gray-800">
+                            <p class="text-gray-700 text-sm">
                                 Wenn Ihr ECS wieder stark ist, kann Ihr Körper <strong>viele Funktionen selbst übernehmen</strong>, die heute Medikamente erfüllen. Unter ärztlicher Begleitung können Sie so Schritt für Schritt <strong>Ihre Medikation reduzieren oder sogar ausschleichen</strong>.
                             </p>
                         </div>
@@ -594,44 +656,53 @@ app.get('/', (c) => {
             </div>
             
             <!-- Our Tool: Safe Entry -->
-            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-300 p-8 mb-8 rounded-xl shadow-lg fade-in">
-                <div class="flex items-start">
-                    <i class="fas fa-shield-heart text-blue-600 text-5xl mr-6 mt-2"></i>
-                    <div class="w-full">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-4">
-                            📋 Unser Tool: Ihr sicherer Einstieg
+            <div class="section-card p-8 mb-8 rounded-lg fade-in">
+                <div class="flex items-start gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-shield-heart text-cyan-700 text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                            Unser Tool: Ihr sicherer Einstieg
                         </h2>
-                        <p class="text-gray-800 text-lg mb-4 leading-relaxed">
+                        <p class="text-gray-700 text-base mb-6 leading-relaxed">
                             Dieses Tool erstellt Ihnen einen <strong>individualisierten Ausschleichplan</strong> für exogene Cannabinoide (CBD-Paste 70%), der Ihre <strong>aktuelle Medikation, Alter, Gewicht und Körpergröße</strong> berücksichtigt. So können Sie unter ärztlicher Begleitung sicher mit der ECS-Stärkung beginnen.
                         </p>
                         
                         <div class="grid md:grid-cols-3 gap-4 mb-6">
-                            <div class="bg-white p-4 rounded-lg shadow">
-                                <i class="fas fa-microscope text-blue-600 text-2xl mb-2"></i>
-                                <h4 class="font-bold text-gray-800 mb-2">Medikamenten-Analyse</h4>
-                                <p class="text-sm text-gray-700">Wir prüfen Wechselwirkungen mit Ihren Medikamenten und passen die Startdosis an</p>
+                            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                                <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
+                                    <i class="fas fa-microscope text-teal-700 text-lg"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-2 text-sm">Medikamenten-Analyse</h4>
+                                <p class="text-xs text-gray-600">Wir prüfen Wechselwirkungen mit Ihren Medikamenten und passen die Startdosis an</p>
                             </div>
-                            <div class="bg-white p-4 rounded-lg shadow">
-                                <i class="fas fa-user-md text-green-600 text-2xl mb-2"></i>
-                                <h4 class="font-bold text-gray-800 mb-2">Individuelle Dosierung</h4>
-                                <p class="text-sm text-gray-700">Basierend auf Alter, BMI und Gewicht – wissenschaftlich fundiert</p>
+                            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                                <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
+                                    <i class="fas fa-user-md text-teal-700 text-lg"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-2 text-sm">Individuelle Dosierung</h4>
+                                <p class="text-xs text-gray-600">Basierend auf Alter, BMI und Gewicht – wissenschaftlich fundiert</p>
                             </div>
-                            <div class="bg-white p-4 rounded-lg shadow">
-                                <i class="fas fa-calendar-check text-purple-600 text-2xl mb-2"></i>
-                                <h4 class="font-bold text-gray-800 mb-2">Tag-für-Tag Plan</h4>
-                                <p class="text-sm text-gray-700">Zweiphasige Strategie: Einschleichphase + Erhaltung für optimale ECS-Unterstützung</p>
+                            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                                <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
+                                    <i class="fas fa-calendar-check text-teal-700 text-lg"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-2 text-sm">Tag-für-Tag Plan</h4>
+                                <p class="text-xs text-gray-600">Zweiphasige Strategie: Einschleichphase + Erhaltung für optimale ECS-Unterstützung</p>
                             </div>
                         </div>
                         
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-5 rounded-lg">
-                            <h4 class="font-bold text-yellow-900 mb-2">
-                                <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
-                                Wichtig: Ärztliche Begleitung erforderlich!
+                        <div class="warning-box p-5 rounded-lg border-l-4 border-red-400">
+                            <h4 class="font-semibold text-gray-900 mb-2 text-base">
+                                Wichtig: Ärztliche Begleitung erforderlich
                             </h4>
-                            <p class="text-yellow-800 mb-2">
-                                Dieser Plan ist <strong>KEINE medizinische Beratung</strong>. Er dient als <strong>Gesprächsgrundlage für Ihr Arztgespräch</strong>. Medikamenten-Reduktion darf <strong>nur unter ärztlicher Aufsicht</strong> erfolgen.
+                            <p class="text-gray-700 mb-3 text-sm">
+                                Dieser Plan ist <strong>keine medizinische Beratung</strong>. Er dient als <strong>Gesprächsgrundlage für Ihr Arztgespräch</strong>. Medikamenten-Reduktion darf <strong>nur unter ärztlicher Aufsicht</strong> erfolgen.
                             </p>
-                            <ul class="text-yellow-800 space-y-1 ml-6 list-disc text-sm">
+                            <ul class="text-gray-700 space-y-1 ml-5 list-disc text-xs">
                                 <li>Nehmen Sie den Plan zu Ihrem Arzt mit</li>
                                 <li>Ändern Sie niemals ohne Rücksprache Ihre Medikation</li>
                                 <li>Beachten Sie Wechselwirkungen</li>
@@ -642,12 +713,12 @@ app.get('/', (c) => {
             </div>
             
             <!-- Product Info (small, background) -->
-            <div class="bg-gray-50 border border-gray-200 p-4 mb-8 rounded-lg shadow-sm fade-in">
-                <div class="flex items-center">
-                    <i class="fas fa-info-circle text-gray-500 text-xl mr-3"></i>
+            <div class="bg-slate-100 border border-slate-200 p-4 mb-8 rounded-lg fade-in">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-info-circle text-slate-500 text-lg"></i>
                     <div class="flex-1">
-                        <p class="text-sm text-gray-700">
-                            <strong>Verwendetes Produkt:</strong> CBD-Paste 70% (3g Spritze, 30 Teilstriche) | <strong>Einnahme:</strong> Sublingual (unter die Zunge, 2-3 Min)
+                        <p class="text-xs text-gray-600">
+                            <strong class="text-gray-700">Verwendetes Produkt:</strong> CBD-Paste 70% (3g Spritze, 30 Teilstriche) | <strong class="text-gray-700">Einnahme:</strong> Sublingual (unter die Zunge, 2-3 Min)
                         </p>
                     </div>
                 </div>
