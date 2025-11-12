@@ -725,41 +725,40 @@ app.get('/', (c) => {
             </div>
 
             <!-- What is ECS Section - Deep Dive -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-8 card-hover fade-in">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                    <i class="fas fa-brain text-purple-600 mr-3"></i>
-                    Das ECS: Ihr stärkstes Körpersystem
+            <div class="section-card p-8 mb-8 rounded-lg fade-in">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                    <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-brain text-teal-700 text-lg"></i>
+                    </div>
+                    <span>Das ECS: Ihr stärkstes Körpersystem</span>
                 </h2>
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <div class="bg-purple-50 p-5 rounded-lg mb-4 border-l-4 border-purple-500">
-                            <h3 class="font-bold text-purple-900 mb-3 text-lg">
-                                <i class="fas fa-dna mr-2"></i>
+                        <div class="bg-slate-50 p-5 rounded-lg mb-4 border border-slate-200">
+                            <h3 class="font-semibold text-gray-900 mb-3 text-base">
                                 Das ECS ist überall in Ihrem Körper:
                             </h3>
-                            <ul class="text-gray-700 space-y-2">
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>Gehirn & Nervensystem</strong> – Schmerz, Stimmung, Gedächtnis</li>
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>Immunsystem</strong> – Entzündungen, Abwehr</li>
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>Verdauungstrakt</strong> – Appetit, Darmmotilität</li>
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>Herz-Kreislauf</strong> – Blutdruck, Herzrhythmus</li>
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>Knochen & Muskeln</strong> – Regeneration, Heilung</li>
+                            <ul class="text-gray-700 space-y-2 text-sm">
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-0.5">•</span><span><strong>Gehirn & Nervensystem</strong> – Schmerz, Stimmung, Gedächtnis</span></li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-0.5">•</span><span><strong>Immunsystem</strong> – Entzündungen, Abwehr</span></li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-0.5">•</span><span><strong>Verdauungstrakt</strong> – Appetit, Darmmotilität</span></li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-0.5">•</span><span><strong>Herz-Kreislauf</strong> – Blutdruck, Herzrhythmus</span></li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-0.5">•</span><span><strong>Knochen & Muskeln</strong> – Regeneration, Heilung</span></li>
                             </ul>
                         </div>
                         
-                        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
-                            <h4 class="font-bold text-blue-900 mb-2">
-                                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                        <div class="info-box p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-900 mb-2 text-sm">
                                 Warum ist das ECS so wichtig?
                             </h4>
-                            <p class="text-gray-700 text-sm">
+                            <p class="text-gray-700 text-xs">
                                 Das ECS ist das <strong>Master-Regulationssystem</strong> Ihres Körpers. Es sorgt für <strong>Homöostase</strong> – das innere Gleichgewicht. Wenn das ECS geschwächt ist, gerät Ihr gesamter Körper aus dem Gleichgewicht.
                             </p>
                         </div>
                     </div>
                     <div>
-                        <div class="bg-gradient-to-br from-red-50 to-orange-50 p-5 rounded-lg border-2 border-red-300 mb-4">
-                            <h3 class="font-bold text-red-900 mb-3 text-lg">
-                                <i class="fas fa-exclamation-circle mr-2"></i>
+                        <div class="warning-box p-5 rounded-lg border-l-4 border-red-400 mb-4">
+                            <h3 class="font-semibold text-gray-900 mb-3 text-base">
                                 Endocannabinoid-Defizienz (CED):
                             </h3>
                             <p class="text-gray-700 mb-3 text-sm leading-relaxed">
@@ -777,12 +776,11 @@ app.get('/', (c) => {
                             </div>
                         </div>
                         
-                        <div class="bg-gradient-to-br from-green-50 to-teal-50 p-5 rounded-lg border-2 border-green-300">
-                            <h3 class="font-bold text-green-900 mb-2 text-lg">
-                                <i class="fas fa-leaf mr-2"></i>
+                        <div class="info-box p-5 rounded-lg">
+                            <h3 class="font-semibold text-gray-900 mb-2 text-base">
                                 Die Lösung: Exogene Cannabinoide
                             </h3>
-                            <p class="text-gray-700 text-sm leading-relaxed">
+                            <p class="text-gray-700 text-xs leading-relaxed">
                                 <strong>CBD (Cannabidiol)</strong> und andere Phytocannabinoide wirken wie körpereigene Endocannabinoide. Sie <strong>füllen die Lücke</strong> und helfen Ihrem ECS, wieder stark zu werden.
                             </p>
                         </div>
@@ -791,83 +789,80 @@ app.get('/', (c) => {
             </div>
             
             <!-- The Journey: From Medication to Strong ECS -->
-            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-300 p-8 mb-8 rounded-xl shadow-lg fade-in">
-                <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
-                    <i class="fas fa-route text-indigo-600 mr-3"></i>
+            <div class="section-card p-8 mb-8 rounded-lg fade-in">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
                     Ihr Weg: Von Medikamenten-Abhängigkeit zu einem starken ECS
                 </h2>
                 <div class="grid md:grid-cols-4 gap-4">
-                    <div class="bg-white p-5 rounded-lg shadow text-center">
-                        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-pills text-red-600 text-2xl"></i>
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center">
+                        <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-pills text-red-600 text-lg"></i>
                         </div>
-                        <h4 class="font-bold text-gray-800 mb-2">1. Status Quo</h4>
-                        <p class="text-sm text-gray-600">Schwaches ECS → Viele Medikamente</p>
+                        <h4 class="font-semibold text-gray-900 mb-2 text-sm">1. Status Quo</h4>
+                        <p class="text-xs text-gray-600">Schwaches ECS → Viele Medikamente</p>
                     </div>
-                    <div class="bg-white p-5 rounded-lg shadow text-center">
-                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-leaf text-green-600 text-2xl"></i>
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center">
+                        <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-leaf text-teal-700 text-lg"></i>
                         </div>
-                        <h4 class="font-bold text-gray-800 mb-2">2. ECS Stärken</h4>
-                        <p class="text-sm text-gray-600">Exogene Cannabinoide zuführen</p>
+                        <h4 class="font-semibold text-gray-900 mb-2 text-sm">2. ECS Stärken</h4>
+                        <p class="text-xs text-gray-600">Exogene Cannabinoide zuführen</p>
                     </div>
-                    <div class="bg-white p-5 rounded-lg shadow text-center">
-                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-chart-line text-blue-600 text-2xl"></i>
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center">
+                        <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-chart-line text-emerald-700 text-lg"></i>
                         </div>
-                        <h4 class="font-bold text-gray-800 mb-2">3. Medikamente reduzieren</h4>
-                        <p class="text-sm text-gray-600">Unter ärztlicher Begleitung ausschleichen</p>
+                        <h4 class="font-semibold text-gray-900 mb-2 text-sm">3. Medikamente reduzieren</h4>
+                        <p class="text-xs text-gray-600">Unter ärztlicher Begleitung ausschleichen</p>
                     </div>
-                    <div class="bg-white p-5 rounded-lg shadow text-center">
-                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-heart text-purple-600 text-2xl"></i>
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center">
+                        <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-heart text-teal-700 text-lg"></i>
                         </div>
-                        <h4 class="font-bold text-gray-800 mb-2">4. Starkes ECS</h4>
-                        <p class="text-sm text-gray-600">Körper reguliert sich selbst</p>
+                        <h4 class="font-semibold text-gray-900 mb-2 text-sm">4. Starkes ECS</h4>
+                        <p class="text-xs text-gray-600">Körper reguliert sich selbst</p>
                     </div>
                 </div>
-                <div class="mt-6 bg-white p-5 rounded-lg text-center">
-                    <p class="text-gray-800 text-lg font-semibold">
-                        <i class="fas fa-arrow-right text-indigo-600 mr-2"></i>
-                        Beginnen Sie jetzt mit Ihrem individualisierten Ausschleichplan!
+                <div class="mt-6 bg-slate-50 p-5 rounded-lg text-center border border-slate-200">
+                    <p class="text-gray-800 text-base font-semibold">
+                        Beginnen Sie jetzt mit Ihrem individualisierten Ausschleichplan
                     </p>
                 </div>
             </div>
             
             <!-- FAQ Section: Häufig gestellte Fragen -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                    <i class="fas fa-question-circle text-blue-600 mr-3"></i>
-                    Häufig gestellte Fragen
+            <div class="section-card p-8 mb-8 rounded-lg fade-in">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                    <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-question-circle text-teal-700 text-lg"></i>
+                    </div>
+                    <span>Häufig gestellte Fragen</span>
                 </h2>
                 
                 <!-- FAQ 1: Wie exogene Cannabinoide ECS aktivieren -->
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-lg font-bold text-gray-800 py-3 flex items-center hover:text-purple-600 transition">
-                        <i class="fas fa-microscope text-purple-600 mr-3"></i>
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
                         <span>Wie aktivieren exogene Cannabinoide mein Endocannabinoid-System?</span>
-                        <i class="fas fa-chevron-down ml-auto"></i>
                     </summary>
-                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
-                        <div class="bg-purple-50 p-5 rounded-lg mb-4">
-                            <h4 class="font-bold text-purple-900 mb-3">
-                                <i class="fas fa-atom mr-2"></i>
+                    <div class="mt-4 pl-8 text-gray-700 leading-relaxed">
+                        <div class="bg-slate-50 p-5 rounded-lg mb-4 border border-slate-200">
+                            <h4 class="font-semibold text-gray-900 mb-3 text-sm">
                                 Der biochemische Mechanismus:
                             </h4>
-                            <p class="text-sm mb-3">
+                            <p class="text-xs mb-3">
                                 CBD (Cannabidiol) wirkt auf mehrere Arten in Ihrem Körper:
                             </p>
-                            <ul class="text-sm space-y-2">
-                                <li><strong>• Hemmt FAAH-Enzym:</strong> Verhindert den Abbau von Anandamid (körpereigenes "Glücks-Endocannabinoid"), sodass mehr davon im Körper verfügbar bleibt</li>
-                                <li><strong>• Aktiviert Serotonin-Rezeptoren (5-HT1A):</strong> Wirkt angstlösend und stimmungsaufhellend – ähnlich wie Antidepressiva</li>
-                                <li><strong>• Moduliert CB1/CB2-Rezeptoren:</strong> Indirekte Aktivierung des ECS ohne psychoaktive Wirkung</li>
-                                <li><strong>• Hemmt Entzündungen:</strong> Reduziert COX-2 und NF-κB (entzündungsfördernde Enzyme)</li>
-                                <li><strong>• Antioxidative Wirkung:</strong> Schützt Nervenzellen vor oxidativem Stress</li>
+                            <ul class="text-xs space-y-2">
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Hemmt FAAH-Enzym:</strong> Verhindert den Abbau von Anandamid (körpereigenes "Glücks-Endocannabinoid"), sodass mehr davon im Körper verfügbar bleibt</li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Aktiviert Serotonin-Rezeptoren (5-HT1A):</strong> Wirkt angstlösend und stimmungsaufhellend – ähnlich wie Antidepressiva</li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Moduliert CB1/CB2-Rezeptoren:</strong> Indirekte Aktivierung des ECS ohne psychoaktive Wirkung</li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Hemmt Entzündungen:</strong> Reduziert COX-2 und NF-κB (entzündungsfördernde Enzyme)</li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Antioxidative Wirkung:</strong> Schützt Nervenzellen vor oxidativem Stress</span></li>
                             </ul>
                         </div>
-                        <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
-                            <p class="text-sm">
-                                <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                        <div class="info-box p-4 rounded-lg">
+                            <p class="text-xs">
                                 <strong>Wichtig:</strong> CBD hat <strong>keine psychoaktive Wirkung</strong>, macht nicht "high" und ist <strong>nicht abhängigkeitsbildend</strong>.
                             </p>
                         </div>
@@ -876,29 +871,26 @@ app.get('/', (c) => {
                 
                 <!-- FAQ 2: Welche Medikamente sind gefährlich? -->
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-lg font-bold text-gray-800 py-3 flex items-center hover:text-purple-600 transition">
-                        <i class="fas fa-exclamation-triangle text-red-600 mr-3"></i>
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
                         <span>Bei welchen Medikamenten sind Wechselwirkungen mit CBD besonders gefährlich?</span>
-                        <i class="fas fa-chevron-down ml-auto"></i>
                     </summary>
-                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
-                        <div class="bg-red-50 p-5 rounded-lg mb-4 border-l-4 border-red-500">
-                            <h4 class="font-bold text-red-900 mb-3">
-                                <i class="fas fa-pills mr-2"></i>
+                    <div class="mt-4 pl-8 text-gray-700 leading-relaxed">
+                        <div class="warning-box p-5 rounded-lg mb-4 border-l-4 border-red-400">
+                            <h4 class="font-semibold text-gray-900 mb-3 text-sm">
                                 Kritische Medikamentengruppen:
                             </h4>
-                            <ul class="text-sm space-y-3">
-                                <li><strong>🩸 Blutverdünner (Antikoagulanzien):</strong> Warfarin/Marcumar, Xarelto, Eliquis – CBD kann die Blutgerinnung weiter hemmen → Blutungsrisiko erhöht</li>
-                                <li><strong>💊 Immunsuppressiva:</strong> Sandimmun (Ciclosporin), Prograf (Tacrolimus) – CBD kann Wirkspiegel erhöhen → Toxizität möglich</li>
-                                <li><strong>🧠 Opioide:</strong> OxyContin, Tramadol, Morphin – CBD + Opioide kann zu übermäßiger Sedierung führen → Atemdepression</li>
-                                <li><strong>💤 Benzodiazepine:</strong> Tavor (Lorazepam), Valium (Diazepam), Rivotril – Verstärkte Müdigkeit, Sturzgefahr bei älteren Menschen</li>
-                                <li><strong>😴 Antidepressiva & Antipsychotika:</strong> Verstärkung der sedierenden Wirkung, mögliche CYP450-Interaktionen</li>
-                                <li><strong>🫀 Herzrhythmus-Medikamente:</strong> Amiodaron – CBD kann Wirkspiegel beeinflussen</li>
+                            <ul class="text-xs space-y-2.5">
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Blutverdünner (Antikoagulanzien):</strong> Warfarin/Marcumar, Xarelto, Eliquis – CBD kann die Blutgerinnung weiter hemmen → Blutungsrisiko erhöht</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Immunsuppressiva:</strong> Sandimmun (Ciclosporin), Prograf (Tacrolimus) – CBD kann Wirkspiegel erhöhen → Toxizität möglich</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Opioide:</strong> OxyContin, Tramadol, Morphin – CBD + Opioide kann zu übermäßiger Sedierung führen → Atemdepression</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Benzodiazepine:</strong> Tavor (Lorazepam), Valium (Diazepam), Rivotril – Verstärkte Müdigkeit, Sturzgefahr bei älteren Menschen</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Antidepressiva & Antipsychotika:</strong> Verstärkung der sedierenden Wirkung, mögliche CYP450-Interaktionen</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Herzrhythmus-Medikamente:</strong> Amiodaron – CBD kann Wirkspiegel beeinflussen</span></li>
                             </ul>
                         </div>
-                        <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
-                            <p class="text-sm text-yellow-900">
-                                <i class="fas fa-user-md mr-2"></i>
+                        <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                            <p class="text-xs text-gray-700">
                                 <strong>Wichtig:</strong> Unser Tool prüft diese Wechselwirkungen automatisch und passt die Startdosis entsprechend an. Bei kritischen Medikamenten empfehlen wir eine <strong>sehr vorsichtige Einschleichphase</strong> und <strong>engmaschige ärztliche Kontrolle</strong>.
                             </p>
                         </div>
