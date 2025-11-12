@@ -485,7 +485,7 @@ app.get('/', (c) => {
                             <i class="fas fa-leaf mr-3 text-teal-300"></i>
                             Strukturiert Medikamente reduzieren
                         </h1>
-                        <p class="text-teal-100 text-base md:text-lg font-light leading-relaxed max-w-3xl">Ihr körpereigenes Endocannabinoid-System als Partner – für einen gut geplanten Weg zu weniger Medikamenten.</p>
+                        <p class="text-teal-100 text-base md:text-lg font-light leading-relaxed max-w-3xl">KI-gestützt und wissenschaftlich fundiert – entwickelt mit ärztlicher Expertise für eine sichere, datenbasierte Medikamentenreduktion.</p>
                     </div>
                     <div class="text-right hidden md:block">
                         <a href="#dosierungsplan-erstellen" class="block bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
