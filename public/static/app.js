@@ -733,7 +733,7 @@ function downloadPDF() {
   // Title
   doc.setFontSize(20);
   doc.setTextColor(102, 126, 234);
-  doc.text('Dein persönlicher Dosierungsplan für CBD-Paste 70 %', 105, yPos, { align: 'center' });
+  doc.text('Dein persönlicher CBD-Paste Dosierungsplan', 105, yPos, { align: 'center' });
   
   yPos += 10;
   doc.setFontSize(12);
@@ -742,98 +742,122 @@ function downloadPDF() {
   
   yPos += 15;
   
-  // Product Information Box
-  if (product) {
-    doc.setFillColor(243, 232, 255);
-    doc.rect(10, yPos, 190, 30, 'F');
-    doc.setFontSize(14);
-    doc.setTextColor(88, 28, 135);
-    doc.setFont(undefined, 'bold');
-    doc.text('CBD-Paste 70 % – Produktinformationen', 15, yPos + 8);
-    
-    doc.setFontSize(10);
-    doc.setTextColor(60, 60, 60);
-    doc.setFont(undefined, 'normal');
-    doc.text('• Konzentration: 70 mg CBD pro Teilstrich (1,5 cm)', 15, yPos + 15);
-    doc.text('• Verpackung: 3 g Spritze mit 30 Teilstrichen', 15, yPos + 20);
-    doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 15, yPos + 25);
-    
-    yPos += 35;
-  }
-  
-  // Personalization Summary
-  if (personalization) {
-    doc.setFillColor(204, 251, 241);
-    doc.rect(10, yPos, 190, 25, 'F');
-    doc.setFontSize(12);
-    doc.setTextColor(20, 83, 88);
-    doc.setFont(undefined, 'bold');
-    doc.text('Deine individuelle Dosierungsstrategie', 15, yPos + 8);
-    
-    doc.setFontSize(9);
-    doc.setTextColor(60, 60, 60);
-    doc.setFont(undefined, 'normal');
-    let personalText = `Einschleichphase: ${personalization.titrationDays} Tage | Startdosis: ${personalization.startDosageMg.toFixed(1)} mg`;
-    if (personalization.age) personalText += ` | Alter: ${personalization.age} Jahre`;
-    if (personalization.bmi) personalText += ` | BMI: ${personalization.bmi.toFixed(1)}`;
-    if (personalization.bsa) personalText += ` | BSA: ${personalization.bsa.toFixed(2)} m²`;
-    
-    doc.text(personalText, 15, yPos + 15);
-    
-    if (personalization.notes && personalization.notes.length > 0) {
-      doc.text('Anpassungen: ' + personalization.notes.join(', '), 15, yPos + 20);
-    }
-    
-    yPos += 30;
-  }
-  
-  // Personalized Greeting
+  // Personalized Greeting FIRST
   const greeting = gender === 'female' ? 'Liebe' : 'Lieber';
   doc.setFontSize(14);
   doc.setTextColor(88, 28, 135);
   doc.setFont(undefined, 'bold');
   doc.text(`${greeting} ${firstName},`, 15, yPos);
   
-  yPos += 10;
+  yPos += 8;
   
   // Welcoming Introduction Text
-  doc.setFontSize(11);
+  doc.setFontSize(10);
   doc.setTextColor(60, 60, 60);
   doc.setFont(undefined, 'normal');
   
-  const welcomeText = `willkommen zu deinem persönlichen Dosierungsplan für CBD-Paste 70 %!
+  const welcomeText = `willkommen zu deinem persönlichen Dosierungsplan für CBD-Paste!
 
 Schön, dass du den Schritt gehst, dein Endocannabinoid-System (ECS) mit einer hochkonzentrierten CBD-Paste zu unterstützen.
 
-Dieser Plan wurde individuell für dich erstellt – basierend auf deinen Medikamenten, deinem Alter, deinem Körpergewicht und deiner Körpergröße. Er orientiert sich an aktuellen wissenschaftlichen Erkenntnissen zu CBD–Medikamenten-Wechselwirkungen und folgt der Philosophie „Start low, go slow" – also: niedrig starten, langsam steigern, für maximale Sicherheit.
-
-Was dich erwartet:
-CBD-Paste 70 % ist eine hochkonzentrierte Form von Cannabidiol (CBD).
+Dieser Plan wurde individuell für dich erstellt – basierend auf deinen Medikamenten, deinem Alter, deinem Körpergewicht und deiner Körpergröße. Er orientiert sich an aktuellen wissenschaftlichen Erkenntnissen zu CBD–Medikamenten-Wechselwirkungen und folgt der Philosophie „Start low, go slow" – also: niedrig starten, langsam steigern, für maximale Sicherheit.`;
+  
+  const welcomeLines = doc.splitTextToSize(welcomeText, 180);
+  doc.text(welcomeLines, 15, yPos);
+  
+  yPos += welcomeLines.length * 4.5 + 8;
+  
+  // Product Information Box AFTER greeting
+  if (product) {
+    doc.setFillColor(243, 232, 255);
+    doc.rect(10, yPos, 190, 25, 'F');
+    doc.setFontSize(12);
+    doc.setTextColor(88, 28, 135);
+    doc.setFont(undefined, 'bold');
+    doc.text('CBD-Paste 70 % – Produktinformationen', 15, yPos + 7);
+    
+    doc.setFontSize(9);
+    doc.setTextColor(60, 60, 60);
+    doc.setFont(undefined, 'normal');
+    doc.text('• Konzentration: 70 mg CBD pro Teilstrich (1,5 cm)', 15, yPos + 13);
+    doc.text('• Verpackung: 3 g Spritze mit 30 Teilstrichen', 15, yPos + 18);
+    doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 100, yPos + 18);
+    
+    yPos += 30;
+  }
+  
+  // Personalization Summary
+  if (personalization) {
+    doc.setFillColor(204, 251, 241);
+    const boxHeight = personalization.notes && personalization.notes.length > 0 ? 40 : 30;
+    doc.rect(10, yPos, 190, boxHeight, 'F');
+    doc.setFontSize(11);
+    doc.setTextColor(20, 83, 88);
+    doc.setFont(undefined, 'bold');
+    doc.text('Deine individuelle Dosierungsstrategie', 15, yPos + 7);
+    
+    doc.setFontSize(9);
+    doc.setTextColor(60, 60, 60);
+    doc.setFont(undefined, 'normal');
+    
+    // Split into multiple lines to avoid overflow
+    let line1 = `Einschleichphase: ${personalization.titrationDays} Tage | Startdosis: ${personalization.startDosageMg.toFixed(1)} mg`;
+    let line2 = '';
+    if (personalization.age) line2 += `Alter: ${personalization.age} Jahre`;
+    if (personalization.bmi) line2 += ` | BMI: ${personalization.bmi.toFixed(1)}`;
+    if (personalization.bsa) line2 += ` | BSA: ${personalization.bsa.toFixed(2)} m²`;
+    
+    doc.text(line1, 15, yPos + 14);
+    if (line2) doc.text(line2, 15, yPos + 19);
+    
+    if (personalization.notes && personalization.notes.length > 0) {
+      doc.setFont(undefined, 'bold');
+      doc.text('Anpassungen:', 15, yPos + 26);
+      doc.setFont(undefined, 'normal');
+      const notesText = personalization.notes.join(', ');
+      const notesLines = doc.splitTextToSize(notesText, 180);
+      doc.text(notesLines, 15, yPos + 31);
+    }
+    
+    yPos += boxHeight + 5;
+  }
+  
+  // "Was dich erwartet" section
+  doc.setFontSize(11);
+  doc.setTextColor(88, 28, 135);
+  doc.setFont(undefined, 'bold');
+  doc.text('Was dich erwartet:', 15, yPos);
+  yPos += 6;
+  
+  doc.setFontSize(10);
+  doc.setTextColor(60, 60, 60);
+  doc.setFont(undefined, 'normal');
+  const expectText = `CBD-Paste 70 % ist eine hochkonzentrierte Form von Cannabidiol (CBD).
 
 Du nimmst die Paste sublingual ein – also unter der Zunge, lässt sie dort 2–3 Minuten einwirken und schluckst sie erst dann herunter. So kann dein Körper das CBD besonders gut über die Mundschleimhaut aufnehmen.
 
 Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird dann langsam auf eine 2-mal tägliche Einnahme gesteigert – für eine möglichst gleichmäßige Unterstützung deines Endocannabinoid-Systems.`;
   
-  const welcomeLines = doc.splitTextToSize(welcomeText, 180);
-  doc.text(welcomeLines, 15, yPos);
+  const expectLines = doc.splitTextToSize(expectText, 180);
+  doc.text(expectLines, 15, yPos);
   
-  yPos += welcomeLines.length * 5 + 10;
+  yPos += expectLines.length * 4.5 + 5;
   
   // Severity warning if critical
   if (maxSeverity === 'critical' || maxSeverity === 'high') {
     doc.setFillColor(254, 226, 226);
-    doc.rect(10, yPos, 190, 25, 'F');
-    doc.setFontSize(11);
+    doc.rect(10, yPos, 190, 28, 'F');
+    doc.setFontSize(10);
     doc.setTextColor(220, 38, 38);
     doc.setFont(undefined, 'bold');
-    doc.text('⚠️  WICHTIG: Kritische Wechselwirkungen mit deinen Medikamenten', 15, yPos + 8);
+    doc.text('WICHTIG: Kritische Wechselwirkungen mit deinen Medikamenten', 15, yPos + 7);
     doc.setFontSize(9);
     doc.setFont(undefined, 'normal');
     doc.setTextColor(60, 60, 60);
     const warningText = 'In deinem Medikamentenplan wurden kritische mögliche Wechselwirkungen mit CBD erkannt. Deshalb ist deine Einschleichphase bewusst sehr vorsichtig gewählt. Bitte besprich diesen Plan unbedingt mit deinem Arzt oder deiner Ärztin, bevor du mit der Einnahme beginnst.';
     const warningLines = doc.splitTextToSize(warningText, 180);
-    doc.text(warningLines, 15, yPos + 15);
-    yPos += 30;
+    doc.text(warningLines, 15, yPos + 13);
+    yPos += 33;
   }
   
   // Dosing Philosophy
@@ -1001,37 +1025,36 @@ Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird 
   }
   
   doc.setFillColor(236, 253, 245);
-  doc.rect(10, yPos, 190, 80, 'F');
+  doc.rect(10, yPos, 190, 75, 'F');
   doc.setFontSize(11);
   doc.setTextColor(22, 101, 52);
   doc.setFont(undefined, 'bold');
   doc.text('Wichtige Einnahmehinweise für deine CBD-Paste 70 %', 15, yPos + 7);
   
-  doc.setFontSize(9);
+  doc.setFontSize(8.5);
   doc.setFont(undefined, 'normal');
   doc.setTextColor(60, 60, 60);
   const instructions = [
-    '• Sublinguale Einnahme: Lege die Paste unter deine Zunge, lass sie dort 2–3 Minuten',
-    '  einwirken und schlucke sie erst dann herunter.',
+    '• Sublinguale Einnahme: Lege die Paste unter deine Zunge, lass sie dort 2–3 Minuten einwirken',
+    '  und schlucke sie erst dann herunter.',
     '• Phase 1 (Einschleichphase): Nimm die Paste nur abends, um zu prüfen, wie du sie verträgst.',
     '• Phase 2 (Erhaltungsphase): Nimm die Paste 2-mal täglich – morgens und abends – wie im Plan angegeben.',
-    '• Zeitpunkt der Einnahme: Am besten zu den Mahlzeiten (z. B. Frühstück & Abendessen),',
-    '  das unterstützt die Aufnahme.',
+    '• Zeitpunkt der Einnahme: Am besten zu den Mahlzeiten (z. B. Frühstück & Abendessen), das unterstützt die Aufnahme.',
     '• Dosierung ablesen: Nutze die Teilstriche auf der Spritze. 1 Teilstrich = 1,5 cm = 70 mg CBD.',
     '• Ausreichend trinken: Versuche, täglich etwa 2–3 Liter Wasser zu trinken.',
-    '• Symptom-Tagebuch: Notiere dir täglich, wie es dir geht (Wirkung, Nebenwirkungen, Schlaf, Stimmung, Schmerzen …).',
+    '• Symptom-Tagebuch: Notiere dir täglich, wie es dir geht (Wirkung, Nebenwirkungen, Schlaf, Stimmung, Schmerzen).',
     '• Bei Nebenwirkungen: Reduziere die Dosis oder pausiere und sprich unbedingt mit deinem Arzt oder deiner Ärztin.',
     '• Ärztliche Begleitung: Nimm diesen Plan zu deinem nächsten Arztgespräch mit und lass dich begleiten –',
     '  vor allem, wenn du Medikamente einnehmen möchtest oder bereits einnimmst.'
   ];
   
-  let instructionY = yPos + 15;
+  let instructionY = yPos + 14;
   instructions.forEach(instruction => {
     doc.text(instruction, 15, instructionY);
-    instructionY += 7;
+    instructionY += 6.2;
   });
   
-  yPos += 85;
+  yPos += 80;
   
   // Medications List
   if (yPos > 250) {
@@ -1095,23 +1118,12 @@ Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird 
     yPos = 20;
   }
   
-  doc.setFillColor(255, 243, 205);
-  doc.rect(10, yPos, 190, 75, 'F');
-  doc.setFontSize(14);
-  doc.setTextColor(200, 100, 0);
-  doc.setFont(undefined, 'bold');
-  doc.text('Wichtiger Hinweis & Haftungsausschluss', 105, yPos + 10, { align: 'center' });
-  
-  yPos += 18;
-  doc.setFontSize(10);
-  doc.setTextColor(60, 60, 60);
-  doc.setFont(undefined, 'normal');
-  
+  // Calculate disclaimer height based on text
   const disclaimerText = `Dieser Plan ist keine medizinische Beratung und ersetzt nicht den Besuch bei deinem Arzt oder deiner Ärztin.
 
 Die Informationen dienen ausschließlich zu Bildungszwecken und zur ersten Orientierung. Sie basieren auf öffentlich zugänglichen wissenschaftlichen Studien zu Wechselwirkungen zwischen CBD und Medikamenten.
 
-🔴 Wichtig:
+Wichtig:
 • Sprich unbedingt mit deinem Arzt oder deiner Ärztin, bevor du CBD einnimmst – besonders, wenn du Medikamente nimmst.
 • Wechselwirkungen können gesundheitsgefährdend sein.
 • Ändere niemals deine Medikation, ohne dies ärztlich abzusprechen.
@@ -1121,6 +1133,22 @@ CBD kann dich beim Ausschleichen von Medikamenten unterstützen – aber nur unt
 Bitte nimm diesen Plan zu deinem nächsten Arzttermin mit und bespreche gemeinsam, ob und wie du CBD einsetzen möchtest.`;
   
   const disclaimerLines = doc.splitTextToSize(disclaimerText, 180);
+  const disclaimerHeight = disclaimerLines.length * 4.5 + 20;
+  
+  // Orange background for entire disclaimer section
+  doc.setFillColor(255, 243, 205);
+  doc.rect(10, yPos, 190, disclaimerHeight, 'F');
+  
+  doc.setFontSize(13);
+  doc.setTextColor(200, 100, 0);
+  doc.setFont(undefined, 'bold');
+  doc.text('Wichtiger Hinweis & Haftungsausschluss', 105, yPos + 10, { align: 'center' });
+  
+  yPos += 18;
+  doc.setFontSize(9);
+  doc.setTextColor(60, 60, 60);
+  doc.setFont(undefined, 'normal');
+  
   doc.text(disclaimerLines, 15, yPos);
   
   // Footer on all pages
@@ -1133,8 +1161,8 @@ Bitte nimm diesen Plan zu deinem nächsten Arzttermin mit und bespreche gemeinsa
     doc.text('ECS Aktivierung - www.ecs-aktivierung.de', 105, 285, { align: 'center' });
   }
   
-  // Save PDF with personalized filename
+  // Save PDF with personalized filename (without "70")
   const dateStr = new Date().toISOString().split('T')[0];
   const sanitizedName = firstName.replace(/[^a-zA-Z0-9]/g, '_');
-  doc.save(`CBD-Paste-70-Dosierungsplan_${sanitizedName}_${dateStr}.pdf`);
+  doc.save(`CBD-Paste-Dosierungsplan_${sanitizedName}_${dateStr}.pdf`);
 }
