@@ -319,10 +319,15 @@ document.getElementById('upload-form')?.addEventListener('submit', async (e) => 
     return;
   }
 
-  // Show loading
-  document.getElementById('loading').classList.remove('hidden');
+  // Show loading and scroll to it
+  const loadingEl = document.getElementById('loading');
+  loadingEl.classList.remove('hidden');
   document.getElementById('results').classList.add('hidden');
-  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  
+  // Scroll to loading element (stays at form position, not bottom)
+  setTimeout(() => {
+    loadingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
 
   try {
     // Upload image for OCR
@@ -347,17 +352,40 @@ document.getElementById('upload-form')?.addEventListener('submit', async (e) => 
   }
 });
 
-// Animate loading steps
+// Animate loading steps with extended duration and smoother progress
 function animateLoadingSteps() {
   return new Promise((resolve) => {
     const steps = [
-      { id: 1, duration: 1200 },
-      { id: 2, duration: 1500 },
-      { id: 3, duration: 1800 }
+      { id: 1, duration: 2000, label: 'Medikamenten-Datenbank durchsuchen' },
+      { id: 2, duration: 2500, label: 'Persönliche Daten verarbeiten' },
+      { id: 3, duration: 2800, label: 'Individuellen Plan berechnen' }
     ];
     
     let progress = 0;
     const progressBar = document.getElementById('progress-bar');
+    
+    // Smooth progress bar animation with percentage display
+    let totalDuration = steps.reduce((sum, step) => sum + step.duration, 0);
+    let currentTime = 0;
+    const progressText = document.getElementById('progress-text');
+    
+    const progressInterval = setInterval(() => {
+      currentTime += 50;
+      const smoothProgress = Math.min((currentTime / totalDuration) * 100, 100);
+      progressBar.style.width = smoothProgress + '%';
+      
+      // Update percentage text
+      if (progressText) {
+        progressText.textContent = Math.round(smoothProgress) + '%';
+      }
+      
+      if (currentTime >= totalDuration) {
+        clearInterval(progressInterval);
+        if (progressText) {
+          progressText.textContent = '100%';
+        }
+      }
+    }, 50);
     
     // Animate each step sequentially
     let delay = 0;
@@ -366,27 +394,43 @@ function animateLoadingSteps() {
         const stepEl = document.getElementById(`step-${step.id}`);
         const checkEl = document.getElementById(`check-${step.id}`);
         
-        // Activate current step
+        // Activate current step with animation
         stepEl.classList.remove('bg-gray-100', 'opacity-50');
         stepEl.classList.add('bg-teal-50', 'border-teal-200');
-        stepEl.querySelector('.fa-circle')?.classList.replace('fa-circle', 'fa-circle-notch');
-        stepEl.querySelector('.fa-circle-notch')?.classList.add('fa-spin', 'text-teal-600');
-        stepEl.querySelector('.text-gray-700')?.classList.replace('text-gray-700', 'text-gray-900');
-        stepEl.querySelector('.text-gray-500')?.classList.replace('text-gray-500', 'text-gray-600');
+        stepEl.style.transform = 'scale(1.02)';
         
-        // Update progress bar
-        progress = ((index + 1) / steps.length) * 100;
-        progressBar.style.width = progress + '%';
+        const circleIcon = stepEl.querySelector('.fa-circle');
+        if (circleIcon) {
+          circleIcon.classList.replace('fa-circle', 'fa-circle-notch');
+          circleIcon.classList.add('fa-spin', 'text-teal-600');
+        }
+        
+        const titleEl = stepEl.querySelector('.text-gray-700');
+        if (titleEl) titleEl.classList.replace('text-gray-700', 'text-gray-900');
+        
+        const subtitleEl = stepEl.querySelector('.text-gray-500');
+        if (subtitleEl) subtitleEl.classList.replace('text-gray-500', 'text-gray-600');
         
         // After duration, mark as complete
         setTimeout(() => {
-          stepEl.querySelector('.fa-circle-notch')?.classList.remove('fa-spin');
-          stepEl.querySelector('.fa-circle-notch')?.classList.replace('fa-circle-notch', 'fa-check-circle');
+          stepEl.style.transform = 'scale(1)';
+          
+          const notchIcon = stepEl.querySelector('.fa-circle-notch');
+          if (notchIcon) {
+            notchIcon.classList.remove('fa-spin');
+            notchIcon.classList.replace('fa-circle-notch', 'fa-check-circle');
+            notchIcon.classList.add('text-green-600');
+          }
+          
           checkEl.classList.remove('hidden');
+          checkEl.classList.add('text-green-600');
           
           // Resolve when all steps are done
           if (index === steps.length - 1) {
-            setTimeout(resolve, 300);
+            setTimeout(() => {
+              clearInterval(progressInterval);
+              resolve();
+            }, 500);
           }
         }, step.duration);
       }, delay);
@@ -398,10 +442,15 @@ function animateLoadingSteps() {
 
 // Analyze medications with animated loading
 async function analyzeMedications(medications, durationWeeks, firstName = '', gender = '', email = '', age = null, weight = null, height = null) {
-  // Show loading
-  document.getElementById('loading').classList.remove('hidden');
+  // Show loading and scroll to it
+  const loadingEl = document.getElementById('loading');
+  loadingEl.classList.remove('hidden');
   document.getElementById('results').classList.add('hidden');
-  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  
+  // Scroll to loading element (stays at form position, not bottom)
+  setTimeout(() => {
+    loadingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
 
   // Start animation
   const animationPromise = animateLoadingSteps();
