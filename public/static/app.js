@@ -347,15 +347,68 @@ document.getElementById('upload-form')?.addEventListener('submit', async (e) => 
   }
 });
 
-// Analyze medications
+// Animate loading steps
+function animateLoadingSteps() {
+  return new Promise((resolve) => {
+    const steps = [
+      { id: 1, duration: 1200 },
+      { id: 2, duration: 1500 },
+      { id: 3, duration: 1800 }
+    ];
+    
+    let progress = 0;
+    const progressBar = document.getElementById('progress-bar');
+    
+    // Animate each step sequentially
+    let delay = 0;
+    steps.forEach((step, index) => {
+      setTimeout(() => {
+        const stepEl = document.getElementById(`step-${step.id}`);
+        const checkEl = document.getElementById(`check-${step.id}`);
+        
+        // Activate current step
+        stepEl.classList.remove('bg-gray-100', 'opacity-50');
+        stepEl.classList.add('bg-teal-50', 'border-teal-200');
+        stepEl.querySelector('.fa-circle')?.classList.replace('fa-circle', 'fa-circle-notch');
+        stepEl.querySelector('.fa-circle-notch')?.classList.add('fa-spin', 'text-teal-600');
+        stepEl.querySelector('.text-gray-700')?.classList.replace('text-gray-700', 'text-gray-900');
+        stepEl.querySelector('.text-gray-500')?.classList.replace('text-gray-500', 'text-gray-600');
+        
+        // Update progress bar
+        progress = ((index + 1) / steps.length) * 100;
+        progressBar.style.width = progress + '%';
+        
+        // After duration, mark as complete
+        setTimeout(() => {
+          stepEl.querySelector('.fa-circle-notch')?.classList.remove('fa-spin');
+          stepEl.querySelector('.fa-circle-notch')?.classList.replace('fa-circle-notch', 'fa-check-circle');
+          checkEl.classList.remove('hidden');
+          
+          // Resolve when all steps are done
+          if (index === steps.length - 1) {
+            setTimeout(resolve, 300);
+          }
+        }, step.duration);
+      }, delay);
+      
+      delay += step.duration;
+    });
+  });
+}
+
+// Analyze medications with animated loading
 async function analyzeMedications(medications, durationWeeks, firstName = '', gender = '', email = '', age = null, weight = null, height = null) {
   // Show loading
   document.getElementById('loading').classList.remove('hidden');
   document.getElementById('results').classList.add('hidden');
   window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 
+  // Start animation
+  const animationPromise = animateLoadingSteps();
+
   try {
-    const response = await axios.post('/api/analyze', {
+    // Make API call
+    const apiPromise = axios.post('/api/analyze', {
       medications,
       durationWeeks,
       email,
@@ -365,6 +418,9 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
       weight,
       height
     });
+
+    // Wait for both animation and API call to complete
+    const [response] = await Promise.all([apiPromise, animationPromise]);
 
     if (response.data.success) {
       displayResults(response.data, firstName, gender);

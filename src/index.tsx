@@ -1454,11 +1454,78 @@ app.get('/', (c) => {
                 </div>
             </div>
 
-            <!-- Loading -->
+            <!-- Loading - Enhanced KI Analysis Animation -->
             <div id="loading" class="hidden section-card p-8 text-center rounded-lg">
-                <i class="fas fa-spinner fa-spin text-5xl text-teal-600 mb-4"></i>
-                <p class="text-lg font-semibold text-gray-900">Analysiere Ihre Medikamente...</p>
-                <p class="text-gray-600 mt-2 text-sm">Berechne individuelle Cannabinoid-Dosierung...</p>
+                <!-- Main KI Brain Icon with Pulse Animation -->
+                <div class="relative inline-block mb-6">
+                    <div class="absolute inset-0 bg-teal-400 rounded-full opacity-75 animate-ping"></div>
+                    <div class="relative w-20 h-20 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fas fa-brain text-white text-3xl"></i>
+                    </div>
+                </div>
+                
+                <!-- Main Headline -->
+                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                    <i class="fas fa-sparkles text-teal-600 mr-2"></i>
+                    Unsere KI analysiert Ihre Daten
+                </h3>
+                <p class="text-gray-600 mb-6 text-sm">Das dauert nur wenige Sekunden...</p>
+                
+                <!-- Analysis Steps with Progressive Animation -->
+                <div class="max-w-md mx-auto space-y-3 mb-6">
+                    <!-- Step 1: Medication Analysis -->
+                    <div id="step-1" class="flex items-center gap-3 p-3 bg-teal-50 rounded-lg border border-teal-200 transition-all duration-300">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-circle-notch fa-spin text-teal-600"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <p class="text-sm font-semibold text-gray-900">Medikamenten-Datenbank durchsuchen</p>
+                            <p class="text-xs text-gray-600">Wechselwirkungen identifizieren...</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <i id="check-1" class="fas fa-check text-teal-600 hidden"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Personal Data Processing -->
+                    <div id="step-2" class="flex items-center gap-3 p-3 bg-gray-100 rounded-lg border border-gray-200 opacity-50 transition-all duration-300">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-circle text-gray-400"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <p class="text-sm font-semibold text-gray-700">Persönliche Daten verarbeiten</p>
+                            <p class="text-xs text-gray-500">Alter, Gewicht, BMI berechnen...</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <i id="check-2" class="fas fa-check text-teal-600 hidden"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Dosage Calculation -->
+                    <div id="step-3" class="flex items-center gap-3 p-3 bg-gray-100 rounded-lg border border-gray-200 opacity-50 transition-all duration-300">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-circle text-gray-400"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <p class="text-sm font-semibold text-gray-700">Individuellen Plan berechnen</p>
+                            <p class="text-xs text-gray-500">Startdosis & Titration optimieren...</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <i id="check-3" class="fas fa-check text-teal-600 hidden"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-4 overflow-hidden">
+                    <div id="progress-bar" class="bg-gradient-to-r from-teal-500 to-emerald-500 h-2 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                </div>
+                
+                <!-- Subtle info text -->
+                <p class="text-xs text-gray-500 italic">
+                    <i class="fas fa-lock mr-1"></i>
+                    Ihre Daten werden sicher verarbeitet und nicht gespeichert
+                </p>
             </div>
 
             <!-- Results -->
