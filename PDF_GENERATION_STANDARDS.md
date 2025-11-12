@@ -1,8 +1,133 @@
 # PDF-Generierung Standards für ECS Aktivierung Dosierungspläne
 ## Global gültig für alle zukünftigen Dosierungspläne
 
-**Letzte Aktualisierung:** 2025-01-12  
-**Gültigkeitsbereich:** Alle Cannabinoid-Dosierungspläne weltweit
+**Letzte Aktualisierung:** 2025-01-12 (v2.0 - Komplettes Redesign)  
+**Gültigkeitsbereich:** Alle Cannabinoid-Reduktionspläne weltweit
+
+**⚠️ WICHTIG: Alle bisherigen Standards wurden durch die neuen Layout-Vorgaben ersetzt.**
+
+---
+
+## 🆕 NEUE HAUPTÜBERSCHRIFT & EINLEITUNG
+
+### Titelzeile
+```
+Cannabinoid-Reduktionsplan – Ihr Weg zu weniger Medikamenten
+```
+- Schriftgröße: **18pt** (nicht mehr 20pt)
+- Farbe: **#004D40** (dunkleres Teal)
+- Stil: **Fett**
+
+### Untertitel
+```
+Erstellt auf Basis Ihrer Eingaben, wissenschaftlich fundiert und KI-gestützt
+```
+- Schriftgröße: **12pt**
+- Farbe: **#00695C**
+- Stil: **Normal**
+
+### Einleitung (IMMER vor Übersicht)
+```
+Lieber [Vorname],
+willkommen zu Ihrem persönlichen Cannabinoid-Reduktionsplan!
+
+Dieser Plan wurde individuell für Sie erstellt – basierend auf Ihrer aktuellen 
+Medikation, Ihrem Alter, Körpergewicht und Ihrer Körpergröße.
+
+Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittweise 
+Ihre Medikamentenmenge zu reduzieren – unter ärztlicher Begleitung und ohne Risiko.
+```
+- Schriftgröße: **11pt**
+- Farbe: **#222**
+- Stil: **Normal**
+
+---
+
+## 📋 STRUKTUR DER ERSTEN SEITE
+
+**Reihenfolge (fest):**
+1. Hauptüberschrift + Untertitel
+2. Begrüßung ("Lieber [Vorname],")
+3. Einleitungstext (ECS-Stärkung)
+4. **Übersicht Ihres Plans** (grüne Box)
+5. Produktinformationen (Cannabinoid-Paste 70 %)
+6. Ihre individuelle Dosierungsstrategie
+7. ⚠️ Warnbox (falls Wechselwirkungen)
+
+---
+
+## 📦 BOXEN & LAYOUT-FORMATIERUNG
+
+### Übersicht Ihres Plans (hellgrün)
+```css
+{
+  "backgroundColor": "#E6F7F1", /* Hellgrün */
+  "borderRadius": "3px",
+  "padding": "12px",
+  "border": "1px solid #004D40",
+  "maxWidth": "90%"
+}
+```
+
+**Inhalt:**
+```
+📋 Übersicht Ihres Plans
+• Startdosis (Tag 1): 0,1 cm = 4,7 mg (abends)
+• Zielbereich (Woche 7–8): 1,5 cm = 70 mg Cannabinoide täglich
+• Verteilung: morgens ~40 %, abends ~60 %
+• Einschleichphase: 3 Tage (nur abends)
+• Gesamtdauer: 8 Wochen
+```
+- Icon: 📋 vor Titel
+- Alle Zahlen mit **deutschem Komma**: 0,1 cm (nicht 0.1 cm)
+
+### Warnbox (zartrot)
+```css
+{
+  "backgroundColor": "#FDECEA", /* Zartrot */
+  "borderRadius": "3px",
+  "padding": "12px",
+  "border": "1px solid #DC2626"
+}
+```
+
+**Position:** Direkt nach "Ihre individuelle Dosierungsstrategie"
+
+**Neuer Text:**
+```
+⚠️ Wichtig: Ihr Medikamentenprofil weist mögliche Wechselwirkungen auf
+
+Ihr Plan wurde deshalb besonders vorsichtig gestaltet. Bitte starten Sie 
+erst nach ärztlicher Rücksprache.
+
+Dies dient Ihrer Sicherheit und ermöglicht eine optimale Anpassung.
+```
+
+**NICHT MEHR:**
+- ❌ "WICHTIG: Kritische Wechselwirkungen erkannt"
+- ❌ Warnbox am Seitenende
+- ❌ Reißerischer Ton
+
+### Allgemeine Box-Regeln
+- **Padding:** Mindestens 12px (nicht 4-6px)
+- **Border-Radius:** 3px (abgerundete Ecken)
+- **Max-Width:** 90% des Textbereichs
+- **Kein Textüberlauf:** Text darf nicht über Balkenrand hinauslaufen
+
+---
+
+## 🎨 TYPOGRAFISCHE HIERARCHIE (NUR 5 GRÖSSEN)
+
+| Element | Größe | Stil | Farbe |
+|---------|-------|------|-------|
+| **Haupttitel** | 18pt | Fett | #004D40 |
+| **Untertitel** | 12pt | Normal | #00695C |
+| **Box-Überschriften** | 12pt | Fett | #004D40 |
+| **Fließtext** | 11-12pt | Normal | #222 |
+| **Tabellenheader** | 10pt | Fett | #004D40 |
+| **Footer** | 9pt | Kursiv | #888 |
+
+**WICHTIG:** Keine anderen Schriftgrößen verwenden!
 
 ---
 
