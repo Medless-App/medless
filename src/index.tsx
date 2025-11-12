@@ -1079,7 +1079,7 @@ app.get('/', (c) => {
             <!-- The Journey: From Medication to Strong ECS -->
             <div class="section-card p-8 mb-8 rounded-lg fade-in">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
-                    Ihr Weg: Von Medikamenten-Abhängigkeit zu einem starken ECS
+                    Ihr Weg: Schritt für Schritt zu weniger Medikamenten – und einem starken ECS
                 </h2>
                 <div class="grid md:grid-cols-4 gap-4">
                     <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center">
