@@ -647,6 +647,49 @@ app.get('/', (c) => {
                             </div>
                         </div>
                         
+                        <!-- NEW: Positive Drug Interactions Highlight -->
+                        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 p-6 rounded-lg border-l-4 border-emerald-500 mb-6">
+                            <h4 class="font-semibold text-gray-900 mb-3 text-base flex items-center gap-2">
+                                <span class="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xs">+</span>
+                                Der überraschende Vorteil: Wechselwirkungen können auch positiv sein!
+                            </h4>
+                            <p class="text-gray-700 text-sm mb-3 leading-relaxed">
+                                Sie haben richtig gehört: Die oft gefürchteten <strong>Wechselwirkungen zwischen CBD und Medikamenten</strong> haben auch eine <strong>positive Seite</strong>, die gezielt zur Medikamenten-Reduktion genutzt werden kann.
+                            </p>
+                            
+                            <div class="bg-white p-4 rounded-lg mb-3">
+                                <h5 class="font-semibold text-gray-900 mb-2 text-sm">So funktioniert's:</h5>
+                                <p class="text-xs text-gray-700 mb-2">
+                                    CBD hemmt bestimmte <strong>Leber-Enzyme (CYP450-System)</strong>, die für den Abbau von etwa <strong>60% aller Medikamente</strong> verantwortlich sind. Das bedeutet:
+                                </p>
+                                <ul class="text-xs text-gray-700 space-y-1.5 ml-4">
+                                    <li class="flex items-start">
+                                        <span class="text-emerald-600 mr-2 mt-0.5">✓</span>
+                                        <span><strong>Medikamente bleiben länger im Blut</strong> – die Wirkdauer verlängert sich</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-emerald-600 mr-2 mt-0.5">✓</span>
+                                        <span><strong>Dosierung kann reduziert werden</strong> – bei gleicher oder besserer Wirkung</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-emerald-600 mr-2 mt-0.5">✓</span>
+                                        <span><strong>Weniger Medikament = weniger Belastung</strong> für Leber und Nieren</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-emerald-100 p-4 rounded-lg">
+                                <h5 class="font-semibold text-emerald-900 mb-2 text-sm">Praxis-Beispiel: Marcumar</h5>
+                                <p class="text-xs text-gray-700">
+                                    Nehmen Sie Marcumar (Blutverdünner): Wenn Sie eine <strong>niedrige CBD-Dosis</strong> dazu nehmen, bleibt Marcumar <strong>länger im Blut wirksam</strong>. Das bedeutet: Sie können <strong>weniger Marcumar einnehmen</strong> und erreichen trotzdem die gewünschte Blutverdünnung – natürlich unter <strong>engmaschiger ärztlicher Kontrolle</strong> (INR-Werte).
+                                </p>
+                            </div>
+                            
+                            <p class="text-xs text-gray-600 mt-3 italic">
+                                <strong>Wichtig:</strong> Unser Tool berechnet genau diese Wechselwirkungen mit ein und passt die CBD-Startdosis entsprechend an. So nutzen wir die positive Seite der Wechselwirkungen für eine sichere Medikamenten-Reduktion.
+                            </p>
+                        </div>
+                        
                         <div class="info-box p-5 rounded-lg">
                             <h4 class="font-semibold text-gray-900 mb-2 text-base">
                                 Das Ziel: Medikamenten-Reduktion durch starkes ECS
