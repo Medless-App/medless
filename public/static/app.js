@@ -681,15 +681,15 @@ function displayResults(data, firstName = '', gender = '') {
         </ul>
       </div>
 
-      <div class="mt-8 flex gap-4">
-        <button onclick="downloadPDF()" class="flex-1 py-4 bg-gradient-to-r from-green-600 to-teal-600 text-white font-bold rounded-lg hover:from-green-700 hover:to-teal-700 transition-all shadow-lg">
+      <div class="mt-8">
+        <button onclick="downloadPDF()" class="w-full py-5 bg-gradient-to-r from-green-600 to-teal-600 text-white font-bold text-lg rounded-lg hover:from-green-700 hover:to-teal-700 transition-all shadow-lg transform hover:scale-105">
           <i class="fas fa-file-pdf mr-2"></i>
-          Als PDF herunterladen
+          📄 Dosierungsplan als PDF herunterladen
         </button>
-        <button onclick="window.print()" class="flex-1 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg">
-          <i class="fas fa-print mr-2"></i>
-          Drucken
-        </button>
+        <p class="text-center text-sm text-gray-500 mt-3">
+          <i class="fas fa-info-circle mr-1"></i>
+          Die PDF können Sie anschließend selbst ausdrucken oder digital speichern
+        </p>
       </div>
     </div>
   `;
