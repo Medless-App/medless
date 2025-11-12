@@ -1816,34 +1816,94 @@ app.get('/', (c) => {
 
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
-                        <div class="grid md:grid-cols-2 gap-4 mb-4">
-                            <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
-                                <h4 class="font-bold text-orange-900 mb-2">
-                                    <i class="fas fa-calculator mr-2"></i>
-                                    Kosten für Cannabinoid-Präparate (z.B. Cannabinoid-Paste 70%):
-                                </h4>
-                                <p class="text-sm mb-2">Beispielrechnung für 1 Monat:</p>
-                                <ul class="text-sm space-y-1">
-                                    <li>• <strong>Niedrige Dosis (20mg/Tag):</strong> ca. 50-70€</li>
-                                    <li>• <strong>Mittlere Dosis (50mg/Tag):</strong> ca. 100-150€</li>
-                                    <li>• <strong>Hohe Dosis (100mg/Tag):</strong> ca. 200-250€</li>
-                                </ul>
-                                <p class="text-xs mt-2 text-gray-600">
-                                    *Preise variieren je nach Hersteller und Qualität
+                        <!-- NEW: 8-Wochen-basierte Kostenberechnung -->
+                        <div class="bg-orange-50 p-5 rounded-lg border-l-4 border-orange-500 mb-4">
+                            <h4 class="font-bold text-orange-900 mb-3 text-base">
+                                <i class="fas fa-calculator mr-2"></i>
+                                💰 Kosten für Ihren Cannabinoid-Reduktionsplan (8 Wochen)
+                            </h4>
+                            <p class="text-sm mb-3 text-gray-700">
+                                <strong>Grundlage der Berechnung:</strong><br>
+                                • Eine 3 g-Spritze enthält ca. 3 000 mg Cannabinoide<br>
+                                • Endkundenpreis: <strong class="text-orange-900">99 € inkl. MwSt.</strong><br>
+                                • Durchschnittsverbrauch laut 8-Wochen-Plan: <strong class="text-orange-900">2,1 g = 2 100 mg</strong>
+                            </p>
+                            
+                            <!-- Tabelle -->
+                            <div class="overflow-x-auto mb-3">
+                                <table class="w-full text-sm border-collapse">
+                                    <thead>
+                                        <tr class="bg-teal-700 text-white">
+                                            <th class="border border-teal-600 p-2 text-left">Dosisbereich</th>
+                                            <th class="border border-teal-600 p-2 text-center">Ø Tagesdosis (mg)</th>
+                                            <th class="border border-teal-600 p-2 text-center">Gesamtbedarf (mg)</th>
+                                            <th class="border border-teal-600 p-2 text-center">Benötigte Paste (g)</th>
+                                            <th class="border border-teal-600 p-2 text-right">Geschätzte Kosten (€)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white">
+                                        <tr>
+                                            <td class="border border-gray-300 p-2"><strong>Niedrig</strong></td>
+                                            <td class="border border-gray-300 p-2 text-center">20 mg/Tag</td>
+                                            <td class="border border-gray-300 p-2 text-center">1 120 mg</td>
+                                            <td class="border border-gray-300 p-2 text-center">1,1 g</td>
+                                            <td class="border border-gray-300 p-2 text-right font-bold text-teal-700">≈ 37 €</td>
+                                        </tr>
+                                        <tr class="bg-gray-50">
+                                            <td class="border border-gray-300 p-2"><strong>Mittel</strong></td>
+                                            <td class="border border-gray-300 p-2 text-center">40 mg/Tag</td>
+                                            <td class="border border-gray-300 p-2 text-center">2 240 mg</td>
+                                            <td class="border border-gray-300 p-2 text-center">2,2 g</td>
+                                            <td class="border border-gray-300 p-2 text-right font-bold text-teal-700">≈ 73 €</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 p-2"><strong>Hoch</strong></td>
+                                            <td class="border border-gray-300 p-2 text-center">70 mg/Tag</td>
+                                            <td class="border border-gray-300 p-2 text-center">3 920 mg</td>
+                                            <td class="border border-gray-300 p-2 text-center">3,9 g</td>
+                                            <td class="border border-gray-300 p-2 text-right font-bold text-teal-700">≈ 129 €</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <p class="text-xs text-gray-600 mb-2">
+                                <strong>Berechnungsbasis:</strong> Preis = (Verbrauch in g ÷ 3 g) × 99 €
+                            </p>
+                            
+                            <div class="bg-white p-3 rounded border border-orange-200">
+                                <p class="text-sm text-gray-700 mb-2">
+                                    <strong>💬 Erläuterung:</strong>
                                 </p>
-                            </div>
-                            <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
-                                <h4 class="font-bold text-blue-900 mb-2">
-                                    <i class="fas fa-hospital mr-2"></i>
-                                    Krankenkasse:
-                                </h4>
-                                <p class="text-sm mb-2"><strong>Leider meist NEIN:</strong></p>
-                                <ul class="text-sm space-y-1">
-                                    <li>• Cannabinoid-Präparate als Nahrungsergänzungsmittel: <strong>Keine Kostenübernahme</strong></li>
-                                    <li>• Medizinisches Cannabis (THC-haltig): Kann verschrieben werden, aber hohe Hürden</li>
-                                    <li>• Private Krankenversicherungen: Einzelfallentscheidung</li>
+                                <ul class="text-xs text-gray-600 space-y-1">
+                                    <li>• Der Preis bezieht sich auf den tatsächlichen Verbrauch während des <strong>8-Wochen-Ausschleichplans</strong></li>
+                                    <li>• Je nach Steigerungsplan, Körpergewicht und individueller Reaktion kann der Verbrauch leicht variieren</li>
+                                    <li>• Da eine 3 g-Spritze etwa 2,1 g für den gesamten 8-Wochen-Plan abdeckt, liegen die tatsächlichen Gesamtkosten bei ca. <strong class="text-teal-700">70 – 75 €</strong> für den gesamten Plan</li>
+                                    <li>• Eventuelle Restmengen können für eine Erhaltungs- oder Verlängerungsphase genutzt werden</li>
                                 </ul>
                             </div>
+                            
+                            <p class="text-xs text-gray-500 mt-3 italic">
+                                Die Kosten werden automatisch anhand der errechneten Verbrauchsmenge Ihres persönlichen Dosierungsplans berechnet. Grundlage ist der jeweils aktuelle Endkundenpreis der 3 g-Spritze (99 € inkl. MwSt.).
+                            </p>
+                            
+                            <p class="text-xs text-gray-500 mt-2">
+                                Berechnung dient als Beispiel. Tatsächliche Kosten können je nach Hersteller, Konzentration und individueller Dosierung leicht abweichen.
+                            </p>
+                        </div>
+                        
+                        <!-- Krankenkasse Info -->
+                        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500 mb-4">
+                            <h4 class="font-bold text-blue-900 mb-2">
+                                <i class="fas fa-hospital mr-2"></i>
+                                Krankenkasse:
+                            </h4>
+                            <p class="text-sm mb-2"><strong>Leider meist NEIN:</strong></p>
+                            <ul class="text-sm space-y-1">
+                                <li>• Cannabinoid-Präparate als Nahrungsergänzungsmittel: <strong>Keine Kostenübernahme</strong></li>
+                                <li>• Medizinisches Cannabis (THC-haltig): Kann verschrieben werden, aber hohe Hürden</li>
+                                <li>• Private Krankenversicherungen: Einzelfallentscheidung</li>
+                            </ul>
                         </div>
                         <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
                             <h5 class="font-bold text-green-900 mb-2">
