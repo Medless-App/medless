@@ -987,58 +987,66 @@ app.get('/', (c) => {
                         </div>
                         
                         <!-- NEW: Positive Drug Interactions Highlight -->
-                        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 p-6 rounded-lg border-l-4 border-emerald-500 mb-6">
-                            <h4 class="font-semibold text-gray-900 mb-3 text-base flex items-center gap-2">
-                                <span class="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xs">+</span>
-                                Der überraschende Vorteil: Wechselwirkungen können auch positiv sein!
+                        <!-- TYPOGRAFISCHE HIERARCHIE: H2 (24px) → H3 (18px) → Text (16px) -->
+                        
+                        <!-- H2-Überschrift mit Icon -->
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                            <i class="fas fa-lightbulb text-emerald-600"></i>
+                            Wechselwirkungen: Warum sie manchmal nützlich sein können
+                        </h3>
+                        
+                        <!-- Einleitungstext (text-base = 16px) -->
+                        <p class="text-gray-700 text-base mb-6 leading-relaxed">
+                            Viele Menschen sorgen sich wegen Wechselwirkungen zwischen Cannabinoiden und Medikamenten. Tatsächlich können diese Effekte – richtig überwacht – manchmal sogar hilfreich sein, weil sie die Wirkstoffkonzentration im Blut beeinflussen.
+                        </p>
+                        
+                        <!-- HAUPTINFOBOX: Grün, prominenter als Beispiel -->
+                        <div class="bg-emerald-50 p-6 rounded-lg border-l-4 border-emerald-400 mb-8">
+                            <h4 class="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                                <i class="fas fa-dna text-emerald-600"></i>
+                                So funktioniert's
                             </h4>
-                            <p class="text-gray-700 text-sm mb-3 leading-relaxed">
-                                Sie haben richtig gehört: Die oft gefürchteten <strong>Wechselwirkungen zwischen Cannabinoiden und Medikamenten</strong> haben auch eine <strong>positive Seite</strong>, die gezielt zur Medikamenten-Reduktion genutzt werden kann.
+                            <p class="text-base text-gray-700 mb-4 leading-relaxed">
+                                Cannabinoide können bestimmte Leber-Enzyme (CYP450-System) hemmen, die für den Abbau vieler Medikamente zuständig sind. Dadurch gilt:
+                            </p>
+                            <ul class="text-base text-gray-700 space-y-3">
+                                <li class="flex items-start">
+                                    <span class="text-emerald-600 mr-3 mt-1 text-lg">✓</span>
+                                    <span>Medikamente bleiben länger im Blut – die Wirkzeit verlängert sich</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-emerald-600 mr-3 mt-1 text-lg">✓</span>
+                                    <span>Dosierung kann angepasst werden – bei gleicher oder besserer Wirkung</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-emerald-600 mr-3 mt-1 text-lg">✓</span>
+                                    <span>Weniger Belastung für Leber und Nieren</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- PRAXIS-BEISPIEL: Leichter, sekundär -->
+                        <div class="bg-white p-6 rounded-lg border border-emerald-200 mb-8">
+                            <h4 class="text-lg font-semibold text-emerald-900 mb-3">
+                                Praxis-Beispiel: Clobazam (Frisium®) und Cannabinoide
+                            </h4>
+                            <p class="text-base text-gray-700 mb-3 leading-relaxed">
+                                Clobazam wird häufig bei Epilepsie eingesetzt. Studien zeigen, dass Cannabinoide den Abbau des Wirkstoffs in der Leber verlangsamen können. Dadurch steigt der Anteil des aktiven Abbauprodukts, und die Wirkung kann sich verstärken.
+                            </p>
+                            <p class="text-base text-gray-700 mb-5 leading-relaxed">
+                                Ärztinnen und Ärzte passen in solchen Fällen oft die Dosis an, um Müdigkeit oder Benommenheit zu vermeiden.
                             </p>
                             
-                            <div class="bg-white p-4 rounded-lg mb-3">
-                                <h5 class="font-semibold text-gray-900 mb-2 text-sm">So funktioniert's:</h5>
-                                <p class="text-xs text-gray-700 mb-2">
-                                    Cannabinoide hemmen bestimmte <strong>Leber-Enzyme (CYP450-System)</strong>, die für den Abbau von etwa <strong>60% aller Medikamente</strong> verantwortlich sind. Das bedeutet:
+                            <!-- WARNBOX: Kompakt innerhalb Beispiel -->
+                            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
+                                <p class="text-base text-red-700 font-semibold mb-2 flex items-center gap-2">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Wichtig
                                 </p>
-                                <ul class="text-xs text-gray-700 space-y-1.5 ml-4">
-                                    <li class="flex items-start">
-                                        <span class="text-emerald-600 mr-2 mt-0.5">✓</span>
-                                        <span><strong>Medikamente bleiben länger im Blut</strong> – die Wirkdauer verlängert sich</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="text-emerald-600 mr-2 mt-0.5">✓</span>
-                                        <span><strong>Dosierung kann reduziert werden</strong> – bei gleicher oder besserer Wirkung</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="text-emerald-600 mr-2 mt-0.5">✓</span>
-                                        <span><strong>Weniger Medikament = weniger Belastung</strong> für Leber und Nieren</span>
-                                    </li>
-                                </ul>
+                                <p class="text-base text-red-700 leading-relaxed">
+                                    Cannabinoide dürfen bei Clobazam-Therapie nur in ärztlicher Absprache eingesetzt werden. Medikamente niemals eigenmächtig ändern oder absetzen.
+                                </p>
                             </div>
-                            
-                            <div class="bg-emerald-100 p-4 rounded-lg">
-                                <h5 class="font-semibold text-emerald-900 mb-2 text-sm">Praxis-Beispiel: Clobazam (Frisium®) und Cannabinoide</h5>
-                                <p class="text-xs text-gray-700 mb-2">
-                                    Clobazam wird häufig bei <strong>Epilepsie</strong> eingesetzt. Studien zeigen, dass Cannabinoide den <strong>Abbau des Wirkstoffs in der Leber verlangsamen</strong> können. Dadurch steigt der Anteil des aktiven Abbauprodukts im Blut, und die Wirkung kann sich verstärken.
-                                </p>
-                                <p class="text-xs text-gray-700 mb-3">
-                                    Typische Begleiterscheinungen sind stärkere Müdigkeit oder Benommenheit, weshalb Ärztinnen und Ärzte in solchen Fällen oft die <strong>Clobazam-Dosis anpassen</strong>.
-                                </p>
-                                <div class="bg-red-50 border-l-3 border-red-500 p-3 rounded">
-                                    <p class="text-xs text-red-900 font-semibold mb-1">
-                                        <i class="fas fa-exclamation-triangle mr-1"></i>
-                                        Wichtig:
-                                    </p>
-                                    <p class="text-xs text-red-800">
-                                        Cannabinoide dürfen bei Clobazam-Therapie nur in <strong>ärztlicher Absprache</strong> eingesetzt werden. Bei verstärkter Müdigkeit oder Schwindel immer Rücksprache halten – <strong>Medikamente niemals eigenmächtig verändern</strong>.
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <p class="text-xs text-gray-600 mt-3 italic">
-                                <strong>Wichtig:</strong> Unser Tool berechnet genau diese Wechselwirkungen mit ein und passt die Cannabinoid-Startdosis entsprechend an. So nutzen wir die positive Seite der Wechselwirkungen für eine sichere Medikamenten-Reduktion.
-                            </p>
                         </div>
                         
                         <div class="info-box p-5 rounded-lg">
