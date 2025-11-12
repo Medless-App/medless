@@ -1001,7 +1001,7 @@ app.get('/', (c) => {
                                 Das Ziel: Medikamenten-Reduktion durch starkes ECS
                             </h4>
                             <p class="text-gray-700 text-sm">
-                                Wenn Ihr ECS wieder stark ist, kann Ihr Körper <strong>viele Funktionen selbst übernehmen</strong>, die heute Medikamente erfüllen. Unter ärztlicher Begleitung können Sie so Schritt für Schritt <strong>Ihre Medikation reduzieren oder sogar ausschleichen</strong>.
+                                Wenn Ihr Endocannabinoid-System wieder <strong>im Gleichgewicht ist</strong>, kann Ihr Körper viele Aufgaben selbst regulieren – also genau die Prozesse, für die heute oft Medikamente notwendig sind. Unter ärztlicher Begleitung können Sie so Schritt für Schritt <strong>Ihre Medikation reduzieren oder sogar ausschleichen</strong>.
                             </p>
                         </div>
                     </div>
