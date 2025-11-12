@@ -519,7 +519,7 @@ app.get('/', (c) => {
                                 Die zentrale Frage:
                             </p>
                             <p class="text-gray-900 text-lg font-medium">
-                                "Wie kann ich meine Abhängigkeit von Medikamenten verringern – natürlich und ohne Risiko?"
+                                "Wie kann ich Schritt für Schritt weniger Medikamente nehmen – mit natürlicher Unterstützung durch mein Endocannabinoid-System?"
                             </p>
                         </div>
                     </div>
