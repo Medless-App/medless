@@ -659,23 +659,246 @@ app.get('/', (c) => {
                             Wenn Ihr Körper vorübergehend nicht genügend eigene Endocannabinoide zur Verfügung hat, können <strong>exogene Cannabinoide</strong> (von außen zugeführt) das System unterstützen. Diese Pflanzenstoffe binden an ähnliche Rezeptoren oder beeinflussen dieselben Signalwege wie körpereigene Endocannabinoide – und können so helfen, die <strong>ECS-Aktivität zu modulieren</strong>.
                         </p>
                         
-                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-6">
-                            <h3 class="font-semibold text-gray-900 mb-4 text-base">
-                                Wissenschaftlich belegt:
-                            </h3>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div class="border-l-3 border-teal-600 pl-4">
-                                    <p class="font-semibold text-gray-900 mb-1 text-sm">Schmerzreduktion</p>
-                                    <p class="text-xs text-gray-600">CBD aktiviert Schmerz-Rezeptoren und hemmt Entzündungen</p>
-                                </div>
-                                <div class="border-l-3 border-teal-600 pl-4">
-                                    <p class="font-semibold text-gray-900 mb-1 text-sm">Angstlösung</p>
-                                    <p class="text-xs text-gray-600">Aktiviert Serotonin-Rezeptoren, reduziert Stresshormone</p>
-                                </div>
-                                <div class="border-l-3 border-teal-600 pl-4">
-                                    <p class="font-semibold text-gray-900 mb-1 text-sm">Schlafverbesserung</p>
-                                    <p class="text-xs text-gray-600">Reguliert Schlaf-Wach-Rhythmus über ECS</p>
-                                </div>
+                        <!-- Scientific Evidence Section - Expanded 10 Points -->
+                        <div class="bg-gradient-to-br from-teal-50 to-emerald-50 p-8 rounded-xl border-2 border-teal-200 mb-6 shadow-sm">
+                            <div class="text-center mb-6">
+                                <h3 class="text-2xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
+                                    <span class="text-3xl">🧬</span>
+                                    Wissenschaftlich belegt – einfach erklärt
+                                </h3>
+                                <p class="text-sm text-gray-600 italic">Klicken Sie auf einen Bereich, um mehr zu erfahren</p>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <!-- 1. Schmerzregulation -->
+                                <details class="bg-white rounded-lg shadow-sm border border-teal-100 overflow-hidden group">
+                                    <summary class="cursor-pointer p-4 hover:bg-teal-50 transition-colors list-none">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl flex-shrink-0">💊</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 text-sm">1. Schmerzregulation</h4>
+                                                <p class="text-xs text-gray-500 mt-0.5">Bremst Schmerzsignale im Nervensystem</p>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-teal-600 text-xs group-open:rotate-180 transition-transform"></i>
+                                        </div>
+                                    </summary>
+                                    <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                                            Cannabinoide helfen dem Körper, <strong>Schmerzsignale zu bremsen</strong>. Sie unterstützen das Nervensystem dabei, Reize weniger stark wahrzunehmen und Entzündungen zu verringern.
+                                        </p>
+                                        <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
+                                            <span class="text-emerald-600">🟢</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Starowicz & Finn, British Journal of Pharmacology, 2017</span>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <!-- 2. Entzündungshemmung -->
+                                <details class="bg-white rounded-lg shadow-sm border border-teal-100 overflow-hidden group">
+                                    <summary class="cursor-pointer p-4 hover:bg-teal-50 transition-colors list-none">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl flex-shrink-0">🔥</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 text-sm">2. Entzündungshemmung</h4>
+                                                <p class="text-xs text-gray-500 mt-0.5">Beruhigt überaktive Immunreaktionen</p>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-teal-600 text-xs group-open:rotate-180 transition-transform"></i>
+                                        </div>
+                                    </summary>
+                                    <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                                            Sie beruhigen <strong>überaktive Immunreaktionen</strong> und können Schwellungen oder Entzündungen im Körper mildern – egal ob in Gelenken, Muskeln oder Organen.
+                                        </p>
+                                        <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
+                                            <span class="text-emerald-600">🟢</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Nagarkatti et al., Future Medicinal Chemistry, 2009</span>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <!-- 3. Angst & innere Ruhe -->
+                                <details class="bg-white rounded-lg shadow-sm border border-teal-100 overflow-hidden group">
+                                    <summary class="cursor-pointer p-4 hover:bg-teal-50 transition-colors list-none">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl flex-shrink-0">🧘</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 text-sm">3. Angst & innere Ruhe</h4>
+                                                <p class="text-xs text-gray-500 mt-0.5">Fördert Serotonin-Bildung</p>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-teal-600 text-xs group-open:rotate-180 transition-transform"></i>
+                                        </div>
+                                    </summary>
+                                    <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                                            Cannabinoide wirken ausgleichend auf <strong>Stresshormone</strong> und fördern die Bildung von <strong>Serotonin</strong> – dem „Wohlfühlbotenstoff". Dadurch können sich innere Unruhe, Nervosität oder Angstgefühle spürbar verringern.
+                                        </p>
+                                        <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
+                                            <span class="text-emerald-600">🟢</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Blessing et al., Neurotherapeutics, 2015</span>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <!-- 4. Schlafqualität -->
+                                <details class="bg-white rounded-lg shadow-sm border border-teal-100 overflow-hidden group">
+                                    <summary class="cursor-pointer p-4 hover:bg-teal-50 transition-colors list-none">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl flex-shrink-0">😴</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 text-sm">4. Schlafqualität</h4>
+                                                <p class="text-xs text-gray-500 mt-0.5">Stabilisiert Tag-Nacht-Rhythmus</p>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-teal-600 text-xs group-open:rotate-180 transition-transform"></i>
+                                        </div>
+                                    </summary>
+                                    <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                                            Das Endocannabinoid-System (ECS) hilft, den <strong>Tag-Nacht-Rhythmus zu stabilisieren</strong>. Wenn es gut arbeitet, fällt das Einschlafen leichter und der Schlaf wird tiefer und erholsamer.
+                                        </p>
+                                        <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
+                                            <span class="text-emerald-600">🟢</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Babson et al., Current Psychiatry Reports, 2017</span>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <!-- 5. Stimmung & Wohlbefinden -->
+                                <details class="bg-white rounded-lg shadow-sm border border-teal-100 overflow-hidden group">
+                                    <summary class="cursor-pointer p-4 hover:bg-teal-50 transition-colors list-none">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl flex-shrink-0">😊</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 text-sm">5. Stimmung & Wohlbefinden</h4>
+                                                <p class="text-xs text-gray-500 mt-0.5">Gleicht Emotionen aus</p>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-teal-600 text-xs group-open:rotate-180 transition-transform"></i>
+                                        </div>
+                                    </summary>
+                                    <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                                            Ein gut funktionierendes ECS hält <strong>Emotionen im Gleichgewicht</strong>. Cannabinoide unterstützen dabei, Stimmungsschwankungen auszugleichen und das allgemeine Wohlbefinden zu verbessern.
+                                        </p>
+                                        <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
+                                            <span class="text-emerald-600">🟢</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Hill & Gorzalka, Neuroscience & Biobehavioral Reviews, 2009</span>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <!-- 6. Immunsystem -->
+                                <details class="bg-white rounded-lg shadow-sm border border-teal-100 overflow-hidden group">
+                                    <summary class="cursor-pointer p-4 hover:bg-teal-50 transition-colors list-none">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl flex-shrink-0">🛡️</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 text-sm">6. Immunsystem</h4>
+                                                <p class="text-xs text-gray-500 mt-0.5">Reguliert Abwehrreaktionen</p>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-teal-600 text-xs group-open:rotate-180 transition-transform"></i>
+                                        </div>
+                                    </summary>
+                                    <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                                            Cannabinoide können <strong>Abwehrreaktionen regulieren</strong> – sie bremsen, wenn das Immunsystem zu stark reagiert, und aktivieren, wenn Unterstützung gebraucht wird.
+                                        </p>
+                                        <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
+                                            <span class="text-emerald-600">🟢</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Klein, Nature Reviews Immunology, 2005</span>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <!-- 7. Temperaturregulation -->
+                                <details class="bg-white rounded-lg shadow-sm border border-teal-100 overflow-hidden group">
+                                    <summary class="cursor-pointer p-4 hover:bg-teal-50 transition-colors list-none">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl flex-shrink-0">🌡️</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 text-sm">7. Temperaturregulation</h4>
+                                                <p class="text-xs text-gray-500 mt-0.5">Hält innere Temperatur konstant</p>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-teal-600 text-xs group-open:rotate-180 transition-transform"></i>
+                                        </div>
+                                    </summary>
+                                    <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                                            Das ECS hilft dem Körper, die <strong>innere Temperatur konstant zu halten</strong>. Cannabinoide unterstützen diese natürliche Balance – besonders bei Stress, Fieber oder hormonellen Schwankungen.
+                                        </p>
+                                        <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
+                                            <span class="text-emerald-600">🟢</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Pacher et al., Pharmacological Reviews, 2006</span>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <!-- 8. Verdauung & Appetit -->
+                                <details class="bg-white rounded-lg shadow-sm border border-teal-100 overflow-hidden group">
+                                    <summary class="cursor-pointer p-4 hover:bg-teal-50 transition-colors list-none">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl flex-shrink-0">🍽️</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 text-sm">8. Verdauung & Appetit</h4>
+                                                <p class="text-xs text-gray-500 mt-0.5">Harmonisiert Magen-Darm-Trakt</p>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-teal-600 text-xs group-open:rotate-180 transition-transform"></i>
+                                        </div>
+                                    </summary>
+                                    <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                                            Cannabinoide wirken auf <strong>Rezeptoren im Magen-Darm-Trakt</strong> und können Übelkeit verringern, den Appetit regulieren und die Verdauung harmonisieren.
+                                        </p>
+                                        <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
+                                            <span class="text-emerald-600">🟢</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Izzo & Sharkey, Nature Reviews Gastroenterology & Hepatology, 2010</span>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <!-- 9. Stressbewältigung -->
+                                <details class="bg-white rounded-lg shadow-sm border border-teal-100 overflow-hidden group">
+                                    <summary class="cursor-pointer p-4 hover:bg-teal-50 transition-colors list-none">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl flex-shrink-0">🌊</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 text-sm">9. Stressbewältigung</h4>
+                                                <p class="text-xs text-gray-500 mt-0.5">Beendet Stressreaktionen schneller</p>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-teal-600 text-xs group-open:rotate-180 transition-transform"></i>
+                                        </div>
+                                    </summary>
+                                    <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                                            Das ECS hilft, <strong>Stressreaktionen schneller zu beenden</strong>, damit der Körper nach Belastungen wieder in die Ruhe kommt. Cannabinoide unterstützen diesen natürlichen Erholungsprozess.
+                                        </p>
+                                        <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
+                                            <span class="text-emerald-600">🟢</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Patel et al., Neuropharmacology, 2009</span>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <!-- 10. Körperliche Balance (Homöostase) -->
+                                <details class="bg-white rounded-lg shadow-sm border border-teal-100 overflow-hidden group">
+                                    <summary class="cursor-pointer p-4 hover:bg-teal-50 transition-colors list-none">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl flex-shrink-0">⚖️</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 text-sm">10. Körperliche Balance (Homöostase)</h4>
+                                                <p class="text-xs text-gray-500 mt-0.5">Inneres Gleichgewichtssystem</p>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-teal-600 text-xs group-open:rotate-180 transition-transform"></i>
+                                        </div>
+                                    </summary>
+                                    <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                                            Das Endocannabinoid-System ist wie ein <strong>inneres Gleichgewichtssystem</strong>: Es sorgt dafür, dass alles im Körper miteinander im Einklang bleibt – Herz, Hormone, Immunsystem, Schlaf, Stimmung und Energie.
+                                        </p>
+                                        <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
+                                            <span class="text-emerald-600">🟢</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Pacher, Bátkai & Kunos, Pharmacological Reviews, 2006</span>
+                                        </div>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                         
