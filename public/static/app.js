@@ -1044,7 +1044,7 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
     doc.text('Gesamt t\u00e4glich', 130, yPos);
     doc.text('Hinweise', 170, yPos);
     
-    yPos += 7;"}
+    yPos += 7;
     
     // === TAGESZEILEN (STANDARD: nur eine Erhöhungszeile pro Woche für Woche 1-3) ===
     doc.setFontSize(8);
