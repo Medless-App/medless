@@ -452,15 +452,15 @@ app.get('/', (c) => {
                 <div class="flex items-center justify-between">
                     <div>
                         <h1 class="text-4xl font-bold mb-2">
-                            <i class="fas fa-cannabis mr-3"></i>
+                            <i class="fas fa-leaf mr-3"></i>
                             ECS Aktivierung
                         </h1>
-                        <p class="text-purple-100 text-lg">Ihr persönlicher CBD-Paste 70% Dosierungsplan</p>
+                        <p class="text-purple-100 text-lg">Ihr Weg zu weniger Medikamenten durch ein starkes Endocannabinoid-System</p>
                     </div>
                     <div class="text-right">
                         <div class="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
-                            <i class="fas fa-syringe mr-2"></i>
-                            <span class="text-sm">CBD-Paste 70%</span>
+                            <i class="fas fa-heart-pulse mr-2"></i>
+                            <span class="text-sm">Medikamenten-Reduktion</span>
                         </div>
                     </div>
                 </div>
@@ -469,129 +469,326 @@ app.get('/', (c) => {
 
         <div class="max-w-6xl mx-auto px-4 py-8">
             
-            <!-- Product Info Box -->
-            <div class="bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 p-6 mb-8 rounded-xl shadow-lg fade-in">
+            <!-- Hero Section: The Problem -->
+            <div class="bg-gradient-to-r from-red-50 to-orange-50 border-l-4 border-red-400 p-8 mb-8 rounded-xl shadow-lg fade-in">
                 <div class="flex items-start">
-                    <i class="fas fa-syringe text-purple-600 text-3xl mr-4 mt-1"></i>
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-800 mb-2">
-                            Verwendetes Produkt: CBD-Paste 70%
-                        </h2>
-                        <div class="grid md:grid-cols-3 gap-4 text-sm">
-                            <div>
-                                <span class="font-semibold">Verpackung:</span> 3g Spritze mit 30 Teilstrichen
-                            </div>
-                            <div>
-                                <span class="font-semibold">Konzentration:</span> 1 Teilstrich (1.5 cm) = 70 mg CBD
-                            </div>
-                            <div>
-                                <span class="font-semibold">Einnahme:</span> Sublingual (unter die Zunge, 2-3 Min)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Mission Statement -->
-            <div class="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 p-8 mb-8 rounded-xl shadow-lg fade-in">
-                <div class="flex items-start">
-                    <i class="fas fa-heart text-green-600 text-4xl mr-6 mt-1"></i>
+                    <i class="fas fa-pills text-red-500 text-5xl mr-6 mt-2"></i>
                     <div class="w-full">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">
-                            <i class="fas fa-seedling mr-2"></i>
-                            Ihr Weg zu weniger Tabletten - natürlich mit CBD-Paste
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                            💊 Zu viele Tabletten? Sie sind nicht allein.
                         </h2>
-                        <p class="text-gray-700 text-lg mb-4 leading-relaxed">
-                            <strong>Viele Menschen wünschen sich, von ihrer Medikation loszukommen.</strong> Diese Plattform bietet Ihnen einen wissenschaftlich fundierten Ansatz, um Ihr <strong>Endocannabinoid-System (ECS)</strong> mit hochkonzentrierter CBD-Paste 70% zu stärken.
+                        <p class="text-gray-800 text-lg mb-4 leading-relaxed">
+                            Millionen Menschen in Deutschland nehmen täglich Medikamente – oft mehrere gleichzeitig. Viele möchten ihre <strong>Medikation reduzieren</strong> oder sogar <strong>komplett ausschleichen</strong>, wissen aber nicht, wie sie das sicher angehen können.
                         </p>
-                        
-                        <div class="bg-white/70 p-4 rounded-lg mb-4">
-                            <h3 class="font-bold text-gray-800 mb-2">
-                                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
-                                Warum CBD-Paste 70%?
-                            </h3>
-                            <p class="text-gray-700 mb-2">
-                                Hochkonzentrierte CBD-Paste ermöglicht <strong>präzise Dosierung in kleinen Mengen</strong>. Mit der Spritze können Sie genau ablesen, wie viel CBD Sie einnehmen - ideal für individuelle Anpassungen an Ihr Körpergewicht und Ihre Medikation.
+                        <div class="bg-white p-5 rounded-lg border-l-4 border-orange-400">
+                            <p class="text-gray-800 font-semibold mb-2">
+                                <i class="fas fa-question-circle text-orange-500 mr-2"></i>
+                                Die zentrale Frage:
+                            </p>
+                            <p class="text-gray-700 text-lg">
+                                <strong>"Wie kann ich meine Abhängigkeit von Medikamenten verringern – natürlich und ohne Risiko?"</strong>
                             </p>
                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- The Solution: Strong ECS -->
+            <div class="bg-gradient-to-r from-green-50 to-teal-50 border-2 border-green-300 p-8 mb-8 rounded-xl shadow-lg fade-in">
+                <div class="flex items-start">
+                    <i class="fas fa-heart-pulse text-green-600 text-5xl mr-6 mt-2"></i>
+                    <div class="w-full">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                            🌿 Die Lösung: Ein starkes Endocannabinoid-System (ECS)
+                        </h2>
+                        <p class="text-gray-800 text-lg mb-4 leading-relaxed">
+                            Ihr Körper besitzt das <strong>stärkste Regulationssystem</strong>, das die Wissenschaft kennt: das <strong>Endocannabinoid-System (ECS)</strong>. Es steuert Schmerz, Stimmung, Schlaf, Immunsystem und vieles mehr – <strong>die gleichen Funktionen, für die Sie heute Medikamente nehmen.</strong>
+                        </p>
                         
-                        <div class="grid md:grid-cols-3 gap-4 mt-4">
-                            <div class="bg-green-100 p-4 rounded-lg">
-                                <i class="fas fa-pills text-green-600 text-2xl mb-2"></i>
-                                <h4 class="font-bold text-gray-800 mb-1">Medikamente reduzieren</h4>
-                                <p class="text-sm text-gray-700">CBD-Paste kann beim Ausschleichen von Medikamenten unterstützen - mit präziser Dosierung</p>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-white p-5 rounded-lg shadow">
+                                <h3 class="font-bold text-green-800 mb-3 text-lg">
+                                    <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                                    Ein gesundes ECS kann:
+                                </h3>
+                                <ul class="text-gray-700 space-y-2">
+                                    <li><i class="fas fa-arrow-right text-green-500 mr-2"></i> <strong>Schmerzen natürlich regulieren</strong> (statt Schmerzmittel)</li>
+                                    <li><i class="fas fa-arrow-right text-green-500 mr-2"></i> <strong>Stimmung stabilisieren</strong> (statt Antidepressiva)</li>
+                                    <li><i class="fas fa-arrow-right text-green-500 mr-2"></i> <strong>Schlaf verbessern</strong> (statt Schlafmittel)</li>
+                                    <li><i class="fas fa-arrow-right text-green-500 mr-2"></i> <strong>Entzündungen hemmen</strong> (statt Cortison)</li>
+                                    <li><i class="fas fa-arrow-right text-green-500 mr-2"></i> <strong>Immunsystem stärken</strong> (statt Immunsuppressiva)</li>
+                                </ul>
                             </div>
-                            <div class="bg-blue-100 p-4 rounded-lg">
-                                <i class="fas fa-brain text-blue-600 text-2xl mb-2"></i>
-                                <h4 class="font-bold text-gray-800 mb-1">ECS aktivieren</h4>
-                                <p class="text-sm text-gray-700">Ihr Endocannabinoid-System wird durch regelmäßige Einnahme optimal unterstützt</p>
+                            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-400 shadow">
+                                <h3 class="font-bold text-red-800 mb-3 text-lg">
+                                    <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>
+                                    Aber: Modernes Leben schwächt Ihr ECS
+                                </h3>
+                                <ul class="text-gray-700 space-y-2">
+                                    <li><i class="fas fa-times text-red-500 mr-2"></i> <strong>Medikamente</strong> stören ECS-Funktion</li>
+                                    <li><i class="fas fa-times text-red-500 mr-2"></i> <strong>Chronischer Stress</strong> erschöpft Endocannabinoide</li>
+                                    <li><i class="fas fa-times text-red-500 mr-2"></i> <strong>Schlechte Ernährung</strong> (Omega-6-Überschuss)</li>
+                                    <li><i class="fas fa-times text-red-500 mr-2"></i> <strong>Bewegungsmangel</strong> reduziert ECS-Aktivität</li>
+                                    <li><i class="fas fa-times text-red-500 mr-2"></i> <strong>Umweltgifte</strong> (Pestizide, Plastik)</li>
+                                </ul>
                             </div>
-                            <div class="bg-purple-100 p-4 rounded-lg">
-                                <i class="fas fa-syringe text-purple-600 text-2xl mb-2"></i>
-                                <h4 class="font-bold text-gray-800 mb-1">Präzise Dosierung</h4>
-                                <p class="text-sm text-gray-700">Mit der Spritze dosieren Sie auf 0.05 cm genau - angepasst an Ihr Gewicht und Alter</p>
-                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-blue-100 to-purple-100 p-6 rounded-lg border-2 border-blue-300">
+                            <h3 class="font-bold text-gray-900 mb-3 text-xl">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                                Die wissenschaftliche Erkenntnis:
+                            </h3>
+                            <p class="text-gray-800 text-lg leading-relaxed">
+                                Ein <strong>geschwächtes ECS</strong> führt zu einer <strong>klinischen Endocannabinoid-Defizienz (CED)</strong> – Ihr Körper kann sich nicht mehr selbst regulieren. Die Folge: <strong>Sie brauchen Medikamente für Funktionen, die Ihr Körper eigentlich selbst übernehmen könnte.</strong>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Disclaimer -->
-            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 mb-8 rounded-lg shadow fade-in">
+            <!-- The Method: Exogenous Cannabinoids -->
+            <div class="bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-300 p-8 mb-8 rounded-xl shadow-lg fade-in">
                 <div class="flex items-start">
-                    <i class="fas fa-exclamation-triangle text-yellow-600 text-2xl mr-4 mt-1"></i>
-                    <div>
-                        <h3 class="text-lg font-bold text-yellow-800 mb-2">
-                            <i class="fas fa-file-medical mr-2"></i>
-                            Wichtiger medizinischer Hinweis
-                        </h3>
-                        <p class="text-yellow-700 mb-2">
-                            Dieser CBD-Paste Dosierungsplan ist <strong>KEINE medizinische Beratung</strong> und ersetzt nicht das Gespräch mit Ihrem Arzt oder Apotheker. <strong>Produkt: CBD-Paste 70%</strong> in 3g Spritze mit 30 Teilstrichen (1 Teilstrich = 1.5 cm = 70 mg CBD). <strong>Einnahme:</strong> Sublingual unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken.
+                    <i class="fas fa-leaf text-purple-600 text-5xl mr-6 mt-2"></i>
+                    <div class="w-full">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                            🧬 Der Weg: Exogene Cannabinoide stärken Ihr ECS
+                        </h2>
+                        <p class="text-gray-800 text-lg mb-4 leading-relaxed">
+                            Wenn Ihr Körper nicht genug <strong>eigene Endocannabinoide</strong> produziert, können Sie ihn mit <strong>exogenen Cannabinoiden</strong> (von außen zugeführt) unterstützen. Diese Pflanzenstoffe – wie CBD – wirken <strong>genauso wie körpereigene Endocannabinoide</strong> und helfen Ihrem ECS, seine Funktion wiederzuerlangen.
                         </p>
-                        <ul class="text-yellow-700 space-y-1 ml-6 list-disc">
-                            <li>Konsultieren Sie vor der Einnahme <strong>unbedingt Ihren Arzt</strong></li>
-                            <li>Wechselwirkungen mit Medikamenten können gesundheitsgefährdend sein</li>
-                            <li><strong>Ändern Sie niemals ohne ärztliche Rücksprache Ihre Medikation</strong></li>
-                        </ul>
+                        
+                        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                            <h3 class="font-bold text-purple-900 mb-4 text-xl">
+                                <i class="fas fa-dna text-purple-600 mr-2"></i>
+                                Wissenschaftlich belegt:
+                            </h3>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <p class="font-semibold text-green-700 mb-1">Schmerzreduktion</p>
+                                    <p class="text-sm text-gray-600">CBD aktiviert Schmerz-Rezeptoren und hemmt Entzündungen</p>
+                                </div>
+                                <div class="border-l-4 border-blue-500 pl-4">
+                                    <p class="font-semibold text-blue-700 mb-1">Angstlösung</p>
+                                    <p class="text-sm text-gray-600">Aktiviert Serotonin-Rezeptoren, reduziert Stresshormone</p>
+                                </div>
+                                <div class="border-l-4 border-purple-500 pl-4">
+                                    <p class="font-semibold text-purple-700 mb-1">Schlafverbesserung</p>
+                                    <p class="text-sm text-gray-600">Reguliert Schlaf-Wach-Rhythmus über ECS</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-orange-100 to-yellow-100 p-5 rounded-lg border-l-4 border-orange-400">
+                            <h4 class="font-bold text-gray-900 mb-2">
+                                <i class="fas fa-chart-line text-orange-600 mr-2"></i>
+                                Das Ziel: Medikamenten-Reduktion durch starkes ECS
+                            </h4>
+                            <p class="text-gray-800">
+                                Wenn Ihr ECS wieder stark ist, kann Ihr Körper <strong>viele Funktionen selbst übernehmen</strong>, die heute Medikamente erfüllen. Unter ärztlicher Begleitung können Sie so Schritt für Schritt <strong>Ihre Medikation reduzieren oder sogar ausschleichen</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Our Tool: Safe Entry -->
+            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-300 p-8 mb-8 rounded-xl shadow-lg fade-in">
+                <div class="flex items-start">
+                    <i class="fas fa-shield-heart text-blue-600 text-5xl mr-6 mt-2"></i>
+                    <div class="w-full">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                            📋 Unser Tool: Ihr sicherer Einstieg
+                        </h2>
+                        <p class="text-gray-800 text-lg mb-4 leading-relaxed">
+                            Dieses Tool erstellt Ihnen einen <strong>individualisierten Dosierungsplan</strong> für exogene Cannabinoide (CBD-Paste 70%), der Ihre <strong>aktuelle Medikation, Alter, Gewicht und Körpergröße</strong> berücksichtigt. So können Sie unter ärztlicher Begleitung sicher mit der ECS-Stärkung beginnen.
+                        </p>
+                        
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-white p-4 rounded-lg shadow">
+                                <i class="fas fa-microscope text-blue-600 text-2xl mb-2"></i>
+                                <h4 class="font-bold text-gray-800 mb-2">Medikamenten-Analyse</h4>
+                                <p class="text-sm text-gray-700">Wir prüfen Wechselwirkungen mit Ihren Medikamenten und passen die Startdosis an</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow">
+                                <i class="fas fa-user-md text-green-600 text-2xl mb-2"></i>
+                                <h4 class="font-bold text-gray-800 mb-2">Individuelle Dosierung</h4>
+                                <p class="text-sm text-gray-700">Basierend auf Alter, BMI und Gewicht – wissenschaftlich fundiert</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow">
+                                <i class="fas fa-calendar-check text-purple-600 text-2xl mb-2"></i>
+                                <h4 class="font-bold text-gray-800 mb-2">Tag-für-Tag Plan</h4>
+                                <p class="text-sm text-gray-700">Zweiphasige Strategie: Einschleichphase + Erhaltung für optimale ECS-Unterstützung</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-5 rounded-lg">
+                            <h4 class="font-bold text-yellow-900 mb-2">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
+                                Wichtig: Ärztliche Begleitung erforderlich!
+                            </h4>
+                            <p class="text-yellow-800 mb-2">
+                                Dieser Plan ist <strong>KEINE medizinische Beratung</strong>. Er dient als <strong>Gesprächsgrundlage für Ihr Arztgespräch</strong>. Medikamenten-Reduktion darf <strong>nur unter ärztlicher Aufsicht</strong> erfolgen.
+                            </p>
+                            <ul class="text-yellow-800 space-y-1 ml-6 list-disc text-sm">
+                                <li>Nehmen Sie den Plan zu Ihrem Arzt mit</li>
+                                <li>Ändern Sie niemals ohne Rücksprache Ihre Medikation</li>
+                                <li>Beachten Sie Wechselwirkungen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Info (small, background) -->
+            <div class="bg-gray-50 border border-gray-200 p-4 mb-8 rounded-lg shadow-sm fade-in">
+                <div class="flex items-center">
+                    <i class="fas fa-info-circle text-gray-500 text-xl mr-3"></i>
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-700">
+                            <strong>Verwendetes Produkt:</strong> CBD-Paste 70% (3g Spritze, 30 Teilstriche) | <strong>Einnahme:</strong> Sublingual (unter die Zunge, 2-3 Min)
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <!-- What is ECS Section -->
+            <!-- What is ECS Section - Deep Dive -->
             <div class="bg-white rounded-xl shadow-lg p-8 mb-8 card-hover fade-in">
                 <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
                     <i class="fas fa-brain text-purple-600 mr-3"></i>
-                    Was ist das Endocannabinoid-System (ECS)?
+                    Das ECS: Ihr stärkstes Körpersystem
                 </h2>
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <p class="text-gray-700 mb-4 leading-relaxed">
-                            Das <strong>Endocannabinoid-System (ECS)</strong> ist ein körpereigenes Regulationssystem, das eine zentrale Rolle für Ihre Gesundheit spielt.
-                        </p>
-                        <div class="bg-purple-50 p-4 rounded-lg mb-4">
-                            <h3 class="font-bold text-purple-900 mb-2">
-                                <i class="fas fa-bullseye mr-2"></i>
-                                Funktionen des ECS:
+                        <div class="bg-purple-50 p-5 rounded-lg mb-4 border-l-4 border-purple-500">
+                            <h3 class="font-bold text-purple-900 mb-3 text-lg">
+                                <i class="fas fa-dna mr-2"></i>
+                                Das ECS ist überall in Ihrem Körper:
                             </h3>
                             <ul class="text-gray-700 space-y-2">
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> Schmerzregulierung</li>
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> Stimmung und Emotionen</li>
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> Schlaf-Wach-Rhythmus</li>
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> Immunsystem</li>
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> Appetit und Verdauung</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>Gehirn & Nervensystem</strong> – Schmerz, Stimmung, Gedächtnis</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>Immunsystem</strong> – Entzündungen, Abwehr</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>Verdauungstrakt</strong> – Appetit, Darmmotilität</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>Herz-Kreislauf</strong> – Blutdruck, Herzrhythmus</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>Knochen & Muskeln</strong> – Regeneration, Heilung</li>
                             </ul>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                            <h4 class="font-bold text-blue-900 mb-2">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                                Warum ist das ECS so wichtig?
+                            </h4>
+                            <p class="text-gray-700 text-sm">
+                                Das ECS ist das <strong>Master-Regulationssystem</strong> Ihres Körpers. Es sorgt für <strong>Homöostase</strong> – das innere Gleichgewicht. Wenn das ECS geschwächt ist, gerät Ihr gesamter Körper aus dem Gleichgewicht.
+                            </p>
                         </div>
                     </div>
                     <div>
-                        <div class="bg-gradient-to-br from-purple-100 to-blue-100 p-6 rounded-lg">
-                            <h3 class="font-bold text-gray-800 mb-3">
-                                <i class="fas fa-syringe text-purple-600 mr-2"></i>
-                                Wie CBD-Paste 70% das ECS aktiviert:
+                        <div class="bg-gradient-to-br from-red-50 to-orange-50 p-5 rounded-lg border-2 border-red-300 mb-4">
+                            <h3 class="font-bold text-red-900 mb-3 text-lg">
+                                <i class="fas fa-exclamation-circle mr-2"></i>
+                                Endocannabinoid-Defizienz (CED):
                             </h3>
-                            <p class="text-gray-700 mb-3">
-                                Hochkonzentriertes <strong>Cannabidiol (CBD)</strong> interagiert mit Ihrem ECS und hilft, das Gleichgewicht (Homöostase) wiederherzustellen. Die Paste ermöglicht <strong>präzise, individuelle Dosierung</strong>.
+                            <p class="text-gray-700 mb-3 text-sm leading-relaxed">
+                                Wenn Ihr Körper zu wenig <strong>eigene Endocannabinoide</strong> produziert, entsteht eine <strong>klinische Endocannabinoid-Defizienz</strong>. Das ECS kann seine Aufgaben nicht mehr erfüllen.
                             </p>
-                            <div class="bg-white p-4 rounded-lg">
+                            <div class="bg-white p-3 rounded border-l-4 border-red-500">
+                                <p class="text-sm text-gray-800 font-semibold mb-1">Folgen einer CED:</p>
+                                <ul class="text-xs text-gray-700 space-y-1">
+                                    <li>• Chronische Schmerzen (Fibromyalgie, Migräne)</li>
+                                    <li>• Angststörungen, Depressionen</li>
+                                    <li>• Schlafstörungen, Erschöpfung</li>
+                                    <li>• Entzündliche Darmerkrankungen</li>
+                                    <li>• Autoimmunerkrankungen</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-green-50 to-teal-50 p-5 rounded-lg border-2 border-green-300">
+                            <h3 class="font-bold text-green-900 mb-2 text-lg">
+                                <i class="fas fa-leaf mr-2"></i>
+                                Die Lösung: Exogene Cannabinoide
+                            </h3>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                <strong>CBD (Cannabidiol)</strong> und andere Phytocannabinoide wirken wie körpereigene Endocannabinoide. Sie <strong>füllen die Lücke</strong> und helfen Ihrem ECS, wieder stark zu werden.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- The Journey: From Medication to Strong ECS -->
+            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-300 p-8 mb-8 rounded-xl shadow-lg fade-in">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
+                    <i class="fas fa-route text-indigo-600 mr-3"></i>
+                    Ihr Weg: Von Medikamenten-Abhängigkeit zu einem starken ECS
+                </h2>
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-lg shadow text-center">
+                        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-pills text-red-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">1. Status Quo</h4>
+                        <p class="text-sm text-gray-600">Schwaches ECS → Viele Medikamente</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow text-center">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-leaf text-green-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">2. ECS Stärken</h4>
+                        <p class="text-sm text-gray-600">Exogene Cannabinoide zuführen</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow text-center">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-chart-line text-blue-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">3. Medikamente reduzieren</h4>
+                        <p class="text-sm text-gray-600">Unter ärztlicher Begleitung ausschleichen</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow text-center">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-heart text-purple-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">4. Starkes ECS</h4>
+                        <p class="text-sm text-gray-600">Körper reguliert sich selbst</p>
+                    </div>
+                </div>
+                <div class="mt-6 bg-white p-5 rounded-lg text-center">
+                    <p class="text-gray-800 text-lg font-semibold">
+                        <i class="fas fa-arrow-right text-indigo-600 mr-2"></i>
+                        Beginnen Sie jetzt mit Ihrem individualisierten Dosierungsplan!
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Hidden: How CBD Activates ECS (technical) -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in">
+                <details class="cursor-pointer">
+                    <summary class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-microscope text-purple-600 mr-3"></i>
+                        <span>Für Interessierte: Wie exogene Cannabinoide Ihr ECS aktivieren</span>
+                        <i class="fas fa-chevron-down ml-auto"></i>
+                    </summary>
+                    <div class="mt-4 pl-10">
+                        <div class="bg-purple-50 p-5 rounded-lg mb-4">
+                            <h3 class="font-bold text-purple-900 mb-2">
+                                <i class="fas fa-atom mr-2"></i>
+                                Der biochemische Mechanismus:
+                            </h3>
+                            <p class="text-gray-700 mb-3 text-sm leading-relaxed">
+                                CBD (Cannabidiol) wirkt auf mehrere Arten:
+                            </p>
+                            <ul class="text-gray-700 space-y-2 text-sm">
+                                <li><strong>• Hemmt FAAH-Enzym:</strong> Verhindert Abbau von Anandamid (körpereigenes Endocannabinoid)</li>
+                                <li><strong>• Aktiviert Serotonin-Rezeptoren:</strong> Angstlösend, stimmungsaufhellend</li>
+                                <li><strong>• Moduliert CB1/CB2-Rezeptoren:</strong> Indirekte Aktivierung des ECS</li>
+                                <li><strong>• Hemmt Entzündungen:</strong> Reduziert COX-2 und NF-κB</li>
+                                <li><strong>• Antioxidative Wirkung:</strong> Schützt Nervenzellen</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg">
                                 <p class="text-sm text-gray-600 italic">
                                     <i class="fas fa-info-circle text-blue-500 mr-2"></i>
                                     CBD hat <strong>keine psychoaktive Wirkung</strong> und macht nicht abhängig.
