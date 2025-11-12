@@ -733,12 +733,12 @@ function downloadPDF() {
   // Title
   doc.setFontSize(20);
   doc.setTextColor(102, 126, 234);
-  doc.text('Ihr persönlicher CBD-Paste 70% Dosierungsplan', 105, yPos, { align: 'center' });
+  doc.text('Dein persönlicher Dosierungsplan für CBD-Paste 70 %', 105, yPos, { align: 'center' });
   
   yPos += 10;
   doc.setFontSize(12);
   doc.setTextColor(100, 100, 100);
-  doc.text('ECS Aktivierung - Individualisierte Dosierungsstrategie', 105, yPos, { align: 'center' });
+  doc.text('ECS-Aktivierung – individuell auf dich abgestimmt', 105, yPos, { align: 'center' });
   
   yPos += 15;
   
@@ -749,14 +749,14 @@ function downloadPDF() {
     doc.setFontSize(14);
     doc.setTextColor(88, 28, 135);
     doc.setFont(undefined, 'bold');
-    doc.text('CBD-Paste 70% - Produktinformationen', 15, yPos + 8);
+    doc.text('CBD-Paste 70 % – Produktinformationen', 15, yPos + 8);
     
     doc.setFontSize(10);
     doc.setTextColor(60, 60, 60);
     doc.setFont(undefined, 'normal');
-    doc.text(`Konzentration: ${product.concentration}`, 15, yPos + 15);
-    doc.text(`Verpackung: 3g Spritze mit 30 Teilstrichen`, 15, yPos + 20);
-    doc.text(`Dosierungseinheit: ${product.dosageUnit}`, 15, yPos + 25);
+    doc.text('• Konzentration: 70 mg CBD pro Teilstrich (1,5 cm)', 15, yPos + 15);
+    doc.text('• Verpackung: 3 g Spritze mit 30 Teilstrichen', 15, yPos + 20);
+    doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 15, yPos + 25);
     
     yPos += 35;
   }
@@ -768,7 +768,7 @@ function downloadPDF() {
     doc.setFontSize(12);
     doc.setTextColor(20, 83, 88);
     doc.setFont(undefined, 'bold');
-    doc.text('Ihre individuelle Dosierungsstrategie', 15, yPos + 8);
+    doc.text('Deine individuelle Dosierungsstrategie', 15, yPos + 8);
     
     doc.setFontSize(9);
     doc.setTextColor(60, 60, 60);
@@ -801,11 +801,18 @@ function downloadPDF() {
   doc.setTextColor(60, 60, 60);
   doc.setFont(undefined, 'normal');
   
-  const welcomeText = `herzlich willkommen zu Ihrem persönlichen CBD-Paste 70% Dosierungsplan! Wir freuen uns, dass Sie den Schritt wagen, Ihr Endocannabinoid-System (ECS) mit hochkonzentrierter CBD-Paste zu stärken.
+  const welcomeText = `willkommen zu deinem persönlichen Dosierungsplan für CBD-Paste 70 %!
 
-Dieser Plan wurde individuell für Sie erstellt - basierend auf Ihren Medikamenten, Ihrem Alter, Körpergewicht und Körpergröße. Er nutzt wissenschaftliche Erkenntnisse über CBD-Wechselwirkungen und die "Start Low, Go Slow"-Philosophie für maximale Sicherheit.
+Schön, dass du den Schritt gehst, dein Endocannabinoid-System (ECS) mit einer hochkonzentrierten CBD-Paste zu unterstützen.
 
-CBD-Paste 70% ist eine hochkonzentrierte Form von Cannabidiol. Die sublinguale Einnahme (unter die Zunge, 2-3 Minuten einwirken lassen) ermöglicht optimale Aufnahme über die Mundschleimhaut. Ihr Plan beginnt mit einer vorsichtigen Einschleichphase (nur abends) und steigert sich schrittweise zu einer 2x täglichen Einnahme für optimale ECS-Unterstützung.`;
+Dieser Plan wurde individuell für dich erstellt – basierend auf deinen Medikamenten, deinem Alter, deinem Körpergewicht und deiner Körpergröße. Er orientiert sich an aktuellen wissenschaftlichen Erkenntnissen zu CBD–Medikamenten-Wechselwirkungen und folgt der Philosophie „Start low, go slow" – also: niedrig starten, langsam steigern, für maximale Sicherheit.
+
+Was dich erwartet:
+CBD-Paste 70 % ist eine hochkonzentrierte Form von Cannabidiol (CBD).
+
+Du nimmst die Paste sublingual ein – also unter der Zunge, lässt sie dort 2–3 Minuten einwirken und schluckst sie erst dann herunter. So kann dein Körper das CBD besonders gut über die Mundschleimhaut aufnehmen.
+
+Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird dann langsam auf eine 2-mal tägliche Einnahme gesteigert – für eine möglichst gleichmäßige Unterstützung deines Endocannabinoid-Systems.`;
   
   const welcomeLines = doc.splitTextToSize(welcomeText, 180);
   doc.text(welcomeLines, 15, yPos);
@@ -815,32 +822,50 @@ CBD-Paste 70% ist eine hochkonzentrierte Form von Cannabidiol. Die sublinguale E
   // Severity warning if critical
   if (maxSeverity === 'critical' || maxSeverity === 'high') {
     doc.setFillColor(254, 226, 226);
-    doc.rect(10, yPos, 190, 15, 'F');
+    doc.rect(10, yPos, 190, 25, 'F');
     doc.setFontSize(11);
     doc.setTextColor(220, 38, 38);
     doc.setFont(undefined, 'bold');
-    doc.text('WARNUNG: Kritische Wechselwirkungen erkannt!', 15, yPos + 10);
-    yPos += 20;
+    doc.text('⚠️  WICHTIG: Kritische Wechselwirkungen mit deinen Medikamenten', 15, yPos + 8);
+    doc.setFontSize(9);
+    doc.setFont(undefined, 'normal');
+    doc.setTextColor(60, 60, 60);
+    const warningText = 'In deinem Medikamentenplan wurden kritische mögliche Wechselwirkungen mit CBD erkannt. Deshalb ist deine Einschleichphase bewusst sehr vorsichtig gewählt. Bitte besprich diesen Plan unbedingt mit deinem Arzt oder deiner Ärztin, bevor du mit der Einnahme beginnst.';
+    const warningLines = doc.splitTextToSize(warningText, 180);
+    doc.text(warningLines, 15, yPos + 15);
+    yPos += 30;
   }
   
   // Dosing Philosophy
   doc.setFontSize(12);
   doc.setTextColor(0, 0, 0);
   doc.setFont(undefined, 'bold');
-  doc.text('Dosierungsphilosophie: "Start Low, Go Slow"', 15, yPos);
+  doc.text('Dosierungsprinzip', 15, yPos);
   yPos += 7;
   doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
-  doc.setTextColor(100, 100, 100);
-  doc.text('Dosierungseinheit: Zentimeter (cm) auf der Spritze', 15, yPos);
+  doc.setTextColor(60, 60, 60);
+  doc.text('• „Start low, go slow" – du startest mit einer sehr niedrigen Dosis und steigerst langsam.', 15, yPos);
   yPos += 5;
-  doc.text('Umrechnung: 1 cm = 46.67 mg CBD | 1 Teilstrich (1.5 cm) = 70 mg CBD', 15, yPos);
+  doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 15, yPos);
   yPos += 5;
+  doc.text('• Umrechnung: 1 cm ≈ 46,7 mg CBD', 15, yPos);
+  yPos += 5;
+  doc.text('• 1 Teilstrich (= 1,5 cm) entspricht 70 mg CBD', 15, yPos);
+  yPos += 8;
   doc.setFont(undefined, 'bold');
-  doc.text('Phase 1: Nur abends (Einschleichphase)', 15, yPos);
-  yPos += 5;
+  doc.setTextColor(88, 28, 135);
+  doc.text('Deine Einnahme-Phasen', 15, yPos);
+  yPos += 7;
   doc.setFont(undefined, 'normal');
-  doc.text('Phase 2: 2x täglich - Morgens 40% + Abends 60% (optimale ECS-Unterstützung)', 15, yPos);
+  doc.setTextColor(60, 60, 60);
+  doc.text('• Phase 1 – Einschleichphase: Einnahme nur abends, um die Verträglichkeit zu prüfen', 15, yPos);
+  yPos += 5;
+  doc.text('• Phase 2 – Erhaltungsphase: Einnahme 2-mal täglich', 15, yPos);
+  yPos += 5;
+  doc.text('  – Morgens ca. 40 % der Tagesdosis', 20, yPos);
+  yPos += 5;
+  doc.text('  – Abends ca. 60 % der Tagesdosis', 20, yPos);
   
   yPos += 10;
   
@@ -852,7 +877,7 @@ CBD-Paste 70% ist eine hochkonzentrierte Form von Cannabidiol. Die sublinguale E
   doc.setFont(undefined, 'bold');
   doc.text('Sublinguale Einnahme:', 15, yPos + 6);
   doc.setFont(undefined, 'normal');
-  doc.text('Paste unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken.', 15, yPos + 11);
+  doc.text('Lege die Paste unter deine Zunge, lass sie dort 2–3 Minuten einwirken, dann schlucke sie herunter.', 15, yPos + 11);
   
   yPos += 20;
   
@@ -860,7 +885,7 @@ CBD-Paste 70% ist eine hochkonzentrierte Form von Cannabidiol. Die sublinguale E
   doc.setFontSize(14);
   doc.setTextColor(0, 0, 0);
   doc.setFont(undefined, 'bold');
-  doc.text('Tag-für-Tag Dosierungsplan:', 15, yPos);
+  doc.text('Dein Tag-für-Tag Dosierungsplan', 15, yPos);
   yPos += 10;
   
   weeklyPlan.forEach((week, weekIndex) => {
@@ -976,25 +1001,28 @@ CBD-Paste 70% ist eine hochkonzentrierte Form von Cannabidiol. Die sublinguale E
   }
   
   doc.setFillColor(236, 253, 245);
-  doc.rect(10, yPos, 190, 68, 'F');
+  doc.rect(10, yPos, 190, 80, 'F');
   doc.setFontSize(11);
   doc.setTextColor(22, 101, 52);
   doc.setFont(undefined, 'bold');
-  doc.text('Wichtige Einnahmehinweise für CBD-Paste 70%:', 15, yPos + 7);
+  doc.text('Wichtige Einnahmehinweise für deine CBD-Paste 70 %', 15, yPos + 7);
   
   doc.setFontSize(9);
   doc.setFont(undefined, 'normal');
   doc.setTextColor(60, 60, 60);
   const instructions = [
-    '• Sublinguale Einnahme: Paste unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken',
-    '• Phase 1 (Einschleichphase): Nur abends einnehmen zur Verträglichkeitsprüfung',
-    '• Phase 2 (Erhaltung): 2x täglich - Morgens 40%, Abends 60% der Tagesdosis',
-    '• Timing: Am besten zu den Mahlzeiten (Frühstück & Abendessen) für bessere Aufnahme',
-    '• Dosierung ablesen: Nutzen Sie die Teilstriche auf der Spritze (1 Teilstrich = 1.5 cm = 70 mg)',
-    '• Hydration: Ausreichend Wasser trinken (2-3 Liter täglich)',
-    '• Tagebuch: Führen Sie ein Symptom-Tagebuch über Wirkungen und Nebenwirkungen',
-    '• Bei Nebenwirkungen: Dosis reduzieren oder pausieren, dann Arzt konsultieren',
-    '• Ärztliche Begleitung: Nehmen Sie diesen Plan zu Ihrem Arztgespräch mit!'
+    '• Sublinguale Einnahme: Lege die Paste unter deine Zunge, lass sie dort 2–3 Minuten',
+    '  einwirken und schlucke sie erst dann herunter.',
+    '• Phase 1 (Einschleichphase): Nimm die Paste nur abends, um zu prüfen, wie du sie verträgst.',
+    '• Phase 2 (Erhaltungsphase): Nimm die Paste 2-mal täglich – morgens und abends – wie im Plan angegeben.',
+    '• Zeitpunkt der Einnahme: Am besten zu den Mahlzeiten (z. B. Frühstück & Abendessen),',
+    '  das unterstützt die Aufnahme.',
+    '• Dosierung ablesen: Nutze die Teilstriche auf der Spritze. 1 Teilstrich = 1,5 cm = 70 mg CBD.',
+    '• Ausreichend trinken: Versuche, täglich etwa 2–3 Liter Wasser zu trinken.',
+    '• Symptom-Tagebuch: Notiere dir täglich, wie es dir geht (Wirkung, Nebenwirkungen, Schlaf, Stimmung, Schmerzen …).',
+    '• Bei Nebenwirkungen: Reduziere die Dosis oder pausiere und sprich unbedingt mit deinem Arzt oder deiner Ärztin.',
+    '• Ärztliche Begleitung: Nimm diesen Plan zu deinem nächsten Arztgespräch mit und lass dich begleiten –',
+    '  vor allem, wenn du Medikamente einnehmen möchtest oder bereits einnimmst.'
   ];
   
   let instructionY = yPos + 15;
@@ -1003,7 +1031,7 @@ CBD-Paste 70% ist eine hochkonzentrierte Form von Cannabidiol. Die sublinguale E
     instructionY += 7;
   });
   
-  yPos += 73;
+  yPos += 85;
   
   // Medications List
   if (yPos > 250) {
@@ -1014,7 +1042,7 @@ CBD-Paste 70% ist eine hochkonzentrierte Form von Cannabidiol. Die sublinguale E
   doc.setFontSize(11);
   doc.setTextColor(0, 0, 0);
   doc.setFont(undefined, 'bold');
-  doc.text('Ihre Medikamente:', 15, yPos);
+  doc.text('Deine aktuellen Medikamente (zum Zeitpunkt der Erstellung des Plans):', 15, yPos);
   yPos += 7;
   
   doc.setFontSize(9);
@@ -1032,7 +1060,7 @@ CBD-Paste 70% ist eine hochkonzentrierte Form von Cannabidiol. Die sublinguale E
     doc.text(`${index + 1}. ${med.name}`, 15, yPos);
     doc.setFont(undefined, 'normal');
     yPos += 5;
-    doc.text(`   Dosierung: ${item.dosage}`, 15, yPos);
+    doc.text(`   • Dosierung: ${item.dosage}`, 15, yPos);
     
     if (item.interactions && item.interactions.length > 0) {
       const maxSev = item.interactions.reduce((max, i) => {
@@ -1040,9 +1068,20 @@ CBD-Paste 70% ist eine hochkonzentrierte Form von Cannabidiol. Die sublinguale E
         return order[i.severity] > order[max.severity] ? i : max;
       });
       yPos += 5;
+      const sevText = maxSev.severity === 'critical' ? 'KRITISCH' : maxSev.severity === 'high' ? 'hoch' : 'mittel';
       doc.setTextColor(220, 38, 38);
-      doc.text(`   Wechselwirkung: ${maxSev.severity === 'critical' ? 'KRITISCH' : maxSev.severity === 'high' ? 'Hoch' : 'Mittel'}`, 15, yPos);
+      doc.text(`   • Eingestufte Wechselwirkung mit CBD: ${sevText}`, 15, yPos);
       doc.setTextColor(60, 60, 60);
+      
+      // Add special warning for Marcumar
+      if (med.name && med.name.toLowerCase().includes('marcumar')) {
+        yPos += 5;
+        doc.setFontSize(8);
+        doc.text('   👉 Gerade bei Marcumar ist eine ärztliche Kontrolle (z. B. INR-Werte) besonders wichtig.', 15, yPos);
+        yPos += 4;
+        doc.text('   Bitte ändere deine Medikation niemals auf eigene Faust.', 15, yPos);
+        doc.setFontSize(9);
+      }
     }
     
     yPos += 8;
@@ -1057,26 +1096,29 @@ CBD-Paste 70% ist eine hochkonzentrierte Form von Cannabidiol. Die sublinguale E
   }
   
   doc.setFillColor(255, 243, 205);
-  doc.rect(10, yPos, 190, 65, 'F');
+  doc.rect(10, yPos, 190, 75, 'F');
   doc.setFontSize(14);
   doc.setTextColor(200, 100, 0);
   doc.setFont(undefined, 'bold');
-  doc.text('WICHTIGER HAFTUNGSAUSSCHLUSS', 105, yPos + 10, { align: 'center' });
+  doc.text('Wichtiger Hinweis & Haftungsausschluss', 105, yPos + 10, { align: 'center' });
   
   yPos += 18;
   doc.setFontSize(10);
-  doc.setTextColor(100, 100, 100);
+  doc.setTextColor(60, 60, 60);
   doc.setFont(undefined, 'normal');
   
-  const disclaimerText = `Dies ist KEINE medizinische Beratung und ersetzt NICHT den Besuch bei Ihrem Arzt!
+  const disclaimerText = `Dieser Plan ist keine medizinische Beratung und ersetzt nicht den Besuch bei deinem Arzt oder deiner Ärztin.
 
-Die hier bereitgestellten Informationen dienen ausschließlich zu Bildungszwecken und zur ersten Orientierung. Sie basieren auf öffentlich zugänglichen wissenschaftlichen Studien über Wechselwirkungen zwischen CBD und Medikamenten.
+Die Informationen dienen ausschließlich zu Bildungszwecken und zur ersten Orientierung. Sie basieren auf öffentlich zugänglichen wissenschaftlichen Studien zu Wechselwirkungen zwischen CBD und Medikamenten.
 
-WICHTIG: Konsultieren Sie UNBEDINGT Ihren Arzt oder Apotheker, bevor Sie CBD einnehmen, insbesondere wenn Sie Medikamente einnehmen. Wechselwirkungen können gesundheitsgefährdend sein!
+🔴 Wichtig:
+• Sprich unbedingt mit deinem Arzt oder deiner Ärztin, bevor du CBD einnimmst – besonders, wenn du Medikamente nimmst.
+• Wechselwirkungen können gesundheitsgefährdend sein.
+• Ändere niemals deine Medikation, ohne dies ärztlich abzusprechen.
 
-Ändern Sie NIEMALS ohne ärztliche Rücksprache Ihre Medikation. CBD kann Sie beim Ausschleichen von Medikamenten begleiten, aber NUR unter ärztlicher Aufsicht.
+CBD kann dich beim Ausschleichen von Medikamenten unterstützen – aber nur unter ärztlicher Aufsicht.
 
-Nehmen Sie diesen Plan unbedingt zu Ihrem nächsten Arztgespräch mit und besprechen Sie die Einnahme von CBD mit Ihrem behandelnden Arzt.`;
+Bitte nimm diesen Plan zu deinem nächsten Arzttermin mit und bespreche gemeinsam, ob und wie du CBD einsetzen möchtest.`;
   
   const disclaimerLines = doc.splitTextToSize(disclaimerText, 180);
   doc.text(disclaimerLines, 15, yPos);
