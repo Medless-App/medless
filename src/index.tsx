@@ -4,6 +4,7 @@ import { serveStatic } from 'hono/cloudflare-workers'
 
 type Bindings = {
   DB: D1Database;
+  OPENAI_API_KEY?: string;
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
@@ -73,12 +74,12 @@ app.get('/api/interactions/:medicationId', async (c) => {
   }
 })
 
-// Analyze medications and generate CBD plan
+// Analyze medications and generate CBD PASTE 70% DOSING PLAN
 app.post('/api/analyze', async (c) => {
   const { env } = c;
   try {
     const body = await c.req.json();
-    const { medications, durationWeeks } = body;
+    const { medications, durationWeeks, email, firstName, gender, age, weight, height } = body;
     
     if (!medications || !Array.isArray(medications) || medications.length === 0) {
       return c.json({ success: false, error: 'Bitte geben Sie mindestens ein Medikament an' }, 400);
@@ -88,12 +89,33 @@ app.post('/api/analyze', async (c) => {
       return c.json({ success: false, error: 'Bitte geben Sie eine gültige Dauer in Wochen an' }, 400);
     }
     
+    // Save email to database if provided
+    if (email) {
+      try {
+        await env.DB.prepare(`
+          INSERT INTO customer_emails (email, first_name, created_at)
+          VALUES (?, ?, CURRENT_TIMESTAMP)
+        `).bind(email, firstName || null).run();
+      } catch (emailError: any) {
+        console.log('Email already exists or error saving:', emailError.message);
+      }
+    }
+    
+    // Calculate BMI and BSA if data provided
+    let bmi = null;
+    let bsa = null;
+    
+    if (weight && height) {
+      const heightInMeters = height / 100;
+      bmi = Math.round((weight / (heightInMeters * heightInMeters)) * 10) / 10;
+      bsa = Math.round(Math.sqrt((height * weight) / 3600) * 100) / 100;
+    }
+    
     // Analyze each medication for interactions
     const analysisResults = [];
     let maxSeverity = 'low';
     
     for (const med of medications) {
-      // Search for medication in database
       const medResult = await env.DB.prepare(`
         SELECT m.*, mc.risk_level
         FROM medications m
@@ -103,7 +125,6 @@ app.post('/api/analyze', async (c) => {
       `).bind(`%${med.name}%`, `%${med.name}%`).first();
       
       if (medResult) {
-        // Get interactions
         const interactions = await env.DB.prepare(`
           SELECT * FROM cbd_interactions WHERE medication_id = ?
         `).bind(medResult.id).all();
@@ -114,7 +135,6 @@ app.post('/api/analyze', async (c) => {
           dosage: med.dosage || 'Nicht angegeben'
         });
         
-        // Track highest severity
         if (interactions.results.length > 0) {
           const severity = interactions.results[0].severity;
           if (severity === 'critical') maxSeverity = 'critical';
@@ -131,49 +151,167 @@ app.post('/api/analyze', async (c) => {
       }
     }
     
-    // Get dosage guidelines based on severity
-    const guidelines = await env.DB.prepare(`
-      SELECT * FROM cbd_dosage_guidelines 
-      WHERE condition_type = ?
-      LIMIT 1
-    `).bind(
-      maxSeverity === 'critical' ? 'with_critical_interaction' :
-      maxSeverity === 'high' ? 'with_high_interaction' :
-      maxSeverity === 'medium' ? 'with_medium_interaction' : 'with_low_interaction'
-    ).first();
+    // ========== CBD PASTE 70% DOSING CALCULATION ==========
+    // Product: 3g Spritze mit 30 Teilstrichen
+    // 1 Teilstrich = 1.5 cm = 70 mg CBD
+    // 1 cm = 46.67 mg CBD
     
-    // Generate weekly plan
+    const MG_PER_CM = 46.67;
+    const adjustmentNotes: string[] = [];
+    
+    // Individualized dosing parameters based on interaction severity
+    let titrationDays = 3;
+    let startDosageMg = 9.3; // 0.2 cm
+    let incrementMg = 5;
+    let incrementDays = 3;
+    let firstDoseTime = 'Abends (Verträglichkeitstest)';
+    
+    if (maxSeverity === 'critical' || maxSeverity === 'high') {
+      titrationDays = 7;
+      startDosageMg = 4.7; // 0.1 cm
+      incrementMg = 2.5;
+      incrementDays = 3;
+      firstDoseTime = 'Abends (Sicherheit bei kritischen Wechselwirkungen)';
+      adjustmentNotes.push('⚠️ Sehr vorsichtige Einschleichphase wegen kritischer Medikamenten-Wechselwirkungen');
+    } else if (maxSeverity === 'medium') {
+      titrationDays = 5;
+      startDosageMg = 7; // 0.15 cm
+      incrementMg = 4;
+      incrementDays = 3;
+      firstDoseTime = 'Abends (Sicherheit)';
+      adjustmentNotes.push('⚠️ Vorsichtige Einschleichphase wegen Medikamenten-Wechselwirkungen');
+    }
+    
+    // Age-based adjustments
+    if (age && age >= 65) {
+      startDosageMg *= 0.7;
+      titrationDays += 2;
+      adjustmentNotes.push('📅 Verlängerte Einschleichphase für Senioren (65+)');
+    }
+    
+    // BMI-based adjustments
+    if (weight && height && bmi) {
+      if (bmi < 18.5) {
+        startDosageMg *= 0.85;
+        adjustmentNotes.push('⚖️ Dosierung angepasst: Untergewicht (BMI < 18.5)');
+      } else if (bmi > 30) {
+        startDosageMg *= 1.1;
+        adjustmentNotes.push('⚖️ Dosierung angepasst: Übergewicht (BMI > 30)');
+      }
+    }
+    
+    // Weight-based target dose: 1 mg CBD per kg body weight
+    const weightBasedTargetMg = weight ? weight * 1.0 : 50;
+    const maxDosageMg = weight ? Math.min(weight * 2.5, 186) : 100;
+    
+    // Generate daily dosing plan
     const weeklyPlan = [];
-    const startDosage = guidelines?.recommended_start_mg || 5;
-    const maxDosage = guidelines?.max_dosage_mg || 50;
-    const adjustmentPeriod = guidelines?.adjustment_period_days || 14;
+    const totalDays = durationWeeks * 7;
     
-    for (let week = 1; week <= durationWeeks; week++) {
-      let dosage = startDosage;
+    for (let day = 1; day <= totalDays; day++) {
+      const week = Math.ceil(day / 7);
       
-      // Gradual increase every adjustment period
-      if (week > 1 && week % Math.ceil(adjustmentPeriod / 7) === 0) {
-        dosage = Math.min(startDosage + ((week / Math.ceil(adjustmentPeriod / 7)) * 5), maxDosage);
-      } else if (week > 1) {
-        dosage = Math.min(startDosage + (Math.floor(week / Math.ceil(adjustmentPeriod / 7)) * 5), maxDosage);
+      let morningDosageMg = 0;
+      let eveningDosageMg = 0;
+      let notes = '';
+      
+      // Phase 1: Titration phase (evening only)
+      if (day <= titrationDays) {
+        eveningDosageMg = startDosageMg;
+        morningDosageMg = 0;
+        
+        if (day === 1) {
+          notes = `🌙 Einschleichphase: ${firstDoseTime}. Paste unter die Zunge legen, 2-3 Min einwirken lassen, dann schlucken.`;
+        } else if (day === titrationDays) {
+          notes = `🌅 Letzter Tag nur abends. Ab morgen: 2x täglich (Morgen + Abend) für optimale Endocannabinoid-System-Unterstützung`;
+        } else {
+          notes = '🌙 Einschleichphase: Nur abends einnehmen';
+        }
+      }
+      // Phase 2: Twice daily with gradual increase
+      else {
+        const daysAfterTitration = day - titrationDays;
+        const increments = Math.floor(daysAfterTitration / incrementDays);
+        let currentDailyDose = startDosageMg + (increments * incrementMg);
+        
+        currentDailyDose = Math.min(currentDailyDose, weightBasedTargetMg);
+        currentDailyDose = Math.min(currentDailyDose, maxDosageMg);
+        
+        // Split 40% morning, 60% evening
+        morningDosageMg = currentDailyDose * 0.4;
+        eveningDosageMg = currentDailyDose * 0.6;
+        
+        if (day === titrationDays + 1) {
+          notes = '🌅🌙 Ab heute: 2x täglich (Morgen + Abend)';
+        } else if (week === durationWeeks && day >= totalDays - 1) {
+          notes = '✅ Ende der Aktivierungsphase - ärztliche Nachkontrolle empfohlen';
+        } else if (increments > 0 && daysAfterTitration % incrementDays === 0) {
+          notes = `📈 Dosierung erhöht auf ${Math.round(currentDailyDose * 10) / 10} mg täglich`;
+        }
       }
       
-      weeklyPlan.push({
-        week,
-        morningDosage: Math.round(dosage * 0.4 * 10) / 10,
-        eveningDosage: Math.round(dosage * 0.6 * 10) / 10,
-        totalDaily: Math.round(dosage * 10) / 10,
-        notes: week === 1 ? 'Einschleichphase - beobachten Sie mögliche Reaktionen' : 
-               week === durationWeeks ? 'Ende der Ausgleichsphase - ärztliche Nachkontrolle empfohlen' : ''
-      });
+      // Convert mg to cm (round to 0.05 cm precision)
+      const morningCm = Math.round((morningDosageMg / MG_PER_CM) * 20) / 20;
+      const eveningCm = Math.round((eveningDosageMg / MG_PER_CM) * 20) / 20;
+      const totalCm = Math.round((morningCm + eveningCm) * 100) / 100;
+      const totalMg = Math.round((morningDosageMg + eveningDosageMg) * 10) / 10;
+      
+      // Group by weeks
+      const existingWeek = weeklyPlan.find((w: any) => w.week === week);
+      if (!existingWeek) {
+        weeklyPlan.push({
+          week,
+          days: [{
+            day: day % 7 || 7,
+            morningDosageCm: morningCm,
+            eveningDosageCm: eveningCm,
+            totalDailyCm: totalCm,
+            morningDosageMg: Math.round(morningDosageMg * 10) / 10,
+            eveningDosageMg: Math.round(eveningDosageMg * 10) / 10,
+            totalDailyMg: totalMg,
+            notes
+          }]
+        });
+      } else {
+        (existingWeek as any).days.push({
+          day: day % 7 || 7,
+          morningDosageCm: morningCm,
+          eveningDosageCm: eveningCm,
+          totalDailyCm: totalCm,
+          morningDosageMg: Math.round(morningDosageMg * 10) / 10,
+          eveningDosageMg: Math.round(eveningDosageMg * 10) / 10,
+          totalDailyMg: totalMg,
+          notes
+        });
+      }
     }
     
     return c.json({
       success: true,
       analysis: analysisResults,
       maxSeverity,
-      guidelines,
       weeklyPlan,
+      product: {
+        name: 'CBD-Paste 70%',
+        type: 'Hochkonzentrierte Cannabinoid-Paste',
+        packaging: '3 Gramm Spritze mit 30 Teilstrichen',
+        concentration: '70 mg CBD pro Teilstrich (1.5 cm)',
+        dosageUnit: 'cm auf der Spritze',
+        application: 'Sublingual: Paste unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken'
+      },
+      personalization: {
+        age,
+        weight,
+        height,
+        bmi,
+        bsa,
+        titrationDays,
+        firstDoseTime,
+        startDosageMg: Math.round(startDosageMg * 10) / 10,
+        targetDailyMg: Math.round(weightBasedTargetMg * 10) / 10,
+        maxDailyMg: Math.round(maxDosageMg * 10) / 10,
+        notes: adjustmentNotes
+      },
       warnings: maxSeverity === 'critical' || maxSeverity === 'high' ? 
         ['⚠️ Kritische Wechselwirkungen erkannt!', 'Konsultieren Sie unbedingt einen Arzt vor der CBD-Einnahme.'] : []
     });
@@ -184,8 +322,10 @@ app.post('/api/analyze', async (c) => {
   }
 })
 
-// OCR endpoint for image upload (will use OpenAI Vision API)
+// OCR endpoint for image upload using OpenAI Vision API
 app.post('/api/ocr', async (c) => {
+  const { env } = c;
+  
   try {
     const formData = await c.req.formData();
     const imageFile = formData.get('image');
@@ -194,21 +334,74 @@ app.post('/api/ocr', async (c) => {
       return c.json({ success: false, error: 'Kein Bild hochgeladen' }, 400);
     }
     
+    // Check if API key is configured
+    if (!env.OPENAI_API_KEY || env.OPENAI_API_KEY === 'your-openai-api-key-here') {
+      return c.json({ 
+        success: false, 
+        error: 'OpenAI API-Key nicht konfiguriert. Bitte tragen Sie Ihren API-Key in die .dev.vars Datei ein.' 
+      }, 500);
+    }
+    
     // Convert image to base64
     const arrayBuffer = await imageFile.arrayBuffer();
-    const base64Image = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+    const uint8Array = new Uint8Array(arrayBuffer);
     
-    // TODO: Implement OpenAI Vision API call
-    // For now, return placeholder
-    return c.json({
-      success: true,
-      medications: [
-        { name: 'Beispiel Medikament', dosage: '10mg täglich' }
-      ],
-      note: 'OCR-Funktion wird mit OpenAI API-Key aktiviert'
+    let binary = '';
+    const chunkSize = 8192;
+    for (let i = 0; i < uint8Array.length; i += chunkSize) {
+      const chunk = uint8Array.subarray(i, i + chunkSize);
+      binary += String.fromCharCode.apply(null, Array.from(chunk));
+    }
+    const base64Image = btoa(binary);
+    
+    // Call OpenAI Vision API
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${env.OPENAI_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: 'Bitte extrahiere alle Medikamentennamen und Dosierungen aus diesem Bild. Format: JSON Array mit {name: string, dosage: string}. Nur Medikamente zurückgeben, keine Erklärungen.'
+              },
+              {
+                type: 'image_url',
+                image_url: {
+                  url: `data:image/jpeg;base64,${base64Image}`
+                }
+              }
+            ]
+          }
+        ],
+        max_tokens: 1000
+      })
     });
     
+    if (!response.ok) {
+      throw new Error(`OpenAI API Error: ${response.statusText}`);
+    }
+    
+    const data: any = await response.json();
+    const content = data.choices[0].message.content;
+    
+    // Parse JSON from response
+    const jsonMatch = content.match(/\[[\s\S]*\]/);
+    if (jsonMatch) {
+      const medications = JSON.parse(jsonMatch[0]);
+      return c.json({ success: true, medications });
+    } else {
+      throw new Error('Keine Medikamente im Bild gefunden');
+    }
+    
   } catch (error: any) {
+    console.error('OCR Error:', error);
     return c.json({ success: false, error: error.message || 'Fehler beim Bildupload' }, 500);
   }
 })
@@ -221,7 +414,7 @@ app.get('/', (c) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ECS Aktivierung - CBD Ausgleichsplan Generator</title>
+        <title>ECS Aktivierung - CBD-Paste 70% Dosierungsplan</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
         <style>
@@ -241,7 +434,6 @@ app.get('/', (c) => {
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
           }
           
-          /* Autocomplete styles */
           .autocomplete-list {
             animation: fadeIn 0.2s ease-out;
           }
@@ -263,12 +455,12 @@ app.get('/', (c) => {
                             <i class="fas fa-cannabis mr-3"></i>
                             ECS Aktivierung
                         </h1>
-                        <p class="text-purple-100 text-lg">Ihr persönlicher CBD Ausgleichsplan</p>
+                        <p class="text-purple-100 text-lg">Ihr persönlicher CBD-Paste 70% Dosierungsplan</p>
                     </div>
                     <div class="text-right">
                         <div class="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
-                            <i class="fas fa-shield-alt mr-2"></i>
-                            <span class="text-sm">Medizinisch fundiert</span>
+                            <i class="fas fa-syringe mr-2"></i>
+                            <span class="text-sm">CBD-Paste 70%</span>
                         </div>
                     </div>
                 </div>
@@ -277,29 +469,49 @@ app.get('/', (c) => {
 
         <div class="max-w-6xl mx-auto px-4 py-8">
             
-            <!-- Mission Statement - NEU -->
+            <!-- Product Info Box -->
+            <div class="bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 p-6 mb-8 rounded-xl shadow-lg fade-in">
+                <div class="flex items-start">
+                    <i class="fas fa-syringe text-purple-600 text-3xl mr-4 mt-1"></i>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800 mb-2">
+                            Verwendetes Produkt: CBD-Paste 70%
+                        </h2>
+                        <div class="grid md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="font-semibold">Verpackung:</span> 3g Spritze mit 30 Teilstrichen
+                            </div>
+                            <div>
+                                <span class="font-semibold">Konzentration:</span> 1 Teilstrich (1.5 cm) = 70 mg CBD
+                            </div>
+                            <div>
+                                <span class="font-semibold">Einnahme:</span> Sublingual (unter die Zunge, 2-3 Min)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mission Statement -->
             <div class="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 p-8 mb-8 rounded-xl shadow-lg fade-in">
                 <div class="flex items-start">
                     <i class="fas fa-heart text-green-600 text-4xl mr-6 mt-1"></i>
                     <div class="w-full">
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">
                             <i class="fas fa-seedling mr-2"></i>
-                            Ihr Weg zu weniger Tabletten - natürlich mit exogenen Cannabinoiden
+                            Ihr Weg zu weniger Tabletten - natürlich mit CBD-Paste
                         </h2>
                         <p class="text-gray-700 text-lg mb-4 leading-relaxed">
-                            <strong>Viele Menschen wünschen sich, von ihrer Medikation loszukommen.</strong> Diese Plattform bietet Ihnen einen wissenschaftlich fundierten Ansatz, um Ihr <strong>Endocannabinoid-System (ECS)</strong> zu stärken und Ihren Körper dabei zu unterstützen, sein natürliches Gleichgewicht wiederzufinden.
+                            <strong>Viele Menschen wünschen sich, von ihrer Medikation loszukommen.</strong> Diese Plattform bietet Ihnen einen wissenschaftlich fundierten Ansatz, um Ihr <strong>Endocannabinoid-System (ECS)</strong> mit hochkonzentrierter CBD-Paste 70% zu stärken.
                         </p>
                         
                         <div class="bg-white/70 p-4 rounded-lg mb-4">
                             <h3 class="font-bold text-gray-800 mb-2">
                                 <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
-                                Warum exogene Cannabinoide?
+                                Warum CBD-Paste 70%?
                             </h3>
                             <p class="text-gray-700 mb-2">
-                                Das <strong>Endocannabinoid-System (ECS)</strong> ist ein körpereigenes Regulationssystem, das Schlaf, Stimmung, Schmerz, Entzündungen und viele weitere Prozesse steuert. Wenn dieses System geschwächt ist, können Beschwerden entstehen.
-                            </p>
-                            <p class="text-gray-700">
-                                <strong>Exogene Cannabinoide</strong> (wie CBD) aus der Cannabispflanze können Ihr ECS von außen unterstützen und stärken - ähnlich wie Vitamine einen Mangel ausgleichen können.
+                                Hochkonzentrierte CBD-Paste ermöglicht <strong>präzise Dosierung in kleinen Mengen</strong>. Mit der Spritze können Sie genau ablesen, wie viel CBD Sie einnehmen - ideal für individuelle Anpassungen an Ihr Körpergewicht und Ihre Medikation.
                             </p>
                         </div>
                         
@@ -307,25 +519,18 @@ app.get('/', (c) => {
                             <div class="bg-green-100 p-4 rounded-lg">
                                 <i class="fas fa-pills text-green-600 text-2xl mb-2"></i>
                                 <h4 class="font-bold text-gray-800 mb-1">Medikamente reduzieren</h4>
-                                <p class="text-sm text-gray-700">Viele Studien zeigen: CBD kann beim Ausschleichen von Opioiden, Antidepressiva und anderen Medikamenten unterstützen</p>
+                                <p class="text-sm text-gray-700">CBD-Paste kann beim Ausschleichen von Medikamenten unterstützen - mit präziser Dosierung</p>
                             </div>
                             <div class="bg-blue-100 p-4 rounded-lg">
                                 <i class="fas fa-brain text-blue-600 text-2xl mb-2"></i>
-                                <h4 class="font-bold text-gray-800 mb-1">ECS stärken</h4>
-                                <p class="text-sm text-gray-700">Ihr Körper verfügt über ein mächtiges Selbstheilungssystem - das ECS. CBD hilft, es zu aktivieren und zu balancieren</p>
+                                <h4 class="font-bold text-gray-800 mb-1">ECS aktivieren</h4>
+                                <p class="text-sm text-gray-700">Ihr Endocannabinoid-System wird durch regelmäßige Einnahme optimal unterstützt</p>
                             </div>
                             <div class="bg-purple-100 p-4 rounded-lg">
-                                <i class="fas fa-leaf text-purple-600 text-2xl mb-2"></i>
-                                <h4 class="font-bold text-gray-800 mb-1">Natürlicher Ansatz</h4>
-                                <p class="text-sm text-gray-700">Exogene Cannabinoide bieten eine pflanzliche Alternative mit weniger Nebenwirkungen als viele Medikamente</p>
+                                <i class="fas fa-syringe text-purple-600 text-2xl mb-2"></i>
+                                <h4 class="font-bold text-gray-800 mb-1">Präzise Dosierung</h4>
+                                <p class="text-sm text-gray-700">Mit der Spritze dosieren Sie auf 0.05 cm genau - angepasst an Ihr Gewicht und Alter</p>
                             </div>
-                        </div>
-                        
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4 rounded">
-                            <p class="text-gray-700 font-semibold">
-                                <i class="fas fa-user-md text-blue-600 mr-2"></i>
-                                <strong>Wissenschaftlich belegt:</strong> Studien zeigen, dass CBD Entzugssymptome lindern, Schmerzen reduzieren und die Lebensqualität verbessern kann. Unser Plan berücksichtigt mögliche Wechselwirkungen mit Ihren aktuellen Medikamenten.
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -341,15 +546,12 @@ app.get('/', (c) => {
                             Wichtiger medizinischer Hinweis
                         </h3>
                         <p class="text-yellow-700 mb-2">
-                            Dieser CBD-Ausgleichsplan ist <strong>KEINE medizinische Beratung</strong> und ersetzt nicht das Gespräch mit Ihrem Arzt oder Apotheker.
+                            Dieser CBD-Paste Dosierungsplan ist <strong>KEINE medizinische Beratung</strong> und ersetzt nicht das Gespräch mit Ihrem Arzt oder Apotheker. <strong>Produkt: CBD-Paste 70%</strong> in 3g Spritze mit 30 Teilstrichen (1 Teilstrich = 1.5 cm = 70 mg CBD). <strong>Einnahme:</strong> Sublingual unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken.
                         </p>
                         <ul class="text-yellow-700 space-y-1 ml-6 list-disc">
-                            <li>Die Informationen dienen ausschließlich zur ersten Orientierung</li>
-                            <li>Konsultieren Sie vor der Einnahme von CBD <strong>unbedingt Ihren Arzt</strong></li>
+                            <li>Konsultieren Sie vor der Einnahme <strong>unbedingt Ihren Arzt</strong></li>
                             <li>Wechselwirkungen mit Medikamenten können gesundheitsgefährdend sein</li>
-                            <li>Nehmen Sie diesen Plan zu Ihrem Arztgespräch mit</li>
                             <li><strong>Ändern Sie niemals ohne ärztliche Rücksprache Ihre Medikation</strong></li>
-                            <li>CBD kann Sie beim Medikamenten-Ausschleichen begleiten, aber <strong>NUR unter ärztlicher Aufsicht</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -364,7 +566,7 @@ app.get('/', (c) => {
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
                         <p class="text-gray-700 mb-4 leading-relaxed">
-                            Das <strong>Endocannabinoid-System (ECS)</strong> ist ein körpereigenes Regulationssystem, das eine zentrale Rolle für Ihre Gesundheit spielt. Es besteht aus Rezeptoren, Enzymen und Endocannabinoiden, die im gesamten Körper verteilt sind.
+                            Das <strong>Endocannabinoid-System (ECS)</strong> ist ein körpereigenes Regulationssystem, das eine zentrale Rolle für Ihre Gesundheit spielt.
                         </p>
                         <div class="bg-purple-50 p-4 rounded-lg mb-4">
                             <h3 class="font-bold text-purple-900 mb-2">
@@ -372,7 +574,7 @@ app.get('/', (c) => {
                                 Funktionen des ECS:
                             </h3>
                             <ul class="text-gray-700 space-y-2">
-                                <li><i class="fas fa-check text-green-500 mr-2"></i> Regulierung von Schmerzen</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i> Schmerzregulierung</li>
                                 <li><i class="fas fa-check text-green-500 mr-2"></i> Stimmung und Emotionen</li>
                                 <li><i class="fas fa-check text-green-500 mr-2"></i> Schlaf-Wach-Rhythmus</li>
                                 <li><i class="fas fa-check text-green-500 mr-2"></i> Immunsystem</li>
@@ -383,16 +585,16 @@ app.get('/', (c) => {
                     <div>
                         <div class="bg-gradient-to-br from-purple-100 to-blue-100 p-6 rounded-lg">
                             <h3 class="font-bold text-gray-800 mb-3">
-                                <i class="fas fa-leaf text-green-600 mr-2"></i>
-                                Wie CBD das ECS aktiviert:
+                                <i class="fas fa-syringe text-purple-600 mr-2"></i>
+                                Wie CBD-Paste 70% das ECS aktiviert:
                             </h3>
                             <p class="text-gray-700 mb-3">
-                                <strong>Cannabidiol (CBD)</strong> aus der Hanfpflanze interagiert mit Ihrem ECS und kann helfen, das Gleichgewicht (Homöostase) wiederherzustellen.
+                                Hochkonzentriertes <strong>Cannabidiol (CBD)</strong> interagiert mit Ihrem ECS und hilft, das Gleichgewicht (Homöostase) wiederherzustellen. Die Paste ermöglicht <strong>präzise, individuelle Dosierung</strong>.
                             </p>
                             <div class="bg-white p-4 rounded-lg">
                                 <p class="text-sm text-gray-600 italic">
                                     <i class="fas fa-info-circle text-blue-500 mr-2"></i>
-                                    CBD hat <strong>keinepsychoaktive Wirkung</strong> und macht nicht abhängig. Es unterstützt Ihren Körper dabei, seine natürlichen Funktionen zu optimieren.
+                                    CBD hat <strong>keine psychoaktive Wirkung</strong> und macht nicht abhängig.
                                 </p>
                             </div>
                         </div>
@@ -403,8 +605,8 @@ app.get('/', (c) => {
             <!-- Main Form -->
             <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in">
                 <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                    <i class="fas fa-file-prescription text-blue-600 mr-3"></i>
-                    Erstellen Sie Ihren persönlichen CBD-Ausgleichsplan
+                    <i class="fas fa-syringe text-blue-600 mr-3"></i>
+                    Erstellen Sie Ihren persönlichen CBD-Paste Dosierungsplan
                 </h2>
 
                 <!-- Tab Navigation -->
@@ -422,42 +624,119 @@ app.get('/', (c) => {
                 <!-- Text Input Tab -->
                 <div id="content-text" class="tab-content">
                     <form id="medication-form">
-                        <!-- Persönliche Angaben -->
-                        <div class="grid md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <label class="block text-gray-700 font-semibold mb-3">
-                                    <i class="fas fa-user mr-2"></i>
-                                    Ihr Vorname
-                                </label>
-                                <input type="text" id="first-name" name="first_name" 
-                                       placeholder="z.B. Maria" 
-                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                       required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 font-semibold mb-3">
-                                    <i class="fas fa-venus-mars mr-2"></i>
-                                    Geschlecht
-                                </label>
-                                <div class="flex gap-6 items-center h-full">
-                                    <label class="flex items-center cursor-pointer">
-                                        <input type="radio" name="gender" value="female" class="w-5 h-5 text-purple-600 focus:ring-purple-500" required>
-                                        <span class="ml-3 text-gray-700 font-medium">
-                                            <i class="fas fa-venus text-pink-500 mr-1"></i>
-                                            Weiblich
-                                        </span>
+                        <!-- Personal Data Section -->
+                        <div class="bg-blue-50 p-6 rounded-lg mb-6">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4">
+                                <i class="fas fa-user-circle mr-2"></i>
+                                Ihre persönlichen Daten
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-4">
+                                Diese Angaben helfen uns, die CBD-Dosierung individuell für Sie zu berechnen.
+                            </p>
+                            
+                            <div class="grid md:grid-cols-2 gap-6 mb-4">
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-3">
+                                        <i class="fas fa-user mr-2"></i>
+                                        Ihr Vorname *
                                     </label>
-                                    <label class="flex items-center cursor-pointer">
-                                        <input type="radio" name="gender" value="male" class="w-5 h-5 text-purple-600 focus:ring-purple-500" required>
-                                        <span class="ml-3 text-gray-700 font-medium">
-                                            <i class="fas fa-mars text-blue-500 mr-1"></i>
-                                            Männlich
-                                        </span>
-                                    </label>
+                                    <input type="text" id="first-name" name="first_name" 
+                                           placeholder="z.B. Maria" 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           required>
                                 </div>
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-3">
+                                        <i class="fas fa-venus-mars mr-2"></i>
+                                        Geschlecht *
+                                    </label>
+                                    <div class="flex gap-6 items-center h-full">
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="radio" name="gender" value="female" class="w-5 h-5 text-purple-600 focus:ring-purple-500" required>
+                                            <span class="ml-3 text-gray-700 font-medium">
+                                                <i class="fas fa-venus text-pink-500 mr-1"></i>
+                                                Weiblich
+                                            </span>
+                                        </label>
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="radio" name="gender" value="male" class="w-5 h-5 text-purple-600 focus:ring-purple-500" required>
+                                            <span class="ml-3 text-gray-700 font-medium">
+                                                <i class="fas fa-mars text-blue-500 mr-1"></i>
+                                                Männlich
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-3">
+                                        <i class="fas fa-birthday-cake mr-2"></i>
+                                        Alter (Jahre) *
+                                    </label>
+                                    <input type="number" id="age" name="age" 
+                                           placeholder="z.B. 45" 
+                                           min="18" 
+                                           max="120"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           required>
+                                    <p class="text-xs text-gray-500 mt-1">Für altersgerechte Dosierung</p>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-3">
+                                        <i class="fas fa-weight mr-2"></i>
+                                        Gewicht (kg) *
+                                    </label>
+                                    <input type="number" id="weight" name="weight" 
+                                           placeholder="z.B. 70" 
+                                           min="30" 
+                                           max="250"
+                                           step="0.1"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           required>
+                                    <p class="text-xs text-gray-500 mt-1">In Kilogramm</p>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-3">
+                                        <i class="fas fa-ruler-vertical mr-2"></i>
+                                        Größe (cm) *
+                                    </label>
+                                    <input type="number" id="height" name="height" 
+                                           placeholder="z.B. 170" 
+                                           min="100" 
+                                           max="250"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           required>
+                                    <p class="text-xs text-gray-500 mt-1">In Zentimetern</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-3 rounded-lg mt-4">
+                                <p class="text-xs text-gray-600">
+                                    <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                                    Ihre Daten werden verwendet, um die CBD-Dosierung an Ihr Körpergewicht und Alter anzupassen.
+                                </p>
                             </div>
                         </div>
 
+                        <!-- E-Mail Section -->
+                        <div class="bg-green-50 p-6 rounded-lg mb-6 border-l-4 border-green-500">
+                            <label class="block text-gray-700 font-semibold mb-3">
+                                <i class="fas fa-envelope mr-2 text-green-600"></i>
+                                Ihre E-Mail-Adresse *
+                            </label>
+                            <input type="email" id="email" name="email" 
+                                   placeholder="ihre.email@beispiel.de"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white"
+                                   required>
+                            <p class="text-xs text-gray-600 mt-2">
+                                <i class="fas fa-shield-alt text-green-600 mr-1"></i>
+                                Ihre E-Mail-Adresse wird gespeichert, um Ihnen den Download zu ermöglichen.
+                            </p>
+                        </div>
+
+                        <!-- Medications Section -->
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3">
                                 <i class="fas fa-pills mr-2"></i>
@@ -483,10 +762,11 @@ app.get('/', (c) => {
                             </button>
                         </div>
 
+                        <!-- Duration Section -->
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3">
                                 <i class="fas fa-calendar-alt mr-2"></i>
-                                Gewünschte Ausgleichsdauer
+                                Gewünschte Aktivierungsdauer
                             </label>
                             <div class="flex items-center gap-4">
                                 <input type="number" id="duration-weeks" name="duration_weeks" 
@@ -497,13 +777,13 @@ app.get('/', (c) => {
                             </div>
                             <p class="text-sm text-gray-500 mt-2">
                                 <i class="fas fa-info-circle mr-1"></i>
-                                Empfohlen: 8-12 Wochen für einen nachhaltigen Ausgleich
+                                Empfohlen: 8-12 Wochen für nachhaltige ECS-Aktivierung
                             </p>
                         </div>
 
                         <button type="submit" class="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg">
-                            <i class="fas fa-chart-line mr-2"></i>
-                            CBD-Ausgleichsplan erstellen
+                            <i class="fas fa-syringe mr-2"></i>
+                            CBD-Paste Dosierungsplan erstellen
                         </button>
                     </form>
                 </div>
@@ -511,6 +791,112 @@ app.get('/', (c) => {
                 <!-- Upload Tab -->
                 <div id="content-upload" class="tab-content hidden">
                     <form id="upload-form">
+                        <!-- Personal Data for Upload -->
+                        <div class="bg-blue-50 p-6 rounded-lg mb-6">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4">
+                                <i class="fas fa-user-circle mr-2"></i>
+                                Ihre persönlichen Daten
+                            </h3>
+                            
+                            <div class="grid md:grid-cols-2 gap-6 mb-4">
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-3">
+                                        <i class="fas fa-user mr-2"></i>
+                                        Ihr Vorname *
+                                    </label>
+                                    <input type="text" id="upload-first-name" name="first_name" 
+                                           placeholder="z.B. Maria" 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-3">
+                                        <i class="fas fa-venus-mars mr-2"></i>
+                                        Geschlecht *
+                                    </label>
+                                    <div class="flex gap-6 items-center h-full">
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="radio" name="upload_gender" value="female" class="w-5 h-5 text-purple-600 focus:ring-purple-500" required>
+                                            <span class="ml-3 text-gray-700 font-medium">
+                                                <i class="fas fa-venus text-pink-500 mr-1"></i>
+                                                Weiblich
+                                            </span>
+                                        </label>
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="radio" name="upload_gender" value="male" class="w-5 h-5 text-purple-600 focus:ring-purple-500" required>
+                                            <span class="ml-3 text-gray-700 font-medium">
+                                                <i class="fas fa-mars text-blue-500 mr-1"></i>
+                                                Männlich
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-3">
+                                        <i class="fas fa-birthday-cake mr-2"></i>
+                                        Alter (Jahre) *
+                                    </label>
+                                    <input type="number" id="upload-age" name="age" 
+                                           placeholder="z.B. 45" 
+                                           min="18" 
+                                           max="120"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-3">
+                                        <i class="fas fa-weight mr-2"></i>
+                                        Gewicht (kg) *
+                                    </label>
+                                    <input type="number" id="upload-weight" name="weight" 
+                                           placeholder="z.B. 70" 
+                                           min="30" 
+                                           max="250"
+                                           step="0.1"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-3">
+                                        <i class="fas fa-ruler-vertical mr-2"></i>
+                                        Größe (cm) *
+                                    </label>
+                                    <input type="number" id="upload-height" name="height" 
+                                           placeholder="z.B. 170" 
+                                           min="100" 
+                                           max="250"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           required>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-3 rounded-lg mt-4">
+                                <p class="text-xs text-gray-600">
+                                    <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                                    Ihre Daten werden verwendet, um die CBD-Dosierung an Ihr Körpergewicht und Alter anzupassen.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- E-Mail for Upload -->
+                        <div class="bg-green-50 p-6 rounded-lg mb-6 border-l-4 border-green-500">
+                            <label class="block text-gray-700 font-semibold mb-3">
+                                <i class="fas fa-envelope mr-2 text-green-600"></i>
+                                Ihre E-Mail-Adresse *
+                            </label>
+                            <input type="email" id="upload-email" name="email" 
+                                   placeholder="ihre.email@beispiel.de"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white"
+                                   required>
+                            <p class="text-xs text-gray-600 mt-2">
+                                <i class="fas fa-shield-alt text-green-600 mr-1"></i>
+                                Ihre E-Mail-Adresse wird gespeichert, um Ihnen den Download zu ermöglichen.
+                            </p>
+                        </div>
+                        
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3">
                                 <i class="fas fa-image mr-2"></i>
@@ -521,7 +907,7 @@ app.get('/', (c) => {
                                 <label for="image-upload" class="cursor-pointer">
                                     <i class="fas fa-cloud-upload-alt text-6xl text-gray-400 mb-4"></i>
                                     <p class="text-gray-600 font-semibold mb-2">Klicken Sie hier oder ziehen Sie ein Bild</p>
-                                    <p class="text-sm text-gray-500">JPG, PNG oder PDF (max. 10MB)</p>
+                                    <p class="text-sm text-gray-500">JPG, PNG (max. 10MB)</p>
                                 </label>
                             </div>
                             <div id="image-preview" class="mt-4 hidden">
@@ -532,7 +918,7 @@ app.get('/', (c) => {
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3">
                                 <i class="fas fa-calendar-alt mr-2"></i>
-                                Gewünschte Ausgleichsdauer
+                                Gewünschte Aktivierungsdauer
                             </label>
                             <div class="flex items-center gap-4">
                                 <input type="number" id="upload-duration-weeks" name="duration_weeks" 
@@ -545,7 +931,7 @@ app.get('/', (c) => {
 
                         <button type="submit" class="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg">
                             <i class="fas fa-magic mr-2"></i>
-                            Bild analysieren & Plan erstellen
+                            Bild analysieren & CBD-Paste Dosierungsplan erstellen
                         </button>
                     </form>
                 </div>
@@ -555,7 +941,7 @@ app.get('/', (c) => {
             <div id="loading" class="hidden bg-white rounded-xl shadow-lg p-8 text-center">
                 <i class="fas fa-spinner fa-spin text-6xl text-purple-600 mb-4"></i>
                 <p class="text-xl font-semibold text-gray-700">Analysiere Ihre Medikamente...</p>
-                <p class="text-gray-500 mt-2">Dies kann einige Sekunden dauern</p>
+                <p class="text-gray-500 mt-2">Berechne individuelle CBD-Paste Dosierung...</p>
             </div>
 
             <!-- Results -->
@@ -571,7 +957,7 @@ app.get('/', (c) => {
                     Alle Informationen basieren auf wissenschaftlichen Studien zu CBD-Medikamenten-Wechselwirkungen
                 </p>
                 <p class="text-gray-400 text-sm">
-                    Quellen: PubMed, NIH, ProjectCBD, Nordic Oil, Hanfosan
+                    Quellen: PubMed, NIH, ProjectCBD
                 </p>
             </div>
         </footer>
