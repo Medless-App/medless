@@ -1121,307 +1121,6 @@ app.get('/', (c) => {
             </div>
             
 
-            <!-- FAQ Section: Häufig gestellte Fragen -->
-            <div class="section-card p-8 mb-8 rounded-lg fade-in">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                    <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-question-circle text-teal-700 text-lg"></i>
-                    </div>
-                    <span>Häufig gestellte Fragen</span>
-                </h2>
-                
-                <!-- FAQ 1: Wie exogene Cannabinoide ECS aktivieren -->
-                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
-                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Wie aktivieren exogene Cannabinoide mein Endocannabinoid-System?</span>
-                    </summary>
-                    <div class="mt-4 pl-8 text-gray-700 leading-relaxed">
-                        <div class="bg-slate-50 p-5 rounded-lg mb-4 border border-slate-200">
-                            <h4 class="font-semibold text-gray-900 mb-3 text-sm">
-                                Der biochemische Mechanismus:
-                            </h4>
-                            <p class="text-xs mb-3">
-                                Cannabinoide (wie CBD) wirken auf mehrere Arten in Ihrem Körper:
-                            </p>
-                            <ul class="text-xs space-y-2">
-                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Hemmt FAAH-Enzym:</strong> Verhindert den Abbau von Anandamid (körpereigenes "Glücks-Endocannabinoid"), sodass mehr davon im Körper verfügbar bleibt</li>
-                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Aktiviert Serotonin-Rezeptoren (5-HT1A):</strong> Wirkt angstlösend und stimmungsaufhellend – ähnlich wie Antidepressiva</li>
-                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Moduliert CB1/CB2-Rezeptoren:</strong> Indirekte Aktivierung des ECS ohne psychoaktive Wirkung</li>
-                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Hemmt Entzündungen:</strong> Reduziert COX-2 und NF-κB (entzündungsfördernde Enzyme)</li>
-                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Antioxidative Wirkung:</strong> Schützt Nervenzellen vor oxidativem Stress</span></li>
-                            </ul>
-                        </div>
-                        <div class="info-box p-4 rounded-lg">
-                            <p class="text-xs">
-                                <strong>Wichtig:</strong> Cannabinoide wie CBD haben <strong>keine psychoaktive Wirkung</strong>, machen nicht "high" und sind <strong>nicht abhängigkeitsbildend</strong>.
-                            </p>
-                        </div>
-                    </div>
-                </details>
-                
-                <!-- FAQ 2: Welche Medikamente sind gefährlich? -->
-                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
-                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Bei welchen Medikamenten sind Wechselwirkungen mit Cannabinoiden besonders gefährlich?</span>
-                    </summary>
-                    <div class="mt-4 pl-8 text-gray-700 leading-relaxed">
-                        <div class="warning-box p-5 rounded-lg mb-4 border-l-4 border-red-400">
-                            <h4 class="font-semibold text-gray-900 mb-3 text-sm">
-                                Kritische Medikamentengruppen:
-                            </h4>
-                            <ul class="text-xs space-y-2.5">
-                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Blutverdünner (Antikoagulanzien):</strong> Warfarin/Marcumar, Xarelto, Eliquis – Cannabinoide können die Blutgerinnung weiter hemmen → Blutungsrisiko erhöht</span></li>
-                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Immunsuppressiva:</strong> Sandimmun (Ciclosporin), Prograf (Tacrolimus) – Cannabinoide können Wirkspiegel erhöhen → Toxizität möglich</span></li>
-                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Opioide:</strong> OxyContin, Tramadol, Morphin – Cannabinoide + Opioide können zu übermäßiger Sedierung führen → Atemdepression</span></li>
-                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Benzodiazepine:</strong> Tavor (Lorazepam), Valium (Diazepam), Rivotril – Verstärkte Müdigkeit, Sturzgefahr bei älteren Menschen</span></li>
-                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Antidepressiva & Antipsychotika:</strong> Verstärkung der sedierenden Wirkung, mögliche CYP450-Interaktionen</span></li>
-                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Herzrhythmus-Medikamente:</strong> Amiodaron – Cannabinoide können Wirkspiegel beeinflussen</span></li>
-                            </ul>
-                        </div>
-                        <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
-                            <p class="text-xs text-gray-700">
-                                <strong>Wichtig:</strong> Unser Tool prüft diese Wechselwirkungen automatisch und passt die Startdosis entsprechend an. Bei kritischen Medikamenten empfehlen wir eine <strong>sehr vorsichtige Einschleichphase</strong> und <strong>engmaschige ärztliche Kontrolle</strong>.
-                            </p>
-                        </div>
-                    </div>
-                </details>
-                
-                <!-- FAQ 3: Wie lange bis Wirkung? -->
-                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
-                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Wie lange dauert es, bis Cannabinoide wirken? Und wie lange hält die Wirkung an?</span>
-                    </summary>
-                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
-                        <div class="grid md:grid-cols-2 gap-4 mb-4">
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <h4 class="font-bold text-blue-900 mb-2">
-                                    <i class="fas fa-stopwatch mr-2"></i>
-                                    Wirkungseintritt:
-                                </h4>
-                                <p class="text-sm mb-3">Bei <strong>sublingualer Einnahme</strong> (unter die Zunge):</p>
-                                <ul class="text-sm space-y-1">
-                                    <li>• <strong>Erste Wirkung:</strong> 15-30 Minuten</li>
-                                    <li>• <strong>Volle Wirkung:</strong> 1-2 Stunden</li>
-                                    <li>• <strong>Warum so schnell?</strong> Aufnahme über Mundschleimhaut direkt ins Blut</li>
-                                </ul>
-                            </div>
-                            <div class="bg-green-50 p-4 rounded-lg">
-                                <h4 class="font-bold text-green-900 mb-2">
-                                    <i class="fas fa-hourglass-half mr-2"></i>
-                                    Wirkungsdauer:
-                                </h4>
-                                <p class="text-sm mb-3">Wie lange bleiben Cannabinoide im Körper aktiv?</p>
-                                <ul class="text-sm space-y-1">
-                                    <li>• <strong>Akute Wirkung:</strong> 4-8 Stunden</li>
-                                    <li>• <strong>Halbwertszeit:</strong> 18-68 Stunden</li>
-                                    <li>• <strong>Kumulativer Effekt:</strong> Bei regelmäßiger Einnahme Aufbau im Körper</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
-                            <p class="text-sm">
-                                <i class="fas fa-info-circle text-purple-600 mr-2"></i>
-                                <strong>Für ECS-Stärkung:</strong> Die volle Wirkung zur Medikamenten-Reduktion entwickelt sich oft erst nach <strong>2-4 Wochen regelmäßiger Einnahme</strong>, da sich das ECS langsam regeneriert. Geduld ist wichtig!
-                            </p>
-                        </div>
-                    </div>
-                </details>
-                
-                <!-- FAQ 4: Kann ich Medikamente reduzieren? -->
-                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
-                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Kann ich wirklich meine Medikamente durch Cannabinoide reduzieren? Gibt es dafür Beweise?</span>
-                    </summary>
-                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
-                        <div class="bg-green-50 p-5 rounded-lg mb-4 border-l-4 border-green-500">
-                            <h4 class="font-bold text-green-900 mb-3">
-                                <i class="fas fa-flask mr-2"></i>
-                                Wissenschaftliche Erkenntnisse:
-                            </h4>
-                            <p class="text-sm mb-3">
-                                <strong>Ja, aber nur unter ärztlicher Aufsicht!</strong> Studien zeigen vielversprechende Ergebnisse:
-                            </p>
-                            <ul class="text-sm space-y-2">
-                                <li><strong>• Schmerzpatienten:</strong> 50-80% konnten Opioide reduzieren oder absetzen (Studie: University of Michigan, 2025)</li>
-                                <li><strong>• Angststörungen:</strong> Cannabinoide zeigten in klinischen Studien vergleichbare Wirkung wie niedrig dosierte Benzodiazepine</li>
-                                <li><strong>• Schlafstörungen:</strong> 60% der Patienten reduzierten Schlafmittel nach 3 Monaten Cannabinoid-Einnahme</li>
-                                <li><strong>• Entzündliche Erkrankungen:</strong> Reduktion von NSAR (Ibuprofen, Diclofenac) durch anti-inflammatorische Cannabinoid-Wirkung</li>
-                            </ul>
-                        </div>
-                        <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
-                            <p class="text-sm text-yellow-900 mb-2">
-                                <i class="fas fa-user-md mr-2"></i>
-                                <strong>Wichtig zu verstehen:</strong>
-                            </p>
-                            <ul class="text-sm space-y-1 text-yellow-900">
-                                <li>• Cannabinoide sind <strong>kein Wundermittel</strong>, sondern unterstützen Ihr ECS</li>
-                                <li>• Medikamenten-Reduktion ist ein <strong>langsamer Prozess</strong> (3-6 Monate)</li>
-                                <li>• <strong>Niemals eigenständig absetzen</strong> – nur mit ärztlicher Begleitung!</li>
-                                <li>• Nicht bei allen Menschen gleich wirksam (Genetik, ECS-Status)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </details>
-                
-                <!-- FAQ 5: Macht CBD abhängig? Nebenwirkungen? -->
-                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
-                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Machen Cannabinoide abhängig? Welche Nebenwirkungen kann es geben?</span>
-
-                    </summary>
-                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
-                        <div class="grid md:grid-cols-2 gap-4 mb-4">
-                            <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
-                                <h4 class="font-bold text-green-900 mb-2">
-                                    <i class="fas fa-check-circle mr-2"></i>
-                                    Abhängigkeitspotenzial:
-                                </h4>
-                                <p class="text-sm mb-2"><strong>Nein, Cannabinoide machen nicht abhängig!</strong></p>
-                                <ul class="text-sm space-y-1">
-                                    <li>• WHO stuft nicht-psychoaktive Cannabinoide als sicher ein (2025)</li>
-                                    <li>• Keine Entzugserscheinungen beim Absetzen</li>
-                                    <li>• Keine Toleranzentwicklung (Dosis muss nicht gesteigert werden)</li>
-                                    <li>• Keine psychoaktive Wirkung</li>
-                                </ul>
-                            </div>
-                            <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
-                                <h4 class="font-bold text-blue-900 mb-2">
-                                    <i class="fas fa-thermometer-half mr-2"></i>
-                                    Mögliche Nebenwirkungen:
-                                </h4>
-                                <p class="text-sm mb-2">Meist mild und selten:</p>
-                                <ul class="text-sm space-y-1">
-                                    <li>• Müdigkeit (bei hohen Dosen)</li>
-                                    <li>• Mundtrockenheit</li>
-                                    <li>• Leichter Durchfall (erste Tage)</li>
-                                    <li>• Appetitveränderungen</li>
-                                    <li>• Selten: Leberwerterhöhung (bei sehr hohen Dosen)</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="bg-purple-50 p-4 rounded-lg">
-                            <p class="text-sm">
-                                <i class="fas fa-lightbulb text-purple-600 mr-2"></i>
-                                <strong>Tipp:</strong> Unser "Start Low, Go Slow"-Ansatz minimiert Nebenwirkungen. Die meisten Menschen vertragen Cannabinoide sehr gut, wenn sie langsam einschleichen.
-                            </p>
-                        </div>
-                    </div>
-                </details>
-                
-                <!-- FAQ 6: Wie finde ich einen Arzt? -->
-                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
-                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Wie finde ich einen Arzt, der mich bei der Medikamenten-Reduktion mit Cannabinoiden begleitet?</span>
-
-                    </summary>
-                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
-                        <div class="bg-teal-50 p-5 rounded-lg mb-4 border-l-4 border-teal-500">
-                            <h4 class="font-bold text-teal-900 mb-3">
-                                <i class="fas fa-search mr-2"></i>
-                                So finden Sie den richtigen Arzt:
-                            </h4>
-                            <ul class="text-sm space-y-3">
-                                <li>
-                                    <strong>1. Hausarzt als erster Ansprechpartner:</strong><br>
-                                    Zeigen Sie Ihrem Hausarzt diesen Medikamenten-Reduktionsplan. Viele Ärzte sind heute aufgeschlossen gegenüber Cannabinoiden, wenn wissenschaftliche Grundlagen vorliegen.
-                                </li>
-                                <li>
-                                    <strong>2. Cannabis-Ärzte & Spezialisten:</strong><br>
-                                    Suchen Sie nach Ärzten mit Fortbildung in Cannabinoid-Medizin. In Deutschland und Österreich gibt es zunehmend spezialisierte Praxen.
-                                </li>
-                                <li>
-                                    <strong>3. Online-Plattformen nutzen:</strong><br>
-                                    Cannabis-Ärzte-Verzeichnisse, Telemedizin-Plattformen für Cannabis-Beratung
-                                </li>
-                                <li>
-                                    <strong>4. Fachärzte je nach Erkrankung:</strong><br>
-                                    • Schmerz: Schmerztherapeut<br>
-                                    • Psyche: Psychiater, Neurologe<br>
-                                    • Entzündungen: Rheumatologe, Internist
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h5 class="font-bold text-blue-900 mb-2">
-                                <i class="fas fa-comments mr-2"></i>
-                                Gesprächstipps für Ihr Arztgespräch:
-                            </h5>
-                            <ul class="text-sm space-y-1">
-                                <li>✅ Bringen Sie diesen Medikamenten-Reduktionsplan mit (als PDF)</li>
-                                <li>✅ Erklären Sie Ihre Motivation (weniger Medikamente, Nebenwirkungen)</li>
-                                <li>✅ Betonen Sie, dass Sie unter ärztlicher Aufsicht vorgehen möchten</li>
-                                <li>✅ Fragen Sie nach regelmäßigen Kontrolluntersuchungen</li>
-                                <li>✅ Dokumentieren Sie Ihre Erfahrungen (Symptom-Tagebuch)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </details>
-                
-                <!-- FAQ 7: Was kostet CBD? Zahlt Krankenkasse? -->
-                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
-                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Was kosten Cannabinoid-Präparate? Übernimmt die Krankenkasse die Kosten?</span>
-
-                    </summary>
-                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
-                        <div class="grid md:grid-cols-2 gap-4 mb-4">
-                            <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
-                                <h4 class="font-bold text-orange-900 mb-2">
-                                    <i class="fas fa-calculator mr-2"></i>
-                                    Kosten für Cannabinoid-Präparate (z.B. CBD-Paste 70%):
-                                </h4>
-                                <p class="text-sm mb-2">Beispielrechnung für 1 Monat:</p>
-                                <ul class="text-sm space-y-1">
-                                    <li>• <strong>Niedrige Dosis (20mg/Tag):</strong> ca. 50-70€</li>
-                                    <li>• <strong>Mittlere Dosis (50mg/Tag):</strong> ca. 100-150€</li>
-                                    <li>• <strong>Hohe Dosis (100mg/Tag):</strong> ca. 200-250€</li>
-                                </ul>
-                                <p class="text-xs mt-2 text-gray-600">
-                                    *Preise variieren je nach Hersteller und Qualität
-                                </p>
-                            </div>
-                            <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
-                                <h4 class="font-bold text-blue-900 mb-2">
-                                    <i class="fas fa-hospital mr-2"></i>
-                                    Krankenkasse:
-                                </h4>
-                                <p class="text-sm mb-2"><strong>Leider meist NEIN:</strong></p>
-                                <ul class="text-sm space-y-1">
-                                    <li>• Cannabinoid-Präparate als Nahrungsergänzungsmittel: <strong>Keine Kostenübernahme</strong></li>
-                                    <li>• Medizinisches Cannabis (THC-haltig): Kann verschrieben werden, aber hohe Hürden</li>
-                                    <li>• Private Krankenversicherungen: Einzelfallentscheidung</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
-                            <h5 class="font-bold text-green-900 mb-2">
-                                <i class="fas fa-piggy-bank mr-2"></i>
-                                Aber: Langfristige Einsparungen möglich!
-                            </h5>
-                            <p class="text-sm mb-2">
-                                Wenn Sie durch Cannabinoide Medikamente reduzieren können, sparen Sie:
-                            </p>
-                            <ul class="text-sm space-y-1">
-                                <li>• Zuzahlungen für Medikamente (5-10€ pro Rezept)</li>
-                                <li>• Kosten für Nebenwirkungen-Behandlung</li>
-                                <li>• Arztbesuche wegen Nebenwirkungen</li>
-                                <li>• Langfristig: Weniger Folgeerkrankungen durch Medikamente</li>
-                            </ul>
-                            <p class="text-sm mt-2">
-                                <strong>Beispiel:</strong> Wenn Sie 3 Medikamente à 10€ Zuzahlung/Monat sparen = 30€. Plus Cannabinoid-Kosten 100€ = Netto-Mehrkosten 70€ für bessere Lebensqualität.
-                            </p>
-                        </div>
-                    </div>
-                </details>
-            </div>
-
             <!-- Main Form -->
             <div id="dosierungsplan-erstellen" class="section-card p-8 mb-8 rounded-lg fade-in">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
@@ -1784,6 +1483,307 @@ app.get('/', (c) => {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         <script src="/static/app.js"></script>
     </body>
+            <!-- FAQ Section: Häufig gestellte Fragen -->
+            <div class="section-card p-8 mb-8 rounded-lg fade-in">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                    <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-question-circle text-teal-700 text-lg"></i>
+                    </div>
+                    <span>Häufig gestellte Fragen</span>
+                </h2>
+                
+                <!-- FAQ 1: Wie exogene Cannabinoide ECS aktivieren -->
+                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
+                        <span>Wie aktivieren exogene Cannabinoide mein Endocannabinoid-System?</span>
+                    </summary>
+                    <div class="mt-4 pl-8 text-gray-700 leading-relaxed">
+                        <div class="bg-slate-50 p-5 rounded-lg mb-4 border border-slate-200">
+                            <h4 class="font-semibold text-gray-900 mb-3 text-sm">
+                                Der biochemische Mechanismus:
+                            </h4>
+                            <p class="text-xs mb-3">
+                                Cannabinoide (wie CBD) wirken auf mehrere Arten in Ihrem Körper:
+                            </p>
+                            <ul class="text-xs space-y-2">
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Hemmt FAAH-Enzym:</strong> Verhindert den Abbau von Anandamid (körpereigenes "Glücks-Endocannabinoid"), sodass mehr davon im Körper verfügbar bleibt</li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Aktiviert Serotonin-Rezeptoren (5-HT1A):</strong> Wirkt angstlösend und stimmungsaufhellend – ähnlich wie Antidepressiva</li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Moduliert CB1/CB2-Rezeptoren:</strong> Indirekte Aktivierung des ECS ohne psychoaktive Wirkung</li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Hemmt Entzündungen:</strong> Reduziert COX-2 und NF-κB (entzündungsfördernde Enzyme)</li>
+                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Antioxidative Wirkung:</strong> Schützt Nervenzellen vor oxidativem Stress</span></li>
+                            </ul>
+                        </div>
+                        <div class="info-box p-4 rounded-lg">
+                            <p class="text-xs">
+                                <strong>Wichtig:</strong> Cannabinoide wie CBD haben <strong>keine psychoaktive Wirkung</strong>, machen nicht "high" und sind <strong>nicht abhängigkeitsbildend</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </details>
+                
+                <!-- FAQ 2: Welche Medikamente sind gefährlich? -->
+                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
+                        <span>Bei welchen Medikamenten sind Wechselwirkungen mit Cannabinoiden besonders gefährlich?</span>
+                    </summary>
+                    <div class="mt-4 pl-8 text-gray-700 leading-relaxed">
+                        <div class="warning-box p-5 rounded-lg mb-4 border-l-4 border-red-400">
+                            <h4 class="font-semibold text-gray-900 mb-3 text-sm">
+                                Kritische Medikamentengruppen:
+                            </h4>
+                            <ul class="text-xs space-y-2.5">
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Blutverdünner (Antikoagulanzien):</strong> Warfarin/Marcumar, Xarelto, Eliquis – Cannabinoide können die Blutgerinnung weiter hemmen → Blutungsrisiko erhöht</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Immunsuppressiva:</strong> Sandimmun (Ciclosporin), Prograf (Tacrolimus) – Cannabinoide können Wirkspiegel erhöhen → Toxizität möglich</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Opioide:</strong> OxyContin, Tramadol, Morphin – Cannabinoide + Opioide können zu übermäßiger Sedierung führen → Atemdepression</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Benzodiazepine:</strong> Tavor (Lorazepam), Valium (Diazepam), Rivotril – Verstärkte Müdigkeit, Sturzgefahr bei älteren Menschen</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Antidepressiva & Antipsychotika:</strong> Verstärkung der sedierenden Wirkung, mögliche CYP450-Interaktionen</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Herzrhythmus-Medikamente:</strong> Amiodaron – Cannabinoide können Wirkspiegel beeinflussen</span></li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                            <p class="text-xs text-gray-700">
+                                <strong>Wichtig:</strong> Unser Tool prüft diese Wechselwirkungen automatisch und passt die Startdosis entsprechend an. Bei kritischen Medikamenten empfehlen wir eine <strong>sehr vorsichtige Einschleichphase</strong> und <strong>engmaschige ärztliche Kontrolle</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </details>
+                
+                <!-- FAQ 3: Wie lange bis Wirkung? -->
+                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
+                        <span>Wie lange dauert es, bis Cannabinoide wirken? Und wie lange hält die Wirkung an?</span>
+                    </summary>
+                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-blue-900 mb-2">
+                                    <i class="fas fa-stopwatch mr-2"></i>
+                                    Wirkungseintritt:
+                                </h4>
+                                <p class="text-sm mb-3">Bei <strong>sublingualer Einnahme</strong> (unter die Zunge):</p>
+                                <ul class="text-sm space-y-1">
+                                    <li>• <strong>Erste Wirkung:</strong> 15-30 Minuten</li>
+                                    <li>• <strong>Volle Wirkung:</strong> 1-2 Stunden</li>
+                                    <li>• <strong>Warum so schnell?</strong> Aufnahme über Mundschleimhaut direkt ins Blut</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-green-900 mb-2">
+                                    <i class="fas fa-hourglass-half mr-2"></i>
+                                    Wirkungsdauer:
+                                </h4>
+                                <p class="text-sm mb-3">Wie lange bleiben Cannabinoide im Körper aktiv?</p>
+                                <ul class="text-sm space-y-1">
+                                    <li>• <strong>Akute Wirkung:</strong> 4-8 Stunden</li>
+                                    <li>• <strong>Halbwertszeit:</strong> 18-68 Stunden</li>
+                                    <li>• <strong>Kumulativer Effekt:</strong> Bei regelmäßiger Einnahme Aufbau im Körper</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                            <p class="text-sm">
+                                <i class="fas fa-info-circle text-purple-600 mr-2"></i>
+                                <strong>Für ECS-Stärkung:</strong> Die volle Wirkung zur Medikamenten-Reduktion entwickelt sich oft erst nach <strong>2-4 Wochen regelmäßiger Einnahme</strong>, da sich das ECS langsam regeneriert. Geduld ist wichtig!
+                            </p>
+                        </div>
+                    </div>
+                </details>
+                
+                <!-- FAQ 4: Kann ich Medikamente reduzieren? -->
+                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
+                        <span>Kann ich wirklich meine Medikamente durch Cannabinoide reduzieren? Gibt es dafür Beweise?</span>
+                    </summary>
+                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
+                        <div class="bg-green-50 p-5 rounded-lg mb-4 border-l-4 border-green-500">
+                            <h4 class="font-bold text-green-900 mb-3">
+                                <i class="fas fa-flask mr-2"></i>
+                                Wissenschaftliche Erkenntnisse:
+                            </h4>
+                            <p class="text-sm mb-3">
+                                <strong>Ja, aber nur unter ärztlicher Aufsicht!</strong> Studien zeigen vielversprechende Ergebnisse:
+                            </p>
+                            <ul class="text-sm space-y-2">
+                                <li><strong>• Schmerzpatienten:</strong> 50-80% konnten Opioide reduzieren oder absetzen (Studie: University of Michigan, 2025)</li>
+                                <li><strong>• Angststörungen:</strong> Cannabinoide zeigten in klinischen Studien vergleichbare Wirkung wie niedrig dosierte Benzodiazepine</li>
+                                <li><strong>• Schlafstörungen:</strong> 60% der Patienten reduzierten Schlafmittel nach 3 Monaten Cannabinoid-Einnahme</li>
+                                <li><strong>• Entzündliche Erkrankungen:</strong> Reduktion von NSAR (Ibuprofen, Diclofenac) durch anti-inflammatorische Cannabinoid-Wirkung</li>
+                            </ul>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                            <p class="text-sm text-yellow-900 mb-2">
+                                <i class="fas fa-user-md mr-2"></i>
+                                <strong>Wichtig zu verstehen:</strong>
+                            </p>
+                            <ul class="text-sm space-y-1 text-yellow-900">
+                                <li>• Cannabinoide sind <strong>kein Wundermittel</strong>, sondern unterstützen Ihr ECS</li>
+                                <li>• Medikamenten-Reduktion ist ein <strong>langsamer Prozess</strong> (3-6 Monate)</li>
+                                <li>• <strong>Niemals eigenständig absetzen</strong> – nur mit ärztlicher Begleitung!</li>
+                                <li>• Nicht bei allen Menschen gleich wirksam (Genetik, ECS-Status)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </details>
+                
+                <!-- FAQ 5: Macht CBD abhängig? Nebenwirkungen? -->
+                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
+                        <span>Machen Cannabinoide abhängig? Welche Nebenwirkungen kann es geben?</span>
+
+                    </summary>
+                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                                <h4 class="font-bold text-green-900 mb-2">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    Abhängigkeitspotenzial:
+                                </h4>
+                                <p class="text-sm mb-2"><strong>Nein, Cannabinoide machen nicht abhängig!</strong></p>
+                                <ul class="text-sm space-y-1">
+                                    <li>• WHO stuft nicht-psychoaktive Cannabinoide als sicher ein (2025)</li>
+                                    <li>• Keine Entzugserscheinungen beim Absetzen</li>
+                                    <li>• Keine Toleranzentwicklung (Dosis muss nicht gesteigert werden)</li>
+                                    <li>• Keine psychoaktive Wirkung</li>
+                                </ul>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                                <h4 class="font-bold text-blue-900 mb-2">
+                                    <i class="fas fa-thermometer-half mr-2"></i>
+                                    Mögliche Nebenwirkungen:
+                                </h4>
+                                <p class="text-sm mb-2">Meist mild und selten:</p>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Müdigkeit (bei hohen Dosen)</li>
+                                    <li>• Mundtrockenheit</li>
+                                    <li>• Leichter Durchfall (erste Tage)</li>
+                                    <li>• Appetitveränderungen</li>
+                                    <li>• Selten: Leberwerterhöhung (bei sehr hohen Dosen)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <p class="text-sm">
+                                <i class="fas fa-lightbulb text-purple-600 mr-2"></i>
+                                <strong>Tipp:</strong> Unser "Start Low, Go Slow"-Ansatz minimiert Nebenwirkungen. Die meisten Menschen vertragen Cannabinoide sehr gut, wenn sie langsam einschleichen.
+                            </p>
+                        </div>
+                    </div>
+                </details>
+                
+                <!-- FAQ 6: Wie finde ich einen Arzt? -->
+                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
+                        <span>Wie finde ich einen Arzt, der mich bei der Medikamenten-Reduktion mit Cannabinoiden begleitet?</span>
+
+                    </summary>
+                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
+                        <div class="bg-teal-50 p-5 rounded-lg mb-4 border-l-4 border-teal-500">
+                            <h4 class="font-bold text-teal-900 mb-3">
+                                <i class="fas fa-search mr-2"></i>
+                                So finden Sie den richtigen Arzt:
+                            </h4>
+                            <ul class="text-sm space-y-3">
+                                <li>
+                                    <strong>1. Hausarzt als erster Ansprechpartner:</strong><br>
+                                    Zeigen Sie Ihrem Hausarzt diesen Medikamenten-Reduktionsplan. Viele Ärzte sind heute aufgeschlossen gegenüber Cannabinoiden, wenn wissenschaftliche Grundlagen vorliegen.
+                                </li>
+                                <li>
+                                    <strong>2. Cannabis-Ärzte & Spezialisten:</strong><br>
+                                    Suchen Sie nach Ärzten mit Fortbildung in Cannabinoid-Medizin. In Deutschland und Österreich gibt es zunehmend spezialisierte Praxen.
+                                </li>
+                                <li>
+                                    <strong>3. Online-Plattformen nutzen:</strong><br>
+                                    Cannabis-Ärzte-Verzeichnisse, Telemedizin-Plattformen für Cannabis-Beratung
+                                </li>
+                                <li>
+                                    <strong>4. Fachärzte je nach Erkrankung:</strong><br>
+                                    • Schmerz: Schmerztherapeut<br>
+                                    • Psyche: Psychiater, Neurologe<br>
+                                    • Entzündungen: Rheumatologe, Internist
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-900 mb-2">
+                                <i class="fas fa-comments mr-2"></i>
+                                Gesprächstipps für Ihr Arztgespräch:
+                            </h5>
+                            <ul class="text-sm space-y-1">
+                                <li>✅ Bringen Sie diesen Medikamenten-Reduktionsplan mit (als PDF)</li>
+                                <li>✅ Erklären Sie Ihre Motivation (weniger Medikamente, Nebenwirkungen)</li>
+                                <li>✅ Betonen Sie, dass Sie unter ärztlicher Aufsicht vorgehen möchten</li>
+                                <li>✅ Fragen Sie nach regelmäßigen Kontrolluntersuchungen</li>
+                                <li>✅ Dokumentieren Sie Ihre Erfahrungen (Symptom-Tagebuch)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </details>
+                
+                <!-- FAQ 7: Was kostet CBD? Zahlt Krankenkasse? -->
+                <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
+                        <span>Was kosten Cannabinoid-Präparate? Übernimmt die Krankenkasse die Kosten?</span>
+
+                    </summary>
+                    <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
+                                <h4 class="font-bold text-orange-900 mb-2">
+                                    <i class="fas fa-calculator mr-2"></i>
+                                    Kosten für Cannabinoid-Präparate (z.B. CBD-Paste 70%):
+                                </h4>
+                                <p class="text-sm mb-2">Beispielrechnung für 1 Monat:</p>
+                                <ul class="text-sm space-y-1">
+                                    <li>• <strong>Niedrige Dosis (20mg/Tag):</strong> ca. 50-70€</li>
+                                    <li>• <strong>Mittlere Dosis (50mg/Tag):</strong> ca. 100-150€</li>
+                                    <li>• <strong>Hohe Dosis (100mg/Tag):</strong> ca. 200-250€</li>
+                                </ul>
+                                <p class="text-xs mt-2 text-gray-600">
+                                    *Preise variieren je nach Hersteller und Qualität
+                                </p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                                <h4 class="font-bold text-blue-900 mb-2">
+                                    <i class="fas fa-hospital mr-2"></i>
+                                    Krankenkasse:
+                                </h4>
+                                <p class="text-sm mb-2"><strong>Leider meist NEIN:</strong></p>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Cannabinoid-Präparate als Nahrungsergänzungsmittel: <strong>Keine Kostenübernahme</strong></li>
+                                    <li>• Medizinisches Cannabis (THC-haltig): Kann verschrieben werden, aber hohe Hürden</li>
+                                    <li>• Private Krankenversicherungen: Einzelfallentscheidung</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                            <h5 class="font-bold text-green-900 mb-2">
+                                <i class="fas fa-piggy-bank mr-2"></i>
+                                Aber: Langfristige Einsparungen möglich!
+                            </h5>
+                            <p class="text-sm mb-2">
+                                Wenn Sie durch Cannabinoide Medikamente reduzieren können, sparen Sie:
+                            </p>
+                            <ul class="text-sm space-y-1">
+                                <li>• Zuzahlungen für Medikamente (5-10€ pro Rezept)</li>
+                                <li>• Kosten für Nebenwirkungen-Behandlung</li>
+                                <li>• Arztbesuche wegen Nebenwirkungen</li>
+                                <li>• Langfristig: Weniger Folgeerkrankungen durch Medikamente</li>
+                            </ul>
+                            <p class="text-sm mt-2">
+                                <strong>Beispiel:</strong> Wenn Sie 3 Medikamente à 10€ Zuzahlung/Monat sparen = 30€. Plus Cannabinoid-Kosten 100€ = Netto-Mehrkosten 70€ für bessere Lebensqualität.
+                            </p>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
     </html>
   `)
 })
