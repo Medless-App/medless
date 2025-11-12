@@ -656,7 +656,7 @@ app.get('/', (c) => {
                             Der Weg: Exogene Cannabinoide stärken Ihr ECS
                         </h2>
                         <p class="text-gray-700 text-base mb-6 leading-relaxed">
-                            Wenn Ihr Körper nicht genug <strong>eigene Endocannabinoide</strong> produziert, können Sie ihn mit <strong>exogenen Cannabinoiden</strong> (von außen zugeführt) unterstützen. Diese Pflanzenstoffe – wie CBD – wirken <strong>genauso wie körpereigene Endocannabinoide</strong> und helfen Ihrem ECS, seine Funktion wiederzuerlangen.
+                            Wenn Ihr Körper vorübergehend nicht genügend eigene Endocannabinoide zur Verfügung hat, können <strong>exogene Cannabinoide</strong> (von außen zugeführt) das System unterstützen. Diese Pflanzenstoffe binden an ähnliche Rezeptoren oder beeinflussen dieselben Signalwege wie körpereigene Endocannabinoide – und können so helfen, die <strong>ECS-Aktivität zu modulieren</strong>.
                         </p>
                         
                         <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-6">
