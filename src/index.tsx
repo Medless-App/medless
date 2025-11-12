@@ -478,7 +478,7 @@ app.get('/', (c) => {
                             💊 Zu viele Tabletten? Sie sind nicht allein.
                         </h2>
                         <p class="text-gray-800 text-lg mb-4 leading-relaxed">
-                            Millionen Menschen in Deutschland nehmen täglich Medikamente – oft mehrere gleichzeitig. Viele möchten ihre <strong>Medikation reduzieren</strong> oder sogar <strong>komplett ausschleichen</strong>, wissen aber nicht, wie sie das sicher angehen können.
+                            Millionen Menschen in Deutschland und Österreich nehmen täglich Medikamente – oft mehrere gleichzeitig. Viele möchten ihre <strong>Medikation reduzieren</strong> oder sogar <strong>komplett ausschleichen</strong>, wissen aber nicht, wie sie das sicher angehen können.
                         </p>
                         <div class="bg-white p-5 rounded-lg border-l-4 border-orange-400">
                             <p class="text-gray-800 font-semibold mb-2">
