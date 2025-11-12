@@ -695,21 +695,21 @@ function displayResults(data, firstName = '', gender = '') {
     <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in" id="dosage-plan-section">
       <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
         <i class="fas fa-calendar-check text-green-600 mr-3"></i>
-        Ihr persönlicher CBD-Paste Dosierungsplan
+        Ihr persönlicher Cannabinoid-Reduktionsplan
       </h2>
       
       <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-lg">
         <p class="text-blue-800">
           <i class="fas fa-info-circle mr-2"></i>
-          <strong>Dosierungsphilosophie:</strong> "Start Low, Go Slow" - Wir beginnen mit niedriger Dosis und steigern schrittweise
+          <strong>Dosierungsphilosophie:</strong> "Start low, go slow (niedrig beginnen, langsam steigern)" - Wir beginnen mit niedriger Dosis und steigern schrittweise
         </p>
         <p class="text-blue-700 text-sm mt-2">
           <strong>📊 Dosierungseinheit:</strong> Zentimeter (cm) auf der Spritze • 
-          <strong>💉 1 cm</strong> = 46.67 mg CBD • 
-          <strong>📏 1 Teilstrich</strong> = 1.5 cm = 70 mg CBD
+          <strong>💉 1 cm</strong> = 46,7 mg Cannabinoide • 
+          <strong>📏 1 Teilstrich</strong> = 1,5 cm = 70 mg Cannabinoide
         </p>
         <p class="text-blue-700 text-sm mt-2">
-          <strong>⏰ Einnahme:</strong> Phase 1: Nur abends (Einschleichphase) → Phase 2: 2x täglich (Morgens 40% + Abends 60%)
+          <strong>⏰ Einnahme:</strong> Phase 1: Nur abends (Einschleichphase) → Phase 2: 2x täglich (Morgens ~40 % + Abends ~60 %)
         </p>
       </div>
   `;
@@ -820,7 +820,7 @@ function displayResults(data, firstName = '', gender = '') {
   };
 }
 
-// Download PDF function using jsPDF
+// Download PDF function using jsPDF - Global Standards Applied
 function downloadPDF() {
   if (!window.currentPlanData || typeof jspdf === 'undefined') {
     alert('PDF-Bibliothek wird geladen... Bitte versuchen Sie es in einigen Sekunden erneut.');
@@ -835,63 +835,100 @@ function downloadPDF() {
   
   let yPos = 20;
   
-  // Title
+  // === SEITENÜBERSCHRIFT (STANDARD) ===
   doc.setFontSize(20);
-  doc.setTextColor(102, 126, 234);
-  doc.text('Dein persönlicher CBD-Paste Dosierungsplan', 105, yPos, { align: 'center' });
+  doc.setTextColor(15, 118, 110); // Teal-700
+  doc.text('Individueller Cannabinoid-Dosierungsplan', 105, yPos, { align: 'center' });
   
   yPos += 10;
-  doc.setFontSize(12);
+  doc.setFontSize(11);
   doc.setTextColor(100, 100, 100);
-  doc.text('ECS-Aktivierung – individuell auf dich abgestimmt', 105, yPos, { align: 'center' });
+  doc.text('Erstellt auf Basis Ihrer Eingaben, wissenschaftlich fundiert und KI-gestützt', 105, yPos, { align: 'center' });
   
   yPos += 15;
   
-  // Personalized Greeting FIRST
+  // === PERSONALISIERTE ANREDE (STANDARD: Vorname groß) ===
   const greeting = gender === 'female' ? 'Liebe' : 'Lieber';
+  // Capitalize first letter of firstName
+  const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
   doc.setFontSize(14);
   doc.setTextColor(88, 28, 135);
   doc.setFont(undefined, 'bold');
-  doc.text(`${greeting} ${firstName},`, 15, yPos);
+  doc.text(`${greeting} ${capitalizedFirstName},`, 15, yPos);
   
   yPos += 8;
   
-  // Welcoming Introduction Text
+  // === ZUSAMMENFASSUNG (STANDARD: direkt nach Anrede) ===
+  doc.setFillColor(204, 251, 241); // Teal-100
+  doc.rect(10, yPos, 190, 22, 'F');
+  doc.setFontSize(9);
+  doc.setTextColor(15, 118, 110);
+  doc.setFont(undefined, 'bold');
+  doc.text('Übersicht Ihres Dosierungsplans', 15, yPos + 6);
+  doc.setFont(undefined, 'normal');
+  doc.setTextColor(60, 60, 60);
+  
+  // Calculate values based on actual plan data
+  const startDosageCm = weeklyPlan[0]?.days[0]?.eveningDosageCm || 0.2;
+  const startDosageMg = (startDosageCm * 46.7).toFixed(1);
+  const targetCm = 1.5;
+  const targetMg = (targetCm * 46.7).toFixed(1);
+  
+  doc.text(`• Startdosis (Tag 1): ${startDosageCm} cm = ${startDosageMg} mg (abends)`, 15, yPos + 11);
+  doc.text(`• Zielbereich (Woche 7-8): ${targetCm} cm = ${targetMg} mg Cannabinoide täglich`, 15, yPos + 16);
+  doc.text(`• Verteilung: morgens ~40 %, abends ~60 %`, 15, yPos + 21);
+  
+  yPos += 27;
+  
+  // === EINLEITUNG (STANDARD: "Start low, go slow" mit deutscher Übersetzung) ===
   doc.setFontSize(10);
   doc.setTextColor(60, 60, 60);
   doc.setFont(undefined, 'normal');
   
-  const welcomeText = `willkommen zu deinem persönlichen Dosierungsplan für CBD-Paste!
+  const welcomeText = `willkommen zu Ihrem persönlichen Cannabinoid-Dosierungsplan!
 
-Schön, dass du den Schritt gehst, dein Endocannabinoid-System (ECS) mit einer hochkonzentrierten CBD-Paste zu unterstützen.
-
-Dieser Plan wurde individuell für dich erstellt – basierend auf deinen Medikamenten, deinem Alter, deinem Körpergewicht und deiner Körpergröße. Er orientiert sich an aktuellen wissenschaftlichen Erkenntnissen zu CBD–Medikamenten-Wechselwirkungen und folgt der Philosophie „Start low, go slow" – also: niedrig starten, langsam steigern, für maximale Sicherheit.`;
+Dieser Plan wurde individuell für Sie erstellt – basierend auf Ihren Medikamenten, Ihrem Alter, Körpergewicht und Körpergröße. Er orientiert sich an aktuellen wissenschaftlichen Erkenntnissen zu CBD-/Medikamenten-Wechselwirkungen und folgt der Philosophie „Start low, go slow (niedrig beginnen, langsam steigern)" für maximale Sicherheit.`;
   
   const welcomeLines = doc.splitTextToSize(welcomeText, 180);
   doc.text(welcomeLines, 15, yPos);
   
   yPos += welcomeLines.length * 4.5 + 8;
   
-  // Product Information Box AFTER greeting
+  // === PRODUKTINFORMATIONEN (STANDARD: mit Referenzumrechnung) ===
   if (product) {
     doc.setFillColor(243, 232, 255);
-    doc.rect(10, yPos, 190, 25, 'F');
+    doc.rect(10, yPos, 190, 32, 'F');
     doc.setFontSize(12);
     doc.setTextColor(88, 28, 135);
     doc.setFont(undefined, 'bold');
-    doc.text('CBD-Paste 70 % – Produktinformationen', 15, yPos + 7);
+    doc.text('Cannabinoid-Paste 70 % – Produktinformationen', 15, yPos + 7);
     
     doc.setFontSize(9);
     doc.setTextColor(60, 60, 60);
     doc.setFont(undefined, 'normal');
-    doc.text('• Konzentration: 70 mg CBD pro Teilstrich (1,5 cm)', 15, yPos + 13);
-    doc.text('• Verpackung: 3 g Spritze mit 30 Teilstrichen', 15, yPos + 18);
-    doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 100, yPos + 18);
+    doc.text('• Konzentration: 70 % Cannabinoide (davon ca. 90 % CBD)', 15, yPos + 13);
+    doc.text('• Verpackung: 3 g Spritze mit 30 Teilstrichen (je 0,1 cm pro Teilstrich)', 15, yPos + 18);
+    doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 15, yPos + 23);
     
-    yPos += 30;
+    // === REFERENZUMRECHNUNG (STANDARD: immer gleich) ===
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(15, 118, 110);
+    doc.text('Referenz-Umrechnung (weltweit gültig):', 15, yPos + 29);
+    doc.setFont(undefined, 'normal');
+    doc.setTextColor(60, 60, 60);
+    
+    yPos += 34;
+    
+    doc.setFillColor(254, 249, 195); // Yellow-100
+    doc.rect(10, yPos, 190, 13, 'F');
+    doc.setFontSize(8.5);
+    doc.text('• 1,5 cm = 70 mg Cannabinoide  |  1,0 cm = 46,7 mg  |  0,1 cm = 4,67 mg', 15, yPos + 6);
+    doc.text('• Formel: mg = cm × 46,7  (alle mg-Werte werden mit dieser Formel berechnet)', 15, yPos + 11);
+    
+    yPos += 18;
   }
   
-  // Personalization Summary
+  // === PERSONALISIERUNG (STANDARD: kompakt mit allen Daten) ===
   if (personalization) {
     doc.setFillColor(204, 251, 241);
     const boxHeight = personalization.notes && personalization.notes.length > 0 ? 40 : 30;
@@ -899,13 +936,13 @@ Dieser Plan wurde individuell für dich erstellt – basierend auf deinen Medika
     doc.setFontSize(11);
     doc.setTextColor(20, 83, 88);
     doc.setFont(undefined, 'bold');
-    doc.text('Deine individuelle Dosierungsstrategie', 15, yPos + 7);
+    doc.text('Ihre individuelle Dosierungsstrategie', 15, yPos + 7);
     
     doc.setFontSize(9);
     doc.setTextColor(60, 60, 60);
     doc.setFont(undefined, 'normal');
     
-    // Split into multiple lines to avoid overflow
+    // Split into multiple lines with proper spacing
     let line1 = `Einschleichphase: ${personalization.titrationDays} Tage | Startdosis: ${personalization.startDosageMg.toFixed(1)} mg`;
     let line2 = '';
     if (personalization.age) line2 += `Alter: ${personalization.age} Jahre`;
@@ -917,7 +954,7 @@ Dieser Plan wurde individuell für dich erstellt – basierend auf deinen Medika
     
     if (personalization.notes && personalization.notes.length > 0) {
       doc.setFont(undefined, 'bold');
-      doc.text('Anpassungen:', 15, yPos + 26);
+      doc.text('Individuelle Anpassungen:', 15, yPos + 26);
       doc.setFont(undefined, 'normal');
       const notesText = personalization.notes.join(', ');
       const notesLines = doc.splitTextToSize(notesText, 180);
@@ -927,45 +964,49 @@ Dieser Plan wurde individuell für dich erstellt – basierend auf deinen Medika
     yPos += boxHeight + 5;
   }
   
-  // "Was dich erwartet" section
+  // === EINSCHLEICHPHASE & EINNAHME (STANDARD: kompakt) ===
   doc.setFontSize(11);
   doc.setTextColor(88, 28, 135);
   doc.setFont(undefined, 'bold');
-  doc.text('Was dich erwartet:', 15, yPos);
+  doc.text('Phasen Ihres Plans:', 15, yPos);
   yPos += 6;
   
   doc.setFontSize(10);
   doc.setTextColor(60, 60, 60);
   doc.setFont(undefined, 'normal');
-  const expectText = `CBD-Paste 70 % ist eine hochkonzentrierte Form von Cannabidiol (CBD).
+  const expectText = `Cannabinoid-Paste 70 % ist eine hochkonzentrierte Form von Cannabinoiden (hauptsächlich CBD).
 
-Du nimmst die Paste sublingual ein – also unter der Zunge, lässt sie dort 2–3 Minuten einwirken und schluckst sie erst dann herunter. So kann dein Körper das CBD besonders gut über die Mundschleimhaut aufnehmen.
+Sie nehmen die Paste sublingual ein – also unter der Zunge, lassen sie dort 2-3 Minuten einwirken und schlucken sie erst dann herunter. So kann Ihr Körper die Cannabinoide besonders gut über die Mundschleimhaut aufnehmen.
 
-Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird dann langsam auf eine 2-mal tägliche Einnahme gesteigert – für eine möglichst gleichmäßige Unterstützung deines Endocannabinoid-Systems.`;
+• Einschleichphase: 3 Tage (nur abends) zur Verträglichkeitsprüfung
+• Zielbereich: 70 mg/Tag ab Woche 7
+• Einnahme: morgens ~40 %, abends ~60 %
+
+Der Plan startet vorsichtig und steigert sich schrittweise – für eine gleichmäßige Unterstützung Ihres Endocannabinoid-Systems.`;
   
   const expectLines = doc.splitTextToSize(expectText, 180);
   doc.text(expectLines, 15, yPos);
   
   yPos += expectLines.length * 4.5 + 5;
   
-  // Severity warning if critical
+  // === KRITISCHE WARNUNGEN (STANDARD: wenn vorhanden) ===
   if (maxSeverity === 'critical' || maxSeverity === 'high') {
     doc.setFillColor(254, 226, 226);
     doc.rect(10, yPos, 190, 28, 'F');
     doc.setFontSize(10);
     doc.setTextColor(220, 38, 38);
     doc.setFont(undefined, 'bold');
-    doc.text('WICHTIG: Kritische Wechselwirkungen mit deinen Medikamenten', 15, yPos + 7);
+    doc.text('WICHTIG: Kritische Wechselwirkungen mit Ihren Medikamenten erkannt', 15, yPos + 7);
     doc.setFontSize(9);
     doc.setFont(undefined, 'normal');
     doc.setTextColor(60, 60, 60);
-    const warningText = 'In deinem Medikamentenplan wurden kritische mögliche Wechselwirkungen mit CBD erkannt. Deshalb ist deine Einschleichphase bewusst sehr vorsichtig gewählt. Bitte besprich diesen Plan unbedingt mit deinem Arzt oder deiner Ärztin, bevor du mit der Einnahme beginnst.';
+    const warningText = 'In Ihrem Medikamentenplan wurden kritische mögliche Wechselwirkungen mit Cannabinoiden erkannt. Deshalb ist die Einschleichphase bewusst sehr vorsichtig gewählt. Bitte besprechen Sie diesen Plan unbedingt mit Ihrem Arzt bzw. Ihrer Ärztin, bevor Sie mit der Einnahme beginnen.';
     const warningLines = doc.splitTextToSize(warningText, 180);
     doc.text(warningLines, 15, yPos + 13);
     yPos += 33;
   }
   
-  // Dosing Philosophy
+  // === DOSIERUNGSPRINZIP (STANDARD: immer gleiche Formel) ===
   doc.setFontSize(12);
   doc.setTextColor(0, 0, 0);
   doc.setFont(undefined, 'bold');
@@ -974,23 +1015,25 @@ Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird 
   doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
   doc.setTextColor(60, 60, 60);
-  doc.text('• „Start low, go slow" – du startest mit einer sehr niedrigen Dosis und steigerst langsam.', 15, yPos);
+  doc.text('• „Start low, go slow (niedrig beginnen, langsam steigern)" – Sie starten mit niedriger Dosis.', 15, yPos);
   yPos += 5;
   doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 15, yPos);
   yPos += 5;
-  doc.text('• Umrechnung: 1 cm ≈ 46,7 mg CBD', 15, yPos);
+  doc.text('• Umrechnung: 1 cm = 46,7 mg Cannabinoide (Formel: mg = cm × 46,7)', 15, yPos);
   yPos += 5;
-  doc.text('• 1 Teilstrich (= 1,5 cm) entspricht 70 mg CBD', 15, yPos);
+  doc.text('• 1 Teilstrich (= 1,5 cm) entspricht 70 mg Cannabinoide', 15, yPos);
+  yPos += 5;
+  doc.text('• Zahlen und Einheiten immer mit Leerzeichen (z. B. 70 mg, 1,5 cm)', 15, yPos);
   yPos += 8;
   doc.setFont(undefined, 'bold');
   doc.setTextColor(88, 28, 135);
-  doc.text('Deine Einnahme-Phasen', 15, yPos);
+  doc.text('Ihre Einnahme-Phasen', 15, yPos);
   yPos += 7;
   doc.setFont(undefined, 'normal');
   doc.setTextColor(60, 60, 60);
-  doc.text('• Phase 1 – Einschleichphase: Einnahme nur abends, um die Verträglichkeit zu prüfen', 15, yPos);
+  doc.text('• Phase 1 – Einschleichphase: Nur abends (Tage 1-3), um die Verträglichkeit zu prüfen', 15, yPos);
   yPos += 5;
-  doc.text('• Phase 2 – Erhaltungsphase: Einnahme 2-mal täglich', 15, yPos);
+  doc.text('• Phase 2 – Erhaltungsphase: 2x täglich ab Tag 4', 15, yPos);
   yPos += 5;
   doc.text('  – Morgens ca. 40 % der Tagesdosis', 20, yPos);
   yPos += 5;
@@ -998,7 +1041,7 @@ Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird 
   
   yPos += 10;
   
-  // Sublingual Instructions Box
+  // === SUBLINGUALE EINNAHME (STANDARD: gelbe Box) ===
   doc.setFillColor(254, 249, 195);
   doc.rect(10, yPos, 190, 15, 'F');
   doc.setFontSize(10);
@@ -1006,15 +1049,15 @@ Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird 
   doc.setFont(undefined, 'bold');
   doc.text('Sublinguale Einnahme:', 15, yPos + 6);
   doc.setFont(undefined, 'normal');
-  doc.text('Lege die Paste unter deine Zunge, lass sie dort 2–3 Minuten einwirken, dann schlucke sie herunter.', 15, yPos + 11);
+  doc.text('Legen Sie die Paste unter Ihre Zunge, lassen Sie sie dort 2-3 Minuten einwirken, dann schlucken.', 15, yPos + 11);
   
   yPos += 20;
   
-  // Daily Dosage Plan (grouped by weeks)
+  // === TÄGLICHER DOSIERUNGSPLAN (STANDARD: Woche 1-8) ===
   doc.setFontSize(14);
   doc.setTextColor(0, 0, 0);
   doc.setFont(undefined, 'bold');
-  doc.text('Dein Tag-für-Tag Dosierungsplan', 15, yPos);
+  doc.text('Ihr wöchentlicher Dosierungsplan', 15, yPos);
   yPos += 10;
   
   weeklyPlan.forEach((week, weekIndex) => {
@@ -1024,55 +1067,51 @@ Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird 
       yPos = 20;
     }
     
-    // Week Header
+    // === WOCHENÜBERSCHRIFT (STANDARD: Woche 1-8) ===
     doc.setFontSize(12);
     doc.setTextColor(88, 28, 135);
     doc.setFont(undefined, 'bold');
     doc.text(`Woche ${week.week}`, 15, yPos);
     yPos += 7;
     
-    // Table Header
+    // === TABELLENHEADER (STANDARD: einheitlich) ===
     doc.setFillColor(237, 233, 254);
     doc.rect(10, yPos - 5, 190, 8, 'F');
     doc.setFontSize(9);
     doc.setTextColor(88, 28, 135);
     doc.setFont(undefined, 'bold');
     doc.text('Tag', 15, yPos);
-    doc.text('Morgens', 40, yPos);
-    doc.text('Abends', 75, yPos);
-    doc.text('Gesamt', 110, yPos);
-    doc.text('Hinweise', 145, yPos);
+    doc.text('Morgens (cm / mg)', 40, yPos);
+    doc.text('Abends (cm / mg)', 85, yPos);
+    doc.text('Gesamt täglich', 130, yPos);
+    doc.text('Hinweise', 170, yPos);
     
     yPos += 6;
     
-    // Day Rows
+    // === TAGESZEILEN (STANDARD: nur eine Erhöhungszeile pro Woche für Woche 1-3) ===
     doc.setFontSize(8);
     doc.setTextColor(60, 60, 60);
     doc.setFont(undefined, 'normal');
     
-    week.days.forEach((day, dayIndex) => {
-      if (yPos > 275) {
-        doc.addPage();
-        yPos = 20;
-      }
+    // For week 1-3: Show only one summary row with dose increase
+    if (week.week <= 3) {
+      // Alternating row color
+      doc.setFillColor(249, 250, 251);
+      doc.rect(10, yPos - 4, 190, 7, 'F');
       
-      // Alternating row colors
-      if (dayIndex % 2 === 0) {
-        doc.setFillColor(249, 250, 251);
-        doc.rect(10, yPos - 4, 190, 7, 'F');
-      }
+      // Get first day data
+      const firstDay = week.days[0];
       
-      // Day number
-      doc.text(`Tag ${day.day}`, 15, yPos);
+      doc.text(`Tage ${(week.week - 1) * 7 + 1}-${week.week * 7}`, 15, yPos);
       
       // Morning dosage
-      if (day.morningDosageCm > 0) {
+      if (firstDay.morningDosageCm > 0) {
         doc.setFont(undefined, 'bold');
         doc.setTextColor(34, 139, 34);
-        doc.text(`${day.morningDosageCm} cm`, 40, yPos);
+        doc.text(`${firstDay.morningDosageCm.toFixed(1)} cm`, 40, yPos);
         doc.setFont(undefined, 'normal');
         doc.setTextColor(100, 100, 100);
-        doc.text(`(${day.morningDosageMg.toFixed(1)} mg)`, 55, yPos);
+        doc.text(`(${firstDay.morningDosageMg.toFixed(1)} mg)`, 56, yPos);
       } else {
         doc.setTextColor(150, 150, 150);
         doc.text('—', 40, yPos);
@@ -1080,89 +1119,155 @@ Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird 
       
       // Evening dosage
       doc.setTextColor(60, 60, 60);
-      if (day.eveningDosageCm > 0) {
+      if (firstDay.eveningDosageCm > 0) {
         doc.setFont(undefined, 'bold');
         doc.setTextColor(30, 64, 175);
-        doc.text(`${day.eveningDosageCm} cm`, 75, yPos);
+        doc.text(`${firstDay.eveningDosageCm.toFixed(1)} cm`, 85, yPos);
         doc.setFont(undefined, 'normal');
         doc.setTextColor(100, 100, 100);
-        doc.text(`(${day.eveningDosageMg.toFixed(1)} mg)`, 88, yPos);
+        doc.text(`(${firstDay.eveningDosageMg.toFixed(1)} mg)`, 101, yPos);
       } else {
         doc.setTextColor(150, 150, 150);
-        doc.text('—', 75, yPos);
+        doc.text('—', 85, yPos);
       }
       
       // Total daily
       doc.setTextColor(60, 60, 60);
-      if (day.totalDailyCm > 0) {
+      if (firstDay.totalDailyCm > 0) {
         doc.setFont(undefined, 'bold');
         doc.setTextColor(88, 28, 135);
-        doc.text(`${day.totalDailyCm} cm`, 110, yPos);
+        doc.text(`${firstDay.totalDailyCm.toFixed(1)} cm`, 130, yPos);
         doc.setFont(undefined, 'normal');
         doc.setTextColor(100, 100, 100);
-        doc.text(`(${day.totalDailyMg.toFixed(1)} mg)`, 125, yPos);
-      } else {
-        doc.setTextColor(150, 150, 150);
-        doc.text('—', 110, yPos);
+        doc.text(`(${firstDay.totalDailyMg.toFixed(1)} mg)`, 148, yPos);
       }
       
-      // Notes (remove emojis for PDF compatibility)
+      // Weekly summary note
       doc.setTextColor(60, 60, 60);
-      doc.setFont(undefined, 'normal');
-      if (day.notes) {
-        const cleanNotes = day.notes.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
-        const noteLines = doc.splitTextToSize(cleanNotes, 50);
-        doc.text(noteLines[0], 145, yPos);
-      }
+      doc.setFont(undefined, 'italic');
+      doc.text(`Dosierung: ${firstDay.totalDailyMg.toFixed(1)} mg täglich`, 170, yPos);
       
       yPos += 7;
-    });
+    } else {
+      // For week 4-8: Show all days
+      week.days.forEach((day, dayIndex) => {
+        if (yPos > 275) {
+          doc.addPage();
+          yPos = 20;
+        }
+        
+        // Alternating row colors
+        if (dayIndex % 2 === 0) {
+          doc.setFillColor(249, 250, 251);
+          doc.rect(10, yPos - 4, 190, 7, 'F');
+        }
+        
+        // Day number
+        doc.text(`Tag ${day.day}`, 15, yPos);
+        
+        // Morning dosage
+        if (day.morningDosageCm > 0) {
+          doc.setFont(undefined, 'bold');
+          doc.setTextColor(34, 139, 34);
+          doc.text(`${day.morningDosageCm.toFixed(1)} cm`, 40, yPos);
+          doc.setFont(undefined, 'normal');
+          doc.setTextColor(100, 100, 100);
+          doc.text(`(${day.morningDosageMg.toFixed(1)} mg)`, 56, yPos);
+        } else {
+          doc.setTextColor(150, 150, 150);
+          doc.text('—', 40, yPos);
+        }
+        
+        // Evening dosage
+        doc.setTextColor(60, 60, 60);
+        if (day.eveningDosageCm > 0) {
+          doc.setFont(undefined, 'bold');
+          doc.setTextColor(30, 64, 175);
+          doc.text(`${day.eveningDosageCm.toFixed(1)} cm`, 85, yPos);
+          doc.setFont(undefined, 'normal');
+          doc.setTextColor(100, 100, 100);
+          doc.text(`(${day.eveningDosageMg.toFixed(1)} mg)`, 101, yPos);
+        } else {
+          doc.setTextColor(150, 150, 150);
+          doc.text('—', 85, yPos);
+        }
+        
+        // Total daily
+        doc.setTextColor(60, 60, 60);
+        if (day.totalDailyCm > 0) {
+          doc.setFont(undefined, 'bold');
+          doc.setTextColor(88, 28, 135);
+          doc.text(`${day.totalDailyCm.toFixed(1)} cm`, 130, yPos);
+          doc.setFont(undefined, 'normal');
+          doc.setTextColor(100, 100, 100);
+          doc.text(`(${day.totalDailyMg.toFixed(1)} mg)`, 148, yPos);
+        } else {
+          doc.setTextColor(150, 150, 150);
+          doc.text('—', 130, yPos);
+        }
+        
+        // Notes (remove emojis for PDF compatibility)
+        doc.setTextColor(60, 60, 60);
+        doc.setFont(undefined, 'normal');
+        if (day.notes) {
+          const cleanNotes = day.notes.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
+          const noteLines = doc.splitTextToSize(cleanNotes, 25);
+          doc.text(noteLines[0], 170, yPos);
+        }
+        
+        yPos += 7;
+      });
+    }
     
     yPos += 5; // Space between weeks
   });
   
   yPos += 5;
   
-  // Important Notes
-  if (yPos > 220) {
+  // === SICHERHEIT & ÄRZTLICHE BEGLEITUNG (STANDARD: immer am Ende) ===
+  if (yPos > 210) {
     doc.addPage();
     yPos = 20;
   }
   
   doc.setFillColor(236, 253, 245);
-  doc.rect(10, yPos, 190, 75, 'F');
+  doc.rect(10, yPos, 190, 82, 'F');
   doc.setFontSize(11);
   doc.setTextColor(22, 101, 52);
   doc.setFont(undefined, 'bold');
-  doc.text('Wichtige Einnahmehinweise für deine CBD-Paste 70 %', 15, yPos + 7);
+  doc.text('Sicherheitshinweise & Ärztliche Begleitung', 15, yPos + 7);
   
   doc.setFontSize(8.5);
   doc.setFont(undefined, 'normal');
   doc.setTextColor(60, 60, 60);
   const instructions = [
-    '• Sublinguale Einnahme: Lege die Paste unter deine Zunge, lass sie dort 2–3 Minuten einwirken',
-    '  und schlucke sie erst dann herunter.',
-    '• Phase 1 (Einschleichphase): Nimm die Paste nur abends, um zu prüfen, wie du sie verträgst.',
-    '• Phase 2 (Erhaltungsphase): Nimm die Paste 2-mal täglich – morgens und abends – wie im Plan angegeben.',
-    '• Zeitpunkt der Einnahme: Am besten zu den Mahlzeiten (z. B. Frühstück & Abendessen), das unterstützt die Aufnahme.',
-    '• Dosierung ablesen: Nutze die Teilstriche auf der Spritze. 1 Teilstrich = 1,5 cm = 70 mg CBD.',
-    '• Ausreichend trinken: Versuche, täglich etwa 2–3 Liter Wasser zu trinken.',
-    '• Symptom-Tagebuch: Notiere dir täglich, wie es dir geht (Wirkung, Nebenwirkungen, Schlaf, Stimmung, Schmerzen).',
-    '• Bei Nebenwirkungen: Reduziere die Dosis oder pausiere und sprich unbedingt mit deinem Arzt oder deiner Ärztin.',
-    '• Ärztliche Begleitung: Nimm diesen Plan zu deinem nächsten Arztgespräch mit und lass dich begleiten –',
-    '  vor allem, wenn du Medikamente einnehmen möchtest oder bereits einnimmst.'
+    '• Sublinguale Einnahme: Paste unter die Zunge, 2-3 Minuten einwirken lassen, dann schlucken.',
+    '• Phase 1 (Einschleichphase): Nur abends (Tage 1-3), um Verträglichkeit zu prüfen.',
+    '• Phase 2 (Erhaltungsphase): 2x täglich (morgens ~40 %, abends ~60 %) wie im Plan angegeben.',
+    '• Zeitpunkt: Am besten zu den Mahlzeiten (z. B. Frühstück & Abendessen) für bessere Aufnahme.',
+    '• Dosierung ablesen: Teilstriche auf der Spritze nutzen. 1 Teilstrich = 1,5 cm = 70 mg Cannabinoide.',
+    '• Ausreichend trinken: Täglich ca. 2-3 Liter Wasser.',
+    '• Symptom-Tagebuch: Täglich notieren (Wirkung, Nebenwirkungen, Schlaf, Stimmung, Schmerzen).',
+    '',
+    'Bei Nebenwirkungen: Sofort auf die zuletzt gut verträgliche Dosis des Vortags zurückgehen',
+    '("Step-back-Regel") und ärztlich Rücksprache halten.',
+    '',
+    'Cannabinoide können das ECS unterstützen und ärztlich begleitete Anpassungen der',
+    'Medikation erleichtern. Änderungen erfolgen ausschließlich durch Ärztinnen und Ärzte.',
+    '',
+    'Bitte nehmen Sie diesen Plan zu Ihrem Arzttermin mit – er dient als Gesprächsgrundlage.'
   ];
   
   let instructionY = yPos + 14;
   instructions.forEach(instruction => {
     doc.text(instruction, 15, instructionY);
-    instructionY += 6.2;
+    instructionY += 5.2;
   });
   
-  yPos += 80;
+  yPos += 87;
   
-  // Medications List
-  if (yPos > 250) {
+  // === MEDIKAMENTENLISTE (STANDARD: Tabellenform) ===
+  if (yPos > 240) {
     doc.addPage();
     yPos = 20;
   }
@@ -1170,10 +1275,25 @@ Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird 
   doc.setFontSize(11);
   doc.setTextColor(0, 0, 0);
   doc.setFont(undefined, 'bold');
-  doc.text('Deine aktuellen Medikamente (zum Zeitpunkt der Erstellung des Plans):', 15, yPos);
-  yPos += 7;
+  doc.text('Ihre aktuellen Medikamente (zum Zeitpunkt der Plan-Erstellung):', 15, yPos);
+  yPos += 8;
   
-  doc.setFontSize(9);
+  // Table Header
+  doc.setFillColor(237, 233, 254);
+  doc.rect(10, yPos - 5, 190, 8, 'F');
+  doc.setFontSize(8.5);
+  doc.setTextColor(88, 28, 135);
+  doc.setFont(undefined, 'bold');
+  doc.text('Nr.', 12, yPos);
+  doc.text('Wirkstoff (Generikum)', 25, yPos);
+  doc.text('Dosierung', 85, yPos);
+  doc.text('Einnahme', 125, yPos);
+  doc.text('Wechselwirkung', 160, yPos);
+  
+  yPos += 6;
+  
+  // Table Rows
+  doc.setFontSize(8);
   doc.setFont(undefined, 'normal');
   doc.setTextColor(60, 60, 60);
   
@@ -1183,62 +1303,92 @@ Dein Plan startet mit einer vorsichtigen Einschleichphase (nur abends) und wird 
       yPos = 20;
     }
     
-    const med = item.medication;
-    doc.setFont(undefined, 'bold');
-    doc.text(`${index + 1}. ${med.name}`, 15, yPos);
-    doc.setFont(undefined, 'normal');
-    yPos += 5;
-    doc.text(`   • Dosierung: ${item.dosage}`, 15, yPos);
+    // Alternating row colors
+    if (index % 2 === 0) {
+      doc.setFillColor(249, 250, 251);
+      doc.rect(10, yPos - 4, 190, 7, 'F');
+    }
     
+    const med = item.medication;
+    
+    // Nr.
+    doc.text(`${index + 1}`, 12, yPos);
+    
+    // Wirkstoff (name + generic)
+    const medName = med.generic_name ? `${med.name} (${med.generic_name})` : med.name;
+    const medNameLines = doc.splitTextToSize(medName, 55);
+    doc.text(medNameLines[0], 25, yPos);
+    
+    // Dosierung
+    const dosageLines = doc.splitTextToSize(item.dosage, 35);
+    doc.text(dosageLines[0], 85, yPos);
+    
+    // Einnahme (frequency or "regelmäßig")
+    const frequency = item.frequency || 'regelmäßig';
+    doc.text(frequency, 125, yPos);
+    
+    // Wechselwirkung
     if (item.interactions && item.interactions.length > 0) {
       const maxSev = item.interactions.reduce((max, i) => {
         const order = { low: 1, medium: 2, high: 3, critical: 4 };
         return order[i.severity] > order[max.severity] ? i : max;
       });
-      yPos += 5;
-      const sevText = maxSev.severity === 'critical' ? 'KRITISCH' : maxSev.severity === 'high' ? 'hoch' : 'mittel';
-      doc.setTextColor(220, 38, 38);
-      doc.text(`   • Eingestufte Wechselwirkung mit CBD: ${sevText}`, 15, yPos);
-      doc.setTextColor(60, 60, 60);
+      const sevText = maxSev.severity === 'critical' ? 'kritisch' : 
+                      maxSev.severity === 'high' ? 'hoch' : 
+                      maxSev.severity === 'medium' ? 'mittel' : 'niedrig';
       
-      // Add special warning for Marcumar
-      if (med.name && med.name.toLowerCase().includes('marcumar')) {
-        yPos += 5;
-        doc.setFontSize(8);
-        doc.text('   👉 Gerade bei Marcumar ist eine ärztliche Kontrolle (z. B. INR-Werte) besonders wichtig.', 15, yPos);
-        yPos += 4;
-        doc.text('   Bitte ändere deine Medikation niemals auf eigene Faust.', 15, yPos);
-        doc.setFontSize(9);
+      if (maxSev.severity === 'critical' || maxSev.severity === 'high') {
+        doc.setTextColor(220, 38, 38);
+      } else if (maxSev.severity === 'medium') {
+        doc.setTextColor(234, 88, 12); // Orange
+      } else {
+        doc.setTextColor(34, 139, 34); // Green
       }
+      doc.text(sevText, 160, yPos);
+      doc.setTextColor(60, 60, 60);
+    } else {
+      doc.setTextColor(34, 139, 34);
+      doc.text('keine', 160, yPos);
+      doc.setTextColor(60, 60, 60);
     }
     
-    yPos += 8;
+    yPos += 7;
   });
   
-  yPos += 10;
+  yPos += 8;
   
-  // DISCLAIMER AT THE END - CRITICAL MEDICAL/LEGAL NOTICE
-  if (yPos > 210) {
+  // === WECHSELWIRKUNGEN HINWEIS (STANDARD: unter Tabelle) ===
+  doc.setFillColor(254, 249, 195);
+  doc.rect(10, yPos, 190, 12, 'F');
+  doc.setFontSize(8);
+  doc.setTextColor(113, 63, 18);
+  doc.setFont(undefined, 'normal');
+  doc.text('Einstufung "mittel" bedeutet, dass Wirkstoffspiegel steigen können. Ärztliche Dosisanpassungen', 15, yPos + 5);
+  doc.text('sind möglich – bitte nie eigenmächtig ändern.', 15, yPos + 10);
+  
+  yPos += 17;
+  
+  // === DISCLAIMER (STANDARD: immer am Ende) ===
+  if (yPos > 200) {
     doc.addPage();
     yPos = 20;
   }
   
-  // Calculate disclaimer height based on text
-  const disclaimerText = `Dieser Plan ist keine medizinische Beratung und ersetzt nicht den Besuch bei deinem Arzt oder deiner Ärztin.
+  const disclaimerText = `Dieser Plan ist keine medizinische Beratung und ersetzt nicht den Besuch bei Ihrem Arzt bzw. Ihrer Ärztin.
 
-Die Informationen dienen ausschließlich zu Bildungszwecken und zur ersten Orientierung. Sie basieren auf öffentlich zugänglichen wissenschaftlichen Studien zu Wechselwirkungen zwischen CBD und Medikamenten.
+Die Informationen dienen ausschließlich zu Bildungszwecken und zur ersten Orientierung. Sie basieren auf öffentlich zugänglichen wissenschaftlichen Studien zu Wechselwirkungen zwischen Cannabinoiden und Medikamenten.
 
 Wichtig:
-• Sprich unbedingt mit deinem Arzt oder deiner Ärztin, bevor du CBD einnimmst – besonders, wenn du Medikamente nimmst.
+• Sprechen Sie unbedingt mit Ihrem Arzt bzw. Ihrer Ärztin, bevor Sie Cannabinoide einnehmen – besonders bei bestehender Medikation.
 • Wechselwirkungen können gesundheitsgefährdend sein.
-• Ändere niemals deine Medikation, ohne dies ärztlich abzusprechen.
+• Ändern Sie niemals Ihre Medikation, ohne dies ärztlich abzusprechen.
 
-CBD kann dich beim Ausschleichen von Medikamenten unterstützen – aber nur unter ärztlicher Aufsicht.
+Cannabinoide können Sie bei ärztlich begleiteter Medikamenten-Reduktion unterstützen – aber ausschließlich unter ärztlicher Aufsicht.
 
-Bitte nimm diesen Plan zu deinem nächsten Arzttermin mit und bespreche gemeinsam, ob und wie du CBD einsetzen möchtest.`;
+Bitte nehmen Sie diesen Plan zu Ihrem nächsten Arzttermin mit und besprechen Sie gemeinsam, ob und wie Sie Cannabinoide einsetzen möchten.`;
   
   const disclaimerLines = doc.splitTextToSize(disclaimerText, 180);
-  const disclaimerHeight = disclaimerLines.length * 4.5 + 20;
+  const disclaimerHeight = disclaimerLines.length * 4.5 + 22;
   
   // Orange background for entire disclaimer section
   doc.setFillColor(255, 243, 205);
@@ -1256,7 +1406,15 @@ Bitte nimm diesen Plan zu deinem nächsten Arzttermin mit und bespreche gemeinsa
   
   doc.text(disclaimerLines, 15, yPos);
   
-  // Footer on all pages
+  yPos += disclaimerLines.length * 4.5 + 8;
+  
+  // === KI SIGNATUR (STANDARD: am Ende) ===
+  doc.setFontSize(8.5);
+  doc.setTextColor(88, 28, 135);
+  doc.setFont(undefined, 'italic');
+  doc.text('Erstellt durch KI auf Basis wissenschaftlicher Studien zu Cannabinoid-Dosierung und ECS-Regulation.', 105, yPos, { align: 'center' });
+  
+  // === FOOTER (STANDARD: auf allen Seiten) ===
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
   const pageCount = doc.internal.getNumberOfPages();
@@ -1266,8 +1424,8 @@ Bitte nimm diesen Plan zu deinem nächsten Arzttermin mit und bespreche gemeinsa
     doc.text('ECS Aktivierung - www.ecs-aktivierung.de', 105, 285, { align: 'center' });
   }
   
-  // Save PDF with personalized filename (without "70")
+  // === DATEINAME (STANDARD: Cannabinoid-Reduktionsplan) ===
   const dateStr = new Date().toISOString().split('T')[0];
-  const sanitizedName = firstName.replace(/[^a-zA-Z0-9]/g, '_');
-  doc.save(`CBD-Paste-Dosierungsplan_${sanitizedName}_${dateStr}.pdf`);
+  const sanitizedName = capitalizedFirstName.replace(/[^a-zA-Z0-9]/g, '_');
+  doc.save(`Cannabinoid-Reduktionsplan_${sanitizedName}_${dateStr}.pdf`);
 }
