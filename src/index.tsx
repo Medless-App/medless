@@ -313,7 +313,7 @@ app.post('/api/analyze', async (c) => {
         notes: adjustmentNotes
       },
       warnings: maxSeverity === 'critical' || maxSeverity === 'high' ? 
-        ['⚠️ Kritische Wechselwirkungen erkannt!', 'Konsultieren Sie unbedingt einen Arzt vor der CBD-Einnahme.'] : []
+        ['⚠️ Kritische Wechselwirkungen erkannt!', 'Konsultieren Sie unbedingt einen Arzt vor der Cannabinoid-Einnahme.'] : []
     });
     
   } catch (error: any) {
@@ -948,13 +948,13 @@ app.get('/', (c) => {
                                 Der überraschende Vorteil: Wechselwirkungen können auch positiv sein!
                             </h4>
                             <p class="text-gray-700 text-sm mb-3 leading-relaxed">
-                                Sie haben richtig gehört: Die oft gefürchteten <strong>Wechselwirkungen zwischen CBD und Medikamenten</strong> haben auch eine <strong>positive Seite</strong>, die gezielt zur Medikamenten-Reduktion genutzt werden kann.
+                                Sie haben richtig gehört: Die oft gefürchteten <strong>Wechselwirkungen zwischen Cannabinoiden und Medikamenten</strong> haben auch eine <strong>positive Seite</strong>, die gezielt zur Medikamenten-Reduktion genutzt werden kann.
                             </p>
                             
                             <div class="bg-white p-4 rounded-lg mb-3">
                                 <h5 class="font-semibold text-gray-900 mb-2 text-sm">So funktioniert's:</h5>
                                 <p class="text-xs text-gray-700 mb-2">
-                                    CBD hemmt bestimmte <strong>Leber-Enzyme (CYP450-System)</strong>, die für den Abbau von etwa <strong>60% aller Medikamente</strong> verantwortlich sind. Das bedeutet:
+                                    Cannabinoide hemmen bestimmte <strong>Leber-Enzyme (CYP450-System)</strong>, die für den Abbau von etwa <strong>60% aller Medikamente</strong> verantwortlich sind. Das bedeutet:
                                 </p>
                                 <ul class="text-xs text-gray-700 space-y-1.5 ml-4">
                                     <li class="flex items-start">
@@ -973,9 +973,9 @@ app.get('/', (c) => {
                             </div>
                             
                             <div class="bg-emerald-100 p-4 rounded-lg">
-                                <h5 class="font-semibold text-emerald-900 mb-2 text-sm">Praxis-Beispiel: Clobazam (Frisium®) und CBD</h5>
+                                <h5 class="font-semibold text-emerald-900 mb-2 text-sm">Praxis-Beispiel: Clobazam (Frisium®) und Cannabinoide</h5>
                                 <p class="text-xs text-gray-700 mb-2">
-                                    Clobazam wird häufig bei <strong>Epilepsie</strong> eingesetzt. Studien zeigen, dass Cannabinoide – insbesondere CBD – den <strong>Abbau des Wirkstoffs in der Leber verlangsamen</strong> können. Dadurch steigt der Anteil des aktiven Abbauprodukts im Blut, und die Wirkung kann sich verstärken.
+                                    Clobazam wird häufig bei <strong>Epilepsie</strong> eingesetzt. Studien zeigen, dass Cannabinoide den <strong>Abbau des Wirkstoffs in der Leber verlangsamen</strong> können. Dadurch steigt der Anteil des aktiven Abbauprodukts im Blut, und die Wirkung kann sich verstärken.
                                 </p>
                                 <p class="text-xs text-gray-700 mb-3">
                                     Typische Begleiterscheinungen sind stärkere Müdigkeit oder Benommenheit, weshalb Ärztinnen und Ärzte in solchen Fällen oft die <strong>Clobazam-Dosis anpassen</strong>.
@@ -992,7 +992,7 @@ app.get('/', (c) => {
                             </div>
                             
                             <p class="text-xs text-gray-600 mt-3 italic">
-                                <strong>Wichtig:</strong> Unser Tool berechnet genau diese Wechselwirkungen mit ein und passt die CBD-Startdosis entsprechend an. So nutzen wir die positive Seite der Wechselwirkungen für eine sichere Medikamenten-Reduktion.
+                                <strong>Wichtig:</strong> Unser Tool berechnet genau diese Wechselwirkungen mit ein und passt die Cannabinoid-Startdosis entsprechend an. So nutzen wir die positive Seite der Wechselwirkungen für eine sichere Medikamenten-Reduktion.
                             </p>
                         </div>
                         
@@ -1142,7 +1142,7 @@ app.get('/', (c) => {
                                 Der biochemische Mechanismus:
                             </h4>
                             <p class="text-xs mb-3">
-                                CBD (Cannabidiol) wirkt auf mehrere Arten in Ihrem Körper:
+                                Cannabinoide (wie CBD) wirken auf mehrere Arten in Ihrem Körper:
                             </p>
                             <ul class="text-xs space-y-2">
                                 <li class="flex items-start"><span class="text-teal-600 mr-2 mt-1">•</span><span><strong>Hemmt FAAH-Enzym:</strong> Verhindert den Abbau von Anandamid (körpereigenes "Glücks-Endocannabinoid"), sodass mehr davon im Körper verfügbar bleibt</li>
@@ -1154,7 +1154,7 @@ app.get('/', (c) => {
                         </div>
                         <div class="info-box p-4 rounded-lg">
                             <p class="text-xs">
-                                <strong>Wichtig:</strong> CBD hat <strong>keine psychoaktive Wirkung</strong>, macht nicht "high" und ist <strong>nicht abhängigkeitsbildend</strong>.
+                                <strong>Wichtig:</strong> Cannabinoide wie CBD haben <strong>keine psychoaktive Wirkung</strong>, machen nicht "high" und sind <strong>nicht abhängigkeitsbildend</strong>.
                             </p>
                         </div>
                     </div>
@@ -1164,7 +1164,7 @@ app.get('/', (c) => {
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
                     <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
                         <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Bei welchen Medikamenten sind Wechselwirkungen mit CBD besonders gefährlich?</span>
+                        <span>Bei welchen Medikamenten sind Wechselwirkungen mit Cannabinoiden besonders gefährlich?</span>
                     </summary>
                     <div class="mt-4 pl-8 text-gray-700 leading-relaxed">
                         <div class="warning-box p-5 rounded-lg mb-4 border-l-4 border-red-400">
@@ -1172,12 +1172,12 @@ app.get('/', (c) => {
                                 Kritische Medikamentengruppen:
                             </h4>
                             <ul class="text-xs space-y-2.5">
-                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Blutverdünner (Antikoagulanzien):</strong> Warfarin/Marcumar, Xarelto, Eliquis – CBD kann die Blutgerinnung weiter hemmen → Blutungsrisiko erhöht</span></li>
-                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Immunsuppressiva:</strong> Sandimmun (Ciclosporin), Prograf (Tacrolimus) – CBD kann Wirkspiegel erhöhen → Toxizität möglich</span></li>
-                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Opioide:</strong> OxyContin, Tramadol, Morphin – CBD + Opioide kann zu übermäßiger Sedierung führen → Atemdepression</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Blutverdünner (Antikoagulanzien):</strong> Warfarin/Marcumar, Xarelto, Eliquis – Cannabinoide können die Blutgerinnung weiter hemmen → Blutungsrisiko erhöht</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Immunsuppressiva:</strong> Sandimmun (Ciclosporin), Prograf (Tacrolimus) – Cannabinoide können Wirkspiegel erhöhen → Toxizität möglich</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Opioide:</strong> OxyContin, Tramadol, Morphin – Cannabinoide + Opioide können zu übermäßiger Sedierung führen → Atemdepression</span></li>
                                 <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Benzodiazepine:</strong> Tavor (Lorazepam), Valium (Diazepam), Rivotril – Verstärkte Müdigkeit, Sturzgefahr bei älteren Menschen</span></li>
                                 <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Antidepressiva & Antipsychotika:</strong> Verstärkung der sedierenden Wirkung, mögliche CYP450-Interaktionen</span></li>
-                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Herzrhythmus-Medikamente:</strong> Amiodaron – CBD kann Wirkspiegel beeinflussen</span></li>
+                                <li class="flex items-start"><span class="text-red-600 mr-2 mt-1">•</span><span><strong>Herzrhythmus-Medikamente:</strong> Amiodaron – Cannabinoide können Wirkspiegel beeinflussen</span></li>
                             </ul>
                         </div>
                         <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
@@ -1192,7 +1192,7 @@ app.get('/', (c) => {
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
                     <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
                         <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Wie lange dauert es, bis CBD wirkt? Und wie lange hält die Wirkung an?</span>
+                        <span>Wie lange dauert es, bis Cannabinoide wirken? Und wie lange hält die Wirkung an?</span>
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
                         <div class="grid md:grid-cols-2 gap-4 mb-4">
@@ -1213,7 +1213,7 @@ app.get('/', (c) => {
                                     <i class="fas fa-hourglass-half mr-2"></i>
                                     Wirkungsdauer:
                                 </h4>
-                                <p class="text-sm mb-3">Wie lange bleibt CBD im Körper aktiv?</p>
+                                <p class="text-sm mb-3">Wie lange bleiben Cannabinoide im Körper aktiv?</p>
                                 <ul class="text-sm space-y-1">
                                     <li>• <strong>Akute Wirkung:</strong> 4-8 Stunden</li>
                                     <li>• <strong>Halbwertszeit:</strong> 18-68 Stunden</li>
@@ -1234,7 +1234,7 @@ app.get('/', (c) => {
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
                     <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
                         <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Kann ich wirklich meine Medikamente mit CBD reduzieren? Gibt es dafür Beweise?</span>
+                        <span>Kann ich wirklich meine Medikamente durch Cannabinoide reduzieren? Gibt es dafür Beweise?</span>
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
                         <div class="bg-green-50 p-5 rounded-lg mb-4 border-l-4 border-green-500">
@@ -1247,9 +1247,9 @@ app.get('/', (c) => {
                             </p>
                             <ul class="text-sm space-y-2">
                                 <li><strong>• Schmerzpatienten:</strong> 50-80% konnten Opioide reduzieren oder absetzen (Studie: University of Michigan, 2025)</li>
-                                <li><strong>• Angststörungen:</strong> CBD zeigte in klinischen Studien vergleichbare Wirkung wie niedrig dosierte Benzodiazepine</li>
-                                <li><strong>• Schlafstörungen:</strong> 60% der Patienten reduzierten Schlafmittel nach 3 Monaten CBD-Einnahme</li>
-                                <li><strong>• Entzündliche Erkrankungen:</strong> Reduktion von NSAR (Ibuprofen, Diclofenac) durch anti-inflammatorische CBD-Wirkung</li>
+                                <li><strong>• Angststörungen:</strong> Cannabinoide zeigten in klinischen Studien vergleichbare Wirkung wie niedrig dosierte Benzodiazepine</li>
+                                <li><strong>• Schlafstörungen:</strong> 60% der Patienten reduzierten Schlafmittel nach 3 Monaten Cannabinoid-Einnahme</li>
+                                <li><strong>• Entzündliche Erkrankungen:</strong> Reduktion von NSAR (Ibuprofen, Diclofenac) durch anti-inflammatorische Cannabinoid-Wirkung</li>
                             </ul>
                         </div>
                         <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
@@ -1258,7 +1258,7 @@ app.get('/', (c) => {
                                 <strong>Wichtig zu verstehen:</strong>
                             </p>
                             <ul class="text-sm space-y-1 text-yellow-900">
-                                <li>• CBD ist <strong>kein Wundermittel</strong>, sondern unterstützt Ihr ECS</li>
+                                <li>• Cannabinoide sind <strong>kein Wundermittel</strong>, sondern unterstützen Ihr ECS</li>
                                 <li>• Medikamenten-Reduktion ist ein <strong>langsamer Prozess</strong> (3-6 Monate)</li>
                                 <li>• <strong>Niemals eigenständig absetzen</strong> – nur mit ärztlicher Begleitung!</li>
                                 <li>• Nicht bei allen Menschen gleich wirksam (Genetik, ECS-Status)</li>
@@ -1271,7 +1271,7 @@ app.get('/', (c) => {
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
                     <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
                         <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Macht CBD abhängig? Welche Nebenwirkungen kann es geben?</span>
+                        <span>Machen Cannabinoide abhängig? Welche Nebenwirkungen kann es geben?</span>
 
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
@@ -1281,9 +1281,9 @@ app.get('/', (c) => {
                                     <i class="fas fa-check-circle mr-2"></i>
                                     Abhängigkeitspotenzial:
                                 </h4>
-                                <p class="text-sm mb-2"><strong>Nein, CBD macht nicht abhängig!</strong></p>
+                                <p class="text-sm mb-2"><strong>Nein, Cannabinoide machen nicht abhängig!</strong></p>
                                 <ul class="text-sm space-y-1">
-                                    <li>• WHO stuft CBD als sicher ein (2025)</li>
+                                    <li>• WHO stuft nicht-psychoaktive Cannabinoide als sicher ein (2025)</li>
                                     <li>• Keine Entzugserscheinungen beim Absetzen</li>
                                     <li>• Keine Toleranzentwicklung (Dosis muss nicht gesteigert werden)</li>
                                     <li>• Keine psychoaktive Wirkung</li>
@@ -1307,7 +1307,7 @@ app.get('/', (c) => {
                         <div class="bg-purple-50 p-4 rounded-lg">
                             <p class="text-sm">
                                 <i class="fas fa-lightbulb text-purple-600 mr-2"></i>
-                                <strong>Tipp:</strong> Unser "Start Low, Go Slow"-Ansatz minimiert Nebenwirkungen. Die meisten Menschen vertragen CBD sehr gut, wenn sie langsam einschleichen.
+                                <strong>Tipp:</strong> Unser "Start Low, Go Slow"-Ansatz minimiert Nebenwirkungen. Die meisten Menschen vertragen Cannabinoide sehr gut, wenn sie langsam einschleichen.
                             </p>
                         </div>
                     </div>
@@ -1317,7 +1317,7 @@ app.get('/', (c) => {
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
                     <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
                         <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Wie finde ich einen Arzt, der mich beim Medikamenten-Ausschleichen mit CBD begleitet?</span>
+                        <span>Wie finde ich einen Arzt, der mich bei der Medikamenten-Reduktion mit Cannabinoiden begleitet?</span>
 
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
@@ -1329,7 +1329,7 @@ app.get('/', (c) => {
                             <ul class="text-sm space-y-3">
                                 <li>
                                     <strong>1. Hausarzt als erster Ansprechpartner:</strong><br>
-                                    Zeigen Sie Ihrem Hausarzt diesen Ausschleichplan. Viele Ärzte sind heute aufgeschlossen gegenüber CBD, wenn wissenschaftliche Grundlagen vorliegen.
+                                    Zeigen Sie Ihrem Hausarzt diesen Medikamenten-Reduktionsplan. Viele Ärzte sind heute aufgeschlossen gegenüber Cannabinoiden, wenn wissenschaftliche Grundlagen vorliegen.
                                 </li>
                                 <li>
                                     <strong>2. Cannabis-Ärzte & Spezialisten:</strong><br>
@@ -1353,7 +1353,7 @@ app.get('/', (c) => {
                                 Gesprächstipps für Ihr Arztgespräch:
                             </h5>
                             <ul class="text-sm space-y-1">
-                                <li>✅ Bringen Sie diesen Ausschleichplan mit (als PDF)</li>
+                                <li>✅ Bringen Sie diesen Medikamenten-Reduktionsplan mit (als PDF)</li>
                                 <li>✅ Erklären Sie Ihre Motivation (weniger Medikamente, Nebenwirkungen)</li>
                                 <li>✅ Betonen Sie, dass Sie unter ärztlicher Aufsicht vorgehen möchten</li>
                                 <li>✅ Fragen Sie nach regelmäßigen Kontrolluntersuchungen</li>
@@ -1367,7 +1367,7 @@ app.get('/', (c) => {
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
                     <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
                         <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
-                        <span>Was kostet CBD-Paste? Übernimmt die Krankenkasse die Kosten?</span>
+                        <span>Was kosten Cannabinoid-Präparate? Übernimmt die Krankenkasse die Kosten?</span>
 
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
@@ -1375,7 +1375,7 @@ app.get('/', (c) => {
                             <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
                                 <h4 class="font-bold text-orange-900 mb-2">
                                     <i class="fas fa-calculator mr-2"></i>
-                                    Kosten für CBD-Paste 70%:
+                                    Kosten für Cannabinoid-Präparate (z.B. CBD-Paste 70%):
                                 </h4>
                                 <p class="text-sm mb-2">Beispielrechnung für 1 Monat:</p>
                                 <ul class="text-sm space-y-1">
@@ -1394,7 +1394,7 @@ app.get('/', (c) => {
                                 </h4>
                                 <p class="text-sm mb-2"><strong>Leider meist NEIN:</strong></p>
                                 <ul class="text-sm space-y-1">
-                                    <li>• CBD-Paste als Nahrungsergänzungsmittel: <strong>Keine Kostenübernahme</strong></li>
+                                    <li>• Cannabinoid-Präparate als Nahrungsergänzungsmittel: <strong>Keine Kostenübernahme</strong></li>
                                     <li>• Medizinisches Cannabis (THC-haltig): Kann verschrieben werden, aber hohe Hürden</li>
                                     <li>• Private Krankenversicherungen: Einzelfallentscheidung</li>
                                 </ul>
@@ -1406,7 +1406,7 @@ app.get('/', (c) => {
                                 Aber: Langfristige Einsparungen möglich!
                             </h5>
                             <p class="text-sm mb-2">
-                                Wenn Sie durch CBD Medikamente reduzieren können, sparen Sie:
+                                Wenn Sie durch Cannabinoide Medikamente reduzieren können, sparen Sie:
                             </p>
                             <ul class="text-sm space-y-1">
                                 <li>• Zuzahlungen für Medikamente (5-10€ pro Rezept)</li>
@@ -1415,7 +1415,7 @@ app.get('/', (c) => {
                                 <li>• Langfristig: Weniger Folgeerkrankungen durch Medikamente</li>
                             </ul>
                             <p class="text-sm mt-2">
-                                <strong>Beispiel:</strong> Wenn Sie 3 Medikamente à 10€ Zuzahlung/Monat sparen = 30€. Plus CBD-Kosten 100€ = Netto-Mehrkosten 70€ für bessere Lebensqualität.
+                                <strong>Beispiel:</strong> Wenn Sie 3 Medikamente à 10€ Zuzahlung/Monat sparen = 30€. Plus Cannabinoid-Kosten 100€ = Netto-Mehrkosten 70€ für bessere Lebensqualität.
                             </p>
                         </div>
                     </div>
@@ -1452,7 +1452,7 @@ app.get('/', (c) => {
                                 Ihre persönlichen Daten
                             </h3>
                             <p class="text-xs text-gray-600 mb-4">
-                                Diese Angaben helfen uns, die CBD-Dosierung individuell für Sie zu berechnen.
+                                Diese Angaben helfen uns, die Cannabinoid-Dosierung individuell für Sie zu berechnen.
                             </p>
                             
                             <div class="grid md:grid-cols-2 gap-6 mb-4">
@@ -1535,7 +1535,7 @@ app.get('/', (c) => {
                             <div class="bg-white p-3 rounded-lg mt-4">
                                 <p class="text-xs text-gray-600">
                                     <i class="fas fa-info-circle text-blue-500 mr-1"></i>
-                                    Ihre Daten werden verwendet, um die CBD-Dosierung an Ihr Körpergewicht und Alter anzupassen.
+                                    Ihre Daten werden verwendet, um die Cannabinoid-Dosierung an Ihr Körpergewicht und Alter anzupassen.
                                 </p>
                             </div>
                         </div>
@@ -1695,7 +1695,7 @@ app.get('/', (c) => {
                             <div class="bg-white p-3 rounded-lg mt-4">
                                 <p class="text-xs text-gray-600">
                                     <i class="fas fa-info-circle text-blue-500 mr-1"></i>
-                                    Ihre Daten werden verwendet, um die CBD-Dosierung an Ihr Körpergewicht und Alter anzupassen.
+                                    Ihre Daten werden verwendet, um die Cannabinoid-Dosierung an Ihr Körpergewicht und Alter anzupassen.
                                 </p>
                             </div>
                         </div>
@@ -1759,7 +1759,7 @@ app.get('/', (c) => {
             <div id="loading" class="hidden section-card p-8 text-center rounded-lg">
                 <i class="fas fa-spinner fa-spin text-5xl text-teal-600 mb-4"></i>
                 <p class="text-lg font-semibold text-gray-900">Analysiere Ihre Medikamente...</p>
-                <p class="text-gray-600 mt-2 text-sm">Berechne individuelle CBD-Paste Dosierung...</p>
+                <p class="text-gray-600 mt-2 text-sm">Berechne individuelle Cannabinoid-Dosierung...</p>
             </div>
 
             <!-- Results -->
@@ -1772,10 +1772,10 @@ app.get('/', (c) => {
             <div class="max-w-6xl mx-auto px-4 text-center">
                 <p class="mb-2">
                     <i class="fas fa-shield-alt mr-2"></i>
-                    Alle Informationen basieren auf wissenschaftlichen Studien zu CBD-Medikamenten-Wechselwirkungen
+                    Alle Informationen basieren auf wissenschaftlichen Studien zu Cannabinoid-Medikamenten-Wechselwirkungen
                 </p>
                 <p class="text-gray-400 text-sm">
-                    Quellen: PubMed, NIH, ProjectCBD
+                    Quellen: PubMed, NIH, ProjectCBD, WHO
                 </p>
             </div>
         </footer>
