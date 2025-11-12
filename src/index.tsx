@@ -1251,7 +1251,7 @@ app.get('/', (c) => {
                                    required>
                             <p class="text-xs text-gray-600 mt-2">
                                 <i class="fas fa-shield-alt text-green-600 mr-1"></i>
-                                Ihre E-Mail-Adresse wird gespeichert, um Ihnen den Download zu ermöglichen.
+                                Datensicherheit garantiert – Ihre Daten werden nicht weitergegeben.
                             </p>
                         </div>
 
@@ -1411,7 +1411,7 @@ app.get('/', (c) => {
                                    required>
                             <p class="text-xs text-gray-600 mt-2">
                                 <i class="fas fa-shield-alt text-green-600 mr-1"></i>
-                                Ihre E-Mail-Adresse wird gespeichert, um Ihnen den Download zu ermöglichen.
+                                Datensicherheit garantiert – Ihre Daten werden nicht weitergegeben.
                             </p>
                         </div>
                         
