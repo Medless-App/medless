@@ -1018,10 +1018,13 @@ app.get('/', (c) => {
                     </div>
                     <div class="flex-1">
                         <h2 class="text-2xl font-bold text-gray-900 mb-4">
-                            Unser Tool: Ihr sicherer Einstieg
+                            Ihre KI-gestützte Unterstützung für einen sicheren Einstieg
                         </h2>
+                        <p class="text-gray-700 text-base mb-3 leading-relaxed">
+                            Im Hintergrund arbeitet eine <strong>speziell entwickelte KI</strong>, die auf Basis Ihrer Daten einen maßgeschneiderten Einstieg mit Cannabinoiden berechnet.
+                        </p>
                         <p class="text-gray-700 text-base mb-6 leading-relaxed">
-                            Dieses Tool erstellt Ihnen einen <strong>individualisierten Ausschleichplan</strong> für exogene Cannabinoide (CBD-Paste 70%), der Ihre <strong>aktuelle Medikation, Alter, Gewicht und Körpergröße</strong> berücksichtigt. So können Sie unter ärztlicher Begleitung sicher mit der ECS-Stärkung beginnen.
+                            Sie vergleicht Wechselwirkungen, analysiert Dosierungsmuster und erstellt daraus einen <strong>präzisen Tag-für-Tag-Plan</strong> – damit Sie gemeinsam mit Ihrem Arzt Schritt für Schritt sicher starten können.
                         </p>
                         
                         <div class="grid md:grid-cols-3 gap-4 mb-6">
@@ -1030,36 +1033,43 @@ app.get('/', (c) => {
                                     <i class="fas fa-microscope text-teal-700 text-lg"></i>
                                 </div>
                                 <h4 class="font-semibold text-gray-900 mb-2 text-sm">Medikamenten-Analyse</h4>
-                                <p class="text-xs text-gray-600">Wir prüfen Wechselwirkungen mit Ihren Medikamenten und passen die Startdosis an</p>
+                                <p class="text-xs text-gray-600">Die KI erkennt bekannte Wechselwirkungen und simuliert, wie Cannabinoide mit Ihren Medikamenten reagieren könnten. So erhalten Sie eine präzise Übersicht für das Gespräch mit Ihrer Ärztin oder Ihrem Arzt.</p>
                             </div>
                             <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
                                 <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
                                     <i class="fas fa-user-md text-teal-700 text-lg"></i>
                                 </div>
                                 <h4 class="font-semibold text-gray-900 mb-2 text-sm">Individuelle Dosierung</h4>
-                                <p class="text-xs text-gray-600">Basierend auf Alter, BMI und Gewicht – wissenschaftlich fundiert</p>
+                                <p class="text-xs text-gray-600">Auf Basis Ihrer Körperdaten und bisherigen Medikation berechnet die KI eine empfohlene Startdosis und schlägt eine sanfte Steigerung vor – wissenschaftlich fundiert und nachvollziehbar.</p>
                             </div>
                             <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
                                 <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
                                     <i class="fas fa-calendar-check text-teal-700 text-lg"></i>
                                 </div>
-                                <h4 class="font-semibold text-gray-900 mb-2 text-sm">Tag-für-Tag Plan</h4>
-                                <p class="text-xs text-gray-600">Zweiphasige Strategie: Einschleichphase + Erhaltung für optimale ECS-Unterstützung</p>
+                                <h4 class="font-semibold text-gray-900 mb-2 text-sm">Tag-für-Tag-Plan</h4>
+                                <p class="text-xs text-gray-600">Ihr persönlicher Einschleich- und Erhaltungsplan wird automatisch generiert – inklusive Erinnerungen, Anpassungshinweisen und ECS-Balance-Check. So behalten Sie den Überblick und wissen jeden Tag, wie Sie richtig vorgehen.</p>
                             </div>
                         </div>
                         
                         <div class="warning-box p-5 rounded-lg border-l-4 border-red-400">
-                            <h4 class="font-semibold text-gray-900 mb-2 text-base">
-                                Wichtig: Ärztliche Begleitung erforderlich
+                            <h4 class="font-semibold text-gray-900 mb-3 text-base flex items-center gap-2">
+                                <i class="fas fa-exclamation-triangle text-red-600"></i>
+                                Wichtig: Ärztliche Begleitung ist Voraussetzung
                             </h4>
-                            <p class="text-gray-700 mb-3 text-sm">
-                                Dieser Plan ist <strong>keine medizinische Beratung</strong>. Er dient als <strong>Gesprächsgrundlage für Ihr Arztgespräch</strong>. Medikamenten-Reduktion darf <strong>nur unter ärztlicher Aufsicht</strong> erfolgen.
+                            <p class="text-gray-700 mb-2 text-sm">
+                                Der Plan wird <strong>KI-gestützt berechnet</strong>, ersetzt jedoch <strong>keine ärztliche Beratung</strong>.
                             </p>
-                            <ul class="text-gray-700 space-y-1 ml-5 list-disc text-xs">
-                                <li>Nehmen Sie den Plan zu Ihrem Arzt mit</li>
-                                <li>Ändern Sie niemals ohne Rücksprache Ihre Medikation</li>
-                                <li>Beachten Sie Wechselwirkungen</li>
-                            </ul>
+                            <p class="text-gray-700 mb-4 text-sm">
+                                Er soll Sie <strong>informiert und vorbereitet</strong> in Ihr Arztgespräch bringen. Medikamentenänderungen dürfen <strong>ausschließlich unter ärztlicher Aufsicht</strong> erfolgen.
+                            </p>
+                            <div class="bg-red-50 p-3 rounded-lg">
+                                <p class="text-gray-800 font-semibold mb-2 text-xs">Empfohlen:</p>
+                                <ul class="text-gray-700 space-y-1.5 ml-5 list-disc text-xs">
+                                    <li>Plan mitnehmen und gemeinsam besprechen</li>
+                                    <li>Medikamente nie selbstständig anpassen</li>
+                                    <li>Auf mögliche Reaktionen achten (z. B. Müdigkeit, Schwindel, Blutungsneigung)</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
