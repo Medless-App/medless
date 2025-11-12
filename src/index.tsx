@@ -1087,33 +1087,36 @@ app.get('/', (c) => {
                             <i class="fas fa-pills text-red-600 text-lg"></i>
                         </div>
                         <h4 class="font-semibold text-gray-900 mb-2 text-sm">1. Status Quo</h4>
-                        <p class="text-xs text-gray-600">Schwaches ECS → Viele Medikamente</p>
+                        <p class="text-xs text-gray-600">Ungleichgewicht im ECS → Hoher Medikamentenbedarf</p>
                     </div>
                     <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center">
                         <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3">
                             <i class="fas fa-leaf text-teal-700 text-lg"></i>
                         </div>
                         <h4 class="font-semibold text-gray-900 mb-2 text-sm">2. ECS Stärken</h4>
-                        <p class="text-xs text-gray-600">Exogene Cannabinoide zuführen</p>
+                        <p class="text-xs text-gray-600">Cannabinoide zuführen – das ECS aktiv unterstützen</p>
                     </div>
                     <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center">
                         <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
                             <i class="fas fa-chart-line text-emerald-700 text-lg"></i>
                         </div>
                         <h4 class="font-semibold text-gray-900 mb-2 text-sm">3. Medikamente reduzieren</h4>
-                        <p class="text-xs text-gray-600">Unter ärztlicher Begleitung ausschleichen</p>
+                        <p class="text-xs text-gray-600">Medikamente sanft und sicher reduzieren</p>
                     </div>
                     <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center">
                         <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3">
                             <i class="fas fa-heart text-teal-700 text-lg"></i>
                         </div>
                         <h4 class="font-semibold text-gray-900 mb-2 text-sm">4. Starkes ECS</h4>
-                        <p class="text-xs text-gray-600">Körper reguliert sich selbst</p>
+                        <p class="text-xs text-gray-600">Ein starkes ECS – natürliche Balance im Körper</p>
                     </div>
                 </div>
                 <div class="mt-6 bg-slate-50 p-5 rounded-lg text-center border border-slate-200">
-                    <p class="text-gray-800 text-base font-semibold">
-                        Beginnen Sie jetzt mit Ihrem individualisierten Ausschleichplan
+                    <p class="text-gray-800 text-base font-semibold mb-2">
+                        Jetzt berechnen: Ihr individueller Plan für weniger Medikamente
+                    </p>
+                    <p class="text-xs text-gray-500 italic">
+                        Unterstützt durch ärztliche Expertise – entwickelt zur sicheren, begleiteten Medikamentenreduktion
                     </p>
                 </div>
             </div>
