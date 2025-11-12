@@ -1075,18 +1075,6 @@ app.get('/', (c) => {
                 </div>
             </div>
             
-            <!-- Product Info (small, background) -->
-            <div class="bg-slate-100 border border-slate-200 p-4 mb-8 rounded-lg fade-in">
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-info-circle text-slate-500 text-lg"></i>
-                    <div class="flex-1">
-                        <p class="text-xs text-gray-600">
-                            <strong class="text-gray-700">Verwendetes Produkt:</strong> CBD-Paste 70% (3g Spritze, 30 Teilstriche) | <strong class="text-gray-700">Einnahme:</strong> Sublingual (unter die Zunge, 2-3 Min)
-                        </p>
-                    </div>
-                </div>
-            </div>
-
             <!-- What is ECS Section - Deep Dive -->
             <div class="section-card p-8 mb-8 rounded-lg fade-in">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
@@ -1500,7 +1488,7 @@ app.get('/', (c) => {
                     <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
                         <i class="fas fa-syringe text-teal-700 text-lg"></i>
                     </div>
-                    <span>Erstellen Sie Ihren persönlichen CBD-Ausschleichplan</span>
+                    <span>Erstellen Sie Ihren persönlichen Medikamenten-Reduktionsplan</span>
                 </h2>
 
                 <!-- Tab Navigation -->
