@@ -899,10 +899,9 @@ app.get('/', (c) => {
                 
                 <!-- FAQ 3: Wie lange bis Wirkung? -->
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-lg font-bold text-gray-800 py-3 flex items-center hover:text-purple-600 transition">
-                        <i class="fas fa-clock text-blue-600 mr-3"></i>
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
                         <span>Wie lange dauert es, bis CBD wirkt? Und wie lange hält die Wirkung an?</span>
-                        <i class="fas fa-chevron-down ml-auto"></i>
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
                         <div class="grid md:grid-cols-2 gap-4 mb-4">
@@ -942,10 +941,9 @@ app.get('/', (c) => {
                 
                 <!-- FAQ 4: Kann ich Medikamente reduzieren? -->
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-lg font-bold text-gray-800 py-3 flex items-center hover:text-purple-600 transition">
-                        <i class="fas fa-chart-line text-green-600 mr-3"></i>
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
                         <span>Kann ich wirklich meine Medikamente mit CBD reduzieren? Gibt es dafür Beweise?</span>
-                        <i class="fas fa-chevron-down ml-auto"></i>
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
                         <div class="bg-green-50 p-5 rounded-lg mb-4 border-l-4 border-green-500">
@@ -980,10 +978,10 @@ app.get('/', (c) => {
                 
                 <!-- FAQ 5: Macht CBD abhängig? Nebenwirkungen? -->
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-lg font-bold text-gray-800 py-3 flex items-center hover:text-purple-600 transition">
-                        <i class="fas fa-shield-alt text-green-600 mr-3"></i>
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
                         <span>Macht CBD abhängig? Welche Nebenwirkungen kann es geben?</span>
-                        <i class="fas fa-chevron-down ml-auto"></i>
+
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
                         <div class="grid md:grid-cols-2 gap-4 mb-4">
@@ -1026,10 +1024,10 @@ app.get('/', (c) => {
                 
                 <!-- FAQ 6: Wie finde ich einen Arzt? -->
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-lg font-bold text-gray-800 py-3 flex items-center hover:text-purple-600 transition">
-                        <i class="fas fa-user-md text-teal-600 mr-3"></i>
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
                         <span>Wie finde ich einen Arzt, der mich beim Medikamenten-Ausschleichen mit CBD begleitet?</span>
-                        <i class="fas fa-chevron-down ml-auto"></i>
+
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
                         <div class="bg-teal-50 p-5 rounded-lg mb-4 border-l-4 border-teal-500">
@@ -1076,10 +1074,10 @@ app.get('/', (c) => {
                 
                 <!-- FAQ 7: Was kostet CBD? Zahlt Krankenkasse? -->
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
-                    <summary class="text-lg font-bold text-gray-800 py-3 flex items-center hover:text-purple-600 transition">
-                        <i class="fas fa-euro-sign text-orange-600 mr-3"></i>
+                    <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
+                        <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
                         <span>Was kostet CBD-Paste? Übernimmt die Krankenkasse die Kosten?</span>
-                        <i class="fas fa-chevron-down ml-auto"></i>
+
                     </summary>
                     <div class="mt-4 pl-10 text-gray-700 leading-relaxed">
                         <div class="grid md:grid-cols-2 gap-4 mb-4">
