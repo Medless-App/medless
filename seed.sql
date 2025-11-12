@@ -94,7 +94,10 @@ INSERT OR IGNORE INTO medications (name, generic_name, category_id, cyp450_enzym
 -- Weitere Medikamente
 ('Zantac', 'Ranitidin', 12, 'CYP3A4, CYP2D6', 'H2-Rezeptor-Antagonist (Magenschutz)', '150-300 mg/Tag'),
 ('Imodium', 'Loperamid', 4, 'CYP3A4, CYP2C8', 'Antidiarrhoikum', '2-16 mg/Tag'),
-('Femara', 'Letrozol', 8, 'CYP3A4, CYP2A6', 'Aromatasehemmer (Krebstherapie)', '2.5 mg/Tag');
+('Femara', 'Letrozol', 8, 'CYP3A4, CYP2A6', 'Aromatasehemmer (Krebstherapie)', '2.5 mg/Tag'),
+
+-- Weitere Antidepressiva (NEU)
+('Elontril', 'Bupropion', 2, 'CYP2B6', 'Atypisches Antidepressivum (NDRI - Noradrenalin-Dopamin-Wiederaufnahmehemmer)', '150-300 mg/Tag');
 
 -- ALLE CBD-Wechselwirkungen (erweitert und aktualisiert)
 INSERT OR IGNORE INTO cbd_interactions (medication_id, interaction_type, severity, description, mechanism, recommendation, source_url) VALUES
@@ -122,6 +125,8 @@ INSERT OR IGNORE INTO cbd_interactions (medication_id, interaction_type, severit
 (10, 'enhancement', 'high', 'Verstärkung der sedativen Wirkung. Risiko für Magenschmerzen und Unwohlsein.', 'CBD hemmt CYP2C19 und CYP2D6, die Enzyme für den Abbau von Amitriptylin.', 'Niedrige CBD-Dosis empfohlen. Auf verstärkte Müdigkeit, Schwindel und Magenbeschwerden achten.', 'https://www.nordicoil.de/blogs/cbd/cbd-wechselwirkungen'),
 
 (11, 'enhancement', 'high', 'Mögliche Albträume, Durchfall und verstärkte sedierende Wirkung.', 'CBD hemmt CYP2D6 und CYP2C19, die für den Abbau von Trimipramin wichtig sind.', 'Vorsichtige Dosierung. Bei Albträumen oder starken Nebenwirkungen Arzt konsultieren.', 'https://www.nordicoil.de/blogs/cbd/cbd-wechselwirkungen'),
+
+(98, 'enhancement', 'high', 'CBD hemmt CYP2B6 und kann den Bupropion-Spiegel im Blut erhöhen. Dadurch steigt das Risiko für Nebenwirkungen wie Kopfschmerzen, Schlafstörungen, Reizbarkeit, Tremor und Unruhe. In seltenen Fällen kann die Krampfschwelle sinken.', 'Bupropion wird hauptsächlich über das Enzym CYP2B6 in der Leber verstoffwechselt. CBD hemmt dieses Enzym, wodurch Bupropion langsamer abgebaut wird und sich im Blut anreichern kann.', 'Ärztliche Kontrolle unbedingt erforderlich. Dosisanpassung des Antidepressivums kann notwendig sein. Plan mit besonders langsamer Einschleichphase wird empfohlen. Auf verstärkte Nebenwirkungen achten (Kopfschmerzen, Schlaflosigkeit, Unruhe, Zittern). Bei Krampfanfällen sofort Arzt kontaktieren.', 'Anderson LL et al. (2021) Frontiers in Pharmacology 12:646 | Geffrey AL et al. (2015) Epilepsia 56(8):1246 | FDA Label Elontril (2022)'),
 
 -- Antiepileptika (ID 12-17)
 (12, 'neutral', 'low', 'Minimale Wechselwirkung, da Levetiracetam nicht über CYP450 metabolisiert wird.', 'Levetiracetam wird hauptsächlich über die Nieren ausgeschieden, nicht über CYP450-Enzyme.', 'CBD kann in der Regel sicher zusammen mit Levetiracetam eingenommen werden. Dennoch ärztliche Rücksprache empfohlen.', 'https://www.nordicoil.de/blogs/cbd/cbd-wechselwirkungen'),
