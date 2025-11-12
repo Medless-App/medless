@@ -55,7 +55,7 @@ app.get('/api/medications/search/:query', async (c) => {
   }
 })
 
-// Get CBD interactions for specific medication
+// Get Cannabinoid interactions for specific medication
 app.get('/api/interactions/:medicationId', async (c) => {
   const { env } = c;
   const medicationId = c.req.param('medicationId');
@@ -74,7 +74,7 @@ app.get('/api/interactions/:medicationId', async (c) => {
   }
 })
 
-// Analyze medications and generate CBD PASTE 70% DOSING PLAN
+// Analyze medications and generate CANNABINOID PASTE 70% DOSING PLAN
 app.post('/api/analyze', async (c) => {
   const { env } = c;
   try {
@@ -151,10 +151,10 @@ app.post('/api/analyze', async (c) => {
       }
     }
     
-    // ========== CBD PASTE 70% DOSING CALCULATION ==========
+    // ========== CANNABINOID PASTE 70% DOSING CALCULATION ==========
     // Product: 3g Spritze mit 30 Teilstrichen
-    // 1 Teilstrich = 1.5 cm = 70 mg CBD
-    // 1 cm = 46.67 mg CBD
+    // 1 Teilstrich = 1.5 cm = 70 mg Cannabinoids
+    // 1 cm = 46.67 mg Cannabinoids
     
     const MG_PER_CM = 46.67;
     const adjustmentNotes: string[] = [];
@@ -200,7 +200,7 @@ app.post('/api/analyze', async (c) => {
       }
     }
     
-    // Weight-based target dose: 1 mg CBD per kg body weight
+    // Weight-based target dose: 1 mg Cannabinoids per kg body weight
     const weightBasedTargetMg = weight ? weight * 1.0 : 50;
     const maxDosageMg = weight ? Math.min(weight * 2.5, 186) : 100;
     
@@ -292,10 +292,10 @@ app.post('/api/analyze', async (c) => {
       maxSeverity,
       weeklyPlan,
       product: {
-        name: 'CBD-Paste 70%',
+        name: 'Cannabinoid-Paste 70%',
         type: 'Hochkonzentrierte Cannabinoid-Paste',
         packaging: '3 Gramm Spritze mit 30 Teilstrichen',
-        concentration: '70 mg CBD pro Teilstrich (1.5 cm)',
+        concentration: '70 mg Cannabinoide pro Teilstrich (1.5 cm)',
         dosageUnit: 'cm auf der Spritze',
         application: 'Sublingual: Paste unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken'
       },
@@ -1712,7 +1712,7 @@ app.get('/', (c) => {
                     </div>
                 </details>
                 
-                <!-- FAQ 5: Macht CBD abhängig? Nebenwirkungen? -->
+                <!-- FAQ 5: Machen Cannabinoide abhängig? Nebenwirkungen? -->
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
                     <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
                         <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
@@ -1808,7 +1808,7 @@ app.get('/', (c) => {
                     </div>
                 </details>
                 
-                <!-- FAQ 7: Was kostet CBD? Zahlt Krankenkasse? -->
+                <!-- FAQ 7: Was kosten Cannabinoide? Zahlt Krankenkasse? -->
                 <details class="cursor-pointer mb-4 border-b border-gray-200 pb-4">
                     <summary class="text-base font-semibold text-gray-900 py-3 flex items-center hover:text-teal-700 transition">
                         <i class="fas fa-chevron-right mr-3 text-teal-600 text-sm transition-transform"></i>
@@ -1820,7 +1820,7 @@ app.get('/', (c) => {
                             <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
                                 <h4 class="font-bold text-orange-900 mb-2">
                                     <i class="fas fa-calculator mr-2"></i>
-                                    Kosten für Cannabinoid-Präparate (z.B. CBD-Paste 70%):
+                                    Kosten für Cannabinoid-Präparate (z.B. Cannabinoid-Paste 70%):
                                 </h4>
                                 <p class="text-sm mb-2">Beispielrechnung für 1 Monat:</p>
                                 <ul class="text-sm space-y-1">

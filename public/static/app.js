@@ -520,7 +520,7 @@ function displayResults(data, firstName = '', gender = '') {
               <p><strong>🎯 Konzentration:</strong> ${product.concentration}</p>
               <p><strong>📏 Dosierungseinheit:</strong> ${product.dosageUnit}</p>
               <p><strong>💉 Verpackung:</strong> 3g Spritze mit 30 Teilstrichen</p>
-              <p><strong>📊 1 Teilstrich:</strong> 1.5 cm = 70 mg CBD</p>
+              <p><strong>📊 1 Teilstrich:</strong> 1.5 cm = 70 mg Cannabinoide</p>
             </div>
             <div class="mt-4 bg-white p-4 rounded-lg border border-purple-200">
               <p class="text-sm text-gray-800">
@@ -680,7 +680,7 @@ function displayResults(data, firstName = '', gender = '') {
           ` : `
             <p class="text-gray-600 text-sm mt-2">
               <i class="fas fa-check-circle text-green-500 mr-2"></i>
-              Keine bekannten Wechselwirkungen mit CBD
+              Keine bekannten Wechselwirkungen mit Cannabinoiden
             </p>
           `}
         </div>
@@ -774,7 +774,7 @@ function displayResults(data, firstName = '', gender = '') {
       <div class="mt-6 bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
         <h3 class="font-bold text-green-800 mb-3 text-lg">
           <i class="fas fa-clipboard-check mr-2"></i>
-          💡 Wichtige Hinweise zur Einnahme von CBD-Paste 70%:
+          💡 Wichtige Hinweise zur Einnahme von Cannabinoid-Paste 70%:
         </h3>
         <ul class="text-green-700 space-y-2 ml-6 list-disc">
           <li><strong>👅 Sublinguale Einnahme:</strong> Paste unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken (optimale Aufnahme!)</li>
@@ -785,7 +785,7 @@ function displayResults(data, firstName = '', gender = '') {
           <li><strong>📝 Tagebuch:</strong> Führen Sie ein Symptom-Tagebuch über Wirkungen und Nebenwirkungen</li>
           <li><strong>⚠️ Bei Nebenwirkungen:</strong> Dosis reduzieren oder pausieren - dann Arzt konsultieren</li>
           <li><strong>👨‍⚕️ Ärztliche Begleitung:</strong> Nehmen Sie diesen Plan zu Ihrem Arztgespräch mit!</li>
-          <li><strong>📏 Dosierung ablesen:</strong> Nutzen Sie die Teilstriche auf der Spritze (1 Teilstrich = 1.5 cm = 70 mg CBD)</li>
+          <li><strong>📏 Dosierung ablesen:</strong> Nutzen Sie die Teilstriche auf der Spritze (1 Teilstrich = 1.5 cm = 70 mg Cannabinoide)</li>
         </ul>
       </div>
 
@@ -922,7 +922,7 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
     doc.setFontSize(11); // 11pt
     doc.setTextColor(34, 34, 34); // #222
     doc.setFont(undefined, 'normal');
-    doc.text('• Konzentration: 70 % Cannabinoide (davon ca. 90 % CBD)', 22, yPos + 14);
+    doc.text('• Konzentration: 70 % Cannabinoide', 22, yPos + 14);
     doc.text('• Verpackung: 3 g Spritze mit 30 Teilstrichen (je 0,1 cm pro Teilstrich)', 22, yPos + 19);
     doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 22, yPos + 24);
     
