@@ -1075,70 +1075,7 @@ app.get('/', (c) => {
                 </div>
             </div>
             
-            <!-- What is ECS Section - Deep Dive -->
-            <div class="section-card p-8 mb-8 rounded-lg fade-in">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                    <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-brain text-teal-700 text-lg"></i>
-                    </div>
-                    <span>Das ECS: Ihr stärkstes Körpersystem</span>
-                </h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <div class="bg-slate-50 p-5 rounded-lg mb-4 border border-slate-200">
-                            <h3 class="font-semibold text-gray-900 mb-3 text-base">
-                                Das ECS ist überall in Ihrem Körper:
-                            </h3>
-                            <ul class="text-gray-700 space-y-2 text-sm">
-                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-0.5">•</span><span><strong>Gehirn & Nervensystem</strong> – Schmerz, Stimmung, Gedächtnis</span></li>
-                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-0.5">•</span><span><strong>Immunsystem</strong> – Entzündungen, Abwehr</span></li>
-                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-0.5">•</span><span><strong>Verdauungstrakt</strong> – Appetit, Darmmotilität</span></li>
-                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-0.5">•</span><span><strong>Herz-Kreislauf</strong> – Blutdruck, Herzrhythmus</span></li>
-                                <li class="flex items-start"><span class="text-teal-600 mr-2 mt-0.5">•</span><span><strong>Knochen & Muskeln</strong> – Regeneration, Heilung</span></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="info-box p-4 rounded-lg">
-                            <h4 class="font-semibold text-gray-900 mb-2 text-sm">
-                                Warum ist das ECS so wichtig?
-                            </h4>
-                            <p class="text-gray-700 text-xs">
-                                Das ECS ist das <strong>Master-Regulationssystem</strong> Ihres Körpers. Es sorgt für <strong>Homöostase</strong> – das innere Gleichgewicht. Wenn das ECS geschwächt ist, gerät Ihr gesamter Körper aus dem Gleichgewicht.
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="warning-box p-5 rounded-lg border-l-4 border-red-400 mb-4">
-                            <h3 class="font-semibold text-gray-900 mb-3 text-base">
-                                Endocannabinoid-Defizienz (CED):
-                            </h3>
-                            <p class="text-gray-700 mb-3 text-sm leading-relaxed">
-                                Wenn Ihr Körper zu wenig <strong>eigene Endocannabinoide</strong> produziert, entsteht eine <strong>klinische Endocannabinoid-Defizienz</strong>. Das ECS kann seine Aufgaben nicht mehr erfüllen.
-                            </p>
-                            <div class="bg-white p-3 rounded border-l-4 border-red-500">
-                                <p class="text-sm text-gray-800 font-semibold mb-1">Folgen einer CED:</p>
-                                <ul class="text-xs text-gray-700 space-y-1">
-                                    <li>• Chronische Schmerzen (Fibromyalgie, Migräne)</li>
-                                    <li>• Angststörungen, Depressionen</li>
-                                    <li>• Schlafstörungen, Erschöpfung</li>
-                                    <li>• Entzündliche Darmerkrankungen</li>
-                                    <li>• Autoimmunerkrankungen</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="info-box p-5 rounded-lg">
-                            <h3 class="font-semibold text-gray-900 mb-2 text-base">
-                                Die Lösung: Exogene Cannabinoide
-                            </h3>
-                            <p class="text-gray-700 text-xs leading-relaxed">
-                                <strong>CBD (Cannabidiol)</strong> und andere Phytocannabinoide wirken wie körpereigene Endocannabinoide. Sie <strong>füllen die Lücke</strong> und helfen Ihrem ECS, wieder stark zu werden.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
+
             <!-- The Journey: From Medication to Strong ECS -->
             <div class="section-card p-8 mb-8 rounded-lg fade-in">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
