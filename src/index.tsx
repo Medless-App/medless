@@ -975,11 +975,20 @@ app.get('/', (c) => {
                             <div class="bg-emerald-100 p-4 rounded-lg">
                                 <h5 class="font-semibold text-emerald-900 mb-2 text-sm">Praxis-Beispiel: Clobazam (Frisium®) und CBD</h5>
                                 <p class="text-xs text-gray-700 mb-2">
-                                    Clobazam wird häufig bei <strong>Epilepsie</strong> eingesetzt. Studien zeigen, dass CBD den <strong>aktiven Clobazam-Metaboliten im Blut um ein Mehrfaches erhöhen</strong> kann. Dadurch können Müdigkeit und Benommenheit deutlich zunehmen, sodass der Arzt die <strong>Clobazam-Dosis oft reduzieren muss</strong>.
+                                    Clobazam wird häufig bei <strong>Epilepsie</strong> eingesetzt. Studien zeigen, dass Cannabinoide – insbesondere CBD – den <strong>Abbau des Wirkstoffs in der Leber verlangsamen</strong> können. Dadurch steigt der Anteil des aktiven Abbauprodukts im Blut, und die Wirkung kann sich verstärken.
                                 </p>
-                                <p class="text-xs text-emerald-900 font-medium">
-                                    Deshalb gilt: CBD bei laufender Clobazam-Therapie nur in ärztlicher Absprache einsetzen und auf verstärkte Müdigkeit achten – niemals eigenmächtig die Medikamente umstellen.
+                                <p class="text-xs text-gray-700 mb-3">
+                                    Typische Begleiterscheinungen sind stärkere Müdigkeit oder Benommenheit, weshalb Ärztinnen und Ärzte in solchen Fällen oft die <strong>Clobazam-Dosis anpassen</strong>.
                                 </p>
+                                <div class="bg-red-50 border-l-3 border-red-500 p-3 rounded">
+                                    <p class="text-xs text-red-900 font-semibold mb-1">
+                                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                                        Wichtig:
+                                    </p>
+                                    <p class="text-xs text-red-800">
+                                        Cannabinoide dürfen bei Clobazam-Therapie nur in <strong>ärztlicher Absprache</strong> eingesetzt werden. Bei verstärkter Müdigkeit oder Schwindel immer Rücksprache halten – <strong>Medikamente niemals eigenmächtig verändern</strong>.
+                                    </p>
+                                </div>
                             </div>
                             
                             <p class="text-xs text-gray-600 mt-3 italic">
