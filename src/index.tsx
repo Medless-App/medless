@@ -679,9 +679,12 @@ app.get('/', (c) => {
                             </div>
                             
                             <div class="bg-emerald-100 p-4 rounded-lg">
-                                <h5 class="font-semibold text-emerald-900 mb-2 text-sm">Praxis-Beispiel: Marcumar</h5>
-                                <p class="text-xs text-gray-700">
-                                    Nehmen Sie Marcumar (Blutverdünner): Wenn Sie eine <strong>niedrige CBD-Dosis</strong> dazu nehmen, bleibt Marcumar <strong>länger im Blut wirksam</strong>. Das bedeutet: Sie können <strong>weniger Marcumar einnehmen</strong> und erreichen trotzdem die gewünschte Blutverdünnung – natürlich unter <strong>engmaschiger ärztlicher Kontrolle</strong> (INR-Werte).
+                                <h5 class="font-semibold text-emerald-900 mb-2 text-sm">Praxis-Beispiel: Clobazam (Frisium®) und CBD</h5>
+                                <p class="text-xs text-gray-700 mb-2">
+                                    Clobazam wird häufig bei <strong>Epilepsie</strong> eingesetzt. Studien zeigen, dass CBD den <strong>aktiven Clobazam-Metaboliten im Blut um ein Mehrfaches erhöhen</strong> kann. Dadurch können Müdigkeit und Benommenheit deutlich zunehmen, sodass der Arzt die <strong>Clobazam-Dosis oft reduzieren muss</strong>.
+                                </p>
+                                <p class="text-xs text-emerald-900 font-medium">
+                                    Deshalb gilt: CBD bei laufender Clobazam-Therapie nur in ärztlicher Absprache einsetzen und auf verstärkte Müdigkeit achten – niemals eigenmächtig die Medikamente umstellen.
                                 </p>
                             </div>
                             
