@@ -512,7 +512,7 @@ app.get('/', (c) => {
                             Zu viele Tabletten? Sie sind nicht allein.
                         </h2>
                         <p class="text-gray-700 text-base mb-6 leading-relaxed">
-                            Millionen Menschen in Deutschland und Österreich nehmen täglich Medikamente – oft mehrere gleichzeitig. Viele möchten ihre <strong>Medikation reduzieren</strong> oder sogar <strong>komplett ausschleichen</strong>, wissen aber nicht, wie sie das sicher angehen können.
+                            Millionen Menschen in Deutschland und Österreich nehmen täglich Medikamente – oft mehrere gleichzeitig. Viele möchten ihre <strong>Medikation reduzieren</strong> oder sogar <strong>komplett absetzen</strong>, wissen aber nicht, wie sie das sicher angehen können.
                         </p>
                         <div class="info-box p-4 rounded-lg">
                             <p class="text-gray-800 font-semibold mb-2 text-sm uppercase tracking-wide text-teal-700">
@@ -1001,7 +1001,7 @@ app.get('/', (c) => {
                                 Das Ziel: Medikamenten-Reduktion durch starkes ECS
                             </h4>
                             <p class="text-gray-700 text-sm">
-                                Wenn Ihr Endocannabinoid-System wieder <strong>im Gleichgewicht ist</strong>, kann Ihr Körper viele Aufgaben selbst regulieren – also genau die Prozesse, für die heute oft Medikamente notwendig sind. Unter ärztlicher Begleitung können Sie so Schritt für Schritt <strong>Ihre Medikation reduzieren oder sogar ausschleichen</strong>.
+                                Wenn Ihr Endocannabinoid-System wieder <strong>im Gleichgewicht ist</strong>, kann Ihr Körper viele Aufgaben selbst regulieren – also genau die Prozesse, für die heute oft Medikamente notwendig sind. Unter ärztlicher Begleitung können Sie so Schritt für Schritt <strong>Ihre Medikation reduzieren oder sogar absetzen</strong>.
                             </p>
                         </div>
                     </div>
@@ -1603,7 +1603,7 @@ app.get('/', (c) => {
 
                         <button type="submit" class="w-full py-4 bg-teal-700 text-white font-semibold rounded-lg hover:bg-teal-800 transition-colors shadow-md text-base">
                             <i class="fas fa-syringe mr-2 text-sm"></i>
-                            Ausschleichplan erstellen
+                            Reduktionsplan erstellen
                         </button>
                     </form>
                 </div>
@@ -1749,7 +1749,7 @@ app.get('/', (c) => {
 
                         <button type="submit" class="w-full py-4 bg-teal-700 text-white font-semibold rounded-lg hover:bg-teal-800 transition-colors shadow-md text-base">
                             <i class="fas fa-camera mr-2 text-sm"></i>
-                            Bild analysieren & Ausschleichplan erstellen
+                            Bild analysieren & Reduktionsplan erstellen
                         </button>
                     </form>
                 </div>
