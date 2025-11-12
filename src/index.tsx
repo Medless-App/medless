@@ -577,7 +577,7 @@ app.get('/', (c) => {
                                 <ul class="text-gray-700 space-y-2.5 text-sm">
                                     <li class="flex items-start">
                                         <span class="text-slate-400 mr-2 mt-0.5">•</span>
-                                        <span><strong>Medikamente</strong> stören ECS-Funktion</span>
+                                        <span><strong>Medikamente</strong> können die ECS-Funktion beeinflussen</span>
                                     </li>
                                     <li class="flex items-start">
                                         <span class="text-slate-400 mr-2 mt-0.5">•</span>
@@ -585,15 +585,15 @@ app.get('/', (c) => {
                                     </li>
                                     <li class="flex items-start">
                                         <span class="text-slate-400 mr-2 mt-0.5">•</span>
-                                        <span><strong>Schlechte Ernährung</strong> (Omega-6-Überschuss)</span>
+                                        <span><strong>Unausgewogene Ernährung</strong> (z. B. viel Omega-6-Fette)</span>
                                     </li>
                                     <li class="flex items-start">
                                         <span class="text-slate-400 mr-2 mt-0.5">•</span>
-                                        <span><strong>Bewegungsmangel</strong> reduziert ECS-Aktivität</span>
+                                        <span><strong>Bewegungsmangel</strong></span>
                                     </li>
                                     <li class="flex items-start">
                                         <span class="text-slate-400 mr-2 mt-0.5">•</span>
-                                        <span><strong>Umweltgifte</strong> (Pestizide, Plastik)</span>
+                                        <span><strong>Umweltgifte</strong> (z. B. Pestizide, Plastik-Weichmacher)</span>
                                     </li>
                                 </ul>
                             </div>
