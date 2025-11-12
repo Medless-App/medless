@@ -1111,14 +1111,14 @@ app.get('/', (c) => {
                         <p class="text-xs text-gray-600">Ein starkes ECS – natürliche Balance im Körper</p>
                     </div>
                 </div>
-                <div class="mt-6 bg-slate-50 p-5 rounded-lg text-center border border-slate-200">
+                <a href="#dosierungsplan-erstellen" class="block mt-6 bg-slate-50 p-5 rounded-lg text-center border border-slate-200 hover:bg-teal-50 hover:border-teal-300 transition-all cursor-pointer no-underline">
                     <p class="text-gray-800 text-base font-semibold mb-2">
                         Jetzt berechnen: Ihr individueller Plan für weniger Medikamente
                     </p>
                     <p class="text-xs text-gray-500 italic">
                         Unterstützt durch ärztliche Expertise – entwickelt zur sicheren, begleiteten Medikamentenreduktion
                     </p>
-                </div>
+                </a>
             </div>
             
             <!-- FAQ Section: Häufig gestellte Fragen -->
