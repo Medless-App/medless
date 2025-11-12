@@ -414,7 +414,7 @@ app.get('/', (c) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ECS Aktivierung - CBD Ausschleichplan</title>
+        <title>Medikamente strukturiert reduzieren - ECS Aktivierung</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
         <style>
@@ -481,11 +481,11 @@ app.get('/', (c) => {
             <div class="max-w-6xl mx-auto px-4">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-4xl font-bold mb-3">
+                        <h1 class="text-3xl md:text-4xl font-bold mb-3 leading-tight">
                             <i class="fas fa-leaf mr-3 text-teal-300"></i>
-                            ECS Aktivierung
+                            Strukturiert Medikamente reduzieren – mit Unterstützung des Endocannabinoid-Systems (ECS)
                         </h1>
-                        <p class="text-teal-100 text-lg font-light">Ihr Weg zu weniger Medikamenten durch ein starkes Endocannabinoid-System</p>
+                        <p class="text-teal-100 text-base md:text-lg font-light">Ihr Weg zu weniger Medikamenten durch ein starkes Endocannabinoid-System</p>
                     </div>
                     <div class="text-right hidden md:block">
                         <a href="#dosierungsplan-erstellen" class="block bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
