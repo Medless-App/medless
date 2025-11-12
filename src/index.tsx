@@ -429,6 +429,10 @@ app.get('/', (c) => {
             --bg-subtle: #f8fafc;     /* Slate-50 */
           }
           
+          html {
+            scroll-behavior: smooth;
+          }
+          
           @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -484,10 +488,10 @@ app.get('/', (c) => {
                         <p class="text-teal-100 text-lg font-light">Ihr Weg zu weniger Medikamenten durch ein starkes Endocannabinoid-System</p>
                     </div>
                     <div class="text-right hidden md:block">
-                        <div class="bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20">
+                        <a href="#dosierungsplan-erstellen" class="block bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
                             <i class="fas fa-heart-pulse mr-2 text-teal-300"></i>
                             <span class="text-sm font-medium">Medikamenten-Reduktion</span>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1132,7 +1136,7 @@ app.get('/', (c) => {
             </div>
 
             <!-- Main Form -->
-            <div class="section-card p-8 mb-8 rounded-lg fade-in">
+            <div id="dosierungsplan-erstellen" class="section-card p-8 mb-8 rounded-lg fade-in">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                     <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
                         <i class="fas fa-syringe text-teal-700 text-lg"></i>
