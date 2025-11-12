@@ -1132,20 +1132,22 @@ app.get('/', (c) => {
             </div>
 
             <!-- Main Form -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                    <i class="fas fa-syringe text-blue-600 mr-3"></i>
-                    Erstellen Sie Ihren persönlichen CBD-Ausschleichplan
+            <div class="section-card p-8 mb-8 rounded-lg fade-in">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                    <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-syringe text-teal-700 text-lg"></i>
+                    </div>
+                    <span>Erstellen Sie Ihren persönlichen CBD-Ausschleichplan</span>
                 </h2>
 
                 <!-- Tab Navigation -->
-                <div class="flex border-b mb-6">
-                    <button id="tab-text" class="tab-button px-6 py-3 font-semibold text-purple-600 border-b-2 border-purple-600">
-                        <i class="fas fa-keyboard mr-2"></i>
+                <div class="flex border-b border-gray-200 mb-6">
+                    <button id="tab-text" class="tab-button px-6 py-3 font-semibold text-teal-700 border-b-2 border-teal-700">
+                        <i class="fas fa-keyboard mr-2 text-sm"></i>
                         Manuelle Eingabe
                     </button>
-                    <button id="tab-upload" class="tab-button px-6 py-3 font-semibold text-gray-500 hover:text-purple-600">
-                        <i class="fas fa-camera mr-2"></i>
+                    <button id="tab-upload" class="tab-button px-6 py-3 font-semibold text-gray-500 hover:text-teal-700">
+                        <i class="fas fa-camera mr-2 text-sm"></i>
                         Foto hochladen
                     </button>
                 </div>
@@ -1154,29 +1156,27 @@ app.get('/', (c) => {
                 <div id="content-text" class="tab-content">
                     <form id="medication-form">
                         <!-- Personal Data Section -->
-                        <div class="bg-blue-50 p-6 rounded-lg mb-6">
-                            <h3 class="text-lg font-bold text-gray-800 mb-4">
-                                <i class="fas fa-user-circle mr-2"></i>
+                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-6">
+                            <h3 class="text-base font-semibold text-gray-900 mb-3">
                                 Ihre persönlichen Daten
                             </h3>
-                            <p class="text-sm text-gray-600 mb-4">
+                            <p class="text-xs text-gray-600 mb-4">
                                 Diese Angaben helfen uns, die CBD-Dosierung individuell für Sie zu berechnen.
                             </p>
                             
                             <div class="grid md:grid-cols-2 gap-6 mb-4">
                                 <div>
-                                    <label class="block text-gray-700 font-semibold mb-3">
-                                        <i class="fas fa-user mr-2"></i>
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
                                         Ihr Vorname *
                                     </label>
                                     <input type="text" id="first-name" name="first_name" 
                                            placeholder="z.B. Maria" 
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white text-sm"
                                            required>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 font-semibold mb-3">
-                                        <i class="fas fa-venus-mars mr-2"></i>
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
+        
                                         Geschlecht *
                                     </label>
                                     <div class="flex gap-6 items-center h-full">
@@ -1200,7 +1200,7 @@ app.get('/', (c) => {
                             
                             <div class="grid md:grid-cols-3 gap-6">
                                 <div>
-                                    <label class="block text-gray-700 font-semibold mb-3">
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
                                         <i class="fas fa-birthday-cake mr-2"></i>
                                         Alter (Jahre) *
                                     </label>
@@ -1208,12 +1208,12 @@ app.get('/', (c) => {
                                            placeholder="z.B. 45" 
                                            min="18" 
                                            max="120"
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm bg-white"
                                            required>
                                     <p class="text-xs text-gray-500 mt-1">Für altersgerechte Dosierung</p>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 font-semibold mb-3">
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
                                         <i class="fas fa-weight mr-2"></i>
                                         Gewicht (kg) *
                                     </label>
@@ -1222,12 +1222,12 @@ app.get('/', (c) => {
                                            min="30" 
                                            max="250"
                                            step="0.1"
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm bg-white"
                                            required>
                                     <p class="text-xs text-gray-500 mt-1">In Kilogramm</p>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 font-semibold mb-3">
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
                                         <i class="fas fa-ruler-vertical mr-2"></i>
                                         Größe (cm) *
                                     </label>
@@ -1235,7 +1235,7 @@ app.get('/', (c) => {
                                            placeholder="z.B. 170" 
                                            min="100" 
                                            max="250"
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm bg-white"
                                            required>
                                     <p class="text-xs text-gray-500 mt-1">In Zentimetern</p>
                                 </div>
@@ -1285,8 +1285,8 @@ app.get('/', (c) => {
                                     </button>
                                 </div>
                             </div>
-                            <button type="button" id="add-medication" class="mt-3 px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 font-semibold">
-                                <i class="fas fa-plus mr-2"></i>
+                            <button type="button" id="add-medication" class="mt-3 px-4 py-2 bg-teal-50 text-teal-700 rounded-lg hover:bg-teal-100 font-medium text-sm border border-teal-200">
+                                <i class="fas fa-plus mr-2 text-xs"></i>
                                 Weiteres Medikament hinzufügen
                             </button>
                         </div>
@@ -1294,7 +1294,7 @@ app.get('/', (c) => {
                         <!-- Duration Section -->
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3">
-                                <i class="fas fa-calendar-alt mr-2"></i>
+
                                 Gewünschte Aktivierungsdauer
                             </label>
                             <div class="flex items-center gap-4">
@@ -1310,8 +1310,8 @@ app.get('/', (c) => {
                             </p>
                         </div>
 
-                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg">
-                            <i class="fas fa-syringe mr-2"></i>
+                        <button type="submit" class="w-full py-4 bg-teal-700 text-white font-semibold rounded-lg hover:bg-teal-800 transition-colors shadow-md text-base">
+                            <i class="fas fa-syringe mr-2 text-sm"></i>
                             Ausschleichplan erstellen
                         </button>
                     </form>
@@ -1321,26 +1321,25 @@ app.get('/', (c) => {
                 <div id="content-upload" class="tab-content hidden">
                     <form id="upload-form">
                         <!-- Personal Data for Upload -->
-                        <div class="bg-blue-50 p-6 rounded-lg mb-6">
-                            <h3 class="text-lg font-bold text-gray-800 mb-4">
-                                <i class="fas fa-user-circle mr-2"></i>
+                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-6">
+                            <h3 class="text-base font-semibold text-gray-900 mb-3">
                                 Ihre persönlichen Daten
                             </h3>
                             
                             <div class="grid md:grid-cols-2 gap-6 mb-4">
                                 <div>
-                                    <label class="block text-gray-700 font-semibold mb-3">
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
                                         <i class="fas fa-user mr-2"></i>
                                         Ihr Vorname *
                                     </label>
                                     <input type="text" id="upload-first-name" name="first_name" 
                                            placeholder="z.B. Maria" 
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm bg-white"
                                            required>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 font-semibold mb-3">
-                                        <i class="fas fa-venus-mars mr-2"></i>
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
+        
                                         Geschlecht *
                                     </label>
                                     <div class="flex gap-6 items-center h-full">
@@ -1364,7 +1363,7 @@ app.get('/', (c) => {
                             
                             <div class="grid md:grid-cols-3 gap-6">
                                 <div>
-                                    <label class="block text-gray-700 font-semibold mb-3">
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
                                         <i class="fas fa-birthday-cake mr-2"></i>
                                         Alter (Jahre) *
                                     </label>
@@ -1372,11 +1371,11 @@ app.get('/', (c) => {
                                            placeholder="z.B. 45" 
                                            min="18" 
                                            max="120"
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm bg-white"
                                            required>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 font-semibold mb-3">
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
                                         <i class="fas fa-weight mr-2"></i>
                                         Gewicht (kg) *
                                     </label>
@@ -1385,11 +1384,11 @@ app.get('/', (c) => {
                                            min="30" 
                                            max="250"
                                            step="0.1"
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm bg-white"
                                            required>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 font-semibold mb-3">
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
                                         <i class="fas fa-ruler-vertical mr-2"></i>
                                         Größe (cm) *
                                     </label>
@@ -1397,7 +1396,7 @@ app.get('/', (c) => {
                                            placeholder="z.B. 170" 
                                            min="100" 
                                            max="250"
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm bg-white"
                                            required>
                                 </div>
                             </div>
@@ -1427,16 +1426,15 @@ app.get('/', (c) => {
                         </div>
                         
                         <div class="mb-6">
-                            <label class="block text-gray-700 font-semibold mb-3">
-                                <i class="fas fa-image mr-2"></i>
+                            <label class="block text-gray-700 font-medium mb-2 text-sm">
                                 Medikamentenplan hochladen
                             </label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-purple-500 transition-colors">
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-teal-500 transition-colors">
                                 <input type="file" id="image-upload" accept="image/*" class="hidden">
                                 <label for="image-upload" class="cursor-pointer">
-                                    <i class="fas fa-cloud-upload-alt text-6xl text-gray-400 mb-4"></i>
-                                    <p class="text-gray-600 font-semibold mb-2">Klicken Sie hier oder ziehen Sie ein Bild</p>
-                                    <p class="text-sm text-gray-500">JPG, PNG (max. 10MB)</p>
+                                    <i class="fas fa-cloud-upload-alt text-5xl text-gray-400 mb-4"></i>
+                                    <p class="text-gray-700 font-medium mb-2 text-sm">Klicken Sie hier oder ziehen Sie ein Bild</p>
+                                    <p class="text-xs text-gray-500">JPG, PNG (max. 10MB)</p>
                                 </label>
                             </div>
                             <div id="image-preview" class="mt-4 hidden">
@@ -1446,7 +1444,7 @@ app.get('/', (c) => {
 
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3">
-                                <i class="fas fa-calendar-alt mr-2"></i>
+
                                 Gewünschte Aktivierungsdauer
                             </label>
                             <div class="flex items-center gap-4">
@@ -1458,8 +1456,8 @@ app.get('/', (c) => {
                             </div>
                         </div>
 
-                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg">
-                            <i class="fas fa-magic mr-2"></i>
+                        <button type="submit" class="w-full py-4 bg-teal-700 text-white font-semibold rounded-lg hover:bg-teal-800 transition-colors shadow-md text-base">
+                            <i class="fas fa-camera mr-2 text-sm"></i>
                             Bild analysieren & Ausschleichplan erstellen
                         </button>
                     </form>
@@ -1467,10 +1465,10 @@ app.get('/', (c) => {
             </div>
 
             <!-- Loading -->
-            <div id="loading" class="hidden bg-white rounded-xl shadow-lg p-8 text-center">
-                <i class="fas fa-spinner fa-spin text-6xl text-purple-600 mb-4"></i>
-                <p class="text-xl font-semibold text-gray-700">Analysiere Ihre Medikamente...</p>
-                <p class="text-gray-500 mt-2">Berechne individuelle CBD-Paste Dosierung...</p>
+            <div id="loading" class="hidden section-card p-8 text-center rounded-lg">
+                <i class="fas fa-spinner fa-spin text-5xl text-teal-600 mb-4"></i>
+                <p class="text-lg font-semibold text-gray-900">Analysiere Ihre Medikamente...</p>
+                <p class="text-gray-600 mt-2 text-sm">Berechne individuelle CBD-Paste Dosierung...</p>
             </div>
 
             <!-- Results -->
