@@ -539,7 +539,7 @@ app.get('/', (c) => {
                             Die Lösung: Ein starkes Endocannabinoid-System (ECS)
                         </h2>
                         <p class="text-gray-700 text-base mb-6 leading-relaxed">
-                            Ihr Körper besitzt das <strong>stärkste Regulationssystem</strong>, das die Wissenschaft kennt: das <strong>Endocannabinoid-System (ECS)</strong>. Es steuert Schmerz, Stimmung, Schlaf, Immunsystem und vieles mehr – <strong>die gleichen Funktionen, für die Sie heute Medikamente nehmen.</strong>
+                            Ihr Körper verfügt über ein leistungsstarkes, <strong>körpereigenes Regulationssystem</strong> – das <strong>Endocannabinoid-System (ECS)</strong>. Es wirkt an zahlreichen Schaltstellen des Körpers und beeinflusst Funktionen wie Schmerzempfinden, Stimmung, Schlaf, Entzündungsprozesse und das Immunsystem – <strong>also genau jene Bereiche, in denen häufig Medikamente eingesetzt werden.</strong>
                         </p>
                         
                         <div class="grid md:grid-cols-2 gap-6 mb-6">
