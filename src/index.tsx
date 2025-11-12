@@ -601,10 +601,42 @@ app.get('/', (c) => {
                         
                         <div class="info-box p-6 rounded-lg">
                             <h3 class="font-semibold text-gray-900 mb-3 text-base">
-                                Die wissenschaftliche Erkenntnis:
+                                Das Konzept der klinischen Endocannabinoid-Defizienz (CED):
                             </h3>
-                            <p class="text-gray-700 text-base leading-relaxed">
-                                Ein <strong>geschwächtes ECS</strong> führt zu einer <strong>klinischen Endocannabinoid-Defizienz (CED)</strong> – Ihr Körper kann sich nicht mehr selbst regulieren. Die Folge: <strong>Sie brauchen Medikamente für Funktionen, die Ihr Körper eigentlich selbst übernehmen könnte.</strong>
+                            <p class="text-gray-700 text-base leading-relaxed mb-4">
+                                Forschende diskutieren das Konzept einer sogenannten <strong>klinischen Endocannabinoid-Defizienz (CED)</strong>. Die Idee dahinter: Wenn das ECS langfristig belastet ist und der Körper zu wenig eigene Endocannabinoide bildet, könnte seine Fähigkeit zur Selbstregulation eingeschränkt sein.
+                            </p>
+                            
+                            <p class="text-gray-700 text-sm mb-3 font-semibold">
+                                Mögliche Folgen, die in diesem Zusammenhang diskutiert werden:
+                            </p>
+                            
+                            <ul class="text-gray-700 space-y-2 text-sm mb-4">
+                                <li class="flex items-start">
+                                    <span class="text-teal-600 mr-2 mt-0.5">•</span>
+                                    <span>Chronische Schmerzen (z. B. Migräne, Fibromyalgie)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-teal-600 mr-2 mt-0.5">•</span>
+                                    <span>Angststörungen und depressive Verstimmungen</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-teal-600 mr-2 mt-0.5">•</span>
+                                    <span>Schlafstörungen und Erschöpfung</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-teal-600 mr-2 mt-0.5">•</span>
+                                    <span>Entzündliche Erkrankungen</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-teal-600 mr-2 mt-0.5">•</span>
+                                    <span>Autoimmunerkrankungen</span>
+                                </li>
+                            </ul>
+                            
+                            <p class="text-gray-600 text-xs italic border-t border-gray-200 pt-3">
+                                <i class="fas fa-info-circle mr-1 text-teal-600"></i>
+                                Dieses Konzept wird wissenschaftlich erforscht – gesicherte Antworten gibt es noch nicht in allen Bereichen.
                             </p>
                         </div>
                     </div>
