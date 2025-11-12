@@ -481,11 +481,11 @@ app.get('/', (c) => {
             <div class="max-w-6xl mx-auto px-4">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-3xl md:text-4xl font-bold mb-3 leading-tight">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">
                             <i class="fas fa-leaf mr-3 text-teal-300"></i>
-                            Strukturiert Medikamente reduzieren – mit Unterstützung des Endocannabinoid-Systems (ECS)
+                            Strukturiert Medikamente reduzieren
                         </h1>
-                        <p class="text-teal-100 text-base md:text-lg font-light">Ihr Weg zu weniger Medikamenten durch ein starkes Endocannabinoid-System</p>
+                        <p class="text-teal-100 text-base md:text-lg font-light leading-relaxed">Ihr körpereigenes Endocannabinoid-System als Partner – für einen gut geplanten Weg zu weniger Medikamenten.</p>
                     </div>
                     <div class="text-right hidden md:block">
                         <a href="#dosierungsplan-erstellen" class="block bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
