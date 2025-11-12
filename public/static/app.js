@@ -887,7 +887,7 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
   doc.setFontSize(12); // 12pt
   doc.setTextColor(0, 77, 64); // #004D40
   doc.setFont(undefined, 'bold');
-  doc.text('📋 Übersicht Ihres Plans', 18, yPos + 8);
+  doc.text('📋 Übersicht Ihres Plans', 22, yPos + 8);
   
   doc.setFontSize(11); // 11pt
   doc.setFont(undefined, 'normal');
@@ -900,10 +900,10 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
   const targetMg = '70';
   const startCmFormatted = startDosageCm.toString().replace('.', ',');
   
-  doc.text(`• Startdosis (Tag 1): ${startCmFormatted} cm = ${startDosageMg} mg (abends)`, 18, yPos + 14);
-  doc.text(`• Zielbereich (Woche 7–8): ${targetCm} cm = ${targetMg} mg Cannabinoide täglich`, 18, yPos + 19);
-  doc.text(`• Verteilung: morgens ~40 %, abends ~60 %`, 18, yPos + 24);
-  doc.text(`• Einschleichphase: 3 Tage (nur abends) | Gesamtdauer: 8 Wochen`, 18, yPos + 29);
+  doc.text(`• Startdosis (Tag 1): ${startCmFormatted} cm = ${startDosageMg} mg (abends)`, 22, yPos + 14);
+  doc.text(`• Zielbereich (Woche 7–8): ${targetCm} cm = ${targetMg} mg Cannabinoide täglich`, 22, yPos + 19);
+  doc.text(`• Verteilung: morgens ~40 %, abends ~60 %`, 22, yPos + 24);
+  doc.text(`• Einschleichphase: 3 Tage (nur abends) | Gesamtdauer: 8 Wochen`, 22, yPos + 29);
   
   yPos += boxHeight + 8;
   
@@ -917,20 +917,20 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
     doc.setFontSize(12); // 12pt
     doc.setTextColor(0, 77, 64); // #004D40
     doc.setFont(undefined, 'bold');
-    doc.text('Cannabinoid-Paste 70 % – Produktinformationen', 18, yPos + 8);
+    doc.text('Cannabinoid-Paste 70 % – Produktinformationen', 22, yPos + 8);
     
     doc.setFontSize(11); // 11pt
     doc.setTextColor(34, 34, 34); // #222
     doc.setFont(undefined, 'normal');
-    doc.text('• Konzentration: 70 % Cannabinoide (davon ca. 90 % CBD)', 18, yPos + 14);
-    doc.text('• Verpackung: 3 g Spritze mit 30 Teilstrichen (je 0,1 cm pro Teilstrich)', 18, yPos + 19);
-    doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 18, yPos + 24);
+    doc.text('• Konzentration: 70 % Cannabinoide (davon ca. 90 % CBD)', 22, yPos + 14);
+    doc.text('• Verpackung: 3 g Spritze mit 30 Teilstrichen (je 0,1 cm pro Teilstrich)', 22, yPos + 19);
+    doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 22, yPos + 24);
     
     // Referenz-Umrechnung
     doc.setFont(undefined, 'bold');
-    doc.text('Formel: mg = cm × 46,7', 18, yPos + 30);
+    doc.text('Formel: mg = cm × 46,7', 22, yPos + 30);
     doc.setFont(undefined, 'normal');
-    doc.text('(1,5 cm = 70 mg | 1,0 cm = 46,7 mg | 0,1 cm = 4,67 mg)', 68, yPos + 30);
+    doc.text('(1,5 cm = 70 mg | 1,0 cm = 46,7 mg | 0,1 cm = 4,67 mg)', 72, yPos + 30);
     
     yPos += prodBoxHeight + 8;
   }
@@ -945,7 +945,7 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
     doc.setFontSize(12); // 12pt
     doc.setTextColor(0, 77, 64); // #004D40
     doc.setFont(undefined, 'bold');
-    doc.text('Ihre individuelle Dosierungsstrategie', 18, yPos + 8);
+    doc.text('Ihre individuelle Dosierungsstrategie', 22, yPos + 8);
     
     doc.setFontSize(11); // 11pt
     doc.setTextColor(34, 34, 34); // #222
@@ -959,16 +959,16 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
     if (personalization.bmi) line2 += ` | BMI: ${personalization.bmi.toFixed(1).replace('.', ',')}`;
     if (personalization.bsa) line2 += ` | BSA: ${personalization.bsa.toFixed(2).replace('.', ',')} m²`;
     
-    doc.text(line1, 18, yPos + 14);
-    if (line2) doc.text(line2, 18, yPos + 19);
+    doc.text(line1, 22, yPos + 14);
+    if (line2) doc.text(line2, 22, yPos + 19);
     
     if (personalization.notes && personalization.notes.length > 0) {
       doc.setFont(undefined, 'bold');
-      doc.text('Individuelle Anpassungen:', 18, yPos + 25);
+      doc.text('Individuelle Anpassungen:', 22, yPos + 25);
       doc.setFont(undefined, 'normal');
       const notesText = personalization.notes.join(', ');
-      const notesLines = doc.splitTextToSize(notesText, 174);
-      doc.text(notesLines, 18, yPos + 30);
+      const notesLines = doc.splitTextToSize(notesText, 178);
+      doc.text(notesLines, 22, yPos + 30);
     }
     
     yPos += persBoxHeight + 5;
@@ -986,17 +986,17 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
     doc.setFontSize(12); // 12pt
     doc.setTextColor(220, 38, 38);
     doc.setFont(undefined, 'bold');
-    doc.text('⚠️ Wichtig: Ihr Medikamentenprofil weist mögliche Wechselwirkungen auf', 18, yPos + 8);
+    doc.text('⚠️ Wichtig: Ihr Medikamentenprofil weist mögliche Wechselwirkungen auf', 22, yPos + 8);
     
     doc.setFontSize(11); // 11pt
     doc.setTextColor(34, 34, 34); // #222
     doc.setFont(undefined, 'normal');
     const warningText = 'Ihr Plan wurde deshalb besonders vorsichtig gestaltet. Bitte starten Sie erst nach ärztlicher Rücksprache.';
-    const warningLines = doc.splitTextToSize(warningText, 174);
-    doc.text(warningLines, 18, yPos + 16);
+    const warningLines = doc.splitTextToSize(warningText, 178);
+    doc.text(warningLines, 22, yPos + 16);
     
     doc.setFont(undefined, 'italic');
-    doc.text('Dies dient Ihrer Sicherheit und ermöglicht eine optimale Anpassung.', 18, yPos + 26);
+    doc.text('Dies dient Ihrer Sicherheit und ermöglicht eine optimale Anpassung.', 22, yPos + 26);
     
     yPos += warnBoxHeight + 8;
   }
@@ -1062,48 +1062,48 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
       
       doc.text(`Tage ${(week.week - 1) * 7 + 1}-${week.week * 7}`, 15, yPos);
       
-      // Morning dosage
+      // Morning dosage (MIT KOMMA!)
       if (firstDay.morningDosageCm > 0) {
         doc.setFont(undefined, 'bold');
         doc.setTextColor(34, 139, 34);
-        doc.text(`${firstDay.morningDosageCm.toFixed(1)} cm`, 40, yPos);
+        doc.text(`${firstDay.morningDosageCm.toFixed(1).replace('.', ',')} cm`, 40, yPos);
         doc.setFont(undefined, 'normal');
         doc.setTextColor(100, 100, 100);
-        doc.text(`(${firstDay.morningDosageMg.toFixed(1)} mg)`, 56, yPos);
+        doc.text(`(${firstDay.morningDosageMg.toFixed(1).replace('.', ',')} mg)`, 56, yPos);
       } else {
         doc.setTextColor(150, 150, 150);
         doc.text('—', 40, yPos);
       }
       
-      // Evening dosage
+      // Evening dosage (MIT KOMMA!)
       doc.setTextColor(60, 60, 60);
       if (firstDay.eveningDosageCm > 0) {
         doc.setFont(undefined, 'bold');
         doc.setTextColor(30, 64, 175);
-        doc.text(`${firstDay.eveningDosageCm.toFixed(1)} cm`, 85, yPos);
+        doc.text(`${firstDay.eveningDosageCm.toFixed(1).replace('.', ',')} cm`, 85, yPos);
         doc.setFont(undefined, 'normal');
         doc.setTextColor(100, 100, 100);
-        doc.text(`(${firstDay.eveningDosageMg.toFixed(1)} mg)`, 101, yPos);
+        doc.text(`(${firstDay.eveningDosageMg.toFixed(1).replace('.', ',')} mg)`, 101, yPos);
       } else {
         doc.setTextColor(150, 150, 150);
         doc.text('—', 85, yPos);
       }
       
-      // Total daily
+      // Total daily (MIT KOMMA!)
       doc.setTextColor(60, 60, 60);
       if (firstDay.totalDailyCm > 0) {
         doc.setFont(undefined, 'bold');
         doc.setTextColor(88, 28, 135);
-        doc.text(`${firstDay.totalDailyCm.toFixed(1)} cm`, 130, yPos);
+        doc.text(`${firstDay.totalDailyCm.toFixed(1).replace('.', ',')} cm`, 130, yPos);
         doc.setFont(undefined, 'normal');
         doc.setTextColor(100, 100, 100);
-        doc.text(`(${firstDay.totalDailyMg.toFixed(1)} mg)`, 148, yPos);
+        doc.text(`(${firstDay.totalDailyMg.toFixed(1).replace('.', ',')} mg)`, 148, yPos);
       }
       
-      // Weekly summary note
+      // Weekly summary note (MIT KOMMA!)
       doc.setTextColor(60, 60, 60);
       doc.setFont(undefined, 'italic');
-      doc.text(`Dosierung: ${firstDay.totalDailyMg.toFixed(1)} mg täglich`, 170, yPos);
+      doc.text(`Dosierung: ${firstDay.totalDailyMg.toFixed(1).replace('.', ',')} mg täglich`, 170, yPos);
       
       yPos += 7;
     } else {
@@ -1123,42 +1123,42 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
         // Day number
         doc.text(`Tag ${day.day}`, 15, yPos);
         
-        // Morning dosage
+        // Morning dosage (MIT KOMMA!)
         if (day.morningDosageCm > 0) {
           doc.setFont(undefined, 'bold');
           doc.setTextColor(34, 139, 34);
-          doc.text(`${day.morningDosageCm.toFixed(1)} cm`, 40, yPos);
+          doc.text(`${day.morningDosageCm.toFixed(1).replace('.', ',')} cm`, 40, yPos);
           doc.setFont(undefined, 'normal');
           doc.setTextColor(100, 100, 100);
-          doc.text(`(${day.morningDosageMg.toFixed(1)} mg)`, 56, yPos);
+          doc.text(`(${day.morningDosageMg.toFixed(1).replace('.', ',')} mg)`, 56, yPos);
         } else {
           doc.setTextColor(150, 150, 150);
           doc.text('—', 40, yPos);
         }
         
-        // Evening dosage
+        // Evening dosage (MIT KOMMA!)
         doc.setTextColor(60, 60, 60);
         if (day.eveningDosageCm > 0) {
           doc.setFont(undefined, 'bold');
           doc.setTextColor(30, 64, 175);
-          doc.text(`${day.eveningDosageCm.toFixed(1)} cm`, 85, yPos);
+          doc.text(`${day.eveningDosageCm.toFixed(1).replace('.', ',')} cm`, 85, yPos);
           doc.setFont(undefined, 'normal');
           doc.setTextColor(100, 100, 100);
-          doc.text(`(${day.eveningDosageMg.toFixed(1)} mg)`, 101, yPos);
+          doc.text(`(${day.eveningDosageMg.toFixed(1).replace('.', ',')} mg)`, 101, yPos);
         } else {
           doc.setTextColor(150, 150, 150);
           doc.text('—', 85, yPos);
         }
         
-        // Total daily
+        // Total daily (MIT KOMMA!)
         doc.setTextColor(60, 60, 60);
         if (day.totalDailyCm > 0) {
           doc.setFont(undefined, 'bold');
           doc.setTextColor(88, 28, 135);
-          doc.text(`${day.totalDailyCm.toFixed(1)} cm`, 130, yPos);
+          doc.text(`${day.totalDailyCm.toFixed(1).replace('.', ',')} cm`, 130, yPos);
           doc.setFont(undefined, 'normal');
           doc.setTextColor(100, 100, 100);
-          doc.text(`(${day.totalDailyMg.toFixed(1)} mg)`, 148, yPos);
+          doc.text(`(${day.totalDailyMg.toFixed(1).replace('.', ',')} mg)`, 148, yPos);
         } else {
           doc.setTextColor(150, 150, 150);
           doc.text('—', 130, yPos);
@@ -1195,9 +1195,9 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
   doc.setFont(undefined, 'bold');
   doc.text('Sicherheitshinweise & Ärztliche Begleitung', 15, yPos + 7);
   
-  doc.setFontSize(8.5);
+  doc.setFontSize(11);
   doc.setFont(undefined, 'normal');
-  doc.setTextColor(60, 60, 60);
+  doc.setTextColor(34, 34, 34);
   const instructions = [
     '• Sublinguale Einnahme: Paste unter die Zunge, 2-3 Minuten einwirken lassen, dann schlucken.',
     '• Phase 1 (Einschleichphase): Nur abends (Tage 1-3), um Verträglichkeit zu prüfen.',
@@ -1237,10 +1237,12 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
   yPos += 8;
   
   // Table Header
-  doc.setFillColor(237, 233, 254);
-  doc.rect(10, yPos - 5, 190, 8, 'F');
-  doc.setFontSize(8.5);
-  doc.setTextColor(88, 28, 135);
+  doc.setFillColor(255, 255, 255);
+  doc.setLineWidth(0.5);
+  doc.setDrawColor(0, 77, 64);
+  doc.rect(10, yPos - 5, 190, 8, 'S');
+  doc.setFontSize(10);
+  doc.setTextColor(0, 77, 64);
   doc.setFont(undefined, 'bold');
   doc.text('Nr.', 12, yPos);
   doc.text('Wirkstoff (Generikum)', 25, yPos);
