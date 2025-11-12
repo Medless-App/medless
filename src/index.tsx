@@ -414,7 +414,7 @@ app.get('/', (c) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ECS Aktivierung - CBD-Paste 70% Dosierungsplan</title>
+        <title>ECS Aktivierung - CBD Ausschleichplan</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
         <style>
@@ -602,7 +602,7 @@ app.get('/', (c) => {
                             📋 Unser Tool: Ihr sicherer Einstieg
                         </h2>
                         <p class="text-gray-800 text-lg mb-4 leading-relaxed">
-                            Dieses Tool erstellt Ihnen einen <strong>individualisierten Dosierungsplan</strong> für exogene Cannabinoide (CBD-Paste 70%), der Ihre <strong>aktuelle Medikation, Alter, Gewicht und Körpergröße</strong> berücksichtigt. So können Sie unter ärztlicher Begleitung sicher mit der ECS-Stärkung beginnen.
+                            Dieses Tool erstellt Ihnen einen <strong>individualisierten Ausschleichplan</strong> für exogene Cannabinoide (CBD-Paste 70%), der Ihre <strong>aktuelle Medikation, Alter, Gewicht und Körpergröße</strong> berücksichtigt. So können Sie unter ärztlicher Begleitung sicher mit der ECS-Stärkung beginnen.
                         </p>
                         
                         <div class="grid md:grid-cols-3 gap-4 mb-6">
@@ -758,7 +758,7 @@ app.get('/', (c) => {
                 <div class="mt-6 bg-white p-5 rounded-lg text-center">
                     <p class="text-gray-800 text-lg font-semibold">
                         <i class="fas fa-arrow-right text-indigo-600 mr-2"></i>
-                        Beginnen Sie jetzt mit Ihrem individualisierten Dosierungsplan!
+                        Beginnen Sie jetzt mit Ihrem individualisierten Ausschleichplan!
                     </p>
                 </div>
             </div>
@@ -977,7 +977,7 @@ app.get('/', (c) => {
                             <ul class="text-sm space-y-3">
                                 <li>
                                     <strong>1. Hausarzt als erster Ansprechpartner:</strong><br>
-                                    Zeigen Sie Ihrem Hausarzt diesen Dosierungsplan. Viele Ärzte sind heute aufgeschlossen gegenüber CBD, wenn wissenschaftliche Grundlagen vorliegen.
+                                    Zeigen Sie Ihrem Hausarzt diesen Ausschleichplan. Viele Ärzte sind heute aufgeschlossen gegenüber CBD, wenn wissenschaftliche Grundlagen vorliegen.
                                 </li>
                                 <li>
                                     <strong>2. Cannabis-Ärzte & Spezialisten:</strong><br>
@@ -1001,7 +1001,7 @@ app.get('/', (c) => {
                                 Gesprächstipps für Ihr Arztgespräch:
                             </h5>
                             <ul class="text-sm space-y-1">
-                                <li>✅ Bringen Sie diesen Dosierungsplan mit (als PDF)</li>
+                                <li>✅ Bringen Sie diesen Ausschleichplan mit (als PDF)</li>
                                 <li>✅ Erklären Sie Ihre Motivation (weniger Medikamente, Nebenwirkungen)</li>
                                 <li>✅ Betonen Sie, dass Sie unter ärztlicher Aufsicht vorgehen möchten</li>
                                 <li>✅ Fragen Sie nach regelmäßigen Kontrolluntersuchungen</li>
@@ -1074,7 +1074,7 @@ app.get('/', (c) => {
             <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in">
                 <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
                     <i class="fas fa-syringe text-blue-600 mr-3"></i>
-                    Erstellen Sie Ihren persönlichen CBD-Paste Dosierungsplan
+                    Erstellen Sie Ihren persönlichen CBD-Ausschleichplan
                 </h2>
 
                 <!-- Tab Navigation -->
@@ -1251,7 +1251,7 @@ app.get('/', (c) => {
 
                         <button type="submit" class="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg">
                             <i class="fas fa-syringe mr-2"></i>
-                            CBD-Paste Dosierungsplan erstellen
+                            Ausschleichplan erstellen
                         </button>
                     </form>
                 </div>
@@ -1399,7 +1399,7 @@ app.get('/', (c) => {
 
                         <button type="submit" class="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg">
                             <i class="fas fa-magic mr-2"></i>
-                            Bild analysieren & CBD-Paste Dosierungsplan erstellen
+                            Bild analysieren & Ausschleichplan erstellen
                         </button>
                     </form>
                 </div>
