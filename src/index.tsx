@@ -683,12 +683,18 @@ app.get('/', (c) => {
                                         </div>
                                     </summary>
                                     <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Cannabinoide unterstützen das Nervensystem dabei, <strong>Schmerzreize weniger stark weiterzuleiten</strong>.
+                                        </p>
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Dadurch kann der Körper Schmerzen gedämpfter wahrnehmen und sich besser entspannen.
+                                        </p>
                                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                                            Cannabinoide helfen dem Körper, <strong>Schmerzsignale zu bremsen</strong>. Sie unterstützen das Nervensystem dabei, Reize weniger stark wahrzunehmen und Entzündungen zu verringern.
+                                            Zudem fördern Cannabinoide natürliche Prozesse, die <strong>Entzündungen beruhigen</strong> – häufige Ursachen für chronische Schmerzen.
                                         </p>
                                         <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
                                             <span class="text-emerald-600">🟢</span>
-                                            <span class="text-gray-600"><strong>Quelle:</strong> Starowicz & Finn, British Journal of Pharmacology, 2017</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Starowicz & Finn, British Journal of Pharmacology, 2017 – „Cannabinoids and Pain: Sites and Mechanisms of Action"</span>
                                         </div>
                                     </div>
                                 </details>
@@ -706,12 +712,18 @@ app.get('/', (c) => {
                                         </div>
                                     </summary>
                                     <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Cannabinoide helfen dem Körper, <strong>übermäßige Entzündungsreaktionen zu bremsen</strong>.
+                                        </p>
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Sie wirken wie eine natürliche Bremse im Immunsystem und können Schwellungen, Rötungen und Schmerzen verringern.
+                                        </p>
                                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                                            Sie beruhigen <strong>überaktive Immunreaktionen</strong> und können Schwellungen oder Entzündungen im Körper mildern – egal ob in Gelenken, Muskeln oder Organen.
+                                            So unterstützen sie die <strong>Regeneration</strong> und das allgemeine Wohlbefinden.
                                         </p>
                                         <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
                                             <span class="text-emerald-600">🟢</span>
-                                            <span class="text-gray-600"><strong>Quelle:</strong> Nagarkatti et al., Future Medicinal Chemistry, 2009</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Nagarkatti et al., Future Medicinal Chemistry, 2009 – „Cannabinoids as Novel Anti-Inflammatory Drugs"</span>
                                         </div>
                                     </div>
                                 </details>
@@ -729,12 +741,18 @@ app.get('/', (c) => {
                                         </div>
                                     </summary>
                                     <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Cannabinoide wirken <strong>ausgleichend auf das Stresssystem</strong>.
+                                        </p>
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Sie können die Ausschüttung von Stresshormonen verringern und helfen, innere Ruhe und Gelassenheit zu fördern.
+                                        </p>
                                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                                            Cannabinoide wirken ausgleichend auf <strong>Stresshormone</strong> und fördern die Bildung von <strong>Serotonin</strong> – dem „Wohlfühlbotenstoff". Dadurch können sich innere Unruhe, Nervosität oder Angstgefühle spürbar verringern.
+                                            Das führt häufig zu mehr <strong>emotionaler Stabilität</strong> und einem ruhigeren Grundgefühl.
                                         </p>
                                         <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
                                             <span class="text-emerald-600">🟢</span>
-                                            <span class="text-gray-600"><strong>Quelle:</strong> Blessing et al., Neurotherapeutics, 2015</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Blessing et al., Neurotherapeutics, 2015 – „Cannabidiol as a Potential Treatment for Anxiety Disorders"</span>
                                         </div>
                                     </div>
                                 </details>
@@ -752,12 +770,15 @@ app.get('/', (c) => {
                                         </div>
                                     </summary>
                                     <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Das Endocannabinoid-System unterstützt den Körper dabei, den <strong>natürlichen Schlaf-Wach-Rhythmus im Gleichgewicht zu halten</strong>.
+                                        </p>
                                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                                            Das Endocannabinoid-System (ECS) hilft, den <strong>Tag-Nacht-Rhythmus zu stabilisieren</strong>. Wenn es gut arbeitet, fällt das Einschlafen leichter und der Schlaf wird tiefer und erholsamer.
+                                            Wenn es gut funktioniert, fällt das Einschlafen leichter, der Schlaf wird tiefer und der Körper kann sich besser erholen.
                                         </p>
                                         <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
                                             <span class="text-emerald-600">🟢</span>
-                                            <span class="text-gray-600"><strong>Quelle:</strong> Babson et al., Current Psychiatry Reports, 2017</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Babson, Sottile & Morabito, Current Psychiatry Reports, 2017 – „Cannabis, Cannabinoids, and Sleep: A Review of the Literature"</span>
                                         </div>
                                     </div>
                                 </details>
@@ -775,12 +796,15 @@ app.get('/', (c) => {
                                         </div>
                                     </summary>
                                     <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Cannabinoide unterstützen das <strong>emotionale Gleichgewicht</strong>, indem sie Botenstoffe wie Serotonin und Dopamin beeinflussen.
+                                        </p>
                                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                                            Ein gut funktionierendes ECS hält <strong>Emotionen im Gleichgewicht</strong>. Cannabinoide unterstützen dabei, Stimmungsschwankungen auszugleichen und das allgemeine Wohlbefinden zu verbessern.
+                                            Ein aktives Endocannabinoid-System kann helfen, Stimmungsschwankungen zu verringern und das allgemeine Wohlbefinden zu stärken.
                                         </p>
                                         <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
                                             <span class="text-emerald-600">🟢</span>
-                                            <span class="text-gray-600"><strong>Quelle:</strong> Hill & Gorzalka, Neuroscience & Biobehavioral Reviews, 2009</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Hill & Gorzalka, Neuroscience & Biobehavioral Reviews, 2009 – „The Endocannabinoid System and the Regulation of Mood and Emotion"</span>
                                         </div>
                                     </div>
                                 </details>
@@ -798,12 +822,15 @@ app.get('/', (c) => {
                                         </div>
                                     </summary>
                                     <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Das Endocannabinoid-System sorgt dafür, dass das Immunsystem nicht überreagiert, aber trotzdem aktiv bleibt.
+                                        </p>
                                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                                            Cannabinoide können <strong>Abwehrreaktionen regulieren</strong> – sie bremsen, wenn das Immunsystem zu stark reagiert, und aktivieren, wenn Unterstützung gebraucht wird.
+                                            Cannabinoide können diese Balance unterstützen – sie helfen, <strong>übermäßige Immunreaktionen zu beruhigen</strong> und die Abwehr im Gleichgewicht zu halten.
                                         </p>
                                         <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
                                             <span class="text-emerald-600">🟢</span>
-                                            <span class="text-gray-600"><strong>Quelle:</strong> Klein, Nature Reviews Immunology, 2005</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Klein, Nature Reviews Immunology, 2005 – „Cannabinoid Signaling in Immune Regulation and Neuroinflammation"</span>
                                         </div>
                                     </div>
                                 </details>
@@ -821,12 +848,15 @@ app.get('/', (c) => {
                                         </div>
                                     </summary>
                                     <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Unser Körper hält eine konstante Temperatur – und das ECS spielt dabei mit.
+                                        </p>
                                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                                            Das ECS hilft dem Körper, die <strong>innere Temperatur konstant zu halten</strong>. Cannabinoide unterstützen diese natürliche Balance – besonders bei Stress, Fieber oder hormonellen Schwankungen.
+                                            Cannabinoide unterstützen diesen natürlichen Mechanismus und helfen dem Körper, <strong>Temperaturschwankungen besser auszugleichen</strong>, etwa bei Stress, Fieber oder hormonellen Veränderungen.
                                         </p>
                                         <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
                                             <span class="text-emerald-600">🟢</span>
-                                            <span class="text-gray-600"><strong>Quelle:</strong> Pacher et al., Pharmacological Reviews, 2006</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Pacher, Bátkai & Kunos, Pharmacological Reviews, 2006 – „The Endocannabinoid System as an Emerging Target of Pharmacotherapy"</span>
                                         </div>
                                     </div>
                                 </details>
@@ -844,12 +874,15 @@ app.get('/', (c) => {
                                         </div>
                                     </summary>
                                     <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Im Verdauungssystem befinden sich viele Rezeptoren des ECS.
+                                        </p>
                                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                                            Cannabinoide wirken auf <strong>Rezeptoren im Magen-Darm-Trakt</strong> und können Übelkeit verringern, den Appetit regulieren und die Verdauung harmonisieren.
+                                            Cannabinoide können helfen, <strong>Übelkeit zu lindern, Appetit zu regulieren und die Verdauung zu harmonisieren</strong> – besonders, wenn das Gleichgewicht im Magen-Darm-Trakt gestört ist.
                                         </p>
                                         <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
                                             <span class="text-emerald-600">🟢</span>
-                                            <span class="text-gray-600"><strong>Quelle:</strong> Izzo & Sharkey, Nature Reviews Gastroenterology & Hepatology, 2010</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Izzo & Sharkey, Nature Reviews Gastroenterology & Hepatology, 2010 – „Cannabinoids and the Digestive Tract"</span>
                                         </div>
                                     </div>
                                 </details>
@@ -867,12 +900,15 @@ app.get('/', (c) => {
                                         </div>
                                     </summary>
                                     <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Das Endocannabinoid-System sorgt dafür, dass der Körper nach Belastungen wieder zur Ruhe findet.
+                                        </p>
                                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                                            Das ECS hilft, <strong>Stressreaktionen schneller zu beenden</strong>, damit der Körper nach Belastungen wieder in die Ruhe kommt. Cannabinoide unterstützen diesen natürlichen Erholungsprozess.
+                                            Cannabinoide unterstützen diesen Prozess, indem sie die <strong>natürliche Stressregulation stärken</strong> und helfen, schneller in einen entspannten Zustand zurückzukehren.
                                         </p>
                                         <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
                                             <span class="text-emerald-600">🟢</span>
-                                            <span class="text-gray-600"><strong>Quelle:</strong> Patel et al., Neuropharmacology, 2009</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Patel et al., Neuropharmacology, 2009 – „Endocannabinoid Signaling and the Stress Response"</span>
                                         </div>
                                     </div>
                                 </details>
@@ -890,12 +926,15 @@ app.get('/', (c) => {
                                         </div>
                                     </summary>
                                     <div class="p-4 pt-0 border-t border-teal-50">
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                            Das Endocannabinoid-System wirkt wie ein <strong>inneres Gleichgewichtssystem</strong>.
+                                        </p>
                                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                                            Das Endocannabinoid-System ist wie ein <strong>inneres Gleichgewichtssystem</strong>: Es sorgt dafür, dass alles im Körper miteinander im Einklang bleibt – Herz, Hormone, Immunsystem, Schlaf, Stimmung und Energie.
+                                            Es verbindet Gehirn, Organe, Immunsystem und Hormone miteinander – damit der Körper <strong>stabil, ausgeglichen und anpassungsfähig</strong> bleibt, auch bei äußeren Belastungen.
                                         </p>
                                         <div class="flex items-start gap-2 bg-emerald-50 p-2 rounded text-xs">
                                             <span class="text-emerald-600">🟢</span>
-                                            <span class="text-gray-600"><strong>Quelle:</strong> Pacher, Bátkai & Kunos, Pharmacological Reviews, 2006</span>
+                                            <span class="text-gray-600"><strong>Quelle:</strong> Pacher, Bátkai & Kunos, Pharmacological Reviews, 2006 – „The Endocannabinoid System as an Emerging Target of Pharmacotherapy"</span>
                                         </div>
                                     </div>
                                 </details>
