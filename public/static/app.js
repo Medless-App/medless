@@ -113,13 +113,16 @@ function setupAutocomplete(input) {
       item.addEventListener('click', function() {
         input.value = med.name;
         
-        // Auto-fill dosage if available
-        const dosageInput = input.parentElement.querySelector('input[name="medication_dosage[]"]');
-        if (dosageInput && med.common_dosage && !dosageInput.value) {
-          dosageInput.value = med.common_dosage;
-        }
+        // Dosierung muss vom Kunden selbst eingegeben werden
+        // (keine automatische Befüllung mehr)
         
         closeAllLists();
+        
+        // Focus auf Dosierungs-Eingabefeld setzen
+        const dosageInput = input.parentElement.querySelector('input[name="medication_dosage[]"]');
+        if (dosageInput) {
+          dosageInput.focus();
+        }
       });
       
       autocompleteList.appendChild(item);
