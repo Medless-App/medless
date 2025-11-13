@@ -25,38 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Tab switching
-document.getElementById('tab-text')?.addEventListener('click', () => {
-  showTab('text');
-});
-
-document.getElementById('tab-upload')?.addEventListener('click', () => {
-  showTab('upload');
-});
-
-function showTab(tab) {
-  const textTab = document.getElementById('tab-text');
-  const uploadTab = document.getElementById('tab-upload');
-  const textContent = document.getElementById('content-text');
-  const uploadContent = document.getElementById('content-upload');
-
-  if (tab === 'text') {
-    textTab.classList.add('text-purple-600', 'border-b-2', 'border-purple-600');
-    textTab.classList.remove('text-gray-500');
-    uploadTab.classList.remove('text-purple-600', 'border-b-2', 'border-purple-600');
-    uploadTab.classList.add('text-gray-500');
-    textContent.classList.remove('hidden');
-    uploadContent.classList.add('hidden');
-  } else {
-    uploadTab.classList.add('text-purple-600', 'border-b-2', 'border-purple-600');
-    uploadTab.classList.remove('text-gray-500');
-    textTab.classList.remove('text-purple-600', 'border-b-2', 'border-purple-600');
-    textTab.classList.add('text-gray-500');
-    uploadContent.classList.remove('hidden');
-    textContent.classList.add('hidden');
-  }
-}
-
 // Setup autocomplete for input field
 function setupAutocomplete(input) {
   let autocompleteList = null;
@@ -225,21 +193,6 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Image upload preview
-document.getElementById('image-upload')?.addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const preview = document.getElementById('image-preview');
-      const img = document.getElementById('preview-img');
-      img.src = e.target.result;
-      preview.classList.remove('hidden');
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
 // Handle manual form submission
 document.getElementById('medication-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -253,7 +206,8 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
   const height = parseFloat(form.querySelector('input[name="height"]').value) || null;
   const medicationNames = form.querySelectorAll('input[name="medication_name[]"]');
   const medicationDosages = form.querySelectorAll('input[name="medication_dosage[]"]');
-  const durationWeeks = parseInt(form.querySelector('input[name="duration_weeks"]').value);
+  const durationWeeks = parseInt(form.querySelector('select[name="duration_weeks"]').value);
+  const reductionGoal = parseInt(form.querySelector('select[name="reduction_goal"]').value);
 
   if (!firstName) {
     alert('Bitte geben Sie Ihren Vornamen an.');
@@ -267,6 +221,16 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
 
   if (!email) {
     alert('Bitte geben Sie Ihre E-Mail-Adresse an.');
+    return;
+  }
+
+  if (!durationWeeks || isNaN(durationWeeks)) {
+    alert('Bitte wählen Sie eine Plan-Dauer aus.');
+    return;
+  }
+
+  if (!reductionGoal || isNaN(reductionGoal)) {
+    alert('Bitte wählen Sie ein Reduktionsziel aus.');
     return;
   }
 
@@ -286,73 +250,6 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
   }
 
   await analyzeMedications(medications, durationWeeks, firstName, gender, email, age, weight, height);
-});
-
-// Handle upload form submission
-document.getElementById('upload-form')?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  const form = e.target;
-  const imageFile = document.getElementById('image-upload').files[0];
-  const durationWeeks = parseInt(document.getElementById('upload-duration-weeks').value);
-  const firstName = form.querySelector('input[name="first_name"]').value.trim();
-  const gender = form.querySelector('input[name="gender"]:checked')?.value;
-  const email = form.querySelector('input[name="email"]').value.trim();
-  const age = parseInt(form.querySelector('input[name="age"]').value) || null;
-  const weight = parseFloat(form.querySelector('input[name="weight"]').value) || null;
-  const height = parseFloat(form.querySelector('input[name="height"]').value) || null;
-
-  if (!imageFile) {
-    alert('Bitte laden Sie ein Bild hoch.');
-    return;
-  }
-
-  if (!firstName) {
-    alert('Bitte geben Sie Ihren Vornamen an.');
-    return;
-  }
-
-  if (!gender) {
-    alert('Bitte wählen Sie Ihr Geschlecht aus.');
-    return;
-  }
-
-  if (!email) {
-    alert('Bitte geben Sie Ihre E-Mail-Adresse an.');
-    return;
-  }
-
-  // Show loading and scroll to it
-  const loadingEl = document.getElementById('loading');
-  loadingEl.classList.remove('hidden');
-  document.getElementById('results').classList.add('hidden');
-  
-  // Scroll to loading element (stays at form position, not bottom)
-  setTimeout(() => {
-    loadingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 100);
-
-  try {
-    // Upload image for OCR
-    const formData = new FormData();
-    formData.append('image', imageFile);
-
-    const ocrResponse = await axios.post('/api/ocr', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
-
-    if (ocrResponse.data.success) {
-      const medications = ocrResponse.data.medications;
-      await analyzeMedications(medications, durationWeeks, firstName, gender, email, age, weight, height);
-    } else {
-      throw new Error(ocrResponse.data.error || 'OCR fehlgeschlagen');
-    }
-  } catch (error) {
-    document.getElementById('loading').classList.add('hidden');
-    alert('Fehler beim Bildupload: ' + (error.response?.data?.error || error.message));
-  }
 });
 
 // Animate loading steps with extended duration and smoother progress
