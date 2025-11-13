@@ -1152,408 +1152,166 @@ app.get('/', (c) => {
 
                 <!-- Text Input Tab -->
                 <div id="content-text" class="tab-content">
-                    <!-- Progress Stepper -->
-                    <div class="mb-8">
-                        <div class="flex items-center justify-between max-w-3xl mx-auto mb-2">
-                            <div class="flex-1 flex items-center">
-                                <div id="step-indicator-1" class="step-indicator active flex items-center justify-center w-10 h-10 rounded-full bg-teal-700 text-white font-bold">
-                                    1
-                                </div>
-                                <div class="flex-1 h-1 bg-gray-300 mx-2">
-                                    <div id="progress-bar-1" class="h-full bg-teal-700 transition-all duration-300" style="width: 100%"></div>
-                                </div>
-                            </div>
-                            <div class="flex-1 flex items-center">
-                                <div id="step-indicator-2" class="step-indicator flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-bold">
-                                    2
-                                </div>
-                                <div class="flex-1 h-1 bg-gray-300 mx-2">
-                                    <div id="progress-bar-2" class="h-full bg-teal-700 transition-all duration-300" style="width: 0%"></div>
-                                </div>
-                            </div>
-                            <div class="flex-1 flex items-center">
-                                <div id="step-indicator-3" class="step-indicator flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-bold">
-                                    3
-                                </div>
-                                <div class="flex-1 h-1 bg-gray-300 mx-2">
-                                    <div id="progress-bar-3" class="h-full bg-teal-700 transition-all duration-300" style="width: 0%"></div>
-                                </div>
-                            </div>
-                            <div class="flex-1 flex items-center">
-                                <div id="step-indicator-4" class="step-indicator flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-bold">
-                                    4
-                                </div>
-                                <div class="flex-1 h-1 bg-gray-300 mx-2">
-                                    <div id="progress-bar-4" class="h-full bg-teal-700 transition-all duration-300" style="width: 0%"></div>
-                                </div>
-                            </div>
-                            <div class="flex-1 flex items-center justify-end">
-                                <div id="step-indicator-5" class="step-indicator flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-bold">
-                                    5
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex justify-between max-w-3xl mx-auto text-xs text-gray-600">
-                            <span class="w-20 text-center">Name</span>
-                            <span class="w-20 text-center">Körperdaten</span>
-                            <span class="w-20 text-center">Medikamente</span>
-                            <span class="w-20 text-center">Plan</span>
-                            <span class="w-20 text-center">Zusammenfassung</span>
-                        </div>
-                    </div>
-
                     <form id="medication-form">
-                        <!-- STEP 1: Name & Gender -->
-                        <div id="step-1" class="form-step">
-                            <div class="bg-slate-50 p-8 rounded-lg border border-slate-200">
-                                <h3 class="text-xl font-bold text-gray-900 mb-2">
-                                    <i class="fas fa-user-circle mr-2 text-teal-700"></i>
-                                    Schritt 1: Persönliche Angaben
-                                </h3>
-                                <p class="text-sm text-gray-600 mb-6">
-                                    Damit wir Sie persönlich ansprechen können.
-                                </p>
-                                
-                                <div class="max-w-xl">
-                                    <div class="mb-6">
-                                        <label class="block text-gray-700 font-medium mb-2 text-base">
-                                            <i class="fas fa-id-card mr-2"></i>
-                                            Ihr Vorname *
-                                        </label>
-                                        <input type="text" id="first-name" name="first_name" 
-                                               placeholder="z.B. Maria" 
-                                               class="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white text-base"
-                                               required>
-                                    </div>
-                                    
-                                    <div class="mb-6">
-                                        <label class="block text-gray-700 font-medium mb-3 text-base">
-                                            <i class="fas fa-venus-mars mr-2"></i>
-                                            Geschlecht *
-                                        </label>
-                                        <div class="flex gap-6">
-                                            <label class="flex items-center cursor-pointer bg-white px-6 py-4 rounded-lg border-2 border-gray-300 hover:border-teal-500 transition-colors flex-1">
-                                                <input type="radio" name="gender" value="female" class="w-5 h-5 text-teal-700 focus:ring-teal-500" required>
-                                                <span class="ml-3 text-gray-700 font-medium text-base">
-                                                    <i class="fas fa-venus text-pink-500 mr-2 text-lg"></i>
-                                                    Weiblich
-                                                </span>
-                                            </label>
-                                            <label class="flex items-center cursor-pointer bg-white px-6 py-4 rounded-lg border-2 border-gray-300 hover:border-teal-500 transition-colors flex-1">
-                                                <input type="radio" name="gender" value="male" class="w-5 h-5 text-teal-700 focus:ring-teal-500" required>
-                                                <span class="ml-3 text-gray-700 font-medium text-base">
-                                                    <i class="fas fa-mars text-blue-500 mr-2 text-lg"></i>
-                                                    Männlich
-                                                </span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <!-- Personal Data Section -->
+                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-6">
+                            <h3 class="text-base font-semibold text-gray-900 mb-3">
+                                Ihre persönlichen Daten
+                            </h3>
+                            <p class="text-xs text-gray-600 mb-4">
+                                Diese Angaben helfen uns, die Cannabinoid-Dosierung individuell für Sie zu berechnen.
+                            </p>
                             
-                            <div class="flex justify-end mt-6">
-                                <button type="button" class="next-step px-8 py-3 bg-teal-700 text-white font-semibold rounded-lg hover:bg-teal-800 transition-colors shadow-md text-base">
-                                    Weiter <i class="fas fa-arrow-right ml-2"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- STEP 2: Body Data -->
-                        <div id="step-2" class="form-step hidden">
-                            <div class="bg-slate-50 p-8 rounded-lg border border-slate-200">
-                                <h3 class="text-xl font-bold text-gray-900 mb-2">
-                                    <i class="fas fa-weight mr-2 text-teal-700"></i>
-                                    Schritt 2: Körperdaten
-                                </h3>
-                                <p class="text-sm text-gray-600 mb-6">
-                                    Diese Angaben helfen uns, die Cannabinoid-Dosierung individuell für Sie zu berechnen.
-                                </p>
-                                
-                                <div class="grid md:grid-cols-3 gap-6 max-w-3xl">
-                                    <div>
-                                        <label class="block text-gray-700 font-medium mb-2 text-base">
-                                            <i class="fas fa-birthday-cake mr-2"></i>
-                                            Alter (Jahre) *
-                                        </label>
-                                        <input type="number" id="age" name="age" 
-                                               placeholder="z.B. 45" 
-                                               min="18" 
-                                               max="120"
-                                               class="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-base bg-white"
-                                               required>
-                                        <p class="text-xs text-gray-500 mt-2">Für altersgerechte Dosierung</p>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 font-medium mb-2 text-base">
-                                            <i class="fas fa-weight mr-2"></i>
-                                            Gewicht (kg) *
-                                        </label>
-                                        <input type="number" id="weight" name="weight" 
-                                               placeholder="z.B. 70" 
-                                               min="30" 
-                                               max="250"
-                                               step="0.1"
-                                               class="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-base bg-white"
-                                               required>
-                                        <p class="text-xs text-gray-500 mt-2">In Kilogramm</p>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 font-medium mb-2 text-base">
-                                            <i class="fas fa-ruler-vertical mr-2"></i>
-                                            Größe (cm) *
-                                        </label>
-                                        <input type="number" id="height" name="height" 
-                                               placeholder="z.B. 170" 
-                                               min="100" 
-                                               max="250"
-                                               class="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-base bg-white"
-                                               required>
-                                        <p class="text-xs text-gray-500 mt-2">In Zentimetern</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="bg-blue-50 p-4 rounded-lg mt-6 max-w-3xl border-l-4 border-blue-400">
-                                    <p class="text-sm text-gray-700">
-                                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>
-                                        Ihre Daten werden verwendet, um die Cannabinoid-Dosierung an Ihr Körpergewicht und Alter anzupassen.
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex justify-between mt-6">
-                                <button type="button" class="prev-step px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors text-base">
-                                    <i class="fas fa-arrow-left mr-2"></i> Zurück
-                                </button>
-                                <button type="button" class="next-step px-8 py-3 bg-teal-700 text-white font-semibold rounded-lg hover:bg-teal-800 transition-colors shadow-md text-base">
-                                    Weiter <i class="fas fa-arrow-right ml-2"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- STEP 3: Medications -->
-                        <div id="step-3" class="form-step hidden">
-                            <div class="bg-slate-50 p-8 rounded-lg border border-slate-200">
-                                <h3 class="text-xl font-bold text-gray-900 mb-2">
-                                    <i class="fas fa-pills mr-2 text-teal-700"></i>
-                                    Schritt 3: Ihre Medikamente
-                                </h3>
-                                <p class="text-sm text-gray-600 mb-6">
-                                    Geben Sie alle Medikamente ein, die Sie derzeit einnehmen. Unsere Datenbank prüft automatisch mögliche Wechselwirkungen mit Cannabinoiden.
-                                </p>
-                                
-                                <div id="medication-inputs" class="space-y-4 mb-4">
-                                    <div class="medication-input-group flex gap-3" style="position: relative;">
-                                        <input type="text" name="medication_name[]" 
-                                               placeholder="z.B. Tippen Sie 'IBU' für Ibuprofen..." 
-                                               class="medication-name-input flex-1 px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-base bg-white"
-                                               required>
-                                        <input type="text" name="medication_dosage[]" 
-                                               placeholder="Dosierung (z.B. 400mg täglich)" 
-                                               class="w-72 px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-base bg-white">
-                                        <button type="button" class="remove-medication px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hidden">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <button type="button" id="add-medication" class="px-5 py-2.5 bg-teal-50 text-teal-700 rounded-lg hover:bg-teal-100 font-medium text-base border-2 border-teal-300 transition-colors">
-                                    <i class="fas fa-plus mr-2"></i>
-                                    Weiteres Medikament hinzufügen
-                                </button>
-                                
-                                <div class="bg-amber-50 p-4 rounded-lg mt-6 border-l-4 border-amber-400">
-                                    <p class="text-sm text-gray-700">
-                                        <i class="fas fa-exclamation-triangle text-amber-600 mr-2"></i>
-                                        <strong>Wichtig:</strong> Die Angabe aller Medikamente ist entscheidend für Ihre Sicherheit. Unsere KI analysiert automatisch mögliche Wechselwirkungen.
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex justify-between mt-6">
-                                <button type="button" class="prev-step px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors text-base">
-                                    <i class="fas fa-arrow-left mr-2"></i> Zurück
-                                </button>
-                                <button type="button" class="next-step px-8 py-3 bg-teal-700 text-white font-semibold rounded-lg hover:bg-teal-800 transition-colors shadow-md text-base">
-                                    Weiter <i class="fas fa-arrow-right ml-2"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- STEP 4: Plan Settings -->
-                        <div id="step-4" class="form-step hidden">
-                            <div class="bg-slate-50 p-8 rounded-lg border border-slate-200">
-                                <h3 class="text-xl font-bold text-gray-900 mb-2">
-                                    <i class="fas fa-cog mr-2 text-teal-700"></i>
-                                    Schritt 4: Plan-Einstellungen
-                                </h3>
-                                <p class="text-sm text-gray-600 mb-6">
-                                    Wählen Sie die Dauer Ihres Reduktionsplans und Ihr Reduktionsziel.
-                                </p>
-                                
-                                <div class="max-w-2xl space-y-6">
-                                    <!-- Plan Duration Dropdown -->
-                                    <div>
-                                        <label class="block text-gray-700 font-medium mb-3 text-base">
-                                            <i class="fas fa-calendar-alt mr-2"></i>
-                                            Plan-Dauer *
-                                        </label>
-                                        <select id="duration-weeks" name="duration_weeks" 
-                                                class="w-full px-5 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white text-base"
-                                                required>
-                                            <option value="">-- Bitte wählen Sie eine Dauer --</option>
-                                            <option value="4">4 Wochen – Schneller Einstieg (nur für Erfahrene)</option>
-                                            <option value="6">6 Wochen – Zügig</option>
-                                            <option value="8">8 Wochen – Standard (empfohlen)</option>
-                                            <option value="10">10 Wochen – Behutsam</option>
-                                            <option value="12">12 Wochen – Sehr langsam & sicher</option>
-                                        </select>
-                                        <p class="text-xs text-gray-500 mt-2">
-                                            <i class="fas fa-lightbulb text-yellow-500 mr-1"></i>
-                                            Empfehlung: 8-12 Wochen für nachhaltige ECS-Aktivierung und sanfte Medikamenten-Reduktion
-                                        </p>
-                                    </div>
-                                    
-                                    <!-- Reduction Goal Dropdown -->
-                                    <div>
-                                        <label class="block text-gray-700 font-medium mb-3 text-base">
-                                            <i class="fas fa-bullseye mr-2"></i>
-                                            Reduktionsziel *
-                                        </label>
-                                        <select id="reduction-goal" name="reduction_goal" 
-                                                class="w-full px-5 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white text-base"
-                                                required>
-                                            <option value="">-- Bitte wählen Sie Ihr Ziel --</option>
-                                            <option value="10">10% Reduktion – Minimale Anpassung</option>
-                                            <option value="20">20% Reduktion – Leichte Reduktion</option>
-                                            <option value="30">30% Reduktion – Moderate Reduktion</option>
-                                            <option value="40">40% Reduktion – Spürbare Reduktion</option>
-                                            <option value="50">50% Reduktion – Halbierung (empfohlen für Einstieg)</option>
-                                            <option value="60">60% Reduktion – Deutliche Reduktion</option>
-                                            <option value="70">70% Reduktion – Starke Reduktion</option>
-                                            <option value="80">80% Reduktion – Sehr starke Reduktion</option>
-                                            <option value="90">90% Reduktion – Fast vollständiges Absetzen</option>
-                                            <option value="100">100% Reduktion – Vollständiges Absetzen</option>
-                                        </select>
-                                        <p class="text-xs text-gray-500 mt-2">
-                                            <i class="fas fa-lightbulb text-yellow-500 mr-1"></i>
-                                            Empfehlung: Starten Sie mit 50% Reduktion und passen Sie bei Bedarf in späteren Zyklen an
-                                        </p>
-                                    </div>
-                                    
-                                    <!-- Warning Box (initially hidden, shown by JS) -->
-                                    <div id="plan-warning" class="hidden bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
-                                        <p class="text-sm text-red-800 font-medium">
-                                            <i class="fas fa-exclamation-circle text-red-600 mr-2"></i>
-                                            <strong>Achtung: Ungünstige Kombination!</strong>
-                                        </p>
-                                        <p id="plan-warning-text" class="text-sm text-red-700 mt-2"></p>
-                                    </div>
-                                    
-                                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
-                                        <p class="text-sm text-gray-700">
-                                            <i class="fas fa-info-circle text-blue-600 mr-2"></i>
-                                            Ihr persönlicher Reduktionsplan wird basierend auf diesen Einstellungen, Ihren Körperdaten und Medikamenten individuell berechnet.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="flex justify-between mt-6">
-                                <button type="button" class="prev-step px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors text-base">
-                                    <i class="fas fa-arrow-left mr-2"></i> Zurück
-                                </button>
-                                <button type="button" class="next-step px-8 py-3 bg-teal-700 text-white font-semibold rounded-lg hover:bg-teal-800 transition-colors shadow-md text-base">
-                                    Weiter <i class="fas fa-arrow-right ml-2"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- STEP 5: Email & Summary -->
-                        <div id="step-5" class="form-step hidden">
-                            <div class="bg-slate-50 p-8 rounded-lg border border-slate-200">
-                                <h3 class="text-xl font-bold text-gray-900 mb-2">
-                                    <i class="fas fa-check-circle mr-2 text-teal-700"></i>
-                                    Schritt 5: E-Mail & Zusammenfassung
-                                </h3>
-                                <p class="text-sm text-gray-600 mb-6">
-                                    Überprüfen Sie Ihre Angaben und geben Sie Ihre E-Mail-Adresse ein, um Ihren persönlichen Reduktionsplan zu erhalten.
-                                </p>
-                                
-                                <!-- Email Input -->
-                                <div class="bg-green-50 p-6 rounded-lg mb-6 border-l-4 border-green-500 max-w-2xl">
-                                    <label class="block text-gray-700 font-semibold mb-3 text-base">
-                                        <i class="fas fa-envelope mr-2 text-green-600"></i>
-                                        Ihre E-Mail-Adresse *
+                            <div class="grid md:grid-cols-2 gap-6 mb-4">
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
+                                        Ihr Vorname *
                                     </label>
-                                    <input type="email" id="email" name="email" 
-                                           placeholder="ihre.email@beispiel.de"
-                                           class="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white text-base"
+                                    <input type="text" id="first-name" name="first_name" 
+                                           placeholder="z.B. Maria" 
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white text-sm"
                                            required>
-                                    <p class="text-xs text-gray-600 mt-2">
-                                        <i class="fas fa-shield-alt text-green-600 mr-1"></i>
-                                        Datensicherheit garantiert – Ihre Daten werden nicht weitergegeben.
-                                    </p>
                                 </div>
-                                
-                                <!-- Summary -->
-                                <div class="bg-white p-6 rounded-lg border border-gray-300 max-w-2xl">
-                                    <h4 class="font-bold text-gray-900 mb-4 text-lg">
-                                        <i class="fas fa-clipboard-list mr-2 text-teal-700"></i>
-                                        Ihre Angaben im Überblick
-                                    </h4>
-                                    
-                                    <div class="space-y-3 text-sm">
-                                        <div class="flex justify-between py-2 border-b border-gray-200">
-                                            <span class="text-gray-600 font-medium">Name:</span>
-                                            <span id="summary-name" class="text-gray-900 font-semibold">-</span>
-                                        </div>
-                                        <div class="flex justify-between py-2 border-b border-gray-200">
-                                            <span class="text-gray-600 font-medium">Geschlecht:</span>
-                                            <span id="summary-gender" class="text-gray-900 font-semibold">-</span>
-                                        </div>
-                                        <div class="flex justify-between py-2 border-b border-gray-200">
-                                            <span class="text-gray-600 font-medium">Alter:</span>
-                                            <span id="summary-age" class="text-gray-900 font-semibold">-</span>
-                                        </div>
-                                        <div class="flex justify-between py-2 border-b border-gray-200">
-                                            <span class="text-gray-600 font-medium">Gewicht:</span>
-                                            <span id="summary-weight" class="text-gray-900 font-semibold">-</span>
-                                        </div>
-                                        <div class="flex justify-between py-2 border-b border-gray-200">
-                                            <span class="text-gray-600 font-medium">Größe:</span>
-                                            <span id="summary-height" class="text-gray-900 font-semibold">-</span>
-                                        </div>
-                                        <div class="flex justify-between py-2 border-b border-gray-200">
-                                            <span class="text-gray-600 font-medium">Medikamente:</span>
-                                            <span id="summary-medications" class="text-gray-900 font-semibold">-</span>
-                                        </div>
-                                        <div class="flex justify-between py-2 border-b border-gray-200">
-                                            <span class="text-gray-600 font-medium">Plan-Dauer:</span>
-                                            <span id="summary-duration" class="text-gray-900 font-semibold">-</span>
-                                        </div>
-                                        <div class="flex justify-between py-2">
-                                            <span class="text-gray-600 font-medium">Reduktionsziel:</span>
-                                            <span id="summary-goal" class="text-gray-900 font-semibold">-</span>
-                                        </div>
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
+        
+                                        Geschlecht *
+                                    </label>
+                                    <div class="flex gap-6 items-center h-full">
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="radio" name="gender" value="female" class="w-5 h-5 text-purple-600 focus:ring-purple-500" required>
+                                            <span class="ml-3 text-gray-700 font-medium">
+                                                <i class="fas fa-venus text-pink-500 mr-1"></i>
+                                                Weiblich
+                                            </span>
+                                        </label>
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="radio" name="gender" value="male" class="w-5 h-5 text-purple-600 focus:ring-purple-500" required>
+                                            <span class="ml-3 text-gray-700 font-medium">
+                                                <i class="fas fa-mars text-blue-500 mr-1"></i>
+                                                Männlich
+                                            </span>
+                                        </label>
                                     </div>
-                                    
-                                    <button type="button" id="edit-summary" class="mt-4 text-teal-700 hover:text-teal-800 font-medium text-sm">
-                                        <i class="fas fa-edit mr-1"></i>
-                                        Angaben bearbeiten (zurück zu Schritt 1)
+                                </div>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
+                                        <i class="fas fa-birthday-cake mr-2"></i>
+                                        Alter (Jahre) *
+                                    </label>
+                                    <input type="number" id="age" name="age" 
+                                           placeholder="z.B. 45" 
+                                           min="18" 
+                                           max="120"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm bg-white"
+                                           required>
+                                    <p class="text-xs text-gray-500 mt-1">Für altersgerechte Dosierung</p>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
+                                        <i class="fas fa-weight mr-2"></i>
+                                        Gewicht (kg) *
+                                    </label>
+                                    <input type="number" id="weight" name="weight" 
+                                           placeholder="z.B. 70" 
+                                           min="30" 
+                                           max="250"
+                                           step="0.1"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm bg-white"
+                                           required>
+                                    <p class="text-xs text-gray-500 mt-1">In Kilogramm</p>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2 text-sm">
+                                        <i class="fas fa-ruler-vertical mr-2"></i>
+                                        Größe (cm) *
+                                    </label>
+                                    <input type="number" id="height" name="height" 
+                                           placeholder="z.B. 170" 
+                                           min="100" 
+                                           max="250"
+                                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm bg-white"
+                                           required>
+                                    <p class="text-xs text-gray-500 mt-1">In Zentimetern</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-3 rounded-lg mt-4">
+                                <p class="text-xs text-gray-600">
+                                    <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                                    Ihre Daten werden verwendet, um die Cannabinoid-Dosierung an Ihr Körpergewicht und Alter anzupassen.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- E-Mail Section -->
+                        <div class="bg-green-50 p-6 rounded-lg mb-6 border-l-4 border-green-500">
+                            <label class="block text-gray-700 font-semibold mb-3">
+                                <i class="fas fa-envelope mr-2 text-green-600"></i>
+                                Ihre E-Mail-Adresse *
+                            </label>
+                            <input type="email" id="email" name="email" 
+                                   placeholder="ihre.email@beispiel.de"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white"
+                                   required>
+                            <p class="text-xs text-gray-600 mt-2">
+                                <i class="fas fa-shield-alt text-green-600 mr-1"></i>
+                                Datensicherheit garantiert – Ihre Daten werden nicht weitergegeben.
+                            </p>
+                        </div>
+
+                        <!-- Medications Section -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-3">
+                                <i class="fas fa-pills mr-2"></i>
+                                Ihre Medikamente
+                            </label>
+                            <div id="medication-inputs" class="space-y-3">
+                                <div class="medication-input-group flex gap-3" style="position: relative;">
+                                    <input type="text" name="medication_name[]" 
+                                           placeholder="z.B. Tippen Sie 'IBU' für Ibuprofen..." 
+                                           class="medication-name-input flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                           required>
+                                    <input type="text" name="medication_dosage[]" 
+                                           placeholder="Dosierung (z.B. 400mg täglich)" 
+                                           class="w-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                    <button type="button" class="remove-medication px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hidden">
+                                        <i class="fas fa-times"></i>
                                     </button>
                                 </div>
                             </div>
-                            
-                            <div class="flex justify-between mt-6">
-                                <button type="button" class="prev-step px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors text-base">
-                                    <i class="fas fa-arrow-left mr-2"></i> Zurück
-                                </button>
-                                <button type="submit" class="px-10 py-4 bg-gradient-to-r from-teal-600 to-teal-700 text-white font-bold rounded-lg hover:from-teal-700 hover:to-teal-800 transition-all shadow-lg text-base">
-                                    <i class="fas fa-syringe mr-2"></i>
-                                    Reduktionsplan erstellen
-                                </button>
-                            </div>
+                            <button type="button" id="add-medication" class="mt-3 px-4 py-2 bg-teal-50 text-teal-700 rounded-lg hover:bg-teal-100 font-medium text-sm border border-teal-200">
+                                <i class="fas fa-plus mr-2 text-xs"></i>
+                                Weiteres Medikament hinzufügen
+                            </button>
                         </div>
+
+                        <!-- Duration Section -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-3">
+
+                                Gewünschte Aktivierungsdauer
+                            </label>
+                            <div class="flex items-center gap-4">
+                                <input type="number" id="duration-weeks" name="duration_weeks" 
+                                       min="1" max="52" value="8"
+                                       class="w-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-center text-xl font-semibold"
+                                       required>
+                                <span class="text-gray-700 font-semibold">Wochen</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Empfohlen: 8-12 Wochen für nachhaltige ECS-Aktivierung
+                            </p>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 bg-teal-700 text-white font-semibold rounded-lg hover:bg-teal-800 transition-colors shadow-md text-base">
+                            <i class="fas fa-syringe mr-2 text-sm"></i>
+                            Reduktionsplan erstellen
+                        </button>
                     </form>
                 </div>
 
@@ -1806,244 +1564,6 @@ app.get('/', (c) => {
 
         <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-        <script>
-            // Multi-Step Wizard Navigation
-            let currentStep = 1;
-            const totalSteps = 5;
-            
-            function showStep(stepNumber) {
-                // Hide all steps
-                for (let i = 1; i <= totalSteps; i++) {
-                    const step = document.getElementById(\`step-\${i}\`);
-                    if (step) step.classList.add('hidden');
-                }
-                
-                // Show current step
-                const currentStepEl = document.getElementById(\`step-\${stepNumber}\`);
-                if (currentStepEl) currentStepEl.classList.remove('hidden');
-                
-                // Update progress indicators
-                updateProgressBar(stepNumber);
-                
-                // Update summary if on step 5
-                if (stepNumber === 5) {
-                    updateSummary();
-                }
-                
-                currentStep = stepNumber;
-            }
-            
-            function updateProgressBar(stepNumber) {
-                for (let i = 1; i <= totalSteps; i++) {
-                    const indicator = document.getElementById(\`step-indicator-\${i}\`);
-                    const progressBar = document.getElementById(\`progress-bar-\${i}\`);
-                    
-                    if (i < stepNumber) {
-                        // Completed steps
-                        indicator.classList.remove('bg-gray-300', 'text-gray-600', 'bg-teal-700', 'text-white');
-                        indicator.classList.add('bg-green-600', 'text-white');
-                        if (progressBar) progressBar.style.width = '100%';
-                    } else if (i === stepNumber) {
-                        // Current step
-                        indicator.classList.remove('bg-gray-300', 'text-gray-600', 'bg-green-600', 'text-white');
-                        indicator.classList.add('bg-teal-700', 'text-white');
-                        if (progressBar) progressBar.style.width = '0%';
-                    } else {
-                        // Future steps
-                        indicator.classList.remove('bg-teal-700', 'text-white', 'bg-green-600');
-                        indicator.classList.add('bg-gray-300', 'text-gray-600');
-                        if (progressBar) progressBar.style.width = '0%';
-                    }
-                }
-            }
-            
-            function validateStep(stepNumber) {
-                if (stepNumber === 1) {
-                    const firstName = document.getElementById('first-name').value.trim();
-                    const gender = document.querySelector('input[name="gender"]:checked');
-                    if (!firstName) {
-                        alert('Bitte geben Sie Ihren Vornamen ein.');
-                        return false;
-                    }
-                    if (!gender) {
-                        alert('Bitte wählen Sie Ihr Geschlecht aus.');
-                        return false;
-                    }
-                    return true;
-                }
-                
-                if (stepNumber === 2) {
-                    const age = document.getElementById('age').value;
-                    const weight = document.getElementById('weight').value;
-                    const height = document.getElementById('height').value;
-                    
-                    if (!age || age < 18 || age > 120) {
-                        alert('Bitte geben Sie ein gültiges Alter ein (18-120 Jahre).');
-                        return false;
-                    }
-                    if (!weight || weight < 30 || weight > 250) {
-                        alert('Bitte geben Sie ein gültiges Gewicht ein (30-250 kg).');
-                        return false;
-                    }
-                    if (!height || height < 100 || height > 250) {
-                        alert('Bitte geben Sie eine gültige Größe ein (100-250 cm).');
-                        return false;
-                    }
-                    return true;
-                }
-                
-                if (stepNumber === 3) {
-                    const medicationInputs = document.querySelectorAll('.medication-name-input');
-                    let hasValidMedication = false;
-                    
-                    medicationInputs.forEach(input => {
-                        if (input.value.trim()) {
-                            hasValidMedication = true;
-                        }
-                    });
-                    
-                    if (!hasValidMedication) {
-                        alert('Bitte geben Sie mindestens ein Medikament ein.');
-                        return false;
-                    }
-                    return true;
-                }
-                
-                if (stepNumber === 4) {
-                    const duration = document.getElementById('duration-weeks').value;
-                    const goal = document.getElementById('reduction-goal').value;
-                    
-                    if (!duration) {
-                        alert('Bitte wählen Sie eine Plan-Dauer aus.');
-                        return false;
-                    }
-                    if (!goal) {
-                        alert('Bitte wählen Sie ein Reduktionsziel aus.');
-                        return false;
-                    }
-                    
-                    // Check for unsafe combinations
-                    checkPlanWarning(parseInt(duration), parseInt(goal));
-                    return true;
-                }
-                
-                if (stepNumber === 5) {
-                    const email = document.getElementById('email').value.trim();
-                    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
-                    
-                    if (!email || !emailRegex.test(email)) {
-                        alert('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
-                        return false;
-                    }
-                    return true;
-                }
-                
-                return true;
-            }
-            
-            function checkPlanWarning(duration, goal) {
-                const warningBox = document.getElementById('plan-warning');
-                const warningText = document.getElementById('plan-warning-text');
-                
-                // Check for unsafe combinations
-                if ((duration === 4 && goal >= 70) || (duration <= 6 && goal >= 90)) {
-                    warningBox.classList.remove('hidden');
-                    warningText.textContent = 'Eine sehr kurze Plan-Dauer kombiniert mit einem hohen Reduktionsziel kann zu starken Entzugserscheinungen führen. Wir empfehlen für hohe Reduktionsziele eine längere Plan-Dauer von mindestens 8-12 Wochen.';
-                } else if (duration === 4 && goal >= 50) {
-                    warningBox.classList.remove('hidden');
-                    warningText.textContent = 'Bei nur 4 Wochen Plan-Dauer empfehlen wir ein Reduktionsziel von maximal 40%. Für höhere Reduktionen wählen Sie bitte mindestens 6-8 Wochen.';
-                } else {
-                    warningBox.classList.add('hidden');
-                }
-            }
-            
-            function updateSummary() {
-                // Name
-                const firstName = document.getElementById('first-name').value.trim();
-                document.getElementById('summary-name').textContent = firstName || '-';
-                
-                // Gender
-                const genderInput = document.querySelector('input[name="gender"]:checked');
-                const genderText = genderInput ? (genderInput.value === 'female' ? 'Weiblich' : 'Männlich') : '-';
-                document.getElementById('summary-gender').textContent = genderText;
-                
-                // Age, Weight, Height
-                document.getElementById('summary-age').textContent = document.getElementById('age').value + ' Jahre' || '-';
-                document.getElementById('summary-weight').textContent = document.getElementById('weight').value + ' kg' || '-';
-                document.getElementById('summary-height').textContent = document.getElementById('height').value + ' cm' || '-';
-                
-                // Medications
-                const medicationInputs = document.querySelectorAll('.medication-name-input');
-                const medications = [];
-                medicationInputs.forEach(input => {
-                    if (input.value.trim()) {
-                        medications.push(input.value.trim());
-                    }
-                });
-                document.getElementById('summary-medications').textContent = medications.length > 0 ? medications.join(', ') : '-';
-                
-                // Duration
-                const durationSelect = document.getElementById('duration-weeks');
-                const durationText = durationSelect.options[durationSelect.selectedIndex]?.text || '-';
-                document.getElementById('summary-duration').textContent = durationText;
-                
-                // Goal
-                const goalSelect = document.getElementById('reduction-goal');
-                const goalText = goalSelect.options[goalSelect.selectedIndex]?.text || '-';
-                document.getElementById('summary-goal').textContent = goalText;
-            }
-            
-            // Event listeners
-            document.addEventListener('DOMContentLoaded', function() {
-                // Next buttons
-                document.querySelectorAll('.next-step').forEach(button => {
-                    button.addEventListener('click', function() {
-                        if (validateStep(currentStep)) {
-                            if (currentStep < totalSteps) {
-                                showStep(currentStep + 1);
-                            }
-                        }
-                    });
-                });
-                
-                // Previous buttons
-                document.querySelectorAll('.prev-step').forEach(button => {
-                    button.addEventListener('click', function() {
-                        if (currentStep > 1) {
-                            showStep(currentStep - 1);
-                        }
-                    });
-                });
-                
-                // Edit summary button
-                const editButton = document.getElementById('edit-summary');
-                if (editButton) {
-                    editButton.addEventListener('click', function() {
-                        showStep(1);
-                    });
-                }
-                
-                // Watch for changes on duration and goal to show warnings
-                const durationSelect = document.getElementById('duration-weeks');
-                const goalSelect = document.getElementById('reduction-goal');
-                
-                if (durationSelect && goalSelect) {
-                    const checkWarning = () => {
-                        const duration = parseInt(durationSelect.value);
-                        const goal = parseInt(goalSelect.value);
-                        if (duration && goal) {
-                            checkPlanWarning(duration, goal);
-                        }
-                    };
-                    
-                    durationSelect.addEventListener('change', checkWarning);
-                    goalSelect.addEventListener('change', checkWarning);
-                }
-                
-                // Initialize: Show step 1
-                showStep(1);
-            });
-        </script>
         <script src="/static/app.js"></script>
     </body>
             <!-- FAQ Section: Häufig gestellte Fragen -->
