@@ -323,7 +323,8 @@ function animateLoadingSteps() {
     const counterInteractions = document.getElementById('counter-interactions');
     const counterCalculations = document.getElementById('counter-calculations');
     
-    let totalDuration = steps.reduce((sum, step) => sum + step.duration, 0);
+    // Add 600ms final delay to total duration for accurate progress
+    let totalDuration = steps.reduce((sum, step) => sum + step.duration, 0) + 600;
     let currentTime = 0;
     
     // Smooth overall progress bar
@@ -494,7 +495,12 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     const [response] = await Promise.all([apiPromise, animationPromise]);
 
     if (response.data.success) {
-      displayResults(response.data, firstName, gender);
+      try {
+        displayResults(response.data, firstName, gender);
+      } catch (displayError) {
+        console.error('Fehler beim Anzeigen der Ergebnisse:', displayError);
+        alert('Fehler beim Anzeigen der Ergebnisse: ' + displayError.message + '\n\nBitte laden Sie die Seite neu und versuchen Sie es erneut.');
+      }
     } else {
       throw new Error(response.data.error || 'Analyse fehlgeschlagen');
     }
@@ -508,9 +514,20 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
 
 // Display results
 function displayResults(data, firstName = '', gender = '') {
+  console.log('[displayResults] START');
+  console.log('[displayResults] data:', data);
+  
   const resultsDiv = document.getElementById('results');
+  if (!resultsDiv) {
+    console.error('[displayResults] ERROR: resultsDiv not found!');
+    throw new Error('Results div not found');
+  }
+  
   const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization } = data;
+  console.log('[displayResults] Destructured data successfully');
+  
   let html = '';
+  console.log('[displayResults] Starting HTML generation...');
 
   // Critical warnings
   if (warnings && warnings.length > 0) {
@@ -841,8 +858,14 @@ function displayResults(data, firstName = '', gender = '') {
     </div>
   `;
 
+  console.log('[displayResults] HTML generated, length:', html.length);
+  console.log('[displayResults] Setting innerHTML...');
+  
   resultsDiv.innerHTML = html;
+  console.log('[displayResults] innerHTML set successfully');
+  
   resultsDiv.classList.remove('hidden');
+  console.log('[displayResults] Results div made visible');
   
   // Scroll to results
   setTimeout(() => {
@@ -860,16 +883,30 @@ function displayResults(data, firstName = '', gender = '') {
     product,
     personalization
   };
+  
+  console.log('[displayResults] END - Success!');
 }
 
 // Download PDF function using jsPDF - Global Standards Applied
 function downloadPDF() {
-  if (!window.currentPlanData || typeof jspdf === 'undefined') {
-    alert('PDF-Bibliothek wird geladen... Bitte versuchen Sie es in einigen Sekunden erneut.');
+  console.log('[downloadPDF] START');
+  console.log('[downloadPDF] window.currentPlanData:', window.currentPlanData);
+  console.log('[downloadPDF] window.jspdf:', window.jspdf);
+  
+  if (!window.currentPlanData) {
+    alert('Keine Daten vorhanden. Bitte erstellen Sie erst einen Dosierungsplan.');
     return;
   }
   
-  const { jsPDF } = window.jspdf;
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    alert('PDF-Bibliothek wird geladen... Bitte versuchen Sie es in einigen Sekunden erneut.');
+    console.error('[downloadPDF] jsPDF library not loaded yet');
+    return;
+  }
+  
+  try {
+    const { jsPDF } = window.jspdf;
+    console.log('[downloadPDF] jsPDF constructor:', jsPDF);
   const { analysis, weeklyPlan, guidelines, maxSeverity, firstName, gender, product, personalization } = window.currentPlanData;
   
   // Create PDF
@@ -1428,5 +1465,14 @@ Bitte nehmen Sie diesen Plan zu Ihrem n\u00e4chsten Arzttermin mit und bespreche
   // === DATEINAME (einheitlich: Cannabinoid-Reduktionsplan) ===
   const dateStr = new Date().toISOString().split('T')[0];
   const sanitizedName = capitalizedFirstName.replace(/[^a-zA-Z0-9]/g, '_');
-  doc.save(`Cannabinoid-Reduktionsplan_${sanitizedName}_${dateStr}.pdf`);
+  const filename = `Cannabinoid-Reduktionsplan_${sanitizedName}_${dateStr}.pdf`;
+  
+  console.log('[downloadPDF] Saving PDF as:', filename);
+  doc.save(filename);
+  console.log('[downloadPDF] END - Success!');
+  
+  } catch (error) {
+    console.error('[downloadPDF] ERROR:', error);
+    alert('Fehler beim Erstellen der PDF: ' + error.message + '\n\nBitte versuchen Sie es erneut oder laden Sie die Seite neu.');
+  }
 }
