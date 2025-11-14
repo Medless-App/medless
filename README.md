@@ -1,40 +1,28 @@
-# ECS Aktivierung - CBD-Paste 70% Dosierungsplan Generator
+# ReduMed-AI - Multi-Medication Reduction System with CBD Compensation
 
-🌿 **Ihr individualisierter CBD-Paste 70% Dosierungsplan basierend auf Medikamenten, Alter, Gewicht und Körpergröße**
+🌿 **Strukturierte Medikamenten-Reduktion mit automatischer CBD-Kompensation und intelligentem KannaSan-Produktmanagement**
 
 ## 📋 Projekt-Übersicht
 
-**Name**: ECS Aktivierung - CBD-Paste 70% Dosierungsplan Generator  
-**Ziel**: Individualisierte CBD-Paste Dosierungspläne erstellen mit wissenschaftlich fundierter "Start Low, Go Slow"-Philosophie unter Berücksichtigung von Medikamenten-Wechselwirkungen, Alter, BMI und Körpergröße.
+**Name**: ReduMed-AI - Multi-Medication Reduction System  
+**Ziel**: Unterstützung bei der schrittweisen Reduktion von Medikamenten mit personalisierter CBD-Kompensation unter ärztlicher Aufsicht. Intelligentes KannaSan-Fläschchen-Management verhindert unnötige Produktwechsel.
 
 ### 🎯 Hauptfunktionen
 
 ✅ **Vollständig implementiert:**
-- ✨ Informative Homepage über das Endocannabinoid-System (ECS)
-- 💊 Datenbank mit 26+ häufigen Medikamenten und deren CBD-Wechselwirkungen
-- 🔬 Automatische Analyse von Medikamenten-Interaktionen mit CBD
-- 📊 **Individualisierte Tag-für-Tag Dosierungspläne** (nicht wöchentlich!)
-- 🎯 **Personalisierung basierend auf:**
-  - Medikamenten-Wechselwirkungen (Severity: Critical/High/Medium/Low)
-  - Alter (Senior-Anpassung ab 65 Jahren: 70% Dosis, +2 Tage Titration)
-  - Body-Mass-Index (BMI) (Untergewicht: 85%, Übergewicht: 110%)
-  - Körpergewicht (Zieldosis: 1 mg/kg, Maximum: 2.5 mg/kg)
-  - Körpergröße (BSA-Berechnung für präzise Dosierung)
-- 🌙 **Zweiphasige Dosierungsstrategie:**
-  - Phase 1: Einschleichphase (nur abends) - Dauer abhängig von Schweregrad
-  - Phase 2: 2x täglich (Morgens 40%, Abends 60%) für optimale ECS-Unterstützung
-- 📏 **CBD-Paste 70% Spezifikationen:**
-  - 3 Gramm Spritze mit 30 Teilstrichen
-  - Dosierung in Zentimeter (cm) auf der Spritze
-  - 1 cm = 46.67 mg CBD | 1 Teilstrich (1.5 cm) = 70 mg CBD
-  - Sublinguale Einnahme (unter die Zunge, 2-3 Minuten)
-- ⚠️ Warnungen bei kritischen Wechselwirkungen
-- 📝 Manuelle Eingabe von Medikamenten (Name + Dosierung)
-- 🖼️ **Bildupload mit OpenAI Vision OCR** - Medikamentenplan-Erkennung
-- 📄 **PDF-Generierung** - Vollständiger Plan zum Download
-- 📧 **E-Mail-Sammlung** für Marketing-Zwecke
-- 🎨 Modernes, responsives Design mit TailwindCSS
-- 🔒 Rechtlicher Disclaimer und medizinische Hinweise
+- ✨ **Multi-Medikamenten-Unterstützung** - Mehrere Medikamente gleichzeitig reduzieren
+- 📊 **Individuelle Reduktionskurven** - Jedes Medikament hat eigene lineare Reduktion
+- 🌿 **Unified CBD-Kompensation** - Eine CBD-Kurve (0.5 → 1.0 mg/kg) für alle Medikamente
+- 💊 **Einfache Eingabe** - Nur mg/Tag erforderlich (Beschreibung automatisch generiert)
+- 📅 **Wochenplan-Format** - Übersichtliche wöchentliche Übersicht
+- 🔬 **Automatische Medikamenten-Analyse** - CBD-Wechselwirkungen mit Severity-Level
+- 🧪 **KannaSan Produktauswahl** - 5 Produkte: Nr. 5, 10, 15, 20, 25 (5.8-29 mg CBD/Spray)
+- 💧 **Intelligente Fläschchen-Verfolgung** - 100 Sprays pro 10ml Flasche tracking
+- ⚠️ **Sicherheitsregeln** - Benzo/Opioid-Erkennung → CBD-Startdosis halbiert
+- 🎯 **Personalisierung** - Alter, BMI, Körpergewicht-basierte Anpassungen
+- 📄 **PDF-Generierung** - Vollständiger Plan mit Fläschchen-Status zum Download
+- 📱 **Responsive Design** - TailwindCSS, FontAwesome Icons
+- 🔒 **Rechtlicher Disclaimer** - Ärztliche Aufsicht erforderlich
 
 ---
 
@@ -45,11 +33,10 @@
 - Localhost: http://localhost:3000
 
 **API-Endpunkte:**
-- `GET /api/medications` - Alle Medikamente abrufen
-- `GET /api/medications/search/:query` - Medikamente suchen
-- `GET /api/interactions/:medicationId` - Wechselwirkungen für Medikament
-- `POST /api/analyze` - Medikamente analysieren & individualisierten Plan erstellen
-- `POST /api/ocr` - Bildupload für OCR (OpenAI Vision)
+- `GET /` - Homepage mit Formular
+- `POST /api/analyze` - Medikamente analysieren & ReduMed-AI Plan erstellen
+  - Input: medications[] (name, mgPerDay), bodyWeight, height, age, reductionGoal, durationWeeks
+  - Output: weeklyPlan[] mit medications[], CBD-Dosis, KannaSan-Produkt, bottleStatus
 
 ---
 
@@ -60,149 +47,235 @@
 **Haupt-Tabellen:**
 
 1. **medication_categories** - Medikamenten-Kategorien
-   - Blutverdünner, Antidepressiva, Antiepileptika, Schmerzmittel, etc.
+   - Blutverdünner, Antidepressiva, Antiepileptika, Benzodiazepine, Opioide, etc.
    - Risk-Level: low, medium, high, very_high
 
-2. **medications** (26 Einträge)
-   - Name, generischer Name, CYP450-Enzyme, Dosierung
-   - Beispiele: Marcumar, Prozac, Ibuprofen, Tavor, etc.
+2. **medications** (26+ Einträge)
+   - Name, generischer Name, CYP450-Enzyme
+   - Beispiele: Marcumar, Prozac, Tavor, Tramal, Lyrica, etc.
 
-3. **cbd_interactions** (26 Einträge)
+3. **cbd_interactions** (26+ Einträge)
    - Interaktionstyp: inhibition, enhancement, reduction, neutral
    - Schweregrad: low, medium, high, critical
    - Mechanismus, Empfehlungen, Quellen
 
-4. **cbd_dosage_guidelines** (5 Einträge)
-   - Dosierungs-Richtlinien basierend auf Wechselwirkungs-Schweregrad
-   - Min/Max-Dosierung, Startdosis, Anpassungszeitraum
+### **ReduMed-AI Datenpipeline:**
+```
+User Input (medications[], bodyWeight, height, age, reductionGoal, weeks)
+  ↓
+CBD-Dosis-Berechnung (0.5 mg/kg Start → 1.0 mg/kg Ende)
+  ↓
+Personalisierung (Alter, BMI, Benzo/Opioid-Detection)
+  ↓
+KannaSan Produktauswahl (optimal für CBD-Dosis)
+  ↓
+Fläschchen-Tracking (100 Sprays/Flasche, Verbrauch pro Woche)
+  ↓
+Wochenplan-Generierung (medications[], CBD, bottleStatus)
+  ↓
+PDF + UI Display
+```
 
-5. **customer_emails** - E-Mail-Adressen für Marketing
-   - E-Mail, Vorname, Erstellungsdatum
+### **KannaSan Produkt-Datenbank:**
+| Produkt | CBD/Spray | 2 Sprays | Flasche | Verwendung |
+|---------|-----------|----------|---------|------------|
+| **Nr. 5**  | 5.8 mg  | 11.6 mg | 10ml (100 Sprays) | Niedrige Dosen |
+| **Nr. 10** | 11.5 mg | 23.0 mg | 10ml (100 Sprays) | Mittlere Dosen |
+| **Nr. 15** | 17.5 mg | 35.0 mg | 10ml (100 Sprays) | Standard |
+| **Nr. 20** | 23.2 mg | 46.4 mg | 10ml (100 Sprays) | Höhere Dosen |
+| **Nr. 25** | 29.0 mg | 58.0 mg | 10ml (100 Sprays) | Sehr hohe Dosen |
 
-### **Datenquellen:**
-- PubMed, NIH, ProjectCBD
-- Nordic Oil, Hanfosan, Dutch Natural Healing
-- Wissenschaftliche Studien zu CBD-CYP450-Wechselwirkungen
-- Medizinische Dosierungsprotokolle
+---
+
+## 💧 Fläschchen-Tracking Logic (NEW!)
+
+### **🔥 Kernprinzip: Keine unnötigen Produktwechsel**
+
+Das System verfolgt den Fläschchen-Verbrauch und wechselt Produkte NUR wenn notwendig:
+
+### **Tracking-Parameter:**
+- **Kapazität:** 100 Sprays pro 10ml Flasche
+- **Verbrauch:** Täglich × 7 Tage = Wochenverbrauch
+- **Status:** Verbraucht/Rest/Wochen bis leer
+
+### **Produktwechsel-Regeln:**
+✅ **Wechsel NUR wenn:**
+1. Flasche leer oder fast leer (<7 Sprays Reservezeitung)
+2. Dosierung erfordert >12 Sprays/Tag (Effizienz-Limit)
+
+❌ **KEIN Wechsel wenn:**
+- Flasche noch ausreichend Sprays hat
+- Dosierung mit aktuellem Produkt machbar ist
+
+### **Beispiel-Szenario:**
+
+```
+Woche 1-5: KannaSan Nr. 15 (17.5 mg/Spray)
+- Woche 1: 2 Sprays/Tag = 14/Woche → Verbraucht: 14/100
+- Woche 2: 3 Sprays/Tag = 21/Woche → Verbraucht: 35/100
+- Woche 3: 3 Sprays/Tag = 21/Woche → Verbraucht: 56/100
+- Woche 4: 3 Sprays/Tag = 21/Woche → Verbraucht: 77/100
+- Woche 5: 3 Sprays/Tag = 21/Woche → Verbraucht: 98/100 ⚠️
+
+Woche 6-8: KannaSan Nr. 25 (29 mg/Spray) - NEUE FLASCHE
+- Woche 6: 2 Sprays/Tag = 14/Woche → Verbraucht: 14/100
+- Woche 7: 3 Sprays/Tag = 21/Woche → Verbraucht: 35/100
+- Woche 8: 3 Sprays/Tag = 21/Woche → Verbraucht: 56/100
+```
+
+### **Fläschchen-Status im UI:**
+
+**Woche 5 Beispiel:**
+```
+💧 Fläschchen-Status
+-----------------------------------------
+Verbraucht: 98 / 100 Hübe
+Verbleibend: 2 Hübe
+Voraussichtlich leer in: ~0 Wochen
+
+⚠️ Produktwechsel in nächster Woche erforderlich
+```
+
+**Woche 6 Beispiel:**
+```
+💧 Fläschchen-Status
+-----------------------------------------
+Verbraucht: 14 / 100 Hübe
+Verbleibend: 86 Hübe
+Voraussichtlich leer in: ~6 Wochen
+
+✅ Aktuelles Fläschchen weiter verwenden
+```
 
 ---
 
 ## 📖 Benutzerhandbuch
 
 ### **Schritt 1: Persönliche Daten eingeben**
-1. **Vorname** (Pflichtfeld) - Für personalisierte Ansprache
-2. **Geschlecht** (Pflichtfeld) - Männlich/Weiblich
-3. **E-Mail-Adresse** (Pflichtfeld) - Für Newsletter/Marketing
-4. **Alter** (optional, aber empfohlen) - Senior-Anpassung ab 65 Jahren
-5. **Körpergewicht** (optional, aber empfohlen) - Gewichtsbasierte Dosierung
-6. **Körpergröße** (optional, aber empfohlen) - BMI/BSA-Berechnung
+1. **Körpergewicht** (kg) - PFLICHTFELD für CBD-Berechnung
+2. **Körpergröße** (cm) - PFLICHTFELD für BMI-Berechnung
+3. **Alter** (Jahre) - Optional, empfohlen für Senior-Anpassung (65+)
+4. **Geschlecht** - Optional
 
 ### **Schritt 2: Medikamente eingeben**
+1. **Medikamentenname** - z.B. "Diazepam", "Tramadol", "Lyrica"
+2. **Tagesdosis in mg** ⭐ PFLICHTFELD - z.B. "10", "150", "300"
+3. Klicken Sie "+ Weiteres Medikament" für mehrere Medikamente
 
-**Option A: Manuelle Eingabe**
-1. Geben Sie den Namen Ihrer Medikamente ein (z.B. "Marcumar", "Prozac")
-2. Optional: Fügen Sie die Dosierung hinzu (z.B. "400mg täglich")
-3. Klicken Sie auf "Weiteres Medikament hinzufügen" für mehrere Medikamente
+**Wichtig:** Nur noch mg/Tag erforderlich! Dosierungsbeschreibung wird automatisch generiert.
 
-**Option B: Foto hochladen (OpenAI Vision OCR)**
-1. Laden Sie ein Foto Ihres Medikamentenplans hoch
-2. Die KI erkennt automatisch Medikamente mittels GPT-4 Vision
-3. Überprüfen Sie die erkannten Medikamente
-
-### **Schritt 3: Dosierungsdauer wählen**
-- Wählen Sie die gewünschte Dauer in Wochen (1-52)
-- Empfohlen: 8-12 Wochen für nachhaltigen Aufbau
+### **Schritt 3: Reduktionsplan wählen**
+1. **Reduktionsziel** - Wie viel % möchten Sie reduzieren? (z.B. 50%, 75%, 100%)
+2. **Dauer in Wochen** - Wie lange soll die Reduktion dauern? (z.B. 8, 12, 16 Wochen)
 
 ### **Schritt 4: Plan erstellen**
-- Klicken Sie auf "CBD-Paste Dosierungsplan erstellen"
-- Das System analysiert:
-  - Wechselwirkungen mit CBD (CYP450-Enzyme)
-  - Schweregrad der Interaktionen
-  - Alter, BMI, Body Surface Area (BSA)
-  - Gewichtsbasierte Zieldosis (1 mg/kg)
+- Klicken Sie auf "ReduMed-AI Plan erstellen"
+- Das System berechnet:
+  - Individuelle Reduktionskurven für jedes Medikament
+  - CBD-Kompensation (0.5 → 1.0 mg/kg Körpergewicht)
+  - Optimale KannaSan-Produkte mit Fläschchen-Tracking
+  - Benzo/Opioid-Erkennung → CBD-Startdosis halbiert
 
 ### **Schritt 5: Ergebnis nutzen**
 Sie erhalten:
-- 💊 **Produktinformationen** - CBD-Paste 70% Spezifikationen
-- 📋 **Personalisierung** - BMI, BSA, Titrationstage, Startdosis, Anpassungshinweise
-- ✅ Detaillierte Medikamenten-Analyse mit Wechselwirkungen
-- ⚠️ Warnungen bei kritischen Interaktionen
-- 📅 **Tag-für-Tag Dosierungsplan** - Gruppiert nach Wochen
-  - Morgens-Dosis in cm (und mg)
-  - Abends-Dosis in cm (und mg)
-  - Tägliche Gesamt-Dosis
-  - Hinweise und Anweisungen
-- 💡 Sublinguale Einnahme-Anleitung
-- 🖨️ **PDF-Download** - Vollständiger Plan als PDF
-- 🖨️ **Druckfunktion** - Direkt aus Browser drucken
+- 📊 **Plan-Übersicht** - Anzahl Medikamente, CBD-Dosis, Dauer
+- 🧪 **Produktinformationen** - KannaSan Spray Spezifikationen
+- 🎯 **Personalisierung** - BMI, BSA, CBD-Anpassungen, Sicherheitshinweise
+- 💊 **Medikamenten-Analyse** - Wechselwirkungen mit CBD
+- 📅 **Wochenplan** - Pro Woche:
+  - Medikamente (Aktuell → Ziel, Reduktion)
+  - CBD-Kompensation (Dosis, Produkt, Sprays morgens/abends)
+  - 💧 Fläschchen-Status (Verbrauch, Rest, Produktwechsel-Warnung)
+- 💡 **Sicherheitshinweise** - Ärztliche Begleitung, Einnahmehinweise
+- 📄 **PDF-Download** - Vollständiger Plan als PDF
 
 ---
 
-## 🧪 Dosierungs-Individualisierung
+## 🧪 ReduMed-AI Algorithmus
 
-### **Severity-Based Titration (Einschleichphase)**
+### **1. CBD-Dosis-Berechnung**
+```typescript
+CBD_Start = 0.5 mg/kg × Körpergewicht
+CBD_Ende = 1.0 mg/kg × Körpergewicht
 
-| Schweregrad | Titrationstage | Startdosis | Inkrement | Erste Einnahme |
-|-------------|---------------|------------|-----------|----------------|
-| **Critical/High** | 7 Tage | 4.7 mg (0.1 cm) | 2.5 mg alle 3 Tage | Abends (Sicherheit) |
-| **Medium** | 5 Tage | 7 mg (0.15 cm) | 4 mg alle 3 Tage | Abends (Sicherheit) |
-| **Low** | 3 Tage | 9.3 mg (0.2 cm) | 5 mg alle 3 Tage | Abends (Verträglichkeitstest) |
+// Lineare Progression
+CBD_Woche[n] = CBD_Start + ((CBD_Ende - CBD_Start) / Wochen) × (n - 1)
+```
 
-### **Age-Based Adjustments (Seniorenprogramm)**
-- **65+ Jahre:**
-  - Startdosis: 70% der Basisdosis
-  - Titrationstage: +2 Tage zusätzlich
-  - Hinweis: "📅 Verlängerte Einschleichphase für Senioren (65+)"
+### **2. Medikamenten-Reduktion (Linear)**
+```typescript
+für jedes Medikament:
+  Start_Dosis = Eingabe mg/Tag
+  Ziel_Dosis = Start_Dosis × (1 - Reduktionsziel / 100)
+  Wöchentliche_Reduktion = (Start_Dosis - Ziel_Dosis) / Wochen
+  
+  Aktuelle_Dosis[Woche] = Start_Dosis - (Wöchentliche_Reduktion × (Woche - 1))
+```
 
-### **BMI-Based Adjustments**
-- **BMI < 18.5 (Untergewicht):** Startdosis × 0.85 (15% Reduktion)
-- **BMI > 30 (Übergewicht):** Startdosis × 1.1 (10% Erhöhung)
-- **BMI 18.5-30 (Normal):** Keine Anpassung
+### **3. KannaSan Produktauswahl**
+```typescript
+Optimales_Produkt = wähle_Produkt_mit:
+  - Minimalen Sprays pro Tag
+  - KEINE Überdosierung (max 10% Toleranz)
+  - Max 6 Sprays pro Einnahme (morgens/abends)
+  - Verteilung: 40% morgens, 60% abends
+```
 
-### **Weight-Based Target Dosing**
-- **Zieldosis:** 1 mg CBD pro kg Körpergewicht
-- **Maximum:** 2.5 mg CBD pro kg Körpergewicht (Sicherheit)
-- **Beispiel:** 70 kg Person → Zieldosis 70 mg, Maximum 175 mg
+### **4. Fläschchen-Tracking**
+```typescript
+Flasche_Kapazität = 100 Sprays
+Aktuelles_Produkt = KannaSan Nr. X
+Verbleibend = 100
 
-### **Two-Phase Strategy**
-- **Phase 1 (Titration):** Nur abends einnehmen
-  - Zweck: Verträglichkeit prüfen, Körper adaptieren lassen
-  - Dauer: 3-9 Tage (abhängig von Schweregrad + Alter)
-- **Phase 2 (Maintenance):** 2x täglich
-  - Morgens: 40% der Tagesdosis
-  - Abends: 60% der Tagesdosis
-  - Zweck: Optimale ECS-Unterstützung rund um die Uhr
+für jede Woche:
+  Sprays_diese_Woche = Sprays_pro_Tag × 7
+  
+  // Produktwechsel-Prüfung
+  wenn (Verbleibend < Sprays_diese_Woche) ODER (Sprays_pro_Tag > 12):
+    Aktuelles_Produkt = wähle_neues_optimales_Produkt()
+    Verbleibend = 100  // Neue Flasche
+  
+  Verbleibend -= Sprays_diese_Woche
+  
+  Ausgabe:
+    - Verbraucht: (100 - Verbleibend)
+    - Rest: Verbleibend
+    - Voraussichtlich leer in: Verbleibend / Sprays_pro_Tag / 7
+    - Produktwechsel nächste Woche: (Verbleibend < nächste_Woche_Sprays)
+```
 
----
+### **5. Personalisierung**
 
-## ⚠️ Wichtige Hinweise
+**Benzo/Opioid-Erkennung:**
+```typescript
+wenn Medikament enthält ["Diazepam", "Tavor", "Oxazepam", "Tramadol", "Oxycodon", etc.]:
+  CBD_Start = CBD_Start / 2  // Halbierte Startdosis
+  Hinweis: "🔥 Sicherheitsregel: Benzo/Opioid erkannt"
+```
 
-### **Medizinischer Disclaimer**
-- ❗ **KEINE medizinische Beratung** - Dient nur zur Orientierung
-- 👨‍⚕️ Konsultieren Sie **unbedingt Ihren Arzt** vor CBD-Einnahme
-- 🚫 Ändern Sie niemals ohne ärztliche Rücksprache Ihre Medikation
-- 📋 Nehmen Sie den generierten Plan zu Ihrem Arztgespräch mit
+**Alter-basierte Anpassungen:**
+```typescript
+wenn Alter >= 65:
+  CBD_Start = CBD_Start × 0.7  // 70% für Senioren
+  Hinweis: "📅 Senior-Anpassung (65+)"
+```
 
-### **Kritische Wechselwirkungen**
-Besonders vorsichtig bei:
-- 🩸 Blutverdünner (Warfarin/Marcumar, Xarelto, Eliquis)
-- 💊 Immunsuppressiva (Sandimmun, Prograf)
-- 🧠 Opioide (OxyContin, Tramadol)
-- 💤 Benzodiazepine (Tavor, Valium, Rivotril)
-- 🔬 Clobazam (starke CYP450-Hemmung)
+**BMI-basierte Anpassungen:**
+```typescript
+BMI = Gewicht / (Größe/100)²
 
-### **CBD-Paste 70% Besonderheiten**
-- 💪 **Hochkonzentriert** - Vorsicht bei Dosierung
-- 👅 **Sublingual** - Unter die Zunge, 2-3 Minuten warten
-- 📏 **Präzise Dosierung** - Spritze mit 30 Teilstrichen
-- 🚫 **Nicht überdosieren** - Start Low, Go Slow
+wenn BMI < 18.5:
+  CBD_Start = CBD_Start × 0.85  // 85% für Untergewicht
+wenn BMI > 30:
+  CBD_Start = CBD_Start × 1.1   // 110% für Übergewicht
+```
 
 ---
 
 ## 🚀 Deployment
 
-### **Status:** ✅ Vollständig funktionsfähig - 92% Hang-Bug behoben!
-### **Plattform:** Cloudflare Pages (bereit für Deployment)
+### **Status:** ✅ Vollständig funktionsfähig mit Fläschchen-Tracking!
+### **Plattform:** Cloudflare Pages
 ### **Tech Stack:**
 - **Backend:** Hono (TypeScript) - Edge-optimiert
 - **Database:** Cloudflare D1 (SQLite) - Distributed
@@ -210,7 +283,6 @@ Besonders vorsichtig bei:
 - **Icons:** FontAwesome 6.4.0
 - **HTTP Client:** Axios 1.6.0
 - **PDF:** jsPDF 2.5.1
-- **OCR:** OpenAI GPT-4 Vision
 
 ### **Lokale Entwicklung:**
 
@@ -222,24 +294,23 @@ npm install
 npm run db:migrate:local
 npm run db:seed  # Optional: Testdaten
 
-# Build
+# Build (IMMER vor erstem Start!)
 npm run build
 
 # Server starten (PM2 - empfohlen)
+fuser -k 3000/tcp 2>/dev/null || true
 pm2 start ecosystem.config.cjs
-
-# Server starten (direkt)
-npm run dev:d1
 
 # Testen
 curl http://localhost:3000
+pm2 logs --nostream
 ```
 
 ### **Cloudflare Pages Deployment:**
 
 ```bash
 # 1. Cloudflare API Key einrichten
-# (Guide User to Deploy tab for API key setup)
+# Call setup_cloudflare_api_key tool first!
 
 # 2. Produktions-Datenbank erstellen
 npx wrangler d1 create ecs-aktivierung-production
@@ -249,10 +320,7 @@ npx wrangler d1 create ecs-aktivierung-production
 # 4. Migrationen anwenden (Produktion)
 npm run db:migrate:prod
 
-# 5. OpenAI API Key als Secret setzen
-npx wrangler pages secret put OPENAI_API_KEY --project-name ecs-aktivierung
-
-# 6. Build und Deploy
+# 5. Build und Deploy
 npm run deploy:prod
 ```
 
@@ -260,97 +328,114 @@ npm run deploy:prod
 
 ## 📊 Test-Szenarien
 
-### **Test 1: Medium Severity (Metformin)**
+### **Test 1: Single Medication (Diazepam)**
 ```json
 {
-  "medications": [{"name": "Metformin", "dosage": "500mg 2x täglich"}],
-  "age": 55,
-  "weight": 70,
-  "height": 165,
+  "medications": [{"name": "Diazepam", "mgPerDay": 10}],
+  "bodyWeight": 70,
+  "height": 170,
+  "age": 45,
+  "reductionGoal": 50,
   "durationWeeks": 8
 }
 ```
 **Ergebnis:**
-- ✅ 3 Tage Einschleichphase (nur abends)
-- ✅ Startdosis: 0.2 cm (9.3 mg)
-- ✅ BMI: 25.7 (Normal) - Keine Anpassung
-- ✅ Ab Tag 4: 2x täglich (Morgen + Abend)
+- ✅ Benzo-Erkennung → CBD-Start halbiert (17.5 mg statt 35 mg)
+- ✅ KannaSan Nr. 15 für niedrige Start-Dosis
+- ✅ Fläschchen-Tracking: 98/100 nach Woche 5 → Wechsel zu Nr. 25 in Woche 6
+- ✅ Medikament: 10 mg → 5 mg (50% Reduktion über 8 Wochen)
 
-### **Test 2: Critical Severity + Senior (Warfarin, 72yo)**
+### **Test 2: Multi-Medication (Tramadol + Lyrica)**
 ```json
 {
-  "medications": [{"name": "Warfarin", "dosage": "5mg täglich"}],
-  "age": 72,
-  "weight": 85,
+  "medications": [
+    {"name": "Tramadol", "mgPerDay": 150},
+    {"name": "Lyrica", "mgPerDay": 300}
+  ],
+  "bodyWeight": 80,
   "height": 175,
-  "durationWeeks": 8
+  "age": 52,
+  "reductionGoal": 75,
+  "durationWeeks": 12
 }
 ```
 **Ergebnis:**
-- ✅ 9 Tage Einschleichphase (7 base + 2 senior)
-- ✅ Startdosis: 0.05 cm (3.3 mg) - 70% wegen Senior
-- ✅ BMI: 27.8 (Übergewicht) - 110% Anpassung
-- ✅ Zwei Sicherheitshinweise:
-  - ⚠️ Sehr vorsichtige Einschleichphase (kritisch)
-  - 📅 Verlängerte Einschleichphase für Senioren
+- ✅ Opioid-Erkennung (Tramadol) → CBD-Start halbiert
+- ✅ Zwei separate Reduktionskurven
+- ✅ Eine unified CBD-Kompensation
+- ✅ Fläschchen-Tracking über 12 Wochen
+- ✅ Tramadol: 150 → 37.5 mg (75% Reduktion)
+- ✅ Lyrica: 300 → 75 mg (75% Reduktion)
 
 ---
 
-## 🐛 Kürzlich behobene Bugs
+## 🐛 Kürzlich implementierte Features
 
-### **Bug #1: System hängt bei 92% - BEHOBEN ✅**
-- **Problem:** Loading-Animation erreichte 92% und fror ein, Ergebnisse wurden nicht angezeigt
-- **Root Cause:** Tailwind CDN kann keine dynamischen Klassen wie `border-${color}-500` generieren
-- **Lösung:** Dynamische Template-String-Interpolation ersetzt durch statische Severity-Style-Objekte mit vordefinierten Tailwind-Klassen
-- **Commit:** `6f7bea6` - "Fix: Replace dynamic Tailwind classes with static classes"
+### **Feature #1: Bottle Tracking System - IMPLEMENTIERT ✅**
+- **Feature:** Intelligentes Fläschchen-Management für KannaSan Produkte
+- **Funktionen:**
+  - 100 Sprays/Flasche Kapazität tracking
+  - Keine unnötigen Produktwechsel
+  - Produktwechsel nur bei Flasche leer ODER >12 Sprays/Tag
+  - Status-Display: Verbraucht/Rest/Wochen bis leer
+  - Produktwechsel-Warnung
+- **UI:** Fläschchen-Status Box in jeder Woche (Frontend + PDF)
+- **Commit:** `f40d8a4` - "✅ Implement ReduMed-AI bottle tracking system"
+
+### **Feature #2: Simplified Medication Input - IMPLEMENTIERT ✅**
+- **Vorher:** Name + Dosierungsbeschreibung (beide Felder)
+- **Nachher:** Name + mg/Tag (Beschreibung automatisch generiert)
+- **Grund:** Einfacher, präziser, bessere UX
+
+### **Feature #3: Multi-Medication Support - IMPLEMENTIERT ✅**
+- Mehrere Medikamente gleichzeitig
+- Individuelle lineare Reduktionskurven
+- Eine unified CBD-Kompensation für alle
+
+---
 
 ## 🔮 Nächste Schritte (Empfohlen)
 
 ### **Deployment & Production:**
-1. **Cloudflare Pages Deployment** - Live gehen
-2. **Custom Domain** - ecs-aktivierung.de verbinden
-3. **OpenAI API Key** - Als Production Secret setzen
-4. **D1 Production Migrations** - Datenbank migrieren
+1. **Cloudflare Pages Deployment** - Live gehen mit bottle tracking
+2. **Custom Domain** - redumed-ai.de oder ecs-aktivierung.de
+3. **D1 Production Migrations** - Datenbank migrieren
 
 ### **Feature Enhancements:**
-5. **Email Marketing Integration** - SendGrid/Mailchimp
-6. **Analytics** - User-Tracking (Cloudflare Web Analytics)
-7. **More Medications** - Datenbank erweitern (aktuell: 26)
-8. **Multi-Language** - Englische Version
+4. **Email Export** - Wochenplan per E-Mail
+5. **Progress Tracker** - User kann Fortschritt dokumentieren
+6. **More Medications** - Datenbank erweitern (aktuell: 26)
+7. **Multi-Language** - Englische Version
 
 ### **Technical Improvements:**
-9. **Error Handling** - Besseres User-Feedback
-10. **Loading States** - Spinner für OCR/API-Calls
-11. **Form Validation** - Client-side validation
-12. **Mobile Optimization** - Touch-friendly controls
+8. **Error Handling** - Besseres User-Feedback
+9. **Loading States** - Progress-Spinner
+10. **Form Validation** - Enhanced client-side validation
+11. **Mobile Optimization** - Touch-friendly controls
 
 ---
 
 ## 📚 Wissenschaftliche Grundlagen
 
-### **CYP450-System:**
-- CBD hemmt Cytochrom P450-Enzyme (CYP3A4, CYP2C9, CYP2D6, CYP2C19)
-- Diese Enzyme bauen ~60% aller Medikamente ab
-- Hemmung → erhöhte Medikamentenspiegel im Blut
-- Risiko: Toxizität oder verstärkte Nebenwirkungen
+### **Lineare Reduktionsstrategie:**
+- **Medikamente:** Gleichmäßige Reduktion über Wochen
+- **CBD:** Linearer Anstieg zur Kompensation
+- **Verhältnis:** 0.5 → 1.0 mg/kg (Verdopplung über Planzeit)
 
-### **"Start Low, Go Slow" Protokoll:**
-- Medizinischer Standard für CBD-Dosierung
-- Beginn: 2.5-5 mg/Tag bei kritischen Wechselwirkungen
-- Steigerung: 5-10 mg alle 2-7 Tage
-- Ziel: Individuell angepasste Dosis ohne Nebenwirkungen
+### **CBD-Wechselwirkungen (CYP450):**
+- CBD hemmt CYP3A4, CYP2C9, CYP2D6, CYP2C19
+- Risiko: Erhöhte Medikamentenspiegel
+- **Benzo/Opioid:** Besondere Vorsicht → Halbierte CBD-Dosis
 
-### **Sublinguales Absorptionsmodell:**
-- **Aufnahme:** 13-35% Bioverfügbarkeit (sublingual vs. 6% oral)
-- **Wirkungseintritt:** 15-45 Minuten
-- **Wirkungsdauer:** 4-8 Stunden
-- **Halbwertszeit:** 18-68 Stunden (kumulativer Effekt)
+### **KannaSan Spray-Verteilung:**
+- **Morgens:** 40% der Tagesdosis (Fokus, Balance)
+- **Abends:** 60% der Tagesdosis (Entspannung, Schlaf)
+- **Sublingual:** Spray unter die Zunge
 
-### **Zweiphasige Strategie (Wissenschaftlich):**
-- **Circadian Rhythm:** ECS reguliert Schlaf-Wach-Zyklus
-- **Abends 60%:** Unterstützt Entspannung, Schlaf, Regeneration
-- **Morgens 40%:** Unterstützt Fokus, Balance, Tagesfunktion
-- **2x täglich:** Kontinuierliche ECS-Unterstützung für Homöostase
+### **Fläschchen-Ökonomie:**
+- 10ml Flasche = 100 Sprays
+- Bei 3 Sprays/Tag = ~33 Tage Versorgung
+- Produktwechsel nur wenn nötig → Kosteneffizienz
 
 ---
 
@@ -360,17 +445,18 @@ npm run deploy:prod
 - [ProjectCBD - CBD Cytochrome P450](https://projectcbd.org/safety/cbd-cytochrome-p450/)
 - [PubMed Central - CBD Drug Interactions](https://pmc.ncbi.nlm.nih.gov/articles/PMC11022902/)
 - [Nordic Oil - CBD Wechselwirkungen](https://www.nordicoil.de/blogs/cbd/cbd-wechselwirkungen)
-- [Hanfosan - CBD und Medikamente](https://www.hanfosan.de/blog/wechselwirkungen-von-cbd-und-medikamenten.html)
 
-**Letzte Aktualisierung:** 23. Oktober 2025  
-**Version:** 2.0 - CBD-Paste 70% Vollversion
+**Letzte Aktualisierung:** 14. November 2025  
+**Version:** 3.0 - ReduMed-AI mit Bottle Tracking
 
 ---
 
 ## ⚖️ Rechtlicher Hinweis
 
-Diese Anwendung dient ausschließlich Informationszwecken und stellt keine medizinische Beratung, Diagnose oder Behandlung dar. Die Informationen ersetzen nicht das Gespräch mit einem Arzt oder Apotheker. Bei gesundheitlichen Fragen oder Beschwerden konsultieren Sie bitte einen Arzt. CBD-Paste 70% ist ein hochkonzentriertes Produkt - Vorsicht bei der Dosierung!
+Diese Anwendung dient ausschließlich Informationszwecken und stellt keine medizinische Beratung, Diagnose oder Behandlung dar. Die Reduktion von Medikamenten muss IMMER unter ärztlicher Aufsicht erfolgen. Ändern Sie niemals eigenständig Ihre Medikation. Bei gesundheitlichen Fragen konsultieren Sie bitte einen Arzt.
+
+**WICHTIG:** ReduMed-AI ist ein Planungstool für Ärzte und Patienten im gemeinsamen Gespräch.
 
 ---
 
-**Made with 💚 für die ECS-Community**
+**Made with 💚 for structured medication reduction**
