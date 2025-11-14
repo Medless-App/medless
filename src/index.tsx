@@ -1137,12 +1137,12 @@ app.get('/', (c) => {
             <div id="step-indicator-5" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">5</div>
           </div>
         </div>
-        <div style="display: flex; justify-between; max-width: 800px; margin: 0 auto; font-size: 0.75rem; color: #6b7280;">
-          <span style="width: 80px; text-align: center;">Name</span>
-          <span style="width: 80px; text-align: center;">Körperdaten</span>
-          <span style="width: 80px; text-align: center;">Medikamente</span>
-          <span style="width: 80px; text-align: center;">Plan</span>
-          <span style="width: 80px; text-align: center;">Zusammenfassung</span>
+        <div style="display: flex; justify-content: space-between; max-width: 800px; margin: 0 auto; font-size: 0.7rem; color: #6b7280; gap: 0.5rem;">
+          <span style="flex: 1; text-align: center; min-width: 60px;">Name</span>
+          <span style="flex: 1; text-align: center; min-width: 60px;">Körper&shy;daten</span>
+          <span style="flex: 1; text-align: center; min-width: 60px;">Medi&shy;kamente</span>
+          <span style="flex: 1; text-align: center; min-width: 60px;">Plan</span>
+          <span style="flex: 1; text-align: center; min-width: 60px;">Zusammen&shy;fassung</span>
         </div>
       </div>
 
