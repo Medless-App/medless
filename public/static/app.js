@@ -1100,17 +1100,18 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
   doc.setFont(undefined, 'normal');
   doc.setTextColor(34, 34, 34); // #222
   
-  // Calculate values with comma formatting
-  const startDosageCm = weeklyPlan[0]?.days[0]?.eveningDosageCm || 0.2;
-  const startDosageMg = (startDosageCm * 46.7).toFixed(1).replace('.', ',');
-  const targetCm = '1,5';
-  const targetMg = '70';
-  const startCmFormatted = startDosageCm.toString().replace('.', ',');
+  // Calculate values with comma formatting - ReduMed-AI structure
+  const firstWeek = weeklyPlan[0];
+  const cbdStart = firstWeek?.cbdDose || 35;
+  const cbdEnd = weeklyPlan[weeklyPlan.length - 1]?.cbdDose || 70;
+  const numMedications = firstWeek?.medications?.length || 0;
+  const numWeeks = weeklyPlan.length;
+  const totalMedLoad = firstWeek?.totalMedicationLoad || 0;
   
-  doc.text(`• Startdosis (Tag 1): ${startCmFormatted} cm = ${startDosageMg} mg (abends)`, 22, yPos + 14);
-  doc.text(`• Zielbereich (Woche 7–8): ${targetCm} cm = ${targetMg} mg Cannabinoide täglich`, 22, yPos + 19);
-  doc.text(`• Verteilung: morgens ~40 %, abends ~60 %`, 22, yPos + 24);
-  doc.text(`• Einschleichphase: 3 Tage (nur abends) | Gesamtdauer: 8 Wochen`, 22, yPos + 29);
+  doc.text(`• Anzahl Medikamente: ${numMedications}`, 22, yPos + 14);
+  doc.text(`• CBD Start-Dosis: ${cbdStart.toFixed(1).replace('.', ',')} mg → Ziel: ${cbdEnd.toFixed(1).replace('.', ',')} mg`, 22, yPos + 19);
+  doc.text(`• Aktuelle Medikamentenlast: ${totalMedLoad.toFixed(1).replace('.', ',')} mg/Tag`, 22, yPos + 24);
+  doc.text(`• Plan-Dauer: ${numWeeks} Wochen`, 22, yPos + 29);
   
   yPos += boxHeight + 8;
   
@@ -1124,20 +1125,19 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
     doc.setFontSize(12); // 12pt
     doc.setTextColor(0, 77, 64); // #004D40
     doc.setFont(undefined, 'bold');
-    doc.text('Cannabinoid-Paste 70 % – Produktinformationen', 22, yPos + 8);
+    doc.text(`${product.name} – CBD Dosier-Spray`, 22, yPos + 8);
     
     doc.setFontSize(11); // 11pt
     doc.setTextColor(34, 34, 34); // #222
     doc.setFont(undefined, 'normal');
-    doc.text('• Konzentration: 70 % Cannabinoide', 22, yPos + 14);
-    doc.text('• Verpackung: 3 g Spritze mit 30 Teilstrichen (je 0,1 cm pro Teilstrich)', 22, yPos + 19);
-    doc.text('• Dosierungseinheit: Zentimeter (cm) auf der Spritze', 22, yPos + 24);
+    doc.text(`• Konzentration: ${product.cbdPerSpray} mg CBD pro Sprühstoß`, 22, yPos + 14);
+    doc.text('• Verpackung: 10ml Flasche mit Pumpsprühaufsatz', 22, yPos + 19);
+    doc.text(`• Dosierung: ${product.morningSprays}× morgens + ${product.eveningSprays}× abends`, 22, yPos + 24);
     
-    // Referenz-Umrechnung
-    doc.setFont(undefined, 'bold');
-    doc.text('Formel: mg = cm × 46,7', 22, yPos + 30);
+    // Hinweis
+    doc.setFont(undefined, 'italic');
+    doc.text('Hinweis: Produkt kann wöchentlich wechseln je nach CBD-Dosis', 22, yPos + 30);
     doc.setFont(undefined, 'normal');
-    doc.text('(1,5 cm = 70 mg | 1,0 cm = 46,7 mg | 0,1 cm = 4,67 mg)', 72, yPos + 30);
     
     yPos += prodBoxHeight + 8;
   }
@@ -1158,13 +1158,15 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
     doc.setTextColor(34, 34, 34); // #222
     doc.setFont(undefined, 'normal');
     
-    // Format numbers with comma
-    const startMg = personalization.startDosageMg.toFixed(1).replace('.', ',');
-    let line1 = `Einschleichphase: ${personalization.titrationDays} Tage | Startdosis: ${startMg} mg`;
+    // Format numbers with comma - ReduMed-AI structure
+    const cbdStartMg = personalization.cbdStartMg ? personalization.cbdStartMg.toFixed(1).replace('.', ',') : cbdStart.toFixed(1).replace('.', ',');
+    const cbdEndMg = personalization.cbdEndMg ? personalization.cbdEndMg.toFixed(1).replace('.', ',') : cbdEnd.toFixed(1).replace('.', ',');
+    let line1 = `CBD-Dosis: ${cbdStartMg} mg Start → ${cbdEndMg} mg Ziel`;
     let line2 = '';
     if (personalization.age) line2 += `Alter: ${personalization.age} Jahre`;
     if (personalization.bmi) line2 += ` | BMI: ${personalization.bmi.toFixed(1).replace('.', ',')}`;
     if (personalization.bsa) line2 += ` | BSA: ${personalization.bsa.toFixed(2).replace('.', ',')} m²`;
+    if (personalization.hasBenzoOrOpioid) line2 += ' | ⚠️ Benzo/Opioid erkannt';
     
     doc.text(line1, 22, yPos + 14);
     if (line2) doc.text(line2, 22, yPos + 19);
@@ -1214,177 +1216,85 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
     yPos = 20;
   }
   
-  // === T\u00c4GLICHER DOSIERUNGSPLAN ===
-  doc.setFontSize(18); // 18pt f\u00fcr Haupttitel
-  doc.setTextColor(0, 77, 64); // #004D40
+  // === WÖCHENTLICHER REDUKTIONSPLAN - ReduMed-AI ===
+  doc.setFontSize(18);
+  doc.setTextColor(0, 77, 64);
   doc.setFont(undefined, 'bold');
-  doc.text('Ihr w\u00f6chentlicher Reduktionsplan', 15, yPos);
+  doc.text('Ihr wöchentlicher Reduktionsplan', 15, yPos);
   yPos += 10;
   
   weeklyPlan.forEach((week, weekIndex) => {
-    // Check if we need a new page for this week
-    if (yPos > 240) {
+    // Check if we need a new page
+    if (yPos > 220) {
       doc.addPage();
       yPos = 20;
     }
     
-    // === WOCHEN\u00dcBERSCHRIFT ===
-    doc.setFontSize(12); // 12pt
-    doc.setTextColor(0, 77, 64); // #004D40
+    // === WOCHENÜBERSCHRIFT ===
+    doc.setFontSize(14);
+    doc.setTextColor(0, 77, 64);
     doc.setFont(undefined, 'bold');
     doc.text(`Woche ${week.week}`, 15, yPos);
-    yPos += 7;
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Medikamentenlast: ${week.totalMedicationLoad.toFixed(1).replace('.', ',')} mg/Tag`, 60, yPos);
+    yPos += 8;
     
-    // === TABELLENHEADER (10pt, fett, #004D40) ===
-    doc.setFillColor(255, 255, 255); // Wei\u00dfer Hintergrund
-    doc.rect(10, yPos - 5, 190, 9, 'F');
-    doc.setLineWidth(0.5);
-    doc.setDrawColor(0, 77, 64);
-    doc.rect(10, yPos - 5, 190, 9, 'S'); // Rahmen
-    
-    doc.setFontSize(10); // 10pt f\u00fcr Tabellenkopf
-    doc.setTextColor(0, 77, 64); // #004D40
+    // === MEDIKAMENTEN-TABELLE ===
+    doc.setFillColor(255, 240, 240);
+    doc.rect(10, yPos, 190, 6, 'F');
+    doc.setFontSize(9);
+    doc.setTextColor(139, 0, 0);
     doc.setFont(undefined, 'bold');
-    doc.text('Tag', 15, yPos);
-    doc.text('Morgens (cm / mg)', 40, yPos);
-    doc.text('Abends (cm / mg)', 85, yPos);
-    doc.text('Gesamt t\u00e4glich', 130, yPos);
-    doc.text('Hinweise', 170, yPos);
-    
+    doc.text('Medikamente', 15, yPos + 4);
+    doc.text('Aktuell', 80, yPos + 4);
+    doc.text('Ziel', 110, yPos + 4);
+    doc.text('Reduktion', 140, yPos + 4);
     yPos += 7;
     
-    // === TAGESZEILEN (STANDARD: nur eine Erhöhungszeile pro Woche für Woche 1-3) ===
+    week.medications.forEach((med, medIndex) => {
+      if (yPos > 270) {
+        doc.addPage();
+        yPos = 20;
+      }
+      
+      doc.setFontSize(8);
+      doc.setTextColor(60, 60, 60);
+      doc.setFont(undefined, 'normal');
+      
+      const medName = med.name.length > 25 ? med.name.substring(0, 25) + '...' : med.name;
+      doc.text(medName, 15, yPos);
+      doc.text(`${med.currentMg.toFixed(1).replace('.', ',')} mg`, 80, yPos);
+      doc.text(`${med.targetMg.toFixed(1).replace('.', ',')} mg`, 110, yPos);
+      doc.text(`-${med.reduction.toFixed(1).replace('.', ',')} mg/W`, 140, yPos);
+      yPos += 5;
+    });
+    
+    yPos += 3;
+    
+    // === CBD KOMPENSATION ===
+    doc.setFillColor(240, 255, 240);
+    doc.rect(10, yPos, 190, 6, 'F');
+    doc.setFontSize(9);
+    doc.setTextColor(0, 100, 0);
+    doc.setFont(undefined, 'bold');
+    doc.text('CBD-Kompensation', 15, yPos + 4);
+    yPos += 7;
+    
+    // CBD Details
     doc.setFontSize(8);
     doc.setTextColor(60, 60, 60);
     doc.setFont(undefined, 'normal');
     
-    // For week 1-3: Show only one summary row with dose increase
-    if (week.week <= 3) {
-      // Alternating row color
-      doc.setFillColor(249, 250, 251);
-      doc.rect(10, yPos - 4, 190, 7, 'F');
-      
-      // Get first day data
-      const firstDay = week.days[0];
-      
-      doc.text(`Tage ${(week.week - 1) * 7 + 1}-${week.week * 7}`, 15, yPos);
-      
-      // Morning dosage (MIT KOMMA!)
-      if (firstDay.morningDosageCm > 0) {
-        doc.setFont(undefined, 'bold');
-        doc.setTextColor(34, 139, 34);
-        doc.text(`${firstDay.morningDosageCm.toFixed(1).replace('.', ',')} cm`, 40, yPos);
-        doc.setFont(undefined, 'normal');
-        doc.setTextColor(100, 100, 100);
-        doc.text(`(${firstDay.morningDosageMg.toFixed(1).replace('.', ',')} mg)`, 56, yPos);
-      } else {
-        doc.setTextColor(150, 150, 150);
-        doc.text('—', 40, yPos);
-      }
-      
-      // Evening dosage (MIT KOMMA!)
-      doc.setTextColor(60, 60, 60);
-      if (firstDay.eveningDosageCm > 0) {
-        doc.setFont(undefined, 'bold');
-        doc.setTextColor(30, 64, 175);
-        doc.text(`${firstDay.eveningDosageCm.toFixed(1).replace('.', ',')} cm`, 85, yPos);
-        doc.setFont(undefined, 'normal');
-        doc.setTextColor(100, 100, 100);
-        doc.text(`(${firstDay.eveningDosageMg.toFixed(1).replace('.', ',')} mg)`, 101, yPos);
-      } else {
-        doc.setTextColor(150, 150, 150);
-        doc.text('—', 85, yPos);
-      }
-      
-      // Total daily (MIT KOMMA!)
-      doc.setTextColor(60, 60, 60);
-      if (firstDay.totalDailyCm > 0) {
-        doc.setFont(undefined, 'bold');
-        doc.setTextColor(88, 28, 135);
-        doc.text(`${firstDay.totalDailyCm.toFixed(1).replace('.', ',')} cm`, 130, yPos);
-        doc.setFont(undefined, 'normal');
-        doc.setTextColor(100, 100, 100);
-        doc.text(`(${firstDay.totalDailyMg.toFixed(1).replace('.', ',')} mg)`, 148, yPos);
-      }
-      
-      // Weekly summary note (MIT KOMMA!)
-      doc.setTextColor(60, 60, 60);
-      doc.setFont(undefined, 'italic');
-      doc.text(`Dosierung: ${firstDay.totalDailyMg.toFixed(1).replace('.', ',')} mg täglich`, 170, yPos);
-      
-      yPos += 7;
-    } else {
-      // For week 4-8: Show all days
-      week.days.forEach((day, dayIndex) => {
-        if (yPos > 275) {
-          doc.addPage();
-          yPos = 20;
-        }
-        
-        // Alternating row colors
-        if (dayIndex % 2 === 0) {
-          doc.setFillColor(249, 250, 251);
-          doc.rect(10, yPos - 4, 190, 7, 'F');
-        }
-        
-        // Day number
-        doc.text(`Tag ${day.day}`, 15, yPos);
-        
-        // Morning dosage (MIT KOMMA!)
-        if (day.morningDosageCm > 0) {
-          doc.setFont(undefined, 'bold');
-          doc.setTextColor(34, 139, 34);
-          doc.text(`${day.morningDosageCm.toFixed(1).replace('.', ',')} cm`, 40, yPos);
-          doc.setFont(undefined, 'normal');
-          doc.setTextColor(100, 100, 100);
-          doc.text(`(${day.morningDosageMg.toFixed(1).replace('.', ',')} mg)`, 56, yPos);
-        } else {
-          doc.setTextColor(150, 150, 150);
-          doc.text('—', 40, yPos);
-        }
-        
-        // Evening dosage (MIT KOMMA!)
-        doc.setTextColor(60, 60, 60);
-        if (day.eveningDosageCm > 0) {
-          doc.setFont(undefined, 'bold');
-          doc.setTextColor(30, 64, 175);
-          doc.text(`${day.eveningDosageCm.toFixed(1).replace('.', ',')} cm`, 85, yPos);
-          doc.setFont(undefined, 'normal');
-          doc.setTextColor(100, 100, 100);
-          doc.text(`(${day.eveningDosageMg.toFixed(1).replace('.', ',')} mg)`, 101, yPos);
-        } else {
-          doc.setTextColor(150, 150, 150);
-          doc.text('—', 85, yPos);
-        }
-        
-        // Total daily (MIT KOMMA!)
-        doc.setTextColor(60, 60, 60);
-        if (day.totalDailyCm > 0) {
-          doc.setFont(undefined, 'bold');
-          doc.setTextColor(88, 28, 135);
-          doc.text(`${day.totalDailyCm.toFixed(1).replace('.', ',')} cm`, 130, yPos);
-          doc.setFont(undefined, 'normal');
-          doc.setTextColor(100, 100, 100);
-          doc.text(`(${day.totalDailyMg.toFixed(1).replace('.', ',')} mg)`, 148, yPos);
-        } else {
-          doc.setTextColor(150, 150, 150);
-          doc.text('—', 130, yPos);
-        }
-        
-        // Notes (remove emojis for PDF compatibility)
-        doc.setTextColor(60, 60, 60);
-        doc.setFont(undefined, 'normal');
-        if (day.notes) {
-          const cleanNotes = day.notes.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
-          const noteLines = doc.splitTextToSize(cleanNotes, 25);
-          doc.text(noteLines[0], 170, yPos);
-        }
-        
-        yPos += 7;
-      });
-    }
+    doc.text(`CBD-Dosis: ${week.cbdDose.toFixed(1).replace('.', ',')} mg/Tag`, 15, yPos);
+    doc.text(`Produkt: ${week.kannasanProduct.name} (${week.kannasanProduct.cbdPerSpray.toFixed(1).replace('.', ',')} mg/Spray)`, 70, yPos);
+    yPos += 5;
     
-    yPos += 5; // Space between weeks
+    doc.text(`Morgens: ${week.morningSprays}× Spray`, 15, yPos);
+    doc.text(`Abends: ${week.eveningSprays}× Spray`, 70, yPos);
+    doc.text(`Gesamt: ${week.totalSprays}× Spray = ${week.actualCbdMg.toFixed(1).replace('.', ',')} mg`, 120, yPos);
+    yPos += 8;
+    
   });
   
   yPos += 5;
