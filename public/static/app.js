@@ -967,6 +967,50 @@ function displayResults(data, firstName = '', gender = '') {
             </p>
           </div>
         </div>
+        
+        <!-- Bottle Status Tracking -->
+        ${week.bottleStatus ? `
+        <div class="bg-blue-50 p-4 border-t-2 border-blue-200">
+          <h4 class="font-bold text-blue-900 mb-3 flex items-center">
+            <i class="fas fa-flask text-blue-600 mr-2"></i>
+            💧 Fläschchen-Status
+          </h4>
+          <div class="bg-white rounded-lg p-4 border-2 border-blue-300">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div class="text-center">
+                <p class="text-xs text-gray-600 mb-1">Verbraucht</p>
+                <p class="text-2xl font-bold text-red-700">${week.bottleStatus.used} / ${week.bottleStatus.totalCapacity}</p>
+                <p class="text-xs text-gray-500">Hübe verwendet</p>
+              </div>
+              <div class="text-center">
+                <p class="text-xs text-gray-600 mb-1">Verbleibend</p>
+                <p class="text-2xl font-bold text-green-700">${week.bottleStatus.remaining}</p>
+                <p class="text-xs text-gray-500">Hübe übrig</p>
+              </div>
+              <div class="text-center">
+                <p class="text-xs text-gray-600 mb-1">Voraussichtlich leer in</p>
+                <p class="text-2xl font-bold text-orange-700">~${week.bottleStatus.emptyInWeeks}</p>
+                <p class="text-xs text-gray-500">Wochen</p>
+              </div>
+            </div>
+            ${week.bottleStatus.productChangeNext ? `
+            <div class="mt-3 bg-yellow-100 border-2 border-yellow-400 rounded-lg p-3">
+              <p class="text-center text-sm font-semibold text-yellow-800">
+                <i class="fas fa-exchange-alt mr-2"></i>
+                ⚠️ Produktwechsel in nächster Woche erforderlich
+              </p>
+            </div>
+            ` : `
+            <div class="mt-3 bg-green-100 border-2 border-green-400 rounded-lg p-3">
+              <p class="text-center text-sm font-semibold text-green-800">
+                <i class="fas fa-check-circle mr-2"></i>
+                ✅ Aktuelles Fläschchen weiter verwenden
+              </p>
+            </div>
+            `}
+          </div>
+        </div>
+        ` : ''}
       </div>
     `;
   });
@@ -1293,6 +1337,39 @@ Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittwei
     doc.text(`Morgens: ${week.morningSprays}× Spray`, 15, yPos);
     doc.text(`Abends: ${week.eveningSprays}× Spray`, 70, yPos);
     doc.text(`Gesamt: ${week.totalSprays}× Spray = ${week.actualCbdMg.toFixed(1).replace('.', ',')} mg`, 120, yPos);
+    yPos += 5;
+    
+    // === FLÄSCHCHEN-STATUS ===
+    if (week.bottleStatus) {
+      doc.setFillColor(240, 248, 255);
+      doc.rect(10, yPos, 190, 6, 'F');
+      doc.setFontSize(9);
+      doc.setTextColor(0, 0, 139);
+      doc.setFont(undefined, 'bold');
+      doc.text('Fläschchen-Status', 15, yPos + 4);
+      yPos += 7;
+      
+      doc.setFontSize(8);
+      doc.setTextColor(60, 60, 60);
+      doc.setFont(undefined, 'normal');
+      
+      doc.text(`Verbraucht: ${week.bottleStatus.used} von ${week.bottleStatus.totalCapacity} Hüben`, 15, yPos);
+      doc.text(`Rest: ${week.bottleStatus.remaining} Hübe`, 70, yPos);
+      doc.text(`Voraussichtlich leer in: ~${week.bottleStatus.emptyInWeeks} Wochen`, 120, yPos);
+      yPos += 5;
+      
+      if (week.bottleStatus.productChangeNext) {
+        doc.setFont(undefined, 'bold');
+        doc.setTextColor(184, 134, 11);
+        doc.text('⚠️ Produktwechsel in nächster Woche erforderlich', 15, yPos);
+      } else {
+        doc.setFont(undefined, 'normal');
+        doc.setTextColor(0, 128, 0);
+        doc.text('✅ Aktuelles Fläschchen weiter verwenden', 15, yPos);
+      }
+      yPos += 3;
+    }
+    
     yPos += 8;
     
   });

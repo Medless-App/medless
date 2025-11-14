@@ -18,37 +18,108 @@ const KANNASAN_PRODUCTS = [
   { nr: 25, cbdPerSpray: 29.0, name: 'Kannasan Nr. 25', twoSprays: 58.0 }
 ];
 
-// Function to select optimal KANNASAN product based on target daily CBD dose
-function selectKannasanProduct(targetDailyMg: number) {
-  // Find product that reaches target with minimum sprays
+const BOTTLE_CAPACITY = 100; // Sprays per 10ml bottle
+
+// ReduMed-AI: Select optimal product with minimal sprays, no overdose, max 6 sprays per time
+function selectOptimalProduct(targetDailyMg: number) {
   let bestProduct = KANNASAN_PRODUCTS[0];
-  let bestSprayCount = Math.ceil(targetDailyMg / bestProduct.cbdPerSpray);
+  let bestSprayCount = 999;
   
   for (const product of KANNASAN_PRODUCTS) {
-    const sprayCount = Math.ceil(targetDailyMg / product.cbdPerSpray);
+    const totalSprays = Math.ceil(targetDailyMg / product.cbdPerSpray);
+    const morningSprays = Math.max(1, Math.round(totalSprays * 0.4));
+    const eveningSprays = totalSprays - morningSprays;
     
-    // Prefer product with fewer sprays, but not too high concentration for low doses
-    if (sprayCount < bestSprayCount && sprayCount >= 1) {
+    // Rules: No overdose, max 6 sprays per intake, prefer fewer sprays
+    const actualMg = totalSprays * product.cbdPerSpray;
+    if (actualMg <= targetDailyMg * 1.1 && // Max 10% overdose tolerance
+        morningSprays <= 6 && 
+        eveningSprays <= 6 &&
+        totalSprays < bestSprayCount) {
       bestProduct = product;
-      bestSprayCount = sprayCount;
+      bestSprayCount = totalSprays;
     }
   }
   
-  // Calculate spray distribution (40% morning, 60% evening)
-  const totalSprays = Math.ceil(targetDailyMg / bestProduct.cbdPerSpray);
-  const morningSprays = Math.max(1, Math.round(totalSprays * 0.4));
-  const eveningSprays = Math.max(1, totalSprays - morningSprays);
+  return bestProduct;
+}
+
+// ReduMed-AI: Generate weekly plan with bottle tracking - NO unnecessary product changes!
+function generateWeeklyPlanWithBottleTracking(
+  cbdStartMg: number,
+  cbdEndMg: number,
+  durationWeeks: number
+) {
+  const cbdWeeklyIncrease = (cbdEndMg - cbdStartMg) / durationWeeks;
+  const weeklyPlan: any[] = [];
   
-  const actualDailyMg = totalSprays * bestProduct.cbdPerSpray;
+  // Bottle tracking state
+  let currentProduct = selectOptimalProduct(cbdStartMg);
+  let bottleRemaining = BOTTLE_CAPACITY;
+  let totalSpraysUsed = 0;
   
-  return {
-    product: bestProduct,
-    totalSprays,
-    morningSprays,
-    eveningSprays,
-    actualDailyMg,
-    targetDailyMg
-  };
+  for (let week = 1; week <= durationWeeks; week++) {
+    const weekCbdDose = cbdStartMg + (cbdWeeklyIncrease * (week - 1));
+    
+    // Calculate sprays needed this week
+    const totalSpraysPerDay = Math.ceil(weekCbdDose / currentProduct.cbdPerSpray);
+    const spraysThisWeek = totalSpraysPerDay * 7;
+    
+    // Check if current bottle + product is still sufficient
+    const needsProductChange = 
+      bottleRemaining < spraysThisWeek || // Bottle will run out
+      totalSpraysPerDay > 12; // Too many sprays per day (max ~12)
+    
+    if (needsProductChange && bottleRemaining < spraysThisWeek) {
+      // Bottle running out - switch to new bottle with potentially new product
+      currentProduct = selectOptimalProduct(weekCbdDose);
+      bottleRemaining = BOTTLE_CAPACITY;
+      totalSpraysUsed = 0;
+    } else if (needsProductChange && totalSpraysPerDay > 12) {
+      // Dosage too high - upgrade to stronger product
+      currentProduct = selectOptimalProduct(weekCbdDose);
+      bottleRemaining = BOTTLE_CAPACITY;
+      totalSpraysUsed = 0;
+    }
+    
+    // Recalculate with current product
+    const totalSprays = Math.ceil(weekCbdDose / currentProduct.cbdPerSpray);
+    const morningSprays = Math.max(1, Math.round(totalSprays * 0.4));
+    const eveningSprays = totalSprays - morningSprays;
+    const actualCbdMg = totalSprays * currentProduct.cbdPerSpray;
+    const spraysPerWeek = totalSprays * 7;
+    
+    // Update bottle tracking
+    bottleRemaining -= spraysPerWeek;
+    totalSpraysUsed += spraysPerWeek;
+    
+    // Calculate when bottle will be empty
+    const daysUntilEmpty = Math.floor(bottleRemaining / totalSprays);
+    const weeksUntilEmpty = Math.floor(daysUntilEmpty / 7);
+    
+    weeklyPlan.push({
+      week,
+      cbdDose: Math.round(weekCbdDose * 10) / 10,
+      kannasanProduct: {
+        nr: currentProduct.nr,
+        name: currentProduct.name,
+        cbdPerSpray: currentProduct.cbdPerSpray
+      },
+      morningSprays,
+      eveningSprays,
+      totalSprays,
+      actualCbdMg: Math.round(actualCbdMg * 10) / 10,
+      bottleStatus: {
+        used: BOTTLE_CAPACITY - bottleRemaining,
+        remaining: bottleRemaining,
+        totalCapacity: BOTTLE_CAPACITY,
+        emptyInWeeks: weeksUntilEmpty > 0 ? weeksUntilEmpty : 0,
+        productChangeNext: bottleRemaining < totalSprays * 7
+      }
+    });
+  }
+  
+  return weeklyPlan;
 }
 
 // Enable CORS for API routes
@@ -258,15 +329,12 @@ app.post('/api/analyze', async (c) => {
     // Calculate weekly CBD increase (linear)
     const cbdWeeklyIncrease = (cbdEndMg - cbdStartMg) / durationWeeks;
     
-    // Generate weekly plan with medication reduction + CBD increase
-    const weeklyPlan = [];
+    // Generate weekly plan with bottle tracking
+    const cbdPlan = generateWeeklyPlanWithBottleTracking(cbdStartMg, cbdEndMg, durationWeeks);
     
-    for (let week = 1; week <= durationWeeks; week++) {
-      // Calculate CBD dose for this week (linear increase)
-      const weekCbdDose = cbdStartMg + (cbdWeeklyIncrease * (week - 1));
-      
-      // Select optimal KANNASAN product for this week's CBD dose
-      const kannasanSelection = selectKannasanProduct(weekCbdDose);
+    // Merge CBD tracking with medication reduction data
+    const weeklyPlan = cbdPlan.map((cbdWeek: any) => {
+      const week = cbdWeek.week;
       
       // Calculate medication doses for this week
       const weekMedications = medications.map((med: any) => {
@@ -288,22 +356,19 @@ app.post('/api/analyze', async (c) => {
       // Calculate total medication load
       const totalMedicationLoad = weekMedications.reduce((sum: number, med: any) => sum + med.currentMg, 0);
       
-      weeklyPlan.push({
+      return {
         week,
         medications: weekMedications,
         totalMedicationLoad: Math.round(totalMedicationLoad * 10) / 10,
-        cbdDose: Math.round(weekCbdDose * 10) / 10,
-        kannasanProduct: {
-          nr: kannasanSelection.product.nr,
-          name: kannasanSelection.product.name,
-          cbdPerSpray: kannasanSelection.product.cbdPerSpray
-        },
-        morningSprays: kannasanSelection.morningSprays,
-        eveningSprays: kannasanSelection.eveningSprays,
-        totalSprays: kannasanSelection.totalSprays,
-        actualCbdMg: Math.round(kannasanSelection.actualDailyMg * 10) / 10
-      });
-    }
+        cbdDose: cbdWeek.cbdDose,
+        kannasanProduct: cbdWeek.kannasanProduct,
+        morningSprays: cbdWeek.morningSprays,
+        eveningSprays: cbdWeek.eveningSprays,
+        totalSprays: cbdWeek.totalSprays,
+        actualCbdMg: cbdWeek.actualCbdMg,
+        bottleStatus: cbdWeek.bottleStatus
+      };
+    });
     
     // Get first week's KANNASAN product for product info box
     const firstWeekKannasan = weeklyPlan[0];
