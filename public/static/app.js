@@ -344,20 +344,20 @@ function animateLoadingSteps() {
       }
     }, 40);
     
-    // Animate counters
+    // Animate counters (only if elements exist)
     let medCount = 0, interactionCount = 0, calcCount = 0;
     const counterInterval = setInterval(() => {
-      if (medCount < 173) {
+      if (counterMeds && medCount < 173) {
         medCount += Math.floor(Math.random() * 8) + 3;
         if (medCount > 173) medCount = 173;
         counterMeds.textContent = medCount;
       }
-      if (interactionCount < 47) {
+      if (counterInteractions && interactionCount < 47) {
         interactionCount += Math.floor(Math.random() * 3) + 1;
         if (interactionCount > 47) interactionCount = 47;
         counterInteractions.textContent = interactionCount;
       }
-      if (calcCount < 2847) {
+      if (counterCalculations && calcCount < 2847) {
         calcCount += Math.floor(Math.random() * 120) + 50;
         if (calcCount > 2847) calcCount = 2847;
         counterCalculations.textContent = calcCount.toLocaleString('de-DE');
@@ -445,10 +445,10 @@ function animateLoadingSteps() {
               clearInterval(progressInterval);
               clearInterval(counterInterval);
               
-              // Final counter values
-              counterMeds.textContent = '173';
-              counterInteractions.textContent = '47';
-              counterCalculations.textContent = '2.847';
+              // Final counter values (only if elements exist)
+              if (counterMeds) counterMeds.textContent = '173';
+              if (counterInteractions) counterInteractions.textContent = '47';
+              if (counterCalculations) counterCalculations.textContent = '2.847';
               
               if (statusText) {
                 statusText.textContent = 'Analyse abgeschlossen';
@@ -522,6 +522,11 @@ function displayResults(data, firstName = '', gender = '') {
   
   const resultsDiv = document.getElementById('results');
   console.log('📍 Results div found:', !!resultsDiv);
+  
+  if (!resultsDiv) {
+    console.error('❌ FEHLER: Results div nicht gefunden!');
+    return;
+  }
   
   const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization } = data;
   console.log('📊 Destructured data - analysis:', analysis?.length, 'weeklyPlan:', weeklyPlan?.length);
