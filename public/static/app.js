@@ -152,41 +152,115 @@ function setupAutocomplete(input) {
 }
 
 // Add medication input - DISABLED (now handled in index.tsx inline JavaScript)
-// This old implementation created duplicate fields
-/*
-let medicationCount = 1;
+// Medication input management with mg/day field
+let medicationCount = 0;
 
-document.getElementById('add-medication')?.addEventListener('click', () => {
+function createMedicationInput() {
   medicationCount++;
   const container = document.getElementById('medication-inputs');
-  const newInputGroup = document.createElement('div');
-  newInputGroup.className = 'medication-input-group flex gap-3';
-  newInputGroup.style.position = 'relative';
-  newInputGroup.innerHTML = `
-    <input type="text" name="medication_name[]" 
-           placeholder="z.B. Ibuprofen, Marcumar, Prozac..." 
-           class="medication-name-input flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-           required>
-    <input type="text" name="medication_dosage[]" 
-           placeholder="Dosierung (z.B. 400mg täglich)" 
-           class="w-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-    <button type="button" class="remove-medication px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200">
-        <i class="fas fa-times"></i>
-    </button>
+  
+  const inputGroup = document.createElement('div');
+  inputGroup.className = 'medication-input-group';
+  inputGroup.style.cssText = 'margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); border-radius: 12px; border: 2px solid #f59e0b; position: relative;';
+  
+  inputGroup.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <h4 style="margin: 0; color: #b45309; font-size: 1rem;">
+        <i class="fas fa-pills" style="margin-right: 0.5rem;"></i>
+        Medikament ${medicationCount}
+      </h4>
+      ${medicationCount > 1 ? `
+        <button type="button" class="remove-medication" style="background: #fee2e2; color: #dc2626; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem;">
+          <i class="fas fa-times"></i> Entfernen
+        </button>
+      ` : ''}
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+      <!-- Medication Name with Autocomplete -->
+      <div style="position: relative;">
+        <label style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
+          Medikamentenname *
+        </label>
+        <input type="text" 
+               name="medication_display[]" 
+               class="medication-display-input" 
+               placeholder="z.B. Ibuprofen, Diazepam, Sertralin..." 
+               required
+               style="width: 100%; padding: 0.75rem; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem;">
+        <input type="hidden" name="medication_name[]" class="medication-name-hidden">
+      </div>
+      
+      <!-- Dosage Description -->
+      <div>
+        <label style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
+          Dosierung (Beschreibung)
+        </label>
+        <input type="text" 
+               name="medication_dosages[]" 
+               placeholder="z.B. 400mg 3x täglich" 
+               style="width: 100%; padding: 0.75rem; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem;">
+        <p style="font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem;">
+          <i class="fas fa-info-circle"></i> Optional - für Ihre Unterlagen
+        </p>
+      </div>
+      
+      <!-- mg/Tag - PRIMARY INPUT -->
+      <div>
+        <label style="display: block; font-weight: 600; color: #dc2626; margin-bottom: 0.5rem;">
+          Tagesdosis in mg *
+          <i class="fas fa-star" style="font-size: 0.7rem; color: #dc2626;"></i>
+        </label>
+        <input type="number" 
+               name="medication_mg_per_day[]" 
+               placeholder="z.B. 1200" 
+               min="0"
+               step="0.1"
+               required
+               style="width: 100%; padding: 0.75rem; border: 2px solid #dc2626; border-radius: 8px; font-size: 0.95rem; font-weight: 600;">
+        <p style="font-size: 0.8rem; color: #dc2626; margin-top: 0.25rem; font-weight: 500;">
+          <i class="fas fa-exclamation-triangle"></i> Wichtig: Gesamtmenge pro Tag in mg
+        </p>
+      </div>
+    </div>
   `;
-  container.appendChild(newInputGroup);
-
-  // Setup autocomplete for new input
-  const newInput = newInputGroup.querySelector('.medication-name-input');
-  setupAutocomplete(newInput);
-
+  
+  container.appendChild(inputGroup);
+  
+  // Setup autocomplete for the new input
+  const displayInput = inputGroup.querySelector('.medication-display-input');
+  setupAutocomplete(displayInput);
+  
   // Add remove handler
-  newInputGroup.querySelector('.remove-medication').addEventListener('click', function() {
-    newInputGroup.remove();
-    medicationCount--;
+  const removeBtn = inputGroup.querySelector('.remove-medication');
+  if (removeBtn) {
+    removeBtn.addEventListener('click', () => {
+      inputGroup.remove();
+      renumberMedications();
+    });
+  }
+}
+
+function renumberMedications() {
+  const groups = document.querySelectorAll('.medication-input-group');
+  medicationCount = groups.length;
+  groups.forEach((group, index) => {
+    const title = group.querySelector('h4');
+    if (title) {
+      title.innerHTML = `<i class="fas fa-pills" style="margin-right: 0.5rem;"></i>Medikament ${index + 1}`;
+    }
   });
+}
+
+// Initialize first medication input on page load
+document.addEventListener('DOMContentLoaded', () => {
+  createMedicationInput();
 });
-*/
+
+// Add medication button handler
+document.getElementById('add-medication')?.addEventListener('click', () => {
+  createMedicationInput();
+});
 
 // Handle initial remove buttons
 document.addEventListener('click', (e) => {
@@ -214,6 +288,7 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
   // Get medications from new autocomplete inputs (medication_display[] contains the visible names)
   const medicationNames = form.querySelectorAll('input[name="medication_display[]"], input.medication-display-input');
   const medicationDosages = form.querySelectorAll('input[name="medication_dosages[]"]');
+  const medicationMgPerDay = form.querySelectorAll('input[name="medication_mg_per_day[]"]');
   
   const durationWeeks = parseInt(form.querySelector('select[name="duration_weeks"]').value);
   const reductionGoal = parseInt(form.querySelector('select[name="reduction_goal"]').value);
@@ -245,10 +320,20 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
 
   const medications = [];
   medicationNames.forEach((nameInput, index) => {
-    if (nameInput.value.trim()) {
+    const name = nameInput.value.trim();
+    const mgPerDayValue = parseFloat(medicationMgPerDay[index]?.value);
+    
+    if (name) {
+      // Validate mg/day is provided and valid
+      if (!mgPerDayValue || isNaN(mgPerDayValue) || mgPerDayValue <= 0) {
+        alert(`Bitte geben Sie eine gültige Tagesdosis in mg für "${name}" ein.`);
+        throw new Error('Invalid mg/day value');
+      }
+      
       medications.push({
-        name: nameInput.value.trim(),
-        dosage: medicationDosages[index].value.trim() || 'Nicht angegeben'
+        name: name,
+        dosage: medicationDosages[index].value.trim() || 'Nicht angegeben',
+        mgPerDay: mgPerDayValue
       });
     }
   });
@@ -258,7 +343,7 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
     return;
   }
 
-  await analyzeMedications(medications, durationWeeks, firstName, gender, email, age, weight, height);
+  await analyzeMedications(medications, durationWeeks, firstName, gender, email, age, weight, height, reductionGoal);
 });
 
 // Animate loading steps with rich visual feedback
@@ -466,7 +551,7 @@ function animateLoadingSteps() {
 }
 
 // Analyze medications with animated loading
-async function analyzeMedications(medications, durationWeeks, firstName = '', gender = '', email = '', age = null, weight = null, height = null) {
+async function analyzeMedications(medications, durationWeeks, firstName = '', gender = '', email = '', age = null, weight = null, height = null, reductionGoal = 100) {
   // Show loading and scroll to it
   const loadingEl = document.getElementById('loading');
   loadingEl.classList.remove('hidden');
@@ -485,6 +570,7 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     const apiPromise = axios.post('/api/analyze', {
       medications,
       durationWeeks,
+      reductionGoal,
       email,
       firstName,
       gender,

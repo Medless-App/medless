@@ -121,7 +121,7 @@ app.post('/api/analyze', async (c) => {
   const { env } = c;
   try {
     const body = await c.req.json();
-    const { medications, durationWeeks, email, firstName, gender, age, weight, height } = body;
+    const { medications, durationWeeks, reductionGoal = 100, email, firstName, gender, age, weight, height } = body;
     
     if (!medications || !Array.isArray(medications) || medications.length === 0) {
       return c.json({ success: false, error: 'Bitte geben Sie mindestens ein Medikament an' }, 400);
@@ -129,6 +129,16 @@ app.post('/api/analyze', async (c) => {
     
     if (!durationWeeks || durationWeeks < 1) {
       return c.json({ success: false, error: 'Bitte geben Sie eine gültige Dauer in Wochen an' }, 400);
+    }
+    
+    // Validate that all medications have mgPerDay values
+    for (const med of medications) {
+      if (!med.mgPerDay || isNaN(med.mgPerDay) || med.mgPerDay <= 0) {
+        return c.json({ 
+          success: false, 
+          error: `Bitte geben Sie eine gültige Tagesdosis in mg für "${med.name}" ein` 
+        }, 400);
+      }
     }
     
     // Save email to database if provided
@@ -174,7 +184,8 @@ app.post('/api/analyze', async (c) => {
         analysisResults.push({
           medication: medResult,
           interactions: interactions.results,
-          dosage: med.dosage || 'Nicht angegeben'
+          dosage: med.dosage || 'Nicht angegeben',
+          mgPerDay: med.mgPerDay
         });
         
         if (interactions.results.length > 0) {
@@ -188,6 +199,7 @@ app.post('/api/analyze', async (c) => {
           medication: { name: med.name, found: false },
           interactions: [],
           dosage: med.dosage || 'Nicht angegeben',
+          mgPerDay: med.mgPerDay,
           warning: 'Medikament nicht in Datenbank gefunden'
         });
       }
