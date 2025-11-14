@@ -985,19 +985,9 @@ function displayResults(data, firstName = '', gender = '') {
   `;
 
   // ============================================================
-  // PDF DOWNLOAD BUTTON (Homepage-Stil)
+  // PDF DOWNLOAD BUTTON - ENTFERNT
+  // Der Plan wird nur im Browser angezeigt, ohne Download-Möglichkeit
   // ============================================================
-  
-  html += `
-    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center;">
-      <button onclick="downloadPlanAsPDF(event)" style="padding: 0.75rem 2rem; background: #0b7b6c; color: white; font-weight: 600; font-size: 0.95rem; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#094d44'" onmouseout="this.style.background='#0b7b6c'">
-        Als PDF herunterladen
-      </button>
-      <p style="margin: 0.75rem 0 0; font-size: 0.85rem; color: #6b7280;">
-        Bringen Sie diesen Plan zu Ihrem nächsten Arzttermin mit.
-      </p>
-    </div>
-  `;
 
   resultsDiv.innerHTML = html;
   console.log('📝 Results HTML set (length:', html.length, 'chars)');
@@ -1576,9 +1566,8 @@ function downloadPDF() {
 }
 
 // ============================================================
-// EINFACHE PDF-FUNKTION: HTML-Plan direkt als PDF (mit Fallback)
+// SUPER-EINFACHE LÖSUNG: Verstecke alles außer Results → Print
 // ============================================================
-// Make function globally accessible for onclick handlers
 window.downloadPlanAsPDF = async function(event) {
   console.log('🎯 downloadPlanAsPDF called');
   const resultsDiv = document.getElementById('results');
@@ -1638,42 +1627,29 @@ window.downloadPlanAsPDF = async function(event) {
     
     console.log('html2canvas verfügbar, starte Screenshot...');
     
-    // Erstelle Screenshot vom Results-Div mit erweiterten Optionen
-    const canvas = await window.html2canvas(resultsDiv, {
-      scale: 0.6,
+    // Erstelle Screenshot mit Timeout-Schutz
+    const canvasPromise = window.html2canvas(resultsDiv, {
+      scale: 0.5,  // Reduziert von 0.6 auf 0.5 für bessere Performance
       useCORS: true,
       allowTaint: true,
       logging: false,
       backgroundColor: '#f5f7fa',
-      // FIX für "setEnd on Range" Error:
-      ignoreElements: (element) => {
-        // Ignoriere problematische Elements
-        return element.tagName === 'SCRIPT' || element.tagName === 'STYLE';
-      },
+      windowWidth: resultsDiv.scrollWidth,
+      windowHeight: resultsDiv.scrollHeight,
       onclone: (clonedDoc) => {
-        // Bereinige geklontes Dokument
+        // Bereinige Probleme im geklonten Dokument
         const clonedResults = clonedDoc.getElementById('results');
         if (clonedResults) {
-          // Entferne alle <script> und <style> tags
           clonedResults.querySelectorAll('script, style').forEach(el => el.remove());
-          
-          // Normalisiere alle Text-Nodes (verhindert Range-Errors)
-          const walker = clonedDoc.createTreeWalker(
-            clonedResults,
-            NodeFilter.SHOW_TEXT,
-            null,
-            false
-          );
-          
-          let node;
-          while (node = walker.nextNode()) {
-            if (node.nodeValue) {
-              node.nodeValue = node.nodeValue.trim();
-            }
-          }
         }
       }
     });
+    
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Screenshot-Timeout nach 60 Sekunden')), 60000)
+    );
+    
+    const canvas = await Promise.race([canvasPromise, timeoutPromise]);
     
     console.log('Screenshot erstellt, Canvas-Größe:', canvas.width, 'x', canvas.height);
     
@@ -1757,11 +1733,16 @@ window.downloadPlanAsPDF = async function(event) {
     }
     
   } catch (error) {
-    console.error('❌ FEHLER beim Erstellen der PDF:', error);
-    console.error('Fehler-Details:', error.message);
-    console.error('Stack:', error.stack);
+    console.error('❌❌❌ FEHLER beim Erstellen der PDF ❌❌❌');
+    console.error('Error Object:', error);
+    console.error('Error Name:', error?.name);
+    console.error('Error Message:', error?.message);
+    console.error('Error Stack:', error?.stack);
+    console.error('Error String:', String(error));
     
-    alert(`Fehler beim Erstellen der PDF:\n${error.message}\n\nBitte versuchen Sie es erneut oder laden Sie die Seite neu.`);
+    // SICHTBARE Fehlermeldung
+    const errorMsg = error?.message || error?.name || String(error) || 'Unbekannter Fehler';
+    alert(`❌ PDF-Fehler gefunden:\n\n${errorMsg}\n\nBitte Screenshot der Console machen und senden!`);
     
     // Button zurücksetzen
     if (button) {
