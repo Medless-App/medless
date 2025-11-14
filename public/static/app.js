@@ -191,20 +191,7 @@ function createMedicationInput() {
         <input type="hidden" name="medication_name[]" class="medication-name-hidden">
       </div>
       
-      <!-- Dosage Description -->
-      <div>
-        <label style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-          Dosierung (Beschreibung)
-        </label>
-        <input type="text" 
-               name="medication_dosages[]" 
-               placeholder="z.B. 400mg 3x täglich" 
-               style="width: 100%; padding: 0.75rem; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem;">
-        <p style="font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem;">
-          <i class="fas fa-info-circle"></i> Optional - für Ihre Unterlagen
-        </p>
-      </div>
-      
+
       <!-- mg/Tag - PRIMARY INPUT -->
       <div>
         <label style="display: block; font-weight: 600; color: #dc2626; margin-bottom: 0.5rem;">
@@ -287,7 +274,6 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
   
   // Get medications from new autocomplete inputs (medication_display[] contains the visible names)
   const medicationNames = form.querySelectorAll('input[name="medication_display[]"], input.medication-display-input');
-  const medicationDosages = form.querySelectorAll('input[name="medication_dosages[]"]');
   const medicationMgPerDay = form.querySelectorAll('input[name="medication_mg_per_day[]"]');
   
   const durationWeeks = parseInt(form.querySelector('select[name="duration_weeks"]').value);
@@ -332,7 +318,7 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
       
       medications.push({
         name: name,
-        dosage: medicationDosages[index].value.trim() || 'Nicht angegeben',
+        dosage: `${mgPerDayValue} mg/Tag`,  // Generate dosage from mg/day value
         mgPerDay: mgPerDayValue
       });
     }
