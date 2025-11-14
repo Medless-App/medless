@@ -9,16 +9,16 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>()
 
-// KANNASAN Product Data - CBD Dosier-Sprays
+// KANNASAN Product Data - CBD Dosier-Sprays (FIXED VALUES - DO NOT CHANGE)
 const KANNASAN_PRODUCTS = [
-  { nr: 5,  cbdPerSpray: 5.8,  name: 'Kannasan Nr. 5',  twoSprays: 11.6 },
-  { nr: 10, cbdPerSpray: 11.5, name: 'Kannasan Nr. 10', twoSprays: 23.0 },
-  { nr: 15, cbdPerSpray: 17.5, name: 'Kannasan Nr. 15', twoSprays: 35.0 },
-  { nr: 20, cbdPerSpray: 23.2, name: 'Kannasan Nr. 20', twoSprays: 46.4 },
-  { nr: 25, cbdPerSpray: 29.0, name: 'Kannasan Nr. 25', twoSprays: 58.0 }
+  { nr: 5,  cbdPerSpray: 5.8,  name: 'Kannasan Nr. 5',  price: 24.90 },
+  { nr: 10, cbdPerSpray: 11.5, name: 'Kannasan Nr. 10', price: 39.90 },
+  { nr: 15, cbdPerSpray: 17.5, name: 'Kannasan Nr. 15', price: 59.90 },
+  { nr: 20, cbdPerSpray: 23.2, name: 'Kannasan Nr. 20', price: 79.90 },
+  { nr: 25, cbdPerSpray: 29.0, name: 'Kannasan Nr. 25', price: 99.90 }
 ];
 
-const BOTTLE_CAPACITY = 100; // Sprays per 10ml bottle
+const BOTTLE_CAPACITY = 100; // Sprays per 10ml bottle (FIXED - 100 sprays = 10ml)
 
 // ReduMed-AI: Select optimal product with minimal sprays, no overdose, max 6 sprays per time
 function selectOptimalProduct(targetDailyMg: number) {
@@ -120,6 +120,72 @@ function generateWeeklyPlanWithBottleTracking(
   }
   
   return weeklyPlan;
+}
+
+// ReduMed-AI: Calculate total costs for the entire plan
+function calculatePlanCosts(weeklyPlan: any[]) {
+  const bottleUsage: { [key: string]: { count: number; product: any; totalSprays: number; weeks: number[] } } = {};
+  
+  let currentProduct: any = null;
+  let currentBottleNumber = 0;
+  let bottleRemaining = 0;
+  
+  weeklyPlan.forEach((week) => {
+    const product = week.kannasanProduct;
+    const spraysThisWeek = week.totalSprays * 7;
+    const productKey = `Kannasan Nr. ${product.nr}`;
+    
+    // Check if product changed or bottle empty
+    if (!currentProduct || currentProduct.nr !== product.nr || bottleRemaining < spraysThisWeek) {
+      // New bottle needed
+      currentBottleNumber++;
+      bottleRemaining = BOTTLE_CAPACITY;
+      currentProduct = product;
+      
+      if (!bottleUsage[productKey]) {
+        bottleUsage[productKey] = {
+          count: 0,
+          product: KANNASAN_PRODUCTS.find(p => p.nr === product.nr),
+          totalSprays: 0,
+          weeks: []
+        };
+      }
+      
+      bottleUsage[productKey].count++;
+    }
+    
+    // Update usage
+    bottleUsage[productKey].totalSprays += spraysThisWeek;
+    bottleUsage[productKey].weeks.push(week.week);
+    bottleRemaining -= spraysThisWeek;
+  });
+  
+  // Calculate costs
+  const costBreakdown: any[] = [];
+  let totalCost = 0;
+  
+  Object.keys(bottleUsage).forEach((productKey) => {
+    const usage = bottleUsage[productKey];
+    const productCost = usage.count * usage.product.price;
+    totalCost += productCost;
+    
+    costBreakdown.push({
+      product: productKey,
+      productNr: usage.product.nr,
+      pricePerBottle: usage.product.price,
+      bottleCount: usage.count,
+      totalSprays: usage.totalSprays,
+      totalCost: Math.round(productCost * 100) / 100,
+      weeksUsed: `${usage.weeks[0]}-${usage.weeks[usage.weeks.length - 1]}`
+    });
+  });
+  
+  return {
+    costBreakdown,
+    totalCost: Math.round(totalCost * 100) / 100,
+    totalBottles: Object.values(bottleUsage).reduce((sum, u) => sum + u.count, 0),
+    totalSprays: Object.values(bottleUsage).reduce((sum, u) => sum + u.totalSprays, 0)
+  };
 }
 
 // Enable CORS for API routes
@@ -373,12 +439,16 @@ app.post('/api/analyze', async (c) => {
     // Get first week's KANNASAN product for product info box
     const firstWeekKannasan = weeklyPlan[0];
     
+    // Calculate total costs for the plan
+    const costAnalysis = calculatePlanCosts(weeklyPlan);
+    
     return c.json({
       success: true,
       analysis: analysisResults,
       maxSeverity,
       weeklyPlan,
       reductionGoal,
+      costs: costAnalysis,
       cbdProgression: {
         startMg: Math.round(cbdStartMg * 10) / 10,
         endMg: Math.round(cbdEndMg * 10) / 10,

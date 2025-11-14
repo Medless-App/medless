@@ -871,6 +871,64 @@ function displayResults(data, firstName = '', gender = '') {
       </div>
   `;
 
+  // Cost Overview - ReduMed
+  if (data.costs) {
+    html += `
+      <div class="bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-300 p-6 mb-8 rounded-xl shadow-lg fade-in">
+        <div class="flex items-start">
+          <i class="fas fa-euro-sign text-amber-600 text-4xl mr-4"></i>
+          <div class="flex-1">
+            <h3 class="text-2xl font-bold text-amber-900 mb-3">💰 Kostenübersicht</h3>
+            <div class="bg-white rounded-lg p-4 mb-4">
+              <table class="w-full">
+                <thead class="border-b-2 border-amber-200">
+                  <tr class="text-left">
+                    <th class="py-2 text-sm font-semibold text-gray-700">Produkt</th>
+                    <th class="py-2 text-sm font-semibold text-gray-700 text-center">Flaschen</th>
+                    <th class="py-2 text-sm font-semibold text-gray-700 text-center">Sprays</th>
+                    <th class="py-2 text-sm font-semibold text-gray-700 text-right">Preis/Flasche</th>
+                    <th class="py-2 text-sm font-semibold text-gray-700 text-right">Gesamtkosten</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${data.costs.costBreakdown.map((item, idx) => `
+                    <tr class="${idx % 2 === 0 ? 'bg-amber-50' : 'bg-white'}">
+                      <td class="py-3 text-sm font-medium text-gray-800">${item.product}</td>
+                      <td class="py-3 text-sm text-gray-700 text-center">${item.bottleCount}×</td>
+                      <td class="py-3 text-sm text-gray-600 text-center">${item.totalSprays}</td>
+                      <td class="py-3 text-sm text-gray-700 text-right">${item.pricePerBottle.toFixed(2)} €</td>
+                      <td class="py-3 text-sm font-bold text-amber-900 text-right">${item.totalCost.toFixed(2)} €</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+                <tfoot class="border-t-2 border-amber-300">
+                  <tr class="bg-amber-100">
+                    <td colspan="4" class="py-3 text-right font-bold text-gray-800">GESAMTKOSTEN:</td>
+                    <td class="py-3 text-right text-xl font-bold text-amber-900">${data.costs.totalCost.toFixed(2)} €</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+              <div class="bg-white p-3 rounded-lg border border-amber-200">
+                <p class="text-xs text-gray-600 mb-1">Gesamtflaschen</p>
+                <p class="text-lg font-bold text-amber-900">${data.costs.totalBottles} Flaschen</p>
+              </div>
+              <div class="bg-white p-3 rounded-lg border border-amber-200">
+                <p class="text-xs text-gray-600 mb-1">Gesamtsprays</p>
+                <p class="text-lg font-bold text-amber-900">${data.costs.totalSprays} Hübe</p>
+              </div>
+              <div class="bg-white p-3 rounded-lg border border-amber-200">
+                <p class="text-xs text-gray-600 mb-1">Ø Kosten/Woche</p>
+                <p class="text-lg font-bold text-amber-900">${(data.costs.totalCost / weeklyPlan.length).toFixed(2)} €</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   // Weekly plan with medication reduction + CBD increase
   weeklyPlan.forEach((week, weekIndex) => {
     html += `
@@ -1082,7 +1140,7 @@ function downloadPDF() {
   
   try {
     const { jsPDF } = window.jspdf;
-    const { analysis, weeklyPlan, maxSeverity, firstName, gender, product, personalization } = window.currentPlanData;
+    const { analysis, weeklyPlan, maxSeverity, firstName, gender, product, personalization, costs } = window.currentPlanData;
     
     const doc = new jsPDF();
     let yPos = 20;
@@ -1444,7 +1502,102 @@ function downloadPDF() {
     yPos += 25;
     
     // ============================================================
-    // SEITE 4: SICHERHEITSHINWEISE
+    // KOSTENÜBERSICHT (vor Sicherheitshinweisen)
+    // ============================================================
+    
+    if (costs) {
+      doc.addPage();
+      yPos = 20;
+      
+      doc.setFontSize(16);
+      doc.setTextColor(26, 83, 92);
+      doc.setFont(undefined, 'bold');
+      doc.text('Kostenübersicht', 15, yPos);
+      yPos += 12;
+      
+      // Tabelle: Kostenaufschlüsselung
+      doc.setFillColor(254, 249, 195);
+      doc.rect(10, yPos, 190, 8, 'F');
+      doc.setFontSize(10);
+      doc.setTextColor(113, 63, 18);
+      doc.setFont(undefined, 'bold');
+      
+      doc.text('Produkt', 15, yPos + 5);
+      doc.text('Flaschen', 80, yPos + 5);
+      doc.text('Sprays', 110, yPos + 5);
+      doc.text('Preis/Fl.', 140, yPos + 5);
+      doc.text('Gesamt', 170, yPos + 5);
+      
+      yPos += 9;
+      
+      doc.setFontSize(9);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(55, 65, 81);
+      
+      costs.costBreakdown.forEach((item, index) => {
+        if (yPos > 270) {
+          doc.addPage();
+          yPos = 20;
+        }
+        
+        // Alternating row colors
+        if (index % 2 === 0) {
+          doc.setFillColor(254, 252, 232);
+          doc.rect(10, yPos - 4, 190, 6, 'F');
+        }
+        
+        doc.text(item.product, 15, yPos);
+        doc.text(`${item.bottleCount}×`, 80, yPos);
+        doc.text(`${item.totalSprays}`, 110, yPos);
+        doc.text(`${item.pricePerBottle.toFixed(2)} €`, 140, yPos);
+        doc.setFont(undefined, 'bold');
+        doc.text(`${item.totalCost.toFixed(2)} €`, 170, yPos);
+        doc.setFont(undefined, 'normal');
+        
+        yPos += 6;
+      });
+      
+      // Gesamtsumme
+      yPos += 2;
+      doc.setDrawColor(234, 179, 8);
+      doc.line(10, yPos, 200, yPos);
+      yPos += 5;
+      
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'bold');
+      doc.setTextColor(113, 63, 18);
+      doc.text('GESAMTKOSTEN:', 15, yPos);
+      doc.setFontSize(14);
+      doc.text(`${costs.totalCost.toFixed(2)} €`, 170, yPos);
+      
+      yPos += 10;
+      
+      // Zusätzliche Infos
+      doc.setFontSize(10);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(55, 65, 81);
+      
+      doc.text(`Gesamtflaschen: ${costs.totalBottles}`, 15, yPos);
+      doc.text(`Gesamtsprays: ${costs.totalSprays}`, 15, yPos + 6);
+      doc.text(`Ø Kosten/Woche: ${(costs.totalCost / weeklyPlan.length).toFixed(2)} €`, 15, yPos + 12);
+      
+      yPos += 20;
+      
+      // Hinweis-Box
+      doc.setFillColor(254, 249, 195);
+      doc.roundedRect(10, yPos, 190, 20, 3, 3, 'F');
+      doc.setDrawColor(234, 179, 8);
+      doc.roundedRect(10, yPos, 190, 20, 3, 3, 'S');
+      
+      doc.setFontSize(10);
+      doc.setTextColor(113, 63, 18);
+      doc.setFont(undefined, 'normal');
+      doc.text('💡 Hinweis: Preise gelten für KANNASAN CBD Dosier-Sprays (10ml Flaschen, ca. 100 Hübe).', 15, yPos + 7);
+      doc.text('Produktwechsel erfolgen nur bei leerem Fläschchen oder zu hoher Dosierung.', 15, yPos + 13);
+    }
+    
+    // ============================================================
+    // SEITE 4 (oder 5): SICHERHEITSHINWEISE
     // ============================================================
     
     doc.addPage();
