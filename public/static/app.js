@@ -945,8 +945,16 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
 
     if (response.data.success) {
       console.log('🎉 Calling displayResults()');
-      displayResults(response.data, firstName, gender);
-      console.log('✅ displayResults() completed');
+      console.log('📦 Response data:', response.data);
+      
+      try {
+        displayResults(response.data, firstName, gender);
+        console.log('✅ displayResults() completed successfully');
+      } catch (displayError) {
+        console.error('❌ ERROR in displayResults():', displayError);
+        console.error('Stack trace:', displayError.stack);
+        alert('Fehler beim Anzeigen der Ergebnisse: ' + displayError.message);
+      }
     } else {
       throw new Error(response.data.error || 'Analyse fehlgeschlagen');
     }
