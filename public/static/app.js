@@ -68,11 +68,14 @@ function setupAutocomplete(input) {
                      med.name.substring(nameMatch + value.length);
       }
       
+      const riskColor = med.risk_level === 'high' || med.risk_level === 'very_high' ? 'bg-red-100' : 
+                         med.risk_level === 'medium' ? 'bg-yellow-100' : 'bg-green-100';
+      
       item.innerHTML = `
         <div class="font-semibold text-gray-800">${displayName}</div>
         ${med.generic_name ? `<div class="text-sm text-gray-600">${med.generic_name}</div>` : ''}
         <div class="text-xs text-gray-500 mt-1">
-          <span class="inline-block px-2 py-1 bg-${med.risk_level === 'high' || med.risk_level === 'very_high' ? 'red' : med.risk_level === 'medium' ? 'yellow' : 'green'}-100 rounded">
+          <span class="inline-block px-2 py-1 ${riskColor} rounded">
             ${med.category_name}
           </span>
         </div>
@@ -708,7 +711,7 @@ function displayResults(data, firstName = '', gender = '') {
                     </p>
                   ` : ''}
                   ${i.recommendation ? `
-                    <p class="text-${color}-700 text-sm bg-${color}-50 p-2 rounded">
+                    <p class="text-gray-700 text-sm bg-gray-50 p-2 rounded">
                       <i class="fas fa-lightbulb mr-2"></i>
                       <strong>Empfehlung:</strong> ${i.recommendation}
                     </p>
