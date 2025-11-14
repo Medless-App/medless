@@ -2394,57 +2394,57 @@ app.get('/', (c) => {
         
         <!-- Loading Animation -->
         <div id="loading" class="hidden" style="margin-top: 1.5rem;">
-          <div style="max-width: 550px; margin: 0 auto; padding: 1.5rem 1.25rem; background: white; border-radius: var(--radius-large); box-shadow: var(--shadow-soft); text-align: center; position: relative; overflow: hidden;">
+          <div style="max-width: 700px; margin: 0 auto; padding: 2.5rem 2rem; background: white; border-radius: var(--radius-large); box-shadow: var(--shadow-soft); text-align: center; position: relative; overflow: hidden;">
             
-            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--primary-dark-green);">
-              <i class="fas fa-sparkles" style="margin-right: 0.4rem;"></i>
+            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--primary-dark-green);">
+              <i class="fas fa-sparkles" style="margin-right: 0.5rem;"></i>
               KI analysiert Ihre Daten
             </h3>
-            <p style="color: var(--text-muted); margin-bottom: 1.2rem; font-size: 0.85rem;">
+            <p style="color: var(--text-muted); margin-bottom: 1.8rem; font-size: 1rem;">
               <span id="analysis-status">Analyse wird gestartet</span>
               <span id="status-dots" style="display: inline-block;">...</span>
             </p>
             
-            <!-- Circular Progress -->
-            <div style="position: relative; display: inline-block; margin-bottom: 1.2rem;">
-              <svg width="100" height="100" style="transform: rotate(-90deg);">
-                <circle cx="50" cy="50" r="42" fill="none" stroke="#e5e7eb" stroke-width="6"></circle>
-                <circle id="progress-circle" cx="50" cy="50" r="42" fill="none" stroke="var(--primary-green)" stroke-width="6" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" style="transition: stroke-dashoffset 0.3s ease;"></circle>
+            <!-- Circular Progress (GRÖSSER) -->
+            <div style="position: relative; display: inline-block; margin-bottom: 1.8rem;">
+              <svg width="160" height="160" style="transform: rotate(-90deg);">
+                <circle cx="80" cy="80" r="70" fill="none" stroke="#e5e7eb" stroke-width="8"></circle>
+                <circle id="progress-circle" cx="80" cy="80" r="70" fill="none" stroke="var(--primary-green)" stroke-width="8" stroke-linecap="round" stroke-dasharray="440" stroke-dashoffset="440" style="transition: stroke-dashoffset 0.3s ease;"></circle>
               </svg>
               
               <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <i id="center-icon" class="fas fa-brain" style="color: var(--primary-green); font-size: 1.6rem; margin-bottom: 0.2rem;"></i>
-                <div id="center-percentage" style="font-size: 1.1rem; font-weight: 700; color: var(--primary-green);">0%</div>
+                <i id="center-icon" class="fas fa-brain" style="color: var(--primary-green); font-size: 2.5rem; margin-bottom: 0.5rem;"></i>
+                <div id="center-percentage" style="font-size: 1.8rem; font-weight: 700; color: var(--primary-green);">0%</div>
               </div>
             </div>
             
-            <!-- Live Counter Stats -->
-            <div id="live-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem;">
-              <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid var(--border-light);">
-                <div style="font-size: 1.3rem; font-weight: 700; color: var(--primary-green);" id="counter-medications">0</div>
-                <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 0.1rem; line-height: 1.3;">Medikamente<br>analysiert</div>
+            <!-- Live Counter Stats (GRÖSSER) -->
+            <div id="live-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.8rem;">
+              <div style="background: white; padding: 1.2rem 0.8rem; border-radius: 12px; border: 2px solid var(--border-light);">
+                <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green);" id="counter-medications">0</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.4;">Medikamente<br>analysiert</div>
               </div>
-              <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid var(--border-light);">
-                <div style="font-size: 1.3rem; font-weight: 700; color: var(--primary-green);" id="counter-interactions">0</div>
-                <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 0.1rem; line-height: 1.3;">Wechsel-<br>wirkungen</div>
+              <div style="background: white; padding: 1.2rem 0.8rem; border-radius: 12px; border: 2px solid var(--border-light);">
+                <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green);" id="counter-interactions">0</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.4;">Wechsel-<br>wirkungen</div>
               </div>
-              <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid var(--border-light);">
-                <div style="font-size: 1.3rem; font-weight: 700; color: var(--primary-green);" id="counter-calculations">0</div>
-                <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 0.1rem; line-height: 1.3;">Berechnungen<br>durchgeführt</div>
+              <div style="background: white; padding: 1.2rem 0.8rem; border-radius: 12px; border: 2px solid var(--border-light);">
+                <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green);" id="counter-calculations">0</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.4;">Berechnungen<br>durchgeführt</div>
               </div>
             </div>
             
-            <!-- Plan Ready Message -->
-            <div id="plan-ready-message" style="display: none; margin-top: 1rem;">
-              <div style="background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green)); padding: 1.5rem; border-radius: var(--radius-medium); box-shadow: var(--shadow-medium); text-align: center;">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                  <i class="fas fa-file-medical" style="color: white; font-size: 2rem;"></i>
-                  <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: white;">Ihr Dosierplan ist fertig!</h3>
+            <!-- Plan Ready Message (GRÖSSER) -->
+            <div id="plan-ready-message" style="display: none; margin-top: 1.5rem;">
+              <div style="background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green)); padding: 2rem 1.5rem; border-radius: var(--radius-medium); box-shadow: var(--shadow-medium); text-align: center;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.8rem;">
+                  <i class="fas fa-file-medical" style="color: white; font-size: 3rem;"></i>
+                  <h3 style="margin: 0; font-size: 1.8rem; font-weight: 800; color: white;">Ihr Dosierplan ist fertig!</h3>
                 </div>
-                <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 0.85rem; font-weight: 500; margin-bottom: 1rem;">
+                <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 1.1rem; font-weight: 500; margin-bottom: 1.5rem;">
                   Ihre persönliche Medikamenten-Reduktionsstrategie wurde erfolgreich erstellt.
                 </p>
-                <button id="show-plan-button" class="btn-primary" style="background: white; color: var(--primary-green);">
+                <button id="show-plan-button" class="btn-primary" style="background: white; color: var(--primary-green); font-size: 1.1rem; padding: 1rem 2rem;">
                   <i class="fas fa-eye"></i>
                   Plan jetzt anzeigen
                 </button>

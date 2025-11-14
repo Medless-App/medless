@@ -865,11 +865,15 @@ function animateLoadingSteps() {
                 // 11. Button-Click Handler - WARTET auf User-Interaktion!
                 if (showPlanButton) {
                   showPlanButton.addEventListener('click', () => {
+                    console.log('🎯 User clicked "Plan anzeigen" button');
+                    
                     // Button Feedback
                     showPlanButton.style.transform = 'scale(0.95)';
                     showPlanButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Wird geladen...</span>';
                     
                     setTimeout(() => {
+                      console.log('🎬 Starting loading fade-out animation');
+                      
                       // Fade-out Animation
                       const loadingEl = document.getElementById('loading');
                       if (loadingEl) {
@@ -878,10 +882,9 @@ function animateLoadingSteps() {
                         loadingEl.style.transform = 'scale(0.98)';
                       }
                       
-                      // Resolve nach Fade-out
-                      setTimeout(() => {
-                        resolve();
-                      }, 800);
+                      // Resolve SOFORT (displayResults wird VOR Fade-out-Ende aufgerufen)
+                      console.log('✅ Resolving animation promise');
+                      resolve();
                     }, 300);
                   });
                 }
@@ -901,6 +904,8 @@ function animateLoadingSteps() {
 
 // Analyze medications with animated loading
 async function analyzeMedications(medications, durationWeeks, firstName = '', gender = '', email = '', age = null, weight = null, height = null, reductionGoal = 100) {
+  console.log('🚀 analyzeMedications started');
+  
   // Show loading and scroll to it
   const loadingEl = document.getElementById('loading');
   loadingEl.classList.remove('hidden');
@@ -912,10 +917,12 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
   }, 150);
 
   // Start animation
+  console.log('🎬 Starting animation promise');
   const animationPromise = animateLoadingSteps();
 
   try {
     // Make API call
+    console.log('📡 Making API call to /api/analyze');
     const apiPromise = axios.post('/api/analyze', {
       medications,
       durationWeeks,
@@ -930,24 +937,32 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
 
     // Wait for both animation and API call to complete
     // IMPORTANT: Animation MUST complete to 100% even if API is fast
+    console.log('⏳ Waiting for API and animation to complete...');
     const [response] = await Promise.all([apiPromise, animationPromise]);
 
+    console.log('✅ Both API and animation completed');
+    console.log('📊 API response success:', response.data.success);
 
     if (response.data.success) {
+      console.log('🎉 Calling displayResults()');
       displayResults(response.data, firstName, gender);
+      console.log('✅ displayResults() completed');
     } else {
       throw new Error(response.data.error || 'Analyse fehlgeschlagen');
     }
   } catch (error) {
-    console.error('Fehler bei der Analyse:', error);
+    console.error('❌ Fehler bei der Analyse:', error);
     alert('Fehler bei der Analyse: ' + (error.response?.data?.error || error.message));
   } finally {
+    console.log('🧹 Finally block: hiding loading element');
     document.getElementById('loading').classList.add('hidden');
   }
 }
 
 // Display results
 function displayResults(data, firstName = '', gender = '') {
+  console.log('📺 displayResults() called');
+  console.log('📦 Data received:', data);
   
   const resultsDiv = document.getElementById('results');
   
@@ -955,6 +970,9 @@ function displayResults(data, firstName = '', gender = '') {
     console.error('❌ FEHLER: Results div nicht gefunden!');
     return;
   }
+  
+  console.log('✅ Results div found:', resultsDiv);
+  console.log('🎨 Current resultsDiv classes:', resultsDiv.className);
   
   const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization, costs } = data;
   
@@ -1343,10 +1361,16 @@ function displayResults(data, firstName = '', gender = '') {
   `;
 
   resultsDiv.innerHTML = html;
+  console.log('📝 Results HTML set (length:', html.length, 'chars)');
+  
   resultsDiv.classList.remove('hidden');
+  console.log('👁️ Removed "hidden" class from results');
+  console.log('🎨 Final resultsDiv classes:', resultsDiv.className);
+  console.log('📏 Results div dimensions:', resultsDiv.offsetWidth, 'x', resultsDiv.offsetHeight);
   
   // Scroll to results
   setTimeout(() => {
+    console.log('📜 Scrolling to results');
     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 100);
 
@@ -1362,6 +1386,7 @@ function displayResults(data, firstName = '', gender = '') {
     personalization
   };
   
+  console.log('✅ displayResults() function completed successfully');
 }
 
 // Download PDF function using jsPDF - Global Standards Applied

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+</head>
+<body>
+  <div id="loading" class="hidden">Loading...</div>
+  <div id="results" class="hidden">Results...</div>
+  
+  <script>
+    async function testFlow() {
+      console.log('1. Starting test flow...');
+      
+      const loadingEl = document.getElementById('loading');
+      const resultsEl = document.getElementById('results');
+      
+      console.log('2. Loading element:', loadingEl);
+      console.log('3. Results element:', resultsEl);
+      
+      loadingEl.classList.remove('hidden');
+      console.log('4. Showing loading...');
+      
+      try {
+        const response = await axios.post('http://localhost:3000/api/analyze', {
+          firstName: "Test",
+          gender: "male",
+          age: 45,
+          weight: 80,
+          height: 180,
+          durationWeeks: 8,
+          reductionGoal: 50,
+          medications: [{ name: "Gabapentin", mgPerDay: 1200 }]
+        });
+        
+        console.log('5. API response:', response.data.success);
+        
+        if (response.data.success) {
+          resultsEl.innerHTML = '<h1>PLAN FERTIG!</h1>';
+          resultsEl.classList.remove('hidden');
+          loadingEl.classList.add('hidden');
+          console.log('6. Results shown, loading hidden');
+        }
+      } catch (error) {
+        console.error('ERROR:', error);
+      }
+    }
+    
+    testFlow();
+  </script>
+</body>
+</html>
