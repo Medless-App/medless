@@ -676,7 +676,7 @@ function displayResults(data, firstName = '', gender = '') {
     `;
   }
 
-  // Personalization Summary
+  // Personalization Summary - ReduMed-AI
   if (personalization) {
     html += `
       <div class="bg-gradient-to-r from-teal-50 to-green-50 border-2 border-teal-300 p-6 mb-8 rounded-xl shadow-lg fade-in">
@@ -704,17 +704,17 @@ function displayResults(data, firstName = '', gender = '') {
                 </div>
               ` : ''}
               <div class="bg-white p-3 rounded-lg border border-teal-200">
-                <p class="text-xs text-gray-600 mb-1">Einschleichphase</p>
-                <p class="text-lg font-bold text-teal-900">${personalization.titrationDays} Tage</p>
+                <p class="text-xs text-gray-600 mb-1">CBD Start-Dosis</p>
+                <p class="text-lg font-bold text-green-700">${personalization.cbdStartMg.toFixed(1)} mg</p>
               </div>
               <div class="bg-white p-3 rounded-lg border border-teal-200">
-                <p class="text-xs text-gray-600 mb-1">Startdosis</p>
-                <p class="text-lg font-bold text-teal-900">${personalization.startDosageMg.toFixed(1)} mg</p>
+                <p class="text-xs text-gray-600 mb-1">CBD Ziel-Dosis</p>
+                <p class="text-lg font-bold text-green-700">${personalization.cbdEndMg.toFixed(1)} mg</p>
               </div>
-              ${personalization.firstDoseTime ? `
-                <div class="bg-white p-3 rounded-lg border border-teal-200">
-                  <p class="text-xs text-gray-600 mb-1">Erste Einnahme</p>
-                  <p class="text-sm font-bold text-teal-900">${personalization.firstDoseTime}</p>
+              ${personalization.hasBenzoOrOpioid ? `
+                <div class="bg-red-50 p-3 rounded-lg border-2 border-red-300">
+                  <p class="text-xs text-red-600 mb-1">Sicherheitsregel</p>
+                  <p class="text-sm font-bold text-red-700">Benzo/Opioid erkannt</p>
                 </div>
               ` : ''}
             </div>
@@ -855,84 +855,131 @@ function displayResults(data, firstName = '', gender = '') {
     </div>
   `;
 
-  // Daily Dosing Plan (grouped by weeks)
+  // ReduMed-AI: Multi-Medication Reduction Plan
   html += `
     <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in" id="dosage-plan-section">
       <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
         <i class="fas fa-calendar-check text-green-600 mr-3"></i>
-        Ihr persönlicher Cannabinoid-Reduktionsplan
+        📊 ReduMed-AI: Ihr Medikamenten-Reduktionsplan
       </h2>
       
-      <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-lg">
-        <p class="text-blue-800">
+      <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 p-4 mb-6 rounded-lg">
+        <p class="text-blue-900 font-bold mb-2">
           <i class="fas fa-info-circle mr-2"></i>
-          <strong>Dosierungsphilosophie:</strong> "Start low, go slow (niedrig beginnen, langsam steigern)" - Wir beginnen mit niedriger Dosis und steigern schrittweise
+          Ihr personalisierter Multi-Medikamenten-Reduktionsplan
         </p>
-        <p class="text-blue-700 text-sm mt-2">
-          <strong>💊 Ihr Produkt:</strong> ${product.name} • 
-          <strong>📊 Konzentration:</strong> ${product.concentration} • 
-          <strong>💧 Empfehlung:</strong> ${product.morningSprays}× morgens + ${product.eveningSprays}× abends = ${product.totalSpraysPerDay}× täglich
-        </p>
-        <p class="text-blue-700 text-sm mt-2">
-          <strong>⏰ Einnahme:</strong> Phase 1: Nur abends (Einschleichphase) → Phase 2: 2x täglich (Morgens ~40 % + Abends ~60 %)
-        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+          <div class="bg-white p-3 rounded-lg border border-blue-200">
+            <p class="text-xs text-gray-600 mb-1">Medikamente</p>
+            <p class="text-xl font-bold text-blue-900">${weeklyPlan[0].medications.length}</p>
+          </div>
+          <div class="bg-white p-3 rounded-lg border border-green-200">
+            <p class="text-xs text-gray-600 mb-1">CBD Start → Ende</p>
+            <p class="text-xl font-bold text-green-900">${weeklyPlan[0].cbdDose} → ${weeklyPlan[weeklyPlan.length - 1].cbdDose} mg</p>
+          </div>
+          <div class="bg-white p-3 rounded-lg border border-purple-200">
+            <p class="text-xs text-gray-600 mb-1">Plan-Dauer</p>
+            <p class="text-xl font-bold text-purple-900">${weeklyPlan.length} Wochen</p>
+          </div>
+        </div>
       </div>
   `;
 
-  // Group days by week
+  // Weekly plan with medication reduction + CBD increase
   weeklyPlan.forEach((week, weekIndex) => {
     html += `
-      <div class="mb-6">
-        <h3 class="text-2xl font-bold text-purple-900 mb-4 flex items-center">
-          <i class="fas fa-calendar-week text-purple-600 mr-3"></i>
-          Woche ${week.week}
-        </h3>
-        <div class="overflow-x-auto">
-          <table class="w-full border-collapse">
-            <thead class="bg-purple-100">
-              <tr>
-                <th class="px-3 py-3 text-left text-purple-900 font-semibold border border-purple-200">Tag</th>
-                <th class="px-3 py-3 text-center text-purple-900 font-semibold border border-purple-200">Morgens 🌅</th>
-                <th class="px-3 py-3 text-center text-purple-900 font-semibold border border-purple-200">Abends 🌙</th>
-                <th class="px-3 py-3 text-center text-purple-900 font-semibold border border-purple-200">Gesamt/Tag</th>
-                <th class="px-3 py-3 text-left text-purple-900 font-semibold border border-purple-200">Hinweise</th>
-              </tr>
-            </thead>
-            <tbody>
+      <div class="mb-8 border-2 border-purple-200 rounded-xl overflow-hidden">
+        <!-- Week Header -->
+        <div class="bg-gradient-to-r from-purple-600 to-blue-600 p-4">
+          <h3 class="text-2xl font-bold text-white flex items-center justify-between">
+            <span>
+              <i class="fas fa-calendar-week mr-2"></i>
+              Woche ${week.week}
+            </span>
+            <span class="text-sm font-normal">
+              Medikamentenlast: ${week.totalMedicationLoad} mg/Tag
+            </span>
+          </h3>
+        </div>
+        
+        <!-- Medications Table -->
+        <div class="bg-red-50 p-4">
+          <h4 class="font-bold text-red-900 mb-3 flex items-center">
+            <i class="fas fa-pills text-red-600 mr-2"></i>
+            💊 Medikamenten-Dosierung
+          </h4>
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse bg-white rounded-lg">
+              <thead class="bg-red-100">
+                <tr>
+                  <th class="px-4 py-3 text-left text-red-900 font-semibold border border-red-200">Medikament</th>
+                  <th class="px-4 py-3 text-center text-red-900 font-semibold border border-red-200">Start</th>
+                  <th class="px-4 py-3 text-center text-red-900 font-semibold border border-red-200">Aktuell</th>
+                  <th class="px-4 py-3 text-center text-red-900 font-semibold border border-red-200">Ziel</th>
+                  <th class="px-4 py-3 text-center text-red-900 font-semibold border border-red-200">Reduktion</th>
+                </tr>
+              </thead>
+              <tbody>
     `;
     
-    week.days.forEach((day, dayIndex) => {
-      const bgColor = dayIndex % 2 === 0 ? 'bg-gray-50' : 'bg-white';
-      
-      // Calculate sprays based on mg and product concentration
-      const morningSprays = day.morningDosageMg > 0 ? Math.ceil(day.morningDosageMg / product.cbdPerSpray) : 0;
-      const eveningSprays = day.eveningDosageMg > 0 ? Math.ceil(day.eveningDosageMg / product.cbdPerSpray) : 0;
-      const totalSprays = morningSprays + eveningSprays;
-      
-      const morningDisplay = morningSprays > 0 
-        ? `<span class="font-bold text-2xl text-green-700">${morningSprays}×</span><br><span class="text-xs text-gray-600">(${day.morningDosageMg.toFixed(1)} mg)</span>` 
-        : `<span class="text-gray-400">—</span>`;
-      const eveningDisplay = eveningSprays > 0 
-        ? `<span class="font-bold text-2xl text-blue-700">${eveningSprays}×</span><br><span class="text-xs text-gray-600">(${day.eveningDosageMg.toFixed(1)} mg)</span>` 
-        : `<span class="text-gray-400">—</span>`;
-      const totalDisplay = totalSprays > 0 
-        ? `<span class="font-bold text-2xl text-purple-700">${totalSprays}×</span><br><span class="text-xs text-gray-600">(${day.totalDailyMg.toFixed(1)} mg)</span>` 
-        : `<span class="text-gray-400">—</span>`;
-      
+    week.medications.forEach((med, medIndex) => {
+      const bgColor = medIndex % 2 === 0 ? 'bg-white' : 'bg-red-50';
       html += `
-        <tr class="${bgColor} hover:bg-purple-50 transition-colors">
-          <td class="px-3 py-3 font-semibold text-gray-800 border border-gray-200">Tag ${day.day}</td>
-          <td class="px-3 py-3 text-center border border-gray-200">${morningDisplay}</td>
-          <td class="px-3 py-3 text-center border border-gray-200">${eveningDisplay}</td>
-          <td class="px-3 py-3 text-center border border-gray-200">${totalDisplay}</td>
-          <td class="px-3 py-3 text-sm text-gray-700 border border-gray-200">${day.notes || '—'}</td>
+        <tr class="${bgColor} hover:bg-red-100 transition-colors">
+          <td class="px-4 py-3 font-semibold text-gray-800 border border-gray-200">${med.name}</td>
+          <td class="px-4 py-3 text-center border border-gray-200">
+            <span class="font-bold text-gray-700">${med.startMg} mg</span>
+          </td>
+          <td class="px-4 py-3 text-center border border-gray-200">
+            <span class="font-bold text-lg text-red-700">${med.currentMg} mg</span>
+            <br>
+            <span class="text-xs text-gray-600">(${med.reductionPercent}% reduziert)</span>
+          </td>
+          <td class="px-4 py-3 text-center border border-gray-200">
+            <span class="font-bold text-green-700">${med.targetMg} mg</span>
+          </td>
+          <td class="px-4 py-3 text-center border border-gray-200">
+            <span class="font-bold text-orange-700">-${med.reduction} mg/Woche</span>
+          </td>
         </tr>
       `;
     });
     
     html += `
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- CBD Compensation -->
+        <div class="bg-green-50 p-4 border-t-2 border-green-200">
+          <h4 class="font-bold text-green-900 mb-3 flex items-center">
+            <i class="fas fa-leaf text-green-600 mr-2"></i>
+            🌿 CBD-Kompensation
+          </h4>
+          <div class="bg-white rounded-lg p-4 border-2 border-green-300">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="text-center">
+                <p class="text-xs text-gray-600 mb-1">CBD-Dosis</p>
+                <p class="text-2xl font-bold text-green-700">${week.cbdDose} mg</p>
+              </div>
+              <div class="text-center">
+                <p class="text-xs text-gray-600 mb-1">Produkt</p>
+                <p class="text-lg font-bold text-purple-700">${week.kannasanProduct.name}</p>
+              </div>
+              <div class="text-center">
+                <p class="text-xs text-gray-600 mb-1">Morgens 🌅</p>
+                <p class="text-2xl font-bold text-orange-600">${week.morningSprays}×</p>
+              </div>
+              <div class="text-center">
+                <p class="text-xs text-gray-600 mb-1">Abends 🌙</p>
+                <p class="text-2xl font-bold text-blue-600">${week.eveningSprays}×</p>
+              </div>
+            </div>
+            <p class="text-center text-sm text-gray-600 mt-3">
+              <strong>Gesamt:</strong> ${week.totalSprays} Sprühstöße täglich = ${week.actualCbdMg} mg CBD
+            </p>
+          </div>
         </div>
       </div>
     `;
@@ -942,29 +989,28 @@ function displayResults(data, firstName = '', gender = '') {
       <div class="mt-6 bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
         <h3 class="font-bold text-green-800 mb-3 text-lg">
           <i class="fas fa-clipboard-check mr-2"></i>
-          💡 Wichtige Hinweise zur Einnahme von ${product.name}:
+          💡 Wichtige Hinweise zur Medikamenten-Reduktion:
         </h3>
         <ul class="text-green-700 space-y-2 ml-6 list-disc">
-          <li><strong>👄 Anwendung:</strong> Sprühstoß direkt in den Mund oder unter die Zunge. Produkt vor Gebrauch gut schütteln!</li>
-          <li><strong>⏰ Phase 1 (Einschleichphase):</strong> Nur abends einnehmen - zur Verträglichkeitsprüfung</li>
-          <li><strong>⏰ Phase 2 (Erhaltung):</strong> ${product.morningSprays}× morgens, ${product.eveningSprays}× abends (Gesamt: ${product.totalSpraysPerDay}× täglich)</li>
-          <li><strong>🍽️ Timing:</strong> Am besten zu den Mahlzeiten (Frühstück & Abendessen) für bessere Aufnahme</li>
-          <li><strong>💧 Hydration:</strong> Ausreichend Wasser trinken (2-3 Liter täglich)</li>
-          <li><strong>📝 Tagebuch:</strong> Führen Sie ein Symptom-Tagebuch über Wirkungen und Nebenwirkungen</li>
-          <li><strong>⚠️ Bei Nebenwirkungen:</strong> Dosis reduzieren oder pausieren - dann Arzt konsultieren</li>
-          <li><strong>👨‍⚕️ Ärztliche Begleitung:</strong> Nehmen Sie diesen Plan zu Ihrem Arztgespräch mit!</li>
-          <li><strong>💊 Lagerung:</strong> Kühl und trocken lagern, vor direktem Sonnenlicht schützen</li>
+          <li><strong>👨‍⚕️ Ärztliche Begleitung:</strong> Reduzieren Sie Medikamente NUR unter ärztlicher Aufsicht!</li>
+          <li><strong>📊 Wöchentliche Kontrolle:</strong> Besprechen Sie den Fortschritt wöchentlich mit Ihrem Arzt</li>
+          <li><strong>🌿 CBD-Einnahme:</strong> ${product.morningSprays}× morgens + ${product.eveningSprays}× abends (Produkt wechselt wöchentlich)</li>
+          <li><strong>👄 Anwendung:</strong> Sprühstoß direkt in den Mund oder unter die Zunge, vor Gebrauch gut schütteln</li>
+          <li><strong>⚠️ Bei Problemen:</strong> Sofort Arzt kontaktieren - nicht eigenständig weitermachen!</li>
+          <li><strong>📝 Symptom-Tagebuch:</strong> Dokumentieren Sie täglich Ihre Befindlichkeit und Symptome</li>
+          <li><strong>💧 Hydration:</strong> Mindestens 2-3 Liter Wasser täglich trinken</li>
+          <li><strong>🛑 Absetzen:</strong> Niemals Medikamente abrupt absetzen - immer schrittweise!</li>
         </ul>
       </div>
 
       <div class="mt-8">
         <button onclick="downloadPDF()" class="w-full py-5 bg-gradient-to-r from-green-600 to-teal-600 text-white font-bold text-lg rounded-lg hover:from-green-700 hover:to-teal-700 transition-all shadow-lg transform hover:scale-105">
           <i class="fas fa-file-pdf mr-2"></i>
-          📄 Dosierungsplan als PDF herunterladen
+          📄 ReduMed-AI Plan als PDF herunterladen
         </button>
         <p class="text-center text-sm text-gray-500 mt-3">
           <i class="fas fa-info-circle mr-1"></i>
-          Die PDF können Sie anschließend selbst ausdrucken oder digital speichern
+          Bringen Sie diesen Plan zu Ihrem nächsten Arzttermin mit!
         </p>
       </div>
     </div>
