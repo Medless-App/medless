@@ -1974,7 +1974,7 @@ async function downloadPlanAsPDF(event) {
     
     // Erstelle Screenshot vom Results-Div
     const canvas = await window.html2canvas(resultsDiv, {
-      scale: 0.8,
+      scale: 0.6,
       useCORS: true,
       allowTaint: true,
       logging: false,
@@ -1989,35 +1989,58 @@ async function downloadPlanAsPDF(event) {
     }
     
     // Konvertiere zu Bild
-    const imgData = canvas.toDataURL('image/jpeg', 0.8);
+    const imgData = canvas.toDataURL('image/jpeg', 0.75);
     
     // Erstelle PDF
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pdfWidth = 210;
     const pdfHeight = 297;
+    const margin = 5;
     
     // Berechne Bildgröße für PDF
-    const imgWidth = pdfWidth;
-    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+    const imgWidth = pdfWidth - (margin * 2);
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
     
     console.log('PDF wird erstellt, Bildgröße:', imgWidth.toFixed(2) + 'mm x ' + imgHeight.toFixed(2) + 'mm');
     
-    // Füge Bild hinzu (gesamtes Bild auf mehrere Seiten verteilt)
-    let position = 0;
+    // Sicherheitscheck: Maximale Bildgröße begrenzen
+    const MAX_IMAGE_HEIGHT = 5000;
+    if (imgHeight > MAX_IMAGE_HEIGHT) {
+      throw new Error(`Plan ist zu lang für PDF-Erstellung (${imgHeight.toFixed(0)}mm). Bitte erstellen Sie einen kürzeren Plan.`);
+    }
+    
+    // NEUE METHODE: Seiten-basierte Aufteilung (robuster)
+    const contentHeight = pdfHeight - (margin * 2);
+    let pageCount = 1;
+    let yOffset = 0;
     
     // Erste Seite
-    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-    
-    let remainingHeight = imgHeight - pdfHeight;
-    let pageCount = 1;
-    
-    // Weitere Seiten falls nötig
-    while (remainingHeight > 0) {
-      position = -pdfHeight * pageCount;
-      pdf.addPage();
-      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-      remainingHeight -= pdfHeight;
-      pageCount++;
+    if (imgHeight <= contentHeight) {
+      // Passt auf eine Seite
+      pdf.addImage(imgData, 'JPEG', margin, margin, imgWidth, imgHeight);
+      console.log('Plan passt auf 1 Seite');
+    } else {
+      // Mehrere Seiten nötig
+      const totalPages = Math.ceil(imgHeight / contentHeight);
+      console.log('Plan benötigt', totalPages, 'Seiten');
+      
+      // Sicherheitscheck: Max 20 Seiten
+      if (totalPages > 20) {
+        throw new Error(`Plan ist zu lang (${totalPages} Seiten). Maximum: 20 Seiten. Bitte kürzen Sie den Plan.`);
+      }
+      
+      for (let page = 0; page < totalPages; page++) {
+        if (page > 0) {
+          pdf.addPage();
+        }
+        
+        // Berechne Ausschnitt für diese Seite
+        yOffset = -(page * contentHeight);
+        
+        // Füge Bild hinzu mit Offset
+        pdf.addImage(imgData, 'JPEG', margin, margin + yOffset, imgWidth, imgHeight);
+        pageCount++;
+      }
     }
     
     console.log('PDF erstellt mit', pageCount, 'Seite(n)');
