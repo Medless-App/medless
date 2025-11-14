@@ -342,6 +342,7 @@ app.post('/api/analyze', async (c) => {
         type: 'CBD Dosier-Spray',
         packaging: '10ml Flasche mit Pumpsprühaufsatz',
         concentration: `${kannasanSelection.product.cbdPerSpray} mg CBD pro Sprühstoß`,
+        cbdPerSpray: kannasanSelection.product.cbdPerSpray,
         twoSprays: `${kannasanSelection.product.twoSprays} mg CBD bei 2 Sprühstößen`,
         dosageUnit: 'Sprühstöße',
         totalSpraysPerDay: kannasanSelection.totalSprays,

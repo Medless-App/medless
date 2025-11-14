@@ -496,14 +496,9 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     // Wait for both animation and API call to complete
     const [response] = await Promise.all([apiPromise, animationPromise]);
 
-    console.log('✅ API Response received:', response.data.success);
-    console.log('📊 Analysis data:', response.data.analysis?.length, 'medications');
-    console.log('📅 Weekly plan:', response.data.weeklyPlan?.length, 'weeks');
 
     if (response.data.success) {
-      console.log('🎯 Calling displayResults()...');
       displayResults(response.data, firstName, gender);
-      console.log('✅ displayResults() completed');
     } else {
       throw new Error(response.data.error || 'Analyse fehlgeschlagen');
     }
@@ -517,11 +512,8 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
 
 // Display results
 function displayResults(data, firstName = '', gender = '') {
-  console.log('🎨 displayResults() START');
-  console.log('📦 Received data:', data);
   
   const resultsDiv = document.getElementById('results');
-  console.log('📍 Results div found:', !!resultsDiv);
   
   if (!resultsDiv) {
     console.error('❌ FEHLER: Results div nicht gefunden!');
@@ -529,7 +521,6 @@ function displayResults(data, firstName = '', gender = '') {
   }
   
   const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization } = data;
-  console.log('📊 Destructured data - analysis:', analysis?.length, 'weeklyPlan:', weeklyPlan?.length);
   
   let html = '';
 
@@ -792,9 +783,9 @@ function displayResults(data, firstName = '', gender = '') {
           <strong>Dosierungsphilosophie:</strong> "Start low, go slow (niedrig beginnen, langsam steigern)" - Wir beginnen mit niedriger Dosis und steigern schrittweise
         </p>
         <p class="text-blue-700 text-sm mt-2">
-          <strong>📊 Dosierungseinheit:</strong> Zentimeter (cm) auf der Spritze • 
-          <strong>💉 1 cm</strong> = 46,7 mg Cannabinoide • 
-          <strong>📏 1 Teilstrich</strong> = 1,5 cm = 70 mg Cannabinoide
+          <strong>💊 Ihr Produkt:</strong> ${product.name} • 
+          <strong>📊 Konzentration:</strong> ${product.concentration} • 
+          <strong>💧 Empfehlung:</strong> ${product.morningSprays}× morgens + ${product.eveningSprays}× abends = ${product.totalSpraysPerDay}× täglich
         </p>
         <p class="text-blue-700 text-sm mt-2">
           <strong>⏰ Einnahme:</strong> Phase 1: Nur abends (Einschleichphase) → Phase 2: 2x täglich (Morgens ~40 % + Abends ~60 %)
@@ -826,14 +817,20 @@ function displayResults(data, firstName = '', gender = '') {
     
     week.days.forEach((day, dayIndex) => {
       const bgColor = dayIndex % 2 === 0 ? 'bg-gray-50' : 'bg-white';
-      const morningDisplay = day.morningDosageCm > 0 
-        ? `<span class="font-bold text-lg text-green-700">${day.morningDosageCm} cm</span><br><span class="text-xs text-gray-600">(${day.morningDosageMg.toFixed(1)} mg)</span>` 
+      
+      // Calculate sprays based on mg and product concentration
+      const morningSprays = day.morningDosageMg > 0 ? Math.ceil(day.morningDosageMg / product.cbdPerSpray) : 0;
+      const eveningSprays = day.eveningDosageMg > 0 ? Math.ceil(day.eveningDosageMg / product.cbdPerSpray) : 0;
+      const totalSprays = morningSprays + eveningSprays;
+      
+      const morningDisplay = morningSprays > 0 
+        ? `<span class="font-bold text-2xl text-green-700">${morningSprays}×</span><br><span class="text-xs text-gray-600">(${day.morningDosageMg.toFixed(1)} mg)</span>` 
         : `<span class="text-gray-400">—</span>`;
-      const eveningDisplay = day.eveningDosageCm > 0 
-        ? `<span class="font-bold text-lg text-blue-700">${day.eveningDosageCm} cm</span><br><span class="text-xs text-gray-600">(${day.eveningDosageMg.toFixed(1)} mg)</span>` 
+      const eveningDisplay = eveningSprays > 0 
+        ? `<span class="font-bold text-2xl text-blue-700">${eveningSprays}×</span><br><span class="text-xs text-gray-600">(${day.eveningDosageMg.toFixed(1)} mg)</span>` 
         : `<span class="text-gray-400">—</span>`;
-      const totalDisplay = day.totalDailyCm > 0 
-        ? `<span class="font-bold text-xl text-purple-700">${day.totalDailyCm} cm</span><br><span class="text-xs text-gray-600">(${day.totalDailyMg.toFixed(1)} mg)</span>` 
+      const totalDisplay = totalSprays > 0 
+        ? `<span class="font-bold text-2xl text-purple-700">${totalSprays}×</span><br><span class="text-xs text-gray-600">(${day.totalDailyMg.toFixed(1)} mg)</span>` 
         : `<span class="text-gray-400">—</span>`;
       
       html += `
@@ -887,14 +884,11 @@ function displayResults(data, firstName = '', gender = '') {
     </div>
   `;
 
-  console.log('🖼️ Setting innerHTML... HTML length:', html.length);
   resultsDiv.innerHTML = html;
-  console.log('👁️ Making results visible...');
   resultsDiv.classList.remove('hidden');
   
   // Scroll to results
   setTimeout(() => {
-    console.log('📜 Scrolling to results...');
     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 100);
 
@@ -910,7 +904,6 @@ function displayResults(data, firstName = '', gender = '') {
     personalization
   };
   
-  console.log('✅ displayResults() COMPLETE');
 }
 
 // Download PDF function using jsPDF - Global Standards Applied
