@@ -1372,7 +1372,7 @@ app.get('/', (c) => {
                   </div>
                   <div>
                     <label for="duration-weeks" style="font-size: 1rem; font-weight: 600; color: #0b7b6c; margin: 0;">Plan-Dauer (Wochen) *</label>
-                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie lange möchten Sie Ihr ECS aktivieren?</p>
+                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie lange soll Ihr Reduktionsplan dauern?</p>
                   </div>
                 </div>
                 <select id="duration-weeks" name="duration_weeks" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #14b8a6; border-radius: 8px; background: white;">
@@ -1385,7 +1385,7 @@ app.get('/', (c) => {
                 </select>
                 <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #059669;">
                   <i class="fas fa-info-circle" style="color: #059669; margin-right: 0.5rem;"></i>
-                  <span style="font-size: 0.85rem; color: #374151;">Empfohlen: 8–12 Wochen für nachhaltige ECS-Aktivierung</span>
+                  <span style="font-size: 0.85rem; color: #374151;">Empfohlen: 8–12 Wochen für eine sanfte und stabile Reduktion.</span>
                 </div>
               </div>
             </div>
@@ -1416,7 +1416,7 @@ app.get('/', (c) => {
                 </select>
                 <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #f59e0b;">
                   <i class="fas fa-lightbulb" style="color: #f59e0b; margin-right: 0.5rem;"></i>
-                  <span style="font-size: 0.85rem; color: #374151;">Starten Sie moderat mit 30-50% und steigern Sie bei Erfolg</span>
+                  <span style="font-size: 0.85rem; color: #374151;">Tipp: Beginnen Sie mit 30–50 % für einen sicheren und gut verträglichen Start.</span>
                 </div>
               </div>
             </div>
