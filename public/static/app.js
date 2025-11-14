@@ -180,7 +180,7 @@ function createMedicationInput() {
       <!-- Medication Name with Autocomplete -->
       <div style="position: relative;">
         <label style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-          Medikamentenname *
+          Medikamentenname
         </label>
         <input type="text" 
                name="medication_display[]" 
@@ -192,11 +192,10 @@ function createMedicationInput() {
       </div>
       
 
-      <!-- mg/Tag - PRIMARY INPUT -->
+      <!-- mg/Tag - PRIMARY INPUT (gleiche Farbe wie Medikamentenname) -->
       <div>
-        <label style="display: block; font-weight: 600; color: #dc2626; margin-bottom: 0.5rem;">
-          Tagesdosis in mg *
-          <i class="fas fa-star" style="font-size: 0.7rem; color: #dc2626;"></i>
+        <label style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
+          Tagesdosis in mg
         </label>
         <input type="number" 
                name="medication_mg_per_day[]" 
@@ -204,10 +203,7 @@ function createMedicationInput() {
                min="0"
                step="0.1"
                required
-               style="width: 100%; padding: 0.75rem; border: 2px solid #dc2626; border-radius: 8px; font-size: 0.95rem; font-weight: 600;">
-        <p style="font-size: 0.8rem; color: #dc2626; margin-top: 0.25rem; font-weight: 500;">
-          <i class="fas fa-exclamation-triangle"></i> Wichtig: Gesamtmenge pro Tag in mg
-        </p>
+               style="width: 100%; padding: 0.75rem; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem;">
       </div>
     </div>
   `;
