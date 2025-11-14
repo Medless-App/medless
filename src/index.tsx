@@ -2039,6 +2039,28 @@ app.get('/', (c) => {
         </details>
 
       </div>
+      
+      <!-- Nach oben Button -->
+      <div style="text-align: center; margin-top: 2rem; padding: 1.5rem;">
+        <button id="scroll-to-top-btn" style="
+          padding: 0.75rem 2rem;
+          background: linear-gradient(135deg, #0b7b6c, #14b8a6);
+          color: white;
+          font-weight: 600;
+          font-size: 0.95rem;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: all 0.3s;
+          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px -1px rgba(0,0,0,0.1)'">
+          <i class="fas fa-arrow-up"></i>
+          Zurück nach oben
+        </button>
+      </div>
     </section>
 
     <footer>
@@ -2328,6 +2350,19 @@ app.get('/', (c) => {
       
       // NOTE: Medication input fields are now managed by /static/app.js
       // All medication form logic (autocomplete, validation, dynamic fields) moved to frontend
+      
+      // ============================================================
+      // NACH OBEN BUTTON (FAQ)
+      // ============================================================
+      const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
+      if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+      }
     });
   </script>
   
