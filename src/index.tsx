@@ -188,13 +188,11 @@ function calculatePlanCosts(weeklyPlan: any[]) {
   };
 }
 
-// Enable CORS for API routes
+// Enable CORS
 app.use('/api/*', cors())
 
 // Serve static files
 app.use('/static/*', serveStatic({ root: './public' }))
-
-// API Routes
 
 // Get all medications
 app.get('/api/medications', async (c) => {
@@ -234,31 +232,12 @@ app.get('/api/medications/search/:query', async (c) => {
   }
 })
 
-// Get Cannabinoid interactions for specific medication
-app.get('/api/interactions/:medicationId', async (c) => {
-  const { env } = c;
-  const medicationId = c.req.param('medicationId');
-  
-  try {
-    const result = await env.DB.prepare(`
-      SELECT ci.*, m.name as medication_name, m.generic_name
-      FROM cbd_interactions ci
-      LEFT JOIN medications m ON ci.medication_id = m.id
-      WHERE ci.medication_id = ?
-    `).bind(medicationId).all();
-    
-    return c.json({ success: true, interactions: result.results });
-  } catch (error) {
-    return c.json({ success: false, error: 'Fehler beim Abrufen der Wechselwirkungen' }, 500);
-  }
-})
-
-// Analyze medications and generate CANNABINOID PASTE 70% DOSING PLAN
+// Analyze medications and generate CANNABINOID DOSING PLAN
 app.post('/api/analyze', async (c) => {
   const { env } = c;
   try {
     const body = await c.req.json();
-    const { medications, durationWeeks, reductionGoal = 100, email, firstName, gender, age, weight, height } = body;
+    const { medications, durationWeeks, reductionGoal = 50, email, firstName, gender, age, weight, height } = body;
     
     if (!medications || !Array.isArray(medications) || medications.length === 0) {
       return c.json({ success: false, error: 'Bitte geben Sie mindestens ein Medikament an' }, 400);
@@ -321,7 +300,6 @@ app.post('/api/analyze', async (c) => {
         analysisResults.push({
           medication: medResult,
           interactions: interactions.results,
-          dosage: med.dosage || 'Nicht angegeben',
           mgPerDay: med.mgPerDay
         });
         
@@ -335,7 +313,6 @@ app.post('/api/analyze', async (c) => {
         analysisResults.push({
           medication: { name: med.name, found: false },
           interactions: [],
-          dosage: med.dosage || 'Nicht angegeben',
           mgPerDay: med.mgPerDay,
           warning: 'Medikament nicht in Datenbank gefunden'
         });
@@ -471,6 +448,8 @@ app.post('/api/analyze', async (c) => {
         note: 'Produkt kann sich wöchentlich ändern basierend auf CBD-Dosis'
       },
       personalization: {
+        firstName,
+        gender,
         age,
         weight,
         height,
@@ -491,534 +470,859 @@ app.post('/api/analyze', async (c) => {
   }
 })
 
-// OCR endpoint for image upload using OpenAI Vision API
-app.post('/api/ocr', async (c) => {
-  const { env } = c;
-  
-  try {
-    const formData = await c.req.formData();
-    const imageFile = formData.get('image');
-    
-    if (!imageFile || !(imageFile instanceof File)) {
-      return c.json({ success: false, error: 'Kein Bild hochgeladen' }, 400);
-    }
-    
-    // Check if API key is configured
-    if (!env.OPENAI_API_KEY || env.OPENAI_API_KEY === 'your-openai-api-key-here') {
-      return c.json({ 
-        success: false, 
-        error: 'OpenAI API-Key nicht konfiguriert. Bitte tragen Sie Ihren API-Key in die .dev.vars Datei ein.' 
-      }, 500);
-    }
-    
-    // Convert image to base64
-    const arrayBuffer = await imageFile.arrayBuffer();
-    const uint8Array = new Uint8Array(arrayBuffer);
-    
-    let binary = '';
-    const chunkSize = 8192;
-    for (let i = 0; i < uint8Array.length; i += chunkSize) {
-      const chunk = uint8Array.subarray(i, i + chunkSize);
-      binary += String.fromCharCode.apply(null, Array.from(chunk));
-    }
-    const base64Image = btoa(binary);
-    
-    // Call OpenAI Vision API
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'text',
-                text: 'Bitte extrahiere alle Medikamentennamen und Dosierungen aus diesem Bild. Format: JSON Array mit {name: string, dosage: string}. Nur Medikamente zurückgeben, keine Erklärungen.'
-              },
-              {
-                type: 'image_url',
-                image_url: {
-                  url: `data:image/jpeg;base64,${base64Image}`
-                }
-              }
-            ]
-          }
-        ],
-        max_tokens: 1000
-      })
-    });
-    
-    if (!response.ok) {
-      throw new Error(`OpenAI API Error: ${response.statusText}`);
-    }
-    
-    const data: any = await response.json();
-    const content = data.choices[0].message.content;
-    
-    // Parse JSON from response
-    const jsonMatch = content.match(/\[[\s\S]*\]/);
-    if (jsonMatch) {
-      const medications = JSON.parse(jsonMatch[0]);
-      return c.json({ success: true, medications });
-    } else {
-      throw new Error('Keine Medikamente im Bild gefunden');
-    }
-    
-  } catch (error: any) {
-    console.error('OCR Error:', error);
-    return c.json({ success: false, error: error.message || 'Fehler beim Bildupload' }, 500);
-  }
-})
-
-
-// Main page
-
+// Main Route: Homepage
 app.get('/', (c) => {
   return c.html(`
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Medikamente strukturiert reduzieren</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ReDuMed – reduziere deine Medikamente</title>
   
-  <!-- TailwindCSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome -->
+  <!-- FontAwesome Icons -->
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
   
   <!-- jsPDF for PDF Generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   
   <!-- Axios for API calls -->
-  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+  
+  <!-- html2canvas for PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
+    /* ============================================================
+       DESIGN SYSTEM - ReDuMed
+       ============================================================ */
+    
     :root {
-      --primary: #0b7b6c;
-      --primary-dark: #075448;
-      --bg: #f5f7fa;
-      --text: #1f2933;
-      --accent: #f97316;
-      --danger: #b91c1c;
-      --radius-lg: 16px;
-      --radius-md: 10px;
-      --shadow-soft: 0 10px 25px rgba(15, 23, 42, 0.08);
+      /* Colors */
+      --primary-dark-green: #0C5C4C;
+      --primary-green: #0F7A67;
+      --accent-mint: #CFF1E7;
+      --accent-mint-light: #E8F8F4;
+      --background-ultra-light: #F7FAF9;
+      --background-white: #FFFFFF;
+      --text-primary: #1A1A1A;
+      --text-secondary: #4A5568;
+      --text-muted: #718096;
+      --border-light: #E2E8F0;
+      
+      /* Border Radius */
+      --radius-small: 8px;
+      --radius-medium: 16px;
+      --radius-large: 24px;
+      --radius-full: 9999px;
+      
+      /* Shadows */
+      --shadow-soft: 0 4px 6px -1px rgba(12, 92, 76, 0.1);
+      --shadow-medium: 0 10px 15px -3px rgba(12, 92, 76, 0.1);
+      --shadow-large: 0 20px 25px -5px rgba(12, 92, 76, 0.1);
+      
+      /* Typography */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-
+    
+    /* ============================================================
+       GLOBAL STYLES
+       ============================================================ */
+    
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
-
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
     body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.5;
+      font-family: var(--font-family);
+      color: var(--text-primary);
+      background: var(--background-white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-
-    a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    main {
-      max-width: 960px;
+    
+    .container {
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 1.2rem 1.2rem 2.5rem;
+      padding: 0 2rem;
     }
-
-    /* HERO */
+    
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    
     .hero {
-      margin-top: 1.2rem;
-      padding: 1.5rem 1.3rem;
-      border-radius: 24px;
-      background: radial-gradient(circle at top left, #e0fdf7, #f5f7fa);
-      box-shadow: var(--shadow-soft);
+      background: linear-gradient(180deg, var(--background-ultra-light) 0%, var(--background-white) 100%);
+      padding: 80px 0;
+      overflow: hidden;
     }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.2rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(11, 123, 108, 0.12);
-      color: var(--primary-dark);
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.6rem;
-    }
-
-    .hero h1 {
-      margin: 0 0 0.6rem;
-      font-size: 1.6rem;
-      line-height: 1.2;
-    }
-
-    .hero-sub {
-      margin: 0 0 1rem;
-      font-size: 0.98rem;
-      color: #4b5563;
-    }
-
+    
     .hero-grid {
       display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    
+    .hero-headline {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--primary-dark-green);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero-subheadline {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+    
+    .hero-description {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    
+    .hero-features {
+      list-style: none;
+      display: grid;
       gap: 1rem;
-      margin-top: 1rem;
+      margin-bottom: 2.5rem;
     }
-
-    .hero-list {
-      margin: 0;
-      padding-left: 1.1rem;
-      font-size: 0.9rem;
-      color: #374151;
-    }
-
-    .hero-list li + li {
-      margin-top: 0.2rem;
-    }
-
-    .hero-cta-row {
+    
+    .hero-features li {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.7rem;
       align-items: center;
-      margin-top: 1rem;
-    }
-
-    .btn-primary {
-      border: none;
-      cursor: pointer;
-      padding: 0.7rem 1.2rem;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.95rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      box-shadow: 0 10px 20px rgba(11, 123, 108, 0.35);
-      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.1s ease;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(11, 123, 108, 0.45);
-    }
-
-    .btn-ghost {
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      padding: 0.6rem 1rem;
-      background: rgba(255, 255, 255, 0.7);
-      font-size: 0.85rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .note {
-      font-size: 0.78rem;
-      color: #6b7280;
-    }
-
-    /* GENERIC SECTIONS */
-    section {
-      margin-top: 2rem;
-    }
-
-    section h2 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    section p {
-      margin: 0.3rem 0;
-    }
-
-    .muted {
-      color: #6b7280;
-      font-size: 0.9rem;
-    }
-
-    .grid-3 {
-      display: grid;
-      gap: 0.9rem;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: var(--radius-lg);
-      padding: 1rem;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 0.25rem;
+      gap: 0.75rem;
       font-size: 1rem;
+      color: var(--text-secondary);
     }
-
-    .tag-small {
-      display: inline-block;
-      padding: 0.15rem 0.55rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.05);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.3rem;
-    }
-
-    /* STEP STRIP */
-    .steps {
-      display: grid;
-      gap: 0.8rem;
-      margin-top: 0.7rem;
-    }
-
-    .step {
-      display: flex;
-      gap: 0.7rem;
-      align-items: flex-start;
-    }
-
-    .step-number {
+    
+    .checkmark-icon {
       width: 24px;
       height: 24px;
-      border-radius: 999px;
-      background: rgba(11, 123, 108, 0.1);
-      color: var(--primary-dark);
-      font-size: 0.8rem;
+      min-width: 24px;
+      color: var(--primary-green);
+    }
+    
+    .cta-button-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      color: white;
+      font-size: 1.125rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(12, 92, 76, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .cta-button-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(12, 92, 76, 0.4);
+    }
+    
+    .arrow-icon {
+      width: 20px;
+      height: 20px;
+    }
+    
+    /* Hero Illustration */
+    .hero-illustration {
+      position: relative;
+      height: 600px;
+    }
+    
+    .body-silhouette-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 600;
-      flex-shrink: 0;
     }
-
-    .step-title {
-      font-weight: 600;
-      font-size: 0.95rem;
+    
+    .body-silhouette {
+      width: 400px;
+      height: 600px;
     }
-
-    .step-text {
-      font-size: 0.9rem;
-      color: #4b5563;
+    
+    .ecs-hotspot {
+      fill: var(--primary-green);
+      filter: drop-shadow(0 0 8px rgba(207, 241, 231, 0.6));
+      animation: hotspot-pulse 2s ease-in-out infinite;
     }
-
-    /* TOOL / FORM */
-    .tool-wrapper {
-      margin-top: 1rem;
-      display: grid;
-      gap: 1rem;
+    
+    @keyframes hotspot-pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
     }
-
-    .form-card {
-      background: #fff;
-      border-radius: var(--radius-lg);
-      padding: 1rem;
-      box-shadow: var(--shadow-soft);
+    
+    .ecs-hotspot.brain { animation-delay: 0s; }
+    .ecs-hotspot.heart { animation-delay: 0.4s; }
+    .ecs-hotspot.gut { animation-delay: 0.8s; }
+    .ecs-hotspot.immune { animation-delay: 1.2s; }
+    
+    .molecule-decoration {
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle, var(--accent-mint), var(--accent-mint-light));
+      border-radius: 50%;
+      position: absolute;
+      animation: molecule-float 6s ease-in-out infinite;
+      opacity: 0.4;
     }
-
-    .form-card h3 {
-      margin-top: 0;
-      margin-bottom: 0.6rem;
+    
+    @keyframes molecule-float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+      }
     }
-
-    .badge-warning {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.25rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(185, 28, 28, 0.08);
-      color: var(--danger);
-      font-size: 0.78rem;
-      margin-bottom: 0.6rem;
+    
+    .molecule-1 { top: 10%; left: 10%; animation-delay: 0s; }
+    .molecule-2 { top: 60%; right: 15%; animation-delay: 2s; }
+    .molecule-3 { bottom: 20%; left: 20%; animation-delay: 4s; }
+    
+    /* ============================================================
+       SECTION STYLES (General)
+       ============================================================ */
+    
+    section {
+      padding: 100px 0;
     }
-
-    .form-row {
-      display: grid;
-      gap: 0.7rem;
-      margin-bottom: 0.8rem;
-    }
-
-    label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      display: block;
-      margin-bottom: 0.2rem;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="number"],
-    select {
-      width: 100%;
-      border-radius: var(--radius-md);
-      border: 1px solid #cbd5e1;
-      padding: 0.55rem 0.6rem;
-      font-size: 0.9rem;
-      outline: none;
-      background: #f9fafb;
-    }
-
-    input:focus,
-    select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 1px rgba(11, 123, 108, 0.3);
-      background: #fff;
-    }
-
-    .helper {
-      font-size: 0.78rem;
-      color: #6b7280;
-      margin-top: 0.1rem;
-    }
-
-    .inline-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-
-    .radio-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      border-radius: 999px;
-      border: 1px solid #cbd5e1;
-      padding: 0.25rem 0.7rem;
-      font-size: 0.8rem;
-      cursor: pointer;
-      background: #f9fafb;
-    }
-
-    .radio-pill input {
-      margin: 0;
-    }
-
-    .med-row {
-      display: grid;
-      gap: 0.4rem;
-      padding: 0.5rem;
-      border-radius: var(--radius-md);
-      background: #f9fafb;
-      border: 1px dashed #cbd5e1;
-    }
-
-    .btn-small {
-      border-radius: 999px;
-      border: 1px solid #cbd5e1;
-      padding: 0.3rem 0.7rem;
-      font-size: 0.78rem;
-      background: #fff;
-      cursor: pointer;
-    }
-
-    .btn-small:hover {
-      border-color: #94a3b8;
-    }
-
-    .tabs {
-      display: inline-flex;
-      padding: 0.25rem;
-      border-radius: 999px;
-      background: #e5e7eb;
-      margin-bottom: 0.8rem;
-    }
-
-    .tab-btn {
-      border: none;
-      background: transparent;
-      padding: 0.4rem 0.9rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      color: #4b5563;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .tab-btn.active {
-      background: #fff;
-      color: var(--primary-dark);
-      box-shadow: 0 2px 6px rgba(148, 163, 184, 0.6);
-    }
-
-    .tab-panel {
-      display: none;
-    }
-
-    .tab-panel.active {
-      display: block;
-    }
-
-    .upload-box {
-      border-radius: var(--radius-md);
-      border: 1px dashed #cbd5e1;
-      padding: 0.9rem;
+    
+    .section-headline {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-dark-green);
       text-align: center;
-      background: #f9fafb;
-      font-size: 0.85rem;
+      margin-bottom: 3rem;
+      line-height: 1.2;
     }
-
-    .upload-box input {
-      margin-top: 0.6rem;
+    
+    .section-description {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.7;
+      max-width: 700px;
+      margin: 0 auto 4rem;
     }
-
-    /* FAQ */
-    .faq {
-      display: grid;
-      gap: 0.7rem;
-      margin-top: 0.8rem;
+    
+    /* ============================================================
+       WHY REDUMED SECTION
+       ============================================================ */
+    
+    .why-redumed {
+      background: var(--background-ultra-light);
     }
-
-    details {
-      background: #fff;
-      border-radius: var(--radius-lg);
-      padding: 0.6rem 0.8rem;
+    
+    .explanation-card {
+      background: white;
+      border: 2px solid var(--accent-mint-light);
+      border-radius: var(--radius-large);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
       box-shadow: var(--shadow-soft);
     }
-
-    summary {
-      cursor: pointer;
-      list-style: none;
-      font-size: 0.9rem;
-      font-weight: 500;
+    
+    .card-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--accent-mint), var(--accent-mint-light));
+      border-radius: var(--radius-medium);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
     }
-
-    summary::-webkit-details-marker {
+    
+    .card-icon i {
+      font-size: 32px;
+      color: var(--primary-green);
+    }
+    
+    .explanation-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-dark-green);
+      margin-bottom: 1rem;
+    }
+    
+    .explanation-card p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    
+    .explanation-card p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .process-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .process-card {
+      background: white;
+      border-radius: var(--radius-large);
+      padding: 2rem;
+      box-shadow: var(--shadow-medium);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .process-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-large);
+    }
+    
+    .card-number {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 4rem;
+      font-weight: 800;
+      color: var(--accent-mint);
+      opacity: 0.3;
+      line-height: 1;
+    }
+    
+    .card-icon-circle {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+    
+    .card-icon-circle i {
+      font-size: 40px;
+      color: white;
+    }
+    
+    .process-card h4 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-dark-green);
+      text-align: center;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+    
+    .process-card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      text-align: center;
+    }
+    
+    /* ============================================================
+       HOW IT WORKS SECTION
+       ============================================================ */
+    
+    .how-it-works {
+      background: var(--background-white);
+    }
+    
+    .steps-container {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .step {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+    
+    .step:last-child {
+      margin-bottom: 0;
+    }
+    
+    .step-number-circle {
+      width: 64px;
+      height: 64px;
+      min-width: 64px;
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: white;
+      box-shadow: var(--shadow-medium);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .step-connector {
+      position: absolute;
+      left: 31px;
+      top: 64px;
+      width: 2px;
+      height: calc(100% - 64px + 4rem);
+      background: var(--accent-mint);
+      z-index: 1;
+    }
+    
+    .step:last-child .step-connector {
       display: none;
     }
-
-    details[open] summary {
-      color: var(--primary-dark);
+    
+    .step-content {
+      padding-top: 0.5rem;
     }
-
-    details p {
-      font-size: 0.85rem;
-      color: #4b5563;
-      margin-top: 0.4rem;
+    
+    .step-content h4 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-dark-green);
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
     }
-
-    /* Autocomplete Styles */
-    .medication-input-wrapper {
+    
+    .step-content p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    
+    /* ============================================================
+       SAFETY WARNING SECTION
+       ============================================================ */
+    
+    .safety-warning {
+      background: linear-gradient(135deg, #FFF5F5, #FFF9F9);
+      border-top: 4px solid #DC2626;
+      border-bottom: 4px solid #DC2626;
+    }
+    
+    .warning-box {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border: 3px solid #FCA5A5;
+      border-radius: var(--radius-large);
+      padding: 3rem;
+      box-shadow: 0 10px 30px rgba(220, 38, 38, 0.15);
+    }
+    
+    .warning-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .warning-icon-circle {
+      width: 80px;
+      height: 80px;
+      min-width: 80px;
+      background: linear-gradient(135deg, #DC2626, #EF4444);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+    }
+    
+    .warning-icon-circle i {
+      font-size: 40px;
+      color: white;
+    }
+    
+    .warning-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #DC2626;
+      line-height: 1.2;
+    }
+    
+    .warning-content {
+      font-size: 1.125rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+    
+    .warning-content p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .warning-content p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .warning-content strong {
+      font-weight: 700;
+      color: #DC2626;
+    }
+    
+    .warning-list {
+      list-style: none;
+      margin: 1.5rem 0;
+      padding-left: 0;
+    }
+    
+    .warning-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 1.125rem;
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    
+    .warning-list li i {
+      color: #DC2626;
+      font-size: 1.25rem;
+      margin-top: 0.25rem;
+      min-width: 20px;
+    }
+    
+    /* ============================================================
+       PLANNER SECTION
+       ============================================================ */
+    
+    .planner-section {
+      background: var(--background-ultra-light);
+    }
+    
+    /* Progress Bar Container */
+    .progress-bar-container {
+      max-width: 800px;
+      margin: 0 auto 4rem;
+      padding: 2rem;
+      background: white;
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       position: relative;
       margin-bottom: 1rem;
+    }
+    
+    .progress-line {
+      position: absolute;
+      top: 24px;
+      left: 48px;
+      right: 48px;
+      height: 4px;
+      background: var(--border-light);
+      z-index: 1;
+    }
+    
+    .progress-line-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-dark-green), var(--primary-green));
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+      position: relative;
+    }
+    
+    .progress-circle {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      border-radius: 50%;
+      background: white;
+      border: 4px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+    
+    .progress-circle.active {
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      border-color: var(--primary-green);
+      color: white;
+      box-shadow: 0 4px 12px rgba(12, 92, 76, 0.3);
+    }
+    
+    .progress-circle.completed {
+      background: var(--primary-green);
+      border-color: var(--primary-green);
+      color: white;
+    }
+    
+    .progress-label {
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 80px;
+    }
+    
+    .progress-label.active {
+      color: var(--primary-dark-green);
+      font-weight: 600;
+    }
+    
+    /* Form Steps */
+    .form-step {
+      display: none;
+    }
+    
+    .form-step.active {
+      display: block;
+      animation: fadeInSlide 0.4s ease;
+    }
+    
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .form-card {
+      background: white;
+      border: 2px solid var(--accent-mint-light);
+      border-radius: var(--radius-large);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .form-card h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--primary-dark-green);
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-card .subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+    
+    .form-row {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-row label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-row input[type="text"],
+    .form-row input[type="email"],
+    .form-row input[type="number"],
+    .form-row select,
+    .form-row textarea {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      font-size: 1rem;
+      font-family: var(--font-family);
+      color: var(--text-primary);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-small);
+      background: white;
+      transition: all 0.2s ease;
+    }
+    
+    .form-row input:focus,
+    .form-row select:focus,
+    .form-row textarea:focus {
+      outline: none;
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 3px rgba(15, 122, 103, 0.1);
+    }
+    
+    .form-row input::placeholder,
+    .form-row textarea::placeholder {
+      color: var(--text-muted);
+    }
+    
+    /* Radio Pills for Gender */
+    .radio-pills {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    
+    .radio-pill {
+      position: relative;
+    }
+    
+    .radio-pill input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .radio-pill label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: white;
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    
+    .radio-pill input:checked + label {
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      color: white;
+      border-color: var(--primary-green);
+      box-shadow: 0 4px 12px rgba(12, 92, 76, 0.2);
+    }
+    
+    .radio-pill label:hover {
+      border-color: var(--primary-green);
+      transform: translateY(-1px);
+    }
+    
+    /* Form Navigation Buttons */
+    .form-navigation {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+    
+    .btn-secondary {
+      padding: 0.875rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: white;
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-small);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-secondary:hover {
+      border-color: var(--primary-green);
+      color: var(--primary-green);
+    }
+    
+    .btn-primary {
+      padding: 0.875rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      border: none;
+      border-radius: var(--radius-small);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(12, 92, 76, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(12, 92, 76, 0.3);
+    }
+    
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    /* Medication Input Wrapper */
+    .medication-inputs-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .btn-add-medication {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--primary-green);
+      background: white;
+      border: 2px dashed var(--accent-mint);
+      border-radius: var(--radius-small);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-add-medication:hover {
+      background: var(--accent-mint-light);
+      border-color: var(--primary-green);
+    }
+    
+    /* Autocomplete Suggestions */
+    .form-row {
+      position: relative;
     }
     
     .autocomplete-suggestions {
@@ -1027,1349 +1331,1722 @@ app.get('/', (c) => {
       left: 0;
       right: 0;
       background: white;
-      border: 2px solid #e5e7eb;
+      border: 2px solid var(--accent-mint);
       border-top: none;
-      border-radius: 0 0 8px 8px;
-      max-height: 250px;
+      border-radius: 0 0 var(--radius-small) var(--radius-small);
+      max-height: 200px;
       overflow-y: auto;
-      display: none;
       z-index: 1000;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      margin-top: -1px;
+      box-shadow: var(--shadow-medium);
     }
     
-    .autocomplete-item {
-      padding: 0.75rem;
+    .autocomplete-suggestion {
+      padding: 0.75rem 1rem;
       cursor: pointer;
-      border-bottom: 1px solid #f3f4f6;
-      transition: background 0.2s;
+      transition: background 0.2s ease;
+      border-bottom: 1px solid var(--border-light);
     }
     
-    .autocomplete-item:hover {
-      background: #f9fafb;
-    }
-    
-    .autocomplete-item:last-child {
+    .autocomplete-suggestion:last-child {
       border-bottom: none;
     }
-
-    footer {
-      margin-top: 2.5rem;
-      font-size: 0.75rem;
-      color: #9ca3af;
-      text-align: center;
+    
+    .autocomplete-suggestion:hover {
+      background: var(--accent-mint-light);
     }
-
-    /* DESKTOP */
-    @media (min-width: 768px) {
-      main {
-        padding: 1.8rem 1.2rem 3rem;
+    
+    .autocomplete-suggestion strong {
+      color: var(--primary-dark-green);
+      font-weight: 600;
+    }
+    
+    .autocomplete-suggestion small {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+    
+    /* ============================================================
+       FAQ SECTION
+       ============================================================ */
+    
+    .faq-section {
+      background: var(--background-white);
+    }
+    
+    .faq-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .faq-item {
+      background: white;
+      border: 2px solid var(--accent-mint-light);
+      border-radius: var(--radius-medium);
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-item:hover {
+      border-color: var(--accent-mint);
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.5rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--primary-dark-green);
+      background: white;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+    
+    .faq-question:hover {
+      background: var(--accent-mint-light);
+    }
+    
+    .faq-question-text {
+      flex: 1;
+    }
+    
+    .faq-icon {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--accent-mint), var(--accent-mint-light));
+      border-radius: 50%;
+      color: var(--primary-green);
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      color: white;
+    }
+    
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+    
+    .faq-item.active .faq-answer {
+      max-height: 1000px;
+      padding: 0 1.5rem 1.5rem;
+    }
+    
+    .faq-answer-content {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    
+    .faq-answer-content p {
+      margin-bottom: 1rem;
+    }
+    
+    .faq-answer-content p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .faq-answer-content strong {
+      font-weight: 600;
+      color: var(--primary-dark-green);
+    }
+    
+    .faq-answer-content ul {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+    
+    .faq-answer-content li {
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Scroll to top button */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(12, 92, 76, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .scroll-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .scroll-to-top:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(12, 92, 76, 0.4);
+    }
+    
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    
+    footer {
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      color: white;
+      padding: 4rem 0 2rem;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    
+    .footer-branding h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    
+    .footer-branding .tagline {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.5rem;
+    }
+    
+    .footer-branding p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.7;
+    }
+    
+    .footer-section h4 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 1rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+    
+    .footer-disclaimer {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius-medium);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-disclaimer p {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+    
+    .footer-disclaimer p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .footer-disclaimer strong {
+      font-weight: 700;
+      color: white;
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .footer-copyright {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .footer-social a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    /* ============================================================
+       RESPONSIVE DESIGN
+       ============================================================ */
+    
+    @media (max-width: 768px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
       }
-
-      .hero {
-        padding: 1.8rem 2rem;
+      
+      .hero-headline {
+        font-size: 2.5rem;
       }
-
-      .hero h1 {
+      
+      .hero-subheadline {
+        font-size: 1.25rem;
+      }
+      
+      .hero-illustration {
+        height: 400px;
+      }
+      
+      .process-cards-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-headline {
         font-size: 2rem;
       }
-
-      .hero-grid {
-        grid-template-columns: 1.4fr 1.1fr;
+      
+      section {
+        padding: 60px 0;
+      }
+      
+      /* Steps Section Mobile */
+      .step {
+        grid-template-columns: 48px 1fr;
+        gap: 1rem;
+        margin-bottom: 3rem;
+      }
+      
+      .step-number-circle {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        font-size: 1.25rem;
+      }
+      
+      .step-connector {
+        left: 23px;
+        top: 48px;
+        height: calc(100% - 48px + 3rem);
+      }
+      
+      .step-content h4 {
+        font-size: 1.25rem;
+      }
+      
+      .step-content p {
+        font-size: 0.95rem;
+      }
+      
+      /* Safety Warning Mobile */
+      .warning-box {
+        padding: 2rem 1.5rem;
+      }
+      
+      .warning-header {
+        flex-direction: column;
         align-items: flex-start;
+        gap: 1rem;
       }
-
-      .grid-3 {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+      
+      .warning-icon-circle {
+        width: 64px;
+        height: 64px;
+        min-width: 64px;
       }
-
-      .tool-wrapper {
-        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-        align-items: flex-start;
+      
+      .warning-icon-circle i {
+        font-size: 32px;
+      }
+      
+      .warning-title {
+        font-size: 1.5rem;
+      }
+      
+      .warning-content {
+        font-size: 1rem;
+      }
+      
+      .warning-list li {
+        font-size: 1rem;
+      }
+      
+      /* Planner Form Mobile */
+      .progress-bar-container {
+        padding: 1.5rem 1rem;
+      }
+      
+      .progress-line {
+        left: 24px;
+        right: 24px;
+      }
+      
+      .progress-circle {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        font-size: 1rem;
+      }
+      
+      .progress-label {
+        font-size: 0.65rem;
+        max-width: 60px;
+      }
+      
+      .form-card {
+        padding: 1.5rem 1rem;
+      }
+      
+      .form-card h3 {
+        font-size: 1.5rem;
+      }
+      
+      .medication-input-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+      
+      .btn-remove-medication {
+        width: 100%;
+      }
+      
+      .autocomplete-suggestions {
+        max-height: 150px;
+      }
+      
+      .form-navigation {
+        flex-direction: column;
+      }
+      
+      .btn-secondary,
+      .btn-primary {
+        width: 100%;
+      }
+      
+      /* FAQ Mobile */
+      .faq-question {
+        padding: 1rem;
+        font-size: 1rem;
+      }
+      
+      .faq-icon {
+        width: 28px;
+        height: 28px;
+        min-width: 28px;
+        font-size: 0.875rem;
+      }
+      
+      .faq-item.active .faq-answer {
+        padding: 0 1rem 1rem;
+      }
+      
+      .faq-answer-content {
+        font-size: 0.95rem;
+      }
+      
+      .scroll-to-top {
+        bottom: 1rem;
+        right: 1rem;
+        width: 48px;
+        height: 48px;
+        font-size: 1rem;
+      }
+      
+      /* Footer Mobile */
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .footer-branding h3 {
+        font-size: 1.75rem;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
       }
     }
-  </style>
-  
-  <!-- TailwindCSS & FontAwesome für Loading-Animation -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
-  
-  <style>
-    /* Zusätzliche Tailwind-kompatible Styles */
-    .section-card {
-      background: white;
-      border-left: 4px solid #0b7b6c;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
-    }
-    .hidden { display: none !important; }
     
-    /* Remove number input spinner arrows (Chrome, Safari, Edge, Opera) */
-    input[type="number"].no-spinner-input::-webkit-outer-spin-button,
-    input[type="number"].no-spinner-input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-    
-    /* Remove number input spinner arrows (Firefox) */
-    input[type="number"].no-spinner-input {
-      -moz-appearance: textfield;
-      appearance: textfield;
-    }
-    .animate-ping {
-      animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-    }
-    .animate-pulse {
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    .animate-spin {
-      animation: spin 1s linear infinite;
-    }
-    .animate-bounce {
-      animation: bounce 1s infinite;
-    }
-    @keyframes ping {
-      75%, 100% {
-        transform: scale(2);
-        opacity: 0;
-      }
-    }
-    @keyframes pulse {
-      50% {
-        opacity: .5;
-      }
-    }
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(-25%);
-        animation-timing-function: cubic-bezier(0.8,0,1,1);
-      }
-      50% {
-        transform: none;
-        animation-timing-function: cubic-bezier(0,0,0.2,1);
-      }
-    }
-    @keyframes burst {
-      0% { 
-        transform: scale(0); 
-        opacity: 1; 
-      }
-      100% { 
-        transform: scale(3); 
-        opacity: 0; 
-      }
-    }
-    @keyframes float {
-      0%, 100% { 
-        transform: translateY(0px) translateX(0px); 
-        opacity: 0.3;
-      }
-      50% { 
-        transform: translateY(-20px) translateX(10px); 
-        opacity: 0.6;
-      }
-    }
-    @keyframes rotate-center {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.1); }
-      100% { transform: rotate(360deg) scale(1); }
-    }
-    @keyframes pulse-glow {
-      0%, 100% { 
-        filter: drop-shadow(0 0 8px rgba(11, 123, 108, 0.4));
-      }
-      50% { 
-        filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.8));
-      }
-    }
-    @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-    @keyframes burst-particle {
-      0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(calc(var(--tx, 0) * 1px), calc(var(--ty, 0) * 1px)) scale(0);
-        opacity: 0;
-      }
-    }
-    @keyframes gentle-pulse {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3);
-      }
-      50% {
-        transform: scale(1.02);
-        box-shadow: 0 12px 32px rgba(11, 123, 108, 0.4);
-      }
+    /* Hidden class */
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
 <body>
+  
   <main>
-    <!-- HERO -->
+    
+    <!-- ============================================================
+         1) HERO SECTION
+         ============================================================ -->
     <section class="hero">
-      <div class="hero-tag">Zu viele Medikamente?</div>
-      <div class="hero-grid">
-        <div>
-          <h1>Ihr Weg zu weniger Medikamenten – durch ein starkes Endocannabinoid-System</h1>
-          <p class="hero-sub">
-            Dieses Tool erstellt einen <strong>individualisierten Dosierungsplan mit Cannabinoiden</strong> –
-            als Grundlage für das Gespräch mit Ihrem Arzt.
-          </p>
-          <ul class="hero-list">
-            <li>berücksichtigt Alter, Gewicht, Größe & aktuelle Medikation</li>
-            <li>zeigt eine vorsichtige Einschleich- & Erhaltungsphase</li>
-            <li>einfach als PDF zum Arzttermin mitnehmen</li>
-          </ul>
-
-          <div class="hero-cta-row">
-            <a href="#tool" class="btn-primary">
-              Dosierungsplan erstellen
-              <span>➜</span>
-            </a>
-            <span class="note">Dauer: ca. 2–3 Minuten · kostenlos</span>
-          </div>
-        </div>
-
-        <div>
-          <div class="card">
-            <span class="tag-small">Kurz erklärt</span>
-            <h3>Warum das ECS so wichtig ist</h3>
-            <p class="muted">
-              Das Endocannabinoid-System (ECS) reguliert Schmerz, Schlaf, Stimmung, Entzündungen
-              und Immunsystem. Ist es geschwächt, greifen viele Menschen zu immer mehr Medikamenten.
+      <div class="container">
+        <div class="hero-grid">
+          
+          <!-- Left: Content -->
+          <div class="hero-content">
+            <h1 class="hero-headline">
+              ReDuMed – reduziere deine Medikamente.
+            </h1>
+            
+            <h2 class="hero-subheadline">
+              Weniger Medikamente – durch ein stärkeres Endocannabinoid-System 
+              und ein intelligentes Verständnis von Wechselwirkungen.
+            </h2>
+            
+            <p class="hero-description">
+              ReDuMed analysiert Körperdaten, Medikamente und Cannabinoid-Dosierungen, 
+              um einen strukturierten, sicheren und ärztlich besprechbaren 
+              Reduktionsplan zu erstellen.
             </p>
-            <p class="muted">
-              Exogene Cannabinoide wie CBD können das ECS unterstützen – unter ärztlicher Begleitung
-              kann dies ein Baustein zur <strong>langfristigen Medikamenten-Reduktion</strong> sein.
-            </p>
+            
+            <ul class="hero-features">
+              <li>
+                <i class="fas fa-check-circle checkmark-icon"></i>
+                <span>berücksichtigt Körpergewicht, Alter, Medikamente</span>
+              </li>
+              <li>
+                <i class="fas fa-check-circle checkmark-icon"></i>
+                <span>berechnet sichere Einschleich- & Erhaltungsphase</span>
+              </li>
+              <li>
+                <i class="fas fa-check-circle checkmark-icon"></i>
+                <span>nutzt pharmakologische Wechselwirkungen sinnvoll</span>
+              </li>
+              <li>
+                <i class="fas fa-check-circle checkmark-icon"></i>
+                <span>geeignet zur ärztlichen Besprechung als PDF</span>
+              </li>
+            </ul>
+            
+            <button class="cta-button-primary" onclick="document.getElementById('planner-section').scrollIntoView({behavior:'smooth'})">
+              <span>Dosierungsplan erstellen</span>
+              <i class="fas fa-arrow-right arrow-icon"></i>
+            </button>
           </div>
+          
+          <!-- Right: Illustration -->
+          <div class="hero-illustration">
+            <div class="body-silhouette-container">
+              <!-- Body Silhouette with ECS Hotspots -->
+              <svg viewBox="0 0 400 600" class="body-silhouette">
+                <!-- Body outline -->
+                <path d="M200,30 L200,30 C210,30 220,35 225,45 L230,60 L235,80 L240,100 L245,120 L250,160 L250,200 L245,240 L240,260 L235,280 L230,300 L225,330 L220,360 L215,400 L210,440 L205,480 L200,520 L200,560 L195,560 L195,520 L190,480 L185,440 L180,400 L175,360 L170,330 L165,300 L160,280 L155,260 L150,240 L150,200 L155,160 L160,120 L165,100 L170,80 L175,60 C180,35 190,30 200,30 Z" 
+                      fill="none" 
+                      stroke="#0C5C4C" 
+                      stroke-width="2"/>
+                
+                <!-- ECS Hotspots (animated) -->
+                <circle cx="200" cy="80" r="8" class="ecs-hotspot brain"/>
+                <circle cx="200" cy="180" r="8" class="ecs-hotspot heart"/>
+                <circle cx="200" cy="280" r="8" class="ecs-hotspot gut"/>
+                <circle cx="180" cy="350" r="6" class="ecs-hotspot immune"/>
+                <circle cx="220" cy="350" r="6" class="ecs-hotspot immune"/>
+              </svg>
+              
+              <!-- Floating molecules -->
+              <div class="molecule-decoration molecule-1"></div>
+              <div class="molecule-decoration molecule-2"></div>
+              <div class="molecule-decoration molecule-3"></div>
+            </div>
+          </div>
+          
         </div>
       </div>
     </section>
-
-    <!-- PROBLEM / LÖSUNG -->
-    <section>
-      <h2>Zu viele Tabletten – Sie sind nicht allein</h2>
-      <p class="muted">
-        Viele Menschen nehmen täglich mehrere Medikamente – oft über Jahre. Die Frage ist:
-        <em>Wie kann ich meine Abhängigkeit von Medikamenten verringern, ohne ein Risiko einzugehen?</em>
-      </p>
-
-      <div class="grid-3" style="margin-top: 0.8rem;">
-        <div class="card">
-          <h3>1 · Status Quo</h3>
-          <p class="muted">Schwaches ECS, viele Symptome – und immer mehr Medikamente gegen einzelne Beschwerden.</p>
-        </div>
-        <div class="card">
-          <h3>2 · ECS stärken</h3>
-          <p class="muted">CBD kann das ECS unterstützen und körpereigene Regulationsprozesse wieder anstoßen.</p>
-        </div>
-        <div class="card">
-          <h3>3 · Medikamente reduzieren</h3>
-          <p class="muted">
-            Unter ärztlicher Aufsicht können Dosierungen angepasst und Schritt für Schritt reduziert werden.
+    
+    <!-- ============================================================
+         2) WARUM ReDuMed SECTION
+         ============================================================ -->
+    <section class="why-redumed">
+      <div class="container">
+        
+        <h2 class="section-headline">
+          Warum ReDuMed? Weil Ihr Körper mehr kann, als Sie denken.
+        </h2>
+        
+        <!-- ECS Explanation -->
+        <div class="explanation-card ecs-card">
+          <div class="card-icon">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <h3>Das Endocannabinoid-System (ECS)</h3>
+          <p>
+            Das Endocannabinoid-System (ECS) ist ein körpereigenes Regulierungssystem 
+            für Schmerz, Schlaf, Immunsystem und Stressbalance. Ist es geschwächt, 
+            braucht der Körper oft mehr Medikamente.
           </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- WIE FUNKTIONIERT DAS TOOL -->
-    <section>
-      <h2>So funktioniert Ihr Dosierungsplan</h2>
-      <p class="muted">In drei einfachen Schritten zu einem strukturierten Plan, den Sie mit Ihrem Arzt besprechen können.</p>
-
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div>
-            <div class="step-title">Daten eingeben</div>
-            <div class="step-text">
-              Sie geben Alter, Gewicht, Größe, Ihre Medikamente und die gewünschte Dauer der ECS-Aktivierung ein –
-              wahlweise manuell oder per Foto Ihres Medikamentenplans.
-            </div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div>
-            <div class="step-title">Sichere Startdosis berechnen</div>
-            <div class="step-text">
-              Das System schlägt eine vorsichtige Einschleichdosis für CBD-Paste 70% vor und berücksichtigt dabei
-              kritische Medikamentengruppen (z.&nbsp;B. Blutverdünner).
-            </div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div>
-            <div class="step-title">Plan als PDF speichern</div>
-            <div class="step-text">
-              Sie erhalten einen übersichtlichen Tagesplan, den Sie ausdrucken oder per E-Mail an Ihren Arzt senden können.
-              Die Umsetzung erfolgt <strong>immer nur mit ärztlicher Begleitung</strong>.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SICHERHEIT -->
-    <section>
-      <h2>Sicherheit steht an erster Stelle</h2>
-      <div class="card">
-        <div class="badge-warning">Wichtiger Hinweis · Keine medizinische Beratung</div>
-        <p class="muted">
-          Dieses Tool ersetzt keine ärztliche Beratung und keine Diagnose.
-          Es dient ausschließlich als strukturierte <strong>Gesprächsgrundlage</strong> für Sie und Ihre behandelnden Ärzte.
-        </p>
-        <ul class="hero-list" style="margin-top: 0.5rem;">
-          <li>Ändern Sie Ihre Medikation niemals eigenständig.</li>
-          <li>Besprechen Sie jede Veränderung der Dosis mit Ihrem Arzt.</li>
-          <li>Bei Unsicherheit oder Nebenwirkungen immer ärztliche Hilfe suchen.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- FORMULAR MIT MULTISTEP -->
-    <section id="tool">
-      <h2>Erstellen Sie Ihren persönlichen CBD-Paste-Dosierungsplan</h2>
-      <p class="muted">
-        Folgen Sie den Schritten, um einen individuellen Dosierungsplan zu erhalten.
-      </p>
-
-      <!-- Progress Stepper - NEW STRUCTURED LAYOUT -->
-      <div style="margin-bottom: 2rem; margin-top: 1.5rem;">
-        <!-- Circles and Progress Bars Container -->
-        <div style="display: grid; grid-template-columns: 40px 1fr 40px 1fr 40px 1fr 40px 1fr 40px; align-items: center; max-width: 800px; margin: 0 auto 0.75rem; gap: 0;">
-          <!-- Step 1 Circle -->
-          <div id="step-indicator-1" style="width: 40px; height: 40px; border-radius: 50%; background: #0b7b6c; color: white; font-weight: 600; display: flex; align-items: center; justify-content: center;">1</div>
-          <!-- Progress Bar 1 -->
-          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-            <div id="progress-bar-1" style="height: 100%; background: #0b7b6c; width: 100%; transition: width 0.3s;"></div>
-          </div>
-          <!-- Step 2 Circle -->
-          <div id="step-indicator-2" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">2</div>
-          <!-- Progress Bar 2 -->
-          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-            <div id="progress-bar-2" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
-          </div>
-          <!-- Step 3 Circle -->
-          <div id="step-indicator-3" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">3</div>
-          <!-- Progress Bar 3 -->
-          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-            <div id="progress-bar-3" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
-          </div>
-          <!-- Step 4 Circle -->
-          <div id="step-indicator-4" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">4</div>
-          <!-- Progress Bar 4 -->
-          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-            <div id="progress-bar-4" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
-          </div>
-          <!-- Step 5 Circle -->
-          <div id="step-indicator-5" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">5</div>
         </div>
         
-        <!-- Labels Container - EXACTLY ALIGNED with circles above -->
-        <div style="display: grid; grid-template-columns: 40px 1fr 40px 1fr 40px 1fr 40px 1fr 40px; max-width: 800px; margin: 0 auto; gap: 0;">
-          <!-- Label 1 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Name</span>
-          <span></span>
-          <!-- Label 2 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Körperdaten</span>
-          <span></span>
-          <!-- Label 3 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Medikamente</span>
-          <span></span>
-          <!-- Label 4 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Plan</span>
-          <span></span>
-          <!-- Label 5 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Zusammenfassung</span>
+        <!-- CYP450 Explanation -->
+        <div class="explanation-card cyp-card">
+          <div class="card-icon">
+            <i class="fas fa-microscope"></i>
+          </div>
+          <h3>Pharmakologische Wechselwirkungen (CYP450)</h3>
+          <p>
+            Rund 60 % aller gängigen Medikamente werden über dieselben Leberenzyme 
+            abgebaut, an denen auch Cannabinoide wirken (CYP450-System).
+          </p>
+          <p>
+            Diese Wechselwirkung kann dazu führen, dass bestimmte Medikamente langsamer 
+            abgebaut werden und sich ihr Bedarf verringert – das passiert jedoch immer 
+            individuell und muss ärztlich begleitet werden.
+          </p>
         </div>
+        
+        <!-- Process Cards Grid -->
+        <div class="process-cards-grid">
+          
+          <div class="process-card card-1">
+            <div class="card-number">1</div>
+            <div class="card-icon-circle">
+              <i class="fas fa-pills"></i>
+            </div>
+            <h4>Hohe Medikamentenlast</h4>
+            <p>
+              Mehrere Medikamente täglich – Ihr Körper arbeitet auf Hochtouren, 
+              das ECS ist möglicherweise geschwächt.
+            </p>
+          </div>
+          
+          <div class="process-card card-2">
+            <div class="card-number">2</div>
+            <div class="card-icon-circle">
+              <i class="fas fa-atom"></i>
+            </div>
+            <h4>ECS stärken + Stoffwechsel modulieren</h4>
+            <p>
+              Cannabinoide unterstützen das ECS und beeinflussen den Medikamenten-Abbau 
+              über Leberenzyme (CYP450).
+            </p>
+          </div>
+          
+          <div class="process-card card-3">
+            <div class="card-number">3</div>
+            <div class="card-icon-circle">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h4>Potenzial zur Reduktion</h4>
+            <p>
+              Stabileres ECS + modulierter Stoffwechsel können den Medikamentenbedarf 
+              verringern – unter ärztlicher Kontrolle.
+            </p>
+          </div>
+          
+        </div>
+        
       </div>
-
-      <form id="medication-form">
-        <!-- STEP 1: Name & Gender -->
-        <div id="step-1" class="form-step">
-          <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 1: Persönliche Angaben</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Damit wir Sie persönlich ansprechen können.</p>
+    </section>
+    
+    <!-- ============================================================
+         3) SO FUNKTIONIERT ReDuMed SECTION
+         ============================================================ -->
+    <section class="how-it-works">
+      <div class="container">
+        
+        <h2 class="section-headline">
+          So funktioniert ReDuMed
+        </h2>
+        
+        <p class="section-description">
+          In nur 5 Schritten erstellen Sie Ihren individuellen, ärztlich besprechbaren 
+          Cannabinoid-Dosierungsplan – basierend auf Körperdaten, Medikamenten und 
+          pharmakologischen Wechselwirkungen.
+        </p>
+        
+        <div class="steps-container">
+          
+          <!-- Step 1 -->
+          <div class="step">
+            <div class="step-number-circle">1</div>
+            <div class="step-connector"></div>
+            <div class="step-content">
+              <h4>Daten eingeben</h4>
+              <p>
+                Geben Sie Ihr Gewicht, Alter, Medikamente und tägliche Beschwerden ein. 
+                Diese Informationen bilden die Grundlage für Ihre individuelle Berechnung.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Step 2 -->
+          <div class="step">
+            <div class="step-number-circle">2</div>
+            <div class="step-connector"></div>
+            <div class="step-content">
+              <h4>Cannabinoid-Dosierung hochrechnen</h4>
+              <p>
+                Basierend auf Ihrem Gewicht berechnet ReDuMed die Zieldosis nach 
+                evidenzbasierten Richtlinien (Studie: Blessing et al., 2015).
+              </p>
+            </div>
+          </div>
+          
+          <!-- Step 3 -->
+          <div class="step">
+            <div class="step-number-circle">3</div>
+            <div class="step-connector"></div>
+            <div class="step-content">
+              <h4>Wechselwirkungen einschätzen</h4>
+              <p>
+                Das System prüft, ob Ihre Medikamente über CYP450-Enzyme abgebaut werden 
+                und stuft das Interaktionspotenzial ein (Hemmung/Induktion).
+              </p>
+            </div>
+          </div>
+          
+          <!-- Step 4 -->
+          <div class="step">
+            <div class="step-number-circle">4</div>
+            <div class="step-connector"></div>
+            <div class="step-content">
+              <h4>Medikamenten-Reduktionsplan simulieren</h4>
+              <p>
+                Sie erhalten einen 8-Wochen-Einschleichplan plus Erhaltungsphase. 
+                Für jede Woche wird die Cannabinoid-Dosis und ein geschätztes 
+                Medikamenten-Reduktionsfenster angezeigt.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Step 5 -->
+          <div class="step">
+            <div class="step-number-circle">5</div>
+            <div class="step-content">
+              <h4>Plan als PDF speichern</h4>
+              <p>
+                Laden Sie Ihren vollständigen Plan als PDF herunter und besprechen Sie 
+                ihn mit Ihrem Arzt. Der Plan enthält alle Ihre Eingaben, Dosierungen, 
+                Wechselwirkungen und Sicherheitshinweise.
+              </p>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </section>
+    
+    <!-- ============================================================
+         4) SAFETY WARNING SECTION
+         ============================================================ -->
+    <section class="safety-warning">
+      <div class="container">
+        
+        <div class="warning-box">
+          
+          <div class="warning-header">
+            <div class="warning-icon-circle">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2 class="warning-title">
+              Wichtiger Sicherheitshinweis
+            </h2>
+          </div>
+          
+          <div class="warning-content">
             
-            <div class="form-row">
-              <div>
-                <label for="first-name">Ihr Vorname *</label>
+            <p>
+              <strong>ReDuMed ist kein Ersatz für eine ärztliche Beratung.</strong> 
+              Dieser Rechner erstellt einen theoretischen Dosierungsplan basierend auf 
+              Ihren Angaben und wissenschaftlichen Studien. Er berücksichtigt 
+              pharmakologische Wechselwirkungen, ersetzt jedoch keine individuelle 
+              medizinische Beurteilung.
+            </p>
+            
+            <ul class="warning-list">
+              <li>
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>
+                  <strong>Nie eigenständig Medikamente reduzieren:</strong> 
+                  Jede Änderung Ihrer Medikation muss mit Ihrem behandelnden Arzt 
+                  besprochen und überwacht werden.
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>
+                  <strong>Wechselwirkungen sind individuell:</strong> 
+                  Die tatsächliche Wirkung von Cannabinoiden auf Ihre Medikamente 
+                  hängt von vielen Faktoren ab (Genetik, Leberfunktion, weitere 
+                  Substanzen).
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>
+                  <strong>Keine Garantie für Reduktion:</strong> 
+                  ReDuMed zeigt ein <em>Potenzial</em> auf – ob und wie stark Sie 
+                  Medikamente reduzieren können, entscheidet Ihr Arzt anhand Ihrer 
+                  tatsächlichen Symptome und Blutwerte.
+                </span>
+              </li>
+            </ul>
+            
+            <p>
+              <strong>Verwenden Sie diesen Plan als Gesprächsgrundlage mit Ihrem Arzt.</strong> 
+              Laden Sie das PDF herunter, nehmen Sie es mit in die Sprechstunde und 
+              besprechen Sie gemeinsam, ob und wie ein Cannabinoid-Einsatz in Ihrem 
+              Fall sinnvoll sein könnte.
+            </p>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+    </section>
+    
+    <!-- ============================================================
+         5) PLANNER SECTION (Form with Progress Bar)
+         ============================================================ -->
+    <section id="planner-section" class="planner-section">
+      <div class="container">
+        
+        <h2 class="section-headline">
+          Ihren persönlichen Dosierungsplan erstellen
+        </h2>
+        
+        <p class="section-description">
+          Beantworten Sie einige Fragen zu Ihrer Person und Ihren Medikamenten, 
+          und erhalten Sie einen individuellen 8-Wochen-Plan mit Cannabinoid-Dosierungen 
+          und Medikamenten-Reduktionspotenzial.
+        </p>
+        
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+          <div class="progress-steps">
+            <div class="progress-line">
+              <div class="progress-line-fill" id="progress-fill" style="width: 20%;"></div>
+            </div>
+            
+            <div class="progress-step" data-step="1">
+              <div class="progress-circle active">1</div>
+              <span class="progress-label active">Basisdaten</span>
+            </div>
+            
+            <div class="progress-step" data-step="2">
+              <div class="progress-circle">2</div>
+              <span class="progress-label">Körperdaten</span>
+            </div>
+            
+            <div class="progress-step" data-step="3">
+              <div class="progress-circle">3</div>
+              <span class="progress-label">Medikamente</span>
+            </div>
+            
+            <div class="progress-step" data-step="4">
+              <div class="progress-circle">4</div>
+              <span class="progress-label">Planziel</span>
+            </div>
+            
+            <div class="progress-step" data-step="5">
+              <div class="progress-circle">5</div>
+              <span class="progress-label">Kontakt</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Form -->
+        <form id="medication-form">
+          
+          <!-- Step 1: Basisdaten -->
+          <div id="step-1" class="form-step active">
+            <div class="form-card">
+              <h3>Schritt 1: Basisdaten</h3>
+              <p class="subtitle">Wie möchten Sie angesprochen werden?</p>
+              
+              <div class="form-row">
+                <label for="first-name">Vorname</label>
                 <input type="text" id="first-name" name="first_name" placeholder="z.B. Maria" required />
               </div>
-            </div>
-
-            <div class="form-row">
-              <div>
-                <label>Geschlecht *</label>
-                <div class="inline-row">
-                  <label class="radio-pill">
-                    <input type="radio" name="gender" value="female" required />
-                    <span>Weiblich</span>
-                  </label>
-                  <label class="radio-pill">
-                    <input type="radio" name="gender" value="male" />
-                    <span>Männlich</span>
-                  </label>
-                  <label class="radio-pill">
-                    <input type="radio" name="gender" value="diverse" />
-                    <span>Divers</span>
-                  </label>
+              
+              <div class="form-row">
+                <label>Geschlecht</label>
+                <div class="radio-pills">
+                  <div class="radio-pill">
+                    <input type="radio" id="gender-female" name="gender" value="female" required />
+                    <label for="gender-female">
+                      <i class="fas fa-venus"></i>
+                      Weiblich
+                    </label>
+                  </div>
+                  <div class="radio-pill">
+                    <input type="radio" id="gender-male" name="gender" value="male" />
+                    <label for="gender-male">
+                      <i class="fas fa-mars"></i>
+                      Männlich
+                    </label>
+                  </div>
+                  <div class="radio-pill">
+                    <input type="radio" id="gender-diverse" name="gender" value="diverse" />
+                    <label for="gender-diverse">
+                      <i class="fas fa-transgender"></i>
+                      Divers
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div style="text-align: right; margin-top: 1.5rem;">
-              <button type="button" class="btn-primary next-step">
-                Weiter <span>→</span>
+            
+            <div class="form-navigation">
+              <button type="button" class="btn-secondary" disabled>Zurück</button>
+              <button type="button" class="btn-primary" onclick="nextStep(2)">
+                Weiter zu Körperdaten
+                <i class="fas fa-arrow-right"></i>
               </button>
             </div>
           </div>
-        </div>
-
-        <!-- STEP 2: Body Data -->
-        <div id="step-2" class="form-step" style="display: none;">
-          <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Diese Daten helfen uns, die Dosierung individuell zu berechnen.</p>
-            
-            <div class="form-row">
-              <div>
-                <label for="age">Alter (Jahre) *</label>
+          
+          <!-- Step 2: Körperdaten -->
+          <div id="step-2" class="form-step">
+            <div class="form-card">
+              <h3>Schritt 2: Körperdaten</h3>
+              <p class="subtitle">Ihre Körperdaten helfen uns, die optimale Cannabinoid-Dosis zu berechnen.</p>
+              
+              <div class="form-row">
+                <label for="age">Alter (Jahre)</label>
                 <input type="number" id="age" name="age" placeholder="z.B. 45" min="18" max="120" required />
-                <div class="helper">Für altersgerechte Dosierung</div>
-              </div>
-              <div>
-                <label for="weight">Gewicht (kg) *</label>
-                <input type="number" id="weight" name="weight" placeholder="z.B. 70" min="30" max="250" step="0.1" required />
-                <div class="helper">In Kilogramm</div>
-              </div>
-              <div>
-                <label for="height">Größe (cm) *</label>
-                <input type="number" id="height" name="height" placeholder="z.B. 170" min="120" max="230" required />
-                <div class="helper">In Zentimetern</div>
-              </div>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="btn-ghost prev-step">
-                ← Zurück
-              </button>
-              <button type="button" class="btn-primary next-step">
-                Weiter <span>→</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 3: Medications -->
-        <div id="step-3" class="form-step" style="display: none;">
-          <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikamente</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Geben Sie alle Medikamente ein, die Sie derzeit einnehmen.</p>
-            
-            <div id="medication-inputs" style="margin-bottom: 1rem;">
-              <!-- Wird durch JavaScript befüllt -->
-            </div>
-
-            <button type="button" id="add-medication" class="btn-small" style="margin-bottom: 1rem;">
-              + Weiteres Medikament hinzufügen
-            </button>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="btn-ghost prev-step">
-                ← Zurück
-              </button>
-              <button type="button" class="btn-primary next-step">
-                Weiter <span>→</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 4: Plan Settings -->
-        <div id="step-4" class="form-step" style="display: none;">
-          <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 4: Plan-Einstellungen</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Wählen Sie die Dauer und Ihr Reduktionsziel.</p>
-            
-            <div class="form-row" style="margin-bottom: 1.5rem;">
-              <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0b7b6c, #14b8a6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-calendar-alt" style="color: white; font-size: 1.1rem;"></i>
-                  </div>
-                  <div>
-                    <label for="duration-weeks" style="font-size: 1rem; font-weight: 600; color: #0b7b6c; margin: 0;">Plan-Dauer (Wochen) *</label>
-                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie lange soll Ihr Reduktionsplan dauern?</p>
-                  </div>
-                </div>
-                <select id="duration-weeks" name="duration_weeks" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #14b8a6; border-radius: 8px; background: white;">
-                  <option value="">-- Bitte wählen --</option>
-                  <option value="4">4 Wochen – Schneller Einstieg</option>
-                  <option value="6">6 Wochen – Zügig</option>
-                  <option value="8" selected>8 Wochen – Standard (empfohlen) ⭐</option>
-                  <option value="10">10 Wochen – Behutsam</option>
-                  <option value="12">12 Wochen – Sehr langsam</option>
-                </select>
-                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #059669;">
-                  <i class="fas fa-info-circle" style="color: #059669; margin-right: 0.5rem;"></i>
-                  <span style="font-size: 0.85rem; color: #374151;">Empfohlen: 8–12 Wochen für eine sanfte und stabile Reduktion.</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row" style="margin-bottom: 1.5rem;">
-              <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0b7b6c, #14b8a6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-chart-line" style="color: white; font-size: 1.1rem;"></i>
-                  </div>
-                  <div>
-                    <label for="reduction-goal" style="font-size: 1rem; font-weight: 600; color: #0b7b6c; margin: 0;">Reduktionsziel *</label>
-                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel möchten Sie reduzieren?</p>
-                  </div>
-                </div>
-                <select id="reduction-goal" name="reduction_goal" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #14b8a6; border-radius: 8px; background: white;">
-                  <option value="">-- Bitte wählen --</option>
-                  <option value="10">10% Reduktion</option>
-                  <option value="20">20% Reduktion</option>
-                  <option value="30">30% Reduktion</option>
-                  <option value="40">40% Reduktion</option>
-                  <option value="50" selected>50% Reduktion (empfohlen) ⭐</option>
-                  <option value="60">60% Reduktion</option>
-                  <option value="70">70% Reduktion</option>
-                  <option value="80">80% Reduktion</option>
-                  <option value="90">90% Reduktion</option>
-                  <option value="100">100% Reduktion (komplett absetzen)</option>
-                </select>
-                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #059669;">
-                  <i class="fas fa-lightbulb" style="color: #059669; margin-right: 0.5rem;"></i>
-                  <span style="font-size: 0.85rem; color: #374151;">Tipp: Beginnen Sie mit 30–50 % für einen sicheren und gut verträglichen Start.</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div style="background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #f59e0b; display: none;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #fbbf24); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-chart-line" style="color: white; font-size: 1.1rem;"></i>
-                  </div>
-                  <div>
-                    <label for="reduction-goal-hidden" style="font-size: 1rem; font-weight: 600; color: #b45309; margin: 0;">Reduktionsziel (%) *</label>
-                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel Prozent Ihrer Medikamente möchten Sie reduzieren?</p>
-                  </div>
-                </div>
-                <select id="reduction-goal-hidden" name="reduction_goal" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #f59e0b; border-radius: 8px; background: white;">
-                  <option value="">-- Bitte wählen --</option>
-                  <option value="10">10% – Minimale Reduktion</option>
-                  <option value="20">20% – Leichte Reduktion</option>
-                  <option value="30">30% – Moderate Reduktion</option>
-                  <option value="40">40% – Deutliche Reduktion</option>
-                  <option value="50" selected>50% – Halbierung (empfohlen) ⭐</option>
-                  <option value="60">60% – Starke Reduktion</option>
-                  <option value="70">70% – Sehr starke Reduktion</option>
-                  <option value="80">80% – Maximale Reduktion</option>
-                  <option value="90">90% – Fast vollständig</option>
-                  <option value="100">100% – Vollständiger Verzicht (nur nach ärztlicher Rücksprache!)</option>
-                </select>
-                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #f59e0b;">
-                  <i class="fas fa-exclamation-triangle" style="color: #f59e0b; margin-right: 0.5rem;"></i>
-                  <span style="font-size: 0.85rem; color: #374151;">Wichtig: Medikamentenreduktion nur in Absprache mit Ihrem Arzt!</span>
-                </div>
-              </div>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="btn-ghost prev-step">
-                ← Zurück
-              </button>
-              <button type="button" class="btn-primary next-step">
-                Weiter <span>→</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 5: Email & Summary -->
-        <div id="step-5" class="form-step" style="display: none;">
-          <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 5: E-Mail & Zusammenfassung</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Überprüfen Sie Ihre Angaben und geben Sie Ihre E-Mail ein.</p>
-            
-            <div class="form-row">
-              <div>
-                <label for="email">Ihre E-Mail-Adresse *</label>
-                <input type="email" id="email" name="email" placeholder="ihre.email@beispiel.de" required />
-                <div class="helper">Hierhin schicken wir den Download-Link zu Ihrem Dosierungsplan</div>
-              </div>
-            </div>
-
-            <div class="card" style="background: #f9fafb; margin-top: 1.5rem; padding: 1rem;">
-              <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 0.8rem;">Ihre Angaben im Überblick</h4>
-              <div style="font-size: 0.85rem;">
-                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
-                  <span class="muted">Name:</span>
-                  <span id="summary-name" style="font-weight: 500;">-</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
-                  <span class="muted">Geschlecht:</span>
-                  <span id="summary-gender" style="font-weight: 500;">-</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
-                  <span class="muted">Alter:</span>
-                  <span id="summary-age" style="font-weight: 500;">-</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
-                  <span class="muted">Gewicht:</span>
-                  <span id="summary-weight" style="font-weight: 500;">-</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
-                  <span class="muted">Größe:</span>
-                  <span id="summary-height" style="font-weight: 500;">-</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
-                  <span class="muted">Medikamente:</span>
-                  <span id="summary-medications" style="font-weight: 500;">-</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0;">
-                  <span class="muted">Plan-Dauer:</span>
-                  <span id="summary-duration" style="font-weight: 500;">-</span>
-                </div>
-              </div>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="btn-ghost prev-step">
-                ← Zurück
-              </button>
-              <button type="submit" class="btn-primary">
-                Dosierungsplan erstellen <span>✓</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <!-- Loading Animation -->
-      <div id="loading" class="hidden" style="margin-top: 1.5rem;">
-        <div class="card" style="max-width: 550px; margin: 0 auto; padding: 1.5rem 1.25rem; text-align: center; position: relative; overflow: hidden;">
-          
-          <!-- Particles Background Effect -->
-          <div id="particles-container" style="position: absolute; inset: 0; pointer-events: none; opacity: 0.2;"></div>
-          
-          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: #0b7b6c;">
-            <i class="fas fa-sparkles" style="margin-right: 0.4rem;"></i>
-            KI analysiert Ihre Daten
-          </h3>
-          <p style="color: #6b7280; margin-bottom: 1.2rem; font-size: 0.85rem;">
-            <span id="analysis-status">Analyse wird gestartet</span>
-            <span id="status-dots" style="display: inline-block;">...</span>
-          </p>
-          
-          <!-- Main Circular Progress Ring (NOCH KLEINER: 100px) -->
-          <div style="position: relative; display: inline-block; margin-bottom: 1.2rem;">
-            <!-- Outer Glow Rings -->
-            <div style="position: absolute; inset: 0; margin: -1.5rem; background: radial-gradient(circle, rgba(11, 123, 108, 0.1), transparent 70%); border-radius: 50%; opacity: 0.5;" class="animate-ping"></div>
-            <div style="position: absolute; inset: 0; margin: -1rem; background: radial-gradient(circle, rgba(11, 123, 108, 0.12), transparent 70%); border-radius: 50%; opacity: 0.4; animation-delay: 0.5s;" class="animate-ping"></div>
-            
-            <!-- SVG Circular Progress (NOCH KLEINER: 100px) -->
-            <svg width="100" height="100" style="transform: rotate(-90deg);">
-              <!-- Background Circle -->
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#e5e7eb" stroke-width="6"></circle>
-              <!-- Progress Circle -->
-              <circle id="progress-circle" cx="50" cy="50" r="42" fill="none" stroke="url(#gradient)" stroke-width="6" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" style="transition: stroke-dashoffset 0.3s ease, filter 0.3s ease;">
-              </circle>
-              <!-- Gradient Definition -->
-              <defs>
-                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#0b7b6c;stop-opacity:1" />
-                  <stop offset="50%" style="stop-color:#14b8a6;stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
-                </linearGradient>
-              </defs>
-            </svg>
-            
-            <!-- Center Content -->
-            <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-              <i id="center-icon" class="fas fa-brain" style="color: #0b7b6c; font-size: 1.6rem; margin-bottom: 0.2rem; transition: all 0.3s;"></i>
-              <div id="center-percentage" style="font-size: 1.1rem; font-weight: 700; color: #0b7b6c; transition: all 0.3s;">0%</div>
-              <div id="center-time" style="font-size: 0.6rem; color: #6b7280; margin-top: 0.1rem;">ca. 8 Sek.</div>
-            </div>
-            
-            <!-- Completion Burst (hidden initially) -->
-            <div id="completion-burst" style="position: absolute; inset: 0; display: none;">
-              <div style="position: absolute; inset: -15px; background: radial-gradient(circle, rgba(16, 185, 129, 0.4), transparent 70%); animation: burst 0.6s ease-out;"></div>
-            </div>
-          </div>
-          
-          <!-- Live Counter Stats (während Analyse) -->
-          <div id="live-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem;">
-            <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid #e5e7eb;">
-              <div style="font-size: 1.3rem; font-weight: 700; color: #0b7b6c;" id="counter-medications">0</div>
-              <div style="font-size: 0.65rem; color: #6b7280; margin-top: 0.1rem; line-height: 1.3;">Medikamente<br>analysiert</div>
-            </div>
-            <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid #e5e7eb;">
-              <div style="font-size: 1.3rem; font-weight: 700; color: #0b7b6c;" id="counter-interactions">0</div>
-              <div style="font-size: 0.65rem; color: #6b7280; margin-top: 0.1rem; line-height: 1.3;">Wechsel-<br>wirkungen</div>
-            </div>
-            <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid #e5e7eb;">
-              <div style="font-size: 1.3rem; font-weight: 700; color: #0b7b6c;" id="counter-calculations">0</div>
-              <div style="font-size: 0.65rem; color: #6b7280; margin-top: 0.1rem; line-height: 1.3;">Berechnungen<br>durchgeführt</div>
-            </div>
-          </div>
-          
-          <!-- Completion Stats (hidden initially, shown at 100%) -->
-          <div id="completion-stats" style="display: none; margin-bottom: 1rem;">
-            <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); padding: 1.25rem; border-radius: 14px; border: 2px solid #10b981;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-bottom: 0.9rem;">
-                <i class="fas fa-check-circle" style="color: #10b981; font-size: 1.6rem;"></i>
-                <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #059669;">Analyse erfolgreich abgeschlossen!</h4>
               </div>
               
-              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem;">
-                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
-                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
-                    <span id="stat-calculations">0</span>
-                  </div>
-                  <div style="font-size: 0.7rem; color: #6b7280;">Berechnungen durchgeführt</div>
-                </div>
-                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
-                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
-                    <span id="stat-medications">0</span>
-                  </div>
-                  <div style="font-size: 0.7rem; color: #6b7280;">Medikamente in Datenbank</div>
-                </div>
-                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
-                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
-                    <span id="stat-interactions">0</span>
-                  </div>
-                  <div style="font-size: 0.7rem; color: #6b7280;">Wechselwirkungen geprüft</div>
-                </div>
-                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
-                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
-                    <span id="stat-weeks">0</span>
-                  </div>
-                  <div style="font-size: 0.7rem; color: #6b7280;">Wochen Ø Plan-Dauer</div>
-                </div>
+              <div class="form-row">
+                <label for="weight">Gewicht (kg)</label>
+                <input type="number" id="weight" name="weight" placeholder="z.B. 70" min="30" max="250" step="0.1" required />
+              </div>
+              
+              <div class="form-row">
+                <label for="height">Körpergröße (cm)</label>
+                <input type="number" id="height" name="height" placeholder="z.B. 170" min="120" max="230" required />
               </div>
             </div>
-          </div>
-          
-          <!-- Final "Plan ist fertig!" Message (hidden initially) -->
-          <div id="plan-ready-message" style="display: none; margin-top: 1rem;">
-            <div id="plan-ready-card" style="background: linear-gradient(135deg, #0b7b6c 0%, #059669 100%); padding: 1.5rem; border-radius: 14px; box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3); text-align: center; animation: gentle-pulse 2s ease-in-out infinite;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <i class="fas fa-file-medical" style="color: white; font-size: 2rem;"></i>
-                <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Ihr Dosierplan ist fertig!</h3>
-              </div>
-              <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 0.85rem; font-weight: 500; margin-bottom: 1rem;">
-                Ihre persönliche Medikamenten-Reduktionsstrategie wurde erfolgreich erstellt.
-              </p>
-              <button id="show-plan-button" style="
-                background: white;
-                color: #0b7b6c;
-                border: none;
-                padding: 0.75rem 1.75rem;
-                border-radius: 24px;
-                font-size: 0.95rem;
-                font-weight: 700;
-                cursor: pointer;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                transition: all 0.3s ease;
-                display: inline-flex;
-                align-items: center;
-                gap: 0.6rem;
-              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
-                <i class="fas fa-eye" style="font-size: 1rem;"></i>
-                <span>Plan jetzt anzeigen</span>
+            
+            <div class="form-navigation">
+              <button type="button" class="btn-secondary" onclick="previousStep(1)">
+                <i class="fas fa-arrow-left"></i>
+                Zurück
               </button>
-              <p style="margin: 0.75rem 0 0 0; color: rgba(255,255,255,0.8); font-size: 0.75rem;">
-                <i class="fas fa-info-circle" style="margin-right: 0.3rem;"></i>
-                Klicken Sie auf den Button wenn Sie bereit sind
+              <button type="button" class="btn-primary" onclick="nextStep(3)">
+                Weiter zu Medikamenten
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Step 3: Medikamente -->
+          <div id="step-3" class="form-step">
+            <div class="form-card">
+              <h3>Schritt 3: Ihre Medikamente</h3>
+              <p class="subtitle">Welche Medikamente nehmen Sie täglich ein?</p>
+              
+              <div id="medication-inputs" class="medication-inputs-wrapper">
+                <!-- Medication inputs will be added here by app.js -->
+              </div>
+              
+              <button type="button" id="add-medication" class="btn-add-medication">
+                <i class="fas fa-plus"></i>
+                Weiteres Medikament hinzufügen
+              </button>
+            </div>
+            
+            <div class="form-navigation">
+              <button type="button" class="btn-secondary" onclick="previousStep(2)">
+                <i class="fas fa-arrow-left"></i>
+                Zurück
+              </button>
+              <button type="button" class="btn-primary" onclick="nextStep(4)">
+                Weiter zu Planziel
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Step 4: Planziel -->
+          <div id="step-4" class="form-step">
+            <div class="form-card">
+              <h3>Schritt 4: Ihr Planziel</h3>
+              <p class="subtitle">Wie lange und wie stark möchten Sie reduzieren?</p>
+              
+              <div class="form-row">
+                <label for="duration-weeks">Plandauer (Einschleichphase)</label>
+                <select id="duration-weeks" name="duration_weeks" required>
+                  <option value="">-- Bitte wählen --</option>
+                  <option value="6">6 Wochen – Schnell</option>
+                  <option value="8" selected>8 Wochen – Standard (empfohlen) ⭐</option>
+                  <option value="10">10 Wochen – Sanft</option>
+                  <option value="12">12 Wochen – Sehr sanft</option>
+                </select>
+              </div>
+              
+              <div class="form-row">
+                <label for="reduction-goal">Reduktionsziel</label>
+                <select id="reduction-goal" name="reduction_goal" required>
+                  <option value="">-- Bitte wählen --</option>
+                  <option value="25">25% – Leichte Reduktion</option>
+                  <option value="50" selected>50% – Halbierung (empfohlen) ⭐</option>
+                  <option value="75">75% – Starke Reduktion</option>
+                  <option value="100">100% – Vollständiges Absetzen (nur nach Rücksprache)</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-navigation">
+              <button type="button" class="btn-secondary" onclick="previousStep(3)">
+                <i class="fas fa-arrow-left"></i>
+                Zurück
+              </button>
+              <button type="button" class="btn-primary" onclick="nextStep(5)">
+                Weiter zu Kontakt
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Step 5: Kontakt & Submit -->
+          <div id="step-5" class="form-step">
+            <div class="form-card">
+              <h3>Schritt 5: Kontakt (Optional)</h3>
+              <p class="subtitle">
+                Möchten Sie den Plan per E-Mail erhalten? (Sie können ihn auch direkt herunterladen)
+              </p>
+              
+              <div class="form-row">
+                <label for="email">E-Mail-Adresse (optional)</label>
+                <input type="email" id="email" name="email" placeholder="ihre.email@beispiel.de" autocomplete="email" />
+              </div>
+              
+              <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 1rem;">
+                <i class="fas fa-lock" style="color: var(--primary-green);"></i>
+                Ihre Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.
               </p>
             </div>
-          </div>
-          
-          <!-- Progress Steps -->
-          <div style="max-width: 600px; margin: 0 auto 2rem; text-align: left;">
-            <div id="analysis-step-1" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
-              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
-                <i id="icon-1" class="fas fa-database" style="color: #9ca3af; font-size: 1.25rem;"></i>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Medikamenten-Datenbank durchsuchen</h4>
-                <p id="detail-1" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
-                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
-                  <div id="mini-progress-1" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
-                </div>
-              </div>
-              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i id="check-1" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
-                <i id="spinner-1" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
-              </div>
-            </div>
             
-            <div id="analysis-step-2" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
-              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
-                <i id="icon-2" class="fas fa-exchange-alt" style="color: #9ca3af; font-size: 1.25rem;"></i>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Wechselwirkungen analysieren</h4>
-                <p id="detail-2" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
-                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
-                  <div id="mini-progress-2" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
-                </div>
-              </div>
-              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i id="check-2" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
-                <i id="spinner-2" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
-              </div>
-            </div>
-            
-            <div id="analysis-step-3" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
-              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
-                <i id="icon-3" class="fas fa-user-md" style="color: #9ca3af; font-size: 1.25rem;"></i>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Körperdaten verarbeiten</h4>
-                <p id="detail-3" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
-                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
-                  <div id="mini-progress-3" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
-                </div>
-              </div>
-              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i id="check-3" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
-                <i id="spinner-3" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
-              </div>
-            </div>
-            
-            <div id="analysis-step-4" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
-              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
-                <i id="icon-4" class="fas fa-calculator" style="color: #9ca3af; font-size: 1.25rem;"></i>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Dosierung berechnen</h4>
-                <p id="detail-4" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
-                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
-                  <div id="mini-progress-4" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
-                </div>
-              </div>
-              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i id="check-4" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
-                <i id="spinner-4" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
-              </div>
-            </div>
-            
-            <div id="analysis-step-5" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; opacity: 0.4; transition: all 0.5s;">
-              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
-                <i id="icon-5" class="fas fa-file-medical" style="color: #9ca3af; font-size: 1.25rem;"></i>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Dosierungsplan erstellen</h4>
-                <p id="detail-5" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
-                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
-                  <div id="mini-progress-5" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
-                </div>
-              </div>
-              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i id="check-5" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
-                <i id="spinner-5" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
-              </div>
+            <div class="form-navigation">
+              <button type="button" class="btn-secondary" onclick="previousStep(4)">
+                <i class="fas fa-arrow-left"></i>
+                Zurück
+              </button>
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-rocket"></i>
+                Plan erstellen
+              </button>
             </div>
           </div>
           
-          <!-- Overall Progress -->
-          <div style="max-width: 600px; margin: 0 auto 1.5rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-              <span style="font-size: 0.875rem; font-weight: 600; color: #374151;">
-                <i class="fas fa-chart-line" style="margin-right: 0.5rem; color: #0b7b6c;"></i>
-                Gesamtfortschritt
+        </form>
+        
+        <!-- Loading Animation -->
+        <div id="loading" class="hidden" style="margin-top: 1.5rem;">
+          <div style="max-width: 550px; margin: 0 auto; padding: 1.5rem 1.25rem; background: white; border-radius: var(--radius-large); box-shadow: var(--shadow-soft); text-align: center; position: relative; overflow: hidden;">
+            
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--primary-dark-green);">
+              <i class="fas fa-sparkles" style="margin-right: 0.4rem;"></i>
+              KI analysiert Ihre Daten
+            </h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.2rem; font-size: 0.85rem;">
+              <span id="analysis-status">Analyse wird gestartet</span>
+              <span id="status-dots" style="display: inline-block;">...</span>
+            </p>
+            
+            <!-- Circular Progress -->
+            <div style="position: relative; display: inline-block; margin-bottom: 1.2rem;">
+              <svg width="100" height="100" style="transform: rotate(-90deg);">
+                <circle cx="50" cy="50" r="42" fill="none" stroke="#e5e7eb" stroke-width="6"></circle>
+                <circle id="progress-circle" cx="50" cy="50" r="42" fill="none" stroke="var(--primary-green)" stroke-width="6" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" style="transition: stroke-dashoffset 0.3s ease;"></circle>
+              </svg>
+              
+              <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <i id="center-icon" class="fas fa-brain" style="color: var(--primary-green); font-size: 1.6rem; margin-bottom: 0.2rem;"></i>
+                <div id="center-percentage" style="font-size: 1.1rem; font-weight: 700; color: var(--primary-green);">0%</div>
+              </div>
+            </div>
+            
+            <!-- Live Counter Stats -->
+            <div id="live-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem;">
+              <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid var(--border-light);">
+                <div style="font-size: 1.3rem; font-weight: 700; color: var(--primary-green);" id="counter-medications">0</div>
+                <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 0.1rem; line-height: 1.3;">Medikamente<br>analysiert</div>
+              </div>
+              <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid var(--border-light);">
+                <div style="font-size: 1.3rem; font-weight: 700; color: var(--primary-green);" id="counter-interactions">0</div>
+                <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 0.1rem; line-height: 1.3;">Wechsel-<br>wirkungen</div>
+              </div>
+              <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid var(--border-light);">
+                <div style="font-size: 1.3rem; font-weight: 700; color: var(--primary-green);" id="counter-calculations">0</div>
+                <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 0.1rem; line-height: 1.3;">Berechnungen<br>durchgeführt</div>
+              </div>
+            </div>
+            
+            <!-- Plan Ready Message -->
+            <div id="plan-ready-message" style="display: none; margin-top: 1rem;">
+              <div style="background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green)); padding: 1.5rem; border-radius: var(--radius-medium); box-shadow: var(--shadow-medium); text-align: center;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                  <i class="fas fa-file-medical" style="color: white; font-size: 2rem;"></i>
+                  <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: white;">Ihr Dosierplan ist fertig!</h3>
+                </div>
+                <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 0.85rem; font-weight: 500; margin-bottom: 1rem;">
+                  Ihre persönliche Medikamenten-Reduktionsstrategie wurde erfolgreich erstellt.
+                </p>
+                <button id="show-plan-button" class="btn-primary" style="background: white; color: var(--primary-green);">
+                  <i class="fas fa-eye"></i>
+                  Plan jetzt anzeigen
+                </button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+        <!-- Results Container -->
+        <div id="results" class="hidden" style="margin-top: 2rem;"></div>
+        
+      </div>
+    </section>
+    
+    <!-- ============================================================
+         6) FAQ SECTION
+         ============================================================ -->
+    <section class="faq-section">
+      <div class="container">
+        
+        <h2 class="section-headline">
+          Häufig gestellte Fragen (FAQ)
+        </h2>
+        
+        <p class="section-description">
+          Alle wichtigen Informationen zu ReDuMed, Cannabinoiden, Wechselwirkungen 
+          und dem Medikamenten-Reduktionsprozess.
+        </p>
+        
+        <div class="faq-container">
+          
+          <!-- FAQ 1 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Was sind Cannabinoide und wie wirken sie im Körper?
               </span>
-              <span id="progress-text" style="font-size: 1.125rem; font-weight: 700; color: #0b7b6c;">0%</span>
-            </div>
-            <div style="width: 100%; background: #cbd5e1; border-radius: 9999px; height: 16px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
-              <div id="progress-bar" style="background: linear-gradient(90deg, #0b7b6c, #059669, #10b981); height: 100%; border-radius: 9999px; width: 0%; transition: width 0.5s ease-out; position: relative;">
-                <div style="position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); opacity: 0.6; animation: shimmer 2s infinite linear;"></div>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  <strong>Cannabinoide</strong> sind Pflanzenstoffe aus der Cannabis-Pflanze, 
+                  die an körpereigene Rezeptoren des Endocannabinoid-Systems (ECS) andocken. 
+                  Die bekanntesten sind <strong>CBD (Cannabidiol)</strong> und 
+                  <strong>THC (Tetrahydrocannabinol)</strong>.
+                </p>
+                <p>
+                  Während THC psychoaktiv wirkt, ist CBD nicht berauschend und wird häufig 
+                  zur Unterstützung bei Schmerzen, Schlafstörungen, Entzündungen und 
+                  Stressregulation eingesetzt. Cannabinoide modulieren Neurotransmitter, 
+                  beeinflussen das Immunsystem und wirken auf Leberenzyme (CYP450), 
+                  die auch Medikamente abbauen.
+                </p>
               </div>
             </div>
           </div>
           
-          <p style="font-size: 0.875rem; color: #6b7280;">
-            <i class="fas fa-shield-alt" style="color: #059669; margin-right: 0.5rem;"></i>
-            Ihre Daten sind sicher: Alle Berechnungen erfolgen verschlüsselt
+          <!-- FAQ 2 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Was ist das Endocannabinoid-System (ECS)?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  Das <strong>Endocannabinoid-System (ECS)</strong> ist ein körpereigenes 
+                  Regulierungssystem, das in jedem Menschen vorhanden ist. Es besteht aus:
+                </p>
+                <ul>
+                  <li><strong>Endocannabinoiden</strong> (körpereigene Botenstoffe)</li>
+                  <li><strong>CB1- und CB2-Rezeptoren</strong> (Andockstellen im Gehirn, Immunsystem, Organen)</li>
+                  <li><strong>Enzymen</strong>, die Endocannabinoide abbauen</li>
+                </ul>
+                <p>
+                  Das ECS reguliert Schmerz, Schlaf, Appetit, Immunfunktion, Stimmung und 
+                  Stressreaktionen. Ein geschwächtes ECS kann zu chronischen Schmerzen, 
+                  Schlafstörungen oder Entzündungen führen – Cannabinoide aus Pflanzen 
+                  können das ECS unterstützen und stärken.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ 3 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Was sind CYP450-Enzyme und warum sind sie wichtig?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  <strong>CYP450-Enzyme</strong> sind Leberenzyme, die etwa 60 % aller 
+                  gängigen Medikamente abbauen. Cannabinoide wie CBD können diese Enzyme 
+                  <strong>hemmen (inhibieren)</strong> oder <strong>aktivieren (induzieren)</strong>.
+                </p>
+                <p>
+                  <strong>Hemmung:</strong> Medikamente werden langsamer abgebaut → höhere 
+                  Blutspiegel → potenziell niedrigere Dosis nötig.<br/>
+                  <strong>Induktion:</strong> Medikamente werden schneller abgebaut → niedrigere 
+                  Blutspiegel → ggf. höhere Dosis nötig.
+                </p>
+                <p>
+                  Diese Wechselwirkung ist der <strong>pharmakologische Mechanismus</strong>, 
+                  durch den Cannabinoide den Medikamentenbedarf beeinflussen können. 
+                  ReDuMed berücksichtigt diese Interaktionen bei der Planerstellung.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ 4 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Wie können Cannabinoide dabei helfen, Medikamente zu reduzieren?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  Cannabinoide wirken auf <strong>zwei Ebenen</strong>:
+                </p>
+                <p>
+                  <strong>1. ECS-Unterstützung:</strong> Sie stärken das körpereigene 
+                  Regulierungssystem für Schmerz, Schlaf, Entzündung und Stress. Ein 
+                  stabileres ECS kann dazu führen, dass weniger Symptome auftreten und 
+                  der Körper besser selbst reguliert.
+                </p>
+                <p>
+                  <strong>2. Pharmakologische Wechselwirkung:</strong> Cannabinoide 
+                  beeinflussen den Abbau bestimmter Medikamente über CYP450-Enzyme. 
+                  Dadurch können Medikamente länger im Körper wirken und Sie benötigen 
+                  möglicherweise eine geringere Dosis.
+                </p>
+                <p>
+                  <strong>Wichtig:</strong> Dies ist ein individueller Prozess und muss 
+                  immer ärztlich begleitet werden. ReDuMed zeigt nur ein 
+                  <em>theoretisches Potenzial</em> auf.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ 5 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Ist ReDuMed eine medizinische Beratung oder Diagnose?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  <strong>Nein.</strong> ReDuMed ist ein <strong>Informationstool</strong>, 
+                  das auf wissenschaftlichen Studien und pharmakologischen Daten basiert. 
+                  Es erstellt einen <strong>theoretischen Dosierungsplan</strong>, der als 
+                  <strong>Gesprächsgrundlage</strong> für Ihren Arzt dient.
+                </p>
+                <p>
+                  ReDuMed ersetzt <strong>keine</strong> ärztliche Beratung, Diagnose 
+                  oder Behandlung. Jede Änderung Ihrer Medikation muss mit Ihrem 
+                  behandelnden Arzt besprochen und überwacht werden.
+                </p>
+                <p>
+                  <strong>Verwenden Sie den Plan niemals eigenständig zur 
+                  Medikamenten-Reduktion.</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ 6 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Wie wird die Cannabinoid-Dosierung berechnet?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  Die Dosierung basiert auf <strong>evidenzbasierten Richtlinien</strong> 
+                  (Studie: Blessing et al., 2015) und wird <strong>gewichtsabhängig</strong> 
+                  berechnet:
+                </p>
+                <ul>
+                  <li><strong>Startdosis:</strong> 0,5 mg CBD pro kg Körpergewicht/Tag</li>
+                  <li><strong>Zieldosis:</strong> 1,0 mg CBD pro kg Körpergewicht/Tag</li>
+                  <li><strong>Einschleichphase:</strong> 6-12 Wochen (Standard: 8 Wochen)</li>
+                </ul>
+                <p>
+                  <strong>Individuelle Anpassungen:</strong>
+                </p>
+                <ul>
+                  <li>Bei Benzodiazepinen/Opioiden: Startdosis wird halbiert (Sicherheit)</li>
+                  <li>Bei Senioren (65+): Dosis wird um 20 % reduziert</li>
+                  <li>Bei Untergewicht/Übergewicht: BMI-basierte Anpassung</li>
+                </ul>
+                <p>
+                  Die Dosierung wird <strong>wöchentlich schrittweise</strong> erhöht, 
+                  um den Körper sanft einzustellen.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ 7 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Welche Medikamente werden von CYP450-Wechselwirkungen beeinflusst?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  Etwa <strong>60 % aller gängigen Medikamente</strong> werden über 
+                  CYP450-Enzyme abgebaut. Dazu gehören unter anderem:
+                </p>
+                <ul>
+                  <li><strong>Schmerzmittel:</strong> Ibuprofen, Diclofenac, Tramadol</li>
+                  <li><strong>Antidepressiva:</strong> Sertralin, Citalopram, Fluoxetin</li>
+                  <li><strong>Benzodiazepine:</strong> Diazepam, Lorazepam, Alprazolam</li>
+                  <li><strong>Blutdrucksenker:</strong> Amlodipin, Metoprolol, Losartan</li>
+                  <li><strong>Blutverdünner:</strong> Warfarin, Clopidogrel</li>
+                  <li><strong>Antiepileptika:</strong> Carbamazepin, Valproat</li>
+                </ul>
+                <p>
+                  ReDuMed analysiert Ihre Medikamente und zeigt an, ob 
+                  <strong>Wechselwirkungen</strong> zu erwarten sind. Die tatsächliche 
+                  Auswirkung muss jedoch <strong>individuell ärztlich überwacht</strong> werden.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ 8 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Wie schnell kann ich meine Medikamente reduzieren?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  <strong>Das hängt von vielen individuellen Faktoren ab</strong> und kann 
+                  nicht pauschal beantwortet werden. ReDuMed bietet eine 
+                  <strong>theoretische Simulation</strong> über 8 Wochen (Einschleichphase) 
+                  plus Erhaltungsphase.
+                </p>
+                <p>
+                  <strong>Wichtige Faktoren:</strong>
+                </p>
+                <ul>
+                  <li>Art und Schwere Ihrer Erkrankung</li>
+                  <li>Dauer der Medikamenteneinnahme</li>
+                  <li>Reaktion Ihres Körpers auf Cannabinoide</li>
+                  <li>Genetische Faktoren (Leberfunktion, CYP450-Varianten)</li>
+                  <li>Begleitende Therapien (Ernährung, Bewegung, Stressmanagement)</li>
+                </ul>
+                <p>
+                  <strong>Realistische Erwartung:</strong> Ein Reduktionsziel von 
+                  <strong>25-50 %</strong> über 3-6 Monate ist für viele Menschen realistisch – 
+                  aber nur unter ärztlicher Kontrolle.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ 9 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Was passiert, wenn ich Cannabinoide absetze?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  Wenn Sie Cannabinoide absetzen, <strong>fällt die ECS-Unterstützung weg</strong>. 
+                  Je nachdem, wie stark Ihr Körper von der Cannabinoid-Zufuhr profitiert hat, 
+                  können folgende Szenarien eintreten:
+                </p>
+                <p>
+                  <strong>1. Stabilisiertes ECS:</strong> Ihr ECS hat sich durch die 
+                  Cannabinoid-Gabe stabilisiert und bleibt auch ohne weitere Zufuhr stark. 
+                  Symptome bleiben reduziert, Medikamentenbedarf bleibt niedrig.
+                </p>
+                <p>
+                  <strong>2. ECS benötigt weiterhin Unterstützung:</strong> Nach Absetzen 
+                  kehren Symptome zurück, Sie benötigen wieder höhere Medikamentendosen. 
+                  In diesem Fall ist eine <strong>Dauergabe</strong> von Cannabinoiden sinnvoll.
+                </p>
+                <p>
+                  <strong>Empfehlung:</strong> Cannabinoide langsam ausschleichen und 
+                  Symptome eng beobachten. Ihr Arzt kann anhand Ihrer Reaktion entscheiden, 
+                  ob eine Dauergabe oder ein Auslassversuch sinnvoll ist.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ 10 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Sind Cannabinoide legal und wo kann ich sie kaufen?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  <strong>CBD-Produkte sind in Deutschland legal</strong>, solange sie 
+                  einen THC-Gehalt von unter 0,2 % aufweisen. Sie sind frei verkäuflich 
+                  in Apotheken, Online-Shops und spezialisierten CBD-Geschäften.
+                </p>
+                <p>
+                  <strong>Qualitätsmerkmale:</strong>
+                </p>
+                <ul>
+                  <li>Zertifizierte Laboranalysen (COA - Certificate of Analysis)</li>
+                  <li>Klare Angabe zu CBD- und THC-Gehalt</li>
+                  <li>Bio-Anbau ohne Pestizide</li>
+                  <li>Vollspektrum-Öle (enthalten auch Terpene und Flavonoide)</li>
+                </ul>
+                <p>
+                  <strong>Empfehlung:</strong> Kaufen Sie nur bei seriösen Anbietern mit 
+                  transparenten Laborberichten. ReDuMed empfiehlt KANNASAN-Produkte 
+                  (CBD-Dosier-Sprays), die präzise Dosierungen ermöglichen.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </section>
+    
+  </main>
+  
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer>
+    <div class="container">
+      
+      <div class="footer-content">
+        
+        <!-- Branding -->
+        <div class="footer-branding">
+          <h3>ReDuMed</h3>
+          <p class="tagline">reduziere deine Medikamente.</p>
+          <p>
+            Ein intelligentes Tool zur Berechnung von Cannabinoid-Dosierungen 
+            und Medikamenten-Reduktionsplänen – basierend auf Körperdaten, 
+            pharmakologischen Wechselwirkungen und evidenzbasierten Richtlinien.
           </p>
         </div>
-      </div>
-
-      <!-- Results -->
-      <div id="results" class="hidden" style="margin-top: 2rem;"></div>
-    </section>
-    <!-- FAQ -->
-    <section>
-      <h2>Häufig gestellte Fragen (FAQ)</h2>
-      <div class="faq">
         
-        <!-- ECS & Cannabinoide -->
-        <details>
-          <summary>Wie unterstützen Cannabinoide mein Endocannabinoid-System (ECS)?</summary>
-          <p>
-            Cannabinoide stabilisieren körpereigene Endocannabinoide, modulieren Entzündungen und beeinflussen 
-            Rezeptoren im Nervensystem. Dadurch unterstützen sie die natürliche Balance des Körpers.
-          </p>
-        </details>
-
-        <!-- Dosierungsplan -->
-        <details>
-          <summary>Warum verwende ich einen Dosierungsplan?</summary>
-          <p>
-            Ein strukturierter Plan steigert die Dosis langsam, erhöht die Verträglichkeit und ermöglicht eine 
-            bessere Bewertung der Wirkung.
-          </p>
-        </details>
-
-        <details>
-          <summary>Warum wird die Dosis wöchentlich gesteigert?</summary>
-          <p>
-            Um Überreaktionen zu vermeiden und die individuelle Verträglichkeit zu optimieren.
-          </p>
-        </details>
-
-        <!-- Medikamentenreduktion -->
-        <details>
-          <summary>Kann ich durch Cannabinoide Medikamente reduzieren?</summary>
-          <p>
-            Eine Reduktion ist möglich, aber nur unter ärztlicher Begleitung. Der Plan dient lediglich als 
-            Vorbereitung für das Arztgespräch.
-          </p>
-        </details>
-
-        <details>
-          <summary>Warum sind kleine Schritte bei der Medikamentenreduktion wichtig?</summary>
-          <p>
-            Um Rebound-Effekte und Überlastungen zu vermeiden. Darum setzt der Plan auf kleine Prozent-Reduktionen 
-            mit Stabilisierungswochen.
-          </p>
-        </details>
-
-        <!-- Wirkung & Zeitrahmen -->
-        <details>
-          <summary>Wie lange dauert es, bis Cannabinoide wirken?</summary>
-          <p>
-            Erste Effekte können nach wenigen Tagen auftreten, eine stabile Anpassung dauert 6–12 Wochen.
-          </p>
-        </details>
-
-        <details>
-          <summary>Ich spüre in den ersten Wochen wenig – ist das normal?</summary>
-          <p>
-            Ja, das ECS benötigt oft mehrere Wochen für eine stabile Anpassung.
-          </p>
-        </details>
-
-        <!-- Sicherheit -->
-        <details>
-          <summary>Sind Cannabinoide abhängig machend oder berauschend?</summary>
-          <p>
-            Nicht-psychoaktive Cannabinoide haben kein Suchtpotenzial und verursachen keinen Rausch.
-          </p>
-        </details>
-
-        <details>
-          <summary>Welche Nebenwirkungen können Cannabinoide haben?</summary>
-          <p>
-            Mögliche leichte Nebenwirkungen: Müdigkeit, Schwindel, trockener Mund, veränderter Appetit.
-          </p>
-        </details>
-
-        <details>
-          <summary>Können Cannabinoide mit anderen Medikamenten interagieren?</summary>
-          <p>
-            Ja, Cannabinoide beeinflussen bestimmte Leberenzyme (z. B. CYP450). Darum jede Änderung ärztlich abklären.
-          </p>
-        </details>
-
-        <details>
-          <summary>Was mache ich bei Beschwerden während des Plans?</summary>
-          <p>
-            Nichts eigenständig ändern – sofort ärztlichen Rat einholen.
-          </p>
-        </details>
-
-        <!-- Praktische Anwendung -->
-        <details>
-          <summary>Was mache ich mit dem fertigen Dosierungsplan?</summary>
-          <p>
-            Ausdrucken oder digital speichern und mit dem Arzt oder der Apotheke besprechen.
-          </p>
-        </details>
-
-        <!-- Produkte & Dosierung -->
-        <details>
-          <summary>Warum unterschiedliche Cannabinoid-Konzentrationen?</summary>
-          <p>
-            Damit die mg-Dosis möglichst genau dem Ziel entspricht.
-          </p>
-        </details>
-
-        <details>
-          <summary>Warum bleibt der Plan bei einem Produkt, bis die Flasche leer ist?</summary>
-          <p>
-            Für Klarheit und Anwenderfreundlichkeit – kein Mischen verschiedener Produkte.
-          </p>
-        </details>
-
-        <details>
-          <summary>Was bedeutet die Abweichung in Prozent?</summary>
-          <p>
-            Sie zeigt, wie nah die reale Dosis an der Zieldosis liegt (Toleranz: ±10%).
-          </p>
-        </details>
-
+        <!-- Quick Links -->
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#planner-section">Plan erstellen</a></li>
+            <li><a href="#why-redumed">Warum ReDuMed?</a></li>
+            <li><a href="#how-it-works">So funktioniert's</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <!-- Legal -->
+        <div class="footer-section">
+          <h4>Rechtliches</h4>
+          <ul class="footer-links">
+            <li><a href="#">Impressum</a></li>
+            <li><a href="#">Datenschutz</a></li>
+            <li><a href="#">AGB</a></li>
+            <li><a href="#">Haftungsausschluss</a></li>
+          </ul>
+        </div>
+        
       </div>
       
-      <!-- Nach oben Button -->
-      <div style="text-align: center; margin-top: 2rem; padding: 1.5rem;">
-        <button id="scroll-to-top-btn" style="
-          padding: 0.75rem 2rem;
-          background: linear-gradient(135deg, #0b7b6c, #14b8a6);
-          color: white;
-          font-weight: 600;
-          font-size: 0.95rem;
-          border: none;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: all 0.3s;
-          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px -1px rgba(0,0,0,0.1)'">
-          <i class="fas fa-arrow-up"></i>
-          Zurück nach oben
-        </button>
+      <!-- Disclaimer -->
+      <div class="footer-disclaimer">
+        <p>
+          <strong><i class="fas fa-exclamation-triangle"></i> Wichtiger medizinischer Haftungsausschluss:</strong>
+        </p>
+        <p>
+          ReDuMed ist ein Informationstool und kein Ersatz für ärztlichen Rat, 
+          Diagnose oder Behandlung. Alle Berechnungen basieren auf wissenschaftlichen 
+          Studien und pharmakologischen Daten, ersetzen jedoch keine individuelle 
+          medizinische Beurteilung.
+        </p>
+        <p>
+          <strong>Ändern Sie niemals eigenständig Ihre Medikation.</strong> 
+          Jede Anpassung muss mit Ihrem behandelnden Arzt besprochen und überwacht werden.
+        </p>
       </div>
-    </section>
-
-    <footer>
-      &copy; 2025 ECS Aktivierung · Hinweis: Kein Ersatz für ärztliche Beratung oder Therapie.
-    </footer>
-  </main>
-
+      
+      <!-- Bottom Bar -->
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          © 2024 ReDuMed. Alle Rechte vorbehalten.
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </div>
+      </div>
+      
+    </div>
+  </footer>
+  
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" id="scrollToTopBtn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+  
+  <!-- Navigation Functions -->
   <script>
-    // Tabs umschalten
-    const tabButtons = document.querySelectorAll(".tab-btn");
-    const tabPanels = document.querySelectorAll(".tab-panel");
-
-    tabButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const target = btn.dataset.target;
-        tabButtons.forEach((b) => b.classList.remove("active"));
-        tabPanels.forEach((p) => p.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(target).classList.add("active");
-      });
-    });
-
-    // Medikamenten-Zeilen dynamisch
-    const medList = document.getElementById("med-list");
-    const btnAddMed = document.getElementById("btn-add-med");
-
-    function addMedRow() {
-      const wrapper = document.createElement("div");
-      wrapper.className = "med-row";
-
-      wrapper.innerHTML = \`
-        <input type="text" name="medName[]" placeholder="Name des Medikaments" />
-        <input type="text" name="medDose[]" placeholder="z. B. 10 mg morgens, 10 mg abends" />
-        <button type="button" class="btn-small btn-remove-med">Entfernen</button>
-      \`;
-
-      medList.appendChild(wrapper);
-
-      wrapper.querySelector(".btn-remove-med").addEventListener("click", () => {
-        medList.removeChild(wrapper);
-      });
-    }
-
-    if (btnAddMed) {
-      btnAddMed.addEventListener("click", addMedRow);
-      // mindestens eine Zeile beim Start
-      addMedRow();
-    }
-
-    // Formulare aktuell nur Demo: hier später API-Aufrufe einbauen
-    function handleDemoSubmit(formId) {
-      const form = document.getElementById(formId);
-      if (!form) return;
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        alert(
-          "Hier kannst du deinen Backend-Aufruf einbauen.\\n\\nAktuell ist dies nur eine Demo-Oberfläche."
-        );
-      });
-    }
-
-    handleDemoSubmit("form-manual");
-    handleDemoSubmit("form-photo");
-  </script>
-
-  <script>
-    // Multi-Step Wizard Navigation
+    // Multi-step form navigation
     let currentStep = 1;
     const totalSteps = 5;
     
-    function showStep(stepNumber) {
-      // Hide all steps
-      for (let i = 1; i <= totalSteps; i++) {
-        const step = document.getElementById(\`step-\${i}\`);
-        if (step) step.style.display = 'none';
+    function nextStep(step) {
+      // Validate current step before proceeding
+      if (!validateStep(currentStep)) {
+        return;
       }
       
-      // Show current step
-      const currentStepEl = document.getElementById(\`step-\${stepNumber}\`);
-      if (currentStepEl) currentStepEl.style.display = 'block';
+      // Hide current step
+      document.getElementById('step-' + currentStep).classList.remove('active');
+      document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-circle').classList.remove('active');
+      document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-circle').classList.add('completed');
+      document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-label').classList.remove('active');
       
-      // Update progress indicators
-      updateProgressBar(stepNumber);
+      // Show next step
+      currentStep = step;
+      document.getElementById('step-' + currentStep).classList.add('active');
+      document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-circle').classList.add('active');
+      document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-label').classList.add('active');
       
-      // Update summary if on step 5
-      if (stepNumber === 5) {
-        updateSummary();
-      }
+      // Update progress bar
+      const progressPercent = (currentStep / totalSteps) * 100;
+      document.getElementById('progress-fill').style.width = progressPercent + '%';
       
-      currentStep = stepNumber;
+      // Scroll to top of form
+      document.querySelector('.progress-bar-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
-    function updateProgressBar(stepNumber) {
-      for (let i = 1; i <= totalSteps; i++) {
-        const indicator = document.getElementById(\`step-indicator-\${i}\`);
-        const progressBar = document.getElementById(\`progress-bar-\${i}\`);
-        
-        if (i < stepNumber) {
-          // Completed steps
-          if (indicator) {
-            indicator.style.background = '#059669';
-            indicator.style.color = 'white';
-          }
-          if (progressBar) progressBar.style.width = '100%';
-        } else if (i === stepNumber) {
-          // Current step
-          if (indicator) {
-            indicator.style.background = '#0b7b6c';
-            indicator.style.color = 'white';
-          }
-          if (progressBar) progressBar.style.width = '0%';
-        } else {
-          // Future steps
-          if (indicator) {
-            indicator.style.background = '#cbd5e1';
-            indicator.style.color = '#6b7280';
-          }
-          if (progressBar) progressBar.style.width = '0%';
-        }
-      }
+    function previousStep(step) {
+      // Hide current step
+      document.getElementById('step-' + currentStep).classList.remove('active');
+      document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-circle').classList.remove('active');
+      document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-label').classList.remove('active');
+      
+      // Show previous step
+      currentStep = step;
+      document.getElementById('step-' + currentStep).classList.add('active');
+      document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-circle').classList.add('active');
+      document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-circle').classList.remove('completed');
+      document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-label').classList.add('active');
+      
+      // Update progress bar
+      const progressPercent = (currentStep / totalSteps) * 100;
+      document.getElementById('progress-fill').style.width = progressPercent + '%';
+      
+      // Scroll to top of form
+      document.querySelector('.progress-bar-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
-    function validateStep(stepNumber) {
-      if (stepNumber === 1) {
-        const firstName = document.getElementById('first-name').value.trim();
-        const gender = document.querySelector('input[name="gender"]:checked');
-        if (!firstName) {
-          alert('Bitte geben Sie Ihren Vornamen ein.');
+    function validateStep(step) {
+      const stepElement = document.getElementById('step-' + step);
+      if (!stepElement) return true;
+      
+      // Check text/email/number inputs
+      const textInputs = stepElement.querySelectorAll('input[type="text"][required], input[type="email"][required], input[type="number"][required]');
+      for (const input of textInputs) {
+        if (!input.value || input.value.trim() === '') {
+          alert('Bitte füllen Sie alle Pflichtfelder aus.');
+          input.focus();
           return false;
         }
-        if (!gender) {
-          alert('Bitte wählen Sie Ihr Geschlecht aus.');
-          return false;
-        }
-        return true;
       }
       
-      if (stepNumber === 2) {
-        const age = document.getElementById('age').value;
-        const weight = document.getElementById('weight').value;
-        const height = document.getElementById('height').value;
-        
-        if (!age || age < 18 || age > 120) {
-          alert('Bitte geben Sie ein gültiges Alter ein (18-120 Jahre).');
+      // Check select dropdowns
+      const selects = stepElement.querySelectorAll('select[required]');
+      for (const select of selects) {
+        if (!select.value || select.value === '') {
+          alert('Bitte wählen Sie eine Option aus.');
+          select.focus();
           return false;
         }
-        if (!weight || weight < 30 || weight > 250) {
-          alert('Bitte geben Sie ein gültiges Gewicht ein (30-250 kg).');
-          return false;
-        }
-        if (!height || height < 120 || height > 230) {
-          alert('Bitte geben Sie eine gültige Größe ein (120-230 cm).');
-          return false;
-        }
-        return true;
       }
       
-      if (stepNumber === 3) {
-        // Check for medication inputs (new autocomplete version)
-        const medicationInputs = document.querySelectorAll('.medication-display-input');
-        const dosageInputs = document.querySelectorAll('input[name="medication_mg_per_day[]"]');
-        
-        let hasValidMedication = false;
-        let emptyMedicationName = false;
-        let emptyDosage = false;
-        
-        medicationInputs.forEach((medInput, index) => {
-          const medName = medInput.value.trim();
-          const dosageValue = dosageInputs[index] ? dosageInputs[index].value.trim() : '';
-          
-          if (medName && dosageValue) {
-            // Both fields filled - valid medication
-            hasValidMedication = true;
-          } else if (medName && !dosageValue) {
-            // Medication name filled but no dosage
-            emptyDosage = true;
-          } else if (!medName && dosageValue) {
-            // Dosage filled but no medication name
-            emptyMedicationName = true;
+      // Check radio buttons (group by name)
+      const radioGroups = {};
+      const radios = stepElement.querySelectorAll('input[type="radio"][required]');
+      for (const radio of radios) {
+        if (!radioGroups[radio.name]) {
+          radioGroups[radio.name] = true;
+          const checked = stepElement.querySelector('input[name="' + radio.name + '"]:checked');
+          if (!checked) {
+            alert('Bitte wählen Sie eine Option aus.');
+            return false;
           }
-        });
-        
-        if (!hasValidMedication) {
-          alert('Bitte geben Sie mindestens ein Medikament mit Tagesdosis ein.');
-          return false;
         }
-        
-        if (emptyMedicationName) {
-          alert('Bitte geben Sie für jede Dosierung auch den Medikamentennamen ein.');
-          return false;
-        }
-        
-        if (emptyDosage) {
-          alert('Bitte geben Sie für jedes Medikament auch die Tagesdosis in mg ein.');
-          return false;
-        }
-        
-        return true;
-      }
-      
-      if (stepNumber === 4) {
-        const duration = document.getElementById('duration-weeks').value;
-        const reductionGoal = document.getElementById('reduction-goal').value;
-        
-        if (!duration) {
-          alert('Bitte wählen Sie eine Plan-Dauer aus.');
-          return false;
-        }
-        
-        if (!reductionGoal) {
-          alert('Bitte wählen Sie ein Reduktionsziel aus.');
-          return false;
-        }
-        
-        return true;
-      }
-      
-      if (stepNumber === 5) {
-        const email = document.getElementById('email').value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
-        if (!email || !emailRegex.test(email)) {
-          alert('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
-          return false;
-        }
-        return true;
       }
       
       return true;
     }
     
-    function updateSummary() {
-      // Name
-      const firstName = document.getElementById('first-name').value.trim();
-      document.getElementById('summary-name').textContent = firstName || '-';
+    // FAQ Accordion functionality
+    function toggleFAQ(button) {
+      const faqItem = button.closest('.faq-item');
+      const isActive = faqItem.classList.contains('active');
       
-      // Gender
-      const genderInput = document.querySelector('input[name="gender"]:checked');
-      const genderText = genderInput ? (genderInput.value === 'female' ? 'Weiblich' : genderInput.value === 'male' ? 'Männlich' : 'Divers') : '-';
-      document.getElementById('summary-gender').textContent = genderText;
-      
-      // Age, Weight, Height
-      document.getElementById('summary-age').textContent = document.getElementById('age').value + ' Jahre' || '-';
-      document.getElementById('summary-weight').textContent = document.getElementById('weight').value + ' kg' || '-';
-      document.getElementById('summary-height').textContent = document.getElementById('height').value + ' cm' || '-';
-      
-      // Medications
-      const medicationInputs = document.querySelectorAll('input[name="medication_name[]"]');
-      const medications = [];
-      medicationInputs.forEach(input => {
-        if (input.value.trim()) {
-          medications.push(input.value.trim());
+      // Close all other FAQ items
+      document.querySelectorAll('.faq-item').forEach(item => {
+        if (item !== faqItem) {
+          item.classList.remove('active');
         }
       });
-      document.getElementById('summary-medications').textContent = medications.length > 0 ? medications.join(', ') : '-';
       
-      // Duration
-      const durationSelect = document.getElementById('duration-weeks');
-      const durationText = durationSelect.options[durationSelect.selectedIndex]?.text || '-';
-      document.getElementById('summary-duration').textContent = durationText;
+      // Toggle current FAQ item
+      if (isActive) {
+        faqItem.classList.remove('active');
+      } else {
+        faqItem.classList.add('active');
+      }
     }
     
-    // Event listeners
-    document.addEventListener('DOMContentLoaded', function() {
-      // Next buttons
-      document.querySelectorAll('.next-step').forEach(button => {
-        button.addEventListener('click', function() {
-          if (validateStep(currentStep)) {
-            if (currentStep < totalSteps) {
-              showStep(currentStep + 1);
-            }
-          }
-        });
+    // Scroll to top functionality
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
       });
-      
-      // Previous buttons
-      document.querySelectorAll('.prev-step').forEach(button => {
-        button.addEventListener('click', function() {
-          if (currentStep > 1) {
-            showStep(currentStep - 1);
-          }
-        });
-      });
-      
-      // Initialize: Show step 1
-      showStep(1);
-      
-      // NOTE: Medication input fields are now managed by /static/app.js
-      // All medication form logic (autocomplete, validation, dynamic fields) moved to frontend
-      
-      // ============================================================
-      // NACH OBEN BUTTON (FAQ)
-      // ============================================================
-      const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
-      if (scrollToTopBtn) {
-        scrollToTopBtn.addEventListener('click', () => {
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-        });
+    }
+    
+    // Show/hide scroll to top button based on scroll position
+    window.addEventListener('scroll', function() {
+      const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+      if (scrollToTopBtn && window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else if (scrollToTopBtn) {
+        scrollToTopBtn.classList.remove('visible');
       }
     });
   </script>
   
-  <!-- Main Application Logic (API Integration, Loading Animation, PDF Generation) -->
-  <script src="/static/app.js?v=${Date.now()}"></script>
+  <!-- Main Application Logic -->
+  <script src="/static/app.js"></script>
+  
 </body>
-</html>  `)
+</html>
+  `)
 })
 
 export default app
