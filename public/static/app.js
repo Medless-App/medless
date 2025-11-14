@@ -1071,7 +1071,7 @@ function displayResults(data, firstName = '', gender = '') {
 // Download PDF function using jsPDF - Global Standards Applied
 function downloadPDF() {
   if (!window.currentPlanData) {
-    alert('Keine Daten vorhanden. Bitte erstellen Sie erst einen Dosierungsplan.');
+    alert('Keine Daten vorhanden. Bitte erstellen Sie erst einen Reduktionsplan.');
     return;
   }
   
@@ -1082,513 +1082,440 @@ function downloadPDF() {
   
   try {
     const { jsPDF } = window.jspdf;
-  const { analysis, weeklyPlan, guidelines, maxSeverity, firstName, gender, product, personalization } = window.currentPlanData;
-  
-  // Create PDF
-  const doc = new jsPDF();
-  
-  let yPos = 20;
-  
-  // === NEUE HAUPTÜBERSCHRIFT ===
-  doc.setFontSize(18); // 18pt statt 20pt
-  doc.setTextColor(0, 77, 64); // #004D40 (dunkleres Teal)
-  doc.setFont(undefined, 'bold');
-  doc.text('Cannabinoid-Reduktionsplan – Ihr Weg zu weniger Medikamenten', 105, yPos, { align: 'center' });
-  
-  yPos += 8;
-  doc.setFontSize(12); // 12pt
-  doc.setTextColor(0, 105, 92); // #00695C
-  doc.setFont(undefined, 'normal');
-  doc.text('Erstellt auf Basis Ihrer Eingaben, wissenschaftlich fundiert und KI-gestützt', 105, yPos, { align: 'center' });
-  
-  yPos += 12;
-  
-  // === PERSONALISIERTE ANREDE (vor Übersicht) ===
-  const greeting = gender === 'female' ? 'Liebe' : 'Lieber';
-  const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
-  doc.setFontSize(12); // 12pt statt 14pt
-  doc.setTextColor(0, 77, 64); // #004D40
-  doc.setFont(undefined, 'bold');
-  doc.text(`${greeting} ${capitalizedFirstName},`, 15, yPos);
-  
-  yPos += 6;
-  
-  // === BEGRÜSSUNGSTEXT ===
-  doc.setFontSize(11); // 11pt
-  doc.setTextColor(34, 34, 34); // #222
-  doc.setFont(undefined, 'normal');
-  
-  const greetingText = `willkommen zu Ihrem persönlichen Cannabinoid-Reduktionsplan!
-
-Dieser Plan wurde individuell für Sie erstellt – basierend auf Ihrer aktuellen Medikation, Ihrem Alter, Körpergewicht und Ihrer Körpergröße.
-
-Ziel ist es, das Endocannabinoid-System (ECS) zu stärken und dadurch schrittweise Ihre Medikamentenmenge zu reduzieren – unter ärztlicher Begleitung und ohne Risiko.`;
-  
-  const greetingLines = doc.splitTextToSize(greetingText, 180);
-  doc.text(greetingLines, 15, yPos);
-  
-  yPos += greetingLines.length * 5 + 8;
-  
-  // === ÜBERSICHT IHRES PLANS (nach Begrüßung) ===
-  doc.setFillColor(230, 247, 241); // #E6F7F1 (hellgrün)
-  const boxHeight = 32;
-  doc.rect(10, yPos, 190, boxHeight, 'F');
-  doc.roundedRect(10, yPos, 190, boxHeight, 3, 3, 'S'); // Rahmen mit abgerundeten Ecken
-  
-  doc.setFontSize(12); // 12pt
-  doc.setTextColor(0, 77, 64); // #004D40
-  doc.setFont(undefined, 'bold');
-  doc.text('📋 Übersicht Ihres Plans', 22, yPos + 8);
-  
-  doc.setFontSize(11); // 11pt
-  doc.setFont(undefined, 'normal');
-  doc.setTextColor(34, 34, 34); // #222
-  
-  // Calculate values with comma formatting - ReduMed-AI structure
-  const firstWeek = weeklyPlan[0];
-  const cbdStart = firstWeek?.cbdDose || 35;
-  const cbdEnd = weeklyPlan[weeklyPlan.length - 1]?.cbdDose || 70;
-  const numMedications = firstWeek?.medications?.length || 0;
-  const numWeeks = weeklyPlan.length;
-  const totalMedLoad = firstWeek?.totalMedicationLoad || 0;
-  
-  doc.text(`• Anzahl Medikamente: ${numMedications}`, 22, yPos + 14);
-  doc.text(`• CBD Start-Dosis: ${cbdStart.toFixed(1).replace('.', ',')} mg → Ziel: ${cbdEnd.toFixed(1).replace('.', ',')} mg`, 22, yPos + 19);
-  doc.text(`• Aktuelle Medikamentenlast: ${totalMedLoad.toFixed(1).replace('.', ',')} mg/Tag`, 22, yPos + 24);
-  doc.text(`• Plan-Dauer: ${numWeeks} Wochen`, 22, yPos + 29);
-  
-  yPos += boxHeight + 8;
-  
-  // === PRODUKTINFORMATIONEN (mit Referenzumrechnung) ===
-  if (product) {
-    doc.setFillColor(230, 247, 241); // #E6F7F1 (hellgrün)
-    const prodBoxHeight = 35;
-    doc.rect(10, yPos, 190, prodBoxHeight, 'F');
-    doc.roundedRect(10, yPos, 190, prodBoxHeight, 3, 3, 'S');
+    const { analysis, weeklyPlan, maxSeverity, firstName, gender, product, personalization } = window.currentPlanData;
     
-    doc.setFontSize(12); // 12pt
-    doc.setTextColor(0, 77, 64); // #004D40
+    const doc = new jsPDF();
+    let yPos = 20;
+    
+    // ============================================================
+    // SEITE 1: TITEL & ÜBERSICHT
+    // ============================================================
+    
+    // H1: ReduMed Haupttitel
+    doc.setFontSize(22);
+    doc.setTextColor(26, 83, 92); // Dunkles Teal
     doc.setFont(undefined, 'bold');
-    doc.text(`${product.name} – CBD Dosier-Spray`, 22, yPos + 8);
+    doc.text('ReduMed – Ihr persönlicher Reduktionsplan', 105, yPos, { align: 'center' });
     
-    doc.setFontSize(11); // 11pt
-    doc.setTextColor(34, 34, 34); // #222
+    // Untertitel
+    yPos += 10;
+    doc.setFontSize(12);
+    doc.setTextColor(75, 85, 99);
     doc.setFont(undefined, 'normal');
-    doc.text(`• Konzentration: ${product.cbdPerSpray} mg CBD pro Sprühstoß`, 22, yPos + 14);
-    doc.text('• Verpackung: 10ml Flasche mit Pumpsprühaufsatz', 22, yPos + 19);
-    doc.text(`• Dosierung: ${product.morningSprays}× morgens + ${product.eveningSprays}× abends`, 22, yPos + 24);
+    doc.text('Individuell erstellt auf Basis Ihrer Angaben, KI-gestützt und medizinisch ausgerichtet', 105, yPos, { align: 'center' });
     
-    // Hinweis
-    doc.setFont(undefined, 'italic');
-    doc.text('Hinweis: Produkt kann wöchentlich wechseln je nach CBD-Dosis', 22, yPos + 30);
-    doc.setFont(undefined, 'normal');
+    yPos += 15;
     
-    yPos += prodBoxHeight + 8;
-  }
-  
-  // === IHRE INDIVIDUELLE DOSIERUNGSSTRATEGIE ===
-  if (personalization) {
-    doc.setFillColor(230, 247, 241); // #E6F7F1
-    const persBoxHeight = personalization.notes && personalization.notes.length > 0 ? 38 : 28;
-    doc.rect(10, yPos, 190, persBoxHeight, 'F');
-    doc.roundedRect(10, yPos, 190, persBoxHeight, 3, 3, 'S');
+    // Block: Patientendaten
+    doc.setFillColor(240, 249, 255); // Hellblau
+    doc.roundedRect(10, yPos, 90, 52, 3, 3, 'F');
+    doc.setDrawColor(59, 130, 246);
+    doc.roundedRect(10, yPos, 90, 52, 3, 3, 'S');
     
-    doc.setFontSize(12); // 12pt
-    doc.setTextColor(0, 77, 64); // #004D40
+    doc.setFontSize(14);
+    doc.setTextColor(30, 58, 138);
     doc.setFont(undefined, 'bold');
-    doc.text('Ihre individuelle Dosierungsstrategie', 22, yPos + 8);
+    doc.text('Patientendaten', 15, yPos + 7);
     
-    doc.setFontSize(11); // 11pt
-    doc.setTextColor(34, 34, 34); // #222
+    doc.setFontSize(11);
+    doc.setTextColor(55, 65, 81);
     doc.setFont(undefined, 'normal');
+    const age = personalization?.age || 'n/a';
+    const weight = personalization?.bodyWeight || 'n/a';
+    const height = personalization?.height || 'n/a';
+    const numMeds = weeklyPlan[0]?.medications?.length || 0;
+    const cbdStart = weeklyPlan[0]?.cbdDose || 0;
+    const cbdEnd = weeklyPlan[weeklyPlan.length - 1]?.cbdDose || 0;
+    const planDuration = weeklyPlan.length;
     
-    // Format numbers with comma - ReduMed-AI structure
-    const cbdStartMg = personalization.cbdStartMg ? personalization.cbdStartMg.toFixed(1).replace('.', ',') : cbdStart.toFixed(1).replace('.', ',');
-    const cbdEndMg = personalization.cbdEndMg ? personalization.cbdEndMg.toFixed(1).replace('.', ',') : cbdEnd.toFixed(1).replace('.', ',');
-    let line1 = `CBD-Dosis: ${cbdStartMg} mg Start → ${cbdEndMg} mg Ziel`;
-    let line2 = '';
-    if (personalization.age) line2 += `Alter: ${personalization.age} Jahre`;
-    if (personalization.bmi) line2 += ` | BMI: ${personalization.bmi.toFixed(1).replace('.', ',')}`;
-    if (personalization.bsa) line2 += ` | BSA: ${personalization.bsa.toFixed(2).replace('.', ',')} m²`;
-    if (personalization.hasBenzoOrOpioid) line2 += ' | ⚠️ Benzo/Opioid erkannt';
+    doc.text(`Alter: ${age} Jahre`, 15, yPos + 15);
+    doc.text(`Gewicht: ${weight} kg`, 15, yPos + 21);
+    doc.text(`Größe: ${height} cm`, 15, yPos + 27);
+    doc.text(`Medikamente: ${numMeds}`, 15, yPos + 33);
+    doc.text(`CBD Start: ${cbdStart.toFixed(1)} mg`, 15, yPos + 39);
+    doc.text(`CBD Ziel: ${cbdEnd.toFixed(1)} mg`, 15, yPos + 45);
     
-    doc.text(line1, 22, yPos + 14);
-    if (line2) doc.text(line2, 22, yPos + 19);
+    // Block: Produkt-Start
+    doc.setFillColor(236, 253, 245); // Hellgrün
+    doc.roundedRect(105, yPos, 95, 52, 3, 3, 'F');
+    doc.setDrawColor(16, 185, 129);
+    doc.roundedRect(105, yPos, 95, 52, 3, 3, 'S');
     
-    if (personalization.notes && personalization.notes.length > 0) {
+    doc.setFontSize(14);
+    doc.setTextColor(6, 78, 59);
+    doc.setFont(undefined, 'bold');
+    doc.text('Produkt-Start', 110, yPos + 7);
+    
+    doc.setFontSize(11);
+    doc.setTextColor(55, 65, 81);
+    doc.setFont(undefined, 'normal');
+    const firstProduct = weeklyPlan[0]?.kannasanProduct || {};
+    const firstMorning = weeklyPlan[0]?.morningSprays || 0;
+    const firstEvening = weeklyPlan[0]?.eveningSprays || 0;
+    const firstTotal = weeklyPlan[0]?.totalSprays || 0;
+    
+    doc.text(`Produkt: ${firstProduct.name || 'N/A'}`, 110, yPos + 15);
+    doc.text(`mg/Spray: ${(firstProduct.cbdPerSpray || 0).toFixed(1)}`, 110, yPos + 21);
+    doc.text(`Hübe/Tag: ${firstTotal}`, 110, yPos + 27);
+    doc.text(`Morgens: ${firstMorning} | Abends: ${firstEvening}`, 110, yPos + 33);
+    doc.text(`Plan-Dauer: ${planDuration} Wochen`, 110, yPos + 39);
+    
+    // Estimate bottle weeks
+    const bottleWeeks = firstTotal > 0 ? Math.floor(100 / (firstTotal * 7)) : 'N/A';
+    doc.text(`Fläschchen: ~${bottleWeeks} Wochen`, 110, yPos + 45);
+    
+    yPos += 60;
+    
+    // Warnung bei kritischen Wechselwirkungen
+    if (maxSeverity === 'critical' || maxSeverity === 'high') {
+      doc.setFillColor(254, 242, 242);
+      doc.roundedRect(10, yPos, 190, 18, 3, 3, 'F');
+      doc.setDrawColor(220, 38, 38);
+      doc.roundedRect(10, yPos, 190, 18, 3, 3, 'S');
+      
+      doc.setFontSize(11);
+      doc.setTextColor(153, 27, 27);
       doc.setFont(undefined, 'bold');
-      doc.text('Individuelle Anpassungen:', 22, yPos + 25);
+      doc.text('⚠️ Achtung: Kritische Wechselwirkungen erkannt', 15, yPos + 7);
       doc.setFont(undefined, 'normal');
-      const notesText = personalization.notes.join(', ');
-      const notesLines = doc.splitTextToSize(notesText, 178);
-      doc.text(notesLines, 22, yPos + 30);
+      doc.text('Dieser Plan wurde extra vorsichtig gestaltet. Starten Sie nur nach ärztlicher Rücksprache!', 15, yPos + 13);
+      
+      yPos += 23;
     }
     
-    yPos += persBoxHeight + 5;
-  }
-  
-  // Keine separate "Phasen Ihres Plans" Sektion mehr - ist schon in Übersicht enthalten
-  
-  // === WARNUNG BEI WECHSELWIRKUNGEN (oberhalb der Tabelle) ===
-  if (maxSeverity === 'critical' || maxSeverity === 'high') {
-    doc.setFillColor(253, 236, 234); // #FDECEA (zartrot)
-    const warnBoxHeight = 32;
-    doc.rect(10, yPos, 190, warnBoxHeight, 'F');
-    doc.roundedRect(10, yPos, 190, warnBoxHeight, 3, 3, 'S');
+    // ============================================================
+    // SEITE 2: WÖCHENTLICHER PLAN (TABELLENFORM)
+    // ============================================================
     
-    doc.setFontSize(12); // 12pt
-    doc.setTextColor(220, 38, 38);
-    doc.setFont(undefined, 'bold');
-    doc.text('⚠️ Wichtig: Ihr Medikamentenprofil weist mögliche Wechselwirkungen auf', 22, yPos + 8);
-    
-    doc.setFontSize(11); // 11pt
-    doc.setTextColor(34, 34, 34); // #222
-    doc.setFont(undefined, 'normal');
-    const warningText = 'Ihr Plan wurde deshalb besonders vorsichtig gestaltet. Bitte starten Sie erst nach ärztlicher Rücksprache.';
-    const warningLines = doc.splitTextToSize(warningText, 178);
-    doc.text(warningLines, 22, yPos + 16);
-    
-    doc.setFont(undefined, 'italic');
-    doc.text('Dies dient Ihrer Sicherheit und ermöglicht eine optimale Anpassung.', 22, yPos + 26);
-    
-    yPos += warnBoxHeight + 8;
-  }
-  
-  // Prüfe, ob neue Seite nötig ist
-  if (yPos > 220) {
     doc.addPage();
     yPos = 20;
-  }
-  
-  // === WÖCHENTLICHER REDUKTIONSPLAN - ReduMed-AI ===
-  doc.setFontSize(18);
-  doc.setTextColor(0, 77, 64);
-  doc.setFont(undefined, 'bold');
-  doc.text('Ihr wöchentlicher Reduktionsplan', 15, yPos);
-  yPos += 10;
-  
-  weeklyPlan.forEach((week, weekIndex) => {
-    // Check if we need a new page
-    if (yPos > 220) {
-      doc.addPage();
-      yPos = 20;
-    }
     
-    // === WOCHENÜBERSCHRIFT ===
-    doc.setFontSize(14);
-    doc.setTextColor(0, 77, 64);
+    doc.setFontSize(16);
+    doc.setTextColor(26, 83, 92);
     doc.setFont(undefined, 'bold');
-    doc.text(`Woche ${week.week}`, 15, yPos);
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'normal');
-    doc.text(`Medikamentenlast: ${week.totalMedicationLoad.toFixed(1).replace('.', ',')} mg/Tag`, 60, yPos);
-    yPos += 8;
+    doc.text('Wochenplan – Medikamente & CBD', 15, yPos);
+    yPos += 10;
     
-    // === MEDIKAMENTEN-TABELLE ===
-    doc.setFillColor(255, 240, 240);
-    doc.rect(10, yPos, 190, 6, 'F');
+    // Tabellenkopf
+    doc.setFillColor(226, 232, 240);
+    doc.rect(10, yPos, 190, 8, 'F');
     doc.setFontSize(9);
-    doc.setTextColor(139, 0, 0);
+    doc.setTextColor(30, 41, 59);
     doc.setFont(undefined, 'bold');
-    doc.text('Medikamente', 15, yPos + 4);
-    doc.text('Aktuell', 80, yPos + 4);
-    doc.text('Ziel', 110, yPos + 4);
-    doc.text('Reduktion', 140, yPos + 4);
-    yPos += 7;
     
-    week.medications.forEach((med, medIndex) => {
+    doc.text('Woche', 12, yPos + 5);
+    doc.text('Medikament', 28, yPos + 5);
+    doc.text('Start mg', 65, yPos + 5);
+    doc.text('Ziel mg', 85, yPos + 5);
+    doc.text('Änd./W', 103, yPos + 5);
+    doc.text('CBD mg', 122, yPos + 5);
+    doc.text('Produkt', 140, yPos + 5);
+    doc.text('Hübe', 170, yPos + 5);
+    doc.text('M', 183, yPos + 5);
+    doc.text('A', 192, yPos + 5);
+    
+    yPos += 9;
+    
+    // Tabelleninhalt
+    doc.setFontSize(8);
+    doc.setFont(undefined, 'normal');
+    
+    weeklyPlan.forEach((week) => {
+      // Prüfe Seitenumbruch
       if (yPos > 270) {
+        doc.addPage();
+        yPos = 20;
+        
+        // Tabellenkopf wiederholen
+        doc.setFillColor(226, 232, 240);
+        doc.rect(10, yPos, 190, 8, 'F');
+        doc.setFontSize(9);
+        doc.setTextColor(30, 41, 59);
+        doc.setFont(undefined, 'bold');
+        
+        doc.text('Woche', 12, yPos + 5);
+        doc.text('Medikament', 28, yPos + 5);
+        doc.text('Start mg', 65, yPos + 5);
+        doc.text('Ziel mg', 85, yPos + 5);
+        doc.text('Änd./W', 103, yPos + 5);
+        doc.text('CBD mg', 122, yPos + 5);
+        doc.text('Produkt', 140, yPos + 5);
+        doc.text('Hübe', 170, yPos + 5);
+        doc.text('M', 183, yPos + 5);
+        doc.text('A', 192, yPos + 5);
+        
+        yPos += 9;
+        doc.setFontSize(8);
+        doc.setFont(undefined, 'normal');
+      }
+      
+      const weekNum = week.week;
+      const medications = week.medications || [];
+      const cbdDose = week.cbdDose || 0;
+      const product = week.kannasanProduct || {};
+      const totalSprays = week.totalSprays || 0;
+      const morning = week.morningSprays || 0;
+      const evening = week.eveningSprays || 0;
+      
+      // Erste Medikament-Zeile mit CBD-Daten
+      if (medications.length > 0) {
+        const med = medications[0];
+        doc.setTextColor(55, 65, 81);
+        
+        // Woche
+        doc.text(`${weekNum}`, 12, yPos);
+        
+        // Medikament (gekürzt)
+        const medName = med.name.length > 18 ? med.name.substring(0, 18) + '...' : med.name;
+        doc.text(medName, 28, yPos);
+        
+        // Start mg
+        doc.text(`${med.startMg.toFixed(1)}`, 65, yPos);
+        
+        // Ziel mg
+        doc.text(`${med.targetMg.toFixed(1)}`, 85, yPos);
+        
+        // Änderung/Woche
+        doc.text(`-${med.reduction.toFixed(1)}`, 103, yPos);
+        
+        // CBD mg
+        doc.setTextColor(16, 185, 129);
+        doc.text(`${cbdDose.toFixed(1)}`, 122, yPos);
+        doc.setTextColor(55, 65, 81);
+        
+        // Produkt
+        const prodName = product.name ? product.name.replace('Kannasan ', '') : 'N/A';
+        doc.text(prodName, 140, yPos);
+        
+        // Hübe gesamt
+        doc.text(`${totalSprays}`, 170, yPos);
+        
+        // Morgens/Abends
+        doc.text(`${morning}`, 183, yPos);
+        doc.text(`${evening}`, 192, yPos);
+        
+        yPos += 5;
+      }
+      
+      // Weitere Medikamente ohne CBD-Spalten
+      for (let i = 1; i < medications.length; i++) {
+        if (yPos > 280) {
+          doc.addPage();
+          yPos = 20;
+        }
+        
+        const med = medications[i];
+        doc.setTextColor(55, 65, 81);
+        
+        doc.text('', 12, yPos); // Woche leer
+        
+        const medName = med.name.length > 18 ? med.name.substring(0, 18) + '...' : med.name;
+        doc.text(medName, 28, yPos);
+        
+        doc.text(`${med.startMg.toFixed(1)}`, 65, yPos);
+        doc.text(`${med.targetMg.toFixed(1)}`, 85, yPos);
+        doc.text(`-${med.reduction.toFixed(1)}`, 103, yPos);
+        
+        // CBD-Spalten leer
+        doc.text('', 122, yPos);
+        doc.text('', 140, yPos);
+        doc.text('', 170, yPos);
+        doc.text('', 183, yPos);
+        doc.text('', 192, yPos);
+        
+        yPos += 5;
+      }
+      
+      // Trennlinie nach jeder Woche
+      doc.setDrawColor(226, 232, 240);
+      doc.line(10, yPos, 200, yPos);
+      yPos += 2;
+    });
+    
+    // ============================================================
+    // SEITE 3: FLASCHENVERBRAUCH & PRODUKTWECHSEL
+    // ============================================================
+    
+    doc.addPage();
+    yPos = 20;
+    
+    doc.setFontSize(16);
+    doc.setTextColor(26, 83, 92);
+    doc.setFont(undefined, 'bold');
+    doc.text('Fläschchen-Verbrauch & Produktwechsel', 15, yPos);
+    yPos += 12;
+    
+    // Finde alle Produktwechsel
+    let currentProd = null;
+    const bottles = [];
+    
+    weeklyPlan.forEach((week) => {
+      const prodName = week.kannasanProduct?.name;
+      if (prodName !== currentProd) {
+        bottles.push({
+          product: week.kannasanProduct,
+          startWeek: week.week,
+          endWeek: week.week,
+          totalSprays: week.bottleStatus?.used || 0
+        });
+        currentProd = prodName;
+      } else if (bottles.length > 0) {
+        bottles[bottles.length - 1].endWeek = week.week;
+        bottles[bottles.length - 1].totalSprays = week.bottleStatus?.used || 0;
+      }
+    });
+    
+    // Zeige jeden Flaschenzyklus
+    bottles.forEach((bottle, index) => {
+      if (yPos > 250) {
         doc.addPage();
         yPos = 20;
       }
       
-      doc.setFontSize(8);
-      doc.setTextColor(60, 60, 60);
+      doc.setFillColor(240, 249, 255);
+      doc.roundedRect(10, yPos, 190, 35, 3, 3, 'F');
+      doc.setDrawColor(147, 197, 253);
+      doc.roundedRect(10, yPos, 190, 35, 3, 3, 'S');
+      
+      doc.setFontSize(12);
+      doc.setTextColor(30, 58, 138);
+      doc.setFont(undefined, 'bold');
+      doc.text(`Flasche ${index + 1}: ${bottle.product?.name || 'N/A'}`, 15, yPos + 7);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(55, 65, 81);
       doc.setFont(undefined, 'normal');
       
-      const medName = med.name.length > 25 ? med.name.substring(0, 25) + '...' : med.name;
-      doc.text(medName, 15, yPos);
-      doc.text(`${med.currentMg.toFixed(1).replace('.', ',')} mg`, 80, yPos);
-      doc.text(`${med.targetMg.toFixed(1).replace('.', ',')} mg`, 110, yPos);
-      doc.text(`-${med.reduction.toFixed(1).replace('.', ',')} mg/W`, 140, yPos);
-      yPos += 5;
+      const mgPerSpray = bottle.product?.cbdPerSpray || 0;
+      const used = bottle.totalSprays;
+      const remaining = 100 - used;
+      const weeksUsed = bottle.endWeek - bottle.startWeek + 1;
+      
+      doc.text(`mg/Hub: ${mgPerSpray.toFixed(1)}`, 15, yPos + 14);
+      doc.text(`Gesamt: 100 Hübe`, 15, yPos + 19);
+      doc.text(`Verbraucht: ${used} Hübe`, 15, yPos + 24);
+      doc.text(`Rest: ${remaining} Hübe`, 15, yPos + 29);
+      
+      doc.text(`Zeitraum: Woche ${bottle.startWeek}–${bottle.endWeek}`, 80, yPos + 14);
+      doc.text(`Dauer: ${weeksUsed} Wochen`, 80, yPos + 19);
+      
+      // Progress Bar
+      doc.text('Verbrauch:', 140, yPos + 14);
+      const barWidth = 50;
+      const filledWidth = (used / 100) * barWidth;
+      
+      doc.setDrawColor(203, 213, 225);
+      doc.rect(140, yPos + 16, barWidth, 6, 'S');
+      
+      if (used > 80) {
+        doc.setFillColor(239, 68, 68); // Rot
+      } else if (used > 50) {
+        doc.setFillColor(251, 191, 36); // Gelb
+      } else {
+        doc.setFillColor(34, 197, 94); // Grün
+      }
+      doc.rect(140, yPos + 16, filledWidth, 6, 'F');
+      
+      doc.setFontSize(8);
+      doc.text(`${used}%`, 142 + filledWidth, yPos + 21);
+      
+      yPos += 40;
     });
     
-    yPos += 3;
-    
-    // === CBD KOMPENSATION ===
-    doc.setFillColor(240, 255, 240);
-    doc.rect(10, yPos, 190, 6, 'F');
-    doc.setFontSize(9);
-    doc.setTextColor(0, 100, 0);
-    doc.setFont(undefined, 'bold');
-    doc.text('CBD-Kompensation', 15, yPos + 4);
-    yPos += 7;
-    
-    // CBD Details
-    doc.setFontSize(8);
-    doc.setTextColor(60, 60, 60);
-    doc.setFont(undefined, 'normal');
-    
-    doc.text(`CBD-Dosis: ${week.cbdDose.toFixed(1).replace('.', ',')} mg/Tag`, 15, yPos);
-    doc.text(`Produkt: ${week.kannasanProduct.name} (${week.kannasanProduct.cbdPerSpray.toFixed(1).replace('.', ',')} mg/Spray)`, 70, yPos);
-    yPos += 5;
-    
-    doc.text(`Morgens: ${week.morningSprays}× Spray`, 15, yPos);
-    doc.text(`Abends: ${week.eveningSprays}× Spray`, 70, yPos);
-    doc.text(`Gesamt: ${week.totalSprays}× Spray = ${week.actualCbdMg.toFixed(1).replace('.', ',')} mg`, 120, yPos);
-    yPos += 5;
-    
-    // === FLÄSCHCHEN-STATUS ===
-    if (week.bottleStatus) {
-      doc.setFillColor(240, 248, 255);
-      doc.rect(10, yPos, 190, 6, 'F');
-      doc.setFontSize(9);
-      doc.setTextColor(0, 0, 139);
-      doc.setFont(undefined, 'bold');
-      doc.text('Fläschchen-Status', 15, yPos + 4);
-      yPos += 7;
-      
-      doc.setFontSize(8);
-      doc.setTextColor(60, 60, 60);
-      doc.setFont(undefined, 'normal');
-      
-      doc.text(`Verbraucht: ${week.bottleStatus.used} von ${week.bottleStatus.totalCapacity} Hüben`, 15, yPos);
-      doc.text(`Rest: ${week.bottleStatus.remaining} Hübe`, 70, yPos);
-      doc.text(`Voraussichtlich leer in: ~${week.bottleStatus.emptyInWeeks} Wochen`, 120, yPos);
-      yPos += 5;
-      
-      if (week.bottleStatus.productChangeNext) {
-        doc.setFont(undefined, 'bold');
-        doc.setTextColor(184, 134, 11);
-        doc.text('⚠️ Produktwechsel in nächster Woche erforderlich', 15, yPos);
-      } else {
-        doc.setFont(undefined, 'normal');
-        doc.setTextColor(0, 128, 0);
-        doc.text('✅ Aktuelles Fläschchen weiter verwenden', 15, yPos);
-      }
-      yPos += 3;
-    }
-    
-    yPos += 8;
-    
-  });
-  
-  yPos += 5;
-  
-  // === SICHERHEIT & ÄRZTLICHE BEGLEITUNG (STANDARD: immer am Ende) ===
-  if (yPos > 210) {
-    doc.addPage();
-    yPos = 20;
-  }
-  
-  doc.setFillColor(236, 253, 245);
-  doc.rect(10, yPos, 190, 82, 'F');
-  doc.setFontSize(11);
-  doc.setTextColor(22, 101, 52);
-  doc.setFont(undefined, 'bold');
-  doc.text('Sicherheitshinweise & Ärztliche Begleitung', 15, yPos + 7);
-  
-  doc.setFontSize(11);
-  doc.setFont(undefined, 'normal');
-  doc.setTextColor(34, 34, 34);
-  const instructions = [
-    '• Sublinguale Einnahme: Paste unter die Zunge, 2-3 Minuten einwirken lassen, dann schlucken.',
-    '• Phase 1 (Einschleichphase): Nur abends (Tage 1-3), um Verträglichkeit zu prüfen.',
-    '• Phase 2 (Erhaltungsphase): 2x täglich (morgens ~40 %, abends ~60 %) wie im Plan angegeben.',
-    '• Zeitpunkt: Am besten zu den Mahlzeiten (z. B. Frühstück & Abendessen) für bessere Aufnahme.',
-    '• Dosierung ablesen: Teilstriche auf der Spritze nutzen. 1 Teilstrich = 1,5 cm = 70 mg Cannabinoide.',
-    '• Ausreichend trinken: Täglich ca. 2-3 Liter Wasser.',
-    '• Symptom-Tagebuch: Täglich notieren (Wirkung, Nebenwirkungen, Schlaf, Stimmung, Schmerzen).',
-    '',
-    'Bei Nebenwirkungen: Sofort auf die zuletzt gut verträgliche Dosis des Vortags zurückgehen',
-    '("Step-back-Regel") und ärztlich Rücksprache halten.',
-    '',
-    'Cannabinoide können das ECS unterstützen und ärztlich begleitete Anpassungen der',
-    'Medikation erleichtern. Änderungen erfolgen ausschließlich durch Ärztinnen und Ärzte.',
-    '',
-    'Bitte nehmen Sie diesen Plan zu Ihrem Arzttermin mit – er dient als Gesprächsgrundlage.'
-  ];
-  
-  let instructionY = yPos + 14;
-  instructions.forEach(instruction => {
-    doc.text(instruction, 15, instructionY);
-    instructionY += 5.2;
-  });
-  
-  yPos += 87;
-  
-  // === MEDIKAMENTENLISTE (STANDARD: Tabellenform) ===
-  if (yPos > 240) {
-    doc.addPage();
-    yPos = 20;
-  }
-  
-  doc.setFontSize(11);
-  doc.setTextColor(0, 0, 0);
-  doc.setFont(undefined, 'bold');
-  doc.text('Ihre aktuellen Medikamente (zum Zeitpunkt der Plan-Erstellung):', 15, yPos);
-  yPos += 8;
-  
-  // Table Header
-  doc.setFillColor(255, 255, 255);
-  doc.setLineWidth(0.5);
-  doc.setDrawColor(0, 77, 64);
-  doc.rect(10, yPos - 5, 190, 8, 'S');
-  doc.setFontSize(10);
-  doc.setTextColor(0, 77, 64);
-  doc.setFont(undefined, 'bold');
-  doc.text('Nr.', 12, yPos);
-  doc.text('Wirkstoff (Generikum)', 25, yPos);
-  doc.text('Dosierung', 85, yPos);
-  doc.text('Einnahme', 125, yPos);
-  doc.text('Wechselwirkung', 160, yPos);
-  
-  yPos += 6;
-  
-  // Table Rows
-  doc.setFontSize(8);
-  doc.setFont(undefined, 'normal');
-  doc.setTextColor(60, 60, 60);
-  
-  analysis.forEach((item, index) => {
-    if (yPos > 270) {
+    // Hinweis zum Produktwechsel
+    if (yPos > 230) {
       doc.addPage();
       yPos = 20;
     }
     
-    // Alternating row colors
-    if (index % 2 === 0) {
-      doc.setFillColor(249, 250, 251);
-      doc.rect(10, yPos - 4, 190, 7, 'F');
-    }
+    doc.setFillColor(254, 249, 195);
+    doc.roundedRect(10, yPos, 190, 20, 3, 3, 'F');
+    doc.setDrawColor(234, 179, 8);
+    doc.roundedRect(10, yPos, 190, 20, 3, 3, 'S');
     
-    const med = item.medication;
+    doc.setFontSize(11);
+    doc.setTextColor(113, 63, 18);
+    doc.setFont(undefined, 'bold');
+    doc.text('💡 Produktwechsel-Strategie', 15, yPos + 7);
+    doc.setFont(undefined, 'normal');
+    doc.text('Produkte werden nur gewechselt, wenn (1) Flasche leer oder (2) Dosierung >12 Sprays/Tag.', 15, yPos + 13);
+    doc.text('Dies minimiert Kosten und vermeidet unnötige Wechsel.', 15, yPos + 18);
     
-    // Nr.
-    doc.text(`${index + 1}`, 12, yPos);
+    yPos += 25;
     
-    // Wirkstoff (name + generic)
-    const medName = med.generic_name ? `${med.name} (${med.generic_name})` : med.name;
-    const medNameLines = doc.splitTextToSize(medName, 55);
-    doc.text(medNameLines[0], 25, yPos);
+    // ============================================================
+    // SEITE 4: SICHERHEITSHINWEISE
+    // ============================================================
     
-    // Dosierung
-    const dosageLines = doc.splitTextToSize(item.dosage, 35);
-    doc.text(dosageLines[0], 85, yPos);
-    
-    // Einnahme (frequency or "regelmäßig")
-    const frequency = item.frequency || 'regelmäßig';
-    doc.text(frequency, 125, yPos);
-    
-    // Wechselwirkung
-    if (item.interactions && item.interactions.length > 0) {
-      const maxSev = item.interactions.reduce((max, i) => {
-        const order = { low: 1, medium: 2, high: 3, critical: 4 };
-        return order[i.severity] > order[max.severity] ? i : max;
-      });
-      const sevText = maxSev.severity === 'critical' ? 'kritisch' : 
-                      maxSev.severity === 'high' ? 'hoch' : 
-                      maxSev.severity === 'medium' ? 'mittel' : 'niedrig';
-      
-      if (maxSev.severity === 'critical' || maxSev.severity === 'high') {
-        doc.setTextColor(220, 38, 38);
-      } else if (maxSev.severity === 'medium') {
-        doc.setTextColor(234, 88, 12); // Orange
-      } else {
-        doc.setTextColor(34, 139, 34); // Green
-      }
-      doc.text(sevText, 160, yPos);
-      doc.setTextColor(60, 60, 60);
-    } else {
-      doc.setTextColor(34, 139, 34);
-      doc.text('keine', 160, yPos);
-      doc.setTextColor(60, 60, 60);
-    }
-    
-    yPos += 7;
-  });
-  
-  yPos += 8;
-  
-  // === WECHSELWIRKUNGEN HINWEIS (STANDARD: unter Tabelle) ===
-  doc.setFillColor(254, 249, 195);
-  doc.rect(10, yPos, 190, 12, 'F');
-  doc.setFontSize(8);
-  doc.setTextColor(113, 63, 18);
-  doc.setFont(undefined, 'normal');
-  doc.text('Einstufung "mittel" bedeutet, dass Wirkstoffspiegel steigen können. Ärztliche Dosisanpassungen', 15, yPos + 5);
-  doc.text('sind möglich – bitte nie eigenmächtig ändern.', 15, yPos + 10);
-  
-  yPos += 17;
-  
-  // === DISCLAIMER (letzte Seite, hellgraue Box) ===
-  if (yPos > 190) {
     doc.addPage();
     yPos = 20;
-  }
-  
-  const disclaimerText = `Dieser Plan ist keine medizinische Beratung und ersetzt nicht den Besuch bei Ihrem Arzt bzw. Ihrer Ärztin.
-
-Die Informationen dienen ausschlie\u00dflich zu Bildungszwecken und zur ersten Orientierung. Sie basieren auf \u00f6ffentlich zug\u00e4nglichen wissenschaftlichen Studien zu Wechselwirkungen zwischen Cannabinoiden und Medikamenten.
-
-Wichtig:
-\u2022 Sprechen Sie unbedingt mit Ihrem Arzt bzw. Ihrer \u00c4rztin, bevor Sie Cannabinoide einnehmen \u2013 besonders bei bestehender Medikation.
-\u2022 Wechselwirkungen k\u00f6nnen gesundheitsgef\u00e4hrdend sein.
-\u2022 \u00c4ndern Sie niemals Ihre Medikation, ohne dies \u00e4rztlich abzusprechen.
-
-Cannabinoide k\u00f6nnen Sie bei \u00e4rztlich begleiteter Medikamenten-Reduktion unterst\u00fctzen \u2013 aber ausschlie\u00dflich unter \u00e4rztlicher Aufsicht.
-
-Bitte nehmen Sie diesen Plan zu Ihrem n\u00e4chsten Arzttermin mit und besprechen Sie gemeinsam, ob und wie Sie Cannabinoide einsetzen m\u00f6chten.`;
-  
-  const disclaimerLines = doc.splitTextToSize(disclaimerText, 174);
-  const disclaimerHeight = disclaimerLines.length * 5.2 + 22;
-  
-  // Hellgraue Box f\u00fcr Disclaimer
-  doc.setFillColor(245, 245, 245); // Hellgrau
-  doc.rect(10, yPos, 190, disclaimerHeight, 'F');
-  doc.roundedRect(10, yPos, 190, disclaimerHeight, 3, 3, 'S');
-  
-  doc.setFontSize(12); // 12pt
-  doc.setTextColor(0, 77, 64); // #004D40
-  doc.setFont(undefined, 'bold');
-  doc.text('Wichtiger Hinweis & Haftungsausschluss', 105, yPos + 10, { align: 'center' });
-  
-  yPos += 18;
-  doc.setFontSize(11); // 11pt
-  doc.setTextColor(34, 34, 34); // #222
-  doc.setFont(undefined, 'normal');
-  
-  doc.text(disclaimerLines, 18, yPos);
-  
-  yPos += disclaimerLines.length * 5.2 + 10;
-  
-  // === KI SIGNATUR (zentriert am Ende) ===
-  doc.setFontSize(9); // 9pt
-  doc.setTextColor(136, 136, 136); // #888
-  doc.setFont(undefined, 'italic');
-  doc.text('Erstellt durch KI auf Basis wissenschaftlicher Studien zu Cannabinoid-Dosierung und ECS-Regulation.', 105, yPos, { align: 'center' });
-  
-  // === FOOTER (9pt, kursiv, rechtsb\u00fcndig) ===
-  doc.setFontSize(9); // 9pt
-  doc.setTextColor(136, 136, 136); // #888
-  doc.setFont(undefined, 'italic');
-  const pageCount = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= pageCount; i++) {
-    doc.setPage(i);
-    doc.text(`Erstellt: ${new Date().toLocaleDateString('de-DE')} | Seite ${i} von ${pageCount}`, 190, 290, { align: 'right' });
-    doc.text('ECS Aktivierung - www.ecs-aktivierung.de', 105, 285, { align: 'center' });
-  }
-  
-  // === DATEINAME (einheitlich: Cannabinoid-Reduktionsplan) ===
-  const dateStr = new Date().toISOString().split('T')[0];
-  const sanitizedName = capitalizedFirstName.replace(/[^a-zA-Z0-9]/g, '_');
-  const filename = `Cannabinoid-Reduktionsplan_${sanitizedName}_${dateStr}.pdf`;
-  
-  doc.save(filename);
-  
+    
+    doc.setFontSize(16);
+    doc.setTextColor(26, 83, 92);
+    doc.setFont(undefined, 'bold');
+    doc.text('Sicherheitshinweise & Anwendung', 15, yPos);
+    yPos += 12;
+    
+    doc.setFillColor(236, 253, 245);
+    doc.roundedRect(10, yPos, 190, 85, 3, 3, 'F');
+    doc.setDrawColor(16, 185, 129);
+    doc.roundedRect(10, yPos, 190, 85, 3, 3, 'S');
+    
+    doc.setFontSize(11);
+    doc.setTextColor(55, 65, 81);
+    doc.setFont(undefined, 'normal');
+    
+    const safetyRules = [
+      '1. Änderungen der Medikation nur unter ärztlicher Aufsicht',
+      '   • Niemals eigenständig Medikamente absetzen oder Dosis ändern',
+      '   • Nehmen Sie diesen Plan zum Arztgespräch mit',
+      '',
+      '2. CBD kann Medikamentenspiegel erhöhen (CYP450-Hemmung)',
+      '   • Regelmäßige ärztliche Kontrollen erforderlich',
+      '   • Bei Nebenwirkungen sofort Arzt kontaktieren',
+      '',
+      '3. Einnahme morgens/abends wie angegeben',
+      '   • Spray direkt in den Mund oder unter die Zunge',
+      '   • Vor Gebrauch Flasche gut schütteln',
+      '',
+      '4. Bei Beschwerden "Step-Back"-Regel anwenden',
+      '   • Eine Woche zurück zur letzten gut verträglichen Dosis',
+      '   • Ärztliche Rücksprache einholen',
+      '',
+      '5. Symptomtagebuch führen',
+      '   • Täglich notieren: Befinden, Nebenwirkungen, Schlaf',
+      '   • Hilft dem Arzt bei Dosisanpassungen'
+    ];
+    
+    let lineY = yPos + 8;
+    safetyRules.forEach(line => {
+      doc.text(line, 15, lineY);
+      lineY += 5;
+    });
+    
+    yPos += 90;
+    
+    // Footer auf allen Seiten
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      
+      doc.setFontSize(9);
+      doc.setTextColor(156, 163, 175);
+      doc.setFont(undefined, 'normal');
+      doc.text('ReduMed – www.redu-med.com', 105, 285, { align: 'center' });
+      doc.text(`Seite ${i} von ${pageCount} | Erstellt: ${new Date().toLocaleDateString('de-DE')}`, 105, 290, { align: 'center' });
+    }
+    
+    // Download
+    const dateStr = new Date().toISOString().split('T')[0];
+    const sanitizedName = (firstName || 'Patient').replace(/[^a-zA-Z0-9]/g, '_');
+    const filename = `ReduMed-Plan_${sanitizedName}_${dateStr}.pdf`;
+    
+    doc.save(filename);
+    
   } catch (error) {
     console.error('Fehler beim Erstellen der PDF:', error);
-    alert('Fehler beim Erstellen der PDF: ' + error.message + '\n\nBitte versuchen Sie es erneut oder laden Sie die Seite neu.');
+    alert('Fehler beim Erstellen der PDF. Bitte versuchen Sie es erneut.');
   }
 }
