@@ -522,8 +522,8 @@ app.get('/', (c) => {
       --radius-full: 9999px;
       
       /* Shadows */
-      --shadow-soft: 0 4px 6px -1px rgba(12, 92, 76, 0.1);
-      --shadow-medium: 0 10px 15px -3px rgba(12, 92, 76, 0.1);
+      --shadow-soft: 0 2px 8px -2px rgba(12, 92, 76, 0.08);
+      --shadow-medium: 0 8px 20px -4px rgba(12, 92, 76, 0.12);
       --shadow-large: 0 20px 25px -5px rgba(12, 92, 76, 0.1);
       
       /* Typography */
@@ -631,7 +631,7 @@ app.get('/', (c) => {
       font-size: 1.125rem;
       font-weight: 600;
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
       cursor: pointer;
       box-shadow: 0 4px 14px rgba(12, 92, 76, 0.3);
       transition: all 0.3s ease;
@@ -792,7 +792,7 @@ app.get('/', (c) => {
     .process-cards-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+      gap: 2.5rem;
       margin-top: 3rem;
     }
     
@@ -1136,6 +1136,58 @@ app.get('/', (c) => {
       }
     }
     
+    /* Medication Reduction Animation Keyframes */
+    @keyframes pillDescend {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.9;
+      }
+      50% {
+        transform: translateY(150px) rotate(15deg);
+        opacity: 0.3;
+      }
+    }
+    
+    @keyframes cannabinoidAscend {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translateY(-120px) scale(1.1);
+        opacity: 1;
+      }
+    }
+    
+    /* Apply animations to SVG elements */
+    .pill {
+      animation: pillDescend 4s ease-in-out infinite;
+    }
+    
+    .pill-1 { animation-delay: 0s; }
+    .pill-2 { animation-delay: 0.5s; }
+    .pill-3 { animation-delay: 1s; }
+    .pill-4 { animation-delay: 1.5s; }
+    .pill-5 { animation-delay: 2s; }
+    .pill-6 { animation-delay: 2.5s; }
+    
+    .molecule {
+      animation: cannabinoidAscend 5s ease-in-out infinite;
+    }
+    
+    .cannabinoid-1 { animation-delay: 0s; }
+    .cannabinoid-2 { animation-delay: 1.2s; }
+    .cannabinoid-3 { animation-delay: 2.4s; }
+    
+    .medication-reduction-animation {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    
     .form-card {
       background: white;
       border: 2px solid var(--accent-mint-light);
@@ -1276,7 +1328,7 @@ app.get('/', (c) => {
       color: white;
       background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
       border: none;
-      border-radius: var(--radius-small);
+      border-radius: 14px;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(12, 92, 76, 0.2);
       transition: all 0.3s ease;
@@ -1882,29 +1934,99 @@ app.get('/', (c) => {
             </button>
           </div>
           
-          <!-- Right: Illustration -->
+          <!-- Right: Medication Reduction Animation -->
           <div class="hero-illustration">
-            <div class="body-silhouette-container">
-              <!-- Body Silhouette with ECS Hotspots -->
-              <svg viewBox="0 0 400 600" class="body-silhouette">
-                <!-- Body outline -->
-                <path d="M200,30 L200,30 C210,30 220,35 225,45 L230,60 L235,80 L240,100 L245,120 L250,160 L250,200 L245,240 L240,260 L235,280 L230,300 L225,330 L220,360 L215,400 L210,440 L205,480 L200,520 L200,560 L195,560 L195,520 L190,480 L185,440 L180,400 L175,360 L170,330 L165,300 L160,280 L155,260 L150,240 L150,200 L155,160 L160,120 L165,100 L170,80 L175,60 C180,35 190,30 200,30 Z" 
-                      fill="none" 
-                      stroke="#0C5C4C" 
-                      stroke-width="2"/>
+            <div class="medication-reduction-animation">
+              
+              <!-- Visual concept: Pills descending → Cannabinoids ascending -->
+              <svg viewBox="0 0 400 500" class="reduction-visual" style="width: 100%; height: auto;">
+                <defs>
+                  <!-- Gradient for depth -->
+                  <linearGradient id="pillGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.8" />
+                    <stop offset="100%" style="stop-color:#991B1B;stop-opacity:0.6" />
+                  </linearGradient>
+                  <linearGradient id="cannabinoidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#0F7A67;stop-opacity:0.9" />
+                    <stop offset="100%" style="stop-color:#0C5C4C;stop-opacity:0.7" />
+                  </linearGradient>
+                </defs>
                 
-                <!-- ECS Hotspots (animated) -->
-                <circle cx="200" cy="80" r="8" class="ecs-hotspot brain"/>
-                <circle cx="200" cy="180" r="8" class="ecs-hotspot heart"/>
-                <circle cx="200" cy="280" r="8" class="ecs-hotspot gut"/>
-                <circle cx="180" cy="350" r="6" class="ecs-hotspot immune"/>
-                <circle cx="220" cy="350" r="6" class="ecs-hotspot immune"/>
+                <!-- Central Balance Line -->
+                <line x1="50" y1="250" x2="350" y2="250" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="200" y="240" text-anchor="middle" fill="#9CA3AF" font-size="14" font-weight="600">Balance-Punkt</text>
+                
+                <!-- Pills descending (animated) -->
+                <g class="pill-group descending">
+                  <ellipse cx="100" cy="100" rx="15" ry="30" fill="url(#pillGradient)" class="pill pill-1"/>
+                  <ellipse cx="180" cy="80" rx="12" ry="25" fill="url(#pillGradient)" class="pill pill-2"/>
+                  <ellipse cx="270" cy="110" rx="14" ry="28" fill="url(#pillGradient)" class="pill pill-3"/>
+                  <ellipse cx="320" cy="90" rx="11" ry="23" fill="url(#pillGradient)" class="pill pill-4"/>
+                  <ellipse cx="140" cy="140" rx="13" ry="26" fill="url(#pillGradient)" class="pill pill-5"/>
+                  <ellipse cx="240" cy="150" rx="12" ry="24" fill="url(#pillGradient)" class="pill pill-6"/>
+                </g>
+                
+                <!-- Cannabinoid molecules ascending (animated) -->
+                <g class="cannabinoid-group ascending">
+                  <!-- Molecule structure: Pentagon with bonds -->
+                  <g class="molecule cannabinoid-1">
+                    <circle cx="120" cy="380" r="8" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="135" cy="395" r="6" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="125" cy="410" r="7" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="105" cy="410" r="6" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="95" cy="395" r="7" fill="url(#cannabinoidGradient)"/>
+                    <line x1="120" y1="380" x2="135" y2="395" stroke="#0C5C4C" stroke-width="2"/>
+                    <line x1="135" y1="395" x2="125" y2="410" stroke="#0C5C4C" stroke-width="2"/>
+                    <line x1="125" y1="410" x2="105" y2="410" stroke="#0C5C4C" stroke-width="2"/>
+                    <line x1="105" y1="410" x2="95" y2="395" stroke="#0C5C4C" stroke-width="2"/>
+                    <line x1="95" y1="395" x2="120" y2="380" stroke="#0C5C4C" stroke-width="2"/>
+                  </g>
+                  <g class="molecule cannabinoid-2">
+                    <circle cx="280" cy="400" r="7" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="292" cy="413" r="6" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="284" cy="425" r="6" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="266" cy="425" r="5" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="258" cy="413" r="6" fill="url(#cannabinoidGradient)"/>
+                    <line x1="280" y1="400" x2="292" y2="413" stroke="#0C5C4C" stroke-width="1.5"/>
+                    <line x1="292" y1="413" x2="284" y2="425" stroke="#0C5C4C" stroke-width="1.5"/>
+                    <line x1="284" y1="425" x2="266" y2="425" stroke="#0C5C4C" stroke-width="1.5"/>
+                    <line x1="266" y1="425" x2="258" y2="413" stroke="#0C5C4C" stroke-width="1.5"/>
+                    <line x1="258" y1="413" x2="280" y2="400" stroke="#0C5C4C" stroke-width="1.5"/>
+                  </g>
+                  <g class="molecule cannabinoid-3">
+                    <circle cx="200" cy="420" r="9" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="217" cy="435" r="7" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="207" cy="450" r="7" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="183" cy="450" r="6" fill="url(#cannabinoidGradient)"/>
+                    <circle cx="173" cy="435" r="7" fill="url(#cannabinoidGradient)"/>
+                    <line x1="200" y1="420" x2="217" y2="435" stroke="#0C5C4C" stroke-width="2"/>
+                    <line x1="217" y1="435" x2="207" y2="450" stroke="#0C5C4C" stroke-width="2"/>
+                    <line x1="207" y1="450" x2="183" y2="450" stroke="#0C5C4C" stroke-width="2"/>
+                    <line x1="183" y1="450" x2="173" y2="435" stroke="#0C5C4C" stroke-width="2"/>
+                    <line x1="173" y1="435" x2="200" y2="420" stroke="#0C5C4C" stroke-width="2"/>
+                  </g>
+                </g>
+                
+                <!-- Arrows showing direction -->
+                <g class="direction-indicators">
+                  <path d="M 60,150 L 60,200" stroke="#DC2626" stroke-width="2" fill="none" marker-end="url(#arrowDown)"/>
+                  <path d="M 340,350 L 340,300" stroke="#0F7A67" stroke-width="2" fill="none" marker-end="url(#arrowUp)"/>
+                </g>
+                
+                <defs>
+                  <marker id="arrowDown" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                    <path d="M 2,2 L 5,8 L 8,2" fill="none" stroke="#DC2626" stroke-width="2"/>
+                  </marker>
+                  <marker id="arrowUp" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                    <path d="M 2,8 L 5,2 L 8,8" fill="none" stroke="#0F7A67" stroke-width="2"/>
+                  </marker>
+                </defs>
+                
+                <!-- Labels -->
+                <text x="60" y="70" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="600">Medikamente ↓</text>
+                <text x="340" y="470" text-anchor="middle" fill="#0F7A67" font-size="13" font-weight="600">Cannabinoide ↑</text>
               </svg>
               
-              <!-- Floating molecules -->
-              <div class="molecule-decoration molecule-1"></div>
-              <div class="molecule-decoration molecule-2"></div>
-              <div class="molecule-decoration molecule-3"></div>
             </div>
           </div>
           
