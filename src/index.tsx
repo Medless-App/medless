@@ -1175,19 +1175,19 @@ app.get('/', (c) => {
         <!-- Labels Container - EXACTLY ALIGNED with circles above -->
         <div style="display: grid; grid-template-columns: 40px 1fr 40px 1fr 40px 1fr 40px 1fr 40px; max-width: 800px; margin: 0 auto; gap: 0;">
           <!-- Label 1 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2;">Name</span>
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Name</span>
           <span></span>
           <!-- Label 2 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2;">Körper&shy;daten</span>
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Körperdaten</span>
           <span></span>
           <!-- Label 3 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2;">Medi&shy;kamente</span>
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Medikamente</span>
           <span></span>
           <!-- Label 4 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2;">Plan</span>
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Plan</span>
           <span></span>
           <!-- Label 5 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2;">Zusammen&shy;fassung</span>
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Zusammenfassung</span>
         </div>
       </div>
 
