@@ -448,42 +448,6 @@ app.get('/', (c) => {
       text-decoration: none;
     }
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(16px);
-      background: rgba(245, 247, 250, 0.9);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
-    }
-
-    .header-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0.8rem 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .logo {
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      color: var(--primary-dark);
-    }
-
-    .pill {
-      padding: 0.25rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(11, 123, 108, 0.08);
-      font-size: 0.75rem;
-      color: var(--primary-dark);
-      white-space: nowrap;
-    }
-
     main {
       max-width: 960px;
       margin: 0 auto;
@@ -908,13 +872,6 @@ app.get('/', (c) => {
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-inner">
-      <div class="logo">ECS Aktivierung</div>
-      <div class="pill">CBD-Paste 70% · Dosierungsplan</div>
-    </div>
-  </header>
-
   <main>
     <!-- HERO -->
     <section class="hero">
