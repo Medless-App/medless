@@ -560,6 +560,33 @@ app.get('/', (c) => {
     }
     
     /* ============================================================
+       LOGO HEADER
+       ============================================================ */
+    
+    .logo-header {
+      background: white;
+      padding: 1.5rem 0;
+      box-shadow: 0 2px 8px rgba(12, 92, 76, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.98);
+    }
+    
+    .brand-logo {
+      height: 60px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+    
+    .brand-logo:hover {
+      transform: scale(1.05);
+    }
+    
+    /* ============================================================
        HERO SECTION
        ============================================================ */
     
@@ -1882,6 +1909,13 @@ app.get('/', (c) => {
   </style>
 </head>
 <body>
+  
+  <!-- Logo Header -->
+  <header class="logo-header">
+    <div class="container">
+      <img src="/static/redumed-logo.png" alt="ReDuMed Logo" class="brand-logo" />
+    </div>
+  </header>
   
   <main>
     
