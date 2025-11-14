@@ -1,3 +1,12 @@
+// KANNASAN Product Data - CBD Dosier-Sprays (for frontend calculations)
+const KANNASAN_PRODUCTS = [
+  { nr: 5,  cbdPerSpray: 5.8,  name: 'Kannasan Nr. 5',  price: 24.90 },
+  { nr: 10, cbdPerSpray: 11.5, name: 'Kannasan Nr. 10', price: 39.90 },
+  { nr: 15, cbdPerSpray: 17.5, name: 'Kannasan Nr. 15', price: 59.90 },
+  { nr: 20, cbdPerSpray: 23.2, name: 'Kannasan Nr. 20', price: 79.90 },
+  { nr: 25, cbdPerSpray: 29.0, name: 'Kannasan Nr. 25', price: 99.90 }
+];
+
 // Global medications list
 let allMedications = [];
 
@@ -161,11 +170,11 @@ function createMedicationInput() {
   
   const inputGroup = document.createElement('div');
   inputGroup.className = 'medication-input-group';
-  inputGroup.style.cssText = 'margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); border-radius: 12px; border: 2px solid #f59e0b; position: relative;';
+  inputGroup.style.cssText = 'margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); border-radius: 12px; border: 2px solid #14b8a6; position: relative;';
   
   inputGroup.innerHTML = `
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-      <h4 style="margin: 0; color: #b45309; font-size: 1rem;">
+      <h4 style="margin: 0; color: #0b7b6c; font-size: 1rem;">
         <i class="fas fa-pills" style="margin-right: 0.5rem;"></i>
         Medikament ${medicationCount}
       </h4>
@@ -192,13 +201,14 @@ function createMedicationInput() {
       </div>
       
 
-      <!-- mg/Tag - PRIMARY INPUT (gleiche Farbe wie Medikamentenname) -->
+      <!-- mg/Tag - PRIMARY INPUT (gleiche Farbe wie Medikamentenname, OHNE Dropdown-Pfeile) -->
       <div>
         <label style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
           Tagesdosis in mg
         </label>
         <input type="number" 
                name="medication_mg_per_day[]" 
+               class="no-spinner-input"
                placeholder="z.B. 1200" 
                min="0"
                step="0.1"
@@ -328,9 +338,43 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
   await analyzeMedications(medications, durationWeeks, firstName, gender, email, age, weight, height, reductionGoal);
 });
 
+// Create floating particles effect
+function createParticles() {
+  const container = document.getElementById('particles-container');
+  if (!container) return;
+  
+  container.innerHTML = ''; // Clear existing particles
+  
+  for (let i = 0; i < 15; i++) {
+    const particle = document.createElement('div');
+    const size = Math.random() * 4 + 2; // 2-6px (kleiner)
+    const startX = Math.random() * 100;
+    const startY = Math.random() * 100;
+    const duration = Math.random() * 3 + 2; // 2-5s
+    const delay = Math.random() * 2; // 0-2s
+    
+    particle.style.cssText = `
+      position: absolute;
+      width: ${size}px;
+      height: ${size}px;
+      background: radial-gradient(circle, rgba(11,123,108,0.6), rgba(16,185,129,0.3));
+      border-radius: 50%;
+      left: ${startX}%;
+      top: ${startY}%;
+      animation: float ${duration}s ease-in-out ${delay}s infinite;
+      pointer-events: none;
+    `;
+    
+    container.appendChild(particle);
+  }
+}
+
 // Animate loading steps with rich visual feedback
 function animateLoadingSteps() {
   return new Promise((resolve) => {
+    // Create particles
+    createParticles();
+    
     const steps = [
       { 
         id: 1, 
@@ -387,6 +431,16 @@ function animateLoadingSteps() {
     const progressBar = document.getElementById('progress-bar');
     const progressText = document.getElementById('progress-text');
     const statusText = document.getElementById('analysis-status');
+    const statusDots = document.getElementById('status-dots');
+    
+    // NEW: Circular progress elements
+    const progressCircle = document.getElementById('progress-circle');
+    const centerPercentage = document.getElementById('center-percentage');
+    const centerTime = document.getElementById('center-time');
+    const centerIcon = document.getElementById('center-icon');
+    const completionBurst = document.getElementById('completion-burst');
+    const completionStats = document.getElementById('completion-stats');
+    const liveStats = document.getElementById('live-stats');
     
     // Counter elements
     const counterMeds = document.getElementById('counter-medications');
@@ -396,14 +450,49 @@ function animateLoadingSteps() {
     let totalDuration = steps.reduce((sum, step) => sum + step.duration, 0);
     let currentTime = 0;
     
-    // Smooth overall progress bar
+    // Animated dots for status
+    let dotCount = 0;
+    const dotsInterval = setInterval(() => {
+      dotCount = (dotCount + 1) % 4;
+      if (statusDots) {
+        statusDots.textContent = '.'.repeat(dotCount || 1);
+      }
+    }, 500);
+    
+    // Smooth overall progress (both bar and circular)
     const progressInterval = setInterval(() => {
       currentTime += 40;
       const smoothProgress = Math.min((currentTime / totalDuration) * 100, 100);
-      progressBar.style.width = smoothProgress + '%';
+      
+      // Update linear progress bar
+      if (progressBar) {
+        progressBar.style.width = smoothProgress + '%';
+      }
       
       if (progressText) {
         progressText.textContent = Math.round(smoothProgress) + '%';
+      }
+      
+      // Update circular progress ring (r=42 für noch kleineren Ring)
+      if (progressCircle) {
+        const circumference = 2 * Math.PI * 42; // r=42
+        const offset = circumference - (smoothProgress / 100) * circumference;
+        progressCircle.style.strokeDashoffset = offset;
+      }
+      
+      // Update center percentage
+      if (centerPercentage) {
+        centerPercentage.textContent = Math.round(smoothProgress) + '%';
+      }
+      
+      // Update time estimate
+      if (centerTime) {
+        const remainingSeconds = Math.ceil((totalDuration - currentTime) / 1000);
+        if (remainingSeconds > 0) {
+          centerTime.textContent = `noch ca. ${remainingSeconds} Sek.`;
+        } else {
+          centerTime.textContent = 'Abgeschlossen!';
+        }
       }
       
       if (currentTime >= totalDuration) {
@@ -509,20 +598,298 @@ function animateLoadingSteps() {
           // Resolve when last step completes
           if (stepIndex === steps.length - 1) {
             setTimeout(() => {
+              // ========================================
+              // SPEKTAKULÄRE 100% COMPLETION ANIMATION
+              // ========================================
+              
+              // 1. Force all progress indicators to 100%
+              if (progressBar) {
+                progressBar.style.width = '100%';
+              }
+              if (progressText) {
+                progressText.textContent = '100%';
+              }
+              if (progressCircle) {
+                progressCircle.style.strokeDashoffset = '0';
+              }
+              if (centerPercentage) {
+                centerPercentage.textContent = '100%';
+                centerPercentage.style.fontSize = '2rem';
+                centerPercentage.style.fontWeight = '800';
+              }
+              if (centerTime) {
+                centerTime.textContent = '✓ Abgeschlossen!';
+                centerTime.style.color = '#059669';
+                centerTime.style.fontWeight = '600';
+              }
+              
               clearInterval(progressInterval);
               clearInterval(counterInterval);
+              clearInterval(dotsInterval);
               
-              // Final counter values (only if elements exist)
+              // 2. Change icon to checkmark with SLOWER scale animation
+              if (centerIcon) {
+                centerIcon.style.animation = 'rotate-center 0.8s ease-out';
+                setTimeout(() => {
+                  centerIcon.className = 'fas fa-check-circle';
+                  centerIcon.style.color = '#10b981';
+                  centerIcon.style.fontSize = '2rem'; // Kleinerer Check für 100px Ring
+                  centerIcon.style.animation = 'none';
+                }, 400);
+              }
+              
+              // 3. Add glow effect to circular progress (LANGSAMER)
+              if (progressCircle) {
+                progressCircle.style.transition = 'all 0.8s ease';
+                progressCircle.style.animation = 'pulse-glow 2s ease-in-out infinite';
+                progressCircle.style.stroke = '#10b981';
+              }
+              
+              // 4. Show completion burst effect (LANGSAMER)
+              if (completionBurst) {
+                completionBurst.style.display = 'block';
+                setTimeout(() => {
+                  completionBurst.style.display = 'none';
+                }, 800);
+              }
+              
+              // 5. Create success particles & confetti
+              const particlesContainer = document.getElementById('particles-container');
+              if (particlesContainer) {
+                // Add circular burst particles
+                for (let i = 0; i < 25; i++) {
+                  const particle = document.createElement('div');
+                  const size = Math.random() * 6 + 3;
+                  const angle = (Math.PI * 2 * i) / 25; // Gleichmäßig verteilt
+                  const distance = Math.random() * 200 + 100;
+                  const deltaX = Math.cos(angle) * distance;
+                  const deltaY = Math.sin(angle) * distance;
+                  const duration = Math.random() * 0.6 + 0.5; // 0.5-1.1s
+                  const delay = Math.random() * 0.2; // 0-0.2s
+                  
+                  particle.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: radial-gradient(circle, rgba(16,185,129,1), rgba(52,211,153,0.4));
+                    border-radius: 50%;
+                    left: 50%;
+                    top: 25%;
+                    --tx: ${deltaX};
+                    --ty: ${deltaY};
+                    animation: burst-particle ${duration}s ease-out ${delay}s forwards;
+                    pointer-events: none;
+                    box-shadow: 0 0 8px rgba(16,185,129,0.6);
+                  `;
+                  
+                  particlesContainer.appendChild(particle);
+                  
+                  setTimeout(() => particle.remove(), (duration + delay) * 1000);
+                }
+                
+                // Add confetti particles (colored rectangles)
+                const confettiColors = ['#10b981', '#34d399', '#6ee7b7', '#fbbf24', '#f59e0b'];
+                for (let i = 0; i < 20; i++) {
+                  const confetti = document.createElement('div');
+                  const width = Math.random() * 6 + 3;
+                  const height = Math.random() * 12 + 6;
+                  const angle = Math.random() * Math.PI * 2;
+                  const distance = Math.random() * 250 + 120;
+                  const deltaX = Math.cos(angle) * distance;
+                  const deltaY = Math.sin(angle) * distance;
+                  const rotation = Math.random() * 720 - 360;
+                  const duration = Math.random() * 0.8 + 0.6;
+                  const delay = Math.random() * 0.25;
+                  const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                  
+                  confetti.style.cssText = `
+                    position: absolute;
+                    width: ${width}px;
+                    height: ${height}px;
+                    background: ${color};
+                    border-radius: 2px;
+                    left: 50%;
+                    top: 25%;
+                    --tx: ${deltaX};
+                    --ty: ${deltaY};
+                    animation: burst-particle ${duration}s ease-out ${delay}s forwards, spin ${duration * 0.8}s linear ${delay}s forwards;
+                    pointer-events: none;
+                  `;
+                  
+                  particlesContainer.appendChild(confetti);
+                  
+                  setTimeout(() => confetti.remove(), (duration + delay) * 1000);
+                }
+              }
+              
+              // 6. Final counter values
               if (counterMeds) counterMeds.textContent = '173';
               if (counterInteractions) counterInteractions.textContent = '47';
               if (counterCalculations) counterCalculations.textContent = '2.847';
               
+              // 7. Update status text with celebration
               if (statusText) {
-                statusText.textContent = 'Analyse abgeschlossen';
+                statusText.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i>Analyse erfolgreich abgeschlossen';
+                statusText.style.color = '#059669';
+                statusText.style.fontWeight = '700';
+                statusText.style.fontSize = '1rem';
               }
               
-              resolve();
-            }, 600);
+              if (statusDots) {
+                statusDots.style.display = 'none';
+              }
+              
+              // 8. SPEKTAKULÄRE STATS REVEAL - Hide live stats, show completion stats (LANGSAMER)
+              setTimeout(() => {
+                if (liveStats) {
+                  liveStats.style.transition = 'all 0.5s ease';
+                  liveStats.style.opacity = '0';
+                  liveStats.style.transform = 'scale(0.95)';
+                  
+                  setTimeout(() => {
+                    liveStats.style.display = 'none';
+                    
+                    // Show completion stats with SLOWER animation
+                    if (completionStats) {
+                      completionStats.style.display = 'block';
+                      completionStats.style.opacity = '0';
+                      completionStats.style.transform = 'scale(0.9)';
+                      
+                      setTimeout(() => {
+                        completionStats.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                        completionStats.style.opacity = '1';
+                        completionStats.style.transform = 'scale(1)';
+                        
+                        // ALLE 4 STATS GLEICHZEITIG HOCHZÄHLEN (synchronisiert)
+                        const statCalculations = document.getElementById('stat-calculations');
+                        const statMedications = document.getElementById('stat-medications');
+                        const statInteractions = document.getElementById('stat-interactions');
+                        const statWeeks = document.getElementById('stat-weeks');
+                        
+                        const targets = {
+                          calculations: 2847,
+                          medications: 173,
+                          interactions: 47,
+                          weeks: 8
+                        };
+                        
+                        let counts = {
+                          calculations: 0,
+                          medications: 0,
+                          interactions: 0,
+                          weeks: 0
+                        };
+                        
+                        // Synchronisiertes Hochzählen - alle zur gleichen Zeit
+                        const syncInterval = setInterval(() => {
+                          // Increment basierend auf Zielwert (größere Zahlen = größere Schritte)
+                          counts.calculations += Math.floor(Math.random() * 200) + 100;
+                          counts.medications += Math.floor(Math.random() * 12) + 6;
+                          counts.interactions += Math.floor(Math.random() * 4) + 2;
+                          counts.weeks += 0.5;
+                          
+                          // Check & Update für jede Zahl
+                          let allDone = true;
+                          
+                          if (counts.calculations >= targets.calculations) {
+                            counts.calculations = targets.calculations;
+                            if (statCalculations) statCalculations.textContent = counts.calculations.toLocaleString('de-DE');
+                          } else {
+                            if (statCalculations) statCalculations.textContent = Math.floor(counts.calculations).toLocaleString('de-DE');
+                            allDone = false;
+                          }
+                          
+                          if (counts.medications >= targets.medications) {
+                            counts.medications = targets.medications;
+                            if (statMedications) statMedications.textContent = counts.medications;
+                          } else {
+                            if (statMedications) statMedications.textContent = Math.floor(counts.medications);
+                            allDone = false;
+                          }
+                          
+                          if (counts.interactions >= targets.interactions) {
+                            counts.interactions = targets.interactions;
+                            if (statInteractions) statInteractions.textContent = counts.interactions;
+                          } else {
+                            if (statInteractions) statInteractions.textContent = Math.floor(counts.interactions);
+                            allDone = false;
+                          }
+                          
+                          if (counts.weeks >= targets.weeks) {
+                            counts.weeks = targets.weeks;
+                            if (statWeeks) statWeeks.textContent = counts.weeks;
+                          } else {
+                            if (statWeeks) statWeeks.textContent = Math.floor(counts.weeks);
+                            allDone = false;
+                          }
+                          
+                          // Stoppe wenn alle fertig
+                          if (allDone) {
+                            clearInterval(syncInterval);
+                          }
+                        }, 60); // Alle 60ms update
+                      }, 100);
+                    }
+                  }, 500); // 500ms statt 300ms = länger warten
+                }
+              }, 600); // 600ms statt 400ms = später starten
+              
+              // 9. Progress bar celebration glow
+              if (progressBar) {
+                progressBar.style.transition = 'all 0.3s ease';
+                progressBar.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.6), 0 0 40px rgba(16, 185, 129, 0.3)';
+                progressBar.style.background = 'linear-gradient(90deg, #10b981, #059669, #34d399)';
+                
+                setTimeout(() => {
+                  progressBar.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.4)';
+                }, 500);
+              }
+              
+              // 10. Zeige "Plan ist fertig!" Message nach Stats
+              const planReadyMessage = document.getElementById('plan-ready-message');
+              const showPlanButton = document.getElementById('show-plan-button');
+              
+              setTimeout(() => {
+                if (planReadyMessage) {
+                  planReadyMessage.style.display = 'block';
+                  planReadyMessage.style.opacity = '0';
+                  planReadyMessage.style.transform = 'translateY(10px)';
+                  
+                  setTimeout(() => {
+                    planReadyMessage.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    planReadyMessage.style.opacity = '1';
+                    planReadyMessage.style.transform = 'translateY(0)';
+                  }, 50);
+                }
+                
+                // 11. Button-Click Handler - WARTET auf User-Interaktion!
+                if (showPlanButton) {
+                  showPlanButton.addEventListener('click', () => {
+                    // Button Feedback
+                    showPlanButton.style.transform = 'scale(0.95)';
+                    showPlanButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Wird geladen...</span>';
+                    
+                    setTimeout(() => {
+                      // Fade-out Animation
+                      const loadingEl = document.getElementById('loading');
+                      if (loadingEl) {
+                        loadingEl.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                        loadingEl.style.opacity = '0';
+                        loadingEl.style.transform = 'scale(0.98)';
+                      }
+                      
+                      // Resolve nach Fade-out
+                      setTimeout(() => {
+                        resolve();
+                      }, 800);
+                    }, 300);
+                  });
+                }
+              }, 3200); // Nach 3.2 Sekunden erscheint die Message
+              
+              // Animation stoppt hier - wartet auf User-Click!
+              
+            }, 800);
           }
         }, step.duration);
       }, delay);
@@ -539,10 +906,10 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
   loadingEl.classList.remove('hidden');
   document.getElementById('results').classList.add('hidden');
   
-  // Scroll to loading element (stays at form position, not bottom)
+  // Scroll to loading element - sanft in die Mitte des Bildschirms
   setTimeout(() => {
     loadingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 100);
+  }, 150);
 
   // Start animation
   const animationPromise = animateLoadingSteps();
@@ -562,6 +929,7 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     });
 
     // Wait for both animation and API call to complete
+    // IMPORTANT: Animation MUST complete to 100% even if API is fast
     const [response] = await Promise.all([apiPromise, animationPromise]);
 
 
@@ -588,336 +956,219 @@ function displayResults(data, firstName = '', gender = '') {
     return;
   }
   
-  const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization } = data;
+  const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization, costs } = data;
   
   let html = '';
 
-  // Critical warnings
-  if (warnings && warnings.length > 0) {
+  // ============================================================
+  // 1. KOPFBEREICH - TITEL & UNTERTITEL (Homepage-Stil)
+  // ============================================================
+  
+  html += `
+    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: radial-gradient(circle at top left, #e0fdf7, #f5f7fa); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+      <h1 style="margin: 0 0 0.6rem; font-size: 1.6rem; line-height: 1.2; color: #0b7b6c; font-weight: 700;">
+        Ihr persönlicher ReduMed-Dosierungs- und Reduktionsplan
+      </h1>
+      <p style="margin: 0; font-size: 0.95rem; line-height: 1.6; color: #4b5563;">
+        Dieser Plan zeigt Ihnen eine strukturierte, medizinisch fundierte Kombination aus CBD-Dosierung und schrittweiser Medikamentenreduktion. 
+        <strong style="color: #0b7b6c;">Bitte besprechen Sie jede Änderung mit Ihrem Arzt.</strong>
+      </p>
+    </div>
+  `;
+  
+  // ============================================================
+  // 2. PRODUKTBEDARF & GESAMTKOSTEN - GANZ AM ANFANG! (Homepage-Stil)
+  // ============================================================
+  
+  if (costs) {
+    const totalWeeks = weeklyPlan.length;
+    const avgPerWeek = (costs.totalCost / totalWeeks).toFixed(2);
+    
     html += `
-      <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-lg shadow fade-in">
-        <div class="flex items-start">
-          <i class="fas fa-exclamation-circle text-red-600 text-3xl mr-4"></i>
-          <div>
-            <h3 class="text-xl font-bold text-red-800 mb-3">Kritische Wechselwirkungen erkannt</h3>
-            ${warnings.map(w => `<p class="text-red-700 mb-2">${w}</p>`).join('')}
+      <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: radial-gradient(circle at top left, #e0fdf7, #f5f7fa); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+        <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">💰 Benötigte Produkte für Ihren vollständigen Plan</h2>
+        
+        <div style="overflow-x: auto; margin-bottom: 1rem;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+            <thead>
+              <tr style="border-bottom: 2px solid rgba(11,123,108,0.2);">
+                <th style="text-align: left; padding: 0.75rem 0.5rem; font-weight: 600; color: #374151;">Produkt</th>
+                <th style="text-align: center; padding: 0.75rem 0.5rem; font-weight: 600; color: #374151;">mg/Hub</th>
+                <th style="text-align: center; padding: 0.75rem 0.5rem; font-weight: 600; color: #374151;">Anzahl Fläschchen</th>
+                <th style="text-align: right; padding: 0.75rem 0.5rem; font-weight: 600; color: #374151;">Preis pro Flasche</th>
+                <th style="text-align: right; padding: 0.75rem 0.5rem; font-weight: 600; color: #374151;">Gesamtkosten</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${costs.costBreakdown.map((item, idx) => `
+                <tr style="border-bottom: 1px solid rgba(229,231,235,0.6);">
+                  <td style="padding: 0.75rem 0.5rem; color: #1f2937;">${item.product}</td>
+                  <td style="padding: 0.75rem 0.5rem; text-align: center; color: #4b5563;">${item.productNr ? (KANNASAN_PRODUCTS.find(p => p.nr === item.productNr)?.cbdPerSpray.toFixed(1) || '-') : '-'}</td>
+                  <td style="padding: 0.75rem 0.5rem; text-align: center; color: #4b5563;">${item.bottleCount} Stück</td>
+                  <td style="padding: 0.75rem 0.5rem; text-align: right; color: #4b5563;">${item.pricePerBottle.toFixed(2)} €</td>
+                  <td style="padding: 0.75rem 0.5rem; text-align: right; font-weight: 600; color: #0b7b6c;">${item.totalCost.toFixed(2)} €</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        
+        <div style="padding: 1rem; border-radius: 12px; background: white;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <p style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #374151;">Gesamtkosten des Programms:</p>
+            <p style="margin: 0; font-size: 1.75rem; font-weight: 700; color: #0b7b6c;">${costs.totalCost.toFixed(2)} €</p>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <p style="margin: 0; font-size: 0.85rem; color: #6b7280;">Durchschnittliche Kosten pro Woche:</p>
+            <p style="margin: 0; font-size: 1.1rem; font-weight: 600; color: #0b7b6c;">${avgPerWeek} €</p>
           </div>
         </div>
       </div>
     `;
   }
-
-  // Product Information Box - KANNASAN
-  if (product) {
-    html += `
-      <div class="bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-300 p-6 mb-8 rounded-xl shadow-lg fade-in">
-        <div class="flex items-start">
-          <i class="fas fa-spray-can text-purple-600 text-4xl mr-4"></i>
-          <div class="flex-1">
-            <h3 class="text-2xl font-bold text-purple-900 mb-3">${product.name}</h3>
-            <p class="text-sm text-gray-600 mb-4">${product.type}</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 mb-4">
-              <p><strong>Konzentration:</strong> ${product.concentration}</p>
-              <p><strong>Verpackung:</strong> ${product.packaging}</p>
-              <p><strong>2 Sprühstöße:</strong> ${product.twoSprays}</p>
-              <p><strong>Dosierungseinheit:</strong> ${product.dosageUnit}</p>
-            </div>
-            
-            <div class="bg-gradient-to-r from-green-50 to-teal-50 p-4 rounded-lg border-2 border-green-300 mb-4">
-              <p class="text-lg font-bold text-green-900 mb-2">
-                Ihre empfohlene Tagesdosis
-              </p>
-              <div class="grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <p class="text-sm text-gray-600">Morgens</p>
-                  <p class="text-2xl font-bold text-green-700">${product.morningSprays}×</p>
-                  <p class="text-xs text-gray-500">Sprühstöße</p>
-                </div>
-                <div>
-                  <p class="text-sm text-gray-600">Abends</p>
-                  <p class="text-2xl font-bold text-green-700">${product.eveningSprays}×</p>
-                  <p class="text-xs text-gray-500">Sprühstöße</p>
-                </div>
-                <div>
-                  <p class="text-sm text-gray-600">Gesamt</p>
-                  <p class="text-2xl font-bold text-purple-700">${product.totalSpraysPerDay}×</p>
-                  <p class="text-xs text-gray-500">${product.actualDailyMg} mg/Tag</p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="bg-white p-4 rounded-lg border border-purple-200">
-              <p class="text-sm text-gray-800">
-                <strong>Anwendung:</strong> ${product.application}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  // Personalization Summary - ReduMed-AI
+  
+  // ============================================================
+  // 3. AUSGANGSSITUATION - IHRE AUSGANGSDATEN (Homepage-Stil)
+  // ============================================================
+  
   if (personalization) {
     html += `
-      <div class="bg-gradient-to-r from-teal-50 to-green-50 border-2 border-teal-300 p-6 mb-8 rounded-xl shadow-lg fade-in">
-        <div class="flex items-start">
-          <i class="fas fa-user-circle text-teal-600 text-4xl mr-4"></i>
-          <div class="flex-1">
-            <h3 class="text-2xl font-bold text-teal-900 mb-3">Ihre Personalisierung</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              ${personalization.age ? `
-                <div class="bg-white p-3 rounded-lg border border-teal-200">
-                  <p class="text-xs text-gray-600 mb-1">Alter</p>
-                  <p class="text-lg font-bold text-teal-900">${personalization.age} Jahre</p>
-                </div>
-              ` : ''}
-              ${personalization.bmi ? `
-                <div class="bg-white p-3 rounded-lg border border-teal-200">
-                  <p class="text-xs text-gray-600 mb-1">Body-Mass-Index (BMI)</p>
-                  <p class="text-lg font-bold text-teal-900">${personalization.bmi.toFixed(1)}</p>
-                </div>
-              ` : ''}
-              ${personalization.bsa ? `
-                <div class="bg-white p-3 rounded-lg border border-teal-200">
-                  <p class="text-xs text-gray-600 mb-1">Körperoberfläche (BSA)</p>
-                  <p class="text-lg font-bold text-teal-900">${personalization.bsa.toFixed(2)} m²</p>
-                </div>
-              ` : ''}
-              <div class="bg-white p-3 rounded-lg border border-teal-200">
-                <p class="text-xs text-gray-600 mb-1">CBD Start-Dosis</p>
-                <p class="text-lg font-bold text-green-700">${personalization.cbdStartMg.toFixed(1)} mg</p>
-              </div>
-              <div class="bg-white p-3 rounded-lg border border-teal-200">
-                <p class="text-xs text-gray-600 mb-1">CBD Ziel-Dosis</p>
-                <p class="text-lg font-bold text-green-700">${personalization.cbdEndMg.toFixed(1)} mg</p>
-              </div>
-              ${personalization.hasBenzoOrOpioid ? `
-                <div class="bg-red-50 p-3 rounded-lg border-2 border-red-300">
-                  <p class="text-xs text-red-600 mb-1">Sicherheitsregel</p>
-                  <p class="text-sm font-bold text-red-700">Benzo/Opioid erkannt</p>
-                </div>
-              ` : ''}
+      <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre Ausgangsdaten</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+          ${personalization.age ? `
+            <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
+              <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">Alter</p>
+              <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.age} Jahre</p>
             </div>
-            ${personalization.notes && personalization.notes.length > 0 ? `
-              <div class="mt-4 bg-white p-4 rounded-lg border border-teal-200">
-                <p class="text-sm font-semibold text-gray-800 mb-2">🔍 Individuelle Anpassungen:</p>
-                <ul class="text-sm text-gray-700 space-y-1">
-                  ${personalization.notes.map(note => `<li>${note}</li>`).join('')}
-                </ul>
-              </div>
-            ` : ''}
-          </div>
+          ` : ''}
+          ${personalization.height ? `
+            <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
+              <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">Größe</p>
+              <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.height} cm</p>
+            </div>
+          ` : ''}
+          ${personalization.weight ? `
+            <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
+              <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">Gewicht</p>
+              <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.weight} kg</p>
+            </div>
+          ` : ''}
+          ${personalization.bmi ? `
+            <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
+              <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">BMI</p>
+              <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.bmi.toFixed(1)}</p>
+            </div>
+          ` : ''}
         </div>
       </div>
     `;
   }
-
-  // Medication Analysis
+  
+  // ============================================================
+  // 3. IHRE AKTUELLE MEDIKATION (Homepage-Stil)
+  // ============================================================
+  
   html += `
-    <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-        <i class="fas fa-microscope text-blue-600 mr-3"></i>
-        Medikamenten-Analyse
-      </h2>
-      <div class="space-y-6">
+    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre aktuelle Medikation</h2>
+      
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
   `;
-
+  
   analysis.forEach((item) => {
     const med = item.medication;
     const interactions = item.interactions;
+    const hasInteractions = interactions && interactions.length > 0;
     
-    if (med.found === false) {
-      html += `
-        <div class="border-l-4 border-gray-400 bg-gray-50 p-4 rounded-lg">
-          <div class="flex items-start justify-between">
-            <div>
-              <h3 class="font-bold text-gray-800 text-lg">${med.name}</h3>
-              <p class="text-gray-600 mt-1">
-                <i class="fas fa-info-circle mr-2"></i>
-                ${item.warning}
-              </p>
-            </div>
-            <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">
-              Unbekannt
-            </span>
+    html += `
+      <div style="padding: 1rem; border-radius: 12px; background: #f9fafb; border: 1px solid #e5e7eb;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+          <div>
+            <h3 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #1f2937;">${med.name}</h3>
+            ${med.generic_name ? `<p style="margin: 0.25rem 0 0; font-size: 0.8rem; color: #6b7280;">${med.generic_name}</p>` : ''}
+          </div>
+          <div style="text-align: right;">
+            <p style="margin: 0; font-size: 0.7rem; color: #9ca3af;">Tagesdosis</p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.9rem; font-weight: 600; color: #1f2937;">${item.dosage}</p>
           </div>
         </div>
-      `;
-    } else {
-      const severityStyles = {
-        low: {
-          border: 'border-green-500',
-          bg: 'bg-green-50',
-          badgeBg: 'bg-green-200',
-          badgeText: 'text-green-800'
-        },
-        medium: {
-          border: 'border-yellow-500',
-          bg: 'bg-yellow-50',
-          badgeBg: 'bg-yellow-200',
-          badgeText: 'text-yellow-800'
-        },
-        high: {
-          border: 'border-orange-500',
-          bg: 'bg-orange-50',
-          badgeBg: 'bg-orange-200',
-          badgeText: 'text-orange-800'
-        },
-        critical: {
-          border: 'border-red-500',
-          bg: 'bg-red-50',
-          badgeBg: 'bg-red-200',
-          badgeText: 'text-red-800'
-        }
-      };
-      
-      const maxInteractionSeverity = interactions.length > 0 ? 
-        interactions.reduce((max, i) => {
-          const order = { low: 1, medium: 2, high: 3, critical: 4 };
-          return order[i.severity] > order[max] ? i.severity : max;
-        }, 'low') : 'low';
-      
-      const styles = severityStyles[maxInteractionSeverity];
-      
-      html += `
-        <div class="border-l-4 ${styles.border} ${styles.bg} p-4 rounded-lg">
-          <div class="flex items-start justify-between mb-3">
-            <div class="flex-1">
-              <h3 class="font-bold text-gray-800 text-lg">${med.name}</h3>
-              ${med.generic_name ? `<p class="text-gray-600 text-sm">${med.generic_name}</p>` : ''}
-              <p class="text-gray-600 text-sm mt-1">
-                <i class="fas fa-capsules mr-2"></i>
-                Dosierung: ${item.dosage}
-              </p>
-            </div>
-            <span class="px-3 py-1 ${styles.badgeBg} ${styles.badgeText} rounded-full text-sm font-semibold">
-              ${maxInteractionSeverity === 'critical' ? 'Kritisch' :
-                maxInteractionSeverity === 'high' ? 'Hoch' :
-                maxInteractionSeverity === 'medium' ? 'Mittel' : 'Niedrig'}
-            </span>
+        
+        ${hasInteractions ? `
+          <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 0.5rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280;">Hinweise zu Wechselwirkungen:</p>
+            ${interactions.map(i => `
+              <div style="margin-bottom: 0.5rem; font-size: 0.85rem; color: #374151;">
+                <p style="margin: 0; font-weight: 600;">${i.description}</p>
+                ${i.recommendation ? `<p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">${i.recommendation}</p>` : ''}
+              </div>
+            `).join('')}
           </div>
-          
-          ${interactions.length > 0 ? `
-            <div class="mt-4 space-y-3">
-              ${interactions.map(i => `
-                <div class="bg-white p-4 rounded-lg">
-                  <p class="text-gray-800 font-semibold mb-2">
-                    <i class="fas fa-flask mr-2"></i>
-                    ${i.description}
-                  </p>
-                  ${i.mechanism ? `
-                    <p class="text-gray-600 text-sm mb-2">
-                      <strong>Mechanismus:</strong> ${i.mechanism}
-                    </p>
-                  ` : ''}
-                  ${i.recommendation ? `
-                    <p class="text-gray-700 text-sm bg-gray-50 p-2 rounded">
-                      <i class="fas fa-lightbulb mr-2"></i>
-                      <strong>Empfehlung:</strong> ${i.recommendation}
-                    </p>
-                  ` : ''}
-                </div>
-              `).join('')}
-            </div>
-          ` : `
-            <p class="text-gray-600 text-sm mt-2">
-              <i class="fas fa-check-circle text-green-500 mr-2"></i>
-              Keine bekannten Wechselwirkungen mit Cannabinoiden
-            </p>
-          `}
-        </div>
-      `;
-    }
+        ` : `
+          <p style="margin: 0.75rem 0 0; font-size: 0.85rem; color: #6b7280;">Keine bekannten Wechselwirkungen mit Cannabinoiden</p>
+        `}
+      </div>
+    `;
   });
-
+  
   html += `
       </div>
     </div>
   `;
+  
+  // Critical warnings (Homepage-Stil)
+  if (warnings && warnings.length > 0) {
+    html += `
+      <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: #fef2f2; border-left: 4px solid #ef4444;">
+        <h3 style="margin: 0 0 0.75rem; font-size: 1.1rem; font-weight: 700; color: #991b1b;">⚠️ Kritische Wechselwirkungen erkannt</h3>
+        ${warnings.map(w => `<p style="margin: 0 0 0.5rem; font-size: 0.85rem; color: #b91c1c;">${w}</p>`).join('')}
+      </div>
+    `;
+  }
 
-  // ReduMed-AI: Multi-Medication Reduction Plan
-  html += `
-    <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in" id="dosage-plan-section">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-        <i class="fas fa-calendar-check text-green-600 mr-3"></i>
-        ReduMed-AI: Ihr Medikamenten-Reduktionsplan
-      </h2>
-      
-      <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 p-4 mb-6 rounded-lg">
-        <p class="text-blue-900 font-bold mb-2">
-          <i class="fas fa-info-circle mr-2"></i>
-          Ihr personalisierter Multi-Medikamenten-Reduktionsplan
-        </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
-          <div class="bg-white p-3 rounded-lg border border-blue-200">
-            <p class="text-xs text-gray-600 mb-1">Medikamente</p>
-            <p class="text-xl font-bold text-blue-900">${weeklyPlan[0].medications.length}</p>
+  // ============================================================
+  // 4. CBD-DOSIERUNGSEMPFEHLUNG (Homepage-Stil)
+  // ============================================================
+  
+  if (product && personalization) {
+    html += `
+      <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre CBD-Dosierungsempfehlung</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
+            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">CBD Start-Dosis</p>
+            <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.cbdStartMg.toFixed(1)} mg</p>
           </div>
-          <div class="bg-white p-3 rounded-lg border border-green-200">
-            <p class="text-xs text-gray-600 mb-1">CBD Start → Ende</p>
-            <p class="text-xl font-bold text-green-900">${weeklyPlan[0].cbdDose} → ${weeklyPlan[weeklyPlan.length - 1].cbdDose} mg</p>
+          <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
+            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">CBD Ziel-Dosis</p>
+            <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.cbdEndMg.toFixed(1)} mg</p>
           </div>
-          <div class="bg-white p-3 rounded-lg border border-purple-200">
-            <p class="text-xs text-gray-600 mb-1">Plan-Dauer</p>
-            <p class="text-xl font-bold text-purple-900">${weeklyPlan.length} Wochen</p>
+          <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
+            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">Wöchentlicher Anstieg</p>
+            <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${((personalization.cbdEndMg - personalization.cbdStartMg) / weeklyPlan.length).toFixed(1)} mg</p>
+          </div>
+          <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
+            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">Empfohlenes Produkt</p>
+            <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${product.name}</p>
           </div>
         </div>
-      </div>
-  `;
-
-  // Cost Overview - ReduMed
-  if (data.costs) {
-    html += `
-      <div class="bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-300 p-6 mb-8 rounded-xl shadow-lg fade-in">
-        <div class="flex items-start">
-          <i class="fas fa-euro-sign text-amber-600 text-4xl mr-4"></i>
-          <div class="flex-1">
-            <h3 class="text-2xl font-bold text-amber-900 mb-3">Kostenübersicht</h3>
-            <div class="bg-white rounded-lg p-4 mb-4">
-              <table class="w-full">
-                <thead class="border-b-2 border-amber-200">
-                  <tr class="text-left">
-                    <th class="py-2 text-sm font-semibold text-gray-700">Produkt</th>
-                    <th class="py-2 text-sm font-semibold text-gray-700 text-center">Flaschen</th>
-                    <th class="py-2 text-sm font-semibold text-gray-700 text-center">Sprays</th>
-                    <th class="py-2 text-sm font-semibold text-gray-700 text-right">Preis/Flasche</th>
-                    <th class="py-2 text-sm font-semibold text-gray-700 text-right">Gesamtkosten</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${data.costs.costBreakdown.map((item, idx) => `
-                    <tr class="${idx % 2 === 0 ? 'bg-amber-50' : 'bg-white'}">
-                      <td class="py-3 text-sm font-medium text-gray-800">${item.product}</td>
-                      <td class="py-3 text-sm text-gray-700 text-center">${item.bottleCount}×</td>
-                      <td class="py-3 text-sm text-gray-600 text-center">${item.totalSprays}</td>
-                      <td class="py-3 text-sm text-gray-700 text-right">${item.pricePerBottle.toFixed(2)} €</td>
-                      <td class="py-3 text-sm font-bold text-amber-900 text-right">${item.totalCost.toFixed(2)} €</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-                <tfoot class="border-t-2 border-amber-300">
-                  <tr class="bg-amber-100">
-                    <td colspan="4" class="py-3 text-right font-bold text-gray-800">GESAMTKOSTEN:</td>
-                    <td class="py-3 text-right text-xl font-bold text-amber-900">${data.costs.totalCost.toFixed(2)} €</td>
-                  </tr>
-                </tfoot>
-              </table>
+        
+        <div style="padding: 1rem; border-radius: 12px; background: #f9fafb;">
+          <p style="margin: 0 0 0.75rem; font-size: 0.85rem; font-weight: 600; color: #374151;">Berechnung der täglichen Sprühstöße</p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+            <div>
+              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Morgens</p>
+              <p style="margin: 0; font-size: 2rem; font-weight: 700; color: #0b7b6c;">${product.morningSprays}</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-              <div class="bg-white p-3 rounded-lg border border-amber-200">
-                <p class="text-xs text-gray-600 mb-1">Gesamtflaschen</p>
-                <p class="text-lg font-bold text-amber-900">${data.costs.totalBottles} Flaschen</p>
-              </div>
-              <div class="bg-white p-3 rounded-lg border border-amber-200">
-                <p class="text-xs text-gray-600 mb-1">Gesamtsprays</p>
-                <p class="text-lg font-bold text-amber-900">${data.costs.totalSprays} Hübe</p>
-              </div>
-              <div class="bg-white p-3 rounded-lg border border-amber-200">
-                <p class="text-xs text-gray-600 mb-1">Ø Kosten/Woche</p>
-                <p class="text-lg font-bold text-amber-900">${(data.costs.totalCost / weeklyPlan.length).toFixed(2)} €</p>
-              </div>
+            <div>
+              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Abends</p>
+              <p style="margin: 0; font-size: 2rem; font-weight: 700; color: #0b7b6c;">${product.eveningSprays}</p>
+            </div>
+            <div>
+              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Gesamt pro Tag</p>
+              <p style="margin: 0; font-size: 2rem; font-weight: 700; color: #0b7b6c;">${product.totalSpraysPerDay}</p>
             </div>
           </div>
         </div>
@@ -925,178 +1176,169 @@ function displayResults(data, firstName = '', gender = '') {
     `;
   }
 
-  // Weekly plan with medication reduction + CBD increase
+  // ============================================================
+  // 5. WÖCHENTLICHER REDUKTIONSPLAN (Homepage-Stil)
+  // ============================================================
+  
+  html += `
+    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Wöchentlicher Reduktionsplan</h2>
+  `;
+
+  // Wöchentlicher Reduktionsplan - Jede Woche eigene Box (Homepage-Stil)
   weeklyPlan.forEach((week, weekIndex) => {
     html += `
-      <div class="mb-8 border-2 border-purple-200 rounded-xl overflow-hidden">
-        <!-- Week Header -->
-        <div class="bg-gradient-to-r from-purple-600 to-blue-600 p-4">
-          <h3 class="text-2xl font-bold text-white flex items-center justify-between">
-            <span>
-              <i class="fas fa-calendar-week mr-2"></i>
-              Woche ${week.week}
-            </span>
-            <span class="text-sm font-normal">
-              Medikamentenlast: ${week.totalMedicationLoad} mg/Tag
-            </span>
-          </h3>
-        </div>
+      <div style="margin-bottom: 1.2rem; padding: 1.2rem; border-radius: 16px; background: #f9fafb; border: 1px solid #e5e7eb;">
+        <h3 style="margin: 0 0 1rem; font-size: 1.1rem; font-weight: 700; color: #0b7b6c;">Woche ${week.week}</h3>
         
-        <!-- Medications Table -->
-        <div class="bg-red-50 p-4">
-          <h4 class="font-bold text-red-900 mb-3 flex items-center">
-            <i class="fas fa-pills text-red-600 mr-2"></i>
-            Medikamenten-Dosierung
-          </h4>
-          <div class="overflow-x-auto">
-            <table class="w-full border-collapse bg-white rounded-lg">
-              <thead class="bg-red-100">
-                <tr>
-                  <th class="px-4 py-3 text-left text-red-900 font-semibold border border-red-200">Medikament</th>
-                  <th class="px-4 py-3 text-center text-red-900 font-semibold border border-red-200">Start</th>
-                  <th class="px-4 py-3 text-center text-red-900 font-semibold border border-red-200">Aktuell</th>
-                  <th class="px-4 py-3 text-center text-red-900 font-semibold border border-red-200">Ziel</th>
-                  <th class="px-4 py-3 text-center text-red-900 font-semibold border border-red-200">Reduktion</th>
-                </tr>
-              </thead>
-              <tbody>
+        <!-- Medikamenten-Dosierung -->
+        <h4 style="margin: 0 0 0.75rem; font-size: 0.85rem; font-weight: 600; color: #374151;">Medikamenten-Dosierung</h4>
+        <div style="overflow-x: auto; margin-bottom: 1rem;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(11,123,108,0.2);">
+                <th style="text-align: left; padding: 0.5rem; font-weight: 600; color: #6b7280; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">Medikament</th>
+                <th style="text-align: center; padding: 0.5rem; font-weight: 600; color: #6b7280; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">Start</th>
+                <th style="text-align: center; padding: 0.5rem; font-weight: 600; color: #6b7280; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">Woche ${week.week}</th>
+                <th style="text-align: center; padding: 0.5rem; font-weight: 600; color: #6b7280; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">Ziel</th>
+                <th style="text-align: center; padding: 0.5rem; font-weight: 600; color: #6b7280; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">Veränderung</th>
+              </tr>
+            </thead>
+            <tbody>
     `;
     
-    week.medications.forEach((med, medIndex) => {
-      const bgColor = medIndex % 2 === 0 ? 'bg-white' : 'bg-red-50';
+    week.medications.forEach((med) => {
       html += `
-        <tr class="${bgColor} hover:bg-red-100 transition-colors">
-          <td class="px-4 py-3 font-semibold text-gray-800 border border-gray-200">${med.name}</td>
-          <td class="px-4 py-3 text-center border border-gray-200">
-            <span class="font-bold text-gray-700">${med.startMg} mg</span>
-          </td>
-          <td class="px-4 py-3 text-center border border-gray-200">
-            <span class="font-bold text-lg text-red-700">${med.currentMg} mg</span>
-            <br>
-            <span class="text-xs text-gray-600">(${med.reductionPercent}% reduziert)</span>
-          </td>
-          <td class="px-4 py-3 text-center border border-gray-200">
-            <span class="font-bold text-green-700">${med.targetMg} mg</span>
-          </td>
-          <td class="px-4 py-3 text-center border border-gray-200">
-            <span class="font-bold text-orange-700">-${med.reduction} mg/Woche</span>
-          </td>
-        </tr>
+              <tr style="border-bottom: 1px solid #f3f4f6;">
+                <td style="padding: 0.5rem; color: #1f2937;">${med.name}</td>
+                <td style="padding: 0.5rem; text-align: center; color: #4b5563;">${med.startMg} mg</td>
+                <td style="padding: 0.5rem; text-align: center; font-weight: 600; color: #1f2937;">${med.currentMg} mg</td>
+                <td style="padding: 0.5rem; text-align: center; color: #4b5563;">${med.targetMg} mg</td>
+                <td style="padding: 0.5rem; text-align: center; color: #4b5563;">-${med.reduction} mg/Woche</td>
+              </tr>
       `;
     });
     
     html += `
-              </tbody>
-            </table>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- CBD-Dosierung -->
+        <h4 style="margin: 1rem 0 0.75rem; font-size: 0.85rem; font-weight: 600; color: #374151;">CBD-Dosierung</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; margin-bottom: 1rem;">
+          <div style="padding-left: 0.5rem; border-left: 3px solid #0b7b6c;">
+            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">CBD mg/Tag</p>
+            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.cbdDose} mg</p>
+          </div>
+          <div style="padding-left: 0.5rem; border-left: 3px solid #0b7b6c;">
+            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Produkt</p>
+            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.kannasanProduct.name}</p>
+          </div>
+          <div style="padding-left: 0.5rem; border-left: 3px solid #0b7b6c;">
+            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Morgens</p>
+            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.morningSprays}×</p>
+          </div>
+          <div style="padding-left: 0.5rem; border-left: 3px solid #0b7b6c;">
+            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Abends</p>
+            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.eveningSprays}×</p>
           </div>
         </div>
         
-        <!-- CBD Compensation -->
-        <div class="bg-green-50 p-4 border-t-2 border-green-200">
-          <h4 class="font-bold text-green-900 mb-3 flex items-center">
-            <i class="fas fa-leaf text-green-600 mr-2"></i>
-            CBD-Kompensation
-          </h4>
-          <div class="bg-white rounded-lg p-4 border-2 border-green-300">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div class="text-center">
-                <p class="text-xs text-gray-600 mb-1">CBD-Dosis</p>
-                <p class="text-2xl font-bold text-green-700">${week.cbdDose} mg</p>
-              </div>
-              <div class="text-center">
-                <p class="text-xs text-gray-600 mb-1">Produkt</p>
-                <p class="text-lg font-bold text-purple-700">${week.kannasanProduct.name}</p>
-              </div>
-              <div class="text-center">
-                <p class="text-xs text-gray-600 mb-1">Morgens 🌅</p>
-                <p class="text-2xl font-bold text-orange-600">${week.morningSprays}×</p>
-              </div>
-              <div class="text-center">
-                <p class="text-xs text-gray-600 mb-1">Abends 🌙</p>
-                <p class="text-2xl font-bold text-blue-600">${week.eveningSprays}×</p>
-              </div>
-            </div>
-            <p class="text-center text-sm text-gray-600 mt-3">
-              <strong>Gesamt:</strong> ${week.totalSprays} Sprühstöße täglich = ${week.actualCbdMg} mg CBD
-            </p>
-          </div>
-        </div>
+        <p style="margin: 0 0 1rem; font-size: 0.85rem; color: #6b7280;"><strong>Gesamt:</strong> ${week.totalSprays} Sprühstöße täglich = ${week.actualCbdMg} mg CBD</p>
         
-        <!-- Bottle Status Tracking -->
+        <!-- Fläschchen-Status -->
         ${week.bottleStatus ? `
-        <div class="bg-blue-50 p-4 border-t-2 border-blue-200">
-          <h4 class="font-bold text-blue-900 mb-3 flex items-center">
-            <i class="fas fa-flask text-blue-600 mr-2"></i>
-            Fläschchen-Status
-          </h4>
-          <div class="bg-white rounded-lg p-4 border-2 border-blue-300">
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <div class="text-center">
-                <p class="text-xs text-gray-600 mb-1">Verbraucht</p>
-                <p class="text-2xl font-bold text-red-700">${week.bottleStatus.used} / ${week.bottleStatus.totalCapacity}</p>
-                <p class="text-xs text-gray-500">Hübe verwendet</p>
-              </div>
-              <div class="text-center">
-                <p class="text-xs text-gray-600 mb-1">Verbleibend</p>
-                <p class="text-2xl font-bold text-green-700">${week.bottleStatus.remaining}</p>
-                <p class="text-xs text-gray-500">Hübe übrig</p>
-              </div>
-              <div class="text-center">
-                <p class="text-xs text-gray-600 mb-1">Voraussichtlich leer in</p>
-                <p class="text-2xl font-bold text-orange-700">~${week.bottleStatus.emptyInWeeks}</p>
-                <p class="text-xs text-gray-500">Wochen</p>
-              </div>
-            </div>
-            ${week.bottleStatus.productChangeNext ? `
-            <div class="mt-3 bg-yellow-100 border-2 border-yellow-400 rounded-lg p-3">
-              <p class="text-center text-sm font-semibold text-yellow-800">
-                <i class="fas fa-exchange-alt mr-2"></i>
-                Produktwechsel in nächster Woche erforderlich
-              </p>
-            </div>
-            ` : `
-            <div class="mt-3 bg-green-100 border-2 border-green-400 rounded-lg p-3">
-              <p class="text-center text-sm font-semibold text-green-800">
-                <i class="fas fa-check-circle mr-2"></i>
-                Aktuelles Fläschchen weiter verwenden
-              </p>
-            </div>
-            `}
+        <h4 style="margin: 1rem 0 0.75rem; font-size: 0.85rem; font-weight: 600; color: #374151;">Fläschchen-Status</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div style="padding-left: 0.5rem; border-left: 2px solid #e5e7eb;">
+            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Verbraucht</p>
+            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.bottleStatus.used} / ${week.bottleStatus.totalCapacity}</p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.7rem; color: #9ca3af;">Hübe</p>
           </div>
+          <div style="padding-left: 0.5rem; border-left: 2px solid #e5e7eb;">
+            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Verbleibend</p>
+            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.bottleStatus.remaining}</p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.7rem; color: #9ca3af;">Hübe</p>
+          </div>
+          <div style="padding-left: 0.5rem; border-left: 2px solid #e5e7eb;">
+            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Leer in</p>
+            <p style="margin: 0; font-weight: 600; color: #1f2937;">~${week.bottleStatus.emptyInWeeks}</p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.7rem; color: #9ca3af;">Wochen</p>
+          </div>
+        </div>
+        
+        <div style="padding: 0.75rem; border-radius: 8px; font-size: 0.85rem; ${week.bottleStatus.productChangeNext ? 'background: #fef3c7; color: #92400e;' : 'background: #d1fae5; color: #065f46;'}">
+          <strong>Empfehlung:</strong> ${week.bottleStatus.productChangeNext ? 'Produktwechsel in nächster Woche erforderlich' : 'Aktuelles Fläschchen weiterverwenden'}
         </div>
         ` : ''}
       </div>
     `;
   });
-
+  
   html += `
-      <div class="mt-6 bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
-        <h3 class="font-bold text-green-800 mb-3 text-lg">
-          <i class="fas fa-clipboard-check mr-2"></i>
-          Wichtige Hinweise zur Medikamenten-Reduktion:
-        </h3>
-        <ul class="text-green-700 space-y-2 ml-6 list-disc">
-          <li><strong>Ärztliche Begleitung:</strong> Reduzieren Sie Medikamente NUR unter ärztlicher Aufsicht!</li>
-          <li><strong>Wöchentliche Kontrolle:</strong> Besprechen Sie den Fortschritt wöchentlich mit Ihrem Arzt</li>
-          <li><strong>CBD-Einnahme:</strong> ${product.morningSprays}× morgens + ${product.eveningSprays}× abends (Produkt wechselt wöchentlich)</li>
-          <li><strong>Anwendung:</strong> Sprühstoß direkt in den Mund oder unter die Zunge, vor Gebrauch gut schütteln</li>
-          <li><strong>Bei Problemen:</strong> Sofort Arzt kontaktieren - nicht eigenständig weitermachen!</li>
-          <li><strong>Symptom-Tagebuch:</strong> Dokumentieren Sie täglich Ihre Befindlichkeit und Symptome</li>
-          <li><strong>Hydration:</strong> Mindestens 2-3 Liter Wasser täglich trinken</li>
-          <li><strong>Absetzen:</strong> Niemals Medikamente abrupt absetzen - immer schrittweise!</li>
-        </ul>
-      </div>
+    </div>
+  `;
 
-      <div class="mt-8">
-        <button onclick="downloadPDF()" class="w-full py-5 bg-gradient-to-r from-green-600 to-teal-600 text-white font-bold text-lg rounded-lg hover:from-green-700 hover:to-teal-700 transition-all shadow-lg transform hover:scale-105">
-          <i class="fas fa-file-pdf mr-2"></i>
-          ReduMed-AI Plan als PDF herunterladen
-        </button>
-        <p class="text-center text-sm text-gray-500 mt-3">
-          <i class="fas fa-info-circle mr-1"></i>
-          Bringen Sie diesen Plan zu Ihrem nächsten Arzttermin mit!
-        </p>
+  // ============================================================
+  // 7. MEDIZINISCHE HINWEISE (Homepage-Stil)
+  // ============================================================
+  
+  html += `
+    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Wichtige medizinische Hinweise</h2>
+      
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem; color: #374151;">
+        <div style="display: flex; align-items: flex-start;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
+          <p style="margin: 0;"><strong>Keine selbstständige Medikamentenänderung:</strong> Reduzieren Sie Medikamente ausschließlich unter ärztlicher Aufsicht. Eigenständige Änderungen können gesundheitsgefährdend sein.</p>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
+          <p style="margin: 0;"><strong>CYP450-Interaktionen beachten:</strong> Cannabinoide können den Abbau bestimmter Medikamente über das Cytochrom-P450-System beeinflussen. Ihr Arzt sollte mögliche Wechselwirkungen prüfen.</p>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
+          <p style="margin: 0;"><strong>Kein Alkohol während der Reduktion:</strong> Alkohol kann Wechselwirkungen verstärken und den Reduktionsprozess gefährden.</p>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
+          <p style="margin: 0;"><strong>Keine Grapefruit:</strong> Grapefruit beeinflusst ebenfalls das CYP450-System und sollte während der Behandlung vermieden werden.</p>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
+          <p style="margin: 0;"><strong>Müdigkeit möglich:</strong> Cannabinoide können Müdigkeit verursachen. Fahren Sie kein Fahrzeug, bis Sie wissen, wie Sie auf Cannabinoide reagieren.</p>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
+          <p style="margin: 0;"><strong>Niemals abrupt absetzen:</strong> Setzen Sie Medikamente niemals abrupt ab - immer schrittweise gemäß ärztlichem Plan.</p>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
+          <p style="margin: 0;"><strong>Bei Nebenwirkungen:</strong> Kontaktieren Sie sofort Ihren Arzt bei unerwünschten Symptomen oder Nebenwirkungen.</p>
+        </div>
       </div>
+    </div>
+  `;
+
+  // ============================================================
+  // PDF DOWNLOAD BUTTON (Homepage-Stil)
+  // ============================================================
+  
+  html += `
+    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center;">
+      <button onclick="downloadPlanAsPDF(event)" style="padding: 0.75rem 2rem; background: #0b7b6c; color: white; font-weight: 600; font-size: 0.95rem; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#094d44'" onmouseout="this.style.background='#0b7b6c'">
+        Als PDF herunterladen
+      </button>
+      <p style="margin: 0.75rem 0 0; font-size: 0.85rem; color: #6b7280;">
+        Bringen Sie diesen Plan zu Ihrem nächsten Arzttermin mit.
+      </p>
     </div>
   `;
 
@@ -1666,5 +1908,139 @@ function downloadPDF() {
   } catch (error) {
     console.error('Fehler beim Erstellen der PDF:', error);
     alert('Fehler beim Erstellen der PDF. Bitte versuchen Sie es erneut.');
+  }
+}
+
+// ============================================================
+// EINFACHE PDF-FUNKTION: HTML-Plan direkt als PDF (mit Fallback)
+// ============================================================
+async function downloadPlanAsPDF(event) {
+  const resultsDiv = document.getElementById('results');
+  
+  if (!resultsDiv || resultsDiv.classList.contains('hidden')) {
+    alert('Kein Plan vorhanden. Bitte erstellen Sie erst einen Reduktionsplan.');
+    return;
+  }
+  
+  // Finde Button (auch wenn auf Child-Element geklickt wurde)
+  let button = event?.target;
+  if (button && button.tagName !== 'BUTTON') {
+    button = button.closest('button');
+  }
+  
+  try {
+    // Zeige Loading-Nachricht
+    if (button) {
+      const originalText = button.innerHTML;
+      button.setAttribute('data-original-text', originalText);
+      button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PDF wird erstellt...';
+      button.disabled = true;
+    }
+    
+    console.log('PDF-Generierung gestartet...');
+    console.log('jsPDF verfügbar:', !!window.jspdf);
+    console.log('html2canvas verfügbar:', !!window.html2canvas);
+    
+    // Prüfe jsPDF (muss bereits geladen sein)
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      throw new Error('PDF-Bibliothek (jsPDF) nicht geladen. Bitte Seite neu laden.');
+    }
+    
+    const { jsPDF } = window.jspdf;
+    console.log('jsPDF bereit:', jsPDF);
+    
+    // Lade html2canvas wenn nicht vorhanden
+    if (!window.html2canvas) {
+      console.log('Lade html2canvas...');
+      await new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+        script.onload = () => {
+          console.log('html2canvas erfolgreich geladen');
+          resolve();
+        };
+        script.onerror = (err) => {
+          console.error('Fehler beim Laden von html2canvas:', err);
+          reject(new Error('html2canvas konnte nicht geladen werden'));
+        };
+        document.head.appendChild(script);
+        
+        // Timeout nach 15 Sekunden
+        setTimeout(() => reject(new Error('Timeout beim Laden von html2canvas (15s)')), 15000);
+      });
+    }
+    
+    console.log('html2canvas verfügbar, starte Screenshot...');
+    
+    // Erstelle Screenshot vom Results-Div
+    const canvas = await window.html2canvas(resultsDiv, {
+      scale: 1.2, // Reduzierte Qualität für bessere Performance
+      useCORS: true,
+      allowTaint: true,
+      logging: false, // Weniger Console-Spam
+      backgroundColor: '#f5f7fa',
+      windowWidth: resultsDiv.scrollWidth,
+      windowHeight: resultsDiv.scrollHeight
+    });
+    
+    console.log('Screenshot erstellt, Canvas-Größe:', canvas.width, 'x', canvas.height);
+    
+    // Konvertiere zu PDF
+    const imgData = canvas.toDataURL('image/png');
+    const imgWidth = 210; // A4 width in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    
+    console.log('Erstelle PDF, Bild-Höhe:', imgHeight, 'mm');
+    
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    let heightLeft = imgHeight;
+    let position = 0;
+    
+    // Erste Seite
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= 297; // A4 height
+    
+    // Weitere Seiten falls nötig
+    let pageCount = 1;
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pageCount++;
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= 297;
+    }
+    
+    console.log('PDF erstellt mit', pageCount, 'Seite(n)');
+    
+    // Dateiname mit Vorname
+    const firstName = window.currentPlanData?.firstName || 'Patient';
+    const date = new Date().toISOString().split('T')[0];
+    const filename = `ReduMed_Plan_${firstName}_${date}.pdf`;
+    
+    console.log('Speichere PDF als:', filename);
+    pdf.save(filename);
+    
+    console.log('✅ PDF erfolgreich heruntergeladen!');
+    
+    // Button zurücksetzen
+    if (button) {
+      const originalText = button.getAttribute('data-original-text') || 'Als PDF herunterladen';
+      button.innerHTML = originalText;
+      button.disabled = false;
+    }
+    
+  } catch (error) {
+    console.error('❌ FEHLER beim Erstellen der PDF:', error);
+    console.error('Fehler-Details:', error.message);
+    console.error('Stack:', error.stack);
+    
+    alert(`Fehler beim Erstellen der PDF:\n${error.message}\n\nBitte versuchen Sie es erneut oder laden Sie die Seite neu.`);
+    
+    // Button zurücksetzen
+    if (button) {
+      const originalText = button.getAttribute('data-original-text') || 'Als PDF herunterladen';
+      button.innerHTML = originalText;
+      button.disabled = false;
+    }
   }
 }

@@ -1102,6 +1102,19 @@ app.get('/', (c) => {
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
     }
     .hidden { display: none !important; }
+    
+    /* Remove number input spinner arrows (Chrome, Safari, Edge, Opera) */
+    input[type="number"].no-spinner-input::-webkit-outer-spin-button,
+    input[type="number"].no-spinner-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    /* Remove number input spinner arrows (Firefox) */
+    input[type="number"].no-spinner-input {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
     .animate-ping {
       animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
     }
@@ -1140,6 +1153,63 @@ app.get('/', (c) => {
         animation-timing-function: cubic-bezier(0,0,0.2,1);
       }
     }
+    @keyframes burst {
+      0% { 
+        transform: scale(0); 
+        opacity: 1; 
+      }
+      100% { 
+        transform: scale(3); 
+        opacity: 0; 
+      }
+    }
+    @keyframes float {
+      0%, 100% { 
+        transform: translateY(0px) translateX(0px); 
+        opacity: 0.3;
+      }
+      50% { 
+        transform: translateY(-20px) translateX(10px); 
+        opacity: 0.6;
+      }
+    }
+    @keyframes rotate-center {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { 
+        filter: drop-shadow(0 0 8px rgba(11, 123, 108, 0.4));
+      }
+      50% { 
+        filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.8));
+      }
+    }
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    @keyframes burst-particle {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(var(--tx, 0) * 1px), calc(var(--ty, 0) * 1px)) scale(0);
+        opacity: 0;
+      }
+    }
+    @keyframes gentle-pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3);
+      }
+      50% {
+        transform: scale(1.02);
+        box-shadow: 0 12px 32px rgba(11, 123, 108, 0.4);
+      }
+    }
   </style>
 </head>
 <body>
@@ -1151,7 +1221,7 @@ app.get('/', (c) => {
         <div>
           <h1>Ihr Weg zu weniger Medikamenten – durch ein starkes Endocannabinoid-System</h1>
           <p class="hero-sub">
-            Dieses Tool erstellt einen <strong>individualisierten Dosierungsplan</strong> für CBD-Paste 70% –
+            Dieses Tool erstellt einen <strong>individualisierten Dosierungsplan mit Cannabinoiden</strong> –
             als Grundlage für das Gespräch mit Ihrem Arzt.
           </p>
           <ul class="hero-list">
@@ -1461,17 +1531,17 @@ app.get('/', (c) => {
             </div>
 
             <div class="form-row" style="margin-bottom: 1.5rem;">
-              <div style="background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #f59e0b;">
+              <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
                 <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #fbbf24); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0b7b6c, #14b8a6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                     <i class="fas fa-chart-line" style="color: white; font-size: 1.1rem;"></i>
                   </div>
                   <div>
-                    <label for="reduction-goal" style="font-size: 1rem; font-weight: 600; color: #b45309; margin: 0;">Reduktionsziel *</label>
+                    <label for="reduction-goal" style="font-size: 1rem; font-weight: 600; color: #0b7b6c; margin: 0;">Reduktionsziel *</label>
                     <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel möchten Sie reduzieren?</p>
                   </div>
                 </div>
-                <select id="reduction-goal" name="reduction_goal" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #f59e0b; border-radius: 8px; background: white;">
+                <select id="reduction-goal" name="reduction_goal" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #14b8a6; border-radius: 8px; background: white;">
                   <option value="">-- Bitte wählen --</option>
                   <option value="10">10% Reduktion</option>
                   <option value="20">20% Reduktion</option>
@@ -1484,8 +1554,8 @@ app.get('/', (c) => {
                   <option value="90">90% Reduktion</option>
                   <option value="100">100% Reduktion (komplett absetzen)</option>
                 </select>
-                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #f59e0b;">
-                  <i class="fas fa-lightbulb" style="color: #f59e0b; margin-right: 0.5rem;"></i>
+                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #059669;">
+                  <i class="fas fa-lightbulb" style="color: #059669; margin-right: 0.5rem;"></i>
                   <span style="font-size: 0.85rem; color: #374151;">Tipp: Beginnen Sie mit 30–50 % für einen sicheren und gut verträglichen Start.</span>
                 </div>
               </div>
@@ -1594,25 +1664,144 @@ app.get('/', (c) => {
       </form>
 
       <!-- Loading Animation -->
-      <div id="loading" class="hidden" style="margin-top: 2rem;">
-        <div class="card" style="max-width: 800px; margin: 0 auto; padding: 3rem; text-align: center;">
-          <!-- Animated Brain Icon -->
-          <div style="position: relative; display: inline-block; margin-bottom: 2rem;">
-            <div style="position: absolute; inset: 0; margin: -2rem; background: rgba(11, 123, 108, 0.2); border-radius: 50%; opacity: 0.4;" class="animate-ping"></div>
-            <div style="position: absolute; inset: 0; margin: -1rem; background: rgba(11, 123, 108, 0.3); border-radius: 50%; opacity: 0.5; animation-delay: 0.3s;" class="animate-ping"></div>
-            <div style="position: relative; width: 96px; height: 96px; background: linear-gradient(135deg, #0b7b6c, #075448); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(11, 123, 108, 0.4);" class="animate-pulse">
-              <i class="fas fa-brain" style="color: white; font-size: 2.5rem;"></i>
+      <div id="loading" class="hidden" style="margin-top: 1.5rem;">
+        <div class="card" style="max-width: 550px; margin: 0 auto; padding: 1.5rem 1.25rem; text-align: center; position: relative; overflow: hidden;">
+          
+          <!-- Particles Background Effect -->
+          <div id="particles-container" style="position: absolute; inset: 0; pointer-events: none; opacity: 0.2;"></div>
+          
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: #0b7b6c;">
+            <i class="fas fa-sparkles" style="margin-right: 0.4rem;"></i>
+            KI analysiert Ihre Daten
+          </h3>
+          <p style="color: #6b7280; margin-bottom: 1.2rem; font-size: 0.85rem;">
+            <span id="analysis-status">Analyse wird gestartet</span>
+            <span id="status-dots" style="display: inline-block;">...</span>
+          </p>
+          
+          <!-- Main Circular Progress Ring (NOCH KLEINER: 100px) -->
+          <div style="position: relative; display: inline-block; margin-bottom: 1.2rem;">
+            <!-- Outer Glow Rings -->
+            <div style="position: absolute; inset: 0; margin: -1.5rem; background: radial-gradient(circle, rgba(11, 123, 108, 0.1), transparent 70%); border-radius: 50%; opacity: 0.5;" class="animate-ping"></div>
+            <div style="position: absolute; inset: 0; margin: -1rem; background: radial-gradient(circle, rgba(11, 123, 108, 0.12), transparent 70%); border-radius: 50%; opacity: 0.4; animation-delay: 0.5s;" class="animate-ping"></div>
+            
+            <!-- SVG Circular Progress (NOCH KLEINER: 100px) -->
+            <svg width="100" height="100" style="transform: rotate(-90deg);">
+              <!-- Background Circle -->
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#e5e7eb" stroke-width="6"></circle>
+              <!-- Progress Circle -->
+              <circle id="progress-circle" cx="50" cy="50" r="42" fill="none" stroke="url(#gradient)" stroke-width="6" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" style="transition: stroke-dashoffset 0.3s ease, filter 0.3s ease;">
+              </circle>
+              <!-- Gradient Definition -->
+              <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#0b7b6c;stop-opacity:1" />
+                  <stop offset="50%" style="stop-color:#14b8a6;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+            </svg>
+            
+            <!-- Center Content -->
+            <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <i id="center-icon" class="fas fa-brain" style="color: #0b7b6c; font-size: 1.6rem; margin-bottom: 0.2rem; transition: all 0.3s;"></i>
+              <div id="center-percentage" style="font-size: 1.1rem; font-weight: 700; color: #0b7b6c; transition: all 0.3s;">0%</div>
+              <div id="center-time" style="font-size: 0.6rem; color: #6b7280; margin-top: 0.1rem;">ca. 8 Sek.</div>
+            </div>
+            
+            <!-- Completion Burst (hidden initially) -->
+            <div id="completion-burst" style="position: absolute; inset: 0; display: none;">
+              <div style="position: absolute; inset: -15px; background: radial-gradient(circle, rgba(16, 185, 129, 0.4), transparent 70%); animation: burst 0.6s ease-out;"></div>
             </div>
           </div>
           
-          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #0b7b6c;">
-            <i class="fas fa-sparkles" style="margin-right: 0.5rem;"></i>
-            KI analysiert Ihre Daten
-          </h3>
-          <p style="color: #6b7280; margin-bottom: 2rem;">
-            <span id="analysis-status">Analyse wird gestartet</span>
-            <span class="animate-bounce" style="display: inline-block;">...</span>
-          </p>
+          <!-- Live Counter Stats (während Analyse) -->
+          <div id="live-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem;">
+            <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid #e5e7eb;">
+              <div style="font-size: 1.3rem; font-weight: 700; color: #0b7b6c;" id="counter-medications">0</div>
+              <div style="font-size: 0.65rem; color: #6b7280; margin-top: 0.1rem; line-height: 1.3;">Medikamente<br>analysiert</div>
+            </div>
+            <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid #e5e7eb;">
+              <div style="font-size: 1.3rem; font-weight: 700; color: #0b7b6c;" id="counter-interactions">0</div>
+              <div style="font-size: 0.65rem; color: #6b7280; margin-top: 0.1rem; line-height: 1.3;">Wechsel-<br>wirkungen</div>
+            </div>
+            <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid #e5e7eb;">
+              <div style="font-size: 1.3rem; font-weight: 700; color: #0b7b6c;" id="counter-calculations">0</div>
+              <div style="font-size: 0.65rem; color: #6b7280; margin-top: 0.1rem; line-height: 1.3;">Berechnungen<br>durchgeführt</div>
+            </div>
+          </div>
+          
+          <!-- Completion Stats (hidden initially, shown at 100%) -->
+          <div id="completion-stats" style="display: none; margin-bottom: 1rem;">
+            <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); padding: 1.25rem; border-radius: 14px; border: 2px solid #10b981;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-bottom: 0.9rem;">
+                <i class="fas fa-check-circle" style="color: #10b981; font-size: 1.6rem;"></i>
+                <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #059669;">Analyse erfolgreich abgeschlossen!</h4>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem;">
+                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
+                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
+                    <span id="stat-calculations">0</span>
+                  </div>
+                  <div style="font-size: 0.7rem; color: #6b7280;">Berechnungen durchgeführt</div>
+                </div>
+                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
+                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
+                    <span id="stat-medications">0</span>
+                  </div>
+                  <div style="font-size: 0.7rem; color: #6b7280;">Medikamente in Datenbank</div>
+                </div>
+                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
+                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
+                    <span id="stat-interactions">0</span>
+                  </div>
+                  <div style="font-size: 0.7rem; color: #6b7280;">Wechselwirkungen geprüft</div>
+                </div>
+                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
+                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
+                    <span id="stat-weeks">0</span>
+                  </div>
+                  <div style="font-size: 0.7rem; color: #6b7280;">Wochen Ø Plan-Dauer</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Final "Plan ist fertig!" Message (hidden initially) -->
+          <div id="plan-ready-message" style="display: none; margin-top: 1rem;">
+            <div id="plan-ready-card" style="background: linear-gradient(135deg, #0b7b6c 0%, #059669 100%); padding: 1.5rem; border-radius: 14px; box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3); text-align: center; animation: gentle-pulse 2s ease-in-out infinite;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-file-medical" style="color: white; font-size: 2rem;"></i>
+                <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Ihr Dosierplan ist fertig!</h3>
+              </div>
+              <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 0.85rem; font-weight: 500; margin-bottom: 1rem;">
+                Ihre persönliche Medikamenten-Reduktionsstrategie wurde erfolgreich erstellt.
+              </p>
+              <button id="show-plan-button" style="
+                background: white;
+                color: #0b7b6c;
+                border: none;
+                padding: 0.75rem 1.75rem;
+                border-radius: 24px;
+                font-size: 0.95rem;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.6rem;
+              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+                <i class="fas fa-eye" style="font-size: 1rem;"></i>
+                <span>Plan jetzt anzeigen</span>
+              </button>
+              <p style="margin: 0.75rem 0 0 0; color: rgba(255,255,255,0.8); font-size: 0.75rem;">
+                <i class="fas fa-info-circle" style="margin-right: 0.3rem;"></i>
+                Klicken Sie auf den Button wenn Sie bereit sind
+              </p>
+            </div>
+          </div>
           
           <!-- Progress Steps -->
           <div style="max-width: 600px; margin: 0 auto 2rem; text-align: left;">
@@ -1935,33 +2124,40 @@ app.get('/', (c) => {
       if (stepNumber === 3) {
         // Check for medication inputs (new autocomplete version)
         const medicationInputs = document.querySelectorAll('.medication-display-input');
-        let hasValidMedication = false;
+        const dosageInputs = document.querySelectorAll('input[name="medication_mg_per_day[]"]');
         
-        medicationInputs.forEach(input => {
-          if (input.value.trim()) {
+        let hasValidMedication = false;
+        let emptyMedicationName = false;
+        let emptyDosage = false;
+        
+        medicationInputs.forEach((medInput, index) => {
+          const medName = medInput.value.trim();
+          const dosageValue = dosageInputs[index] ? dosageInputs[index].value.trim() : '';
+          
+          if (medName && dosageValue) {
+            // Both fields filled - valid medication
             hasValidMedication = true;
+          } else if (medName && !dosageValue) {
+            // Medication name filled but no dosage
+            emptyDosage = true;
+          } else if (!medName && dosageValue) {
+            // Dosage filled but no medication name
+            emptyMedicationName = true;
           }
         });
         
         if (!hasValidMedication) {
-          alert('Bitte geben Sie mindestens ein Medikament ein.');
+          alert('Bitte geben Sie mindestens ein Medikament mit Tagesdosis ein.');
           return false;
         }
         
-        // Check if dosages are filled for all medications
-        const dosageInputs = document.querySelectorAll('input[name="medication_dosages[]"]');
-        let allDosagesFilled = true;
+        if (emptyMedicationName) {
+          alert('Bitte geben Sie für jede Dosierung auch den Medikamentennamen ein.');
+          return false;
+        }
         
-        medicationInputs.forEach((medInput, index) => {
-          if (medInput.value.trim() && dosageInputs[index]) {
-            if (!dosageInputs[index].value.trim()) {
-              allDosagesFilled = false;
-            }
-          }
-        });
-        
-        if (!allDosagesFilled) {
-          alert('Bitte geben Sie für jedes Medikament auch die tägliche Dosierung ein.');
+        if (emptyDosage) {
+          alert('Bitte geben Sie für jedes Medikament auch die Tagesdosis in mg ein.');
           return false;
         }
         
@@ -2060,8 +2256,11 @@ app.get('/', (c) => {
     });
   </script>
   
+  <!-- PDF Generation Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
   <!-- Main Application Logic (API Integration, Loading Animation, PDF Generation) -->
-  <script src="/static/app.js"></script>
+  <script src="/static/app.js?v=${Date.now()}"></script>
 </body>
 </html>  `)
 })
