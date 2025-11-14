@@ -1,0 +1,409 @@
+import { Hono } from 'hono'
+import { cors } from 'hono/cors'
+import { serveStatic } from 'hono/cloudflare-workers'
+
+type Bindings = {
+  DB: D1Database;
+  OPENAI_API_KEY?: string;
+}
+
+const app = new Hono<{ Bindings: Bindings }>()
+
+// Enable CORS for API routes
+app.use('/api/*', cors())
+
+// Serve static files
+app.use('/static/*', serveStatic({ root: './public' }))
+
+// API Routes
+
+// Get all medications
+app.get('/api/medications', async (c) => {
+  const { env } = c;
+  try {
+    const result = await env.DB.prepare(`
+      SELECT m.*, mc.name as category_name, mc.risk_level
+      FROM medications m
+      LEFT JOIN medication_categories mc ON m.category_id = mc.id
+      ORDER BY m.name
+    `).all();
+    
+    return c.json({ success: true, medications: result.results });
+  } catch (error) {
+    return c.json({ success: false, error: 'Fehler beim Abrufen der Medikamente' }, 500);
+  }
+})
+
+// Search medication by name
+app.get('/api/medications/search/:query', async (c) => {
+  const { env } = c;
+  const query = c.req.param('query');
+  
+  try {
+    const result = await env.DB.prepare(`
+      SELECT m.*, mc.name as category_name, mc.risk_level
+      FROM medications m
+      LEFT JOIN medication_categories mc ON m.category_id = mc.id
+      WHERE m.name LIKE ? OR m.generic_name LIKE ?
+      ORDER BY m.name
+      LIMIT 20
+    `).bind(`%${query}%`, `%${query}%`).all();
+    
+    return c.json({ success: true, medications: result.results });
+  } catch (error) {
+    return c.json({ success: false, error: 'Fehler bei der Suche' }, 500);
+  }
+})
+
+// Get Cannabinoid interactions for specific medication
+app.get('/api/interactions/:medicationId', async (c) => {
+  const { env } = c;
+  const medicationId = c.req.param('medicationId');
+  
+  try {
+    const result = await env.DB.prepare(`
+      SELECT ci.*, m.name as medication_name, m.generic_name
+      FROM cbd_interactions ci
+      LEFT JOIN medications m ON ci.medication_id = m.id
+      WHERE ci.medication_id = ?
+    `).bind(medicationId).all();
+    
+    return c.json({ success: true, interactions: result.results });
+  } catch (error) {
+    return c.json({ success: false, error: 'Fehler beim Abrufen der Wechselwirkungen' }, 500);
+  }
+})
+
+// Analyze medications and generate CANNABINOID PASTE 70% DOSING PLAN
+app.post('/api/analyze', async (c) => {
+  const { env } = c;
+  try {
+    const body = await c.req.json();
+    const { medications, durationWeeks, email, firstName, gender, age, weight, height } = body;
+    
+    if (!medications || !Array.isArray(medications) || medications.length === 0) {
+      return c.json({ success: false, error: 'Bitte geben Sie mindestens ein Medikament an' }, 400);
+    }
+    
+    if (!durationWeeks || durationWeeks < 1) {
+      return c.json({ success: false, error: 'Bitte geben Sie eine gültige Dauer in Wochen an' }, 400);
+    }
+    
+    // Save email to database if provided
+    if (email) {
+      try {
+        await env.DB.prepare(`
+          INSERT INTO customer_emails (email, first_name, created_at)
+          VALUES (?, ?, CURRENT_TIMESTAMP)
+        `).bind(email, firstName || null).run();
+      } catch (emailError: any) {
+        console.log('Email already exists or error saving:', emailError.message);
+      }
+    }
+    
+    // Calculate BMI and BSA if data provided
+    let bmi = null;
+    let bsa = null;
+    
+    if (weight && height) {
+      const heightInMeters = height / 100;
+      bmi = Math.round((weight / (heightInMeters * heightInMeters)) * 10) / 10;
+      bsa = Math.round(Math.sqrt((height * weight) / 3600) * 100) / 100;
+    }
+    
+    // Analyze each medication for interactions
+    const analysisResults = [];
+    let maxSeverity = 'low';
+    
+    for (const med of medications) {
+      const medResult = await env.DB.prepare(`
+        SELECT m.*, mc.risk_level
+        FROM medications m
+        LEFT JOIN medication_categories mc ON m.category_id = mc.id
+        WHERE m.name LIKE ? OR m.generic_name LIKE ?
+        LIMIT 1
+      `).bind(`%${med.name}%`, `%${med.name}%`).first();
+      
+      if (medResult) {
+        const interactions = await env.DB.prepare(`
+          SELECT * FROM cbd_interactions WHERE medication_id = ?
+        `).bind(medResult.id).all();
+        
+        analysisResults.push({
+          medication: medResult,
+          interactions: interactions.results,
+          dosage: med.dosage || 'Nicht angegeben'
+        });
+        
+        if (interactions.results.length > 0) {
+          const severity = interactions.results[0].severity;
+          if (severity === 'critical') maxSeverity = 'critical';
+          else if (severity === 'high' && maxSeverity !== 'critical') maxSeverity = 'high';
+          else if (severity === 'medium' && maxSeverity === 'low') maxSeverity = 'medium';
+        }
+      } else {
+        analysisResults.push({
+          medication: { name: med.name, found: false },
+          interactions: [],
+          dosage: med.dosage || 'Nicht angegeben',
+          warning: 'Medikament nicht in Datenbank gefunden'
+        });
+      }
+    }
+    
+    // ========== CANNABINOID PASTE 70% DOSING CALCULATION ==========
+    // Product: 3g Spritze mit 30 Teilstrichen
+    // 1 Teilstrich = 1.5 cm = 70 mg Cannabinoids
+    // 1 cm = 46.67 mg Cannabinoids
+    
+    const MG_PER_CM = 46.67;
+    const adjustmentNotes: string[] = [];
+    
+    // Individualized dosing parameters based on interaction severity
+    let titrationDays = 3;
+    let startDosageMg = 9.3; // 0.2 cm
+    let incrementMg = 5;
+    let incrementDays = 3;
+    let firstDoseTime = 'Abends (Verträglichkeitstest)';
+    
+    if (maxSeverity === 'critical' || maxSeverity === 'high') {
+      titrationDays = 7;
+      startDosageMg = 4.7; // 0.1 cm
+      incrementMg = 2.5;
+      incrementDays = 3;
+      firstDoseTime = 'Abends (Sicherheit bei kritischen Wechselwirkungen)';
+      adjustmentNotes.push('⚠️ Sehr vorsichtige Einschleichphase wegen kritischer Medikamenten-Wechselwirkungen');
+    } else if (maxSeverity === 'medium') {
+      titrationDays = 5;
+      startDosageMg = 7; // 0.15 cm
+      incrementMg = 4;
+      incrementDays = 3;
+      firstDoseTime = 'Abends (Sicherheit)';
+      adjustmentNotes.push('⚠️ Vorsichtige Einschleichphase wegen Medikamenten-Wechselwirkungen');
+    }
+    
+    // Age-based adjustments
+    if (age && age >= 65) {
+      startDosageMg *= 0.7;
+      titrationDays += 2;
+      adjustmentNotes.push('📅 Verlängerte Einschleichphase für Senioren (65+)');
+    }
+    
+    // BMI-based adjustments
+    if (weight && height && bmi) {
+      if (bmi < 18.5) {
+        startDosageMg *= 0.85;
+        adjustmentNotes.push('⚖️ Dosierung angepasst: Untergewicht (BMI < 18.5)');
+      } else if (bmi > 30) {
+        startDosageMg *= 1.1;
+        adjustmentNotes.push('⚖️ Dosierung angepasst: Übergewicht (BMI > 30)');
+      }
+    }
+    
+    // Weight-based target dose: 1 mg Cannabinoids per kg body weight
+    const weightBasedTargetMg = weight ? weight * 1.0 : 50;
+    const maxDosageMg = weight ? Math.min(weight * 2.5, 186) : 100;
+    
+    // Generate daily dosing plan
+    const weeklyPlan = [];
+    const totalDays = durationWeeks * 7;
+    
+    for (let day = 1; day <= totalDays; day++) {
+      const week = Math.ceil(day / 7);
+      
+      let morningDosageMg = 0;
+      let eveningDosageMg = 0;
+      let notes = '';
+      
+      // Phase 1: Titration phase (evening only)
+      if (day <= titrationDays) {
+        eveningDosageMg = startDosageMg;
+        morningDosageMg = 0;
+        
+        if (day === 1) {
+          notes = `🌙 Einschleichphase: ${firstDoseTime}. Paste unter die Zunge legen, 2-3 Min einwirken lassen, dann schlucken.`;
+        } else if (day === titrationDays) {
+          notes = `🌅 Letzter Tag nur abends. Ab morgen: 2x täglich (Morgen + Abend) für optimale Endocannabinoid-System-Unterstützung`;
+        } else {
+          notes = '🌙 Einschleichphase: Nur abends einnehmen';
+        }
+      }
+      // Phase 2: Twice daily with gradual increase
+      else {
+        const daysAfterTitration = day - titrationDays;
+        const increments = Math.floor(daysAfterTitration / incrementDays);
+        let currentDailyDose = startDosageMg + (increments * incrementMg);
+        
+        currentDailyDose = Math.min(currentDailyDose, weightBasedTargetMg);
+        currentDailyDose = Math.min(currentDailyDose, maxDosageMg);
+        
+        // Split 40% morning, 60% evening
+        morningDosageMg = currentDailyDose * 0.4;
+        eveningDosageMg = currentDailyDose * 0.6;
+        
+        if (day === titrationDays + 1) {
+          notes = '🌅🌙 Ab heute: 2x täglich (Morgen + Abend)';
+        } else if (week === durationWeeks && day >= totalDays - 1) {
+          notes = '✅ Ende der Aktivierungsphase - ärztliche Nachkontrolle empfohlen';
+        } else if (increments > 0 && daysAfterTitration % incrementDays === 0) {
+          notes = `📈 Dosierung erhöht auf ${Math.round(currentDailyDose * 10) / 10} mg täglich`;
+        }
+      }
+      
+      // Convert mg to cm (round to 0.05 cm precision)
+      const morningCm = Math.round((morningDosageMg / MG_PER_CM) * 20) / 20;
+      const eveningCm = Math.round((eveningDosageMg / MG_PER_CM) * 20) / 20;
+      const totalCm = Math.round((morningCm + eveningCm) * 100) / 100;
+      const totalMg = Math.round((morningDosageMg + eveningDosageMg) * 10) / 10;
+      
+      // Group by weeks
+      const existingWeek = weeklyPlan.find((w: any) => w.week === week);
+      if (!existingWeek) {
+        weeklyPlan.push({
+          week,
+          days: [{
+            day: day % 7 || 7,
+            morningDosageCm: morningCm,
+            eveningDosageCm: eveningCm,
+            totalDailyCm: totalCm,
+            morningDosageMg: Math.round(morningDosageMg * 10) / 10,
+            eveningDosageMg: Math.round(eveningDosageMg * 10) / 10,
+            totalDailyMg: totalMg,
+            notes
+          }]
+        });
+      } else {
+        (existingWeek as any).days.push({
+          day: day % 7 || 7,
+          morningDosageCm: morningCm,
+          eveningDosageCm: eveningCm,
+          totalDailyCm: totalCm,
+          morningDosageMg: Math.round(morningDosageMg * 10) / 10,
+          eveningDosageMg: Math.round(eveningDosageMg * 10) / 10,
+          totalDailyMg: totalMg,
+          notes
+        });
+      }
+    }
+    
+    return c.json({
+      success: true,
+      analysis: analysisResults,
+      maxSeverity,
+      weeklyPlan,
+      product: {
+        name: 'Cannabinoid-Paste 70%',
+        type: 'Hochkonzentrierte Cannabinoid-Paste',
+        packaging: '3 Gramm Spritze mit 30 Teilstrichen',
+        concentration: '70 mg Cannabinoide pro Teilstrich (1.5 cm)',
+        dosageUnit: 'cm auf der Spritze',
+        application: 'Sublingual: Paste unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken'
+      },
+      personalization: {
+        age,
+        weight,
+        height,
+        bmi,
+        bsa,
+        titrationDays,
+        firstDoseTime,
+        startDosageMg: Math.round(startDosageMg * 10) / 10,
+        targetDailyMg: Math.round(weightBasedTargetMg * 10) / 10,
+        maxDailyMg: Math.round(maxDosageMg * 10) / 10,
+        notes: adjustmentNotes
+      },
+      warnings: maxSeverity === 'critical' || maxSeverity === 'high' ? 
+        ['⚠️ Kritische Wechselwirkungen erkannt!', 'Konsultieren Sie unbedingt einen Arzt vor der Cannabinoid-Einnahme.'] : []
+    });
+    
+  } catch (error: any) {
+    console.error('Error:', error);
+    return c.json({ success: false, error: error.message || 'Fehler bei der Analyse' }, 500);
+  }
+})
+
+// OCR endpoint for image upload using OpenAI Vision API
+app.post('/api/ocr', async (c) => {
+  const { env } = c;
+  
+  try {
+    const formData = await c.req.formData();
+    const imageFile = formData.get('image');
+    
+    if (!imageFile || !(imageFile instanceof File)) {
+      return c.json({ success: false, error: 'Kein Bild hochgeladen' }, 400);
+    }
+    
+    // Check if API key is configured
+    if (!env.OPENAI_API_KEY || env.OPENAI_API_KEY === 'your-openai-api-key-here') {
+      return c.json({ 
+        success: false, 
+        error: 'OpenAI API-Key nicht konfiguriert. Bitte tragen Sie Ihren API-Key in die .dev.vars Datei ein.' 
+      }, 500);
+    }
+    
+    // Convert image to base64
+    const arrayBuffer = await imageFile.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+    
+    let binary = '';
+    const chunkSize = 8192;
+    for (let i = 0; i < uint8Array.length; i += chunkSize) {
+      const chunk = uint8Array.subarray(i, i + chunkSize);
+      binary += String.fromCharCode.apply(null, Array.from(chunk));
+    }
+    const base64Image = btoa(binary);
+    
+    // Call OpenAI Vision API
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${env.OPENAI_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: 'Bitte extrahiere alle Medikamentennamen und Dosierungen aus diesem Bild. Format: JSON Array mit {name: string, dosage: string}. Nur Medikamente zurückgeben, keine Erklärungen.'
+              },
+              {
+                type: 'image_url',
+                image_url: {
+                  url: `data:image/jpeg;base64,${base64Image}`
+                }
+              }
+            ]
+          }
+        ],
+        max_tokens: 1000
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`OpenAI API Error: ${response.statusText}`);
+    }
+    
+    const data: any = await response.json();
+    const content = data.choices[0].message.content;
+    
+    // Parse JSON from response
+    const jsonMatch = content.match(/\[[\s\S]*\]/);
+    if (jsonMatch) {
+      const medications = JSON.parse(jsonMatch[0]);
+      return c.json({ success: true, medications });
+    } else {
+      throw new Error('Keine Medikamente im Bild gefunden');
+    }
+    
+  } catch (error: any) {
+    console.error('OCR Error:', error);
+    return c.json({ success: false, error: error.message || 'Fehler beim Bildupload' }, 500);
+  }
+})
+
+// Main page
