@@ -548,24 +548,49 @@ function displayResults(data, firstName = '', gender = '') {
     `;
   }
 
-  // Product Information Box
+  // Product Information Box - KANNASAN
   if (product) {
     html += `
       <div class="bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-300 p-6 mb-8 rounded-xl shadow-lg fade-in">
         <div class="flex items-start">
-          <i class="fas fa-syringe text-purple-600 text-4xl mr-4"></i>
+          <i class="fas fa-spray-can text-purple-600 text-4xl mr-4"></i>
           <div class="flex-1">
             <h3 class="text-2xl font-bold text-purple-900 mb-3">💊 ${product.name}</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
+            <p class="text-sm text-gray-600 mb-4">${product.type}</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 mb-4">
               <p><strong>🎯 Konzentration:</strong> ${product.concentration}</p>
+              <p><strong>📦 Verpackung:</strong> ${product.packaging}</p>
+              <p><strong>💧 2 Sprühstöße:</strong> ${product.twoSprays}</p>
               <p><strong>📏 Dosierungseinheit:</strong> ${product.dosageUnit}</p>
-              <p><strong>💉 Verpackung:</strong> 3g Spritze mit 30 Teilstrichen</p>
-              <p><strong>📊 1 Teilstrich:</strong> 1.5 cm = 70 mg Cannabinoide</p>
             </div>
-            <div class="mt-4 bg-white p-4 rounded-lg border border-purple-200">
+            
+            <div class="bg-gradient-to-r from-green-50 to-teal-50 p-4 rounded-lg border-2 border-green-300 mb-4">
+              <p class="text-lg font-bold text-green-900 mb-2">
+                📊 Ihre empfohlene Tagesdosis:
+              </p>
+              <div class="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <p class="text-sm text-gray-600">Morgens</p>
+                  <p class="text-2xl font-bold text-green-700">${product.morningSprays}×</p>
+                  <p class="text-xs text-gray-500">Sprühstöße</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">Abends</p>
+                  <p class="text-2xl font-bold text-green-700">${product.eveningSprays}×</p>
+                  <p class="text-xs text-gray-500">Sprühstöße</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">Gesamt</p>
+                  <p class="text-2xl font-bold text-purple-700">${product.totalSpraysPerDay}×</p>
+                  <p class="text-xs text-gray-500">${product.actualDailyMg} mg/Tag</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white p-4 rounded-lg border border-purple-200">
               <p class="text-sm text-gray-800">
-                <strong>👅 Einnahme (Sublingual):</strong> Paste unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken. 
-                Dies ermöglicht optimale Aufnahme über die Mundschleimhaut.
+                <strong>👄 Anwendung:</strong> ${product.application}
               </p>
             </div>
           </div>
@@ -834,18 +859,18 @@ function displayResults(data, firstName = '', gender = '') {
       <div class="mt-6 bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
         <h3 class="font-bold text-green-800 mb-3 text-lg">
           <i class="fas fa-clipboard-check mr-2"></i>
-          💡 Wichtige Hinweise zur Einnahme von Cannabinoid-Paste 70%:
+          💡 Wichtige Hinweise zur Einnahme von ${product.name}:
         </h3>
         <ul class="text-green-700 space-y-2 ml-6 list-disc">
-          <li><strong>👅 Sublinguale Einnahme:</strong> Paste unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken (optimale Aufnahme!)</li>
+          <li><strong>👄 Anwendung:</strong> Sprühstoß direkt in den Mund oder unter die Zunge. Produkt vor Gebrauch gut schütteln!</li>
           <li><strong>⏰ Phase 1 (Einschleichphase):</strong> Nur abends einnehmen - zur Verträglichkeitsprüfung</li>
-          <li><strong>⏰ Phase 2 (Erhaltung):</strong> 2x täglich - Morgens 40%, Abends 60% der Tagesdosis</li>
+          <li><strong>⏰ Phase 2 (Erhaltung):</strong> ${product.morningSprays}× morgens, ${product.eveningSprays}× abends (Gesamt: ${product.totalSpraysPerDay}× täglich)</li>
           <li><strong>🍽️ Timing:</strong> Am besten zu den Mahlzeiten (Frühstück & Abendessen) für bessere Aufnahme</li>
           <li><strong>💧 Hydration:</strong> Ausreichend Wasser trinken (2-3 Liter täglich)</li>
           <li><strong>📝 Tagebuch:</strong> Führen Sie ein Symptom-Tagebuch über Wirkungen und Nebenwirkungen</li>
           <li><strong>⚠️ Bei Nebenwirkungen:</strong> Dosis reduzieren oder pausieren - dann Arzt konsultieren</li>
           <li><strong>👨‍⚕️ Ärztliche Begleitung:</strong> Nehmen Sie diesen Plan zu Ihrem Arztgespräch mit!</li>
-          <li><strong>📏 Dosierung ablesen:</strong> Nutzen Sie die Teilstriche auf der Spritze (1 Teilstrich = 1.5 cm = 70 mg Cannabinoide)</li>
+          <li><strong>💊 Lagerung:</strong> Kühl und trocken lagern, vor direktem Sonnenlicht schützen</li>
         </ul>
       </div>
 
