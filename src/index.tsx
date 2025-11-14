@@ -1318,11 +1318,11 @@ app.get('/', (c) => {
                     <i class="fas fa-chart-line" style="color: white; font-size: 1.1rem;"></i>
                   </div>
                   <div>
-                    <label for="reduction-goal" style="font-size: 1rem; font-weight: 600; color: #b45309; margin: 0;">Reduktionsziel (%) *</label>
+                    <label for="reduction-goal-hidden" style="font-size: 1rem; font-weight: 600; color: #b45309; margin: 0;">Reduktionsziel (%) *</label>
                     <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel Prozent Ihrer Medikamente möchten Sie reduzieren?</p>
                   </div>
                 </div>
-                <select id="reduction-goal" name="reduction_goal" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #f59e0b; border-radius: 8px; background: white;">
+                <select id="reduction-goal-hidden" name="reduction_goal" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #f59e0b; border-radius: 8px; background: white;">
                   <option value="">-- Bitte wählen --</option>
                   <option value="10">10% – Minimale Reduktion</option>
                   <option value="20">20% – Leichte Reduktion</option>
