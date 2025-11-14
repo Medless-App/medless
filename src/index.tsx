@@ -477,24 +477,26 @@ app.get('/', (c) => {
     </head>
     <body class="bg-slate-50">
         <!-- Header -->
-        <header class="bg-gradient-to-r from-teal-700 to-teal-800 text-white py-12 shadow-md">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-3xl md:text-4xl lg:text-4xl font-bold mb-4 leading-tight">
-                            <i class="fas fa-leaf mr-3 text-teal-300"></i>
+        <header class="bg-gradient-to-r from-teal-700 to-teal-800 text-white py-8 md:py-12 shadow-md">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                    <div class="flex-1">
+                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4 leading-tight">
+                            <i class="fas fa-leaf mr-2 md:mr-3 text-teal-300"></i>
                             Weniger Medikamente. Mehr Balance.
                         </h1>
-                        <p class="text-teal-100 text-base md:text-lg font-light leading-relaxed max-w-3xl">
+                        <p class="text-teal-100 text-sm sm:text-base md:text-lg font-light leading-relaxed">
                             Mit der Kraft Ihres Endocannabinoid-Systems.
                         </p>
                     </div>
-                    <div class="text-right hidden md:block space-y-3">
-                        <a href="#dosierungsplan-erstellen" class="block bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
+                    
+                    <!-- Mobile-friendly CTAs -->
+                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                        <a href="#dosierungsplan-erstellen" class="block bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20 hover:bg-white/20 transition-all cursor-pointer text-center">
                             <i class="fas fa-heart-pulse mr-2 text-teal-300"></i>
                             <span class="text-sm font-medium">Analyse starten</span>
                         </a>
-                        <a href="#fuer-aerzte" class="block bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
+                        <a href="#fuer-aerzte" class="block bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20 hover:bg-white/20 transition-all cursor-pointer text-center">
                             <i class="fas fa-user-md mr-2 text-teal-300"></i>
                             <span class="text-sm font-medium">Für Ärzte</span>
                         </a>
@@ -502,8 +504,8 @@ app.get('/', (c) => {
                 </div>
                 
                 <!-- Subheadline -->
-                <div class="mt-8 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                    <p class="text-teal-50 text-base leading-relaxed">
+                <div class="mt-6 md:mt-8 bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-5 md:p-6 border border-white/20">
+                    <p class="text-teal-50 text-sm sm:text-base leading-relaxed">
                         <strong>redu-med</strong> stärkt Ihr körpereigenes Regelsystem und bietet eine medizinische KI-Analyse, 
                         die Sie <strong>gemeinsam mit Ihrem Arzt</strong> für eine sichere und individuelle Medikamentenreduktion nutzen können.
                     </p>
@@ -511,7 +513,7 @@ app.get('/', (c) => {
             </div>
         </header>
 
-        <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
 <!-- ================================================================= -->
     <!-- SEKTION 2: Warum so viele Menschen zu viele Medikamente nehmen -->
     <!-- ================================================================= -->
@@ -523,7 +525,7 @@ app.get('/', (c) => {
                 </div>
             </div>
             <div class="flex-1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
                     Warum so viele Menschen zu viele Medikamente nehmen
                 </h2>
                 
@@ -582,7 +584,7 @@ app.get('/', (c) => {
                 </div>
             </div>
             <div class="flex-1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
                     Das Endocannabinoid-System (ECS) – Ihr körpereigenes Regelsystem
                 </h2>
                 
@@ -671,7 +673,7 @@ app.get('/', (c) => {
     <!-- SEKTION 4: Was ein ausgewogenes ECS bewirken kann -->
     <!-- ================================================================= -->
     <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">
             Was ein ausgewogenes ECS bewirken kann
         </h2>
         
@@ -776,7 +778,7 @@ app.get('/', (c) => {
                 </div>
             </div>
             <div class="flex-1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
                     Die Rolle von Cannabinoiden – Unterstützung für Ihr ECS
                 </h2>
                 
@@ -847,7 +849,7 @@ app.get('/', (c) => {
                 </div>
             </div>
             <div class="flex-1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 leading-tight">
                     Wichtig: Cannabinoid-Medikamenten-Wechselwirkungen sicher verstehen
                 </h2>
                 
@@ -912,7 +914,7 @@ app.get('/', (c) => {
                 </div>
             </div>
             <div class="flex-1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 leading-tight">
                     Die KI-Analyse von redu-med – Ihre Entscheidungsunterstützung
                 </h2>
                 
@@ -1012,12 +1014,12 @@ app.get('/', (c) => {
     <!-- SEKTION 8: Wie Patienten redu-med nutzen -->
     <!-- ================================================================= -->
     <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">
             <i class="fas fa-user-circle text-teal-700 mr-2"></i>
             Wie Patienten redu-med nutzen
         </h2>
         
-        <div class="grid md:grid-cols-5 gap-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
             <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center relative">
                 <div class="absolute top-2 left-2 w-8 h-8 bg-teal-700 text-white rounded-full flex items-center justify-center font-bold text-sm">
                     1
@@ -1095,7 +1097,7 @@ app.get('/', (c) => {
                 </div>
             </div>
             <div class="flex-1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
                     Wie Ärzte redu-med nutzen können
                 </h2>
                 
@@ -1177,7 +1179,7 @@ app.get('/', (c) => {
     <!-- SEKTION 10: Wissenschaft & Studienlage (NICHT übertreiben) -->
     <!-- ================================================================= -->
     <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">
             <i class="fas fa-flask text-teal-700 mr-2"></i>
             Wissenschaft & aktuelle Studienlage
         </h2>
@@ -1261,10 +1263,10 @@ app.get('/', (c) => {
 
                 <div class="max-w-4xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     Häufig gestellte Fragen
                 </h2>
-                <p class="text-xl text-gray-600">
+                <p class="text-lg sm:text-xl text-gray-600">
                     Die wichtigsten Antworten zur sicheren Anwendung von redu-med
                 </p>
             </div>
@@ -1272,7 +1274,7 @@ app.get('/', (c) => {
             <div class="space-y-6">
                 <!-- FAQ 1 -->
                 <div class="bg-gradient-to-r from-red-50 to-orange-50 p-6 rounded-xl border-2 border-red-200 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-3">
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
                         <i class="fas fa-exclamation-triangle text-red-600"></i>
                         Kann ich meine Medikamente selbst reduzieren?
                     </h3>
@@ -1289,7 +1291,7 @@ app.get('/', (c) => {
 
                 <!-- FAQ 2 -->
                 <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl border-2 border-blue-200 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-3">
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
                         <i class="fas fa-pills text-blue-600"></i>
                         Ersetzt CBD Medikamente?
                     </h3>
@@ -1309,7 +1311,7 @@ app.get('/', (c) => {
 
                 <!-- FAQ 3 -->
                 <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-xl border-2 border-purple-200 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-3">
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
                         <i class="fas fa-certificate text-purple-600"></i>
                         Ist das Tool medizinisch zugelassen?
                     </h3>
@@ -1329,7 +1331,7 @@ app.get('/', (c) => {
 
                 <!-- FAQ 4 -->
                 <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-3">
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
                         <i class="fas fa-file-medical text-green-600"></i>
                         Was mache ich mit der Analyse?
                     </h3>
@@ -1353,7 +1355,7 @@ app.get('/', (c) => {
 
                 <!-- FAQ 5 -->
                 <div class="bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl border-2 border-yellow-300 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-3">
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
                         <i class="fas fa-shield-alt text-yellow-600"></i>
                         Gibt es Risiken?
                     </h3>
@@ -1379,7 +1381,7 @@ app.get('/', (c) => {
 
                 <!-- FAQ 6 -->
                 <div class="bg-gradient-to-r from-teal-50 to-cyan-50 p-6 rounded-xl border-2 border-teal-200 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-3">
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
                         <i class="fas fa-euro-sign text-teal-600"></i>
                         Kostet das Tool etwas?
                     </h3>
@@ -1429,9 +1431,9 @@ app.get('/', (c) => {
 
                 <div class="max-w-5xl mx-auto">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
                     <i class="fas fa-balance-scale text-gray-700"></i>
-                    Sicherheit & Haftungsausschluss
+                    <span>Sicherheit & Haftungsausschluss</span>
                 </h2>
             </div>
 
@@ -1442,7 +1444,7 @@ app.get('/', (c) => {
                         <i class="fas fa-exclamation-circle text-5xl text-red-600"></i>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
                             Wichtiger Haftungsausschluss
                         </h3>
                         <div class="space-y-4 text-gray-800 leading-relaxed">
