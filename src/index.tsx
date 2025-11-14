@@ -997,189 +997,247 @@ app.get('/', (c) => {
       </div>
     </section>
 
-    <!-- TOOL -->
+    <!-- FORMULAR MIT MULTISTEP -->
     <section id="tool">
       <h2>Erstellen Sie Ihren persönlichen CBD-Paste-Dosierungsplan</h2>
       <p class="muted">
-        Wählen Sie, wie Sie Ihre Medikamente angeben möchten: manuell oder über ein Foto Ihres Medikamentenplans.
+        Folgen Sie den Schritten, um einen individuellen Dosierungsplan zu erhalten.
       </p>
 
-      <div class="tool-wrapper">
-        <!-- FORM LEFT -->
-        <div class="form-card">
-          <div class="tabs" role="tablist">
-            <button class="tab-btn active" data-target="tab-manual" type="button">
-              ✍️ Manuelle Eingabe
-            </button>
-            <button class="tab-btn" data-target="tab-photo" type="button">
-              📷 Foto hochladen
-            </button>
+      <!-- Progress Stepper -->
+      <div style="margin-bottom: 2rem; margin-top: 1.5rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; max-width: 800px; margin: 0 auto 0.5rem;">
+          <div style="flex: 1; display: flex; align-items: center;">
+            <div id="step-indicator-1" style="width: 40px; height: 40px; border-radius: 50%; background: #0b7b6c; color: white; font-weight: 600; display: flex; align-items: center; justify-content: center;">1</div>
+            <div style="flex: 1; height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
+              <div id="progress-bar-1" style="height: 100%; background: #0b7b6c; width: 100%; transition: width 0.3s;"></div>
+            </div>
           </div>
-
-          <!-- TAB: MANUAL -->
-          <div id="tab-manual" class="tab-panel active">
-            <form id="form-manual">
-              <div class="form-row">
-                <div>
-                  <label for="firstName">Ihr Vorname *</label>
-                  <input id="firstName" name="firstName" type="text" required />
-                </div>
-                <div>
-                  <label>Geschlecht *</label>
-                  <div class="inline-row">
-                    <label class="radio-pill">
-                      <input type="radio" name="gender" value="weiblich" required />
-                      <span>Weiblich</span>
-                    </label>
-                    <label class="radio-pill">
-                      <input type="radio" name="gender" value="männlich" />
-                      <span>Männlich</span>
-                    </label>
-                    <label class="radio-pill">
-                      <input type="radio" name="gender" value="divers" />
-                      <span>Divers</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div>
-                  <label for="age">Alter (Jahre) *</label>
-                  <input id="age" name="age" type="number" min="1" max="120" required />
-                  <div class="helper">Für altersgerechte Dosierung</div>
-                </div>
-                <div>
-                  <label for="weight">Gewicht (kg) *</label>
-                  <input id="weight" name="weight" type="number" min="30" max="250" required />
-                  <div class="helper">In Kilogramm</div>
-                </div>
-                <div>
-                  <label for="height">Größe (cm) *</label>
-                  <input id="height" name="height" type="number" min="120" max="230" required />
-                  <div class="helper">In Zentimetern</div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div>
-                  <label for="email">Ihre E-Mail-Adresse *</label>
-                  <input id="email" name="email" type="email" required />
-                  <div class="helper">
-                    Hierhin schicken wir den Download-Link zu Ihrem Dosierungsplan.
-                  </div>
-                </div>
-              </div>
-
-              <!-- MEDIKAMENTE -->
-              <div class="form-row">
-                <div>
-                  <label>Ihre Medikamente</label>
-                  <div id="med-list">
-                    <!-- wird per JS mit Zeilen gefüllt -->
-                  </div>
-                  <button class="btn-small" type="button" id="btn-add-med">
-                    + Weiteres Medikament hinzufügen
-                  </button>
-                  <div class="helper">
-                    Tragen Sie alle regelmäßig eingenommenen Medikamente ein (Name + Dosierung).
-                  </div>
-                </div>
-              </div>
-
-              <!-- DAUER -->
-              <div class="form-row">
-                <div>
-                  <label for="duration">Gewünschte Aktivierungsdauer (Wochen)</label>
-                  <input id="duration" name="duration" type="number" min="4" max="24" value="8" />
-                  <div class="helper">Empfohlen: 8–12 Wochen für nachhaltige ECS-Aktivierung.</div>
-                </div>
-              </div>
-
-              <button class="btn-primary" type="submit">
-                CBD-Paste-Dosierungsplan erstellen
-              </button>
-              <div class="helper" style="margin-top: 0.5rem;">
-                Hinweis: Die Berechnung erfolgt automatisch. Den fertigen Plan können Sie als PDF speichern.
-              </div>
-            </form>
+          <div style="flex: 1; display: flex; align-items: center;">
+            <div id="step-indicator-2" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">2</div>
+            <div style="flex: 1; height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
+              <div id="progress-bar-2" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
+            </div>
           </div>
-
-          <!-- TAB: PHOTO -->
-          <div id="tab-photo" class="tab-panel">
-            <form id="form-photo">
-              <div class="form-row">
-                <div>
-                  <label for="firstNamePhoto">Ihr Vorname *</label>
-                  <input id="firstNamePhoto" name="firstNamePhoto" type="text" required />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div>
-                  <label for="emailPhoto">Ihre E-Mail-Adresse *</label>
-                  <input id="emailPhoto" name="emailPhoto" type="email" required />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div>
-                  <label>Foto Ihres Medikamentenplans *</label>
-                  <div class="upload-box">
-                    <div><strong>Foto hochladen</strong></div>
-                    <div class="helper">JPG oder PNG, max. 10 MB</div>
-                    <input
-                      id="medPlanPhoto"
-                      name="medPlanPhoto"
-                      type="file"
-                      accept="image/png, image/jpeg"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div>
-                  <label for="durationPhoto">Gewünschte Aktivierungsdauer (Wochen)</label>
-                  <input id="durationPhoto" name="durationPhoto" type="number" min="4" max="24" value="8" />
-                </div>
-              </div>
-
-              <button class="btn-primary" type="submit">
-                Bild analysieren & Dosierungsplan erstellen
-              </button>
-              <div class="helper" style="margin-top: 0.5rem;">
-                Das System liest die Medikamente aus Ihrem Foto aus und schlägt eine passende CBD-Paste-Dosierung vor.
-              </div>
-            </form>
+          <div style="flex: 1; display: flex; align-items: center;">
+            <div id="step-indicator-3" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">3</div>
+            <div style="flex: 1; height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
+              <div id="progress-bar-3" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
+            </div>
+          </div>
+          <div style="flex: 1; display: flex; align-items: center;">
+            <div id="step-indicator-4" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">4</div>
+            <div style="flex: 1; height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
+              <div id="progress-bar-4" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
+            </div>
+          </div>
+          <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
+            <div id="step-indicator-5" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">5</div>
           </div>
         </div>
-
-        <!-- TEXT RECHTS -->
-        <div class="card">
-          <span class="tag-small">Was das Tool berücksichtigt</span>
-          <h3>Medikamenten-Analyse & Wechselwirkungen</h3>
-          <p class="muted">
-            Besonders aufmerksam prüft das System u. a. folgende Gruppen:
-          </p>
-          <ul class="hero-list" style="margin-top: 0.3rem;">
-            <li>Blutverdünner (z. B. Marcumar, Xarelto)</li>
-            <li>Immunsuppressiva</li>
-            <li>Opioide & starke Schmerzmittel</li>
-            <li>Benzodiazepine & beruhigende Medikamente</li>
-          </ul>
-          <p class="muted">
-            Bei kritischen Kombinationen wird eine <strong>besonders vorsichtige Einschleichphase</strong> empfohlen,
-            die Sie unbedingt mit Ihrem Arzt besprechen sollten.
-          </p>
-          <p class="note" style="margin-top: 0.5rem;">
-            Alle Empfehlungen sind unverbindlich und ersetzen keine individuelle ärztliche Beurteilung.
-          </p>
+        <div style="display: flex; justify-between; max-width: 800px; margin: 0 auto; font-size: 0.75rem; color: #6b7280;">
+          <span style="width: 80px; text-align: center;">Name</span>
+          <span style="width: 80px; text-align: center;">Körperdaten</span>
+          <span style="width: 80px; text-align: center;">Medikamente</span>
+          <span style="width: 80px; text-align: center;">Plan</span>
+          <span style="width: 80px; text-align: center;">Zusammenfassung</span>
         </div>
       </div>
-    </section>
 
+      <form id="medication-form">
+        <!-- STEP 1: Name & Gender -->
+        <div id="step-1" class="form-step">
+          <div class="card" style="max-width: 700px; margin: 0 auto;">
+            <h3 style="margin-bottom: 0.5rem;">Schritt 1: Persönliche Angaben</h3>
+            <p class="muted" style="margin-bottom: 1.5rem;">Damit wir Sie persönlich ansprechen können.</p>
+            
+            <div class="form-row">
+              <div>
+                <label for="first-name">Ihr Vorname *</label>
+                <input type="text" id="first-name" name="first_name" placeholder="z.B. Maria" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div>
+                <label>Geschlecht *</label>
+                <div class="inline-row">
+                  <label class="radio-pill">
+                    <input type="radio" name="gender" value="female" required />
+                    <span>Weiblich</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="gender" value="male" />
+                    <span>Männlich</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="gender" value="diverse" />
+                    <span>Divers</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 1.5rem;">
+              <button type="button" class="btn-primary next-step">
+                Weiter <span>→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Body Data -->
+        <div id="step-2" class="form-step" style="display: none;">
+          <div class="card" style="max-width: 700px; margin: 0 auto;">
+            <h3 style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
+            <p class="muted" style="margin-bottom: 1.5rem;">Diese Daten helfen uns, die Dosierung individuell zu berechnen.</p>
+            
+            <div class="form-row">
+              <div>
+                <label for="age">Alter (Jahre) *</label>
+                <input type="number" id="age" name="age" placeholder="z.B. 45" min="18" max="120" required />
+                <div class="helper">Für altersgerechte Dosierung</div>
+              </div>
+              <div>
+                <label for="weight">Gewicht (kg) *</label>
+                <input type="number" id="weight" name="weight" placeholder="z.B. 70" min="30" max="250" step="0.1" required />
+                <div class="helper">In Kilogramm</div>
+              </div>
+              <div>
+                <label for="height">Größe (cm) *</label>
+                <input type="number" id="height" name="height" placeholder="z.B. 170" min="120" max="230" required />
+                <div class="helper">In Zentimetern</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button type="button" class="btn-ghost prev-step">
+                ← Zurück
+              </button>
+              <button type="button" class="btn-primary next-step">
+                Weiter <span>→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Medications -->
+        <div id="step-3" class="form-step" style="display: none;">
+          <div class="card" style="max-width: 700px; margin: 0 auto;">
+            <h3 style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikamente</h3>
+            <p class="muted" style="margin-bottom: 1.5rem;">Geben Sie alle Medikamente ein, die Sie derzeit einnehmen.</p>
+            
+            <div id="medication-inputs" style="margin-bottom: 1rem;">
+              <!-- Wird durch JavaScript befüllt -->
+            </div>
+
+            <button type="button" id="add-medication" class="btn-small" style="margin-bottom: 1rem;">
+              + Weiteres Medikament hinzufügen
+            </button>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button type="button" class="btn-ghost prev-step">
+                ← Zurück
+              </button>
+              <button type="button" class="btn-primary next-step">
+                Weiter <span>→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Plan Settings -->
+        <div id="step-4" class="form-step" style="display: none;">
+          <div class="card" style="max-width: 700px; margin: 0 auto;">
+            <h3 style="margin-bottom: 0.5rem;">Schritt 4: Plan-Einstellungen</h3>
+            <p class="muted" style="margin-bottom: 1.5rem;">Wählen Sie die Dauer Ihres Aktivierungsplans.</p>
+            
+            <div class="form-row">
+              <div>
+                <label for="duration-weeks">Plan-Dauer (Wochen) *</label>
+                <select id="duration-weeks" name="duration_weeks" required>
+                  <option value="">-- Bitte wählen --</option>
+                  <option value="4">4 Wochen – Schneller Einstieg</option>
+                  <option value="6">6 Wochen – Zügig</option>
+                  <option value="8" selected>8 Wochen – Standard (empfohlen)</option>
+                  <option value="10">10 Wochen – Behutsam</option>
+                  <option value="12">12 Wochen – Sehr langsam</option>
+                </select>
+                <div class="helper">Empfohlen: 8–12 Wochen für nachhaltige ECS-Aktivierung</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button type="button" class="btn-ghost prev-step">
+                ← Zurück
+              </button>
+              <button type="button" class="btn-primary next-step">
+                Weiter <span>→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5: Email & Summary -->
+        <div id="step-5" class="form-step" style="display: none;">
+          <div class="card" style="max-width: 700px; margin: 0 auto;">
+            <h3 style="margin-bottom: 0.5rem;">Schritt 5: E-Mail & Zusammenfassung</h3>
+            <p class="muted" style="margin-bottom: 1.5rem;">Überprüfen Sie Ihre Angaben und geben Sie Ihre E-Mail ein.</p>
+            
+            <div class="form-row">
+              <div>
+                <label for="email">Ihre E-Mail-Adresse *</label>
+                <input type="email" id="email" name="email" placeholder="ihre.email@beispiel.de" required />
+                <div class="helper">Hierhin schicken wir den Download-Link zu Ihrem Dosierungsplan</div>
+              </div>
+            </div>
+
+            <div class="card" style="background: #f9fafb; margin-top: 1.5rem; padding: 1rem;">
+              <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 0.8rem;">Ihre Angaben im Überblick</h4>
+              <div style="font-size: 0.85rem;">
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Name:</span>
+                  <span id="summary-name" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Geschlecht:</span>
+                  <span id="summary-gender" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Alter:</span>
+                  <span id="summary-age" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Gewicht:</span>
+                  <span id="summary-weight" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Größe:</span>
+                  <span id="summary-height" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Medikamente:</span>
+                  <span id="summary-medications" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0;">
+                  <span class="muted">Plan-Dauer:</span>
+                  <span id="summary-duration" style="font-weight: 500;">-</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button type="button" class="btn-ghost prev-step">
+                ← Zurück
+              </button>
+              <button type="submit" class="btn-primary">
+                Dosierungsplan erstellen <span>✓</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
     <!-- FAQ -->
     <section>
       <h2>Häufig gestellte Fragen (FAQ)</h2>
@@ -1290,6 +1348,234 @@ app.get('/', (c) => {
 
     handleDemoSubmit("form-manual");
     handleDemoSubmit("form-photo");
+  </script>
+
+  <script>
+    // Multi-Step Wizard Navigation
+    let currentStep = 1;
+    const totalSteps = 5;
+    
+    function showStep(stepNumber) {
+      // Hide all steps
+      for (let i = 1; i <= totalSteps; i++) {
+        const step = document.getElementById(\`step-\${i}\`);
+        if (step) step.style.display = 'none';
+      }
+      
+      // Show current step
+      const currentStepEl = document.getElementById(\`step-\${stepNumber}\`);
+      if (currentStepEl) currentStepEl.style.display = 'block';
+      
+      // Update progress indicators
+      updateProgressBar(stepNumber);
+      
+      // Update summary if on step 5
+      if (stepNumber === 5) {
+        updateSummary();
+      }
+      
+      currentStep = stepNumber;
+    }
+    
+    function updateProgressBar(stepNumber) {
+      for (let i = 1; i <= totalSteps; i++) {
+        const indicator = document.getElementById(\`step-indicator-\${i}\`);
+        const progressBar = document.getElementById(\`progress-bar-\${i}\`);
+        
+        if (i < stepNumber) {
+          // Completed steps
+          if (indicator) {
+            indicator.style.background = '#059669';
+            indicator.style.color = 'white';
+          }
+          if (progressBar) progressBar.style.width = '100%';
+        } else if (i === stepNumber) {
+          // Current step
+          if (indicator) {
+            indicator.style.background = '#0b7b6c';
+            indicator.style.color = 'white';
+          }
+          if (progressBar) progressBar.style.width = '0%';
+        } else {
+          // Future steps
+          if (indicator) {
+            indicator.style.background = '#cbd5e1';
+            indicator.style.color = '#6b7280';
+          }
+          if (progressBar) progressBar.style.width = '0%';
+        }
+      }
+    }
+    
+    function validateStep(stepNumber) {
+      if (stepNumber === 1) {
+        const firstName = document.getElementById('first-name').value.trim();
+        const gender = document.querySelector('input[name="gender"]:checked');
+        if (!firstName) {
+          alert('Bitte geben Sie Ihren Vornamen ein.');
+          return false;
+        }
+        if (!gender) {
+          alert('Bitte wählen Sie Ihr Geschlecht aus.');
+          return false;
+        }
+        return true;
+      }
+      
+      if (stepNumber === 2) {
+        const age = document.getElementById('age').value;
+        const weight = document.getElementById('weight').value;
+        const height = document.getElementById('height').value;
+        
+        if (!age || age < 18 || age > 120) {
+          alert('Bitte geben Sie ein gültiges Alter ein (18-120 Jahre).');
+          return false;
+        }
+        if (!weight || weight < 30 || weight > 250) {
+          alert('Bitte geben Sie ein gültiges Gewicht ein (30-250 kg).');
+          return false;
+        }
+        if (!height || height < 120 || height > 230) {
+          alert('Bitte geben Sie eine gültige Größe ein (120-230 cm).');
+          return false;
+        }
+        return true;
+      }
+      
+      if (stepNumber === 3) {
+        const medicationInputs = document.querySelectorAll('input[name="medication_name[]"]');
+        let hasValidMedication = false;
+        
+        medicationInputs.forEach(input => {
+          if (input.value.trim()) {
+            hasValidMedication = true;
+          }
+        });
+        
+        if (!hasValidMedication) {
+          alert('Bitte geben Sie mindestens ein Medikament ein.');
+          return false;
+        }
+        return true;
+      }
+      
+      if (stepNumber === 4) {
+        const duration = document.getElementById('duration-weeks').value;
+        
+        if (!duration) {
+          alert('Bitte wählen Sie eine Plan-Dauer aus.');
+          return false;
+        }
+        return true;
+      }
+      
+      if (stepNumber === 5) {
+        const email = document.getElementById('email').value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!email || !emailRegex.test(email)) {
+          alert('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
+          return false;
+        }
+        return true;
+      }
+      
+      return true;
+    }
+    
+    function updateSummary() {
+      // Name
+      const firstName = document.getElementById('first-name').value.trim();
+      document.getElementById('summary-name').textContent = firstName || '-';
+      
+      // Gender
+      const genderInput = document.querySelector('input[name="gender"]:checked');
+      const genderText = genderInput ? (genderInput.value === 'female' ? 'Weiblich' : genderInput.value === 'male' ? 'Männlich' : 'Divers') : '-';
+      document.getElementById('summary-gender').textContent = genderText;
+      
+      // Age, Weight, Height
+      document.getElementById('summary-age').textContent = document.getElementById('age').value + ' Jahre' || '-';
+      document.getElementById('summary-weight').textContent = document.getElementById('weight').value + ' kg' || '-';
+      document.getElementById('summary-height').textContent = document.getElementById('height').value + ' cm' || '-';
+      
+      // Medications
+      const medicationInputs = document.querySelectorAll('input[name="medication_name[]"]');
+      const medications = [];
+      medicationInputs.forEach(input => {
+        if (input.value.trim()) {
+          medications.push(input.value.trim());
+        }
+      });
+      document.getElementById('summary-medications').textContent = medications.length > 0 ? medications.join(', ') : '-';
+      
+      // Duration
+      const durationSelect = document.getElementById('duration-weeks');
+      const durationText = durationSelect.options[durationSelect.selectedIndex]?.text || '-';
+      document.getElementById('summary-duration').textContent = durationText;
+    }
+    
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      // Next buttons
+      document.querySelectorAll('.next-step').forEach(button => {
+        button.addEventListener('click', function() {
+          if (validateStep(currentStep)) {
+            if (currentStep < totalSteps) {
+              showStep(currentStep + 1);
+            }
+          }
+        });
+      });
+      
+      // Previous buttons
+      document.querySelectorAll('.prev-step').forEach(button => {
+        button.addEventListener('click', function() {
+          if (currentStep > 1) {
+            showStep(currentStep - 1);
+          }
+        });
+      });
+      
+      // Initialize: Show step 1
+      showStep(1);
+      
+      // Add medication functionality
+      const medList = document.getElementById('medication-inputs');
+      const btnAddMed = document.getElementById('add-medication');
+
+      function addMedRow() {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'med-row';
+        wrapper.style.marginBottom = '0.8rem';
+
+        wrapper.innerHTML = \`
+          <input type="text" name="medication_name[]" placeholder="Name des Medikaments" style="margin-bottom: 0.4rem;" />
+          <input type="text" name="medication_dosage[]" placeholder="z. B. 10 mg morgens, 10 mg abends" style="margin-bottom: 0.4rem;" />
+          <button type="button" class="btn-small btn-remove-med">Entfernen</button>
+        \`;
+
+        medList.appendChild(wrapper);
+
+        wrapper.querySelector('.btn-remove-med').addEventListener('click', () => {
+          medList.removeChild(wrapper);
+        });
+      }
+
+      if (btnAddMed) {
+        btnAddMed.addEventListener('click', addMedRow);
+        // mindestens eine Zeile beim Start
+        addMedRow();
+      }
+      
+      // Form submission
+      const form = document.getElementById('medication-form');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          alert('Hier wird später die API-Anbindung implementiert.\\n\\nAktuell ist dies nur die Demo-Oberfläche.');
+        });
+      }
+    });
   </script>
 </body>
 </html>  `)
