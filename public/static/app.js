@@ -599,7 +599,7 @@ function displayResults(data, firstName = '', gender = '') {
         <div class="flex items-start">
           <i class="fas fa-exclamation-circle text-red-600 text-3xl mr-4"></i>
           <div>
-            <h3 class="text-xl font-bold text-red-800 mb-3">⚠️ Kritische Wechselwirkungen erkannt!</h3>
+            <h3 class="text-xl font-bold text-red-800 mb-3">Kritische Wechselwirkungen erkannt</h3>
             ${warnings.map(w => `<p class="text-red-700 mb-2">${w}</p>`).join('')}
           </div>
         </div>
@@ -614,19 +614,19 @@ function displayResults(data, firstName = '', gender = '') {
         <div class="flex items-start">
           <i class="fas fa-spray-can text-purple-600 text-4xl mr-4"></i>
           <div class="flex-1">
-            <h3 class="text-2xl font-bold text-purple-900 mb-3">💊 ${product.name}</h3>
+            <h3 class="text-2xl font-bold text-purple-900 mb-3">${product.name}</h3>
             <p class="text-sm text-gray-600 mb-4">${product.type}</p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 mb-4">
-              <p><strong>🎯 Konzentration:</strong> ${product.concentration}</p>
-              <p><strong>📦 Verpackung:</strong> ${product.packaging}</p>
-              <p><strong>💧 2 Sprühstöße:</strong> ${product.twoSprays}</p>
-              <p><strong>📏 Dosierungseinheit:</strong> ${product.dosageUnit}</p>
+              <p><strong>Konzentration:</strong> ${product.concentration}</p>
+              <p><strong>Verpackung:</strong> ${product.packaging}</p>
+              <p><strong>2 Sprühstöße:</strong> ${product.twoSprays}</p>
+              <p><strong>Dosierungseinheit:</strong> ${product.dosageUnit}</p>
             </div>
             
             <div class="bg-gradient-to-r from-green-50 to-teal-50 p-4 rounded-lg border-2 border-green-300 mb-4">
               <p class="text-lg font-bold text-green-900 mb-2">
-                📊 Ihre empfohlene Tagesdosis:
+                Ihre empfohlene Tagesdosis
               </p>
               <div class="grid grid-cols-3 gap-4 text-center">
                 <div>
@@ -649,7 +649,7 @@ function displayResults(data, firstName = '', gender = '') {
             
             <div class="bg-white p-4 rounded-lg border border-purple-200">
               <p class="text-sm text-gray-800">
-                <strong>👄 Anwendung:</strong> ${product.application}
+                <strong>Anwendung:</strong> ${product.application}
               </p>
             </div>
           </div>
@@ -665,7 +665,7 @@ function displayResults(data, firstName = '', gender = '') {
         <div class="flex items-start">
           <i class="fas fa-user-circle text-teal-600 text-4xl mr-4"></i>
           <div class="flex-1">
-            <h3 class="text-2xl font-bold text-teal-900 mb-3">📋 Ihre Personalisierung</h3>
+            <h3 class="text-2xl font-bold text-teal-900 mb-3">Ihre Personalisierung</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               ${personalization.age ? `
                 <div class="bg-white p-3 rounded-lg border border-teal-200">
@@ -842,7 +842,7 @@ function displayResults(data, firstName = '', gender = '') {
     <div class="bg-white rounded-xl shadow-lg p-8 mb-8 fade-in" id="dosage-plan-section">
       <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
         <i class="fas fa-calendar-check text-green-600 mr-3"></i>
-        📊 ReduMed-AI: Ihr Medikamenten-Reduktionsplan
+        ReduMed-AI: Ihr Medikamenten-Reduktionsplan
       </h2>
       
       <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 p-4 mb-6 rounded-lg">
@@ -874,7 +874,7 @@ function displayResults(data, firstName = '', gender = '') {
         <div class="flex items-start">
           <i class="fas fa-euro-sign text-amber-600 text-4xl mr-4"></i>
           <div class="flex-1">
-            <h3 class="text-2xl font-bold text-amber-900 mb-3">💰 Kostenübersicht</h3>
+            <h3 class="text-2xl font-bold text-amber-900 mb-3">Kostenübersicht</h3>
             <div class="bg-white rounded-lg p-4 mb-4">
               <table class="w-full">
                 <thead class="border-b-2 border-amber-200">
@@ -946,7 +946,7 @@ function displayResults(data, firstName = '', gender = '') {
         <div class="bg-red-50 p-4">
           <h4 class="font-bold text-red-900 mb-3 flex items-center">
             <i class="fas fa-pills text-red-600 mr-2"></i>
-            💊 Medikamenten-Dosierung
+            Medikamenten-Dosierung
           </h4>
           <div class="overflow-x-auto">
             <table class="w-full border-collapse bg-white rounded-lg">
@@ -995,7 +995,7 @@ function displayResults(data, firstName = '', gender = '') {
         <div class="bg-green-50 p-4 border-t-2 border-green-200">
           <h4 class="font-bold text-green-900 mb-3 flex items-center">
             <i class="fas fa-leaf text-green-600 mr-2"></i>
-            🌿 CBD-Kompensation
+            CBD-Kompensation
           </h4>
           <div class="bg-white rounded-lg p-4 border-2 border-green-300">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -1027,7 +1027,7 @@ function displayResults(data, firstName = '', gender = '') {
         <div class="bg-blue-50 p-4 border-t-2 border-blue-200">
           <h4 class="font-bold text-blue-900 mb-3 flex items-center">
             <i class="fas fa-flask text-blue-600 mr-2"></i>
-            💧 Fläschchen-Status
+            Fläschchen-Status
           </h4>
           <div class="bg-white rounded-lg p-4 border-2 border-blue-300">
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -1051,14 +1051,14 @@ function displayResults(data, firstName = '', gender = '') {
             <div class="mt-3 bg-yellow-100 border-2 border-yellow-400 rounded-lg p-3">
               <p class="text-center text-sm font-semibold text-yellow-800">
                 <i class="fas fa-exchange-alt mr-2"></i>
-                ⚠️ Produktwechsel in nächster Woche erforderlich
+                Produktwechsel in nächster Woche erforderlich
               </p>
             </div>
             ` : `
             <div class="mt-3 bg-green-100 border-2 border-green-400 rounded-lg p-3">
               <p class="text-center text-sm font-semibold text-green-800">
                 <i class="fas fa-check-circle mr-2"></i>
-                ✅ Aktuelles Fläschchen weiter verwenden
+                Aktuelles Fläschchen weiter verwenden
               </p>
             </div>
             `}
@@ -1073,24 +1073,24 @@ function displayResults(data, firstName = '', gender = '') {
       <div class="mt-6 bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
         <h3 class="font-bold text-green-800 mb-3 text-lg">
           <i class="fas fa-clipboard-check mr-2"></i>
-          💡 Wichtige Hinweise zur Medikamenten-Reduktion:
+          Wichtige Hinweise zur Medikamenten-Reduktion:
         </h3>
         <ul class="text-green-700 space-y-2 ml-6 list-disc">
-          <li><strong>👨‍⚕️ Ärztliche Begleitung:</strong> Reduzieren Sie Medikamente NUR unter ärztlicher Aufsicht!</li>
-          <li><strong>📊 Wöchentliche Kontrolle:</strong> Besprechen Sie den Fortschritt wöchentlich mit Ihrem Arzt</li>
-          <li><strong>🌿 CBD-Einnahme:</strong> ${product.morningSprays}× morgens + ${product.eveningSprays}× abends (Produkt wechselt wöchentlich)</li>
-          <li><strong>👄 Anwendung:</strong> Sprühstoß direkt in den Mund oder unter die Zunge, vor Gebrauch gut schütteln</li>
-          <li><strong>⚠️ Bei Problemen:</strong> Sofort Arzt kontaktieren - nicht eigenständig weitermachen!</li>
-          <li><strong>📝 Symptom-Tagebuch:</strong> Dokumentieren Sie täglich Ihre Befindlichkeit und Symptome</li>
-          <li><strong>💧 Hydration:</strong> Mindestens 2-3 Liter Wasser täglich trinken</li>
-          <li><strong>🛑 Absetzen:</strong> Niemals Medikamente abrupt absetzen - immer schrittweise!</li>
+          <li><strong>Ärztliche Begleitung:</strong> Reduzieren Sie Medikamente NUR unter ärztlicher Aufsicht!</li>
+          <li><strong>Wöchentliche Kontrolle:</strong> Besprechen Sie den Fortschritt wöchentlich mit Ihrem Arzt</li>
+          <li><strong>CBD-Einnahme:</strong> ${product.morningSprays}× morgens + ${product.eveningSprays}× abends (Produkt wechselt wöchentlich)</li>
+          <li><strong>Anwendung:</strong> Sprühstoß direkt in den Mund oder unter die Zunge, vor Gebrauch gut schütteln</li>
+          <li><strong>Bei Problemen:</strong> Sofort Arzt kontaktieren - nicht eigenständig weitermachen!</li>
+          <li><strong>Symptom-Tagebuch:</strong> Dokumentieren Sie täglich Ihre Befindlichkeit und Symptome</li>
+          <li><strong>Hydration:</strong> Mindestens 2-3 Liter Wasser täglich trinken</li>
+          <li><strong>Absetzen:</strong> Niemals Medikamente abrupt absetzen - immer schrittweise!</li>
         </ul>
       </div>
 
       <div class="mt-8">
         <button onclick="downloadPDF()" class="w-full py-5 bg-gradient-to-r from-green-600 to-teal-600 text-white font-bold text-lg rounded-lg hover:from-green-700 hover:to-teal-700 transition-all shadow-lg transform hover:scale-105">
           <i class="fas fa-file-pdf mr-2"></i>
-          📄 ReduMed-AI Plan als PDF herunterladen
+          ReduMed-AI Plan als PDF herunterladen
         </button>
         <p class="text-center text-sm text-gray-500 mt-3">
           <i class="fas fa-info-circle mr-1"></i>
@@ -1230,7 +1230,7 @@ function downloadPDF() {
       doc.setFontSize(11);
       doc.setTextColor(153, 27, 27);
       doc.setFont(undefined, 'bold');
-      doc.text('⚠️ Achtung: Kritische Wechselwirkungen erkannt', 15, yPos + 7);
+      doc.text('Achtung: Kritische Wechselwirkungen erkannt', 15, yPos + 7);
       doc.setFont(undefined, 'normal');
       doc.text('Dieser Plan wurde extra vorsichtig gestaltet. Starten Sie nur nach ärztlicher Rücksprache!', 15, yPos + 13);
       
@@ -1490,7 +1490,7 @@ function downloadPDF() {
     doc.setFontSize(11);
     doc.setTextColor(113, 63, 18);
     doc.setFont(undefined, 'bold');
-    doc.text('💡 Produktwechsel-Strategie', 15, yPos + 7);
+    doc.text('Produktwechsel-Strategie', 15, yPos + 7);
     doc.setFont(undefined, 'normal');
     doc.text('Produkte werden nur gewechselt, wenn (1) Flasche leer oder (2) Dosierung >12 Sprays/Tag.', 15, yPos + 13);
     doc.text('Dies minimiert Kosten und vermeidet unnötige Wechsel.', 15, yPos + 18);
@@ -1588,7 +1588,7 @@ function downloadPDF() {
       doc.setFontSize(10);
       doc.setTextColor(113, 63, 18);
       doc.setFont(undefined, 'normal');
-      doc.text('💡 Hinweis: Preise gelten für KANNASAN CBD Dosier-Sprays (10ml Flaschen, ca. 100 Hübe).', 15, yPos + 7);
+      doc.text('Hinweis: Preise gelten für KANNASAN CBD Dosier-Sprays (10ml Flaschen, ca. 100 Hübe).', 15, yPos + 7);
       doc.text('Produktwechsel erfolgen nur bei leerem Fläschchen oder zu hoher Dosierung.', 15, yPos + 13);
     }
     
