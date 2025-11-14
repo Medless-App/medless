@@ -496,8 +496,14 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     // Wait for both animation and API call to complete
     const [response] = await Promise.all([apiPromise, animationPromise]);
 
+    console.log('✅ API Response received:', response.data.success);
+    console.log('📊 Analysis data:', response.data.analysis?.length, 'medications');
+    console.log('📅 Weekly plan:', response.data.weeklyPlan?.length, 'weeks');
+
     if (response.data.success) {
+      console.log('🎯 Calling displayResults()...');
       displayResults(response.data, firstName, gender);
+      console.log('✅ displayResults() completed');
     } else {
       throw new Error(response.data.error || 'Analyse fehlgeschlagen');
     }
@@ -511,8 +517,15 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
 
 // Display results
 function displayResults(data, firstName = '', gender = '') {
+  console.log('🎨 displayResults() START');
+  console.log('📦 Received data:', data);
+  
   const resultsDiv = document.getElementById('results');
+  console.log('📍 Results div found:', !!resultsDiv);
+  
   const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization } = data;
+  console.log('📊 Destructured data - analysis:', analysis?.length, 'weeklyPlan:', weeklyPlan?.length);
+  
   let html = '';
 
   // Critical warnings
@@ -844,11 +857,14 @@ function displayResults(data, firstName = '', gender = '') {
     </div>
   `;
 
+  console.log('🖼️ Setting innerHTML... HTML length:', html.length);
   resultsDiv.innerHTML = html;
+  console.log('👁️ Making results visible...');
   resultsDiv.classList.remove('hidden');
   
   // Scroll to results
   setTimeout(() => {
+    console.log('📜 Scrolling to results...');
     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 100);
 
@@ -863,6 +879,8 @@ function displayResults(data, firstName = '', gender = '') {
     product,
     personalization
   };
+  
+  console.log('✅ displayResults() COMPLETE');
 }
 
 // Download PDF function using jsPDF - Global Standards Applied
