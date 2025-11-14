@@ -1106,43 +1106,54 @@ app.get('/', (c) => {
         Folgen Sie den Schritten, um einen individuellen Dosierungsplan zu erhalten.
       </p>
 
-      <!-- Progress Stepper -->
+      <!-- Progress Stepper - NEW STRUCTURED LAYOUT -->
       <div style="margin-bottom: 2rem; margin-top: 1.5rem;">
-        <div style="display: flex; align-items: center; justify-content: space-between; max-width: 800px; margin: 0 auto 0.5rem;">
-          <div style="flex: 1; display: flex; align-items: center;">
-            <div id="step-indicator-1" style="width: 40px; height: 40px; border-radius: 50%; background: #0b7b6c; color: white; font-weight: 600; display: flex; align-items: center; justify-content: center;">1</div>
-            <div style="flex: 1; height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-              <div id="progress-bar-1" style="height: 100%; background: #0b7b6c; width: 100%; transition: width 0.3s;"></div>
-            </div>
+        <!-- Circles and Progress Bars Container -->
+        <div style="display: grid; grid-template-columns: 40px 1fr 40px 1fr 40px 1fr 40px 1fr 40px; align-items: center; max-width: 800px; margin: 0 auto 0.75rem; gap: 0;">
+          <!-- Step 1 Circle -->
+          <div id="step-indicator-1" style="width: 40px; height: 40px; border-radius: 50%; background: #0b7b6c; color: white; font-weight: 600; display: flex; align-items: center; justify-content: center;">1</div>
+          <!-- Progress Bar 1 -->
+          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
+            <div id="progress-bar-1" style="height: 100%; background: #0b7b6c; width: 100%; transition: width 0.3s;"></div>
           </div>
-          <div style="flex: 1; display: flex; align-items: center;">
-            <div id="step-indicator-2" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">2</div>
-            <div style="flex: 1; height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-              <div id="progress-bar-2" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
-            </div>
+          <!-- Step 2 Circle -->
+          <div id="step-indicator-2" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">2</div>
+          <!-- Progress Bar 2 -->
+          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
+            <div id="progress-bar-2" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
           </div>
-          <div style="flex: 1; display: flex; align-items: center;">
-            <div id="step-indicator-3" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">3</div>
-            <div style="flex: 1; height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-              <div id="progress-bar-3" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
-            </div>
+          <!-- Step 3 Circle -->
+          <div id="step-indicator-3" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">3</div>
+          <!-- Progress Bar 3 -->
+          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
+            <div id="progress-bar-3" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
           </div>
-          <div style="flex: 1; display: flex; align-items: center;">
-            <div id="step-indicator-4" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">4</div>
-            <div style="flex: 1; height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-              <div id="progress-bar-4" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
-            </div>
+          <!-- Step 4 Circle -->
+          <div id="step-indicator-4" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">4</div>
+          <!-- Progress Bar 4 -->
+          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
+            <div id="progress-bar-4" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
           </div>
-          <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
-            <div id="step-indicator-5" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">5</div>
-          </div>
+          <!-- Step 5 Circle -->
+          <div id="step-indicator-5" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">5</div>
         </div>
-        <div style="display: flex; justify-content: space-between; max-width: 800px; margin: 0 auto; font-size: 0.7rem; color: #6b7280; gap: 0.5rem;">
-          <span style="flex: 1; text-align: center; min-width: 60px;">Name</span>
-          <span style="flex: 1; text-align: center; min-width: 60px;">Körper&shy;daten</span>
-          <span style="flex: 1; text-align: center; min-width: 60px;">Medi&shy;kamente</span>
-          <span style="flex: 1; text-align: center; min-width: 60px;">Plan</span>
-          <span style="flex: 1; text-align: center; min-width: 60px;">Zusammen&shy;fassung</span>
+        
+        <!-- Labels Container - EXACTLY ALIGNED with circles above -->
+        <div style="display: grid; grid-template-columns: 40px 1fr 40px 1fr 40px 1fr 40px 1fr 40px; max-width: 800px; margin: 0 auto; gap: 0;">
+          <!-- Label 1 -->
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2;">Name</span>
+          <span></span>
+          <!-- Label 2 -->
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2;">Körper&shy;daten</span>
+          <span></span>
+          <!-- Label 3 -->
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2;">Medi&shy;kamente</span>
+          <span></span>
+          <!-- Label 4 -->
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2;">Plan</span>
+          <span></span>
+          <!-- Label 5 -->
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2;">Zusammen&shy;fassung</span>
         </div>
       </div>
 
