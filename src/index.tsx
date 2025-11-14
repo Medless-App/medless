@@ -205,163 +205,135 @@ app.post('/api/analyze', async (c) => {
       }
     }
     
-    // ========== CANNABINOID PASTE 70% DOSING CALCULATION ==========
-    // Product: 3g Spritze mit 30 Teilstrichen
-    // 1 Teilstrich = 1.5 cm = 70 mg Cannabinoids
-    // 1 cm = 46.67 mg Cannabinoids
+    // ========== REDUMED-AI: MULTI-MEDICATION REDUCTION ALGORITHM ==========
     
-    const MG_PER_CM = 46.67;
     const adjustmentNotes: string[] = [];
     
-    // Individualized dosing parameters based on interaction severity
-    let titrationDays = 3;
-    let startDosageMg = 9.3; // 0.2 cm
-    let incrementMg = 5;
-    let incrementDays = 3;
-    let firstDoseTime = 'Abends (Verträglichkeitstest)';
+    // Check if any medication is Benzodiazepine or Opioid (safety rule for CBD start dose)
+    const hasBenzoOrOpioid = analysisResults.some(result => {
+      const medName = result.medication.name.toLowerCase();
+      const isBenzo = medName.includes('diazepam') || medName.includes('lorazepam') || 
+                      medName.includes('alprazolam') || medName.includes('clonazepam') ||
+                      medName.includes('benzo');
+      const isOpioid = medName.includes('tramadol') || medName.includes('oxycodon') || 
+                       medName.includes('morphin') || medName.includes('fentanyl') ||
+                       medName.includes('opioid') || medName.includes('opiat');
+      return isBenzo || isOpioid;
+    });
     
-    if (maxSeverity === 'critical' || maxSeverity === 'high') {
-      titrationDays = 7;
-      startDosageMg = 4.7; // 0.1 cm
-      incrementMg = 2.5;
-      incrementDays = 3;
-      firstDoseTime = 'Abends (Sicherheit bei kritischen Wechselwirkungen)';
-      adjustmentNotes.push('⚠️ Sehr vorsichtige Einschleichphase wegen kritischer Medikamenten-Wechselwirkungen');
-    } else if (maxSeverity === 'medium') {
-      titrationDays = 5;
-      startDosageMg = 7; // 0.15 cm
-      incrementMg = 4;
-      incrementDays = 3;
-      firstDoseTime = 'Abends (Sicherheit)';
-      adjustmentNotes.push('⚠️ Vorsichtige Einschleichphase wegen Medikamenten-Wechselwirkungen');
+    if (hasBenzoOrOpioid) {
+      adjustmentNotes.push('⚠️ Benzodiazepine oder Opioide erkannt: CBD-Startdosis wird halbiert (Sicherheitsregel)');
     }
     
-    // Age-based adjustments
+    // CBD Dosing: Body weight-based (0.5 mg/kg start → 1.0 mg/kg end)
+    const defaultWeight = 70; // Default if no weight provided
+    const userWeight = weight || defaultWeight;
+    
+    let cbdStartMg = userWeight * 0.5; // Start: 0.5 mg/kg
+    const cbdEndMg = userWeight * 1.0;   // End: 1.0 mg/kg
+    
+    // Safety Rule: Halve CBD start dose if Benzos/Opioids present
+    if (hasBenzoOrOpioid) {
+      cbdStartMg = cbdStartMg / 2;
+      adjustmentNotes.push(`🔒 CBD-Startdosis reduziert auf ${Math.round(cbdStartMg * 10) / 10} mg/Tag (Sicherheit)`);
+    }
+    
+    // Age-based CBD adjustments
     if (age && age >= 65) {
-      startDosageMg *= 0.7;
-      titrationDays += 2;
-      adjustmentNotes.push('📅 Verlängerte Einschleichphase für Senioren (65+)');
+      cbdStartMg *= 0.8;
+      adjustmentNotes.push('👴 CBD-Dosis angepasst für Senioren (65+)');
     }
     
-    // BMI-based adjustments
+    // BMI-based CBD adjustments
     if (weight && height && bmi) {
       if (bmi < 18.5) {
-        startDosageMg *= 0.85;
-        adjustmentNotes.push('⚖️ Dosierung angepasst: Untergewicht (BMI < 18.5)');
+        cbdStartMg *= 0.85;
+        adjustmentNotes.push('⚖️ CBD-Dosis angepasst: Untergewicht (BMI < 18.5)');
       } else if (bmi > 30) {
-        startDosageMg *= 1.1;
-        adjustmentNotes.push('⚖️ Dosierung angepasst: Übergewicht (BMI > 30)');
+        cbdStartMg *= 1.1;
+        adjustmentNotes.push('⚖️ CBD-Dosis angepasst: Übergewicht (BMI > 30)');
       }
     }
     
-    // Weight-based target dose: 1 mg Cannabinoids per kg body weight
-    const weightBasedTargetMg = weight ? weight * 1.0 : 50;
-    const maxDosageMg = weight ? Math.min(weight * 2.5, 186) : 100;
+    // Calculate weekly CBD increase (linear)
+    const cbdWeeklyIncrease = (cbdEndMg - cbdStartMg) / durationWeeks;
     
-    // Generate daily dosing plan
+    // Generate weekly plan with medication reduction + CBD increase
     const weeklyPlan = [];
-    const totalDays = durationWeeks * 7;
     
-    for (let day = 1; day <= totalDays; day++) {
-      const week = Math.ceil(day / 7);
+    for (let week = 1; week <= durationWeeks; week++) {
+      // Calculate CBD dose for this week (linear increase)
+      const weekCbdDose = cbdStartMg + (cbdWeeklyIncrease * (week - 1));
       
-      let morningDosageMg = 0;
-      let eveningDosageMg = 0;
-      let notes = '';
+      // Select optimal KANNASAN product for this week's CBD dose
+      const kannasanSelection = selectKannasanProduct(weekCbdDose);
       
-      // Phase 1: Titration phase (evening only)
-      if (day <= titrationDays) {
-        eveningDosageMg = startDosageMg;
-        morningDosageMg = 0;
+      // Calculate medication doses for this week
+      const weekMedications = medications.map((med: any) => {
+        const startMg = med.mgPerDay;
+        const targetMg = startMg * (1 - reductionGoal / 100);
+        const weeklyReduction = (startMg - targetMg) / durationWeeks;
+        const currentMg = startMg - (weeklyReduction * (week - 1));
         
-        if (day === 1) {
-          notes = `🌙 Einschleichphase: ${firstDoseTime}. Sprühstoß direkt in den Mund oder unter die Zunge.`;
-        } else if (day === titrationDays) {
-          notes = `🌅 Letzter Tag nur abends. Ab morgen: 2x täglich (Morgen + Abend) für optimale Endocannabinoid-System-Unterstützung`;
-        } else {
-          notes = '🌙 Einschleichphase: Nur abends einnehmen';
-        }
-      }
-      // Phase 2: Twice daily with gradual increase
-      else {
-        const daysAfterTitration = day - titrationDays;
-        const increments = Math.floor(daysAfterTitration / incrementDays);
-        let currentDailyDose = startDosageMg + (increments * incrementMg);
-        
-        currentDailyDose = Math.min(currentDailyDose, weightBasedTargetMg);
-        currentDailyDose = Math.min(currentDailyDose, maxDosageMg);
-        
-        // Split 40% morning, 60% evening
-        morningDosageMg = currentDailyDose * 0.4;
-        eveningDosageMg = currentDailyDose * 0.6;
-        
-        if (day === titrationDays + 1) {
-          notes = '🌅🌙 Ab heute: 2x täglich (Morgen + Abend)';
-        } else if (week === durationWeeks && day >= totalDays - 1) {
-          notes = '✅ Ende der Aktivierungsphase - ärztliche Nachkontrolle empfohlen';
-        } else if (increments > 0 && daysAfterTitration % incrementDays === 0) {
-          notes = `📈 Dosierung erhöht auf ${Math.round(currentDailyDose * 10) / 10} mg täglich`;
-        }
-      }
+        return {
+          name: med.name,
+          startMg: Math.round(startMg * 10) / 10,
+          currentMg: Math.round(currentMg * 10) / 10,
+          targetMg: Math.round(targetMg * 10) / 10,
+          reduction: Math.round(weeklyReduction * 10) / 10,
+          reductionPercent: Math.round(((startMg - currentMg) / startMg) * 100)
+        };
+      });
       
-      // Convert mg to cm (round to 0.05 cm precision)
-      const morningCm = Math.round((morningDosageMg / MG_PER_CM) * 20) / 20;
-      const eveningCm = Math.round((eveningDosageMg / MG_PER_CM) * 20) / 20;
-      const totalCm = Math.round((morningCm + eveningCm) * 100) / 100;
-      const totalMg = Math.round((morningDosageMg + eveningDosageMg) * 10) / 10;
+      // Calculate total medication load
+      const totalMedicationLoad = weekMedications.reduce((sum: number, med: any) => sum + med.currentMg, 0);
       
-      // Group by weeks
-      const existingWeek = weeklyPlan.find((w: any) => w.week === week);
-      if (!existingWeek) {
-        weeklyPlan.push({
-          week,
-          days: [{
-            day: day % 7 || 7,
-            morningDosageCm: morningCm,
-            eveningDosageCm: eveningCm,
-            totalDailyCm: totalCm,
-            morningDosageMg: Math.round(morningDosageMg * 10) / 10,
-            eveningDosageMg: Math.round(eveningDosageMg * 10) / 10,
-            totalDailyMg: totalMg,
-            notes
-          }]
-        });
-      } else {
-        (existingWeek as any).days.push({
-          day: day % 7 || 7,
-          morningDosageCm: morningCm,
-          eveningDosageCm: eveningCm,
-          totalDailyCm: totalCm,
-          morningDosageMg: Math.round(morningDosageMg * 10) / 10,
-          eveningDosageMg: Math.round(eveningDosageMg * 10) / 10,
-          totalDailyMg: totalMg,
-          notes
-        });
-      }
+      weeklyPlan.push({
+        week,
+        medications: weekMedications,
+        totalMedicationLoad: Math.round(totalMedicationLoad * 10) / 10,
+        cbdDose: Math.round(weekCbdDose * 10) / 10,
+        kannasanProduct: {
+          nr: kannasanSelection.product.nr,
+          name: kannasanSelection.product.name,
+          cbdPerSpray: kannasanSelection.product.cbdPerSpray
+        },
+        morningSprays: kannasanSelection.morningSprays,
+        eveningSprays: kannasanSelection.eveningSprays,
+        totalSprays: kannasanSelection.totalSprays,
+        actualCbdMg: Math.round(kannasanSelection.actualDailyMg * 10) / 10
+      });
     }
     
-    // Select optimal KANNASAN product based on target dose
-    const kannasanSelection = selectKannasanProduct(weightBasedTargetMg);
+    // Get first week's KANNASAN product for product info box
+    const firstWeekKannasan = weeklyPlan[0];
     
     return c.json({
       success: true,
       analysis: analysisResults,
       maxSeverity,
       weeklyPlan,
+      reductionGoal,
+      cbdProgression: {
+        startMg: Math.round(cbdStartMg * 10) / 10,
+        endMg: Math.round(cbdEndMg * 10) / 10,
+        weeklyIncrease: Math.round(cbdWeeklyIncrease * 10) / 10
+      },
       product: {
-        name: kannasanSelection.product.name,
-        nr: kannasanSelection.product.nr,
+        name: firstWeekKannasan.kannasanProduct.name,
+        nr: firstWeekKannasan.kannasanProduct.nr,
         type: 'CBD Dosier-Spray',
         packaging: '10ml Flasche mit Pumpsprühaufsatz',
-        concentration: `${kannasanSelection.product.cbdPerSpray} mg CBD pro Sprühstoß`,
-        cbdPerSpray: kannasanSelection.product.cbdPerSpray,
-        twoSprays: `${kannasanSelection.product.twoSprays} mg CBD bei 2 Sprühstößen`,
+        concentration: `${firstWeekKannasan.kannasanProduct.cbdPerSpray} mg CBD pro Sprühstoß`,
+        cbdPerSpray: firstWeekKannasan.kannasanProduct.cbdPerSpray,
+        twoSprays: `${firstWeekKannasan.kannasanProduct.cbdPerSpray * 2} mg CBD bei 2 Sprühstößen`,
         dosageUnit: 'Sprühstöße',
-        totalSpraysPerDay: kannasanSelection.totalSprays,
-        morningSprays: kannasanSelection.morningSprays,
-        eveningSprays: kannasanSelection.eveningSprays,
-        actualDailyMg: Math.round(kannasanSelection.actualDailyMg * 10) / 10,
-        application: 'Oral: Sprühstoß direkt in den Mund oder unter die Zunge. Produkt vor Gebrauch gut schütteln.'
+        totalSpraysPerDay: firstWeekKannasan.totalSprays,
+        morningSprays: firstWeekKannasan.morningSprays,
+        eveningSprays: firstWeekKannasan.eveningSprays,
+        actualDailyMg: firstWeekKannasan.actualCbdMg,
+        application: 'Oral: Sprühstoß direkt in den Mund oder unter die Zunge. Produkt vor Gebrauch gut schütteln.',
+        note: 'Produkt kann sich wöchentlich ändern basierend auf CBD-Dosis'
       },
       personalization: {
         age,
@@ -369,11 +341,9 @@ app.post('/api/analyze', async (c) => {
         height,
         bmi,
         bsa,
-        titrationDays,
-        firstDoseTime,
-        startDosageMg: Math.round(startDosageMg * 10) / 10,
-        targetDailyMg: Math.round(weightBasedTargetMg * 10) / 10,
-        maxDailyMg: Math.round(maxDosageMg * 10) / 10,
+        cbdStartMg: Math.round(cbdStartMg * 10) / 10,
+        cbdEndMg: Math.round(cbdEndMg * 10) / 10,
+        hasBenzoOrOpioid,
         notes: adjustmentNotes
       },
       warnings: maxSeverity === 'critical' || maxSeverity === 'high' ? 
