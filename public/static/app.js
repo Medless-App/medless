@@ -511,59 +511,9 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
 
 // Display results
 function displayResults(data, firstName = '', gender = '') {
-  try {
-    const resultsDiv = document.getElementById('results');
-    if (!resultsDiv) {
-      alert('ERROR: Results div not found!');
-      return;
-    }
-    
-    const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization } = data;
-    
-    // MINIMAL VERSION - Just show success message first
-    let html = `
-      <div style="background: white; padding: 2rem; border-radius: 12px; margin: 2rem auto; max-width: 800px;">
-        <h2 style="color: #059669; font-size: 24px; margin-bottom: 1rem;">
-          ✅ Analyse erfolgreich!
-        </h2>
-        <p style="margin-bottom: 1rem;">
-          Ihr Plan wurde erstellt für: <strong>${firstName}</strong>
-        </p>
-        <p style="margin-bottom: 1rem;">
-          Dauer: <strong>${weeklyPlan?.length || 0} Wochen</strong>
-        </p>
-        <p style="margin-bottom: 1rem;">
-          Medikamente analysiert: <strong>${analysis?.length || 0}</strong>
-        </p>
-        <button onclick="downloadPDF()" style="background: #059669; color: white; padding: 1rem 2rem; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold;">
-          📄 Plan als PDF herunterladen
-        </button>
-      </div>
-    `;
-    
-    resultsDiv.innerHTML = html;
-    resultsDiv.classList.remove('hidden');
-    
-    setTimeout(() => {
-      resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-    
-    window.currentPlanData = { 
-      analysis, 
-      weeklyPlan, 
-      guidelines, 
-      maxSeverity, 
-      firstName, 
-      gender,
-      product,
-      personalization
-    };
-    
-  } catch (error) {
-    alert('FEHLER beim Anzeigen: ' + error.message);
-    console.error('displayResults ERROR:', error);
-  }
-}
+  const resultsDiv = document.getElementById('results');
+  const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization } = data;
+  let html = '';
 
   // Critical warnings
   if (warnings && warnings.length > 0) {
