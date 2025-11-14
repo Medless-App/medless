@@ -1638,13 +1638,41 @@ window.downloadPlanAsPDF = async function(event) {
     
     console.log('html2canvas verfügbar, starte Screenshot...');
     
-    // Erstelle Screenshot vom Results-Div
+    // Erstelle Screenshot vom Results-Div mit erweiterten Optionen
     const canvas = await window.html2canvas(resultsDiv, {
       scale: 0.6,
       useCORS: true,
       allowTaint: true,
       logging: false,
-      backgroundColor: '#f5f7fa'
+      backgroundColor: '#f5f7fa',
+      // FIX für "setEnd on Range" Error:
+      ignoreElements: (element) => {
+        // Ignoriere problematische Elements
+        return element.tagName === 'SCRIPT' || element.tagName === 'STYLE';
+      },
+      onclone: (clonedDoc) => {
+        // Bereinige geklontes Dokument
+        const clonedResults = clonedDoc.getElementById('results');
+        if (clonedResults) {
+          // Entferne alle <script> und <style> tags
+          clonedResults.querySelectorAll('script, style').forEach(el => el.remove());
+          
+          // Normalisiere alle Text-Nodes (verhindert Range-Errors)
+          const walker = clonedDoc.createTreeWalker(
+            clonedResults,
+            NodeFilter.SHOW_TEXT,
+            null,
+            false
+          );
+          
+          let node;
+          while (node = walker.nextNode()) {
+            if (node.nodeValue) {
+              node.nodeValue = node.nodeValue.trim();
+            }
+          }
+        }
+      }
     });
     
     console.log('Screenshot erstellt, Canvas-Größe:', canvas.width, 'x', canvas.height);
