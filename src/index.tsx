@@ -1921,48 +1921,123 @@ app.get('/', (c) => {
     <section>
       <h2>Häufig gestellte Fragen (FAQ)</h2>
       <div class="faq">
+        
+        <!-- ECS & Cannabinoide -->
         <details>
-          <summary>Wie genau aktivieren exogene Cannabinoide mein Endocannabinoid-System?</summary>
+          <summary>Wie unterstützen Cannabinoide mein Endocannabinoid-System (ECS)?</summary>
           <p>
-            CBD greift an mehreren Stellen in die körpereigene Regulation ein – unter anderem über das
-            Endocannabinoid-System und bestimmte Rezeptoren im Nervensystem. Vereinfacht gesagt kann es
-            helfen, körpereigene Botenstoffe zu stabilisieren und Entzündungen zu dämpfen.
+            Cannabinoide stabilisieren körpereigene Endocannabinoide, modulieren Entzündungen und beeinflussen 
+            Rezeptoren im Nervensystem. Dadurch unterstützen sie die natürliche Balance des Körpers.
+          </p>
+        </details>
+
+        <!-- Dosierungsplan -->
+        <details>
+          <summary>Warum verwende ich einen Dosierungsplan?</summary>
+          <p>
+            Ein strukturierter Plan steigert die Dosis langsam, erhöht die Verträglichkeit und ermöglicht eine 
+            bessere Bewertung der Wirkung.
           </p>
         </details>
 
         <details>
-          <summary>Kann ich wirklich Medikamente reduzieren?</summary>
+          <summary>Warum wird die Dosis wöchentlich gesteigert?</summary>
           <p>
-            Viele Menschen berichten, dass sie unter ärztlicher Begleitung ihre Medikation reduzieren konnten,
-            wenn das ECS stabiler wird. Ob und in welchem Ausmaß das bei Ihnen möglich ist, kann nur Ihr behandelnder
-            Arzt entscheiden. Dieses Tool hilft Ihnen lediglich, die Einnahme von CBD-Paste strukturiert zu planen.
+            Um Überreaktionen zu vermeiden und die individuelle Verträglichkeit zu optimieren.
+          </p>
+        </details>
+
+        <!-- Medikamentenreduktion -->
+        <details>
+          <summary>Kann ich durch Cannabinoide Medikamente reduzieren?</summary>
+          <p>
+            Eine Reduktion ist möglich, aber nur unter ärztlicher Begleitung. Der Plan dient lediglich als 
+            Vorbereitung für das Arztgespräch.
           </p>
         </details>
 
         <details>
-          <summary>Wie lange dauert es, bis ich etwas merke?</summary>
+          <summary>Warum sind kleine Schritte bei der Medikamentenreduktion wichtig?</summary>
           <p>
-            Erste Effekte können bereits nach wenigen Tagen spürbar sein, die nachhaltige Stabilisierung des ECS dauert
-            meist mehrere Wochen. Deshalb empfehlen wir in der Regel 8–12 Wochen regelmäßige Einnahme.
+            Um Rebound-Effekte und Überlastungen zu vermeiden. Darum setzt der Plan auf kleine Prozent-Reduktionen 
+            mit Stabilisierungswochen.
+          </p>
+        </details>
+
+        <!-- Wirkung & Zeitrahmen -->
+        <details>
+          <summary>Wie lange dauert es, bis Cannabinoide wirken?</summary>
+          <p>
+            Erste Effekte können nach wenigen Tagen auftreten, eine stabile Anpassung dauert 6–12 Wochen.
           </p>
         </details>
 
         <details>
-          <summary>Ist CBD abhängig machend?</summary>
+          <summary>Ich spüre in den ersten Wochen wenig – ist das normal?</summary>
           <p>
-            CBD hat kein typisches Suchtpotenzial und macht nicht „high". Dennoch sollten Sie die Einnahme immer mit
-            Ihrem Arzt besprechen, insbesondere wenn bereits andere Medikamente eingenommen werden.
+            Ja, das ECS benötigt oft mehrere Wochen für eine stabile Anpassung.
           </p>
         </details>
 
+        <!-- Sicherheit -->
+        <details>
+          <summary>Sind Cannabinoide abhängig machend oder berauschend?</summary>
+          <p>
+            Nicht-psychoaktive Cannabinoide haben kein Suchtpotenzial und verursachen keinen Rausch.
+          </p>
+        </details>
+
+        <details>
+          <summary>Welche Nebenwirkungen können Cannabinoide haben?</summary>
+          <p>
+            Mögliche leichte Nebenwirkungen: Müdigkeit, Schwindel, trockener Mund, veränderter Appetit.
+          </p>
+        </details>
+
+        <details>
+          <summary>Können Cannabinoide mit anderen Medikamenten interagieren?</summary>
+          <p>
+            Ja, Cannabinoide beeinflussen bestimmte Leberenzyme (z. B. CYP450). Darum jede Änderung ärztlich abklären.
+          </p>
+        </details>
+
+        <details>
+          <summary>Was mache ich bei Beschwerden während des Plans?</summary>
+          <p>
+            Nichts eigenständig ändern – sofort ärztlichen Rat einholen.
+          </p>
+        </details>
+
+        <!-- Praktische Anwendung -->
         <details>
           <summary>Was mache ich mit dem fertigen Dosierungsplan?</summary>
           <p>
-            Drucken Sie den Plan aus oder nehmen Sie ihn digital mit zum Arzttermin.
-            Besprechen Sie dort, ob die vorgeschlagenen Dosen und Schritte für Sie geeignet sind
-            und wie Ihre Medikation ggf. angepasst werden kann.
+            Ausdrucken oder digital speichern und mit dem Arzt oder der Apotheke besprechen.
           </p>
         </details>
+
+        <!-- Produkte & Dosierung -->
+        <details>
+          <summary>Warum unterschiedliche Cannabinoid-Konzentrationen?</summary>
+          <p>
+            Damit die mg-Dosis möglichst genau dem Ziel entspricht.
+          </p>
+        </details>
+
+        <details>
+          <summary>Warum bleibt der Plan bei einem Produkt, bis die Flasche leer ist?</summary>
+          <p>
+            Für Klarheit und Anwenderfreundlichkeit – kein Mischen verschiedener Produkte.
+          </p>
+        </details>
+
+        <details>
+          <summary>Was bedeutet die Abweichung in Prozent?</summary>
+          <p>
+            Sie zeigt, wie nah die reale Dosis an der Zieldosis liegt (Toleranz: ±10%).
+          </p>
+        </details>
+
       </div>
     </section>
 
