@@ -1,0 +1,179 @@
+            <!-- Loading - Advanced KI Analysis Animation -->
+            <div id="loading" class="hidden section-card p-10 text-center rounded-lg">
+                <!-- Animated KI Brain with Multiple Pulse Rings -->
+                <div class="relative inline-block mb-8">
+                    <!-- Outer pulse ring -->
+                    <div class="absolute inset-0 -m-8 bg-teal-200 rounded-full opacity-40 animate-ping"></div>
+                    <!-- Middle pulse ring -->
+                    <div class="absolute inset-0 -m-4 bg-teal-300 rounded-full opacity-50 animate-ping" style="animation-delay: 0.3s"></div>
+                    <!-- Inner pulse ring -->
+                    <div class="absolute inset-0 bg-teal-400 rounded-full opacity-60 animate-ping" style="animation-delay: 0.6s"></div>
+                    
+                    <!-- Main brain icon with rotation animation -->
+                    <div class="relative w-24 h-24 bg-gradient-to-br from-teal-500 via-teal-600 to-emerald-600 rounded-full flex items-center justify-center shadow-2xl animate-pulse">
+                        <i class="fas fa-brain text-white text-4xl"></i>
+                    </div>
+                    
+                    <!-- Orbiting particles -->
+                    <div class="absolute top-0 left-1/2 w-3 h-3 bg-yellow-400 rounded-full animate-spin" style="animation-duration: 2s; transform-origin: 0 48px;"></div>
+                    <div class="absolute top-0 left-1/2 w-2 h-2 bg-blue-400 rounded-full animate-spin" style="animation-duration: 3s; animation-delay: 0.5s; transform-origin: 0 48px;"></div>
+                </div>
+                
+                <!-- Main Headline with animated gradient -->
+                <h3 class="text-2xl font-bold mb-3 bg-gradient-to-r from-teal-700 via-teal-600 to-emerald-600 bg-clip-text text-transparent">
+                    <i class="fas fa-sparkles text-teal-600 mr-2"></i>
+                    KI analysiert Ihre Daten
+                </h3>
+                <p class="text-gray-600 mb-8 text-base font-medium">
+                    <span id="analysis-status">Analyse wird gestartet</span>
+                    <span class="inline-block animate-bounce">...</span>
+                </p>
+                
+                <!-- Detailed Analysis Steps with Rich Animation -->
+                <div class="max-w-2xl mx-auto space-y-4 mb-8">
+                    <!-- Step 1: Database Search -->
+                    <div id="analysis-step-1" class="flex items-start gap-4 p-5 bg-white rounded-xl border-2 border-gray-200 shadow-sm opacity-40 transition-all duration-500">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center transition-all duration-300">
+                            <i id="icon-1" class="fas fa-database text-gray-400 text-xl"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="text-base font-bold text-gray-800 mb-1">Medikamenten-Datenbank durchsuchen</h4>
+                            <p id="detail-1" class="text-sm text-gray-500">Wartet auf Start...</p>
+                            <!-- Mini progress bar for this step -->
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2 overflow-hidden">
+                                <div id="mini-progress-1" class="bg-teal-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                            <i id="check-1" class="fas fa-check text-green-600 text-2xl hidden"></i>
+                            <i id="spinner-1" class="fas fa-spinner fa-spin text-teal-600 text-xl hidden"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Interaction Check -->
+                    <div id="analysis-step-2" class="flex items-start gap-4 p-5 bg-white rounded-xl border-2 border-gray-200 shadow-sm opacity-40 transition-all duration-500">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center transition-all duration-300">
+                            <i id="icon-2" class="fas fa-exchange-alt text-gray-400 text-xl"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="text-base font-bold text-gray-800 mb-1">Wechselwirkungen analysieren</h4>
+                            <p id="detail-2" class="text-sm text-gray-500">Wartet auf Start...</p>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2 overflow-hidden">
+                                <div id="mini-progress-2" class="bg-teal-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                            <i id="check-2" class="fas fa-check text-green-600 text-2xl hidden"></i>
+                            <i id="spinner-2" class="fas fa-spinner fa-spin text-teal-600 text-xl hidden"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Personal Data -->
+                    <div id="analysis-step-3" class="flex items-start gap-4 p-5 bg-white rounded-xl border-2 border-gray-200 shadow-sm opacity-40 transition-all duration-500">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center transition-all duration-300">
+                            <i id="icon-3" class="fas fa-user-md text-gray-400 text-xl"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="text-base font-bold text-gray-800 mb-1">Körperdaten verarbeiten</h4>
+                            <p id="detail-3" class="text-sm text-gray-500">Wartet auf Start...</p>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2 overflow-hidden">
+                                <div id="mini-progress-3" class="bg-teal-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                            <i id="check-3" class="fas fa-check text-green-600 text-2xl hidden"></i>
+                            <i id="spinner-3" class="fas fa-spinner fa-spin text-teal-600 text-xl hidden"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Dosage Calculation -->
+                    <div id="analysis-step-4" class="flex items-start gap-4 p-5 bg-white rounded-xl border-2 border-gray-200 shadow-sm opacity-40 transition-all duration-500">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center transition-all duration-300">
+                            <i id="icon-4" class="fas fa-calculator text-gray-400 text-xl"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="text-base font-bold text-gray-800 mb-1">Dosierung berechnen</h4>
+                            <p id="detail-4" class="text-sm text-gray-500">Wartet auf Start...</p>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2 overflow-hidden">
+                                <div id="mini-progress-4" class="bg-teal-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                            <i id="check-4" class="fas fa-check text-green-600 text-2xl hidden"></i>
+                            <i id="spinner-4" class="fas fa-spinner fa-spin text-teal-600 text-xl hidden"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5: Plan Generation -->
+                    <div id="analysis-step-5" class="flex items-start gap-4 p-5 bg-white rounded-xl border-2 border-gray-200 shadow-sm opacity-40 transition-all duration-500">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center transition-all duration-300">
+                            <i id="icon-5" class="fas fa-file-medical text-gray-400 text-xl"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="text-base font-bold text-gray-800 mb-1">Reduktionsplan erstellen</h4>
+                            <p id="detail-5" class="text-sm text-gray-500">Wartet auf Start...</p>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2 overflow-hidden">
+                                <div id="mini-progress-5" class="bg-teal-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                            <i id="check-5" class="fas fa-check text-green-600 text-2xl hidden"></i>
+                            <i id="spinner-5" class="fas fa-spinner fa-spin text-teal-600 text-xl hidden"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Overall Progress Bar -->
+                <div class="mb-6 max-w-2xl mx-auto">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-semibold text-gray-700">
+                            <i class="fas fa-chart-line mr-2 text-teal-600"></i>
+                            Gesamtfortschritt
+                        </span>
+                        <span id="progress-text" class="text-lg font-bold text-teal-700">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden shadow-inner">
+                        <div id="progress-bar" class="bg-gradient-to-r from-teal-500 via-emerald-500 to-green-500 h-4 rounded-full transition-all duration-500 ease-out relative" style="width: 0%">
+                            <!-- Shimmer effect -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-40 animate-pulse"></div>
+                            <!-- Moving highlight -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-60" style="animation: shimmer 2s infinite linear;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Data Counter Animation -->
+                <div class="grid grid-cols-3 gap-4 max-w-xl mx-auto mb-6">
+                    <div class="bg-teal-50 rounded-lg p-3 border border-teal-200">
+                        <div class="text-2xl font-bold text-teal-700" id="counter-medications">0</div>
+                        <div class="text-xs text-gray-600">Medikamente</div>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3 border border-emerald-200">
+                        <div class="text-2xl font-bold text-emerald-700" id="counter-interactions">0</div>
+                        <div class="text-xs text-gray-600">Wechselwirkungen</div>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                        <div class="text-2xl font-bold text-blue-700" id="counter-calculations">0</div>
+                        <div class="text-xs text-gray-600">Berechnungen</div>
+                    </div>
+                </div>
+                
+                <!-- Security Notice -->
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 max-w-2xl mx-auto">
+                    <p class="text-sm text-gray-700">
+                        <i class="fas fa-shield-alt text-green-600 mr-2"></i>
+                        <strong>Ihre Daten sind sicher:</strong> Alle Berechnungen erfolgen verschlüsselt und werden nicht gespeichert
+                    </p>
+                </div>
+            </div>
+            
+            <style>
+                @keyframes shimmer {
+                    0% { transform: translateX(-100%); }
+                    100% { transform: translateX(100%); }
+                }
+            </style>
+
+            <!-- Results -->
+            <div id="results" class="hidden"></div>
+

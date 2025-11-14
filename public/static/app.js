@@ -148,7 +148,9 @@ function setupAutocomplete(input) {
   });
 }
 
-// Add medication input
+// Add medication input - DISABLED (now handled in index.tsx inline JavaScript)
+// This old implementation created duplicate fields
+/*
 let medicationCount = 1;
 
 document.getElementById('add-medication')?.addEventListener('click', () => {
@@ -181,6 +183,7 @@ document.getElementById('add-medication')?.addEventListener('click', () => {
     medicationCount--;
   });
 });
+*/
 
 // Handle initial remove buttons
 document.addEventListener('click', (e) => {
@@ -204,8 +207,11 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
   const age = parseInt(form.querySelector('input[name="age"]').value) || null;
   const weight = parseFloat(form.querySelector('input[name="weight"]').value) || null;
   const height = parseFloat(form.querySelector('input[name="height"]').value) || null;
-  const medicationNames = form.querySelectorAll('input[name="medication_name[]"]');
-  const medicationDosages = form.querySelectorAll('input[name="medication_dosage[]"]');
+  
+  // Get medications from new autocomplete inputs (medication_display[] contains the visible names)
+  const medicationNames = form.querySelectorAll('input[name="medication_display[]"], input.medication-display-input');
+  const medicationDosages = form.querySelectorAll('input[name="medication_dosages[]"]');
+  
   const durationWeeks = parseInt(form.querySelector('select[name="duration_weeks"]').value);
   const reductionGoal = parseInt(form.querySelector('select[name="reduction_goal"]').value);
 
@@ -493,6 +499,7 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
       throw new Error(response.data.error || 'Analyse fehlgeschlagen');
     }
   } catch (error) {
+    console.error('Fehler bei der Analyse:', error);
     alert('Fehler bei der Analyse: ' + (error.response?.data?.error || error.message));
   } finally {
     document.getElementById('loading').classList.add('hidden');
@@ -503,7 +510,6 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
 function displayResults(data, firstName = '', gender = '') {
   const resultsDiv = document.getElementById('results');
   const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization } = data;
-
   let html = '';
 
   // Critical warnings
@@ -635,11 +641,31 @@ function displayResults(data, firstName = '', gender = '') {
         </div>
       `;
     } else {
-      const severityColors = {
-        low: 'green',
-        medium: 'yellow',
-        high: 'orange',
-        critical: 'red'
+      const severityStyles = {
+        low: {
+          border: 'border-green-500',
+          bg: 'bg-green-50',
+          badgeBg: 'bg-green-200',
+          badgeText: 'text-green-800'
+        },
+        medium: {
+          border: 'border-yellow-500',
+          bg: 'bg-yellow-50',
+          badgeBg: 'bg-yellow-200',
+          badgeText: 'text-yellow-800'
+        },
+        high: {
+          border: 'border-orange-500',
+          bg: 'bg-orange-50',
+          badgeBg: 'bg-orange-200',
+          badgeText: 'text-orange-800'
+        },
+        critical: {
+          border: 'border-red-500',
+          bg: 'bg-red-50',
+          badgeBg: 'bg-red-200',
+          badgeText: 'text-red-800'
+        }
       };
       
       const maxInteractionSeverity = interactions.length > 0 ? 
@@ -648,10 +674,10 @@ function displayResults(data, firstName = '', gender = '') {
           return order[i.severity] > order[max] ? i.severity : max;
         }, 'low') : 'low';
       
-      const color = severityColors[maxInteractionSeverity];
+      const styles = severityStyles[maxInteractionSeverity];
       
       html += `
-        <div class="border-l-4 border-${color}-500 bg-${color}-50 p-4 rounded-lg">
+        <div class="border-l-4 ${styles.border} ${styles.bg} p-4 rounded-lg">
           <div class="flex items-start justify-between mb-3">
             <div class="flex-1">
               <h3 class="font-bold text-gray-800 text-lg">${med.name}</h3>
@@ -661,7 +687,7 @@ function displayResults(data, firstName = '', gender = '') {
                 Dosierung: ${item.dosage}
               </p>
             </div>
-            <span class="px-3 py-1 bg-${color}-200 text-${color}-800 rounded-full text-sm font-semibold">
+            <span class="px-3 py-1 ${styles.badgeBg} ${styles.badgeText} rounded-full text-sm font-semibold">
               ${maxInteractionSeverity === 'critical' ? 'Kritisch' :
                 maxInteractionSeverity === 'high' ? 'Hoch' :
                 maxInteractionSeverity === 'medium' ? 'Mittel' : 'Niedrig'}

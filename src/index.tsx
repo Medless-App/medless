@@ -415,8 +415,20 @@ app.get('/', (c) => {
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>ECS Aktivierung – CBD-Paste 70% Dosierungsplan</title>
+  <title>Medikamente strukturiert reduzieren</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome -->
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- jsPDF for PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+  <!-- Axios for API calls -->
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script></script>
 
   <style>
     :root {
@@ -834,6 +846,44 @@ app.get('/', (c) => {
       margin-top: 0.4rem;
     }
 
+    /* Autocomplete Styles */
+    .medication-input-wrapper {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    
+    .autocomplete-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      max-height: 250px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-top: -1px;
+    }
+    
+    .autocomplete-item {
+      padding: 0.75rem;
+      cursor: pointer;
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.2s;
+    }
+    
+    .autocomplete-item:hover {
+      background: #f9fafb;
+    }
+    
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+
     footer {
       margin-top: 2.5rem;
       font-size: 0.75rem;
@@ -867,6 +917,58 @@ app.get('/', (c) => {
       .tool-wrapper {
         grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
         align-items: flex-start;
+      }
+    }
+  </style>
+  
+  <!-- TailwindCSS & FontAwesome für Loading-Animation -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    /* Zusätzliche Tailwind-kompatible Styles */
+    .section-card {
+      background: white;
+      border-left: 4px solid #0b7b6c;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+    }
+    .hidden { display: none !important; }
+    .animate-ping {
+      animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+    .animate-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+    .animate-bounce {
+      animation: bounce 1s infinite;
+    }
+    @keyframes ping {
+      75%, 100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+    @keyframes pulse {
+      50% {
+        opacity: .5;
+      }
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(-25%);
+        animation-timing-function: cubic-bezier(0.8,0,1,1);
+      }
+      50% {
+        transform: none;
+        animation-timing-function: cubic-bezier(0,0,0.2,1);
       }
     }
   </style>
@@ -1150,20 +1252,93 @@ app.get('/', (c) => {
         <div id="step-4" class="form-step" style="display: none;">
           <div class="card" style="max-width: 700px; margin: 0 auto;">
             <h3 style="margin-bottom: 0.5rem;">Schritt 4: Plan-Einstellungen</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Wählen Sie die Dauer Ihres Aktivierungsplans.</p>
+            <p class="muted" style="margin-bottom: 1.5rem;">Wählen Sie die Dauer und Ihr Reduktionsziel.</p>
             
-            <div class="form-row">
-              <div>
-                <label for="duration-weeks">Plan-Dauer (Wochen) *</label>
-                <select id="duration-weeks" name="duration_weeks" required>
+            <div class="form-row" style="margin-bottom: 1.5rem;">
+              <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0b7b6c, #14b8a6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-calendar-alt" style="color: white; font-size: 1.1rem;"></i>
+                  </div>
+                  <div>
+                    <label for="duration-weeks" style="font-size: 1rem; font-weight: 600; color: #0b7b6c; margin: 0;">Plan-Dauer (Wochen) *</label>
+                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie lange möchten Sie Ihr ECS aktivieren?</p>
+                  </div>
+                </div>
+                <select id="duration-weeks" name="duration_weeks" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #14b8a6; border-radius: 8px; background: white;">
                   <option value="">-- Bitte wählen --</option>
                   <option value="4">4 Wochen – Schneller Einstieg</option>
                   <option value="6">6 Wochen – Zügig</option>
-                  <option value="8" selected>8 Wochen – Standard (empfohlen)</option>
+                  <option value="8" selected>8 Wochen – Standard (empfohlen) ⭐</option>
                   <option value="10">10 Wochen – Behutsam</option>
                   <option value="12">12 Wochen – Sehr langsam</option>
                 </select>
-                <div class="helper">Empfohlen: 8–12 Wochen für nachhaltige ECS-Aktivierung</div>
+                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #059669;">
+                  <i class="fas fa-info-circle" style="color: #059669; margin-right: 0.5rem;"></i>
+                  <span style="font-size: 0.85rem; color: #374151;">Empfohlen: 8–12 Wochen für nachhaltige ECS-Aktivierung</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row" style="margin-bottom: 1.5rem;">
+              <div style="background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #f59e0b;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #fbbf24); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-chart-line" style="color: white; font-size: 1.1rem;"></i>
+                  </div>
+                  <div>
+                    <label for="reduction-goal" style="font-size: 1rem; font-weight: 600; color: #b45309; margin: 0;">Reduktionsziel *</label>
+                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel möchten Sie reduzieren?</p>
+                  </div>
+                </div>
+                <select id="reduction-goal" name="reduction_goal" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #f59e0b; border-radius: 8px; background: white;">
+                  <option value="">-- Bitte wählen --</option>
+                  <option value="10">10% Reduktion</option>
+                  <option value="20">20% Reduktion</option>
+                  <option value="30">30% Reduktion</option>
+                  <option value="40">40% Reduktion</option>
+                  <option value="50" selected>50% Reduktion (empfohlen) ⭐</option>
+                  <option value="60">60% Reduktion</option>
+                  <option value="70">70% Reduktion</option>
+                  <option value="80">80% Reduktion</option>
+                  <option value="90">90% Reduktion</option>
+                  <option value="100">100% Reduktion (komplett absetzen)</option>
+                </select>
+                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #f59e0b;">
+                  <i class="fas fa-lightbulb" style="color: #f59e0b; margin-right: 0.5rem;"></i>
+                  <span style="font-size: 0.85rem; color: #374151;">Starten Sie moderat mit 30-50% und steigern Sie bei Erfolg</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div style="background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #f59e0b; display: none;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #fbbf24); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-chart-line" style="color: white; font-size: 1.1rem;"></i>
+                  </div>
+                  <div>
+                    <label for="reduction-goal" style="font-size: 1rem; font-weight: 600; color: #b45309; margin: 0;">Reduktionsziel (%) *</label>
+                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel Prozent Ihrer Medikamente möchten Sie reduzieren?</p>
+                  </div>
+                </div>
+                <select id="reduction-goal" name="reduction_goal" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #f59e0b; border-radius: 8px; background: white;">
+                  <option value="">-- Bitte wählen --</option>
+                  <option value="10">10% – Minimale Reduktion</option>
+                  <option value="20">20% – Leichte Reduktion</option>
+                  <option value="30">30% – Moderate Reduktion</option>
+                  <option value="40">40% – Deutliche Reduktion</option>
+                  <option value="50" selected>50% – Halbierung (empfohlen) ⭐</option>
+                  <option value="60">60% – Starke Reduktion</option>
+                  <option value="70">70% – Sehr starke Reduktion</option>
+                  <option value="80">80% – Maximale Reduktion</option>
+                  <option value="90">90% – Fast vollständig</option>
+                  <option value="100">100% – Vollständiger Verzicht (nur nach ärztlicher Rücksprache!)</option>
+                </select>
+                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #f59e0b;">
+                  <i class="fas fa-exclamation-triangle" style="color: #f59e0b; margin-right: 0.5rem;"></i>
+                  <span style="font-size: 0.85rem; color: #374151;">Wichtig: Medikamentenreduktion nur in Absprache mit Ihrem Arzt!</span>
+                </div>
               </div>
             </div>
 
@@ -1237,6 +1412,141 @@ app.get('/', (c) => {
           </div>
         </div>
       </form>
+
+      <!-- Loading Animation -->
+      <div id="loading" class="hidden" style="margin-top: 2rem;">
+        <div class="card" style="max-width: 800px; margin: 0 auto; padding: 3rem; text-align: center;">
+          <!-- Animated Brain Icon -->
+          <div style="position: relative; display: inline-block; margin-bottom: 2rem;">
+            <div style="position: absolute; inset: 0; margin: -2rem; background: rgba(11, 123, 108, 0.2); border-radius: 50%; opacity: 0.4;" class="animate-ping"></div>
+            <div style="position: absolute; inset: 0; margin: -1rem; background: rgba(11, 123, 108, 0.3); border-radius: 50%; opacity: 0.5; animation-delay: 0.3s;" class="animate-ping"></div>
+            <div style="position: relative; width: 96px; height: 96px; background: linear-gradient(135deg, #0b7b6c, #075448); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(11, 123, 108, 0.4);" class="animate-pulse">
+              <i class="fas fa-brain" style="color: white; font-size: 2.5rem;"></i>
+            </div>
+          </div>
+          
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #0b7b6c;">
+            <i class="fas fa-sparkles" style="margin-right: 0.5rem;"></i>
+            KI analysiert Ihre Daten
+          </h3>
+          <p style="color: #6b7280; margin-bottom: 2rem;">
+            <span id="analysis-status">Analyse wird gestartet</span>
+            <span class="animate-bounce" style="display: inline-block;">...</span>
+          </p>
+          
+          <!-- Progress Steps -->
+          <div style="max-width: 600px; margin: 0 auto 2rem; text-align: left;">
+            <div id="analysis-step-1" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
+              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
+                <i id="icon-1" class="fas fa-database" style="color: #9ca3af; font-size: 1.25rem;"></i>
+              </div>
+              <div style="flex: 1;">
+                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Medikamenten-Datenbank durchsuchen</h4>
+                <p id="detail-1" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
+                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
+                  <div id="mini-progress-1" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
+                </div>
+              </div>
+              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i id="check-1" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
+                <i id="spinner-1" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
+              </div>
+            </div>
+            
+            <div id="analysis-step-2" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
+              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
+                <i id="icon-2" class="fas fa-exchange-alt" style="color: #9ca3af; font-size: 1.25rem;"></i>
+              </div>
+              <div style="flex: 1;">
+                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Wechselwirkungen analysieren</h4>
+                <p id="detail-2" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
+                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
+                  <div id="mini-progress-2" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
+                </div>
+              </div>
+              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i id="check-2" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
+                <i id="spinner-2" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
+              </div>
+            </div>
+            
+            <div id="analysis-step-3" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
+              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
+                <i id="icon-3" class="fas fa-user-md" style="color: #9ca3af; font-size: 1.25rem;"></i>
+              </div>
+              <div style="flex: 1;">
+                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Körperdaten verarbeiten</h4>
+                <p id="detail-3" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
+                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
+                  <div id="mini-progress-3" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
+                </div>
+              </div>
+              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i id="check-3" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
+                <i id="spinner-3" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
+              </div>
+            </div>
+            
+            <div id="analysis-step-4" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
+              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
+                <i id="icon-4" class="fas fa-calculator" style="color: #9ca3af; font-size: 1.25rem;"></i>
+              </div>
+              <div style="flex: 1;">
+                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Dosierung berechnen</h4>
+                <p id="detail-4" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
+                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
+                  <div id="mini-progress-4" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
+                </div>
+              </div>
+              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i id="check-4" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
+                <i id="spinner-4" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
+              </div>
+            </div>
+            
+            <div id="analysis-step-5" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; opacity: 0.4; transition: all 0.5s;">
+              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
+                <i id="icon-5" class="fas fa-file-medical" style="color: #9ca3af; font-size: 1.25rem;"></i>
+              </div>
+              <div style="flex: 1;">
+                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Dosierungsplan erstellen</h4>
+                <p id="detail-5" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
+                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
+                  <div id="mini-progress-5" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
+                </div>
+              </div>
+              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i id="check-5" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
+                <i id="spinner-5" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Overall Progress -->
+          <div style="max-width: 600px; margin: 0 auto 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span style="font-size: 0.875rem; font-weight: 600; color: #374151;">
+                <i class="fas fa-chart-line" style="margin-right: 0.5rem; color: #0b7b6c;"></i>
+                Gesamtfortschritt
+              </span>
+              <span id="progress-text" style="font-size: 1.125rem; font-weight: 700; color: #0b7b6c;">0%</span>
+            </div>
+            <div style="width: 100%; background: #cbd5e1; border-radius: 9999px; height: 16px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+              <div id="progress-bar" style="background: linear-gradient(90deg, #0b7b6c, #059669, #10b981); height: 100%; border-radius: 9999px; width: 0%; transition: width 0.5s ease-out; position: relative;">
+                <div style="position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); opacity: 0.6; animation: shimmer 2s infinite linear;"></div>
+              </div>
+            </div>
+          </div>
+          
+          <p style="font-size: 0.875rem; color: #6b7280;">
+            <i class="fas fa-shield-alt" style="color: #059669; margin-right: 0.5rem;"></i>
+            Ihre Daten sind sicher: Alle Berechnungen erfolgen verschlüsselt
+          </p>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="results" class="hidden" style="margin-top: 2rem;"></div>
     </section>
     <!-- FAQ -->
     <section>
@@ -1443,7 +1753,8 @@ app.get('/', (c) => {
       }
       
       if (stepNumber === 3) {
-        const medicationInputs = document.querySelectorAll('input[name="medication_name[]"]');
+        // Check for medication inputs (new autocomplete version)
+        const medicationInputs = document.querySelectorAll('.medication-display-input');
         let hasValidMedication = false;
         
         medicationInputs.forEach(input => {
@@ -1456,16 +1767,41 @@ app.get('/', (c) => {
           alert('Bitte geben Sie mindestens ein Medikament ein.');
           return false;
         }
+        
+        // Check if dosages are filled for all medications
+        const dosageInputs = document.querySelectorAll('input[name="medication_dosages[]"]');
+        let allDosagesFilled = true;
+        
+        medicationInputs.forEach((medInput, index) => {
+          if (medInput.value.trim() && dosageInputs[index]) {
+            if (!dosageInputs[index].value.trim()) {
+              allDosagesFilled = false;
+            }
+          }
+        });
+        
+        if (!allDosagesFilled) {
+          alert('Bitte geben Sie für jedes Medikament auch die tägliche Dosierung ein.');
+          return false;
+        }
+        
         return true;
       }
       
       if (stepNumber === 4) {
         const duration = document.getElementById('duration-weeks').value;
+        const reductionGoal = document.getElementById('reduction-goal').value;
         
         if (!duration) {
           alert('Bitte wählen Sie eine Plan-Dauer aus.');
           return false;
         }
+        
+        if (!reductionGoal) {
+          alert('Bitte wählen Sie ein Reduktionsziel aus.');
+          return false;
+        }
+        
         return true;
       }
       
@@ -1539,44 +1875,183 @@ app.get('/', (c) => {
       // Initialize: Show step 1
       showStep(1);
       
-      // Add medication functionality
-      const medList = document.getElementById('medication-inputs');
-      const btnAddMed = document.getElementById('add-medication');
-
-      function addMedRow() {
+      // Medication autocomplete functionality
+      let medicationCounter = 0;
+      const medicationsData = []; // Store selected medications
+      
+      function createMedicationInput() {
+        medicationCounter++;
+        const inputId = \`medication-\${medicationCounter}\`;
+        const suggestionsId = \`suggestions-\${medicationCounter}\`;
+        
         const wrapper = document.createElement('div');
-        wrapper.className = 'med-row';
-        wrapper.style.marginBottom = '0.8rem';
-
+        wrapper.className = 'medication-input-wrapper';
+        wrapper.style.position = 'relative';
+        wrapper.style.marginBottom = '1rem';
+        
         wrapper.innerHTML = \`
-          <input type="text" name="medication_name[]" placeholder="Name des Medikaments" style="margin-bottom: 0.4rem;" />
-          <input type="text" name="medication_dosage[]" placeholder="z. B. 10 mg morgens, 10 mg abends" style="margin-bottom: 0.4rem;" />
-          <button type="button" class="btn-small btn-remove-med">Entfernen</button>
+          <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 0.75rem; align-items: flex-start;">
+            <div style="position: relative;">
+              <label for="\${inputId}">Medikament *</label>
+              <input 
+                type="text" 
+                id="\${inputId}"
+                name="medication_display[]"
+                class="medication-display-input"
+                placeholder="z.B. Ibuprofen" 
+                autocomplete="off"
+                style="width: 100%;"
+                required
+              />
+              <div id="\${suggestionsId}" class="autocomplete-suggestions" style="
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                border: 2px solid #e5e7eb;
+                border-top: none;
+                border-radius: 0 0 8px 8px;
+                max-height: 200px;
+                overflow-y: auto;
+                display: none;
+                z-index: 1000;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+              "></div>
+            </div>
+            <div>
+              <label for="\${inputId}-dosage">Tägliche Dosierung *</label>
+              <input 
+                type="text" 
+                id="\${inputId}-dosage" 
+                name="medication_dosages[]"
+                placeholder="z.B. 400 mg" 
+                style="width: 100%;"
+                required
+              />
+            </div>
+            <button type="button" class="btn-small" style="background: #dc2626; margin-top: 1.8rem;" onclick="this.closest('.medication-input-wrapper').remove()">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <input type="hidden" id="\${inputId}-id" name="medication_ids[]" />
+          <input type="hidden" id="\${inputId}-name" name="medication_names[]" />
         \`;
-
-        medList.appendChild(wrapper);
-
-        wrapper.querySelector('.btn-remove-med').addEventListener('click', () => {
-          medList.removeChild(wrapper);
-        });
-      }
-
-      if (btnAddMed) {
-        btnAddMed.addEventListener('click', addMedRow);
-        // mindestens eine Zeile beim Start
-        addMedRow();
+        
+        return wrapper;
       }
       
-      // Form submission
-      const form = document.getElementById('medication-form');
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          alert('Hier wird später die API-Anbindung implementiert.\\n\\nAktuell ist dies nur die Demo-Oberfläche.');
+      async function searchMedications(query) {
+        if (query.length < 2) return [];
+        
+        try {
+          const response = await fetch(\`/api/medications/search/\${encodeURIComponent(query)}\`);
+          const data = await response.json();
+          return data.medications || [];
+        } catch (error) {
+          console.error('Fehler beim Laden der Medikamente:', error);
+          return [];
+        }
+      }
+      
+      function setupAutocomplete(inputElement, suggestionsElement) {
+        let debounceTimer;
+        
+        inputElement.addEventListener('input', async function() {
+          clearTimeout(debounceTimer);
+          const query = this.value.trim();
+          
+          if (query.length < 2) {
+            suggestionsElement.style.display = 'none';
+            return;
+          }
+          
+          debounceTimer = setTimeout(async () => {
+            const medications = await searchMedications(query);
+            
+            if (medications.length === 0) {
+              suggestionsElement.innerHTML = '<div style="padding: 0.75rem; color: #6b7280;">Keine Medikamente gefunden</div>';
+              suggestionsElement.style.display = 'block';
+              return;
+            }
+            
+            suggestionsElement.innerHTML = medications.map(med => \`
+              <div class="autocomplete-item" data-id="\${med.id}" data-name="\${med.name}" data-generic="\${med.generic_name || ''}" style="
+                padding: 0.75rem;
+                cursor: pointer;
+                border-bottom: 1px solid #f3f4f6;
+                transition: background 0.2s;
+              " onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='white'">
+                <div style="font-weight: 600; color: #1f2937;">\${med.name}</div>
+                \${med.generic_name ? \`<div style="font-size: 0.875rem; color: #6b7280;">\${med.generic_name}</div>\` : ''}
+                \${med.category_name ? \`<div style="font-size: 0.75rem; color: #059669; margin-top: 0.25rem;"><i class="fas fa-tag" style="margin-right: 0.25rem;"></i>\${med.category_name}</div>\` : ''}
+              </div>
+            \`).join('');
+            
+            suggestionsElement.style.display = 'block';
+            
+            // Add click handlers to suggestions
+            suggestionsElement.querySelectorAll('.autocomplete-item').forEach(item => {
+              item.addEventListener('click', function() {
+                const id = this.dataset.id;
+                const name = this.dataset.name;
+                const generic = this.dataset.generic;
+                
+                inputElement.value = name;
+                document.getElementById(inputElement.id + '-id').value = id;
+                document.getElementById(inputElement.id + '-name').value = name;
+                
+                suggestionsElement.style.display = 'none';
+                
+                // Store in medications array
+                const index = medicationsData.findIndex(m => m.inputId === inputElement.id);
+                if (index >= 0) {
+                  medicationsData[index] = { inputId: inputElement.id, id, name, generic };
+                } else {
+                  medicationsData.push({ inputId: inputElement.id, id, name, generic });
+                }
+              });
+            });
+          }, 300);
+        });
+        
+        // Close suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!inputElement.contains(e.target) && !suggestionsElement.contains(e.target)) {
+            suggestionsElement.style.display = 'none';
+          }
         });
       }
+      
+      // Initialize medication inputs
+      const medicationInputsContainer = document.getElementById('medication-inputs');
+      const addMedicationBtn = document.getElementById('add-medication');
+      
+      if (medicationInputsContainer && addMedicationBtn) {
+        // Add first medication input
+        function addMedicationField() {
+          const wrapper = createMedicationInput();
+          medicationInputsContainer.appendChild(wrapper);
+          
+          const inputElement = wrapper.querySelector('input[type="text"]');
+          const suggestionsElement = wrapper.querySelector('.autocomplete-suggestions');
+          
+          setupAutocomplete(inputElement, suggestionsElement);
+        }
+        
+        // Add initial field
+        addMedicationField();
+        
+        // Add more fields on button click
+        addMedicationBtn.addEventListener('click', addMedicationField);
+      }
+      
+      // Form submission - Handled by app.js
     });
   </script>
+  
+  <!-- Main Application Logic (API Integration, Loading Animation, PDF Generation) -->
+  <script src="/static/app.js"></script>
 </body>
 </html>  `)
 })
