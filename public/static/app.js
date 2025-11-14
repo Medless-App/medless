@@ -1972,120 +1972,55 @@ async function downloadPlanAsPDF(event) {
     
     console.log('html2canvas verfügbar, starte Screenshot...');
     
-    // Erstelle Screenshot vom Results-Div mit optimierten Einstellungen
+    // Erstelle Screenshot vom Results-Div
     const canvas = await window.html2canvas(resultsDiv, {
-      scale: 1.0, // Niedrigere Scale für kleinere Dateigröße
+      scale: 0.8,
       useCORS: true,
       allowTaint: true,
       logging: false,
-      backgroundColor: '#f5f7fa',
-      windowWidth: resultsDiv.scrollWidth,
-      windowHeight: resultsDiv.scrollHeight,
-      // Optimierungen für große Inhalte
-      removeContainer: true,
-      imageTimeout: 15000
+      backgroundColor: '#f5f7fa'
     });
     
     console.log('Screenshot erstellt, Canvas-Größe:', canvas.width, 'x', canvas.height);
     
-    // Validierung: Canvas darf nicht leer sein
+    // Validierung
     if (!canvas.width || !canvas.height || canvas.width <= 0 || canvas.height <= 0) {
       throw new Error('Ungültige Canvas-Größe: ' + canvas.width + 'x' + canvas.height);
     }
     
-    // PDF-Konfiguration
+    // Konvertiere zu Bild
+    const imgData = canvas.toDataURL('image/jpeg', 0.8);
+    
+    // Erstelle PDF
     const pdf = new jsPDF('p', 'mm', 'a4');
-    const pdfWidth = 210; // A4 width in mm
-    const pdfHeight = 297; // A4 height in mm
-    const margin = 10; // Rand in mm
-    const contentWidth = pdfWidth - (margin * 2);
+    const pdfWidth = 210;
+    const pdfHeight = 297;
     
-    // Berechne wie das Canvas auf A4 passt
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
-    const ratio = contentWidth / (canvasWidth * 0.264583); // px to mm conversion
-    const scaledHeight = (canvasHeight * 0.264583) * ratio; // Höhe in mm
+    // Berechne Bildgröße für PDF
+    const imgWidth = pdfWidth;
+    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
     
-    console.log('PDF-Berechnung:', {
-      canvasWidth,
-      canvasHeight,
-      ratio,
-      scaledHeight: scaledHeight.toFixed(2) + 'mm',
-      maxPages: Math.ceil(scaledHeight / (pdfHeight - margin * 2))
-    });
+    console.log('PDF wird erstellt, Bildgröße:', imgWidth.toFixed(2) + 'mm x ' + imgHeight.toFixed(2) + 'mm');
     
-    // Validierung: Skalierte Höhe muss positiv sein
-    if (!scaledHeight || scaledHeight <= 0 || !isFinite(scaledHeight)) {
-      throw new Error('Ungültige berechnete PDF-Höhe: ' + scaledHeight);
+    // Füge Bild hinzu (gesamtes Bild auf mehrere Seiten verteilt)
+    let position = 0;
+    
+    // Erste Seite
+    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+    
+    let remainingHeight = imgHeight - pdfHeight;
+    let pageCount = 1;
+    
+    // Weitere Seiten falls nötig
+    while (remainingHeight > 0) {
+      position = -pdfHeight * pageCount;
+      pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+      remainingHeight -= pdfHeight;
+      pageCount++;
     }
     
-    // METHODE 1: Intelligente Seiten-Aufteilung (Standard)
-    // Wenn Content auf eine Seite passt (< 277mm = A4 minus margins)
-    if (scaledHeight <= (pdfHeight - margin * 2)) {
-      console.log('Content passt auf 1 Seite');
-      const imgData = canvas.toDataURL('image/jpeg', 0.85); // JPEG mit Kompression
-      pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth, scaledHeight);
-    } 
-    // Content muss auf mehrere Seiten aufgeteilt werden
-    else {
-      console.log('Content wird auf mehrere Seiten aufgeteilt...');
-      
-      const imgData = canvas.toDataURL('image/jpeg', 0.85);
-      const pageHeight = pdfHeight - (margin * 2);
-      const totalPages = Math.ceil(scaledHeight / pageHeight);
-      
-      console.log('Anzahl benötigter Seiten:', totalPages);
-      
-      for (let page = 0; page < totalPages; page++) {
-        if (page > 0) {
-          pdf.addPage();
-        }
-        
-        // Berechne welcher Teil des Canvas auf diese Seite kommt
-        const sourceY = Math.floor((canvasHeight / totalPages) * page);
-        const sourceHeight = Math.min(
-          Math.ceil(canvasHeight / totalPages),
-          canvasHeight - sourceY
-        );
-        
-        // Validierung: sourceY und sourceHeight müssen gültig sein
-        if (sourceY < 0 || sourceHeight <= 0 || sourceY + sourceHeight > canvasHeight) {
-          console.error('Ungültige Seiten-Berechnung:', { page, sourceY, sourceHeight, canvasHeight });
-          throw new Error(`Ungültige Seiten-Berechnung für Seite ${page + 1}`);
-        }
-        
-        // Erstelle temporären Canvas für diesen Abschnitt
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = canvasWidth;
-        tempCanvas.height = sourceHeight;
-        const tempCtx = tempCanvas.getContext('2d');
-        
-        if (!tempCtx) {
-          throw new Error('Canvas-Kontext konnte nicht erstellt werden');
-        }
-        
-        // Kopiere den relevanten Abschnitt
-        tempCtx.drawImage(
-          canvas,
-          0, sourceY, canvasWidth, sourceHeight,  // source
-          0, 0, canvasWidth, sourceHeight         // destination
-        );
-        
-        const pageImgData = tempCanvas.toDataURL('image/jpeg', 0.85);
-        const pageImgHeight = (sourceHeight * 0.264583) * ratio;
-        
-        // Validierung: Bild-Höhe muss positiv und endlich sein
-        if (!pageImgHeight || pageImgHeight <= 0 || !isFinite(pageImgHeight)) {
-          throw new Error(`Ungültige Bild-Höhe für Seite ${page + 1}: ${pageImgHeight}`);
-        }
-        
-        pdf.addImage(pageImgData, 'JPEG', margin, margin, contentWidth, pageImgHeight);
-        
-        console.log(`Seite ${page + 1}/${totalPages} hinzugefügt (Höhe: ${pageImgHeight.toFixed(2)}mm)`);
-      }
-    }
-    
-    console.log('PDF erstellt mit', pdf.internal.pages.length - 1, 'Seite(n)');
+    console.log('PDF erstellt mit', pageCount, 'Seite(n)');
     
     // Dateiname mit Vorname
     const firstName = window.currentPlanData?.firstName || 'Patient';
