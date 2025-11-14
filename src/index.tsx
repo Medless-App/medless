@@ -407,6 +407,7 @@ app.post('/api/ocr', async (c) => {
 })
 
 // Main page
+
 app.get('/', (c) => {
   return c.html(`
     <!DOCTYPE html>
@@ -414,24 +415,17 @@ app.get('/', (c) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Medikamente strukturiert reduzieren - ECS Aktivierung</title>
+        <title>redu-med – Medikamentenreduktion unter ärztlicher Begleitung</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
         <style>
           :root {
-            --primary: #0f766e;      /* Teal-700 - Medical trustworthy */
-            --primary-light: #14b8a6; /* Teal-500 */
-            --primary-dark: #115e59;  /* Teal-800 */
-            --accent: #059669;        /* Emerald-600 - Nature/Cannabis */
-            --warning: #dc2626;       /* Red-600 - Critical warnings */
-            --info: #0891b2;          /* Cyan-600 - Information */
-            --neutral: #64748b;       /* Slate-500 */
-            --bg-subtle: #f8fafc;     /* Slate-50 */
+            --primary: #0f766e;
+            --primary-light: #14b8a6;
+            --primary-dark: #115e59;
           }
           
-          html {
-            scroll-behavior: smooth;
-          }
+          html { scroll-behavior: smooth; }
           
           @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -439,1115 +433,208 @@ app.get('/', (c) => {
           }
           .fade-in { animation: fadeIn 0.6s ease-out; }
           
-          .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-          }
-          .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-          }
-          
-          .autocomplete-list {
-            animation: fadeIn 0.2s ease-out;
-          }
-          .autocomplete-item {
-            transition: background-color 0.15s ease;
-          }
-          .autocomplete-item:last-child {
-            border-bottom: none;
-          }
-          
-          /* Professional medical design */
           .section-card {
             background: white;
             border-left: 4px solid var(--primary);
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
           }
-          
-          .info-box {
-            background: #f0fdfa;
-            border: 1px solid #99f6e4;
-          }
-          
-          .warning-box {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-          }
         </style>
     </head>
     <body class="bg-slate-50">
         <!-- Header -->
-        <header class="bg-gradient-to-r from-teal-700 to-teal-800 text-white py-8 md:py-12 shadow-md">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <header class="bg-gradient-to-r from-teal-700 to-teal-800 text-white py-6 md:py-8 shadow-md sticky top-0 z-50">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div class="flex-1">
-                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4 leading-tight">
-                            <i class="fas fa-leaf mr-2 md:mr-3 text-teal-300"></i>
+                        <h1 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2 leading-tight">
+                            <i class="fas fa-leaf mr-2 text-teal-300"></i>
                             Weniger Medikamente. Mehr Balance.
                         </h1>
-                        <p class="text-teal-100 text-sm sm:text-base md:text-lg font-light leading-relaxed">
-                            Mit der Kraft Ihres Endocannabinoid-Systems.
+                        <p class="text-teal-100 text-sm sm:text-base">
+                            Mit der Kraft Ihres Endocannabinoid-Systems – ärztlich begleitet.
                         </p>
                     </div>
                     
-                    <!-- Mobile-friendly CTAs -->
-                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                        <a href="#dosierungsplan-erstellen" class="block bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20 hover:bg-white/20 transition-all cursor-pointer text-center">
-                            <i class="fas fa-heart-pulse mr-2 text-teal-300"></i>
-                            <span class="text-sm font-medium">Analyse starten</span>
-                        </a>
-                        <a href="#fuer-aerzte" class="block bg-white/10 backdrop-blur-sm rounded-lg px-5 py-3 border border-white/20 hover:bg-white/20 transition-all cursor-pointer text-center">
-                            <i class="fas fa-user-md mr-2 text-teal-300"></i>
-                            <span class="text-sm font-medium">Für Ärzte</span>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="#dosierungsplan-erstellen" class="block bg-white text-teal-700 px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-teal-50 transition-all text-center shadow-lg">
+                            <i class="fas fa-clipboard-list mr-2"></i>
+                            Analyse starten
                         </a>
                     </div>
-                </div>
-                
-                <!-- Subheadline -->
-                <div class="mt-6 md:mt-8 bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-5 md:p-6 border border-white/20">
-                    <p class="text-teal-50 text-sm sm:text-base leading-relaxed">
-                        <strong>redu-med</strong> stärkt Ihr körpereigenes Regelsystem und bietet eine medizinische KI-Analyse, 
-                        die Sie <strong>gemeinsam mit Ihrem Arzt</strong> für eine sichere und individuelle Medikamentenreduktion nutzen können.
-                    </p>
                 </div>
             </div>
         </header>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
-<!-- ================================================================= -->
-    <!-- SEKTION 2: Warum so viele Menschen zu viele Medikamente nehmen -->
-    <!-- ================================================================= -->
-    <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <div class="flex items-start gap-6">
-            <div class="flex-shrink-0">
-                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
-                    <i class="fas fa-pills text-red-600 text-2xl"></i>
-                </div>
-            </div>
-            <div class="flex-1">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-                    Warum so viele Menschen zu viele Medikamente nehmen
-                </h2>
-                
-                <div class="grid md:grid-cols-2 gap-4 mb-6">
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <h3 class="font-semibold text-gray-900 mb-3 text-base">
-                            Polypharmazie nimmt zu:
-                        </h3>
-                        <ul class="text-gray-700 space-y-2 text-sm">
-                            <li class="flex items-start">
-                                <span class="text-red-600 mr-2 mt-0.5">•</span>
-                                <span>Immer mehr Menschen nehmen täglich 5+ Medikamente</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-red-600 mr-2 mt-0.5">•</span>
-                                <span>Müdigkeit, Übelkeit, unerwünschte Wechselwirkungen</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-red-600 mr-2 mt-0.5">•</span>
-                                <span>Gefühl der Abhängigkeit von Tabletten</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-red-600 mr-2 mt-0.5">•</span>
-                                <span>Körper verliert seine natürliche Selbstregulationskraft</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-teal-50 p-5 rounded-lg border border-teal-200">
-                        <h3 class="font-semibold text-teal-900 mb-3 text-base">
-                            Die zentrale Erkenntnis:
-                        </h3>
-                        <p class="text-gray-700 text-sm leading-relaxed">
-                            Viele Beschwerden entstehen nicht, weil der Körper versagt – 
-                            sondern weil das <strong>innere Gleichgewicht gestört ist</strong>.
-                        </p>
-                        <p class="text-gray-700 text-sm leading-relaxed mt-3">
-                            Wenn Ihr körpereigenes Regulationssystem – das <strong>Endocannabinoid-System (ECS)</strong> – 
-                            aus der Balance geraten ist, können selbst einfache Funktionen wie Schlaf, 
-                            Schmerzempfinden oder Stimmung beeinträchtigt sein.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- ================================================================= -->
-    <!-- SEKTION 3: Das Endocannabinoid-System (ECS) einfach erklärt -->
-    <!-- ================================================================= -->
-    <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <div class="flex items-start gap-6">
-            <div class="flex-shrink-0">
-                <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center">
-                    <i class="fas fa-brain text-teal-700 text-2xl"></i>
-                </div>
-            </div>
-            <div class="flex-1">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-                    Das Endocannabinoid-System (ECS) – Ihr körpereigenes Regelsystem
-                </h2>
-                
-                <p class="text-gray-700 text-base mb-6 leading-relaxed">
-                    Das Endocannabinoid-System ist ein <strong>wissenschaftlich anerkanntes</strong> Netzwerk von Rezeptoren, 
-                    Botenstoffen und Enzymen, das in nahezu jedem Organ Ihres Körpers vorhanden ist.
-                </p>
-                
-                <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
-                        <h3 class="font-semibold text-gray-900 mb-4 text-base">
-                            <i class="fas fa-check-circle text-teal-600 mr-2"></i>
-                            Was das ECS reguliert:
-                        </h3>
-                        <ul class="text-gray-700 space-y-2.5 text-sm">
-                            <li class="flex items-start">
-                                <span class="text-teal-600 mr-2 mt-0.5">•</span>
-                                <span>Schmerzwahrnehmung</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-teal-600 mr-2 mt-0.5">•</span>
-                                <span>Stimmung und emotionales Gleichgewicht</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-teal-600 mr-2 mt-0.5">•</span>
-                                <span>Schlaf-Wach-Rhythmus</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-teal-600 mr-2 mt-0.5">•</span>
-                                <span>Entzündungsprozesse</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-teal-600 mr-2 mt-0.5">•</span>
-                                <span>Stressresilienz</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-teal-600 mr-2 mt-0.5">•</span>
-                                <span>Immunsystem-Balance</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
-                        <h3 class="font-semibold text-gray-900 mb-4 text-base">
-                            <i class="fas fa-exclamation-triangle text-amber-600 mr-2"></i>
-                            Was das ECS aus dem Gleichgewicht bringt:
-                        </h3>
-                        <ul class="text-gray-700 space-y-2.5 text-sm">
-                            <li class="flex items-start">
-                                <span class="text-slate-400 mr-2 mt-0.5">•</span>
-                                <span>Chronischer Stress</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-slate-400 mr-2 mt-0.5">•</span>
-                                <span>Alter und hormonelle Veränderungen</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-slate-400 mr-2 mt-0.5">•</span>
-                                <span>Unausgewogene Ernährung</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-slate-400 mr-2 mt-0.5">•</span>
-                                <span>Krankheit und chronische Belastungen</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-slate-400 mr-2 mt-0.5">•</span>
-                                <span>Bewegungsmangel</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="bg-blue-50 p-5 rounded-lg border-l-4 border-blue-400">
-                    <p class="text-sm text-gray-700 leading-relaxed">
-                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>
-                        <strong>Wichtig zu verstehen:</strong> Ein starkes ECS kann die körpereigene Balance verbessern – 
-                        aber <strong>ersetzt niemals medizinische Therapie</strong>. Exogene Cannabinoide können das System 
-                        <strong>unterstützen</strong>, nicht ersetzen.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- ================================================================= -->
-    <!-- SEKTION 4: Was ein ausgewogenes ECS bewirken kann -->
-    <!-- ================================================================= -->
-    <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">
-            Was ein ausgewogenes ECS bewirken kann
-        </h2>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 hover:shadow-md transition-shadow">
-                <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-3">
-                    <i class="fas fa-heartbeat text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-base">
-                    Schmerzwahrnehmung regulieren
-                </h3>
-                <p class="text-sm text-gray-600">
-                    Natürliche Modulation von Schmerzreizen über körpereigene Mechanismen
-                </p>
-            </div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 md:py-8">
             
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 hover:shadow-md transition-shadow">
-                <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-3">
-                    <i class="fas fa-smile text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-base">
-                    Stimmung stabilisieren
-                </h3>
-                <p class="text-sm text-gray-600">
-                    Unterstützung des emotionalen Gleichgewichts und der Stressverarbeitung
-                </p>
-            </div>
-            
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 hover:shadow-md transition-shadow">
-                <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-3">
-                    <i class="fas fa-bed text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-base">
-                    Schlafqualität verbessern
-                </h3>
-                <p class="text-sm text-gray-600">
-                    Förderung des natürlichen Schlaf-Wach-Rhythmus
-                </p>
-            </div>
-            
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 hover:shadow-md transition-shadow">
-                <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-3">
-                    <i class="fas fa-shield-alt text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-base">
-                    Stressresilienz erhöhen
-                </h3>
-                <p class="text-sm text-gray-600">
-                    Verbesserte Anpassungsfähigkeit an Belastungen
-                </p>
-            </div>
-            
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 hover:shadow-md transition-shadow">
-                <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-3">
-                    <i class="fas fa-fire text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-base">
-                    Entzündungsprozesse modulieren
-                </h3>
-                <p class="text-sm text-gray-600">
-                    Natürliche Regulation entzündlicher Reaktionen
-                </p>
-            </div>
-            
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 hover:shadow-md transition-shadow">
-                <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-3">
-                    <i class="fas fa-hands-helping text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-base">
-                    Immunsystem in Balance halten
-                </h3>
-                <p class="text-sm text-gray-600">
-                    Unterstützung der körpereigenen Abwehrkräfte
-                </p>
-            </div>
-        </div>
-        
-        <!-- KRITISCHER SICHERHEITSHINWEIS -->
-        <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
-            <h3 class="font-bold text-red-900 mb-3 text-base flex items-center gap-2">
-                <i class="fas fa-exclamation-circle text-red-600"></i>
-                Wichtiger Hinweis zur Medikamentenreduktion:
-            </h3>
-            <p class="text-sm text-red-800 leading-relaxed mb-3">
-                <strong>Ob dadurch Medikamente reduziert werden können, entscheidet immer der Arzt.</strong>
-            </p>
-            <p class="text-sm text-red-800 leading-relaxed">
-                redu-med bietet <strong>keinerlei Therapieempfehlungen</strong> – nur Orientierung und Analyse 
-                als Entscheidungsunterstützung für Ihr Gespräch mit Ihrem behandelnden Arzt.
-            </p>
-        </div>
-    </div>
-    
-    <!-- ================================================================= -->
-    <!-- SEKTION 5: Die Rolle von Cannabinoiden (ohne Heilversprechen) -->
-    <!-- ================================================================= -->
-    <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <div class="flex items-start gap-6">
-            <div class="flex-shrink-0">
-                <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center">
-                    <i class="fas fa-leaf text-emerald-700 text-2xl"></i>
-                </div>
-            </div>
-            <div class="flex-1">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-                    Die Rolle von Cannabinoiden – Unterstützung für Ihr ECS
-                </h2>
-                
-                <p class="text-gray-700 text-base mb-6 leading-relaxed">
-                    CBD und andere Cannabinoide sind pflanzliche Wirkstoffe, die mit dem Endocannabinoid-System interagieren können. 
-                    Sie docken an ähnliche Rezeptoren an wie körpereigene Endocannabinoide und können so das System <strong>unterstützen</strong>.
-                </p>
-                
-                <div class="grid md:grid-cols-3 gap-5 mb-6">
-                    <div class="bg-blue-50 p-5 rounded-lg border border-blue-200">
-                        <h3 class="font-semibold text-blue-900 mb-3 text-sm">
-                            <i class="fas fa-flask text-blue-600 mr-2"></i>
-                            Wirkungsweise:
-                        </h3>
-                        <p class="text-xs text-gray-700 leading-relaxed">
-                            Cannabinoide können das ECS modulieren, indem sie körpereigene Prozesse unterstützen. 
-                            Sie wirken <strong>nicht direkt heilend</strong>, sondern unterstützend.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-amber-50 p-5 rounded-lg border border-amber-200">
-                        <h3 class="font-semibold text-amber-900 mb-3 text-sm">
-                            <i class="fas fa-user-clock text-amber-600 mr-2"></i>
-                            Individuelle Wirkung:
-                        </h3>
-                        <p class="text-xs text-gray-700 leading-relaxed">
-                            Die Wirkung ist <strong>individuell sehr unterschiedlich</strong> und hängt von vielen Faktoren ab: 
-                            Genetik, ECS-Status, Dosierung, Dauer der Einnahme.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-red-50 p-5 rounded-lg border border-red-200">
-                        <h3 class="font-semibold text-red-900 mb-3 text-sm">
-                            <i class="fas fa-times-circle text-red-600 mr-2"></i>
-                            Keine Garantie:
-                        </h3>
-                        <p class="text-xs text-gray-700 leading-relaxed">
-                            Es gibt <strong>keine Erfolgsgarantie</strong>. Cannabinoide sind <strong>keine Ersatztherapie</strong> 
-                            für Medikamente und erfordern ärztliche Begleitung.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="bg-purple-50 p-5 rounded-lg border-l-4 border-purple-500">
-                    <h3 class="font-semibold text-purple-900 mb-3 text-base">
-                        <i class="fas fa-exclamation-triangle text-purple-600 mr-2"></i>
-                        Besonders wichtig: Wechselwirkungen möglich
-                    </h3>
-                    <p class="text-sm text-gray-700 leading-relaxed">
-                        Cannabinoide können mit vielen Medikamenten Wechselwirkungen eingehen. 
-                        Deshalb ist eine <strong>genaue Analyse und ärztliche Überwachung unerlässlich</strong>. 
-                        redu-med hilft Ihnen, diese Wechselwirkungen zu verstehen.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ================================================================= -->
-    <!-- SEKTION 6: Cannabinoid-Medikamenten-Wechselwirkungen (SICHER) -->
-    <!-- ================================================================= -->
-    <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <div class="flex items-start gap-6">
-            <div class="flex-shrink-0">
-                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-                    <i class="fas fa-exchange-alt text-orange-700 text-2xl"></i>
-                </div>
-            </div>
-            <div class="flex-1">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 leading-tight">
-                    Wichtig: Cannabinoid-Medikamenten-Wechselwirkungen sicher verstehen
-                </h2>
-                
-                <p class="text-gray-700 text-base mb-6 leading-relaxed">
-                    Cannabinoide werden über bestimmte Leberenzyme (CYP450-System) abgebaut. 
-                    Viele Medikamente nutzen <strong>dieselben Stoffwechselwege</strong>. 
-                    Dadurch können sich Medikamentenspiegel im Blut verändern – manchmal nach oben, manchmal nach unten.
-                </p>
-                
-                <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500 mb-6">
-                    <h3 class="font-bold text-red-900 mb-4 text-base flex items-center gap-2">
-                        <i class="fas fa-shield-alt text-red-600"></i>
-                        Bei welchen Medikamentengruppen ist besondere Vorsicht geboten?
-                    </h3>
-                    <ul class="text-sm text-red-800 space-y-2">
-                        <li class="flex items-start">
-                            <span class="text-red-600 mr-2 mt-0.5">•</span>
-                            <span><strong>Blutverdünner:</strong> Wirkstoffspiegel können sich verändern → engmaschige Kontrolle erforderlich</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-red-600 mr-2 mt-0.5">•</span>
-                            <span><strong>Immunsuppressiva:</strong> Risiko für Über- oder Unterdosierung → regelmäßige Spiegelkontrolle notwendig</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-red-600 mr-2 mt-0.5">•</span>
-                            <span><strong>Antiepileptika:</strong> Wechselseitige Beeinflussung des Stoffwechsels → ärztliche Überwachung essentiell</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-red-600 mr-2 mt-0.5">•</span>
-                            <span><strong>Psychopharmaka:</strong> Verstärkung sedierender Wirkung möglich → Vorsicht bei der Dosierung</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="bg-teal-50 p-6 rounded-lg border border-teal-200">
-                    <h3 class="font-semibold text-teal-900 mb-3 text-base">
-                        <i class="fas fa-lightbulb text-teal-600 mr-2"></i>
-                        Wie redu-med Sie unterstützt:
-                    </h3>
-                    <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                        redu-med zeigt diese potenziellen Wechselwirkungen <strong>transparent auf</strong> – 
-                        nicht, um sie auszunutzen, sondern um <strong>Risiken zu erkennen</strong> und mit dem Arzt 
-                        sichere Entscheidungen zu treffen.
-                    </p>
-                    <p class="text-sm text-gray-700 leading-relaxed">
-                        Die Analyse basiert auf wissenschaftlicher Literatur und bekannten CYP450-Interaktionen. 
-                        Sie ersetzt <strong>keine ärztliche Beratung</strong>, sondern dient als Orientierung.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- ================================================================= -->
-    <!-- SEKTION 7: Die KI-Analyse von redu-med -->
-    <!-- ================================================================= -->
-    <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <div class="flex items-start gap-6">
-            <div class="flex-shrink-0">
-                <div class="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center">
-                    <i class="fas fa-brain text-cyan-700 text-2xl"></i>
-                </div>
-            </div>
-            <div class="flex-1">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 leading-tight">
-                    Die KI-Analyse von redu-med – Ihre Entscheidungsunterstützung
-                </h2>
-                
-                <p class="text-gray-700 text-base mb-6 leading-relaxed">
-                    Die redu-med Analyse ist ein digitales Werkzeug, das auf wissenschaftlichen Datenbanken basiert und Ihnen hilft, 
-                    potenzielle Wechselwirkungen zwischen Cannabinoiden und Ihren Medikamenten zu verstehen.
-                </p>
-                
-                <div class="grid md:grid-cols-3 gap-5 mb-6">
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
-                            <i class="fas fa-search text-teal-700 text-lg"></i>
-                        </div>
-                        <h4 class="font-semibold text-gray-900 mb-2 text-sm">Medikamenten-Identifikation</h4>
-                        <p class="text-xs text-gray-600">Die KI identifiziert Ihre Medikamente und gleicht sie mit der Datenbank ab</p>
-                    </div>
-                    
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
-                            <i class="fas fa-exclamation-triangle text-teal-700 text-lg"></i>
-                        </div>
-                        <h4 class="font-semibold text-gray-900 mb-2 text-sm">Wechselwirkungen anzeigen</h4>
-                        <p class="text-xs text-gray-600">Zeigt bekannte potenzielle Wechselwirkungen basierend auf wissenschaftlicher Literatur</p>
-                    </div>
-                    
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
-                            <i class="fas fa-shield-alt text-teal-700 text-lg"></i>
-                        </div>
-                        <h4 class="font-semibold text-gray-900 mb-2 text-sm">Risikokombinationen</h4>
-                        <p class="text-xs text-gray-600">Erkennt kritische Kombinationen und warnt bei besonders hohen Risiken</p>
-                    </div>
-                    
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
-                            <i class="fas fa-book-medical text-teal-700 text-lg"></i>
-                        </div>
-                        <h4 class="font-semibold text-gray-900 mb-2 text-sm">Literatur-Zusammenfassung</h4>
-                        <p class="text-xs text-gray-600">Fasst wissenschaftliche Studien und Erkenntnisse verständlich zusammen</p>
-                    </div>
-                    
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
-                            <i class="fas fa-calculator text-teal-700 text-lg"></i>
-                        </div>
-                        <h4 class="font-semibold text-gray-900 mb-2 text-sm">Dosierungsvorschläge</h4>
-                        <p class="text-xs text-gray-600">Macht Vorschläge für eine vorsichtige CBD-Startdosis basierend auf Ihren Daten</p>
-                    </div>
-                    
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
-                            <i class="fas fa-file-medical-alt text-teal-700 text-lg"></i>
-                        </div>
-                        <h4 class="font-semibold text-gray-900 mb-2 text-sm">Strukturierter Bericht</h4>
-                        <p class="text-xs text-gray-600">Erstellt einen übersichtlichen Bericht für Ihr Gespräch mit dem Arzt</p>
-                    </div>
-                </div>
-                
-                <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-400 mb-6">
-                    <h3 class="font-bold text-blue-900 mb-3 text-base flex items-center gap-2">
-                        <i class="fas fa-info-circle text-blue-600"></i>
-                        Was die Analyse NICHT ist:
-                    </h3>
-                    <ul class="text-sm text-blue-900 space-y-2">
-                        <li class="flex items-start">
-                            <span class="text-blue-600 mr-2 mt-0.5">✗</span>
-                            <span>Keine medizinische Diagnose</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-600 mr-2 mt-0.5">✗</span>
-                            <span>Keine Therapieanweisung</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-600 mr-2 mt-0.5">✗</span>
-                            <span>Kein medizinisches Produkt im Sinne des Medizinproduktegesetzes</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-600 mr-2 mt-0.5">✗</span>
-                            <span>Kein Ersatz für ärztliche Beratung</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="bg-gradient-to-r from-teal-50 to-emerald-50 p-6 rounded-lg border-2 border-teal-300">
-                    <p class="text-base text-gray-800 leading-relaxed font-medium">
-                        <i class="fas fa-hands-helping text-teal-600 mr-2"></i>
-                        <strong>Die redu-med Analyse ist eine Entscheidungsunterstützung</strong> – 
-                        kein medizinisches Produkt und keine Therapieempfehlung. 
-                        Der Arzt entscheidet immer über die weitere Behandlung.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- ================================================================= -->
-    <!-- SEKTION 8: Wie Patienten redu-med nutzen -->
-    <!-- ================================================================= -->
-    <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">
-            <i class="fas fa-user-circle text-teal-700 mr-2"></i>
-            Wie Patienten redu-med nutzen
-        </h2>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center relative">
-                <div class="absolute top-2 left-2 w-8 h-8 bg-teal-700 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                    1
-                </div>
-                <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3 mt-4">
-                    <i class="fas fa-pills text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-sm">Medikamente eingeben</h3>
-                <p class="text-xs text-gray-600">Geben Sie alle Ihre aktuellen Medikamente an</p>
-            </div>
-            
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center relative">
-                <div class="absolute top-2 left-2 w-8 h-8 bg-teal-700 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                    2
-                </div>
-                <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3 mt-4">
-                    <i class="fas fa-heartbeat text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-sm">Körperdaten angeben</h3>
-                <p class="text-xs text-gray-600">Alter, Gewicht, Größe für individuelle Berechnung</p>
-            </div>
-            
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center relative">
-                <div class="absolute top-2 left-2 w-8 h-8 bg-teal-700 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                    3
-                </div>
-                <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3 mt-4">
-                    <i class="fas fa-file-medical text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-sm">Analyse erhalten</h3>
-                <p class="text-xs text-gray-600">KI analysiert Wechselwirkungen und erstellt Bericht</p>
-            </div>
-            
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center relative">
-                <div class="absolute top-2 left-2 w-8 h-8 bg-teal-700 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                    4
-                </div>
-                <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3 mt-4">
-                    <i class="fas fa-print text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-sm">Bericht ausdrucken</h3>
-                <p class="text-xs text-gray-600">Drucken Sie den Bericht für Ihr Arztgespräch aus</p>
-            </div>
-            
-            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 text-center relative">
-                <div class="absolute top-2 left-2 w-8 h-8 bg-teal-700 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                    5
-                </div>
-                <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3 mt-4">
-                    <i class="fas fa-user-md text-teal-700 text-xl"></i>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 text-sm">Mit Arzt besprechen</h3>
-                <p class="text-xs text-gray-600">Arzt entscheidet über weitere Schritte</p>
-            </div>
-        </div>
-        
-        <div class="bg-amber-50 p-5 rounded-lg border-l-4 border-amber-400">
-            <p class="text-sm text-amber-900 leading-relaxed">
-                <i class="fas fa-exclamation-triangle text-amber-600 mr-2"></i>
-                <strong>Wichtig:</strong> Verändern Sie niemals eigenständig Ihre Medikation. 
-                Der redu-med Bericht ist <strong>ausschließlich für das Gespräch mit Ihrem Arzt gedacht</strong>. 
-                Nur Ihr Arzt kann entscheiden, ob und wie Medikamente reduziert werden können.
-            </p>
-        </div>
-    </div>
-    
-    <!-- ================================================================= -->
-    <!-- SEKTION 9: Wie Ärzte redu-med nutzen können -->
-    <!-- ================================================================= -->
-    <div id="fuer-aerzte" class="section-card p-8 mb-8 rounded-lg fade-in">
-        <div class="flex items-start gap-6">
-            <div class="flex-shrink-0">
-                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                    <i class="fas fa-user-md text-blue-700 text-2xl"></i>
-                </div>
-            </div>
-            <div class="flex-1">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-                    Wie Ärzte redu-med nutzen können
-                </h2>
-                
-                <p class="text-gray-700 text-base mb-6 leading-relaxed">
-                    redu-med unterstützt Ärzte bei der Einschätzung von Cannabinoid-Medikamenten-Wechselwirkungen 
-                    und bietet eine <strong>strukturierte Entscheidungsgrundlage</strong> für Gespräche mit Patienten über Deprescribing.
-                </p>
-                
-                <div class="grid md:grid-cols-2 gap-5 mb-6">
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <h3 class="font-semibold text-gray-900 mb-3 text-base">
-                            <i class="fas fa-clock text-blue-600 mr-2"></i>
-                            Zeitsparend:
-                        </h3>
-                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
-                            Schneller Überblick über die aktuelle Medikation des Patienten und potenzielle Interaktionen mit Cannabinoiden.
-                        </p>
-                        <p class="text-xs text-gray-600 italic">
-                            Reduziert Recherche-Aufwand und strukturiert das Patientengespräch.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <h3 class="font-semibold text-gray-900 mb-3 text-base">
-                            <i class="fas fa-database text-blue-600 mr-2"></i>
-                            Evidenzbasiert:
-                        </h3>
-                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
-                            Basiert auf wissenschaftlicher Literatur und bekannten CYP450-Interaktionen aus internationalen Datenbanken.
-                        </p>
-                        <p class="text-xs text-gray-600 italic">
-                            Quellenangaben ermöglichen Vertiefung bei Bedarf.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <h3 class="font-semibold text-gray-900 mb-3 text-base">
-                            <i class="fas fa-heartbeat text-blue-600 mr-2"></i>
-                            ECS-bezogene Beschwerden:
-                        </h3>
-                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
-                            Identifiziert Symptome, die auf eine Dysregulation des Endocannabinoid-Systems hinweisen könnten.
-                        </p>
-                        <p class="text-xs text-gray-600 italic">
-                            Hilft bei der Einschätzung, ob ECS-Unterstützung sinnvoll sein könnte.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <h3 class="font-semibold text-gray-900 mb-3 text-base">
-                            <i class="fas fa-clipboard-check text-blue-600 mr-2"></i>
-                            Strukturierte Dokumentation:
-                        </h3>
-                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
-                            Übersichtliche Darstellung von Wechselwirkungen, Risikostufen und Handlungsempfehlungen.
-                        </p>
-                        <p class="text-xs text-gray-600 italic">
-                            Erleichtert die klinische Entscheidungsfindung.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="bg-blue-50 p-5 rounded-lg border-l-4 border-blue-400">
-                    <h3 class="font-semibold text-blue-900 mb-3 text-base">
-                        <i class="fas fa-stethoscope text-blue-600 mr-2"></i>
-                        Rechtlicher Hinweis für Ärzte:
-                    </h3>
-                    <p class="text-sm text-blue-900 leading-relaxed">
-                        redu-med ist eine <strong>Entscheidungsunterstützung</strong>, kein zugelassenes Medizinprodukt. 
-                        Die finale klinische Entscheidung und Verantwortung liegt immer beim behandelnden Arzt. 
-                        Das Tool ersetzt keine eigene fachliche Einschätzung.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- ================================================================= -->
-    <!-- SEKTION 10: Wissenschaft & Studienlage (NICHT übertreiben) -->
-    <!-- ================================================================= -->
-    <div class="section-card p-8 mb-8 rounded-lg fade-in">
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">
-            <i class="fas fa-flask text-teal-700 mr-2"></i>
-            Wissenschaft & aktuelle Studienlage
-        </h2>
-        
-        <div class="bg-gradient-to-r from-slate-50 to-teal-50 p-6 rounded-lg border border-teal-200 mb-6">
-            <p class="text-gray-700 text-base leading-relaxed mb-4">
-                Die Forschung zum Endocannabinoid-System und zu Cannabinoiden entwickelt sich stetig weiter. 
-                <strong>Studien und Beobachtungsdaten zeigen Hinweise darauf</strong>, dass Cannabinoide bei manchen Menschen 
-                die Lebensqualität verbessern und den Bedarf bestimmter Medikamente reduzieren können.
-            </p>
-            <p class="text-gray-700 text-base leading-relaxed">
-                Die Datenlage ist jedoch <strong>begrenzt und nicht für alle Indikationen eindeutig</strong>. 
-                Es gibt keine universellen Erfolgsgarantien. Jeder Mensch reagiert anders.
-            </p>
-        </div>
-        
-        <div class="grid md:grid-cols-2 gap-5">
-            <div class="bg-green-50 p-5 rounded-lg border border-green-200">
-                <h3 class="font-semibold text-green-900 mb-3 text-base">
-                    <i class="fas fa-check-circle text-green-600 mr-2"></i>
-                    Was wissenschaftlich belegt ist:
-                </h3>
-                <ul class="text-sm text-gray-700 space-y-2">
-                    <li class="flex items-start">
-                        <span class="text-green-600 mr-2 mt-0.5">✓</span>
-                        <span>Das ECS existiert und reguliert wichtige Körperfunktionen</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-green-600 mr-2 mt-0.5">✓</span>
-                        <span>Cannabinoide können mit dem ECS interagieren</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-green-600 mr-2 mt-0.5">✓</span>
-                        <span>Wechselwirkungen mit Medikamenten sind möglich</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-green-600 mr-2 mt-0.5">✓</span>
-                        <span>Individuelle Reaktionen sind sehr unterschiedlich</span>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="bg-amber-50 p-5 rounded-lg border border-amber-200">
-                <h3 class="font-semibold text-amber-900 mb-3 text-base">
-                    <i class="fas fa-question-circle text-amber-600 mr-2"></i>
-                    Was noch erforscht wird:
-                </h3>
-                <ul class="text-sm text-gray-700 space-y-2">
-                    <li class="flex items-start">
-                        <span class="text-amber-600 mr-2 mt-0.5">?</span>
-                        <span>Optimale Dosierung für verschiedene Indikationen</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-amber-600 mr-2 mt-0.5">?</span>
-                        <span>Langzeitwirkung und Sicherheit über Jahre hinweg</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-amber-600 mr-2 mt-0.5">?</span>
-                        <span>Genetische Faktoren, die die Wirkung beeinflussen</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-amber-600 mr-2 mt-0.5">?</span>
-                        <span>Präzise Vorhersage des individuellen Ansprechens</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="bg-gray-50 p-5 rounded-lg mt-6 border border-gray-200">
-            <p class="text-xs text-gray-600 italic text-center">
-                <i class="fas fa-book text-gray-500 mr-2"></i>
-                redu-med basiert auf publizierten wissenschaftlichen Arbeiten aus Datenbanken wie PubMed, 
-                Cochrane Library und klinischen Leitlinien. Quellenangaben sind in den Analyseberichten enthalten.
-            </p>
-        </div>
-    </div>
-
-
-<!-- SECTION 11: FAQ -->
-            <div id="faq" class="section-card p-8 mb-8 rounded-lg fade-in">
-
-                <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                    Häufig gestellte Fragen
-                </h2>
-                <p class="text-lg sm:text-xl text-gray-600">
-                    Die wichtigsten Antworten zur sicheren Anwendung von redu-med
-                </p>
-            </div>
-
-            <div class="space-y-6">
-                <!-- FAQ 1 -->
-                <div class="bg-gradient-to-r from-red-50 to-orange-50 p-6 rounded-xl border-2 border-red-200 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
-                        <i class="fas fa-exclamation-triangle text-red-600"></i>
-                        Kann ich meine Medikamente selbst reduzieren?
-                    </h3>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        <strong class="text-red-700">Nein, auf keinen Fall.</strong> Veränderungen an der Medikation dürfen ausschließlich durch Ihren behandelnden Arzt vorgenommen werden.
-                    </p>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        Das eigenständige Absetzen oder Reduzieren von Medikamenten kann schwerwiegende gesundheitliche Folgen haben – von Entzugserscheinungen über Krankheitsverschlechterung bis hin zu lebensbedrohlichen Situationen.
-                    </p>
-                    <p class="text-gray-800 leading-relaxed">
-                        redu-med erstellt lediglich eine <strong>Orientierungsanalyse als Gesprächsgrundlage</strong> für Ihren Arztbesuch. Die finale Entscheidung über jede Medikamentenänderung trifft immer Ihr Arzt.
-                    </p>
-                </div>
-
-                <!-- FAQ 2 -->
-                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl border-2 border-blue-200 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
-                        <i class="fas fa-pills text-blue-600"></i>
-                        Ersetzt CBD Medikamente?
-                    </h3>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        <strong class="text-blue-700">Nein, Cannabidiol (CBD) ersetzt keine Medikamente.</strong>
-                    </p>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        CBD kann das körpereigene Endocannabinoid-System unterstützen und dadurch möglicherweise zu einer verbesserten Regulation beitragen. In manchen Fällen kann dies dazu führen, dass der Arzt eine Medikamentenreduktion für vertretbar hält.
-                    </p>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        <strong>Aber:</strong> Ob eine Reduktion möglich und sinnvoll ist, entscheidet ausschließlich der behandelnde Arzt auf Basis der individuellen Gesundheitssituation.
-                    </p>
-                    <p class="text-gray-800 leading-relaxed">
-                        CBD ist kein Medikamentenersatz, sondern eine mögliche Unterstützung des körpereigenen Regulationssystems – immer unter ärztlicher Aufsicht.
-                    </p>
-                </div>
-
-                <!-- FAQ 3 -->
-                <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-xl border-2 border-purple-200 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
-                        <i class="fas fa-certificate text-purple-600"></i>
-                        Ist das Tool medizinisch zugelassen?
-                    </h3>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        <strong class="text-purple-700">Nein, redu-med ist kein Medizinprodukt und nicht medizinisch zugelassen.</strong>
-                    </p>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        redu-med ist eine <strong>KI-gestützte Informations- und Analyseplattform</strong>, die auf wissenschaftlichen Datenbanken zu Arzneimittelinteraktionen und dem Endocannabinoid-System basiert.
-                    </p>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        Die Analyse dient ausschließlich als <strong>Entscheidungsunterstützung für das Arztgespräch</strong> – nicht als medizinischer Ratgeber oder Therapieempfehlung.
-                    </p>
-                    <p class="text-gray-800 leading-relaxed">
-                        Alle medizinischen Entscheidungen müssen von einem approbierten Arzt getroffen werden, der die vollständige Gesundheitssituation des Patienten kennt.
-                    </p>
-                </div>
-
-                <!-- FAQ 4 -->
-                <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
-                        <i class="fas fa-file-medical text-green-600"></i>
-                        Was mache ich mit der Analyse?
-                    </h3>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        Die redu-med Analyse ist Ihre <strong>strukturierte Gesprächsgrundlage für den Arztbesuch</strong>.
-                    </p>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        <strong>So nutzen Sie die Analyse:</strong>
-                    </p>
-                    <ul class="list-disc list-inside space-y-2 text-gray-800 ml-4 mb-3">
-                        <li>Drucken oder speichern Sie die Analyse als PDF</li>
-                        <li>Vereinbaren Sie einen Termin mit Ihrem behandelnden Arzt</li>
-                        <li>Besprechen Sie die Ergebnisse gemeinsam mit Ihrem Arzt</li>
-                        <li>Ihr Arzt prüft, ob eine Medikamentenoptimierung möglich ist</li>
-                        <li>Folgen Sie ausschließlich den Empfehlungen Ihres Arztes</li>
-                    </ul>
-                    <p class="text-gray-800 leading-relaxed">
-                        <strong>Wichtig:</strong> Die Analyse ist ein Informationswerkzeug, keine Handlungsanweisung. Nehmen Sie keine Änderungen ohne ärztliche Rücksprache vor.
-                    </p>
-                </div>
-
-                <!-- FAQ 5 -->
-                <div class="bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl border-2 border-yellow-300 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
-                        <i class="fas fa-shield-alt text-yellow-600"></i>
-                        Gibt es Risiken?
-                    </h3>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        <strong class="text-yellow-700">Das größte Risiko besteht darin, Medikamente ohne ärztliche Aufsicht zu verändern.</strong>
-                    </p>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        redu-med selbst ist eine reine Informationsplattform und stellt keine medizinische Gefährdung dar. Die Analyse basiert auf wissenschaftlichen Datenbanken zu Wechselwirkungen.
-                    </p>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        <strong>Risiken entstehen nur, wenn:</strong>
-                    </p>
-                    <ul class="list-disc list-inside space-y-2 text-gray-800 ml-4 mb-3">
-                        <li>Medikamente eigenständig abgesetzt oder reduziert werden</li>
-                        <li>Die Analyse als medizinischer Rat missverstanden wird</li>
-                        <li>CBD-Produkte ohne ärztliche Absprache eingenommen werden</li>
-                        <li>Wichtige Vorerkrankungen nicht mit dem Arzt besprochen werden</li>
-                    </ul>
-                    <p class="text-gray-800 leading-relaxed">
-                        <strong>Sicherheit gewährleisten:</strong> Nutzen Sie redu-med ausschließlich als Gesprächsgrundlage für professionelle ärztliche Beratung.
-                    </p>
-                </div>
-
-                <!-- FAQ 6 -->
-                <div class="bg-gradient-to-r from-teal-50 to-cyan-50 p-6 rounded-xl border-2 border-teal-200 shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
-                        <i class="fas fa-euro-sign text-teal-600"></i>
-                        Kostet das Tool etwas?
-                    </h3>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        <strong class="text-teal-700">Die Basisanalyse ist aktuell kostenlos nutzbar.</strong>
-                    </p>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        redu-med bietet eine kostenlose KI-gestützte Analyse Ihrer Medikation inklusive Wechselwirkungscheck und ECS-Relevanz-Bewertung.
-                    </p>
-                    <p class="text-gray-800 leading-relaxed mb-3">
-                        <strong>Was ist kostenlos:</strong>
-                    </p>
-                    <ul class="list-disc list-inside space-y-2 text-gray-800 ml-4 mb-3">
-                        <li>Vollständige Medikationsanalyse</li>
-                        <li>Wechselwirkungscheck für CBD-Interaktionen</li>
-                        <li>Strukturierte PDF-Übersicht für Arztgespräch</li>
-                        <li>Zugriff auf wissenschaftliche Hintergrundinformationen</li>
-                    </ul>
-                    <p class="text-gray-800 leading-relaxed">
-                        <strong>Hinweis:</strong> Die Plattform befindet sich im Aufbau. Künftig können erweiterte Features oder Premium-Analysen kostenpflichtig werden – die Basisanalyse bleibt voraussichtlich kostenlos.
-                    </p>
-                </div>
-            </div>
-
-            <!-- CTA nach FAQ -->
-            <div class="mt-12 text-center">
-                <p class="text-lg text-gray-700 mb-6">
-                    Noch Fragen? Starten Sie Ihre Analyse oder kontaktieren Sie uns.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#wizard-container" class="bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-teal-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-                        <i class="fas fa-clipboard-list"></i>
-                        Jetzt Analyse starten
-                    </a>
-                    <a href="mailto:info@redu-med.de" class="bg-white text-teal-700 px-8 py-4 rounded-lg font-bold text-lg border-2 border-teal-600 hover:bg-teal-50 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-                        <i class="fas fa-envelope"></i>
-                        Kontakt aufnehmen
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- SECTION 12: SICHERHEIT & HAFTUNG -->
-            <div id="disclaimer" class="section-card p-8 mb-8 rounded-lg fade-in" style="background: linear-gradient(to bottom right, rgb(243 244 246), rgb(249 250 251), white); border-top: 4px solid rgb(209 213 219);">
-
-                <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-10">
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
-                    <i class="fas fa-balance-scale text-gray-700"></i>
-                    <span>Sicherheit & Haftungsausschluss</span>
-                </h2>
-            </div>
-
-            <!-- Hauptdisclaimer Box -->
-            <div class="bg-white p-8 rounded-xl border-4 border-gray-300 shadow-xl mb-8">
-                <div class="flex items-start gap-4 mb-6">
+            <!-- Hero: Das Problem -->
+            <div class="section-card p-6 md:p-8 mb-6 rounded-lg fade-in">
+                <div class="flex items-start gap-4 md:gap-6">
                     <div class="flex-shrink-0">
-                        <i class="fas fa-exclamation-circle text-5xl text-red-600"></i>
+                        <div class="w-12 h-12 md:w-14 md:h-14 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-pills text-red-600 text-xl md:text-2xl"></i>
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-                            Wichtiger Haftungsausschluss
+                    <div class="flex-1">
+                        <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-3">
+                            Zu viele Medikamente? Sie sind nicht allein.
+                        </h2>
+                        <p class="text-sm sm:text-base text-gray-700 mb-4 leading-relaxed">
+                            Viele Menschen nehmen täglich mehrere Medikamente und möchten diese Schritt für Schritt reduzieren – 
+                            aber <strong>sicher</strong> und <strong>unter ärztlicher Begleitung</strong>.
+                        </p>
+                        
+                        <div class="bg-teal-50 p-4 rounded-lg border border-teal-200 mb-4">
+                            <p class="text-sm text-gray-800">
+                                <strong class="text-teal-700">redu-med</strong> hilft Ihnen dabei: Eine KI-gestützte Analyse zeigt Ihnen, 
+                                wie Ihr körpereigenes Endocannabinoid-System (ECS) gestärkt werden kann – als Grundlage für 
+                                das Gespräch mit Ihrem Arzt.
+                            </p>
+                        </div>
+                        
+                        <a href="#dosierungsplan-erstellen" class="inline-flex items-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-6 py-3 rounded-lg font-semibold text-sm hover:from-teal-700 hover:to-emerald-700 transition-all shadow-lg">
+                            <i class="fas fa-arrow-right"></i>
+                            Jetzt kostenlos Analyse starten
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ECS Kurz erklärt -->
+            <div class="section-card p-6 md:p-8 mb-6 rounded-lg fade-in">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <i class="fas fa-brain text-teal-700"></i>
+                    Was ist das Endocannabinoid-System (ECS)?
+                </h2>
+                <p class="text-sm sm:text-base text-gray-700 mb-4 leading-relaxed">
+                    Das ECS ist Ihr körpereigenes Regulationssystem – es steuert Schmerz, Schlaf, Stimmung, Entzündungen und mehr. 
+                    <strong>Wenn das ECS geschwächt ist</strong>, entstehen oft viele Symptome, für die dann Medikamente eingesetzt werden.
+                </p>
+                
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-2 text-sm">
+                            <i class="fas fa-arrow-down text-red-600 mr-2"></i>
+                            Schwaches ECS
                         </h3>
-                        <div class="space-y-4 text-gray-800 leading-relaxed">
-                            <p class="text-lg font-semibold text-red-700">
-                                redu-med gibt keinerlei medizinische Empfehlungen.
-                            </p>
-                            <p class="text-base">
-                                Die auf dieser Plattform bereitgestellten Inhalte und Analysen dienen ausschließlich <strong>Informations- und Orientierungszwecken</strong>. Sie ersetzen in keiner Weise eine professionelle medizinische Diagnose, Beratung oder Therapie durch einen approbierten Arzt.
-                            </p>
-                            <p class="text-base">
-                                <strong>Veränderungen an Medikamenten – ob Dosisanpassung, Absetzung oder Ergänzung – dürfen ausschließlich durch den behandelnden Arzt erfolgen.</strong>
-                            </p>
-                            <p class="text-base">
-                                Das eigenständige Absetzen, Reduzieren oder Verändern von Medikamenten ohne ärztliche Anordnung kann schwerwiegende gesundheitliche Folgen haben und wird ausdrücklich nicht empfohlen.
-                            </p>
+                        <p class="text-xs text-gray-600">Symptome nehmen zu → mehr Medikamente nötig</p>
+                    </div>
+                    <div class="bg-teal-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-teal-900 mb-2 text-sm">
+                            <i class="fas fa-arrow-up text-teal-600 mr-2"></i>
+                            Starkes ECS
+                        </h3>
+                        <p class="text-xs text-gray-700">Bessere Regulation → weniger Medikamente unter ärztlicher Aufsicht</p>
+                    </div>
+                </div>
+                
+                <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500 mt-4">
+                    <p class="text-sm text-red-800 leading-relaxed">
+                        <i class="fas fa-exclamation-circle text-red-600 mr-2"></i>
+                        <strong>Wichtig:</strong> Ob und wie Medikamente reduziert werden können, entscheidet immer Ihr Arzt. 
+                        redu-med bietet nur eine Analyse als Gesprächsgrundlage.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Wie funktioniert redu-med -->
+            <div class="section-card p-6 md:p-8 mb-6 rounded-lg fade-in">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <i class="fas fa-clipboard-check text-teal-700"></i>
+                    So funktioniert redu-med
+                </h2>
+                <p class="text-sm sm:text-base text-gray-700 mb-4">In 3 einfachen Schritten zu Ihrer persönlichen Analyse:</p>
+                
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700 text-sm">1</div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="font-semibold text-gray-900 text-sm mb-1">Medikamente eingeben</h3>
+                            <p class="text-xs text-gray-600">Ihre aktuelle Medikation und Körperdaten angeben</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700 text-sm">2</div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="font-semibold text-gray-900 text-sm mb-1">KI-Analyse erhalten</h3>
+                            <p class="text-xs text-gray-600">Wechselwirkungen prüfen und ECS-Stärkungsplan erstellen</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700 text-sm">3</div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="font-semibold text-gray-900 text-sm mb-1">Mit Arzt besprechen</h3>
+                            <p class="text-xs text-gray-600">Bericht ausdrucken und gemeinsam mit Ihrem Arzt entscheiden</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Detaillierte Haftungspunkte -->
-            <div class="grid md:grid-cols-2 gap-6">
-                <!-- Box 1: Keine medizinische Beratung -->
-                <div class="bg-gray-50 p-6 rounded-lg border-2 border-gray-200">
-                    <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                        <i class="fas fa-user-md text-gray-600"></i>
-                        Keine medizinische Beratung
-                    </h4>
-                    <p class="text-sm text-gray-700 leading-relaxed">
-                        redu-med ist kein Medizinprodukt und nicht medizinisch zugelassen. Die Plattform bietet keine individuelle medizinische Beratung, Diagnose oder Behandlung. Alle Informationen sind allgemeiner Natur.
-                    </p>
-                </div>
+            <!-- FAQ Compact -->
+            <div class="section-card p-6 md:p-8 mb-6 rounded-lg fade-in">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-4">
+                    Häufige Fragen
+                </h2>
+                
+                <div class="space-y-3">
+                    <details class="group">
+                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100">
+                            <span>Kann ich meine Medikamente selbst reduzieren?</span>
+                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <p class="text-xs text-gray-700 mt-2 px-3 pb-2 leading-relaxed">
+                            <strong class="text-red-700">Nein, auf keinen Fall.</strong> Veränderungen an der Medikation dürfen ausschließlich durch Ihren behandelnden Arzt vorgenommen werden.
+                        </p>
+                    </details>
 
-                <!-- Box 2: Arztpflicht -->
-                <div class="bg-gray-50 p-6 rounded-lg border-2 border-gray-200">
-                    <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                        <i class="fas fa-stethoscope text-gray-600"></i>
-                        Ärztliche Konsultation erforderlich
-                    </h4>
-                    <p class="text-sm text-gray-700 leading-relaxed">
-                        Vor jeder Medikamentenänderung muss zwingend ein Arzt konsultiert werden. Nur ein Arzt kann die Gesamtsituation, Vorerkrankungen und Risiken individuell bewerten und Therapieentscheidungen treffen.
-                    </p>
-                </div>
+                    <details class="group">
+                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100">
+                            <span>Ersetzt CBD Medikamente?</span>
+                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <p class="text-xs text-gray-700 mt-2 px-3 pb-2 leading-relaxed">
+                            <strong>Nein.</strong> CBD kann das ECS unterstützen. Ob dadurch Medikamente reduziert werden können, entscheidet ausschließlich Ihr Arzt.
+                        </p>
+                    </details>
 
-                <!-- Box 3: Keine Garantie -->
-                <div class="bg-gray-50 p-6 rounded-lg border-2 border-gray-200">
-                    <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                        <i class="fas fa-database text-gray-600"></i>
-                        Keine Garantie für Vollständigkeit
-                    </h4>
-                    <p class="text-sm text-gray-700 leading-relaxed">
-                        Trotz sorgfältiger Recherche können die Datenbanken zu Wechselwirkungen unvollständig oder nicht aktuell sein. Die Analyse erfolgt auf Basis verfügbarer wissenschaftlicher Quellen ohne Garantie auf Vollständigkeit.
-                    </p>
-                </div>
+                    <details class="group">
+                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100">
+                            <span>Was mache ich mit der Analyse?</span>
+                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <p class="text-xs text-gray-700 mt-2 px-3 pb-2 leading-relaxed">
+                            Drucken Sie den Bericht aus und besprechen Sie ihn mit Ihrem Arzt. Der Arzt prüft, ob eine Medikamentenoptimierung möglich ist.
+                        </p>
+                    </details>
 
-                <!-- Box 4: Eigenverantwortung -->
-                <div class="bg-gray-50 p-6 rounded-lg border-2 border-gray-200">
-                    <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                        <i class="fas fa-hand-paper text-gray-600"></i>
-                        Eigenverantwortung des Nutzers
-                    </h4>
-                    <p class="text-sm text-gray-700 leading-relaxed">
-                        Die Nutzung von redu-med erfolgt auf eigene Verantwortung. Der Nutzer verpflichtet sich, alle Informationen mit medizinischem Fachpersonal zu besprechen, bevor gesundheitliche Entscheidungen getroffen werden.
-                    </p>
-                </div>
-
-                <!-- Box 5: Keine Haftung -->
-                <div class="bg-gray-50 p-6 rounded-lg border-2 border-gray-200">
-                    <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                        <i class="fas fa-shield-alt text-gray-600"></i>
-                        Haftungsausschluss
-                    </h4>
-                    <p class="text-sm text-gray-700 leading-relaxed">
-                        Die Betreiber von redu-med übernehmen keine Haftung für Schäden, die durch die Nutzung oder Nichtnutzung der bereitgestellten Informationen entstehen – weder direkt noch indirekt.
-                    </p>
-                </div>
-
-                <!-- Box 6: Notfall -->
-                <div class="bg-red-50 p-6 rounded-lg border-2 border-red-300">
-                    <h4 class="font-bold text-red-900 mb-3 flex items-center gap-2">
-                        <i class="fas fa-phone-alt text-red-600"></i>
-                        Bei medizinischen Notfällen
-                    </h4>
-                    <p class="text-sm text-red-800 leading-relaxed font-medium">
-                        Im medizinischen Notfall wählen Sie sofort <strong>112</strong> oder kontaktieren Sie den ärztlichen Notdienst <strong>116 117</strong>. redu-med ist kein Notfalldienst.
-                    </p>
+                    <details class="group">
+                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100">
+                            <span>Kostet das Tool etwas?</span>
+                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <p class="text-xs text-gray-700 mt-2 px-3 pb-2 leading-relaxed">
+                            Die Basisanalyse ist aktuell <strong>kostenlos</strong> nutzbar.
+                        </p>
+                    </details>
                 </div>
             </div>
 
-            <!-- Schlussbemerkung -->
-            <div class="mt-8 text-center">
-                <p class="text-sm text-gray-600 leading-relaxed max-w-3xl mx-auto">
-                    Durch die Nutzung von redu-med bestätigen Sie, dass Sie diesen Haftungsausschluss gelesen und verstanden haben. 
-                    Sie erklären sich damit einverstanden, dass alle durch die Plattform bereitgestellten Informationen ausschließlich als 
-                    Gesprächsgrundlage für professionelle ärztliche Konsultationen dienen.
+            <!-- Haftungsausschluss Compact -->
+            <div class="section-card p-6 mb-6 rounded-lg bg-gray-50 border-t-4 border-gray-300">
+                <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <i class="fas fa-balance-scale text-gray-700"></i>
+                    Haftungsausschluss
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-700 leading-relaxed mb-2">
+                    <strong class="text-red-700">redu-med gibt keinerlei medizinische Empfehlungen.</strong> 
+                    Die Inhalte ersetzen keine Diagnose oder Therapie. Veränderungen an Medikamenten dürfen ausschließlich durch den behandelnden Arzt erfolgen.
                 </p>
-                <p class="text-xs text-gray-500 mt-4">
-                    Stand: Januar 2025 | redu-med – Medikamentenreduktion unter ärztlicher Begleitung
+                <p class="text-xs text-gray-600">
+                    Das eigenständige Absetzen, Reduzieren oder Verändern von Medikamenten ohne ärztliche Anordnung kann schwerwiegende gesundheitliche Folgen haben.
                 </p>
             </div>
-        </div>
-    </div>
-</div>
+
+
             <!-- Main Form -->
             <div id="dosierungsplan-erstellen" class="section-card p-8 mb-8 rounded-lg fade-in">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
