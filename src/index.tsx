@@ -467,101 +467,170 @@ app.get('/', (c) => {
 
         <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 md:py-8">
             
-            <!-- Kompakte Hero Section: Problem + Lösung -->
-            <div class="section-card p-5 md:p-6 mb-5 rounded-lg fade-in">
-                <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-3">
-                    <i class="fas fa-pills text-red-600 mr-2"></i>
-                    Zu viele Medikamente? Mit redu-med sicher reduzieren.
-                </h2>
-                <p class="text-sm text-gray-700 mb-3 leading-relaxed">
-                    Stärken Sie Ihr Endocannabinoid-System (ECS) und reduzieren Sie Medikamente – ärztlich begleitet.
-                </p>
-                <a href="#dosierungsplan-erstellen" class="inline-flex items-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:from-teal-700 hover:to-emerald-700 transition-all shadow-lg">
-                    <i class="fas fa-arrow-right"></i>
-                    Kostenlose Analyse starten
-                </a>
+            <!-- Hero: Das Problem -->
+            <div class="section-card p-6 md:p-8 mb-6 rounded-lg fade-in">
+                <div class="flex items-start gap-4 md:gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 md:w-14 md:h-14 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-pills text-red-600 text-xl md:text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-3">
+                            Zu viele Medikamente? Sie sind nicht allein.
+                        </h2>
+                        <p class="text-sm sm:text-base text-gray-700 mb-4 leading-relaxed">
+                            Viele Menschen nehmen täglich mehrere Medikamente und möchten diese Schritt für Schritt reduzieren – 
+                            aber <strong>sicher</strong> und <strong>unter ärztlicher Begleitung</strong>.
+                        </p>
+                        
+                        <div class="bg-teal-50 p-4 rounded-lg border border-teal-200 mb-4">
+                            <p class="text-sm text-gray-800">
+                                <strong class="text-teal-700">redu-med</strong> hilft Ihnen dabei: Eine KI-gestützte Analyse zeigt Ihnen, 
+                                wie Ihr körpereigenes Endocannabinoid-System (ECS) gestärkt werden kann – als Grundlage für 
+                                das Gespräch mit Ihrem Arzt.
+                            </p>
+                        </div>
+                        
+                        <a href="#dosierungsplan-erstellen" class="inline-flex items-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-6 py-3 rounded-lg font-semibold text-sm hover:from-teal-700 hover:to-emerald-700 transition-all shadow-lg">
+                            <i class="fas fa-arrow-right"></i>
+                            Jetzt kostenlos Analyse starten
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <!-- ECS Ultra-Kurz -->
-            <div class="section-card p-5 md:p-6 mb-5 rounded-lg fade-in">
-                <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-2 flex items-center gap-2">
+            <!-- ECS Kurz erklärt -->
+            <div class="section-card p-6 md:p-8 mb-6 rounded-lg fade-in">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
                     <i class="fas fa-brain text-teal-700"></i>
-                    Das Endocannabinoid-System (ECS)
+                    Was ist das Endocannabinoid-System (ECS)?
                 </h2>
-                <p class="text-sm text-gray-700 mb-3 leading-relaxed">
-                    Ihr körpereigenes Regulationssystem für Schmerz, Schlaf, Stimmung und Entzündungen. Ein schwaches ECS → mehr Symptome → mehr Medikamente.
+                <p class="text-sm sm:text-base text-gray-700 mb-4 leading-relaxed">
+                    Das ECS ist Ihr körpereigenes Regulationssystem – es steuert Schmerz, Schlaf, Stimmung, Entzündungen und mehr. 
+                    <strong>Wenn das ECS geschwächt ist</strong>, entstehen oft viele Symptome, für die dann Medikamente eingesetzt werden.
                 </p>
-                <div class="grid sm:grid-cols-2 gap-3">
-                    <div class="bg-red-50 p-3 rounded border-l-4 border-red-400">
-                        <p class="text-xs font-semibold text-red-800">❌ Schwaches ECS: Mehr Medikamente nötig</p>
+                
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-2 text-sm">
+                            <i class="fas fa-arrow-down text-red-600 mr-2"></i>
+                            Schwaches ECS
+                        </h3>
+                        <p class="text-xs text-gray-600">Symptome nehmen zu → mehr Medikamente nötig</p>
                     </div>
-                    <div class="bg-teal-50 p-3 rounded border-l-4 border-teal-400">
-                        <p class="text-xs font-semibold text-teal-800">✅ Starkes ECS: Weniger Medikamente möglich</p>
+                    <div class="bg-teal-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-teal-900 mb-2 text-sm">
+                            <i class="fas fa-arrow-up text-teal-600 mr-2"></i>
+                            Starkes ECS
+                        </h3>
+                        <p class="text-xs text-gray-700">Bessere Regulation → weniger Medikamente unter ärztlicher Aufsicht</p>
                     </div>
+                </div>
+                
+                <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500 mt-4">
+                    <p class="text-sm text-red-800 leading-relaxed">
+                        <i class="fas fa-exclamation-circle text-red-600 mr-2"></i>
+                        <strong>Wichtig:</strong> Ob und wie Medikamente reduziert werden können, entscheidet immer Ihr Arzt. 
+                        redu-med bietet nur eine Analyse als Gesprächsgrundlage.
+                    </p>
                 </div>
             </div>
 
-            <!-- 3-Schritte -->
-            <div class="section-card p-5 md:p-6 mb-5 rounded-lg fade-in">
-                <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
+            <!-- Wie funktioniert redu-med -->
+            <div class="section-card p-6 md:p-8 mb-6 rounded-lg fade-in">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
                     <i class="fas fa-clipboard-check text-teal-700"></i>
-                    So funktioniert's
+                    So funktioniert redu-med
                 </h2>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2 text-sm">
-                        <span class="flex-shrink-0 w-6 h-6 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700 text-xs">1</span>
-                        <span class="text-gray-700">Medikamente eingeben</span>
+                <p class="text-sm sm:text-base text-gray-700 mb-4">In 3 einfachen Schritten zu Ihrer persönlichen Analyse:</p>
+                
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700 text-sm">1</div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="font-semibold text-gray-900 text-sm mb-1">Medikamente eingeben</h3>
+                            <p class="text-xs text-gray-600">Ihre aktuelle Medikation und Körperdaten angeben</p>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-2 text-sm">
-                        <span class="flex-shrink-0 w-6 h-6 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700 text-xs">2</span>
-                        <span class="text-gray-700">KI-Analyse erhalten</span>
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700 text-sm">2</div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="font-semibold text-gray-900 text-sm mb-1">KI-Analyse erhalten</h3>
+                            <p class="text-xs text-gray-600">Wechselwirkungen prüfen und ECS-Stärkungsplan erstellen</p>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-2 text-sm">
-                        <span class="flex-shrink-0 w-6 h-6 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700 text-xs">3</span>
-                        <span class="text-gray-700">Mit Arzt besprechen</span>
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700 text-sm">3</div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="font-semibold text-gray-900 text-sm mb-1">Mit Arzt besprechen</h3>
+                            <p class="text-xs text-gray-600">Bericht ausdrucken und gemeinsam mit Ihrem Arzt entscheiden</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Mini-FAQ -->
-            <div class="section-card p-5 md:p-6 mb-5 rounded-lg fade-in">
-                <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-3">Häufige Fragen</h2>
-                <div class="space-y-2">
+            <!-- FAQ Compact -->
+            <div class="section-card p-6 md:p-8 mb-6 rounded-lg fade-in">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-4">
+                    Häufige Fragen
+                </h2>
+                
+                <div class="space-y-3">
                     <details class="group">
-                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-2 bg-slate-50 rounded hover:bg-slate-100">
-                            <span>Kann ich selbst reduzieren?</span>
-                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform text-xs"></i>
+                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100">
+                            <span>Kann ich meine Medikamente selbst reduzieren?</span>
+                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform"></i>
                         </summary>
-                        <p class="text-xs text-gray-700 mt-1 px-2 pb-1">
-                            <strong class="text-red-700">Nein.</strong> Nur Ihr Arzt darf Medikamente ändern.
+                        <p class="text-xs text-gray-700 mt-2 px-3 pb-2 leading-relaxed">
+                            <strong class="text-red-700">Nein, auf keinen Fall.</strong> Veränderungen an der Medikation dürfen ausschließlich durch Ihren behandelnden Arzt vorgenommen werden.
                         </p>
                     </details>
+
                     <details class="group">
-                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-2 bg-slate-50 rounded hover:bg-slate-100">
+                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100">
                             <span>Ersetzt CBD Medikamente?</span>
-                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform text-xs"></i>
+                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform"></i>
                         </summary>
-                        <p class="text-xs text-gray-700 mt-1 px-2 pb-1">
-                            <strong>Nein.</strong> CBD unterstützt das ECS. Ihr Arzt entscheidet über Reduktion.
+                        <p class="text-xs text-gray-700 mt-2 px-3 pb-2 leading-relaxed">
+                            <strong>Nein.</strong> CBD kann das ECS unterstützen. Ob dadurch Medikamente reduziert werden können, entscheidet ausschließlich Ihr Arzt.
                         </p>
                     </details>
+
                     <details class="group">
-                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-2 bg-slate-50 rounded hover:bg-slate-100">
-                            <span>Was kostet das?</span>
-                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform text-xs"></i>
+                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100">
+                            <span>Was mache ich mit der Analyse?</span>
+                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform"></i>
                         </summary>
-                        <p class="text-xs text-gray-700 mt-1 px-2 pb-1">
-                            Die Analyse ist <strong>kostenlos</strong>.
+                        <p class="text-xs text-gray-700 mt-2 px-3 pb-2 leading-relaxed">
+                            Drucken Sie den Bericht aus und besprechen Sie ihn mit Ihrem Arzt. Der Arzt prüft, ob eine Medikamentenoptimierung möglich ist.
+                        </p>
+                    </details>
+
+                    <details class="group">
+                        <summary class="cursor-pointer text-sm font-semibold text-gray-900 list-none flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100">
+                            <span>Kostet das Tool etwas?</span>
+                            <i class="fas fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <p class="text-xs text-gray-700 mt-2 px-3 pb-2 leading-relaxed">
+                            Die Basisanalyse ist aktuell <strong>kostenlos</strong> nutzbar.
                         </p>
                     </details>
                 </div>
             </div>
 
-            <!-- Disclaimer Ultra-Compact -->
-            <div class="section-card p-4 mb-5 rounded-lg bg-gray-50 border-t-4 border-gray-300">
-                <p class="text-xs text-gray-700">
-                    <i class="fas fa-balance-scale text-gray-600 mr-1"></i>
-                    <strong class="text-red-700">Haftungsausschluss:</strong> redu-med ersetzt keine ärztliche Beratung. Medikamentenänderungen nur durch Ihren Arzt.
+            <!-- Haftungsausschluss Compact -->
+            <div class="section-card p-6 mb-6 rounded-lg bg-gray-50 border-t-4 border-gray-300">
+                <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <i class="fas fa-balance-scale text-gray-700"></i>
+                    Haftungsausschluss
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-700 leading-relaxed mb-2">
+                    <strong class="text-red-700">redu-med gibt keinerlei medizinische Empfehlungen.</strong> 
+                    Die Inhalte ersetzen keine Diagnose oder Therapie. Veränderungen an Medikamenten dürfen ausschließlich durch den behandelnden Arzt erfolgen.
+                </p>
+                <p class="text-xs text-gray-600">
+                    Das eigenständige Absetzen, Reduzieren oder Verändern von Medikamenten ohne ärztliche Anordnung kann schwerwiegende gesundheitliche Folgen haben.
                 </p>
             </div>
 
