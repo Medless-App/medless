@@ -1578,7 +1578,9 @@ function downloadPDF() {
 // ============================================================
 // EINFACHE PDF-FUNKTION: HTML-Plan direkt als PDF (mit Fallback)
 // ============================================================
-async function downloadPlanAsPDF(event) {
+// Make function globally accessible for onclick handlers
+window.downloadPlanAsPDF = async function(event) {
+  console.log('🎯 downloadPlanAsPDF called');
   const resultsDiv = document.getElementById('results');
   
   if (!resultsDiv || resultsDiv.classList.contains('hidden')) {
