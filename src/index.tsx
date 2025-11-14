@@ -9,6 +9,48 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>()
 
+// KANNASAN Product Data - CBD Dosier-Sprays
+const KANNASAN_PRODUCTS = [
+  { nr: 5,  cbdPerSpray: 5.8,  name: 'Kannasan Nr. 5',  twoSprays: 11.6 },
+  { nr: 10, cbdPerSpray: 11.5, name: 'Kannasan Nr. 10', twoSprays: 23.0 },
+  { nr: 15, cbdPerSpray: 17.5, name: 'Kannasan Nr. 15', twoSprays: 35.0 },
+  { nr: 20, cbdPerSpray: 23.2, name: 'Kannasan Nr. 20', twoSprays: 46.4 },
+  { nr: 25, cbdPerSpray: 29.0, name: 'Kannasan Nr. 25', twoSprays: 58.0 }
+];
+
+// Function to select optimal KANNASAN product based on target daily CBD dose
+function selectKannasanProduct(targetDailyMg: number) {
+  // Find product that reaches target with minimum sprays
+  let bestProduct = KANNASAN_PRODUCTS[0];
+  let bestSprayCount = Math.ceil(targetDailyMg / bestProduct.cbdPerSpray);
+  
+  for (const product of KANNASAN_PRODUCTS) {
+    const sprayCount = Math.ceil(targetDailyMg / product.cbdPerSpray);
+    
+    // Prefer product with fewer sprays, but not too high concentration for low doses
+    if (sprayCount < bestSprayCount && sprayCount >= 1) {
+      bestProduct = product;
+      bestSprayCount = sprayCount;
+    }
+  }
+  
+  // Calculate spray distribution (40% morning, 60% evening)
+  const totalSprays = Math.ceil(targetDailyMg / bestProduct.cbdPerSpray);
+  const morningSprays = Math.max(1, Math.round(totalSprays * 0.4));
+  const eveningSprays = Math.max(1, totalSprays - morningSprays);
+  
+  const actualDailyMg = totalSprays * bestProduct.cbdPerSpray;
+  
+  return {
+    product: bestProduct,
+    totalSprays,
+    morningSprays,
+    eveningSprays,
+    actualDailyMg,
+    targetDailyMg
+  };
+}
+
 // Enable CORS for API routes
 app.use('/api/*', cors())
 
@@ -221,7 +263,7 @@ app.post('/api/analyze', async (c) => {
         morningDosageMg = 0;
         
         if (day === 1) {
-          notes = `🌙 Einschleichphase: ${firstDoseTime}. Paste unter die Zunge legen, 2-3 Min einwirken lassen, dann schlucken.`;
+          notes = `🌙 Einschleichphase: ${firstDoseTime}. Sprühstoß direkt in den Mund oder unter die Zunge.`;
         } else if (day === titrationDays) {
           notes = `🌅 Letzter Tag nur abends. Ab morgen: 2x täglich (Morgen + Abend) für optimale Endocannabinoid-System-Unterstützung`;
         } else {
@@ -286,18 +328,27 @@ app.post('/api/analyze', async (c) => {
       }
     }
     
+    // Select optimal KANNASAN product based on target dose
+    const kannasanSelection = selectKannasanProduct(weightBasedTargetMg);
+    
     return c.json({
       success: true,
       analysis: analysisResults,
       maxSeverity,
       weeklyPlan,
       product: {
-        name: 'Cannabinoid-Paste 70%',
-        type: 'Hochkonzentrierte Cannabinoid-Paste',
-        packaging: '3 Gramm Spritze mit 30 Teilstrichen',
-        concentration: '70 mg Cannabinoide pro Teilstrich (1.5 cm)',
-        dosageUnit: 'cm auf der Spritze',
-        application: 'Sublingual: Paste unter die Zunge legen, 2-3 Minuten einwirken lassen, dann schlucken'
+        name: kannasanSelection.product.name,
+        nr: kannasanSelection.product.nr,
+        type: 'CBD Dosier-Spray',
+        packaging: '10ml Flasche mit Pumpsprühaufsatz',
+        concentration: `${kannasanSelection.product.cbdPerSpray} mg CBD pro Sprühstoß`,
+        twoSprays: `${kannasanSelection.product.twoSprays} mg CBD bei 2 Sprühstößen`,
+        dosageUnit: 'Sprühstöße',
+        totalSpraysPerDay: kannasanSelection.totalSprays,
+        morningSprays: kannasanSelection.morningSprays,
+        eveningSprays: kannasanSelection.eveningSprays,
+        actualDailyMg: Math.round(kannasanSelection.actualDailyMg * 10) / 10,
+        application: 'Oral: Sprühstoß direkt in den Mund oder unter die Zunge. Produkt vor Gebrauch gut schütteln.'
       },
       personalization: {
         age,
