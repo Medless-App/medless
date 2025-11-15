@@ -616,6 +616,109 @@ function displayResults(data, firstName = '', gender = '') {
   const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization, costs } = data;
   
   let html = '';
+  
+  // ============================================================
+  // MOBILE-FIRST RESPONSIVE STYLES
+  // ============================================================
+  html += `
+    <style>
+      /* Mobile-optimierte Basis-Styles */
+      @media (max-width: 768px) {
+        #results {
+          font-size: 16px !important; /* Verhindert Auto-Zoom beim Fokus */
+          -webkit-text-size-adjust: 100%;
+        }
+        
+        /* Alle Karten/Container mobile-optimiert */
+        #results > div[style*="border-radius"] {
+          margin-left: -0.5rem !important;
+          margin-right: -0.5rem !important;
+          border-radius: 16px !important;
+        }
+        
+        /* Grid-Layouts mobile-optimiert */
+        div[style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+          gap: 0.75rem !important;
+        }
+        
+        /* Tabellen scrollbar machen */
+        .table-container {
+          overflow-x: auto !important;
+          -webkit-overflow-scrolling: touch !important;
+        }
+        
+        table {
+          min-width: 600px !important;
+          font-size: 0.85rem !important;
+        }
+        
+        /* Touch-optimierte Buttons */
+        button {
+          min-height: 44px !important;
+          padding: 0.875rem 1.5rem !important;
+          font-size: 1rem !important;
+        }
+        
+        /* Schriftgrößen mobile-optimiert */
+        h1 { font-size: 1.75rem !important; }
+        h2 { font-size: 1.35rem !important; }
+        h3 { font-size: 1.1rem !important; }
+        h4 { font-size: 1rem !important; }
+        
+        /* Padding mobile reduziert */
+        div[style*="padding: 1.5rem"] {
+          padding: 1rem !important;
+        }
+        
+        /* Flexbox Items auf mobile stapeln */
+        div[style*="display: flex"][style*="justify-content: space-between"] {
+          flex-direction: column !important;
+          gap: 0.5rem !important;
+          align-items: flex-start !important;
+        }
+        
+        div[style*="display: flex"][style*="justify-content: space-between"] > * {
+          width: 100% !important;
+        }
+        
+        /* Wochenplan Cards mobile-optimiert */
+        .week-card {
+          padding: 1rem !important;
+          margin-bottom: 0.75rem !important;
+        }
+        
+        /* Medikations-Karten mobile-optimiert */
+        div[style*="padding: 1rem"][style*="border-radius: 12px"] {
+          padding: 0.875rem !important;
+        }
+        
+        /* Text-Alignments mobile-fix */
+        div[style*="text-align: right"] {
+          text-align: left !important;
+        }
+      }
+      
+      /* Extra small screens (< 480px) */
+      @media (max-width: 480px) {
+        #results {
+          padding: 0.5rem !important;
+        }
+        
+        h1 { font-size: 1.5rem !important; }
+        h2 { font-size: 1.25rem !important; }
+        h3 { font-size: 1rem !important; }
+        
+        table {
+          font-size: 0.75rem !important;
+        }
+        
+        th, td {
+          padding: 0.5rem 0.25rem !important;
+        }
+      }
+    </style>
+  `;
 
   // ============================================================
   // 1. KOPFBEREICH - TITEL & UNTERTITEL (Homepage-Stil)
@@ -645,7 +748,7 @@ function displayResults(data, firstName = '', gender = '') {
       <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: radial-gradient(circle at top left, #e0fdf7, #f5f7fa); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
         <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">💰 Benötigte Produkte für Ihren vollständigen Plan</h2>
         
-        <div style="overflow-x: auto; margin-bottom: 1rem;">
+        <div class="table-container" style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem;">
           <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
             <thead>
               <tr style="border-bottom: 2px solid rgba(11,123,108,0.2);">
@@ -850,7 +953,7 @@ function displayResults(data, firstName = '', gender = '') {
         
         <!-- Medikamenten-Dosierung -->
         <h4 style="margin: 0 0 0.75rem; font-size: 0.85rem; font-weight: 600; color: #374151;">Medikamenten-Dosierung</h4>
-        <div style="overflow-x: auto; margin-bottom: 1rem;">
+        <div class="table-container" style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem;">
           <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
             <thead>
               <tr style="border-bottom: 1px solid rgba(11,123,108,0.2);">
