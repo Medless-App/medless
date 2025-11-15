@@ -478,7 +478,7 @@ app.get('/', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ReDuMed – reduziere deine Medikamente</title>
+  <title>ReduMed – reduziere deine Medikamente</title>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -499,7 +499,7 @@ app.get('/', (c) => {
 
   <style>
     /* ============================================================
-       DESIGN SYSTEM - ReDuMed
+       DESIGN SYSTEM - ReduMed
        ============================================================ */
     
     :root {
@@ -1992,6 +1992,123 @@ app.get('/', (c) => {
     .hidden {
       display: none !important;
     }
+    
+    /* ============================================
+       PRINT STYLES - für PDF-Export via Drucken
+       ============================================ */
+    @media print {
+      /* WENN print-mode aktiv: Verstecke ALLES außer #results */
+      body.print-mode > *:not(#results) {
+        display: none !important;
+        visibility: hidden !important;
+      }
+      
+      body.print-mode main > *:not(#results) {
+        display: none !important;
+        visibility: hidden !important;
+      }
+      
+      /* Verstecke Header, Footer, Navigation komplett */
+      body.print-mode header,
+      body.print-mode nav,
+      body.print-mode footer,
+      body.print-mode .hero-section,
+      body.print-mode .hero-grid,
+      body.print-mode .section-container,
+      body.print-mode .progress-bar-container,
+      body.print-mode button:not(#results button),
+      body.print-mode .nav-container,
+      body.print-mode .cta-buttons,
+      body.print-mode #hero,
+      body.print-mode #how-it-works,
+      body.print-mode #benefits,
+      body.print-mode #science,
+      body.print-mode #faq,
+      body.print-mode #planner-section,
+      body.print-mode .scroll-to-top {
+        display: none !important;
+        visibility: hidden !important;
+      }
+      
+      /* Zeige NUR #results */
+      body.print-mode {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      
+      body.print-mode main {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      
+      body.print-mode #results {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      
+      /* Optimiere Results für Druck */
+      body.print-mode #results {
+        box-shadow: none !important;
+        border: none !important;
+        background: white !important;
+      }
+      
+      /* Entferne alle Animationen und Effekte */
+      * {
+        box-shadow: none !important;
+        animation: none !important;
+        transition: none !important;
+      }
+      
+      /* Seitenumbruch-Optimierung */
+      .result-card,
+      .week-card,
+      .cost-summary,
+      .interaction-card {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        margin-bottom: 1rem;
+      }
+      
+      h1, h2, h3, h4 {
+        page-break-after: avoid;
+        break-after: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      /* Entferne Hintergründe für besseren Druck */
+      body.print-mode,
+      body.print-mode * {
+        background: white !important;
+        color: #000 !important;
+      }
+      
+      /* Behalte wichtige Farben für Kontrast */
+      body.print-mode .badge-high,
+      body.print-mode .badge-medium,
+      body.print-mode .badge-low {
+        color: white !important;
+      }
+      
+      body.print-mode .badge-high {
+        background: #DC2626 !important;
+      }
+      
+      body.print-mode .badge-medium {
+        background: #F59E0B !important;
+      }
+      
+      body.print-mode .badge-low {
+        background: #10B981 !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2008,7 +2125,7 @@ app.get('/', (c) => {
           <!-- Left: Content -->
           <div class="hero-content">
             <h1 class="hero-headline">
-              ReDuMed – reduziere deine Medikamente.
+              ReduMed – reduziere deine Medikamente.
             </h1>
             
             <h2 class="hero-subheadline">
@@ -2017,7 +2134,7 @@ app.get('/', (c) => {
             </h2>
             
             <p class="hero-description">
-              ReDuMed analysiert Körperdaten, Medikamente und Cannabinoid-Dosierungen, 
+              ReduMed analysiert Körperdaten, Medikamente und Cannabinoid-Dosierungen, 
               um einen strukturierten, sicheren und ärztlich besprechbaren 
               Reduktionsplan zu erstellen.
             </p>
@@ -2148,13 +2265,13 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         2) WARUM ReDuMed SECTION
+         2) WARUM ReduMed SECTION
          ============================================================ -->
     <section class="why-redumed">
       <div class="container">
         
         <h2 class="section-headline">
-          Warum ReDuMed? Weil Ihr Körper mehr kann, als Sie denken.
+          Warum ReduMed? Weil Ihr Körper mehr kann, als Sie denken.
         </h2>
         
         <!-- ECS Explanation -->
@@ -2232,13 +2349,13 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         3) SO FUNKTIONIERT ReDuMed SECTION
+         3) SO FUNKTIONIERT ReduMed SECTION
          ============================================================ -->
     <section class="how-it-works">
       <div class="container">
         
         <h2 class="section-headline">
-          So funktioniert ReDuMed
+          So funktioniert ReduMed
         </h2>
         
         <p class="section-description">
@@ -2269,7 +2386,7 @@ app.get('/', (c) => {
             <div class="step-content">
               <h4>Cannabinoid-Dosierung hochrechnen</h4>
               <p>
-                Basierend auf Ihrem Gewicht berechnet ReDuMed die Zieldosis nach 
+                Basierend auf Ihrem Gewicht berechnet ReduMed die Zieldosis nach 
                 evidenzbasierten Richtlinien (Studie: Blessing et al., 2015).
               </p>
             </div>
@@ -2340,7 +2457,7 @@ app.get('/', (c) => {
           <div class="warning-content">
             
             <p>
-              <strong>ReDuMed ist kein Ersatz für eine ärztliche Beratung.</strong> 
+              <strong>ReduMed ist kein Ersatz für eine ärztliche Beratung.</strong> 
               Dieser Rechner erstellt einen theoretischen Dosierungsplan basierend auf 
               Ihren Angaben und wissenschaftlichen Studien. Er berücksichtigt 
               pharmakologische Wechselwirkungen, ersetzt jedoch keine individuelle 
@@ -2369,7 +2486,7 @@ app.get('/', (c) => {
                 <i class="fas fa-exclamation-triangle"></i>
                 <span>
                   <strong>Keine Garantie für Reduktion:</strong> 
-                  ReDuMed zeigt ein <em>Potenzial</em> auf – ob und wie stark Sie 
+                  ReduMed zeigt ein <em>Potenzial</em> auf – ob und wie stark Sie 
                   Medikamente reduzieren können, entscheidet Ihr Arzt anhand Ihrer 
                   tatsächlichen Symptome und Blutwerte.
                 </span>
@@ -2689,9 +2806,6 @@ app.get('/', (c) => {
           </div>
         </div>
         
-        <!-- Results Container -->
-        <div id="results" class="hidden" style="margin-top: 2rem;"></div>
-        
       </div>
     </section>
     
@@ -2706,7 +2820,7 @@ app.get('/', (c) => {
         </h2>
         
         <p class="section-description">
-          Alle wichtigen Informationen zu ReDuMed, Cannabinoiden, Wechselwirkungen 
+          Alle wichtigen Informationen zu ReduMed, Cannabinoiden, Wechselwirkungen 
           und dem Medikamenten-Reduktionsprozess.
         </p>
         
@@ -2798,7 +2912,7 @@ app.get('/', (c) => {
                 <p>
                   Diese Wechselwirkung ist der <strong>pharmakologische Mechanismus</strong>, 
                   durch den Cannabinoide den Medikamentenbedarf beeinflussen können. 
-                  ReDuMed berücksichtigt diese Interaktionen bei der Planerstellung.
+                  ReduMed berücksichtigt diese Interaktionen bei der Planerstellung.
                 </p>
               </div>
             </div>
@@ -2833,7 +2947,7 @@ app.get('/', (c) => {
                 </p>
                 <p>
                   <strong>Wichtig:</strong> Dies ist ein individueller Prozess und muss 
-                  immer ärztlich begleitet werden. ReDuMed zeigt nur ein 
+                  immer ärztlich begleitet werden. ReduMed zeigt nur ein 
                   <em>theoretisches Potenzial</em> auf.
                 </p>
               </div>
@@ -2844,7 +2958,7 @@ app.get('/', (c) => {
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Ist ReDuMed eine medizinische Beratung oder Diagnose?
+                Ist ReduMed eine medizinische Beratung oder Diagnose?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -2853,13 +2967,13 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  <strong>Nein.</strong> ReDuMed ist ein <strong>Informationstool</strong>, 
+                  <strong>Nein.</strong> ReduMed ist ein <strong>Informationstool</strong>, 
                   das auf wissenschaftlichen Studien und pharmakologischen Daten basiert. 
                   Es erstellt einen <strong>theoretischen Dosierungsplan</strong>, der als 
                   <strong>Gesprächsgrundlage</strong> für Ihren Arzt dient.
                 </p>
                 <p>
-                  ReDuMed ersetzt <strong>keine</strong> ärztliche Beratung, Diagnose 
+                  ReduMed ersetzt <strong>keine</strong> ärztliche Beratung, Diagnose 
                   oder Behandlung. Jede Änderung Ihrer Medikation muss mit Ihrem 
                   behandelnden Arzt besprochen und überwacht werden.
                 </p>
@@ -2934,7 +3048,7 @@ app.get('/', (c) => {
                   <li><strong>Antiepileptika:</strong> Carbamazepin, Valproat</li>
                 </ul>
                 <p>
-                  ReDuMed analysiert Ihre Medikamente und zeigt an, ob 
+                  ReduMed analysiert Ihre Medikamente und zeigt an, ob 
                   <strong>Wechselwirkungen</strong> zu erwarten sind. Die tatsächliche 
                   Auswirkung muss jedoch <strong>individuell ärztlich überwacht</strong> werden.
                 </p>
@@ -2956,7 +3070,7 @@ app.get('/', (c) => {
               <div class="faq-answer-content">
                 <p>
                   <strong>Das hängt von vielen individuellen Faktoren ab</strong> und kann 
-                  nicht pauschal beantwortet werden. ReDuMed bietet eine 
+                  nicht pauschal beantwortet werden. ReduMed bietet eine 
                   <strong>theoretische Simulation</strong> über 8 Wochen (Einschleichphase) 
                   plus Erhaltungsphase.
                 </p>
@@ -3043,7 +3157,7 @@ app.get('/', (c) => {
                 </ul>
                 <p>
                   <strong>Empfehlung:</strong> Kaufen Sie nur bei seriösen Anbietern mit 
-                  transparenten Laborberichten. ReDuMed empfiehlt KANNASAN-Produkte 
+                  transparenten Laborberichten. ReduMed empfiehlt KANNASAN-Produkte 
                   (CBD-Dosier-Sprays), die präzise Dosierungen ermöglichen.
                 </p>
               </div>
@@ -3054,6 +3168,13 @@ app.get('/', (c) => {
         
       </div>
     </section>
+    
+    <!-- ============================================================
+         RESULTS CONTAINER (außerhalb sections für Print-Mode)
+         ============================================================ -->
+    <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 2rem;">
+      <div id="results" class="hidden" style="margin-top: 2rem;"></div>
+    </div>
     
   </main>
   
@@ -3067,7 +3188,7 @@ app.get('/', (c) => {
         
         <!-- Branding -->
         <div class="footer-branding">
-          <h3>ReDuMed</h3>
+          <h3>ReduMed</h3>
           <p class="tagline">reduziere deine Medikamente.</p>
           <p>
             Ein intelligentes Tool zur Berechnung von Cannabinoid-Dosierungen 
@@ -3081,7 +3202,7 @@ app.get('/', (c) => {
           <h4>Quick Links</h4>
           <ul class="footer-links">
             <li><a href="#planner-section">Plan erstellen</a></li>
-            <li><a href="#why-redumed">Warum ReDuMed?</a></li>
+            <li><a href="#why-redumed">Warum ReduMed?</a></li>
             <li><a href="#how-it-works">So funktioniert's</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
@@ -3106,7 +3227,7 @@ app.get('/', (c) => {
           <strong><i class="fas fa-exclamation-triangle"></i> Wichtiger medizinischer Haftungsausschluss:</strong>
         </p>
         <p>
-          ReDuMed ist ein Informationstool und kein Ersatz für ärztlichen Rat, 
+          ReduMed ist ein Informationstool und kein Ersatz für ärztlichen Rat, 
           Diagnose oder Behandlung. Alle Berechnungen basieren auf wissenschaftlichen 
           Studien und pharmakologischen Daten, ersetzen jedoch keine individuelle 
           medizinische Beurteilung.
@@ -3120,7 +3241,7 @@ app.get('/', (c) => {
       <!-- Bottom Bar -->
       <div class="footer-bottom">
         <div class="footer-copyright">
-          © 2024 ReDuMed. Alle Rechte vorbehalten.
+          © 2024 ReduMed. Alle Rechte vorbehalten.
         </div>
         <div class="footer-social">
           <a href="#" aria-label="Instagram">
