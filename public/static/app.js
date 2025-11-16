@@ -1094,7 +1094,7 @@ function displayResults(data, firstName = '', gender = '') {
   html += `
     <div style="margin: 2rem 0 1rem; text-align: center;">
       <button 
-        onclick="downloadPDF()" 
+        onclick="downloadPDF(event)" 
         style="
           padding: 1rem 2rem; 
           background: linear-gradient(135deg, #0b7b6c 0%, #10b981 100%); 
@@ -1154,8 +1154,14 @@ function displayResults(data, firstName = '', gender = '') {
   console.log('✅ displayResults() function completed successfully');
 }
 
-// Download PDF function - Renders HTML directly to PDF using html2canvas
-async function downloadPDF() {
+// Download PDF function - Simplified with timeout protection
+async function downloadPDF(event) {
+  // Prevent default
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
   if (!window.currentPlanData) {
     alert('Keine Daten vorhanden. Bitte erstellen Sie erst einen Reduktionsplan.');
     return;
@@ -1171,8 +1177,17 @@ async function downloadPDF() {
     return;
   }
   
+  const button = event?.target?.closest('button');
+  const originalButtonHTML = button?.innerHTML || '<i class="fas fa-file-pdf"></i> <span>Plan als PDF herunterladen</span>';
+  
   try {
     console.log('🎯 PDF-Generierung gestartet...');
+    
+    // Show loading
+    if (button) {
+      button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>PDF wird erstellt...</span>';
+      button.disabled = true;
+    }
     
     const { jsPDF } = window.jspdf;
     const { firstName } = window.currentPlanData;
@@ -1180,76 +1195,78 @@ async function downloadPDF() {
     // Get results div
     const resultsDiv = document.getElementById('results');
     if (!resultsDiv) {
-      alert('Fehler: Dossier nicht gefunden.');
-      return;
-    }
-    
-    // Show loading indicator
-    const originalButtonText = event?.target?.innerHTML || '';
-    if (event?.target) {
-      event.target.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>PDF wird erstellt...</span>';
-      event.target.disabled = true;
+      throw new Error('Dossier nicht gefunden');
     }
     
     console.log('📸 Erstelle Screenshot vom Dossier...');
     
-    // Render HTML to canvas with high quality
-    const canvas = await html2canvas(resultsDiv, {
-      scale: 2, // Higher quality
+    // Timeout protection
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Timeout nach 30 Sekunden')), 30000);
+    });
+    
+    // Render with timeout
+    const canvasPromise = html2canvas(resultsDiv, {
+      scale: 1.5,
       useCORS: true,
       logging: false,
       backgroundColor: '#ffffff',
-      windowWidth: 1200,
+      windowWidth: 1000,
+      allowTaint: true,
       onclone: (clonedDoc) => {
-        // Remove PDF button from cloned document
-        const clonedButton = clonedDoc.querySelector('button[onclick="downloadPDF()"]');
-        if (clonedButton) {
-          clonedButton.parentElement.remove();
-        }
+        // Remove PDF button from clone
+        const buttons = clonedDoc.querySelectorAll('button');
+        buttons.forEach(btn => {
+          if (btn.textContent.includes('PDF')) {
+            btn.parentElement?.remove();
+          }
+        });
       }
     });
     
-    console.log('✅ Screenshot erstellt');
+    const canvas = await Promise.race([canvasPromise, timeoutPromise]);
+    
+    console.log('✅ Screenshot erstellt:', canvas.width, 'x', canvas.height);
     console.log('📄 Erstelle PDF...');
     
     // Create PDF
-    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+    const imgData = canvas.toDataURL('image/jpeg', 0.9);
     const pdf = new jsPDF('p', 'mm', 'a4');
     
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
     
-    const imgWidth = canvas.width;
-    const imgHeight = canvas.height;
-    const ratio = imgWidth / imgHeight;
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const ratio = canvasWidth / canvasHeight;
     
-    let width = pdfWidth;
-    let height = width / ratio;
+    let imgWidth = pdfWidth;
+    let imgHeight = imgWidth / ratio;
     
-    // Calculate how many pages needed
-    const totalPages = Math.ceil(height / pdfHeight);
+    // Calculate pages
+    const totalPages = Math.ceil(imgHeight / pdfHeight);
     
-    console.log(`📋 PDF wird ${totalPages} Seite(n) haben`);
+    console.log(`📋 PDF hat ${totalPages} Seite(n)`);
     
     // Add pages
-    for (let i = 0; i < totalPages; i++) {
-      if (i > 0) {
+    for (let page = 0; page < totalPages; page++) {
+      if (page > 0) {
         pdf.addPage();
       }
       
-      const yOffset = -(i * pdfHeight * ratio);
+      const yPosition = -(page * pdfHeight);
       
       pdf.addImage(
-        imgData, 
-        'JPEG', 
-        0, 
-        yOffset, 
-        width, 
-        height
+        imgData,
+        'JPEG',
+        0,
+        yPosition,
+        imgWidth,
+        imgHeight
       );
     }
     
-    // Generate filename
+    // Save
     const date = new Date().toISOString().split('T')[0];
     const filename = `MedLess_Plan_${firstName || 'Patient'}_${date}.pdf`;
     
@@ -1259,19 +1276,19 @@ async function downloadPDF() {
     console.log('✅ PDF erfolgreich erstellt!');
     
     // Reset button
-    if (event?.target) {
-      event.target.innerHTML = originalButtonText || '<i class="fas fa-file-pdf"></i> <span>Plan als PDF herunterladen</span>';
-      event.target.disabled = false;
+    if (button) {
+      button.innerHTML = originalButtonHTML;
+      button.disabled = false;
     }
     
   } catch (error) {
-    console.error('❌ Fehler bei PDF-Generierung:', error);
-    alert('Fehler beim Erstellen des PDFs. Bitte versuchen Sie es erneut.');
+    console.error('❌ PDF-Fehler:', error);
+    alert(`Fehler beim Erstellen des PDFs:\n\n${error.message || 'Unbekannter Fehler'}\n\nBitte versuchen Sie es erneut oder machen Sie einen Screenshot.`);
     
     // Reset button
-    if (event?.target) {
-      event.target.innerHTML = '<i class="fas fa-file-pdf"></i> <span>Plan als PDF herunterladen</span>';
-      event.target.disabled = false;
+    if (button) {
+      button.innerHTML = originalButtonHTML;
+      button.disabled = false;
     }
   }
 }
