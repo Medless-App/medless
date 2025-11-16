@@ -1154,8 +1154,8 @@ function displayResults(data, firstName = '', gender = '') {
   console.log('✅ displayResults() function completed successfully');
 }
 
-// Download PDF function using jsPDF - Global Standards Applied
-function downloadPDF() {
+// Download PDF function - Renders HTML directly to PDF using html2canvas
+async function downloadPDF() {
   if (!window.currentPlanData) {
     alert('Keine Daten vorhanden. Bitte erstellen Sie erst einen Reduktionsplan.');
     return;
@@ -1166,725 +1166,112 @@ function downloadPDF() {
     return;
   }
   
-  try {
-    const { jsPDF } = window.jspdf;
-    const { analysis, weeklyPlan, maxSeverity, firstName, gender, product, personalization, costs } = window.currentPlanData;
-    
-    const doc = new jsPDF();
-    let yPos = 20;
-    
-    // ============================================================
-    // SEITE 1: TITEL & ÜBERSICHT
-    // ============================================================
-    
-    // H1: MedLess Haupttitel
-    doc.setFontSize(22);
-    doc.setTextColor(26, 83, 92); // Dunkles Teal
-    doc.setFont(undefined, 'bold');
-    doc.text('MedLess – Ihr persönlicher Reduktionsplan', 105, yPos, { align: 'center' });
-    
-    // Untertitel
-    yPos += 10;
-    doc.setFontSize(12);
-    doc.setTextColor(75, 85, 99);
-    doc.setFont(undefined, 'normal');
-    doc.text('Individuell erstellt auf Basis Ihrer Angaben, KI-gestützt und medizinisch ausgerichtet', 105, yPos, { align: 'center' });
-    
-    yPos += 15;
-    
-    // Block: Patientendaten
-    doc.setFillColor(240, 249, 255); // Hellblau
-    doc.roundedRect(10, yPos, 90, 52, 3, 3, 'F');
-    doc.setDrawColor(59, 130, 246);
-    doc.roundedRect(10, yPos, 90, 52, 3, 3, 'S');
-    
-    doc.setFontSize(14);
-    doc.setTextColor(30, 58, 138);
-    doc.setFont(undefined, 'bold');
-    doc.text('Patientendaten', 15, yPos + 7);
-    
-    doc.setFontSize(11);
-    doc.setTextColor(55, 65, 81);
-    doc.setFont(undefined, 'normal');
-    const age = personalization?.age || 'n/a';
-    const weight = personalization?.bodyWeight || 'n/a';
-    const height = personalization?.height || 'n/a';
-    const numMeds = weeklyPlan[0]?.medications?.length || 0;
-    const cbdStart = weeklyPlan[0]?.cbdDose || 0;
-    const cbdEnd = weeklyPlan[weeklyPlan.length - 1]?.cbdDose || 0;
-    const planDuration = weeklyPlan.length;
-    
-    doc.text(`Alter: ${age} Jahre`, 15, yPos + 15);
-    doc.text(`Gewicht: ${weight} kg`, 15, yPos + 21);
-    doc.text(`Größe: ${height} cm`, 15, yPos + 27);
-    doc.text(`Medikamente: ${numMeds}`, 15, yPos + 33);
-    doc.text(`CBD Start: ${cbdStart.toFixed(1)} mg`, 15, yPos + 39);
-    doc.text(`CBD Ziel: ${cbdEnd.toFixed(1)} mg`, 15, yPos + 45);
-    
-    // Block: Produkt-Start
-    doc.setFillColor(236, 253, 245); // Hellgrün
-    doc.roundedRect(105, yPos, 95, 52, 3, 3, 'F');
-    doc.setDrawColor(16, 185, 129);
-    doc.roundedRect(105, yPos, 95, 52, 3, 3, 'S');
-    
-    doc.setFontSize(14);
-    doc.setTextColor(6, 78, 59);
-    doc.setFont(undefined, 'bold');
-    doc.text('Produkt-Start', 110, yPos + 7);
-    
-    doc.setFontSize(11);
-    doc.setTextColor(55, 65, 81);
-    doc.setFont(undefined, 'normal');
-    const firstProduct = weeklyPlan[0]?.kannasanProduct || {};
-    const firstMorning = weeklyPlan[0]?.morningSprays || 0;
-    const firstEvening = weeklyPlan[0]?.eveningSprays || 0;
-    const firstTotal = weeklyPlan[0]?.totalSprays || 0;
-    
-    doc.text(`Produkt: ${firstProduct.name || 'N/A'}`, 110, yPos + 15);
-    doc.text(`mg/Spray: ${(firstProduct.cbdPerSpray || 0).toFixed(1)}`, 110, yPos + 21);
-    doc.text(`Hübe/Tag: ${firstTotal}`, 110, yPos + 27);
-    doc.text(`Morgens: ${firstMorning} | Abends: ${firstEvening}`, 110, yPos + 33);
-    doc.text(`Plan-Dauer: ${planDuration} Wochen`, 110, yPos + 39);
-    
-    // Estimate bottle weeks
-    const bottleWeeks = firstTotal > 0 ? Math.floor(100 / (firstTotal * 7)) : 'N/A';
-    doc.text(`Fläschchen: ~${bottleWeeks} Wochen`, 110, yPos + 45);
-    
-    yPos += 60;
-    
-    // Warnung bei kritischen Wechselwirkungen
-    if (maxSeverity === 'critical' || maxSeverity === 'high') {
-      doc.setFillColor(254, 242, 242);
-      doc.roundedRect(10, yPos, 190, 18, 3, 3, 'F');
-      doc.setDrawColor(220, 38, 38);
-      doc.roundedRect(10, yPos, 190, 18, 3, 3, 'S');
-      
-      doc.setFontSize(11);
-      doc.setTextColor(153, 27, 27);
-      doc.setFont(undefined, 'bold');
-      doc.text('Achtung: Kritische Wechselwirkungen erkannt', 15, yPos + 7);
-      doc.setFont(undefined, 'normal');
-      doc.text('Dieser Plan wurde extra vorsichtig gestaltet. Starten Sie nur nach ärztlicher Rücksprache!', 15, yPos + 13);
-      
-      yPos += 23;
-    }
-    
-    // ============================================================
-    // SEITE 2: WÖCHENTLICHER PLAN (TABELLENFORM)
-    // ============================================================
-    
-    doc.addPage();
-    yPos = 20;
-    
-    doc.setFontSize(16);
-    doc.setTextColor(26, 83, 92);
-    doc.setFont(undefined, 'bold');
-    doc.text('Wochenplan – Medikamente & CBD', 15, yPos);
-    yPos += 10;
-    
-    // Tabellenkopf
-    doc.setFillColor(226, 232, 240);
-    doc.rect(10, yPos, 190, 8, 'F');
-    doc.setFontSize(9);
-    doc.setTextColor(30, 41, 59);
-    doc.setFont(undefined, 'bold');
-    
-    doc.text('Woche', 12, yPos + 5);
-    doc.text('Medikament', 28, yPos + 5);
-    doc.text('Start mg', 65, yPos + 5);
-    doc.text('Ziel mg', 85, yPos + 5);
-    doc.text('Änd./W', 103, yPos + 5);
-    doc.text('CBD mg', 122, yPos + 5);
-    doc.text('Produkt', 140, yPos + 5);
-    doc.text('Hübe', 170, yPos + 5);
-    doc.text('M', 183, yPos + 5);
-    doc.text('A', 192, yPos + 5);
-    
-    yPos += 9;
-    
-    // Tabelleninhalt
-    doc.setFontSize(8);
-    doc.setFont(undefined, 'normal');
-    
-    weeklyPlan.forEach((week) => {
-      // Prüfe Seitenumbruch
-      if (yPos > 270) {
-        doc.addPage();
-        yPos = 20;
-        
-        // Tabellenkopf wiederholen
-        doc.setFillColor(226, 232, 240);
-        doc.rect(10, yPos, 190, 8, 'F');
-        doc.setFontSize(9);
-        doc.setTextColor(30, 41, 59);
-        doc.setFont(undefined, 'bold');
-        
-        doc.text('Woche', 12, yPos + 5);
-        doc.text('Medikament', 28, yPos + 5);
-        doc.text('Start mg', 65, yPos + 5);
-        doc.text('Ziel mg', 85, yPos + 5);
-        doc.text('Änd./W', 103, yPos + 5);
-        doc.text('CBD mg', 122, yPos + 5);
-        doc.text('Produkt', 140, yPos + 5);
-        doc.text('Hübe', 170, yPos + 5);
-        doc.text('M', 183, yPos + 5);
-        doc.text('A', 192, yPos + 5);
-        
-        yPos += 9;
-        doc.setFontSize(8);
-        doc.setFont(undefined, 'normal');
-      }
-      
-      const weekNum = week.week;
-      const medications = week.medications || [];
-      const cbdDose = week.cbdDose || 0;
-      const product = week.kannasanProduct || {};
-      const totalSprays = week.totalSprays || 0;
-      const morning = week.morningSprays || 0;
-      const evening = week.eveningSprays || 0;
-      
-      // Erste Medikament-Zeile mit CBD-Daten
-      if (medications.length > 0) {
-        const med = medications[0];
-        doc.setTextColor(55, 65, 81);
-        
-        // Woche
-        doc.text(`${weekNum}`, 12, yPos);
-        
-        // Medikament (gekürzt)
-        const medName = med.name.length > 18 ? med.name.substring(0, 18) + '...' : med.name;
-        doc.text(medName, 28, yPos);
-        
-        // Start mg
-        doc.text(`${med.startMg.toFixed(1)}`, 65, yPos);
-        
-        // Ziel mg
-        doc.text(`${med.targetMg.toFixed(1)}`, 85, yPos);
-        
-        // Änderung/Woche
-        doc.text(`-${med.reduction.toFixed(1)}`, 103, yPos);
-        
-        // CBD mg
-        doc.setTextColor(16, 185, 129);
-        doc.text(`${cbdDose.toFixed(1)}`, 122, yPos);
-        doc.setTextColor(55, 65, 81);
-        
-        // Produkt
-        const prodName = product.name ? product.name.replace('Kannasan ', '') : 'N/A';
-        doc.text(prodName, 140, yPos);
-        
-        // Hübe gesamt
-        doc.text(`${totalSprays}`, 170, yPos);
-        
-        // Morgens/Abends
-        doc.text(`${morning}`, 183, yPos);
-        doc.text(`${evening}`, 192, yPos);
-        
-        yPos += 5;
-      }
-      
-      // Weitere Medikamente ohne CBD-Spalten
-      for (let i = 1; i < medications.length; i++) {
-        if (yPos > 280) {
-          doc.addPage();
-          yPos = 20;
-        }
-        
-        const med = medications[i];
-        doc.setTextColor(55, 65, 81);
-        
-        doc.text('', 12, yPos); // Woche leer
-        
-        const medName = med.name.length > 18 ? med.name.substring(0, 18) + '...' : med.name;
-        doc.text(medName, 28, yPos);
-        
-        doc.text(`${med.startMg.toFixed(1)}`, 65, yPos);
-        doc.text(`${med.targetMg.toFixed(1)}`, 85, yPos);
-        doc.text(`-${med.reduction.toFixed(1)}`, 103, yPos);
-        
-        // CBD-Spalten leer
-        doc.text('', 122, yPos);
-        doc.text('', 140, yPos);
-        doc.text('', 170, yPos);
-        doc.text('', 183, yPos);
-        doc.text('', 192, yPos);
-        
-        yPos += 5;
-      }
-      
-      // Trennlinie nach jeder Woche
-      doc.setDrawColor(226, 232, 240);
-      doc.line(10, yPos, 200, yPos);
-      yPos += 2;
-    });
-    
-    // ============================================================
-    // SEITE 3: FLASCHENVERBRAUCH & PRODUKTWECHSEL
-    // ============================================================
-    
-    doc.addPage();
-    yPos = 20;
-    
-    doc.setFontSize(16);
-    doc.setTextColor(26, 83, 92);
-    doc.setFont(undefined, 'bold');
-    doc.text('Fläschchen-Verbrauch & Produktwechsel', 15, yPos);
-    yPos += 12;
-    
-    // Finde alle Produktwechsel
-    let currentProd = null;
-    const bottles = [];
-    
-    weeklyPlan.forEach((week) => {
-      const prodName = week.kannasanProduct?.name;
-      if (prodName !== currentProd) {
-        bottles.push({
-          product: week.kannasanProduct,
-          startWeek: week.week,
-          endWeek: week.week,
-          totalSprays: week.bottleStatus?.used || 0
-        });
-        currentProd = prodName;
-      } else if (bottles.length > 0) {
-        bottles[bottles.length - 1].endWeek = week.week;
-        bottles[bottles.length - 1].totalSprays = week.bottleStatus?.used || 0;
-      }
-    });
-    
-    // Zeige jeden Flaschenzyklus
-    bottles.forEach((bottle, index) => {
-      if (yPos > 250) {
-        doc.addPage();
-        yPos = 20;
-      }
-      
-      doc.setFillColor(240, 249, 255);
-      doc.roundedRect(10, yPos, 190, 35, 3, 3, 'F');
-      doc.setDrawColor(147, 197, 253);
-      doc.roundedRect(10, yPos, 190, 35, 3, 3, 'S');
-      
-      doc.setFontSize(12);
-      doc.setTextColor(30, 58, 138);
-      doc.setFont(undefined, 'bold');
-      doc.text(`Flasche ${index + 1}: ${bottle.product?.name || 'N/A'}`, 15, yPos + 7);
-      
-      doc.setFontSize(10);
-      doc.setTextColor(55, 65, 81);
-      doc.setFont(undefined, 'normal');
-      
-      const mgPerSpray = bottle.product?.cbdPerSpray || 0;
-      const used = bottle.totalSprays;
-      const remaining = 100 - used;
-      const weeksUsed = bottle.endWeek - bottle.startWeek + 1;
-      
-      doc.text(`mg/Hub: ${mgPerSpray.toFixed(1)}`, 15, yPos + 14);
-      doc.text(`Gesamt: 100 Hübe`, 15, yPos + 19);
-      doc.text(`Verbraucht: ${used} Hübe`, 15, yPos + 24);
-      doc.text(`Rest: ${remaining} Hübe`, 15, yPos + 29);
-      
-      doc.text(`Zeitraum: Woche ${bottle.startWeek}–${bottle.endWeek}`, 80, yPos + 14);
-      doc.text(`Dauer: ${weeksUsed} Wochen`, 80, yPos + 19);
-      
-      // Progress Bar
-      doc.text('Verbrauch:', 140, yPos + 14);
-      const barWidth = 50;
-      const filledWidth = (used / 100) * barWidth;
-      
-      doc.setDrawColor(203, 213, 225);
-      doc.rect(140, yPos + 16, barWidth, 6, 'S');
-      
-      if (used > 80) {
-        doc.setFillColor(239, 68, 68); // Rot
-      } else if (used > 50) {
-        doc.setFillColor(251, 191, 36); // Gelb
-      } else {
-        doc.setFillColor(34, 197, 94); // Grün
-      }
-      doc.rect(140, yPos + 16, filledWidth, 6, 'F');
-      
-      doc.setFontSize(8);
-      doc.text(`${used}%`, 142 + filledWidth, yPos + 21);
-      
-      yPos += 40;
-    });
-    
-    // Hinweis zum Produktwechsel
-    if (yPos > 230) {
-      doc.addPage();
-      yPos = 20;
-    }
-    
-    doc.setFillColor(254, 249, 195);
-    doc.roundedRect(10, yPos, 190, 20, 3, 3, 'F');
-    doc.setDrawColor(234, 179, 8);
-    doc.roundedRect(10, yPos, 190, 20, 3, 3, 'S');
-    
-    doc.setFontSize(11);
-    doc.setTextColor(113, 63, 18);
-    doc.setFont(undefined, 'bold');
-    doc.text('Produktwechsel-Strategie', 15, yPos + 7);
-    doc.setFont(undefined, 'normal');
-    doc.text('Produkte werden nur gewechselt, wenn (1) Flasche leer oder (2) Dosierung >12 Sprays/Tag.', 15, yPos + 13);
-    doc.text('Dies minimiert Kosten und vermeidet unnötige Wechsel.', 15, yPos + 18);
-    
-    yPos += 25;
-    
-    // ============================================================
-    // KOSTENÜBERSICHT (vor Sicherheitshinweisen)
-    // ============================================================
-    
-    if (costs) {
-      doc.addPage();
-      yPos = 20;
-      
-      doc.setFontSize(16);
-      doc.setTextColor(26, 83, 92);
-      doc.setFont(undefined, 'bold');
-      doc.text('Kostenübersicht', 15, yPos);
-      yPos += 12;
-      
-      // Tabelle: Kostenaufschlüsselung
-      doc.setFillColor(254, 249, 195);
-      doc.rect(10, yPos, 190, 8, 'F');
-      doc.setFontSize(10);
-      doc.setTextColor(113, 63, 18);
-      doc.setFont(undefined, 'bold');
-      
-      doc.text('Produkt', 15, yPos + 5);
-      doc.text('Flaschen', 80, yPos + 5);
-      doc.text('Sprays', 110, yPos + 5);
-      doc.text('Preis/Fl.', 140, yPos + 5);
-      doc.text('Gesamt', 170, yPos + 5);
-      
-      yPos += 9;
-      
-      doc.setFontSize(9);
-      doc.setFont(undefined, 'normal');
-      doc.setTextColor(55, 65, 81);
-      
-      costs.costBreakdown.forEach((item, index) => {
-        if (yPos > 270) {
-          doc.addPage();
-          yPos = 20;
-        }
-        
-        // Alternating row colors
-        if (index % 2 === 0) {
-          doc.setFillColor(254, 252, 232);
-          doc.rect(10, yPos - 4, 190, 6, 'F');
-        }
-        
-        doc.text(item.product, 15, yPos);
-        doc.text(`${item.bottleCount}×`, 80, yPos);
-        doc.text(`${item.totalSprays}`, 110, yPos);
-        doc.text(`${item.pricePerBottle.toFixed(2)} €`, 140, yPos);
-        doc.setFont(undefined, 'bold');
-        doc.text(`${item.totalCost.toFixed(2)} €`, 170, yPos);
-        doc.setFont(undefined, 'normal');
-        
-        yPos += 6;
-      });
-      
-      // Gesamtsumme
-      yPos += 2;
-      doc.setDrawColor(234, 179, 8);
-      doc.line(10, yPos, 200, yPos);
-      yPos += 5;
-      
-      doc.setFontSize(12);
-      doc.setFont(undefined, 'bold');
-      doc.setTextColor(113, 63, 18);
-      doc.text('GESAMTKOSTEN:', 15, yPos);
-      doc.setFontSize(14);
-      doc.text(`${costs.totalCost.toFixed(2)} €`, 170, yPos);
-      
-      yPos += 10;
-      
-      // Zusätzliche Infos
-      doc.setFontSize(10);
-      doc.setFont(undefined, 'normal');
-      doc.setTextColor(55, 65, 81);
-      
-      doc.text(`Gesamtflaschen: ${costs.totalBottles}`, 15, yPos);
-      doc.text(`Gesamtsprays: ${costs.totalSprays}`, 15, yPos + 6);
-      doc.text(`Ø Kosten/Woche: ${(costs.totalCost / weeklyPlan.length).toFixed(2)} €`, 15, yPos + 12);
-      
-      yPos += 20;
-      
-      // Hinweis-Box
-      doc.setFillColor(254, 249, 195);
-      doc.roundedRect(10, yPos, 190, 20, 3, 3, 'F');
-      doc.setDrawColor(234, 179, 8);
-      doc.roundedRect(10, yPos, 190, 20, 3, 3, 'S');
-      
-      doc.setFontSize(10);
-      doc.setTextColor(113, 63, 18);
-      doc.setFont(undefined, 'normal');
-      doc.text('Hinweis: Preise gelten für KANNASAN CBD Dosier-Sprays (10ml Flaschen, ca. 100 Hübe).', 15, yPos + 7);
-      doc.text('Produktwechsel erfolgen nur bei leerem Fläschchen oder zu hoher Dosierung.', 15, yPos + 13);
-    }
-    
-    // ============================================================
-    // SEITE 4 (oder 5): SICHERHEITSHINWEISE
-    // ============================================================
-    
-    doc.addPage();
-    yPos = 20;
-    
-    doc.setFontSize(16);
-    doc.setTextColor(26, 83, 92);
-    doc.setFont(undefined, 'bold');
-    doc.text('Sicherheitshinweise & Anwendung', 15, yPos);
-    yPos += 12;
-    
-    doc.setFillColor(236, 253, 245);
-    doc.roundedRect(10, yPos, 190, 85, 3, 3, 'F');
-    doc.setDrawColor(16, 185, 129);
-    doc.roundedRect(10, yPos, 190, 85, 3, 3, 'S');
-    
-    doc.setFontSize(11);
-    doc.setTextColor(55, 65, 81);
-    doc.setFont(undefined, 'normal');
-    
-    const safetyRules = [
-      '1. Änderungen der Medikation nur unter ärztlicher Aufsicht',
-      '   • Niemals eigenständig Medikamente absetzen oder Dosis ändern',
-      '   • Nehmen Sie diesen Plan zum Arztgespräch mit',
-      '',
-      '2. CBD kann Medikamentenspiegel erhöhen (CYP450-Hemmung)',
-      '   • Regelmäßige ärztliche Kontrollen erforderlich',
-      '   • Bei Nebenwirkungen sofort Arzt kontaktieren',
-      '',
-      '3. Einnahme morgens/abends wie angegeben',
-      '   • Spray direkt in den Mund oder unter die Zunge',
-      '   • Vor Gebrauch Flasche gut schütteln',
-      '',
-      '4. Bei Beschwerden "Step-Back"-Regel anwenden',
-      '   • Eine Woche zurück zur letzten gut verträglichen Dosis',
-      '   • Ärztliche Rücksprache einholen',
-      '',
-      '5. Symptomtagebuch führen',
-      '   • Täglich notieren: Befinden, Nebenwirkungen, Schlaf',
-      '   • Hilft dem Arzt bei Dosisanpassungen'
-    ];
-    
-    let lineY = yPos + 8;
-    safetyRules.forEach(line => {
-      doc.text(line, 15, lineY);
-      lineY += 5;
-    });
-    
-    yPos += 90;
-    
-    // Footer auf allen Seiten
-    const pageCount = doc.internal.getNumberOfPages();
-    for (let i = 1; i <= pageCount; i++) {
-      doc.setPage(i);
-      
-      doc.setFontSize(9);
-      doc.setTextColor(156, 163, 175);
-      doc.setFont(undefined, 'normal');
-      doc.text('MedLess – www.redu-med.com', 105, 285, { align: 'center' });
-      doc.text(`Seite ${i} von ${pageCount} | Erstellt: ${new Date().toLocaleDateString('de-DE')}`, 105, 290, { align: 'center' });
-    }
-    
-    // Download
-    const dateStr = new Date().toISOString().split('T')[0];
-    const sanitizedName = (firstName || 'Patient').replace(/[^a-zA-Z0-9]/g, '_');
-    const filename = `MedLess-Plan_${sanitizedName}_${dateStr}.pdf`;
-    
-    doc.save(filename);
-    
-  } catch (error) {
-    console.error('Fehler beim Erstellen der PDF:', error);
-    alert('Fehler beim Erstellen der PDF. Bitte versuchen Sie es erneut.');
-  }
-}
-
-// ============================================================
-// SUPER-EINFACHE LÖSUNG: Verstecke alles außer Results → Print
-// ============================================================
-window.downloadPlanAsPDF = async function(event) {
-  console.log('🎯 downloadPlanAsPDF called');
-  const resultsDiv = document.getElementById('results');
-  
-  if (!resultsDiv || resultsDiv.classList.contains('hidden')) {
-    alert('Kein Plan vorhanden. Bitte erstellen Sie erst einen Reduktionsplan.');
+  if (!window.html2canvas) {
+    alert('PDF-Rendering-Bibliothek wird geladen... Bitte versuchen Sie es in einigen Sekunden erneut.');
     return;
   }
   
-  // Finde Button (auch wenn auf Child-Element geklickt wurde)
-  let button = event?.target;
-  if (button && button.tagName !== 'BUTTON') {
-    button = button.closest('button');
-  }
-  
   try {
-    // Zeige Loading-Nachricht
-    if (button) {
-      const originalText = button.innerHTML;
-      button.setAttribute('data-original-text', originalText);
-      button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PDF wird erstellt...';
-      button.disabled = true;
-    }
-    
-    console.log('PDF-Generierung gestartet...');
-    console.log('jsPDF verfügbar:', !!window.jspdf);
-    console.log('html2canvas verfügbar:', !!window.html2canvas);
-    
-    // Prüfe jsPDF (muss bereits geladen sein)
-    if (!window.jspdf || !window.jspdf.jsPDF) {
-      throw new Error('PDF-Bibliothek (jsPDF) nicht geladen. Bitte Seite neu laden.');
-    }
+    console.log('🎯 PDF-Generierung gestartet...');
     
     const { jsPDF } = window.jspdf;
-    console.log('jsPDF bereit:', jsPDF);
+    const { firstName } = window.currentPlanData;
     
-    // Lade html2canvas wenn nicht vorhanden
-    if (!window.html2canvas) {
-      console.log('Lade html2canvas...');
-      await new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
-        script.onload = () => {
-          console.log('html2canvas erfolgreich geladen');
-          resolve();
-        };
-        script.onerror = (err) => {
-          console.error('Fehler beim Laden von html2canvas:', err);
-          reject(new Error('html2canvas konnte nicht geladen werden'));
-        };
-        document.head.appendChild(script);
-        
-        // Timeout nach 15 Sekunden
-        setTimeout(() => reject(new Error('Timeout beim Laden von html2canvas (15s)')), 15000);
-      });
+    // Get results div
+    const resultsDiv = document.getElementById('results');
+    if (!resultsDiv) {
+      alert('Fehler: Dossier nicht gefunden.');
+      return;
     }
     
-    console.log('html2canvas verfügbar, starte Screenshot...');
+    // Show loading indicator
+    const originalButtonText = event?.target?.innerHTML || '';
+    if (event?.target) {
+      event.target.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>PDF wird erstellt...</span>';
+      event.target.disabled = true;
+    }
     
-    // Erstelle Screenshot mit Timeout-Schutz
-    const canvasPromise = window.html2canvas(resultsDiv, {
-      scale: 0.5,  // Reduziert von 0.6 auf 0.5 für bessere Performance
+    console.log('📸 Erstelle Screenshot vom Dossier...');
+    
+    // Render HTML to canvas with high quality
+    const canvas = await html2canvas(resultsDiv, {
+      scale: 2, // Higher quality
       useCORS: true,
-      allowTaint: true,
       logging: false,
-      backgroundColor: '#f5f7fa',
-      windowWidth: resultsDiv.scrollWidth,
-      windowHeight: resultsDiv.scrollHeight,
+      backgroundColor: '#ffffff',
+      windowWidth: 1200,
       onclone: (clonedDoc) => {
-        // Bereinige Probleme im geklonten Dokument
-        const clonedResults = clonedDoc.getElementById('results');
-        if (clonedResults) {
-          clonedResults.querySelectorAll('script, style').forEach(el => el.remove());
+        // Remove PDF button from cloned document
+        const clonedButton = clonedDoc.querySelector('button[onclick="downloadPDF()"]');
+        if (clonedButton) {
+          clonedButton.parentElement.remove();
         }
       }
     });
     
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Screenshot-Timeout nach 60 Sekunden')), 60000)
-    );
+    console.log('✅ Screenshot erstellt');
+    console.log('📄 Erstelle PDF...');
     
-    const canvas = await Promise.race([canvasPromise, timeoutPromise]);
-    
-    console.log('Screenshot erstellt, Canvas-Größe:', canvas.width, 'x', canvas.height);
-    
-    // Validierung
-    if (!canvas.width || !canvas.height || canvas.width <= 0 || canvas.height <= 0) {
-      throw new Error('Ungültige Canvas-Größe: ' + canvas.width + 'x' + canvas.height);
-    }
-    
-    // Konvertiere zu Bild
-    const imgData = canvas.toDataURL('image/jpeg', 0.75);
-    
-    // Erstelle PDF
+    // Create PDF
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
     const pdf = new jsPDF('p', 'mm', 'a4');
-    const pdfWidth = 210;
-    const pdfHeight = 297;
-    const margin = 5;
     
-    // Berechne Bildgröße für PDF
-    const imgWidth = pdfWidth - (margin * 2);
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
     
-    console.log('PDF wird erstellt, Bildgröße:', imgWidth.toFixed(2) + 'mm x ' + imgHeight.toFixed(2) + 'mm');
+    const imgWidth = canvas.width;
+    const imgHeight = canvas.height;
+    const ratio = imgWidth / imgHeight;
     
-    // Sicherheitscheck: Maximale Bildgröße begrenzen
-    const MAX_IMAGE_HEIGHT = 5000;
-    if (imgHeight > MAX_IMAGE_HEIGHT) {
-      throw new Error(`Plan ist zu lang für PDF-Erstellung (${imgHeight.toFixed(0)}mm). Bitte erstellen Sie einen kürzeren Plan.`);
-    }
+    let width = pdfWidth;
+    let height = width / ratio;
     
-    // NEUE METHODE: Seiten-basierte Aufteilung (robuster)
-    const contentHeight = pdfHeight - (margin * 2);
-    let pageCount = 1;
-    let yOffset = 0;
+    // Calculate how many pages needed
+    const totalPages = Math.ceil(height / pdfHeight);
     
-    // Erste Seite
-    if (imgHeight <= contentHeight) {
-      // Passt auf eine Seite
-      pdf.addImage(imgData, 'JPEG', margin, margin, imgWidth, imgHeight);
-      console.log('Plan passt auf 1 Seite');
-    } else {
-      // Mehrere Seiten nötig
-      const totalPages = Math.ceil(imgHeight / contentHeight);
-      console.log('Plan benötigt', totalPages, 'Seiten');
-      
-      // Sicherheitscheck: Max 20 Seiten
-      if (totalPages > 20) {
-        throw new Error(`Plan ist zu lang (${totalPages} Seiten). Maximum: 20 Seiten. Bitte kürzen Sie den Plan.`);
+    console.log(`📋 PDF wird ${totalPages} Seite(n) haben`);
+    
+    // Add pages
+    for (let i = 0; i < totalPages; i++) {
+      if (i > 0) {
+        pdf.addPage();
       }
       
-      for (let page = 0; page < totalPages; page++) {
-        if (page > 0) {
-          pdf.addPage();
-        }
-        
-        // Berechne Ausschnitt für diese Seite
-        yOffset = -(page * contentHeight);
-        
-        // Füge Bild hinzu mit Offset
-        pdf.addImage(imgData, 'JPEG', margin, margin + yOffset, imgWidth, imgHeight);
-        pageCount++;
-      }
+      const yOffset = -(i * pdfHeight * ratio);
+      
+      pdf.addImage(
+        imgData, 
+        'JPEG', 
+        0, 
+        yOffset, 
+        width, 
+        height
+      );
     }
     
-    console.log('PDF erstellt mit', pageCount, 'Seite(n)');
-    
-    // Dateiname mit Vorname
-    const firstName = window.currentPlanData?.firstName || 'Patient';
+    // Generate filename
     const date = new Date().toISOString().split('T')[0];
-    const filename = `MedLess_Plan_${firstName}_${date}.pdf`;
+    const filename = `MedLess_Plan_${firstName || 'Patient'}_${date}.pdf`;
     
-    console.log('Speichere PDF als:', filename);
+    console.log('💾 Speichere PDF:', filename);
     pdf.save(filename);
     
-    console.log('✅ PDF erfolgreich heruntergeladen!');
+    console.log('✅ PDF erfolgreich erstellt!');
     
-    // Button zurücksetzen
-    if (button) {
-      const originalText = button.getAttribute('data-original-text') || 'Als PDF herunterladen';
-      button.innerHTML = originalText;
-      button.disabled = false;
+    // Reset button
+    if (event?.target) {
+      event.target.innerHTML = originalButtonText || '<i class="fas fa-file-pdf"></i> <span>Plan als PDF herunterladen</span>';
+      event.target.disabled = false;
     }
     
   } catch (error) {
-    console.error('❌❌❌ FEHLER beim Erstellen der PDF ❌❌❌');
-    console.error('Error Object:', error);
-    console.error('Error Name:', error?.name);
-    console.error('Error Message:', error?.message);
-    console.error('Error Stack:', error?.stack);
-    console.error('Error String:', String(error));
+    console.error('❌ Fehler bei PDF-Generierung:', error);
+    alert('Fehler beim Erstellen des PDFs. Bitte versuchen Sie es erneut.');
     
-    // SICHTBARE Fehlermeldung
-    const errorMsg = error?.message || error?.name || String(error) || 'Unbekannter Fehler';
-    alert(`❌ PDF-Fehler gefunden:\n\n${errorMsg}\n\nBitte Screenshot der Console machen und senden!`);
-    
-    // Button zurücksetzen
-    if (button) {
-      const originalText = button.getAttribute('data-original-text') || 'Als PDF herunterladen';
-      button.innerHTML = originalText;
-      button.disabled = false;
+    // Reset button
+    if (event?.target) {
+      event.target.innerHTML = '<i class="fas fa-file-pdf"></i> <span>Plan als PDF herunterladen</span>';
+      event.target.disabled = false;
     }
   }
 }
