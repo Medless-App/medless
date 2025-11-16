@@ -1088,9 +1088,41 @@ function displayResults(data, firstName = '', gender = '') {
   `;
 
   // ============================================================
-  // PDF DOWNLOAD BUTTON - ENTFERNT
-  // Der Plan wird nur im Browser angezeigt, ohne Download-Möglichkeit
+  // PDF DOWNLOAD BUTTON
   // ============================================================
+  
+  html += `
+    <div style="margin: 2rem 0 1rem; text-align: center;">
+      <button 
+        onclick="downloadPDF()" 
+        style="
+          padding: 1rem 2rem; 
+          background: linear-gradient(135deg, #0b7b6c 0%, #10b981 100%); 
+          color: white; 
+          border: none; 
+          border-radius: 12px; 
+          font-size: 1rem; 
+          font-weight: 600; 
+          cursor: pointer;
+          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        "
+        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'"
+        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)'"
+      >
+        <i class="fas fa-file-pdf"></i>
+        <span>Plan als PDF herunterladen</span>
+      </button>
+      
+      <p style="margin: 0.75rem 0 0; font-size: 0.85rem; color: #6b7280;">
+        <i class="fas fa-info-circle"></i>
+        Ihr persönlicher Ausschleichplan zum Ausdrucken und für Ihren Arzt
+      </p>
+    </div>
+  `;
 
   resultsDiv.innerHTML = html;
   console.log('📝 Results HTML set (length:', html.length, 'chars)');
@@ -1115,7 +1147,8 @@ function displayResults(data, firstName = '', gender = '') {
     firstName, 
     gender,
     product,
-    personalization
+    personalization,
+    costs
   };
   
   console.log('✅ displayResults() function completed successfully');
