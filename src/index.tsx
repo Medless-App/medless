@@ -20,7 +20,7 @@ const KANNASAN_PRODUCTS = [
 
 const BOTTLE_CAPACITY = 100; // Sprays per 10ml bottle (FIXED - 100 sprays = 10ml)
 
-// ReduMed-AI: Select optimal product with minimal sprays, no overdose, max 6 sprays per time
+// MedLess-AI: Select optimal product with minimal sprays, no overdose, max 6 sprays per time
 function selectOptimalProduct(targetDailyMg: number) {
   let bestProduct = KANNASAN_PRODUCTS[0];
   let bestSprayCount = 999;
@@ -44,7 +44,7 @@ function selectOptimalProduct(targetDailyMg: number) {
   return bestProduct;
 }
 
-// ReduMed-AI: Generate weekly plan with bottle tracking - NO unnecessary product changes!
+// MedLess-AI: Generate weekly plan with bottle tracking - NO unnecessary product changes!
 function generateWeeklyPlanWithBottleTracking(
   cbdStartMg: number,
   cbdEndMg: number,
@@ -122,7 +122,7 @@ function generateWeeklyPlanWithBottleTracking(
   return weeklyPlan;
 }
 
-// ReduMed-AI: Calculate total costs for the entire plan
+// MedLess-AI: Calculate total costs for the entire plan
 function calculatePlanCosts(weeklyPlan: any[]) {
   const bottleUsage: { [key: string]: { count: number; product: any; totalSprays: number; weeks: number[] } } = {};
   
@@ -478,7 +478,7 @@ app.get('/', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ReduMed – reduziere deine Medikamente</title>
+  <title>MedLess – reduziere deine Medikamente</title>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -499,7 +499,7 @@ app.get('/', (c) => {
 
   <style>
     /* ============================================================
-       DESIGN SYSTEM - ReduMed
+       DESIGN SYSTEM - MedLess
        ============================================================ */
     
     :root {
@@ -2125,7 +2125,7 @@ app.get('/', (c) => {
           <!-- Left: Content -->
           <div class="hero-content">
             <h1 class="hero-headline">
-              ReduMed – reduziere deine Medikamente.
+              MedLess – reduziere deine Medikamente.
             </h1>
             
             <h2 class="hero-subheadline">
@@ -2134,7 +2134,7 @@ app.get('/', (c) => {
             </h2>
             
             <p class="hero-description">
-              ReduMed analysiert Körperdaten, Medikamente und Cannabinoid-Dosierungen, 
+              MedLess analysiert Körperdaten, Medikamente und Cannabinoid-Dosierungen, 
               um einen strukturierten, sicheren und ärztlich besprechbaren 
               Reduktionsplan zu erstellen.
             </p>
@@ -2265,13 +2265,13 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         2) WARUM ReduMed SECTION
+         2) WARUM MedLess SECTION
          ============================================================ -->
     <section class="why-redumed">
       <div class="container">
         
         <h2 class="section-headline">
-          Warum ReduMed? Weil Ihr Körper mehr kann, als Sie denken.
+          Warum MedLess? Weil Ihr Körper mehr kann, als Sie denken.
         </h2>
         
         <!-- ECS Explanation -->
@@ -2349,13 +2349,13 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         3) SO FUNKTIONIERT ReduMed SECTION
+         3) SO FUNKTIONIERT MedLess SECTION
          ============================================================ -->
     <section class="how-it-works">
       <div class="container">
         
         <h2 class="section-headline">
-          So funktioniert ReduMed
+          So funktioniert MedLess
         </h2>
         
         <p class="section-description">
@@ -2386,7 +2386,7 @@ app.get('/', (c) => {
             <div class="step-content">
               <h4>Cannabinoid-Dosierung hochrechnen</h4>
               <p>
-                Basierend auf Ihrem Gewicht berechnet ReduMed die Zieldosis nach 
+                Basierend auf Ihrem Gewicht berechnet MedLess die Zieldosis nach 
                 evidenzbasierten Richtlinien (Studie: Blessing et al., 2015).
               </p>
             </div>
@@ -2457,7 +2457,7 @@ app.get('/', (c) => {
           <div class="warning-content">
             
             <p>
-              <strong>ReduMed ist kein Ersatz für eine ärztliche Beratung.</strong> 
+              <strong>MedLess ist kein Ersatz für eine ärztliche Beratung.</strong> 
               Dieser Rechner erstellt einen theoretischen Dosierungsplan basierend auf 
               Ihren Angaben und wissenschaftlichen Studien. Er berücksichtigt 
               pharmakologische Wechselwirkungen, ersetzt jedoch keine individuelle 
@@ -2486,7 +2486,7 @@ app.get('/', (c) => {
                 <i class="fas fa-exclamation-triangle"></i>
                 <span>
                   <strong>Keine Garantie für Reduktion:</strong> 
-                  ReduMed zeigt ein <em>Potenzial</em> auf – ob und wie stark Sie 
+                  MedLess zeigt ein <em>Potenzial</em> auf – ob und wie stark Sie 
                   Medikamente reduzieren können, entscheidet Ihr Arzt anhand Ihrer 
                   tatsächlichen Symptome und Blutwerte.
                 </span>
@@ -2820,7 +2820,7 @@ app.get('/', (c) => {
         </h2>
         
         <p class="section-description">
-          Alle wichtigen Informationen zu ReduMed, Cannabinoiden, Wechselwirkungen 
+          Alle wichtigen Informationen zu MedLess, Cannabinoiden, Wechselwirkungen 
           und dem Medikamenten-Reduktionsprozess.
         </p>
         
@@ -2912,7 +2912,7 @@ app.get('/', (c) => {
                 <p>
                   Diese Wechselwirkung ist der <strong>pharmakologische Mechanismus</strong>, 
                   durch den Cannabinoide den Medikamentenbedarf beeinflussen können. 
-                  ReduMed berücksichtigt diese Interaktionen bei der Planerstellung.
+                  MedLess berücksichtigt diese Interaktionen bei der Planerstellung.
                 </p>
               </div>
             </div>
@@ -2947,7 +2947,7 @@ app.get('/', (c) => {
                 </p>
                 <p>
                   <strong>Wichtig:</strong> Dies ist ein individueller Prozess und muss 
-                  immer ärztlich begleitet werden. ReduMed zeigt nur ein 
+                  immer ärztlich begleitet werden. MedLess zeigt nur ein 
                   <em>theoretisches Potenzial</em> auf.
                 </p>
               </div>
@@ -2958,7 +2958,7 @@ app.get('/', (c) => {
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Ist ReduMed eine medizinische Beratung oder Diagnose?
+                Ist MedLess eine medizinische Beratung oder Diagnose?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -2967,13 +2967,13 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  <strong>Nein.</strong> ReduMed ist ein <strong>Informationstool</strong>, 
+                  <strong>Nein.</strong> MedLess ist ein <strong>Informationstool</strong>, 
                   das auf wissenschaftlichen Studien und pharmakologischen Daten basiert. 
                   Es erstellt einen <strong>theoretischen Dosierungsplan</strong>, der als 
                   <strong>Gesprächsgrundlage</strong> für Ihren Arzt dient.
                 </p>
                 <p>
-                  ReduMed ersetzt <strong>keine</strong> ärztliche Beratung, Diagnose 
+                  MedLess ersetzt <strong>keine</strong> ärztliche Beratung, Diagnose 
                   oder Behandlung. Jede Änderung Ihrer Medikation muss mit Ihrem 
                   behandelnden Arzt besprochen und überwacht werden.
                 </p>
@@ -3048,7 +3048,7 @@ app.get('/', (c) => {
                   <li><strong>Antiepileptika:</strong> Carbamazepin, Valproat</li>
                 </ul>
                 <p>
-                  ReduMed analysiert Ihre Medikamente und zeigt an, ob 
+                  MedLess analysiert Ihre Medikamente und zeigt an, ob 
                   <strong>Wechselwirkungen</strong> zu erwarten sind. Die tatsächliche 
                   Auswirkung muss jedoch <strong>individuell ärztlich überwacht</strong> werden.
                 </p>
@@ -3070,7 +3070,7 @@ app.get('/', (c) => {
               <div class="faq-answer-content">
                 <p>
                   <strong>Das hängt von vielen individuellen Faktoren ab</strong> und kann 
-                  nicht pauschal beantwortet werden. ReduMed bietet eine 
+                  nicht pauschal beantwortet werden. MedLess bietet eine 
                   <strong>theoretische Simulation</strong> über 8 Wochen (Einschleichphase) 
                   plus Erhaltungsphase.
                 </p>
@@ -3157,7 +3157,7 @@ app.get('/', (c) => {
                 </ul>
                 <p>
                   <strong>Empfehlung:</strong> Kaufen Sie nur bei seriösen Anbietern mit 
-                  transparenten Laborberichten. ReduMed empfiehlt KANNASAN-Produkte 
+                  transparenten Laborberichten. MedLess empfiehlt KANNASAN-Produkte 
                   (CBD-Dosier-Sprays), die präzise Dosierungen ermöglichen.
                 </p>
               </div>
@@ -3188,7 +3188,7 @@ app.get('/', (c) => {
         
         <!-- Branding -->
         <div class="footer-branding">
-          <h3>ReduMed</h3>
+          <h3>MedLess</h3>
           <p class="tagline">reduziere deine Medikamente.</p>
           <p>
             Ein intelligentes Tool zur Berechnung von Cannabinoid-Dosierungen 
@@ -3202,7 +3202,7 @@ app.get('/', (c) => {
           <h4>Quick Links</h4>
           <ul class="footer-links">
             <li><a href="#planner-section">Plan erstellen</a></li>
-            <li><a href="#why-redumed">Warum ReduMed?</a></li>
+            <li><a href="#why-redumed">Warum MedLess?</a></li>
             <li><a href="#how-it-works">So funktioniert's</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
@@ -3227,7 +3227,7 @@ app.get('/', (c) => {
           <strong><i class="fas fa-exclamation-triangle"></i> Wichtiger medizinischer Haftungsausschluss:</strong>
         </p>
         <p>
-          ReduMed ist ein Informationstool und kein Ersatz für ärztlichen Rat, 
+          MedLess ist ein Informationstool und kein Ersatz für ärztlichen Rat, 
           Diagnose oder Behandlung. Alle Berechnungen basieren auf wissenschaftlichen 
           Studien und pharmakologischen Daten, ersetzen jedoch keine individuelle 
           medizinische Beurteilung.
@@ -3241,7 +3241,7 @@ app.get('/', (c) => {
       <!-- Bottom Bar -->
       <div class="footer-bottom">
         <div class="footer-copyright">
-          © 2024 ReduMed. Alle Rechte vorbehalten.
+          © 2024 MedLess. Alle Rechte vorbehalten.
         </div>
         <div class="footer-social">
           <a href="#" aria-label="Instagram">

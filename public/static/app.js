@@ -727,7 +727,7 @@ function displayResults(data, firstName = '', gender = '') {
   html += `
     <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: radial-gradient(circle at top left, #e0fdf7, #f5f7fa); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
       <h1 style="margin: 0 0 0.6rem; font-size: 1.6rem; line-height: 1.2; color: #0b7b6c; font-weight: 700;">
-        Ihr persönlicher ReduMed-Dosierungs- und Reduktionsplan
+        Ihr persönlicher MedLess-Dosierungs- und Reduktionsplan
       </h1>
       <p style="margin: 0; font-size: 0.95rem; line-height: 1.6; color: #4b5563;">
         Dieser Plan zeigt Ihnen eine strukturierte, medizinisch fundierte Kombination aus CBD-Dosierung und schrittweiser Medikamentenreduktion. 
@@ -1144,11 +1144,11 @@ function downloadPDF() {
     // SEITE 1: TITEL & ÜBERSICHT
     // ============================================================
     
-    // H1: ReduMed Haupttitel
+    // H1: MedLess Haupttitel
     doc.setFontSize(22);
     doc.setTextColor(26, 83, 92); // Dunkles Teal
     doc.setFont(undefined, 'bold');
-    doc.text('ReduMed – Ihr persönlicher Reduktionsplan', 105, yPos, { align: 'center' });
+    doc.text('MedLess – Ihr persönlicher Reduktionsplan', 105, yPos, { align: 'center' });
     
     // Untertitel
     yPos += 10;
@@ -1651,14 +1651,14 @@ function downloadPDF() {
       doc.setFontSize(9);
       doc.setTextColor(156, 163, 175);
       doc.setFont(undefined, 'normal');
-      doc.text('ReduMed – www.redu-med.com', 105, 285, { align: 'center' });
+      doc.text('MedLess – www.redu-med.com', 105, 285, { align: 'center' });
       doc.text(`Seite ${i} von ${pageCount} | Erstellt: ${new Date().toLocaleDateString('de-DE')}`, 105, 290, { align: 'center' });
     }
     
     // Download
     const dateStr = new Date().toISOString().split('T')[0];
     const sanitizedName = (firstName || 'Patient').replace(/[^a-zA-Z0-9]/g, '_');
-    const filename = `ReduMed-Plan_${sanitizedName}_${dateStr}.pdf`;
+    const filename = `MedLess-Plan_${sanitizedName}_${dateStr}.pdf`;
     
     doc.save(filename);
     
@@ -1821,7 +1821,7 @@ window.downloadPlanAsPDF = async function(event) {
     // Dateiname mit Vorname
     const firstName = window.currentPlanData?.firstName || 'Patient';
     const date = new Date().toISOString().split('T')[0];
-    const filename = `ReduMed_Plan_${firstName}_${date}.pdf`;
+    const filename = `MedLess_Plan_${firstName}_${date}.pdf`;
     
     console.log('Speichere PDF als:', filename);
     pdf.save(filename);

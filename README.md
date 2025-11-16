@@ -1,10 +1,10 @@
-# ReduMed-AI - Multi-Medication Reduction System with CBD Compensation
+# MedLess-AI - Multi-Medication Reduction System with CBD Compensation
 
 🌿 **Strukturierte Medikamenten-Reduktion mit automatischer CBD-Kompensation und intelligentem KannaSan-Produktmanagement**
 
 ## 📋 Projekt-Übersicht
 
-**Name**: ReduMed-AI - Multi-Medication Reduction System  
+**Name**: MedLess-AI - Multi-Medication Reduction System  
 **Ziel**: Unterstützung bei der schrittweisen Reduktion von Medikamenten mit personalisierter CBD-Kompensation unter ärztlicher Aufsicht. Intelligentes KannaSan-Fläschchen-Management verhindert unnötige Produktwechsel.
 
 ### 🎯 Hauptfunktionen
@@ -34,7 +34,7 @@
 
 **API-Endpunkte:**
 - `GET /` - Homepage mit Formular
-- `POST /api/analyze` - Medikamente analysieren & ReduMed-AI Plan erstellen
+- `POST /api/analyze` - Medikamente analysieren & MedLess-AI Plan erstellen
   - Input: medications[] (name, mgPerDay), bodyWeight, height, age, reductionGoal, durationWeeks
   - Output: weeklyPlan[] mit medications[], CBD-Dosis, KannaSan-Produkt, bottleStatus
 
@@ -59,7 +59,7 @@
    - Schweregrad: low, medium, high, critical
    - Mechanismus, Empfehlungen, Quellen
 
-### **ReduMed-AI Datenpipeline:**
+### **MedLess-AI Datenpipeline:**
 ```
 User Input (medications[], bodyWeight, height, age, reductionGoal, weeks)
   ↓
@@ -169,7 +169,7 @@ Voraussichtlich leer in: ~6 Wochen
 2. **Dauer in Wochen** - Wie lange soll die Reduktion dauern? (z.B. 8, 12, 16 Wochen)
 
 ### **Schritt 4: Plan erstellen**
-- Klicken Sie auf "ReduMed-AI Plan erstellen"
+- Klicken Sie auf "MedLess-AI Plan erstellen"
 - Das System berechnet:
   - Individuelle Reduktionskurven für jedes Medikament
   - CBD-Kompensation (0.5 → 1.0 mg/kg Körpergewicht)
@@ -191,7 +191,7 @@ Sie erhalten:
 
 ---
 
-## 🧪 ReduMed-AI Algorithmus
+## 🧪 MedLess-AI Algorithmus
 
 ### **1. CBD-Dosis-Berechnung**
 ```typescript
@@ -380,7 +380,7 @@ npm run deploy:prod
   - Status-Display: Verbraucht/Rest/Wochen bis leer
   - Produktwechsel-Warnung
 - **UI:** Fläschchen-Status Box in jeder Woche (Frontend + PDF)
-- **Commit:** `f40d8a4` - "✅ Implement ReduMed-AI bottle tracking system"
+- **Commit:** `f40d8a4` - "✅ Implement MedLess-AI bottle tracking system"
 
 ### **Feature #2: Simplified Medication Input - IMPLEMENTIERT ✅**
 - **Vorher:** Name + Dosierungsbeschreibung (beide Felder)
@@ -447,7 +447,7 @@ npm run deploy:prod
 - [Nordic Oil - CBD Wechselwirkungen](https://www.nordicoil.de/blogs/cbd/cbd-wechselwirkungen)
 
 **Letzte Aktualisierung:** 14. November 2025  
-**Version:** 3.0 - ReduMed-AI mit Bottle Tracking
+**Version:** 3.0 - MedLess-AI mit Bottle Tracking
 
 ---
 
@@ -455,7 +455,7 @@ npm run deploy:prod
 
 Diese Anwendung dient ausschließlich Informationszwecken und stellt keine medizinische Beratung, Diagnose oder Behandlung dar. Die Reduktion von Medikamenten muss IMMER unter ärztlicher Aufsicht erfolgen. Ändern Sie niemals eigenständig Ihre Medikation. Bei gesundheitlichen Fragen konsultieren Sie bitte einen Arzt.
 
-**WICHTIG:** ReduMed-AI ist ein Planungstool für Ärzte und Patienten im gemeinsamen Gespräch.
+**WICHTIG:** MedLess-AI ist ein Planungstool für Ärzte und Patienten im gemeinsamen Gespräch.
 
 ---
 

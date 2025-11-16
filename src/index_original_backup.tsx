@@ -20,7 +20,7 @@ const KANNASAN_PRODUCTS = [
 
 const BOTTLE_CAPACITY = 100; // Sprays per 10ml bottle (FIXED - 100 sprays = 10ml)
 
-// ReduMed-AI: Select optimal product with minimal sprays, no overdose, max 6 sprays per time
+// MedLess-AI: Select optimal product with minimal sprays, no overdose, max 6 sprays per time
 function selectOptimalProduct(targetDailyMg: number) {
   let bestProduct = KANNASAN_PRODUCTS[0];
   let bestSprayCount = 999;
@@ -44,7 +44,7 @@ function selectOptimalProduct(targetDailyMg: number) {
   return bestProduct;
 }
 
-// ReduMed-AI: Generate weekly plan with bottle tracking - NO unnecessary product changes!
+// MedLess-AI: Generate weekly plan with bottle tracking - NO unnecessary product changes!
 function generateWeeklyPlanWithBottleTracking(
   cbdStartMg: number,
   cbdEndMg: number,
@@ -122,7 +122,7 @@ function generateWeeklyPlanWithBottleTracking(
   return weeklyPlan;
 }
 
-// ReduMed-AI: Calculate total costs for the entire plan
+// MedLess-AI: Calculate total costs for the entire plan
 function calculatePlanCosts(weeklyPlan: any[]) {
   const bottleUsage: { [key: string]: { count: number; product: any; totalSprays: number; weeks: number[] } } = {};
   
