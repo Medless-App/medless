@@ -1154,8 +1154,8 @@ function displayResults(data, firstName = '', gender = '') {
   console.log('✅ displayResults() function completed successfully');
 }
 
-// Download PDF function - Simplified with timeout protection
-async function downloadPDF(event) {
+// Download PDF function - Simple and reliable using data directly
+function downloadPDF(event) {
   // Prevent default
   if (event) {
     event.preventDefault();
@@ -1172,11 +1172,6 @@ async function downloadPDF(event) {
     return;
   }
   
-  if (!window.html2canvas) {
-    alert('PDF-Rendering-Bibliothek wird geladen... Bitte versuchen Sie es in einigen Sekunden erneut.');
-    return;
-  }
-  
   const button = event?.target?.closest('button');
   const originalButtonHTML = button?.innerHTML || '<i class="fas fa-file-pdf"></i> <span>Plan als PDF herunterladen</span>';
   
@@ -1190,88 +1185,183 @@ async function downloadPDF(event) {
     }
     
     const { jsPDF } = window.jspdf;
-    const { firstName } = window.currentPlanData;
+    const { analysis, weeklyPlan, firstName, personalization, costs } = window.currentPlanData;
     
-    // Get results div
-    const resultsDiv = document.getElementById('results');
-    if (!resultsDiv) {
-      throw new Error('Dossier nicht gefunden');
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 15;
+    const contentWidth = pageWidth - (margin * 2);
+    let y = margin;
+    
+    // Helper function: Check page break
+    const checkPageBreak = (neededSpace) => {
+      if (y + neededSpace > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+        return true;
+      }
+      return false;
+    };
+    
+    // TITLE
+    doc.setFontSize(18);
+    doc.setTextColor(11, 123, 108);
+    doc.text('MEDLESS - Ihr persönlicher Ausschleichplan', margin, y);
+    y += 10;
+    
+    doc.setFontSize(10);
+    doc.setTextColor(75, 85, 99);
+    doc.text('Erstellt am: ' + new Date().toLocaleDateString('de-DE'), margin, y);
+    y += 10;
+    
+    // PATIENT DATA
+    checkPageBreak(30);
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Ihre Ausgangsdaten', margin, y);
+    y += 7;
+    
+    doc.setFontSize(10);
+    doc.text(`Vorname: ${firstName || 'N/A'}`, margin, y);
+    doc.text(`Alter: ${personalization?.age || 'N/A'} Jahre`, margin + 60, y);
+    y += 6;
+    doc.text(`Gewicht: ${personalization?.weight || 'N/A'} kg`, margin, y);
+    doc.text(`Größe: ${personalization?.height || 'N/A'} cm`, margin + 60, y);
+    y += 6;
+    if (personalization?.bmi) {
+      doc.text(`BMI: ${personalization.bmi}`, margin, y);
+      y += 6;
+    }
+    y += 5;
+    
+    // COSTS
+    if (costs && costs.products && costs.products.length > 0) {
+      checkPageBreak(35);
+      doc.setFontSize(12);
+      doc.text('Benötigte Produkte', margin, y);
+      y += 7;
+      
+      doc.setFontSize(9);
+      costs.products.forEach(prod => {
+        doc.text(`${prod.name}: ${prod.count}x à ${prod.price.toFixed(2)}€ = ${prod.totalCost.toFixed(2)}€`, margin, y);
+        y += 5;
+      });
+      
+      doc.setFontSize(10);
+      doc.setFont(undefined, 'bold');
+      doc.text(`Gesamtkosten: ${costs.totalCost.toFixed(2)}€`, margin, y);
+      doc.setFont(undefined, 'normal');
+      y += 10;
     }
     
-    console.log('📸 Erstelle Screenshot vom Dossier...');
-    
-    // Timeout protection
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('Timeout nach 30 Sekunden')), 30000);
-    });
-    
-    // Render with timeout
-    const canvasPromise = html2canvas(resultsDiv, {
-      scale: 1.5,
-      useCORS: true,
-      logging: false,
-      backgroundColor: '#ffffff',
-      windowWidth: 1000,
-      allowTaint: true,
-      onclone: (clonedDoc) => {
-        // Remove PDF button from clone
-        const buttons = clonedDoc.querySelectorAll('button');
-        buttons.forEach(btn => {
-          if (btn.textContent.includes('PDF')) {
-            btn.parentElement?.remove();
-          }
-        });
-      }
-    });
-    
-    const canvas = await Promise.race([canvasPromise, timeoutPromise]);
-    
-    console.log('✅ Screenshot erstellt:', canvas.width, 'x', canvas.height);
-    console.log('📄 Erstelle PDF...');
-    
-    // Create PDF
-    const imgData = canvas.toDataURL('image/jpeg', 0.9);
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-    
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
-    const ratio = canvasWidth / canvasHeight;
-    
-    let imgWidth = pdfWidth;
-    let imgHeight = imgWidth / ratio;
-    
-    // Calculate pages
-    const totalPages = Math.ceil(imgHeight / pdfHeight);
-    
-    console.log(`📋 PDF hat ${totalPages} Seite(n)`);
-    
-    // Add pages
-    for (let page = 0; page < totalPages; page++) {
-      if (page > 0) {
-        pdf.addPage();
-      }
+    // MEDICATIONS
+    if (analysis && analysis.length > 0) {
+      checkPageBreak(20);
+      doc.setFontSize(12);
+      doc.text('Ihre Medikation', margin, y);
+      y += 7;
       
-      const yPosition = -(page * pdfHeight);
-      
-      pdf.addImage(
-        imgData,
-        'JPEG',
-        0,
-        yPosition,
-        imgWidth,
-        imgHeight
-      );
+      doc.setFontSize(10);
+      analysis.forEach(item => {
+        checkPageBreak(15);
+        doc.text(`• ${item.medication.name || item.medication.generic_name}`, margin, y);
+        y += 5;
+        if (item.interactions && item.interactions.length > 0) {
+          doc.setFontSize(9);
+          doc.setTextColor(100, 100, 100);
+          const interaction = item.interactions[0];
+          doc.text(`  Wechselwirkung: ${interaction.severity} - ${interaction.description.substring(0, 80)}...`, margin + 3, y);
+          doc.setTextColor(0, 0, 0);
+          y += 5;
+        }
+        doc.setFontSize(10);
+        y += 2;
+      });
+      y += 5;
     }
+    
+    // WEEKLY PLAN
+    doc.addPage();
+    y = margin;
+    
+    doc.setFontSize(14);
+    doc.text('Wöchentlicher Reduktionsplan', margin, y);
+    y += 10;
+    
+    weeklyPlan.forEach((week, index) => {
+      checkPageBreak(50);
+      
+      // Week header
+      doc.setFillColor(240, 240, 240);
+      doc.rect(margin, y - 4, contentWidth, 8, 'F');
+      doc.setFontSize(11);
+      doc.setFont(undefined, 'bold');
+      doc.text(`Woche ${week.week}`, margin + 2, y);
+      doc.setFont(undefined, 'normal');
+      y += 10;
+      
+      // Medications
+      doc.setFontSize(9);
+      doc.text('Medikamente:', margin, y);
+      y += 5;
+      
+      week.medications.forEach(med => {
+        doc.text(`  ${med.name}: ${med.currentMg} mg/Tag (Start: ${med.startMg}, Ziel: ${med.targetMg})`, margin + 5, y);
+        y += 4;
+      });
+      y += 3;
+      
+      // CBD
+      doc.text(`CBD-Dosis: ${week.cbdDose.toFixed(1)} mg/Tag`, margin, y);
+      y += 4;
+      doc.text(`Produkt: ${week.kannasanProduct.name}`, margin, y);
+      y += 4;
+      doc.text(`Sprühstöße: ${week.morningSprays}× morgens, ${week.eveningSprays}× abends (${week.totalSprays}× täglich)`, margin, y);
+      y += 4;
+      doc.text(`Tatsächliche CBD-Menge: ${week.actualCbdMg} mg`, margin, y);
+      y += 8;
+    });
+    
+    // SAFETY WARNINGS
+    doc.addPage();
+    y = margin;
+    
+    doc.setFontSize(14);
+    doc.setTextColor(220, 38, 38);
+    doc.text('⚠️ Wichtige Sicherheitshinweise', margin, y);
+    doc.setTextColor(0, 0, 0);
+    y += 10;
+    
+    doc.setFontSize(9);
+    const warnings = [
+      'Setzen Sie Medikamente niemals eigenständig ab - nur unter ärztlicher Aufsicht',
+      'CYP450-Interaktionen: Cannabinoide beeinflussen den Medikamentenabbau',
+      'Kein Alkohol während der Reduktion',
+      'Keine Grapefruit (beeinflusst CYP450-System)',
+      'Müdigkeit möglich - kein Fahrzeug fahren bis Wirkung bekannt',
+      'Bei Nebenwirkungen sofort Arzt kontaktieren',
+      'Dieser Plan ersetzt keine ärztliche Beratung'
+    ];
+    
+    warnings.forEach(warning => {
+      checkPageBreak(10);
+      const lines = doc.splitTextToSize(`• ${warning}`, contentWidth - 5);
+      doc.text(lines, margin, y);
+      y += lines.length * 5 + 2;
+    });
+    
+    // Footer on last page
+    doc.setFontSize(8);
+    doc.setTextColor(150, 150, 150);
+    doc.text('© 2025 MEDLESS - Alle Rechte vorbehalten', margin, pageHeight - 10);
     
     // Save
     const date = new Date().toISOString().split('T')[0];
     const filename = `MedLess_Plan_${firstName || 'Patient'}_${date}.pdf`;
     
     console.log('💾 Speichere PDF:', filename);
-    pdf.save(filename);
+    doc.save(filename);
     
     console.log('✅ PDF erfolgreich erstellt!');
     
@@ -1283,7 +1373,7 @@ async function downloadPDF(event) {
     
   } catch (error) {
     console.error('❌ PDF-Fehler:', error);
-    alert(`Fehler beim Erstellen des PDFs:\n\n${error.message || 'Unbekannter Fehler'}\n\nBitte versuchen Sie es erneut oder machen Sie einen Screenshot.`);
+    alert(`Fehler beim Erstellen des PDFs:\n\n${error.message || 'Unbekannter Fehler'}\n\nBitte kontaktieren Sie den Support.`);
     
     // Reset button
     if (button) {
