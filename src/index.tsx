@@ -2125,143 +2125,39 @@ app.get('/', (c) => {
           <!-- Left: Content -->
           <div class="hero-content">
             <h1 class="hero-headline">
-              Medless – Dein Weg zu weniger Medikamente.
+              Dein Weg zu weniger Medikamenten.
             </h1>
             
             <h2 class="hero-subheadline">
-              Mit der Kraft deines Endocannabinoid-Systems und einer KI-gestützten Analyse 
-              unterstützt Medless dich und deinen Arzt dabei, Medikamente strukturiert 
-              und verantwortungsvoll zu reduzieren.
+              MEDLESS nutzt Cannabinoide und künstliche Intelligenz, um einen individuell 
+              berechneten Ausschleichplan zu erstellen – sanft, kontrolliert und ärztlich abzustimmen.
             </h2>
-            
-            <p class="hero-description">
-              Medless hilft dir, deine aktuelle Medikation, mögliche Wechselwirkungen 
-              mit Cannabinoiden und dein Endocannabinoid-System besser zu verstehen. 
-              Auf dieser Basis entsteht ein strukturierter Vorschlag, den du gemeinsam 
-              mit deinem Arzt besprechen kannst – für weniger Medikamente und mehr Balance.
-            </p>
             
             <ul class="hero-features">
               <li>
                 <i class="fas fa-check-circle checkmark-icon"></i>
-                <span>berücksichtigt Körpergewicht, Alter, Medikamente</span>
+                <span>Ausschleichpläne in 2–12 Wochen</span>
               </li>
               <li>
                 <i class="fas fa-check-circle checkmark-icon"></i>
-                <span>berechnet sichere Einschleich- & Erhaltungsphase</span>
+                <span>10–100% Reduktionsziel</span>
               </li>
               <li>
                 <i class="fas fa-check-circle checkmark-icon"></i>
-                <span>nutzt pharmakologische Wechselwirkungen sinnvoll</span>
+                <span>KI-basiert & individuell</span>
               </li>
               <li>
                 <i class="fas fa-check-circle checkmark-icon"></i>
-                <span>geeignet zur ärztlichen Besprechung im Webbrowser</span>
+                <span>Basiert ausschließlich auf Cannabinoid-Wirkmechanik</span>
               </li>
             </ul>
             
             <button class="cta-button-primary" onclick="document.getElementById('planner-section').scrollIntoView({behavior:'smooth'})">
-              <span>Dosierungsplan erstellen</span>
+              <span>Jetzt Ausschleichplan starten</span>
               <i class="fas fa-arrow-right arrow-icon"></i>
             </button>
           </div>
-          
-          <!-- Right: Medication Reduction Animation -->
-          <div class="hero-illustration">
-            <div class="medication-reduction-animation">
-              
-              <!-- Visual concept: Pills descending → Cannabinoids ascending -->
-              <svg viewBox="0 0 400 500" class="reduction-visual" style="width: 100%; height: auto;">
-                <defs>
-                  <!-- Gradient for depth -->
-                  <linearGradient id="pillGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.8" />
-                    <stop offset="100%" style="stop-color:#991B1B;stop-opacity:0.6" />
-                  </linearGradient>
-                  <linearGradient id="cannabinoidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#0F7A67;stop-opacity:0.9" />
-                    <stop offset="100%" style="stop-color:#0C5C4C;stop-opacity:0.7" />
-                  </linearGradient>
-                </defs>
-                
-                <!-- Central Balance Line -->
-                <line x1="50" y1="250" x2="350" y2="250" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="5,5"/>
-                <text x="200" y="240" text-anchor="middle" fill="#9CA3AF" font-size="14" font-weight="600">Balance-Punkt</text>
-                
-                <!-- Pills descending (animated) -->
-                <g class="pill-group descending">
-                  <ellipse cx="100" cy="100" rx="15" ry="30" fill="url(#pillGradient)" class="pill pill-1"/>
-                  <ellipse cx="180" cy="80" rx="12" ry="25" fill="url(#pillGradient)" class="pill pill-2"/>
-                  <ellipse cx="270" cy="110" rx="14" ry="28" fill="url(#pillGradient)" class="pill pill-3"/>
-                  <ellipse cx="320" cy="90" rx="11" ry="23" fill="url(#pillGradient)" class="pill pill-4"/>
-                  <ellipse cx="140" cy="140" rx="13" ry="26" fill="url(#pillGradient)" class="pill pill-5"/>
-                  <ellipse cx="240" cy="150" rx="12" ry="24" fill="url(#pillGradient)" class="pill pill-6"/>
-                </g>
-                
-                <!-- Cannabinoid molecules ascending (animated) -->
-                <g class="cannabinoid-group ascending">
-                  <!-- Molecule structure: Pentagon with bonds -->
-                  <g class="molecule cannabinoid-1">
-                    <circle cx="120" cy="380" r="8" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="135" cy="395" r="6" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="125" cy="410" r="7" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="105" cy="410" r="6" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="95" cy="395" r="7" fill="url(#cannabinoidGradient)"/>
-                    <line x1="120" y1="380" x2="135" y2="395" stroke="#0C5C4C" stroke-width="2"/>
-                    <line x1="135" y1="395" x2="125" y2="410" stroke="#0C5C4C" stroke-width="2"/>
-                    <line x1="125" y1="410" x2="105" y2="410" stroke="#0C5C4C" stroke-width="2"/>
-                    <line x1="105" y1="410" x2="95" y2="395" stroke="#0C5C4C" stroke-width="2"/>
-                    <line x1="95" y1="395" x2="120" y2="380" stroke="#0C5C4C" stroke-width="2"/>
-                  </g>
-                  <g class="molecule cannabinoid-2">
-                    <circle cx="280" cy="400" r="7" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="292" cy="413" r="6" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="284" cy="425" r="6" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="266" cy="425" r="5" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="258" cy="413" r="6" fill="url(#cannabinoidGradient)"/>
-                    <line x1="280" y1="400" x2="292" y2="413" stroke="#0C5C4C" stroke-width="1.5"/>
-                    <line x1="292" y1="413" x2="284" y2="425" stroke="#0C5C4C" stroke-width="1.5"/>
-                    <line x1="284" y1="425" x2="266" y2="425" stroke="#0C5C4C" stroke-width="1.5"/>
-                    <line x1="266" y1="425" x2="258" y2="413" stroke="#0C5C4C" stroke-width="1.5"/>
-                    <line x1="258" y1="413" x2="280" y2="400" stroke="#0C5C4C" stroke-width="1.5"/>
-                  </g>
-                  <g class="molecule cannabinoid-3">
-                    <circle cx="200" cy="420" r="9" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="217" cy="435" r="7" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="207" cy="450" r="7" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="183" cy="450" r="6" fill="url(#cannabinoidGradient)"/>
-                    <circle cx="173" cy="435" r="7" fill="url(#cannabinoidGradient)"/>
-                    <line x1="200" y1="420" x2="217" y2="435" stroke="#0C5C4C" stroke-width="2"/>
-                    <line x1="217" y1="435" x2="207" y2="450" stroke="#0C5C4C" stroke-width="2"/>
-                    <line x1="207" y1="450" x2="183" y2="450" stroke="#0C5C4C" stroke-width="2"/>
-                    <line x1="183" y1="450" x2="173" y2="435" stroke="#0C5C4C" stroke-width="2"/>
-                    <line x1="173" y1="435" x2="200" y2="420" stroke="#0C5C4C" stroke-width="2"/>
-                  </g>
-                </g>
-                
-                <!-- Arrows showing direction -->
-                <g class="direction-indicators">
-                  <path d="M 60,150 L 60,200" stroke="#DC2626" stroke-width="2" fill="none" marker-end="url(#arrowDown)"/>
-                  <path d="M 340,350 L 340,300" stroke="#0F7A67" stroke-width="2" fill="none" marker-end="url(#arrowUp)"/>
-                </g>
-                
-                <defs>
-                  <marker id="arrowDown" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                    <path d="M 2,2 L 5,8 L 8,2" fill="none" stroke="#DC2626" stroke-width="2"/>
-                  </marker>
-                  <marker id="arrowUp" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                    <path d="M 2,8 L 5,2 L 8,8" fill="none" stroke="#0F7A67" stroke-width="2"/>
-                  </marker>
-                </defs>
-                
-                <!-- Labels -->
-                <text x="60" y="70" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="600">Medikamente ↓</text>
-                <text x="340" y="470" text-anchor="middle" fill="#0F7A67" font-size="13" font-weight="600">Cannabinoide ↑</text>
-              </svg>
-              
-            </div>
-          </div>
-          
+
         </div>
       </div>
     </section>
