@@ -20,7 +20,7 @@ const KANNASAN_PRODUCTS = [
 
 const BOTTLE_CAPACITY = 100; // Sprays per 10ml bottle (FIXED - 100 sprays = 10ml)
 
-// MedLess-AI: Select optimal product with minimal sprays, no overdose, max 6 sprays per time
+// Medless-AI: Select optimal product with minimal sprays, no overdose, max 6 sprays per time
 function selectOptimalProduct(targetDailyMg: number) {
   let bestProduct = KANNASAN_PRODUCTS[0];
   let bestSprayCount = 999;
@@ -44,7 +44,7 @@ function selectOptimalProduct(targetDailyMg: number) {
   return bestProduct;
 }
 
-// MedLess-AI: Generate weekly plan with bottle tracking - NO unnecessary product changes!
+// Medless-AI: Generate weekly plan with bottle tracking - NO unnecessary product changes!
 function generateWeeklyPlanWithBottleTracking(
   cbdStartMg: number,
   cbdEndMg: number,
@@ -122,7 +122,7 @@ function generateWeeklyPlanWithBottleTracking(
   return weeklyPlan;
 }
 
-// MedLess-AI: Calculate total costs for the entire plan
+// Medless-AI: Calculate total costs for the entire plan
 function calculatePlanCosts(weeklyPlan: any[]) {
   const bottleUsage: { [key: string]: { count: number; product: any; totalSprays: number; weeks: number[] } } = {};
   
@@ -478,7 +478,7 @@ app.get('/', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MedLess – reduziere deine Medikamente</title>
+  <title>Medless – Dein Weg zu weniger Medikamente</title>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -499,7 +499,7 @@ app.get('/', (c) => {
 
   <style>
     /* ============================================================
-       DESIGN SYSTEM - MedLess
+       DESIGN SYSTEM - Medless
        ============================================================ */
     
     :root {
@@ -742,7 +742,7 @@ app.get('/', (c) => {
        WHY REDUMED SECTION
        ============================================================ */
     
-    .why-redumed {
+    .why-medless {
       background: var(--background-ultra-light);
     }
     
@@ -2125,18 +2125,20 @@ app.get('/', (c) => {
           <!-- Left: Content -->
           <div class="hero-content">
             <h1 class="hero-headline">
-              MedLess – reduziere deine Medikamente.
+              Medless – Dein Weg zu weniger Medikamente.
             </h1>
             
             <h2 class="hero-subheadline">
-              Weniger Medikamente – durch ein stärkeres Endocannabinoid-System 
-              und ein intelligentes Verständnis von Wechselwirkungen.
+              Mit der Kraft deines Endocannabinoid-Systems und einer KI-gestützten Analyse 
+              unterstützt Medless dich und deinen Arzt dabei, Medikamente strukturiert 
+              und verantwortungsvoll zu reduzieren.
             </h2>
             
             <p class="hero-description">
-              MedLess analysiert Körperdaten, Medikamente und Cannabinoid-Dosierungen, 
-              um einen strukturierten, sicheren und ärztlich besprechbaren 
-              Reduktionsplan zu erstellen.
+              Medless hilft dir, deine aktuelle Medikation, mögliche Wechselwirkungen 
+              mit Cannabinoiden und dein Endocannabinoid-System besser zu verstehen. 
+              Auf dieser Basis entsteht ein strukturierter Vorschlag, den du gemeinsam 
+              mit deinem Arzt besprechen kannst – für weniger Medikamente und mehr Balance.
             </p>
             
             <ul class="hero-features">
@@ -2154,7 +2156,7 @@ app.get('/', (c) => {
               </li>
               <li>
                 <i class="fas fa-check-circle checkmark-icon"></i>
-                <span>geeignet zur ärztlichen Besprechung als PDF</span>
+                <span>geeignet zur ärztlichen Besprechung im Webbrowser</span>
               </li>
             </ul>
             
@@ -2265,13 +2267,13 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         2) WARUM MedLess SECTION
+         2) WARUM Medless SECTION
          ============================================================ -->
-    <section class="why-redumed">
+    <section class="why-medless" id="why-medless">
       <div class="container">
         
         <h2 class="section-headline">
-          Warum MedLess? Weil Ihr Körper mehr kann, als Sie denken.
+          Warum Medless? Weil Ihr Körper mehr kann, als Sie denken.
         </h2>
         
         <!-- ECS Explanation -->
@@ -2349,13 +2351,13 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         3) SO FUNKTIONIERT MedLess SECTION
+         3) SO FUNKTIONIERT Medless SECTION
          ============================================================ -->
     <section class="how-it-works">
       <div class="container">
         
         <h2 class="section-headline">
-          So funktioniert MedLess
+          So funktioniert Medless
         </h2>
         
         <p class="section-description">
@@ -2386,7 +2388,7 @@ app.get('/', (c) => {
             <div class="step-content">
               <h4>Cannabinoid-Dosierung hochrechnen</h4>
               <p>
-                Basierend auf Ihrem Gewicht berechnet MedLess die Zieldosis nach 
+                Basierend auf Ihrem Gewicht berechnet Medless die Zieldosis nach 
                 evidenzbasierten Richtlinien (Studie: Blessing et al., 2015).
               </p>
             </div>
@@ -2423,11 +2425,11 @@ app.get('/', (c) => {
           <div class="step">
             <div class="step-number-circle">5</div>
             <div class="step-content">
-              <h4>Plan als PDF speichern</h4>
+              <h4>Plan im Browser anzeigen</h4>
               <p>
-                Laden Sie Ihren vollständigen Plan als PDF herunter und besprechen Sie 
-                ihn mit Ihrem Arzt. Der Plan enthält alle Ihre Eingaben, Dosierungen, 
-                Wechselwirkungen und Sicherheitshinweise.
+                Lassen Sie sich Ihren vollständigen Plan direkt im Browser anzeigen und 
+                besprechen Sie ihn mit Ihrem Arzt. Der Plan enthält alle Ihre Eingaben, 
+                Dosierungen, Wechselwirkungen und Sicherheitshinweise.
               </p>
             </div>
           </div>
@@ -2457,7 +2459,7 @@ app.get('/', (c) => {
           <div class="warning-content">
             
             <p>
-              <strong>MedLess ist kein Ersatz für eine ärztliche Beratung.</strong> 
+              <strong>Medless ist kein Ersatz für eine ärztliche Beratung.</strong> 
               Dieser Rechner erstellt einen theoretischen Dosierungsplan basierend auf 
               Ihren Angaben und wissenschaftlichen Studien. Er berücksichtigt 
               pharmakologische Wechselwirkungen, ersetzt jedoch keine individuelle 
@@ -2486,7 +2488,7 @@ app.get('/', (c) => {
                 <i class="fas fa-exclamation-triangle"></i>
                 <span>
                   <strong>Keine Garantie für Reduktion:</strong> 
-                  MedLess zeigt ein <em>Potenzial</em> auf – ob und wie stark Sie 
+                  Medless zeigt ein <em>Potenzial</em> auf – ob und wie stark Sie 
                   Medikamente reduzieren können, entscheidet Ihr Arzt anhand Ihrer 
                   tatsächlichen Symptome und Blutwerte.
                 </span>
@@ -2612,7 +2614,7 @@ app.get('/', (c) => {
           <div id="step-2" class="form-step">
             <div class="form-card">
               <h3>Schritt 2: Körperdaten</h3>
-              <p class="subtitle">Ihre Körperdaten helfen uns, die optimale Cannabinoid-Dosis zu berechnen.</p>
+              <p class="subtitle">Ihre Körperdaten helfen Medless, eine individuelle Cannabinoid-Unterstützung für Sie zu planen.</p>
               
               <div class="form-row">
                 <label for="age">Alter (Jahre)</label>
@@ -2820,7 +2822,7 @@ app.get('/', (c) => {
         </h2>
         
         <p class="section-description">
-          Alle wichtigen Informationen zu MedLess, Cannabinoiden, Wechselwirkungen 
+          Alle wichtigen Informationen zu Medless, Cannabinoiden, Wechselwirkungen 
           und dem Medikamenten-Reduktionsprozess.
         </p>
         
@@ -2912,7 +2914,7 @@ app.get('/', (c) => {
                 <p>
                   Diese Wechselwirkung ist der <strong>pharmakologische Mechanismus</strong>, 
                   durch den Cannabinoide den Medikamentenbedarf beeinflussen können. 
-                  MedLess berücksichtigt diese Interaktionen bei der Planerstellung.
+                  Medless berücksichtigt diese Interaktionen bei der Planerstellung.
                 </p>
               </div>
             </div>
@@ -2947,7 +2949,7 @@ app.get('/', (c) => {
                 </p>
                 <p>
                   <strong>Wichtig:</strong> Dies ist ein individueller Prozess und muss 
-                  immer ärztlich begleitet werden. MedLess zeigt nur ein 
+                  immer ärztlich begleitet werden. Medless zeigt nur ein 
                   <em>theoretisches Potenzial</em> auf.
                 </p>
               </div>
@@ -2958,7 +2960,7 @@ app.get('/', (c) => {
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Ist MedLess eine medizinische Beratung oder Diagnose?
+                Ist Medless eine medizinische Beratung oder Diagnose?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -2967,13 +2969,13 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  <strong>Nein.</strong> MedLess ist ein <strong>Informationstool</strong>, 
+                  <strong>Nein.</strong> Medless ist ein <strong>Informationstool</strong>, 
                   das auf wissenschaftlichen Studien und pharmakologischen Daten basiert. 
                   Es erstellt einen <strong>theoretischen Dosierungsplan</strong>, der als 
                   <strong>Gesprächsgrundlage</strong> für Ihren Arzt dient.
                 </p>
                 <p>
-                  MedLess ersetzt <strong>keine</strong> ärztliche Beratung, Diagnose 
+                  Medless ersetzt <strong>keine</strong> ärztliche Beratung, Diagnose 
                   oder Behandlung. Jede Änderung Ihrer Medikation muss mit Ihrem 
                   behandelnden Arzt besprochen und überwacht werden.
                 </p>
@@ -3048,7 +3050,7 @@ app.get('/', (c) => {
                   <li><strong>Antiepileptika:</strong> Carbamazepin, Valproat</li>
                 </ul>
                 <p>
-                  MedLess analysiert Ihre Medikamente und zeigt an, ob 
+                  Medless analysiert Ihre Medikamente und zeigt an, ob 
                   <strong>Wechselwirkungen</strong> zu erwarten sind. Die tatsächliche 
                   Auswirkung muss jedoch <strong>individuell ärztlich überwacht</strong> werden.
                 </p>
@@ -3070,7 +3072,7 @@ app.get('/', (c) => {
               <div class="faq-answer-content">
                 <p>
                   <strong>Das hängt von vielen individuellen Faktoren ab</strong> und kann 
-                  nicht pauschal beantwortet werden. MedLess bietet eine 
+                  nicht pauschal beantwortet werden. Medless bietet eine 
                   <strong>theoretische Simulation</strong> über 8 Wochen (Einschleichphase) 
                   plus Erhaltungsphase.
                 </p>
@@ -3157,7 +3159,7 @@ app.get('/', (c) => {
                 </ul>
                 <p>
                   <strong>Empfehlung:</strong> Kaufen Sie nur bei seriösen Anbietern mit 
-                  transparenten Laborberichten. MedLess empfiehlt KANNASAN-Produkte 
+                  transparenten Laborberichten. Medless empfiehlt KANNASAN-Produkte 
                   (CBD-Dosier-Sprays), die präzise Dosierungen ermöglichen.
                 </p>
               </div>
@@ -3188,10 +3190,10 @@ app.get('/', (c) => {
         
         <!-- Branding -->
         <div class="footer-branding">
-          <h3>MedLess</h3>
-          <p class="tagline">reduziere deine Medikamente.</p>
+          <h3>Medless</h3>
+          <p class="tagline">Dein Weg zu weniger Medikamente.</p>
           <p>
-            Ein intelligentes Tool zur Berechnung von Cannabinoid-Dosierungen 
+            Ein KI-gestütztes Tool zur Berechnung von Cannabinoid-Dosierungen 
             und Medikamenten-Reduktionsplänen – basierend auf Körperdaten, 
             pharmakologischen Wechselwirkungen und evidenzbasierten Richtlinien.
           </p>
@@ -3202,7 +3204,7 @@ app.get('/', (c) => {
           <h4>Quick Links</h4>
           <ul class="footer-links">
             <li><a href="#planner-section">Plan erstellen</a></li>
-            <li><a href="#why-redumed">Warum MedLess?</a></li>
+            <li><a href="#why-medless">Warum Medless?</a></li>
             <li><a href="#how-it-works">So funktioniert's</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
@@ -3227,7 +3229,7 @@ app.get('/', (c) => {
           <strong><i class="fas fa-exclamation-triangle"></i> Wichtiger medizinischer Haftungsausschluss:</strong>
         </p>
         <p>
-          MedLess ist ein Informationstool und kein Ersatz für ärztlichen Rat, 
+          Medless ist ein KI-gestütztes Informationstool und kein Ersatz für ärztlichen Rat, 
           Diagnose oder Behandlung. Alle Berechnungen basieren auf wissenschaftlichen 
           Studien und pharmakologischen Daten, ersetzen jedoch keine individuelle 
           medizinische Beurteilung.
@@ -3241,7 +3243,7 @@ app.get('/', (c) => {
       <!-- Bottom Bar -->
       <div class="footer-bottom">
         <div class="footer-copyright">
-          © 2024 MedLess. Alle Rechte vorbehalten.
+          Stand: Januar 2025 | Medless – Dein Weg zu weniger Medikamente.
         </div>
         <div class="footer-social">
           <a href="#" aria-label="Instagram">
