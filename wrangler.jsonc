@@ -9,8 +9,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "ecs-aktivierung-production",
-      "database_id": "local-db-for-development"
+      "database_name": "medless-production",
+      "database_id": "49ae43dd-cb94-4f42-9653-b87821f2ec31"
     }
   ]
 }
