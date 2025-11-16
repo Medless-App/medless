@@ -478,7 +478,7 @@ app.get('/', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Medless – Dein Weg zu weniger Medikamente</title>
+  <title>MEDLESS – Dein Weg zu weniger Medikamenten</title>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2169,75 +2169,124 @@ app.get('/', (c) => {
       <div class="container">
         
         <h2 class="section-headline">
-          Warum Medless? Weil Ihr Körper mehr kann, als Sie denken.
+          Zu viele Medikamente. Zu wenig individuelle Begleitung.
         </h2>
         
-        <!-- ECS Explanation -->
-        <div class="explanation-card ecs-card">
-          <div class="card-icon">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <h3>Das Endocannabinoid-System (ECS)</h3>
-          <p>
-            Das Endocannabinoid-System (ECS) ist ein körpereigenes Regulierungssystem 
-            für Schmerz, Schlaf, Immunsystem und Stressbalance. Ist es geschwächt, 
-            braucht der Körper oft mehr Medikamente.
-          </p>
-        </div>
+        <p class="section-description">
+          Die moderne Medizin steht vor einer wachsenden Herausforderung: Polypharmazie – die gleichzeitige Einnahme mehrerer Medikamente – betrifft zunehmend mehr Menschen, besonders im fortgeschrittenen Alter.
+        </p>
         
-        <!-- CYP450 Explanation -->
-        <div class="explanation-card cyp-card">
-          <div class="card-icon">
-            <i class="fas fa-microscope"></i>
-          </div>
-          <h3>Pharmakologische Wechselwirkungen (CYP450)</h3>
-          <p>
-            Rund 60 % aller gängigen Medikamente werden über dieselben Leberenzyme 
-            abgebaut, an denen auch Cannabinoide wirken (CYP450-System).
-          </p>
-          <p>
-            Diese Wechselwirkung kann dazu führen, dass bestimmte Medikamente langsamer 
-            abgebaut werden und sich ihr Bedarf verringert – das passiert jedoch immer 
-            individuell und muss ärztlich begleitet werden.
-          </p>
-        </div>
+        <p class="section-description" style="margin-top: 1rem; font-weight: 600;">
+          Die Folgen sind gravierend:
+        </p>
         
-        <!-- Process Cards Grid -->
-        <div class="process-cards-grid">
+        <ul class="hero-features" style="max-width: 900px; margin: 2rem auto;">
+          <li>
+            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
+            <span>Erhöhte Belastung für Leber, Nieren und andere Organe</span>
+          </li>
+          <li>
+            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
+            <span>Verstärkte Nebenwirkungen durch Wechselwirkungen zwischen Medikamenten</span>
+          </li>
+          <li>
+            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
+            <span>Patienten fühlen sich überfordert und allein gelassen</span>
+          </li>
+          <li>
+            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
+            <span>Ärzte haben kaum Zeit für die Entwicklung individueller Ausschleichpläne</span>
+          </li>
+          <li>
+            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
+            <span>Medikamente werden oft länger eingenommen als medizinisch notwendig</span>
+          </li>
+          <li>
+            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
+            <span>Eigenständiges Absetzen ohne Plan birgt gesundheitliche Risiken</span>
+          </li>
+        </ul>
+        
+        <p class="section-description" style="margin-top: 2rem; font-size: 1.25rem; font-weight: 700; color: var(--primary-dark-green);">
+          Das Problem ist nicht der Patient – es ist der fehlende Plan.
+        </p>
+        
+      </div>
+    </section>
+    
+    <!-- ============================================================
+         3) DER WUNSCH SECTION (Lösung)
+         ============================================================ -->
+    <section style="background: #f9fafb; padding: 80px 0;">
+      <div class="container">
+        
+        <h2 class="section-headline">
+          Der Wunsch nach weniger Belastung und mehr Lebensqualität
+        </h2>
+        
+        <p class="section-description">
+          Menschen wünschen sich mehr als nur Symptomfreiheit. Sie sehnen sich nach einem Leben mit:
+        </p>
+        
+        <div class="process-cards-grid" style="margin-top: 3rem;">
           
-          <div class="process-card card-1">
-            <div class="card-number">1</div>
+          <div class="process-card">
             <div class="card-icon-circle">
-              <i class="fas fa-pills"></i>
+              <i class="fas fa-heartbeat"></i>
             </div>
-            <h4>Hohe Medikamentenlast</h4>
+            <h4>Weniger Nebenwirkungen</h4>
             <p>
-              Mehrere Medikamente täglich – Ihr Körper arbeitet auf Hochtouren, 
-              das ECS ist möglicherweise geschwächt.
+              Müdigkeit, Schwindel, Verdauungsprobleme – viele Nebenwirkungen beeinträchtigen die tägliche Lebensqualität erheblich.
             </p>
           </div>
           
-          <div class="process-card card-2">
-            <div class="card-number">2</div>
+          <div class="process-card">
             <div class="card-icon-circle">
-              <i class="fas fa-atom"></i>
+              <i class="fas fa-leaf"></i>
             </div>
-            <h4>ECS stärken + Stoffwechsel modulieren</h4>
+            <h4>Natürlichere Lösungen</h4>
             <p>
-              Cannabinoide unterstützen das ECS und beeinflussen den Medikamenten-Abbau 
-              über Leberenzyme (CYP450).
+              Der Wunsch, den Körper weniger mit synthetischen Substanzen zu belasten und sanftere Alternativen zu nutzen.
             </p>
           </div>
           
-          <div class="process-card card-3">
-            <div class="card-number">3</div>
+          <div class="process-card">
             <div class="card-icon-circle">
-              <i class="fas fa-chart-line"></i>
+              <i class="fas fa-shield-alt"></i>
             </div>
-            <h4>Potenzial zur Reduktion</h4>
+            <h4>Sicherheit & Kontrolle</h4>
             <p>
-              Stabileres ECS + modulierter Stoffwechsel können den Medikamentenbedarf 
-              verringern – unter ärztlicher Kontrolle.
+              Die Gewissheit, dass jeder Schritt medizinisch fundiert und sicher ist – ohne gefährliche Eigenexperimente.
+            </p>
+          </div>
+          
+          <div class="process-card">
+            <div class="card-icon-circle">
+              <i class="fas fa-laptop-medical"></i>
+            </div>
+            <h4>Moderne Unterstützung</h4>
+            <p>
+              Technologie, die hilft, komplexe medizinische Zusammenhänge zu verstehen und individuelle Lösungen zu finden.
+            </p>
+          </div>
+          
+          <div class="process-card">
+            <div class="card-icon-circle">
+              <i class="fas fa-user-md"></i>
+            </div>
+            <h4>Professionelle Begleitung</h4>
+            <p>
+              Kein Risiko durch unkontrolliertes eigenständiges Reduzieren, sondern strukturierte, wissenschaftlich fundierte Pläne.
+            </p>
+          </div>
+          
+          <div class="process-card">
+            <div class="card-icon-circle">
+              <i class="fas fa-hands-helping"></i>
+            </div>
+            <h4>Selbstbestimmung</h4>
+            <p>
+              Die Freiheit zurückgewinnen, weniger abhängig von Medikamenten zu sein und aktiv Entscheidungen über die eigene Gesundheit zu treffen.
             </p>
           </div>
           
@@ -2247,20 +2296,111 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         3) SO FUNKTIONIERT Medless SECTION
+         4) MEDLESS LÖSUNG SECTION
+         ============================================================ -->
+    <section style="padding: 80px 0;">
+      <div class="container">
+        
+        <h2 class="section-headline">
+          MEDLESS: Die erste KI, die Cannabinoide nutzt, um Medikamente sicher zu reduzieren
+        </h2>
+        
+        <p class="section-description">
+          MEDLESS verbindet moderne Cannabinoid-Forschung mit künstlicher Intelligenz zu einem innovativen System der Medikamentenreduktion.
+        </p>
+        
+        <div class="explanation-card ecs-card" style="margin-top: 3rem;">
+          <div class="card-icon">
+            <i class="fas fa-flask"></i>
+          </div>
+          <h3>Wissenschaftliche Grundlage</h3>
+          <p>
+            MEDLESS arbeitet ausschließlich mit Cannabinoiden – nicht pauschal mit CBD. Diese pflanzlichen Wirkstoffe interagieren auf präzise Weise mit körpereigenen Systemen:
+          </p>
+          <p style="margin-top: 1rem;">
+            <strong>Der Wirkmechanismus:</strong> Cannabinoide beeinflussen die Aktivität bestimmter Leberenzyme, insbesondere des CYP450-Systems. Diese Enzyme sind für den Abbau vieler Medikamente verantwortlich.
+          </p>
+          <p style="margin-top: 1rem;">
+            Wenn Cannabinoide die Enzymaktivität modulieren, können manche Medikamente langsamer abgebaut werden. Dieser Effekt kann – unter strenger ärztlicher Aufsicht – gezielt genutzt werden, um die Medikamentendosis schrittweise zu reduzieren.
+          </p>
+        </div>
+        
+        <div class="explanation-card cyp-card" style="margin-top: 2rem;">
+          <div class="card-icon">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <h3>Individuelle Berechnung</h3>
+          <p>
+            MEDLESS berechnet anhand Ihrer persönlichen Daten einen maßgeschneiderten Reduktionsplan:
+          </p>
+          <ul class="warning-list" style="margin-top: 1rem;">
+            <li>
+              <i class="fas fa-user"></i>
+              <span><strong>Körpergröße, Gewicht, Alter, Geschlecht:</strong> Biologische Faktoren beeinflussen Stoffwechsel und Medikamentenwirkung</span>
+            </li>
+            <li>
+              <i class="fas fa-pills"></i>
+              <span><strong>Aktuelle Medikamente:</strong> Art, Dosierung und Einnahmefrequenz jedes Medikaments</span>
+            </li>
+            <li>
+              <i class="fas fa-calendar-alt"></i>
+              <span><strong>Zeitrahmen:</strong> Wunschdauer des Ausschleichens (2–12 Wochen)</span>
+            </li>
+            <li>
+              <i class="fas fa-chart-line"></i>
+              <span><strong>Reduktionsziel:</strong> Gewünschter Reduktionsgrad (10–100%)</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="explanation-card" style="margin-top: 2rem; background: linear-gradient(135deg, #e0fdf7 0%, #f5f7fa 100%);">
+          <div class="card-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>KI-Intelligenz</h3>
+          <p>
+            Unsere künstliche Intelligenz berücksichtigt:
+          </p>
+          <ul class="warning-list" style="margin-top: 1rem;">
+            <li>
+              <i class="fas fa-exchange-alt"></i>
+              <span>Bekannte Wechselwirkungen zwischen Medikamenten und Cannabinoiden</span>
+            </li>
+            <li>
+              <i class="fas fa-project-diagram"></i>
+              <span>Individualisierte Reduktionslogik basierend auf pharmakokinetischen Modellen</span>
+            </li>
+            <li>
+              <i class="fas fa-shield-alt"></i>
+              <span>Eingebaute Sicherheitsspannen zur Risikominimierung</span>
+            </li>
+            <li>
+              <i class="fas fa-balance-scale"></i>
+              <span>Optimierte Cannabinoid-Dosierung für den gesamten Zeitraum</span>
+            </li>
+            <li>
+              <i class="fas fa-shopping-cart"></i>
+              <span>Produktempfehlungen mit genauer Mengenberechnung</span>
+            </li>
+          </ul>
+        </div>
+        
+        <p class="section-description" style="margin-top: 3rem; font-size: 1.1rem; font-weight: 600;">
+          MEDLESS verbindet moderne Forschung, Cannabinoid-Wissen und KI-Intelligenz zu einem sicheren, individualisierten System.
+        </p>
+        
+      </div>
+    </section>
+    
+    <!-- ============================================================
+         5) SO FUNKTIONIERT Medless SECTION
          ============================================================ -->
     <section class="how-it-works">
       <div class="container">
         
         <h2 class="section-headline">
-          So funktioniert Medless
+          So entsteht dein persönlicher MEDLESS-Ausschleichplan
         </h2>
-        
-        <p class="section-description">
-          In nur 5 Schritten erstellen Sie Ihren individuellen, ärztlich besprechbaren 
-          Cannabinoid-Dosierungsplan – basierend auf Körperdaten, Medikamenten und 
-          pharmakologischen Wechselwirkungen.
-        </p>
         
         <div class="steps-container">
           
@@ -2269,10 +2409,9 @@ app.get('/', (c) => {
             <div class="step-number-circle">1</div>
             <div class="step-connector"></div>
             <div class="step-content">
-              <h4>Daten eingeben</h4>
+              <h4>Basisdaten eingeben</h4>
               <p>
-                Geben Sie Ihr Gewicht, Alter, Medikamente und tägliche Beschwerden ein. 
-                Diese Informationen bilden die Grundlage für Ihre individuelle Berechnung.
+                Vorname, Körpergröße, Gewicht, Alter, Geschlecht – die Grundlage für deine individuelle Berechnung.
               </p>
             </div>
           </div>
@@ -2282,10 +2421,9 @@ app.get('/', (c) => {
             <div class="step-number-circle">2</div>
             <div class="step-connector"></div>
             <div class="step-content">
-              <h4>Cannabinoid-Dosierung hochrechnen</h4>
+              <h4>Medikamente hinzufügen (beliebig viele)</h4>
               <p>
-                Basierend auf Ihrem Gewicht berechnet Medless die Zieldosis nach 
-                evidenzbasierten Richtlinien (Studie: Blessing et al., 2015).
+                Gib alle Medikamente ein, die du einnimmst – mit Dosierung und Einnahmefrequenz pro Medikament.
               </p>
             </div>
           </div>
@@ -2295,10 +2433,9 @@ app.get('/', (c) => {
             <div class="step-number-circle">3</div>
             <div class="step-connector"></div>
             <div class="step-content">
-              <h4>Wechselwirkungen einschätzen</h4>
+              <h4>Dauer auswählen</h4>
               <p>
-                Das System prüft, ob Ihre Medikamente über CYP450-Enzyme abgebaut werden 
-                und stuft das Interaktionspotenzial ein (Hemmung/Induktion).
+                Wähle deinen gewünschten Zeitraum: 2–12 Wochen. Kürzere Zeiträume für schnellere, längere für sanftere Reduktion.
               </p>
             </div>
           </div>
@@ -2308,11 +2445,9 @@ app.get('/', (c) => {
             <div class="step-number-circle">4</div>
             <div class="step-connector"></div>
             <div class="step-content">
-              <h4>Medikamenten-Reduktionsplan simulieren</h4>
+              <h4>Reduktionsziel auswählen</h4>
               <p>
-                Sie erhalten einen 8-Wochen-Einschleichplan plus Erhaltungsphase. 
-                Für jede Woche wird die Cannabinoid-Dosis und ein geschätztes 
-                Medikamenten-Reduktionsfenster angezeigt.
+                Bestimme dein Ziel: 10–100% Reduktion. Möchtest du nur die Dosis senken oder komplett ausschleichen?
               </p>
             </div>
           </div>
@@ -2321,15 +2456,27 @@ app.get('/', (c) => {
           <div class="step">
             <div class="step-number-circle">5</div>
             <div class="step-content">
-              <h4>Plan im Browser anzeigen</h4>
+              <h4>MEDLESS-AI berechnet automatisch</h4>
               <p>
-                Lassen Sie sich Ihren vollständigen Plan direkt im Browser anzeigen und 
-                besprechen Sie ihn mit Ihrem Arzt. Der Plan enthält alle Ihre Eingaben, 
-                Dosierungen, Wechselwirkungen und Sicherheitshinweise.
+                Innerhalb von Sekunden erhältst du:
               </p>
+              <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                <li>Wöchentliche Medikamenten-Reduktionspläne</li>
+                <li>Passende Cannabinoid-Dosierung für jede Phase</li>
+                <li>Produktberechnung (welche Cannabinoide und wie viele Fläschchen)</li>
+                <li>Gesamtkostenübersicht für das komplette Programm</li>
+                <li>Druckbare Wochenpläne für dich und deinen Arzt</li>
+              </ul>
             </div>
           </div>
           
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem;">
+          <button class="cta-button-primary" onclick="document.getElementById('planner-section').scrollIntoView({behavior:'smooth'})">
+            <span>Jetzt Plan berechnen</span>
+            <i class="fas fa-arrow-right arrow-icon"></i>
+          </button>
         </div>
         
       </div>
@@ -2348,45 +2495,49 @@ app.get('/', (c) => {
               <i class="fas fa-shield-alt"></i>
             </div>
             <h2 class="warning-title">
-              Wichtiger Sicherheitshinweis
+              MEDLESS ersetzt keinen Arzt
             </h2>
           </div>
           
           <div class="warning-content">
             
+            <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem;">
+              Wichtiger medizinischer Hinweis:
+            </p>
+            
             <p>
-              <strong>Medless ist kein Ersatz für eine ärztliche Beratung.</strong> 
-              Dieser Rechner erstellt einen theoretischen Dosierungsplan basierend auf 
-              Ihren Angaben und wissenschaftlichen Studien. Er berücksichtigt 
-              pharmakologische Wechselwirkungen, ersetzt jedoch keine individuelle 
-              medizinische Beurteilung.
+              MEDLESS liefert technische, KI-basierte Berechnungsvorschläge zur Unterstützung der Medikamentenreduktion.
             </p>
             
             <ul class="warning-list">
               <li>
-                <i class="fas fa-exclamation-triangle"></i>
+                <i class="fas fa-user-md"></i>
                 <span>
-                  <strong>Nie eigenständig Medikamente reduzieren:</strong> 
-                  Jede Änderung Ihrer Medikation muss mit Ihrem behandelnden Arzt 
-                  besprochen und überwacht werden.
+                  Medikamentenreduktion darf <strong>ausschließlich unter ärztlicher Aufsicht</strong> erfolgen.
                 </span>
               </li>
               <li>
-                <i class="fas fa-exclamation-triangle"></i>
+                <i class="fas fa-comments"></i>
                 <span>
-                  <strong>Wechselwirkungen sind individuell:</strong> 
-                  Die tatsächliche Wirkung von Cannabinoiden auf Ihre Medikamente 
-                  hängt von vielen Faktoren ab (Genetik, Leberfunktion, weitere 
-                  Substanzen).
+                  Der generierte Plan dient als <strong>wissenschaftlich fundierte Grundlage für Arztgespräche</strong>.
                 </span>
               </li>
               <li>
-                <i class="fas fa-exclamation-triangle"></i>
+                <i class="fas fa-ban"></i>
                 <span>
-                  <strong>Keine Garantie für Reduktion:</strong> 
-                  Medless zeigt ein <em>Potenzial</em> auf – ob und wie stark Sie 
-                  Medikamente reduzieren können, entscheidet Ihr Arzt anhand Ihrer 
-                  tatsächlichen Symptome und Blutwerte.
+                  <strong>Keine eigenständige Umsetzung</strong> ohne professionelle medizinische Beratung.
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-handshake"></i>
+                <span>
+                  Besprich den MEDLESS-Plan <strong>immer mit deinem behandelnden Arzt</strong>.
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-user-check"></i>
+                <span>
+                  Dein Arzt kann den Plan an deine <strong>individuelle gesundheitliche Situation</strong> anpassen.
                 </span>
               </li>
             </ul>
@@ -3086,24 +3237,8 @@ app.get('/', (c) => {
         
         <!-- Branding -->
         <div class="footer-branding">
-          <h3>Medless</h3>
-          <p class="tagline">Dein Weg zu weniger Medikamente.</p>
-          <p>
-            Ein KI-gestütztes Tool zur Berechnung von Cannabinoid-Dosierungen 
-            und Medikamenten-Reduktionsplänen – basierend auf Körperdaten, 
-            pharmakologischen Wechselwirkungen und evidenzbasierten Richtlinien.
-          </p>
-        </div>
-        
-        <!-- Quick Links -->
-        <div class="footer-section">
-          <h4>Quick Links</h4>
-          <ul class="footer-links">
-            <li><a href="#planner-section">Plan erstellen</a></li>
-            <li><a href="#why-medless">Warum Medless?</a></li>
-            <li><a href="#how-it-works">So funktioniert's</a></li>
-            <li><a href="#faq">FAQ</a></li>
-          </ul>
+          <h3>MEDLESS</h3>
+          <p class="tagline">Dein Weg zu weniger Medikamenten – individuell, sicher und wissenschaftlich begleitet.</p>
         </div>
         
         <!-- Legal -->
@@ -3112,8 +3247,16 @@ app.get('/', (c) => {
           <ul class="footer-links">
             <li><a href="#">Impressum</a></li>
             <li><a href="#">Datenschutz</a></li>
-            <li><a href="#">AGB</a></li>
-            <li><a href="#">Haftungsausschluss</a></li>
+            <li><a href="#">Medizinischer Hinweis</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact -->
+        <div class="footer-section">
+          <h4>Kontakt</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:info@medless.de">info@medless.de</a></li>
+            <li><a href="tel:+491234567890">+49 123 456 7890</a></li>
           </ul>
         </div>
         
@@ -3139,7 +3282,7 @@ app.get('/', (c) => {
       <!-- Bottom Bar -->
       <div class="footer-bottom">
         <div class="footer-copyright">
-          Stand: Januar 2025 | Medless – Dein Weg zu weniger Medikamente.
+          © 2025 MEDLESS. Alle Rechte vorbehalten.
         </div>
         <div class="footer-social">
           <a href="#" aria-label="Instagram">
