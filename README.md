@@ -5,7 +5,7 @@
 ![Status](https://img.shields.io/badge/Status-Production-success?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/Cloudflare-Pages-orange?style=for-the-badge&logo=cloudflare)
 ![License](https://img.shields.io/badge/License-Proprietary-blue?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-3.0-green?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-3.1-green?style=for-the-badge)
 
 **CBD-basierter Medikamenten-Reduktionsplaner mit algorithmischer Dosierungsberechnung**
 
@@ -31,13 +31,28 @@ MEDLESS ist ein **wissenschaftsbasiertes Tool** zur Planung der schrittweisen Me
 
 ## ✨ Features
 
-### ✅ **Frontend-Validierung (NEU)**
+### ✅ **Frontend-Validierung**
 ```
 - Inline-Fehlermeldungen statt Browser-Alerts
 - Visuelle Fehlermarkierung (rote Border + rosa Hintergrund)
 - Auto-Scroll zum ersten Fehlerfeld
 - Validierung BEFORE Loading Animation
 - Form Disabling nach erfolgreicher Validierung
+```
+
+### 🎨 **Medizinisches UI/UX Design (NEU)**
+```
+- 📊 Clean table styling für Produktkosten mit separater Totals-Card
+- 📐 2x2 Grid für Ausgangsdaten (Alter, Gewicht, Größe, BMI)
+- 💊 Medikamentenkarten mit Safety-Badges & Hinweisen
+- 🌿 Horizontale Info-Tiles für CBD-Empfehlungen (4-Spalten)
+- 📅 Enhanced Weekly Cards mit Schatten & strukturiertem Layout
+- 📦 Kompakte Info-Grids für CBD-Dosierung & Fläschchen-Status
+- 🩺 Dark Background für medizinische Hinweise (#F3F4F6)
+- 📄 Zentrierter PDF-Button mit erhöhtem Spacing
+- 🎯 Konsistente Typographie (2-3 Textgrößen max)
+- 💚 Green (#0b7b6c) als primärer Akzent
+- 📱 Mobile-First & PDF-kompatibles Inline-CSS
 ```
 
 ### 🧪 **Algorithmic Core**
@@ -492,6 +507,6 @@ Diese Anwendung dient ausschließlich **Informationszwecken** und stellt **keine
 
 [🌐 Live Demo](https://medless.pages.dev) · [📚 Docs](./TECHNICAL_DOCUMENTATION.md) · [📦 GitHub](https://github.com/Medless-App/medless)
 
-**Version 3.0** | Last Updated: 17. November 2025
+**Version 3.1** | Last Updated: 17. November 2025 (UI/UX Redesign)
 
 </div>
