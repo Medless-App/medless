@@ -683,49 +683,23 @@ app.get('/', (c) => {
       border-color: var(--primary-dark-green);
     }
     
-    /* Mobile Header */
+    /* Mobile Header - HIDE */
     @media (max-width: 768px) {
-      .header-container {
-        height: 64px;
-        padding: 0 var(--space-4);
-      }
-      
-      .header-logo img {
-        height: 40px;
-        max-width: 150px;
-      }
-      
-      .header-nav {
+      .site-header {
         display: none;
       }
       
-      .header-cta {
-        font-size: 13px;
-        padding: 0 var(--space-3);
-        height: 36px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 140px;
+      /* Show centered logo in hero instead */
+      .hero-logo-mobile {
+        display: block;
+        margin: 0 auto var(--space-5);
+        max-width: 280px;
       }
     }
     
-    @media (max-width: 480px) {
-      .header-container {
-        padding: 0 var(--space-3);
-      }
-      
-      .header-logo img {
-        height: 36px;
-        max-width: 120px;
-      }
-      
-      .header-cta {
-        font-size: 12px;
-        padding: 0 var(--space-2);
-        height: 34px;
-        max-width: 110px;
-      }
+    /* Desktop - Hide mobile logo */
+    .hero-logo-mobile {
+      display: none;
     }
     
     /* ============================================================
@@ -928,6 +902,11 @@ app.get('/', (c) => {
     
     .why-medless {
       background: var(--background-ultra-light);
+    }
+    
+    .wunsch-section {
+      padding-top: var(--spacing-section);
+      padding-bottom: var(--spacing-section);
     }
     
     .explanation-card {
@@ -2107,6 +2086,12 @@ app.get('/', (c) => {
         padding: var(--space-7) 0;
       }
       
+      /* Reduce spacing for "Der Wunsch" section on mobile */
+      .wunsch-section {
+        padding-top: var(--space-6);
+        padding-bottom: var(--space-6);
+      }
+      
       /* Explanation Cards Mobile */
       .explanation-card {
         padding: var(--space-5);
@@ -2533,6 +2518,26 @@ app.get('/', (c) => {
           
           <!-- Left: Content -->
           <div class="hero-content">
+            <!-- Mobile Logo (centered, only visible on mobile) -->
+            <svg class="hero-logo-mobile" viewBox="0 0 520 180" xmlns="http://www.w3.org/2000/svg">
+              <!-- Circles representing medication reduction -->
+              <circle cx="60" cy="50" r="30" fill="#0C5C4C"/>
+              <circle cx="110" cy="50" r="20" fill="#0C5C4C"/>
+              <circle cx="150" cy="50" r="14" fill="#0C5C4C"/>
+              <circle cx="180" cy="50" r="10" fill="#0C5C4C"/>
+              <circle cx="205" cy="50" r="7" fill="#0C5C4C"/>
+              <circle cx="225" cy="50" r="5" fill="#0C5C4C"/>
+              <circle cx="240" cy="50" r="3" fill="#0C5C4C"/>
+              <circle cx="252" cy="50" r="2" fill="#0C5C4C"/>
+              
+              <!-- MedLess Text -->
+              <text x="30" y="120" font-family="Inter, system-ui, sans-serif" font-size="52" font-weight="700" fill="#0C5C4C">MedLess</text>
+              
+              <!-- Tagline -->
+              <text x="35" y="145" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="400" fill="#0C5C4C">weniger Medikamente</text>
+              <text x="65" y="165" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="400" fill="#0C5C4C">mehr Leben</text>
+            </svg>
+            
             <h1 class="hero-headline">
               Dein Weg zu weniger Medikamenten.
             </h1>
@@ -2626,7 +2631,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          3) DER WUNSCH SECTION (Lösung)
          ============================================================ -->
-    <section id="wissenschaft" style="background: #f9fafb; padding: 40px 0 80px;">
+    <section id="wissenschaft" class="wunsch-section" style="background: #f9fafb;">
       <div class="container">
         
         <h2 class="section-headline">
