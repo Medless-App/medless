@@ -694,15 +694,17 @@ app.get('/', (c) => {
         display: none;
       }
       
-      /* Show mobile logo in hero - centered on page */
+      /* Show mobile logo in hero - centered on screen */
       .hero-logo-mobile {
         display: block;
-        width: 90%;
-        max-width: 400px;
+        width: 100%;
+        max-width: 530px;
         height: auto;
         margin-left: auto;
         margin-right: auto;
         margin-bottom: var(--space-4);
+        padding: 0 var(--space-2);
+        box-sizing: border-box;
       }
     }
     
