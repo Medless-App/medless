@@ -87,7 +87,7 @@ function applyCategorySafetyRules(params: {
   appliedCategoryRules = true;
   
   // Rule 1: Check if reduction to zero is allowed
-  if (category.can_reduce_to_zero === 0 || category.risk_level === 'lifelong') {
+  if (category.can_reduce_to_zero === 0 || category.risk_level === 'lifelong' || category.risk_level === 'very_high') {
     if (category.default_min_target_fraction !== null && category.default_min_target_fraction > 0) {
       // Use category's minimum target fraction
       targetFraction = Math.max(targetFraction, category.default_min_target_fraction);
