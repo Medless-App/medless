@@ -3141,6 +3141,17 @@ app.get('/', (c) => {
         font-size: 0.95rem;
       }
       
+      /* Step content lists - mehr Platz links auf Mobile */
+      .step-content ul {
+        padding-left: 0.75rem;
+        margin-left: 0;
+      }
+      
+      .step-content ul li {
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+      
       /* Safety Warning Mobile */
       .warning-box {
         padding: var(--space-5);
@@ -3348,6 +3359,15 @@ app.get('/', (c) => {
       .warning-header {
         flex-direction: column;
         align-items: flex-start;
+      }
+      
+      /* Step content lists - noch weniger padding auf sehr kleinen Displays */
+      .step-content ul {
+        padding-left: 0.5rem;
+      }
+      
+      .step-content ul li {
+        font-size: 0.85rem;
       }
       
       .footer-branding h3 {
