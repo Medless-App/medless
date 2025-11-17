@@ -3,8 +3,8 @@
 -- for controlling reduction limits and speed per category.
 -- All new fields are NULL-able to ensure backward compatibility.
 
+-- NOTE: risk_level already exists, so we only add NEW safety columns
 -- Add safety-related columns to medication_categories
-ALTER TABLE medication_categories ADD COLUMN risk_level TEXT NULL;
 ALTER TABLE medication_categories ADD COLUMN can_reduce_to_zero INTEGER NULL;
 ALTER TABLE medication_categories ADD COLUMN default_min_target_fraction REAL NULL;
 ALTER TABLE medication_categories ADD COLUMN max_weekly_reduction_pct REAL NULL;
