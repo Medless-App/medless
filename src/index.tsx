@@ -609,6 +609,103 @@ app.get('/', (c) => {
     }
     
     /* ============================================================
+       HEADER & NAVIGATION (NEW)
+       ============================================================ */
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .header-logo img {
+      height: 48px;
+      width: auto;
+      max-width: 200px;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+    
+    .header-nav a {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-body-color);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: var(--primary-dark-green);
+    }
+    
+    .header-cta {
+      display: inline-flex;
+      align-items: center;
+      height: 44px;
+      padding: 0 var(--space-5);
+      font-size: 15px;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      border: none;
+      border-radius: var(--radius-medium);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(12, 92, 76, 0.1);
+      white-space: nowrap;
+    }
+    
+    .header-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(12, 92, 76, 0.15);
+    }
+    
+    /* Mobile Header */
+    @media (max-width: 768px) {
+      .header-container {
+        height: 64px;
+      }
+      
+      .header-logo img {
+        height: 40px;
+        max-width: 150px;
+      }
+      
+      .header-nav {
+        display: none;
+      }
+      
+      .header-cta {
+        font-size: 14px;
+        padding: 0 var(--space-4);
+        height: 40px;
+      }
+    }
+    
+    /* ============================================================
        HERO SECTION
        ============================================================ */
     
@@ -625,8 +722,15 @@ app.get('/', (c) => {
       align-items: center;
     }
     
+    .hero-logo-small {
+      width: 160px;
+      height: auto;
+      margin-bottom: var(--space-4);
+      opacity: 0.9;
+    }
+    
     .hero-headline {
-      font-size: clamp(2.2rem, 1.4rem + 1.5vw, 2.8rem);
+      font-size: clamp(2rem, 1.2rem + 1.5vw, 2.5rem);
       font-weight: 700;
       color: var(--primary-dark-green);
       line-height: 1.2;
@@ -851,9 +955,21 @@ app.get('/', (c) => {
     
     .process-cards-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-5);
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-6);
       margin-top: var(--spacing-block-small);
+    }
+    
+    @media (max-width: 1024px) {
+      .process-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .process-cards-grid {
+        grid-template-columns: 1fr;
+      }
     }
     
     .process-card {
@@ -1002,19 +1118,20 @@ app.get('/', (c) => {
        ============================================================ */
     
     .safety-warning {
-      background: linear-gradient(135deg, #FFF5F5, #FFF9F9);
-      border-top: 4px solid #DC2626;
-      border-bottom: 4px solid #DC2626;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
     }
     
     .warning-box {
       max-width: 900px;
       margin: 0 auto;
       background: white;
-      border: 3px solid #FCA5A5;
+      border: 1px solid var(--gray-200);
+      border-left: 4px solid #DC2626;
       border-radius: var(--radius-large);
       padding: var(--space-6);
-      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.08);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.03);
     }
     
     .warning-header {
@@ -1025,27 +1142,27 @@ app.get('/', (c) => {
     }
     
     .warning-icon-circle {
-      width: 80px;
-      height: 80px;
-      min-width: 80px;
-      background: linear-gradient(135deg, #DC2626, #EF4444);
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      background: #FEF2F2;
+      border: 2px solid #FCA5A5;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
     }
     
     .warning-icon-circle i {
-      font-size: 40px;
-      color: white;
+      font-size: 24px;
+      color: #DC2626;
     }
     
     .warning-title {
-      font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem);
+      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.5rem);
       font-weight: 600;
-      color: #DC2626;
-      line-height: 1.25;
+      color: var(--text-body-color);
+      line-height: 1.3;
     }
     
     .warning-content {
@@ -2184,12 +2301,34 @@ app.get('/', (c) => {
 </head>
 <body>
   
+  <!-- ============================================================
+       SITE HEADER (STICKY)
+       ============================================================ -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <img src="https://www.genspark.ai/api/files/s/PLloGp9oDu" alt="MEDLESS Logo" />
+      </div>
+      
+      <nav class="header-nav">
+        <a href="#wie-es-funktioniert">Wie es funktioniert</a>
+        <a href="#wissenschaft">Wissenschaft</a>
+        <a href="#faq">FAQ</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+      
+      <a href="#planner-section" class="header-cta">
+        Jetzt Ausschleichplan starten
+      </a>
+    </div>
+  </header>
+  
   <main>
     
     <!-- ============================================================
          1) HERO SECTION
          ============================================================ -->
-    <section class="hero">
+    <section class="hero" id="wie-es-funktioniert">
       <div class="container">
         <div class="hero-grid">
           
@@ -2288,7 +2427,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          3) DER WUNSCH SECTION (Lösung)
          ============================================================ -->
-    <section style="background: #f9fafb; padding: 80px 0;">
+    <section id="wissenschaft" style="background: #f9fafb; padding: 40px 0 80px;">
       <div class="container">
         
         <h2 class="section-headline">
@@ -2932,7 +3071,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          6) FAQ SECTION
          ============================================================ -->
-    <section class="faq-section">
+    <section class="faq-section" id="faq">
       <div class="container">
         
         <h2 class="section-headline">
