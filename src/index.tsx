@@ -1068,9 +1068,23 @@ app.get('/', (c) => {
       color: var(--icon-color-primary) !important;
       font-size: var(--icon-size);
       line-height: 1;
-      font-weight: 400;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* FontAwesome Solid Icons need font-weight 900 */
+    i.fas {
+      font-weight: 900;
+    }
+    
+    /* FontAwesome Regular Icons need font-weight 400 */
+    i.far {
+      font-weight: 400;
+    }
+    
+    /* FontAwesome Brands Icons need font-weight 400 */
+    i.fab {
+      font-weight: 400;
     }
     
     /* Hero Features Icons */
