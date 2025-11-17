@@ -585,6 +585,7 @@ app.get('/', (c) => {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: rgba(15, 122, 103, 0.1);
     }
     
     html {
@@ -1575,6 +1576,7 @@ app.get('/', (c) => {
       font-weight: 600;
       color: var(--text-body-color);
       margin-bottom: var(--space-2);
+      -webkit-tap-highlight-color: transparent;
     }
     
     .form-row input[type="text"],
@@ -2047,15 +2049,37 @@ app.get('/', (c) => {
     @media (max-width: 768px) {
       .hero-grid {
         grid-template-columns: 1fr;
-        gap: var(--spacing-block-small);
+        gap: var(--space-6);
       }
       
       .hero {
-        padding: var(--spacing-block-small) 0;
+        padding: var(--space-6) 0;
       }
       
       .container {
         padding: 0 var(--space-4);
+      }
+      
+      /* Typography Mobile */
+      .hero-headline {
+        font-size: clamp(1.75rem, 1rem + 2vw, 2.2rem);
+      }
+      
+      .hero-subheadline {
+        font-size: 16px;
+      }
+      
+      .section-headline {
+        font-size: clamp(1.5rem, 1rem + 1.2vw, 1.75rem);
+      }
+      
+      /* Hero Features Mobile */
+      .hero-features {
+        gap: var(--space-2);
+      }
+      
+      .hero-features li {
+        font-size: 15px;
       }
       
       .hero-illustration {
@@ -2064,11 +2088,36 @@ app.get('/', (c) => {
       
       .process-cards-grid {
         grid-template-columns: 1fr;
-        gap: var(--space-4);
+        gap: var(--space-5);
+      }
+      
+      .process-card {
+        padding: var(--space-5);
+      }
+      
+      .process-card h4 {
+        font-size: 18px;
+      }
+      
+      .process-card p {
+        font-size: 15px;
       }
       
       section {
-        padding: var(--spacing-block-small) 0;
+        padding: var(--space-7) 0;
+      }
+      
+      /* Explanation Cards Mobile */
+      .explanation-card {
+        padding: var(--space-5);
+      }
+      
+      .explanation-card h3 {
+        font-size: 18px;
+      }
+      
+      .explanation-card p {
+        font-size: 15px;
       }
       
       /* Steps Section Mobile */
@@ -2101,31 +2150,41 @@ app.get('/', (c) => {
       
       /* Safety Warning Mobile */
       .warning-box {
-        padding: 2rem 1.5rem;
+        padding: var(--space-5);
       }
       
       .warning-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-4);
       }
       
       .warning-icon-circle {
-        width: 64px;
-        height: 64px;
-        min-width: 64px;
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
       }
       
       .warning-icon-circle i {
-        font-size: 32px;
+        font-size: 20px;
       }
       
       .warning-title {
-        font-size: 1.5rem;
+        font-size: 18px;
       }
       
       .warning-content {
-        font-size: 1rem;
+        font-size: 15px;
+      }
+      
+      .warning-content p {
+        font-size: 15px;
+      }
+      
+      .warning-list li,
+      .medical-list li {
+        font-size: 15px;
+        gap: var(--space-2);
       }
       
       .warning-list li {
@@ -2226,6 +2285,80 @@ app.get('/', (c) => {
       .footer-bottom {
         flex-direction: column;
         text-align: center;
+      }
+    }
+    
+    /* Extra Small Devices (< 480px) */
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 var(--space-3);
+      }
+      
+      .hero {
+        padding: var(--space-6) 0 var(--space-5);
+      }
+      
+      .hero-headline {
+        font-size: 1.75rem;
+        margin-bottom: var(--space-3);
+      }
+      
+      .hero-subheadline {
+        font-size: 15px;
+      }
+      
+      .hero-features li {
+        font-size: 14px;
+      }
+      
+      .cta-button-primary {
+        width: 100%;
+        font-size: 15px;
+      }
+      
+      section {
+        padding: var(--space-6) 0;
+      }
+      
+      .section-headline {
+        font-size: 1.5rem;
+      }
+      
+      .process-card,
+      .explanation-card {
+        padding: var(--space-4);
+      }
+      
+      .card-icon-circle {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .card-icon-circle i {
+        font-size: 18px;
+      }
+      
+      .form-card {
+        padding: var(--space-4);
+      }
+      
+      .btn-primary,
+      .btn-secondary {
+        height: 44px;
+        font-size: 15px;
+      }
+      
+      .warning-box {
+        padding: var(--space-4);
+      }
+      
+      .warning-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .footer-branding h3 {
+        font-size: 1.5rem;
       }
     }
     
