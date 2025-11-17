@@ -692,8 +692,8 @@ app.get('/', (c) => {
       /* Show centered logo in hero instead */
       .hero-logo-mobile {
         display: block;
-        margin: 0 auto var(--space-5);
-        max-width: 280px;
+        margin: 0 auto var(--space-4);
+        max-width: 200px;
       }
     }
     
@@ -2032,7 +2032,7 @@ app.get('/', (c) => {
       }
       
       .hero {
-        padding: var(--space-6) 0;
+        padding: var(--space-5) 0;
       }
       
       .container {
@@ -3674,7 +3674,6 @@ app.get('/', (c) => {
           <ul class="footer-links">
             <li><a href="mailto:hallo@medless.care">hallo@medless.care</a></li>
             <li><a href="tel:+43316931288">+43 316 / 931 288</a></li>
-            <li>Asperngasse 4, 8020 Graz</li>
           </ul>
         </div>
         
@@ -3700,7 +3699,7 @@ app.get('/', (c) => {
       <!-- Bottom Bar -->
       <div class="footer-bottom">
         <div class="footer-copyright">
-          © 2025 CBD-Vertriebskompetenz GmbH. Alle Rechte vorbehalten. | UID: ATU72762156
+          © 2025 MEDLESS. Alle Rechte vorbehalten.
         </div>
         <div class="footer-social">
           <a href="#" aria-label="Instagram">
