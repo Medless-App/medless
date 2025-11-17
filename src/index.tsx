@@ -1037,7 +1037,6 @@ app.get('/', (c) => {
     .warning-list i,
     .checkmark-icon,
     .faq-icon i,
-    .step-number-circle,
     i.fas,
     i.far,
     i.fab {
@@ -1266,7 +1265,7 @@ app.get('/', (c) => {
       height: 48px;
       min-width: 48px;
       background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
-      color: white;
+      color: white !important;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -1274,6 +1273,7 @@ app.get('/', (c) => {
       font-size: 20px;
       font-weight: 700;
       box-shadow: 0 2px 6px rgba(14, 95, 69, 0.2);
+      z-index: 1;
     }
     
     .step-connector {
