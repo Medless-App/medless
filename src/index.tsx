@@ -2901,7 +2901,7 @@ app.get('/', (c) => {
             <div class="step-content">
               <h4>Basisdaten eingeben</h4>
               <p>
-                Vorname, Körpergröße, Gewicht, Alter, Geschlecht – die Grundlage für deine individuelle Berechnung.
+                Gib deine Basisdaten ein: Vorname, Alter, Geschlecht, Körpergröße und Gewicht. Diese Angaben helfen, Stoffwechsel, Dosierung und Belastbarkeit besser einzuschätzen.
               </p>
             </div>
           </div>
@@ -2911,9 +2911,9 @@ app.get('/', (c) => {
             <div class="step-number-circle">2</div>
             <div class="step-connector"></div>
             <div class="step-content">
-              <h4>Medikamente hinzufügen (beliebig viele)</h4>
+              <h4>Medikamente hinzufügen</h4>
               <p>
-                Gib alle Medikamente ein, die du einnimmst – mit Dosierung und Einnahmefrequenz pro Medikament.
+                Trage alle Medikamente ein, die du aktuell einnimmst – egal ob es viele sind oder nur ein einziges dauerhaftes Medikament (z. B. Schlafmittel, Antidepressivum zur Nacht oder „Magenschutz"). Zu jedem Medikament gibst du Wirkstoff, Dosierung und Einnahmehäufigkeit an.
               </p>
             </div>
           </div>
@@ -2925,7 +2925,7 @@ app.get('/', (c) => {
             <div class="step-content">
               <h4>Dauer auswählen</h4>
               <p>
-                Wähle deinen gewünschten Zeitraum: 2–12 Wochen. Kürzere Zeiträume für schnellere, längere für sanftere Reduktion.
+                Wähle deinen gewünschten Zeitraum für das Ausschleichen – zum Beispiel 2, 4, 8 oder 12 Wochen. Kürzere Zeiträume stehen für schnellere, längere für sanftere Reduktion. Der Plan bleibt theoretisch und kann von deinem Arzt angepasst oder gestreckt werden.
               </p>
             </div>
           </div>
@@ -2937,7 +2937,7 @@ app.get('/', (c) => {
             <div class="step-content">
               <h4>Reduktionsziel auswählen</h4>
               <p>
-                Bestimme dein Ziel: 10–100% Reduktion. Möchtest du nur die Dosis senken oder komplett ausschleichen?
+                Lege fest, was du erreichen möchtest: Möchtest du die Dosis um z. B. 10–25 % reduzieren oder ein deutlich größeres Reduktionsziel bis hin zum kompletten Ausschleichen wählen? MEDLESS berechnet auf dieser Basis einen vorsichtigen Verlauf in kleinen Schritten.
               </p>
             </div>
           </div>
@@ -2951,11 +2951,11 @@ app.get('/', (c) => {
                 Innerhalb von Sekunden erhältst du:
               </p>
               <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
-                <li>Wöchentliche Medikamenten-Reduktionspläne</li>
-                <li>Passende Cannabinoid-Dosierung für jede Phase</li>
-                <li>Produktberechnung (welche Cannabinoide und wie viele Fläschchen)</li>
-                <li>Gesamtkostenübersicht für das komplette Programm</li>
-                <li>Druckbare Wochenpläne für dich und deinen Arzt</li>
+                <li>einen theoretischen, wöchentlichen Reduktionsplan für deine Medikamente</li>
+                <li>eine dazu passende Cannabinoid-Dosierung auf Basis der MEDLESS-Produktlinie</li>
+                <li>eine genaue Mengenberechnung, welche MEDLESS-Produkte du für den gesamten Zeitraum benötigst</li>
+                <li>eine <strong>Gesamtkostenübersicht</strong> für diese Produkte und – optional – die Kosten pro Woche</li>
+                <li>ein druckbares PDF mit klaren Wochenplänen, das du mit in die Ordination nehmen kannst</li>
               </ul>
             </div>
           </div>
