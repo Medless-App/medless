@@ -2792,13 +2792,13 @@ app.get('/', (c) => {
           </div>
           <h3>Wissenschaftliche Grundlage</h3>
           <p>
-            MEDLESS arbeitet ausschließlich mit Cannabinoiden – nicht pauschal mit CBD. Diese pflanzlichen Wirkstoffe interagieren auf präzise Weise mit körpereigenen Systemen:
+            MEDLESS arbeitet mit Cannabinoiden und dem Wissen über das Endocannabinoid-System (ECS) – nicht pauschal „nur mit CBD". Diese pflanzlichen Wirkstoffe interagieren mit körpereigenen Systemen, die an Schlaf, Schmerzempfinden, Stimmung, Stressregulation und Entzündungen beteiligt sind.
           </p>
           <p style="margin-top: 1rem;">
-            <strong>Der Wirkmechanismus:</strong> Cannabinoide beeinflussen die Aktivität bestimmter Leberenzyme, insbesondere des CYP450-Systems. Diese Enzyme sind für den Abbau vieler Medikamente verantwortlich.
+            Ein wichtiger Mechanismus: Bestimmte Cannabinoide beeinflussen Leberenzyme (CYP450-System), die auch für den Abbau vieler Medikamente verantwortlich sind. Dadurch können sich Blutspiegel einzelner Wirkstoffe verändern – mit Chancen, aber auch mit Risiken.
           </p>
           <p style="margin-top: 1rem;">
-            Wenn Cannabinoide die Enzymaktivität modulieren, können manche Medikamente langsamer abgebaut werden. Dieser Effekt kann – unter strenger ärztlicher Aufsicht – gezielt genutzt werden, um die Medikamentendosis schrittweise zu reduzieren.
+            MEDLESS nutzt diese Zusammenhänge, um theoretische Ausschleichmodelle zu berechnen. Es ersetzt keine klinischen Leitlinien und keine ärztliche Entscheidung, sondern stellt eine strukturierte, wissenschaftlich inspirierte Grundlage für das Arztgespräch bereit.
           </p>
         </div>
         
@@ -2808,26 +2808,33 @@ app.get('/', (c) => {
           </div>
           <h3>Individuelle Berechnung</h3>
           <p>
-            MEDLESS berechnet anhand Ihrer persönlichen Daten einen maßgeschneiderten Reduktionsplan:
+            MEDLESS berechnet anhand deiner persönlichen Daten einen maßgeschneiderten, theoretischen Reduktionsplan:
           </p>
           <ul class="medical-list" style="margin-top: 1.5rem;">
             <li>
               <i class="fas fa-user"></i>
-              <span><strong>Körpergröße, Gewicht, Alter, Geschlecht:</strong> Biologische Faktoren beeinflussen Stoffwechsel und Medikamentenwirkung</span>
+              <span><strong>Körpergröße, Gewicht, Alter, Geschlecht</strong> – biologische Faktoren beeinflussen Stoffwechsel und Medikamentenwirkung.</span>
             </li>
             <li>
               <i class="fas fa-pills"></i>
-              <span><strong>Aktuelle Medikamente:</strong> Art, Dosierung und Einnahmefrequenz jedes Medikaments</span>
+              <span><strong>Aktuelle Medikamente</strong> – Art, Dosierung, Einnahmefrequenz und Dauer der Einnahme.</span>
+            </li>
+            <li>
+              <i class="fas fa-bullseye"></i>
+              <span><strong>Zielmedikation</strong> – ob es um viele Präparate oder um ein einziges dauerndes Medikament (z. B. Schlafmittel, Antidepressivum zur Nacht oder „Magenschutz") geht.</span>
             </li>
             <li>
               <i class="fas fa-calendar-alt"></i>
-              <span><strong>Zeitrahmen:</strong> Wunschdauer des Ausschleichens (2–12 Wochen)</span>
+              <span><strong>Zeitrahmen</strong> – gewünschter Ausschleichzeitraum (z. B. 2–12 Wochen, sanfter oder schneller).</span>
             </li>
             <li>
               <i class="fas fa-chart-line"></i>
-              <span><strong>Reduktionsziel:</strong> Gewünschter Reduktionsgrad (10–100%)</span>
+              <span><strong>Reduktionsziel</strong> – von 10 % Dosisreduktion bis hin zum kompletten Ausschleichen.</span>
             </li>
           </ul>
+          <p style="margin-top: 1rem;">
+            Die Berechnung zeigt dir, wie ein möglicher Weg nach unten aussehen könnte – die tatsächliche Umsetzung erfolgt immer gemeinsam mit deinem Arzt.
+          </p>
         </div>
         
         <div class="explanation-card" style="margin-top: 2rem; background: #F0FDF4;">
@@ -2836,30 +2843,36 @@ app.get('/', (c) => {
           </div>
           <h3>KI-Intelligenz</h3>
           <p>
-            Unsere künstliche Intelligenz berücksichtigt:
+            Unsere KI berücksichtigt:
           </p>
           <ul class="medical-list" style="margin-top: 1.5rem;">
             <li>
               <i class="fas fa-exchange-alt"></i>
-              <span>Bekannte Wechselwirkungen zwischen Medikamenten und Cannabinoiden</span>
+              <span>Bekannte Wechselwirkungen zwischen Cannabinoiden und vielen gängigen Medikamenten.</span>
             </li>
             <li>
               <i class="fas fa-project-diagram"></i>
-              <span>Individualisierte Reduktionslogik basierend auf pharmakokinetischen Modellen</span>
+              <span>Individualisierte Reduktionslogik auf Basis pharmakologischer Modelle und Sicherheitsmargen.</span>
             </li>
             <li>
               <i class="fas fa-shield-alt"></i>
-              <span>Eingebaute Sicherheitsspannen zur Risikominimierung</span>
+              <span>Besondere Vorsicht bei sensiblen Wirkstoffen (z. B. Schlafmittel, Beruhigungsmittel, Antidepressiva, Blutverdünner).</span>
             </li>
             <li>
               <i class="fas fa-balance-scale"></i>
-              <span>Optimierte Cannabinoid-Dosierung für den gesamten Zeitraum</span>
+              <span>Eine vorsichtige Einschleusung und Anpassung der Cannabinoid-Dosierung im Zeitverlauf.</span>
             </li>
             <li>
               <i class="fas fa-shopping-cart"></i>
-              <span>Produktempfehlungen mit genauer Mengenberechnung</span>
+              <span>Produktempfehlungen für die MEDLESS-Produktlinie mit genauer Mengenberechnung.</span>
             </li>
           </ul>
+          <p style="margin-top: 1rem;">
+            <strong>Wichtig:</strong> Die KI ist gezielt auf die MEDLESS-Produkte trainiert. Nur bei diesen Produkten sind Konzentrationen und Cannabinoid-/Terpenprofile exakt hinterlegt. Deshalb gilt der Ausschleichplan ausschließlich für MEDLESS-Produkte – bei anderen Produkten wären die Berechnungen nicht mehr zuverlässig.
+          </p>
+          <p style="margin-top: 1rem;">
+            Im Plan erhältst du zudem eine transparente Übersicht über die Gesamtkosten der MEDLESS-Produkte für deinen gewählten Ausschleichzeitraum.
+          </p>
         </div>
         
         <p class="section-description" style="margin-top: 3rem; font-size: 1.1rem; font-weight: 600;">
