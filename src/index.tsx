@@ -2985,58 +2985,18 @@ app.get('/', (c) => {
               <i class="fas fa-shield-alt"></i>
             </div>
             <h2 class="warning-title">
-              MEDLESS ersetzt keinen Arzt
+              <strong>Wichtiger medizinischer Haftungsausschluss</strong>
             </h2>
           </div>
           
           <div class="warning-content">
             
-            <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem;">
-              Wichtiger medizinischer Hinweis:
+            <p>
+              MedLess ist ein KI-gestütztes Informationstool und kein Ersatz für ärztlichen Rat, Diagnose oder Behandlung. Alle Berechnungen basieren auf wissenschaftlichen Studien und pharmakologischen Konzepten, ersetzen jedoch keine individuelle medizinische Beurteilung.
             </p>
             
-            <p>
-              MEDLESS liefert technische, KI-basierte Berechnungsvorschläge zur Unterstützung der Medikamentenreduktion.
-            </p>
-            
-            <ul class="warning-list">
-              <li>
-                <i class="fas fa-user-md"></i>
-                <span>
-                  Medikamentenreduktion darf <strong>ausschließlich unter ärztlicher Aufsicht</strong> erfolgen.
-                </span>
-              </li>
-              <li>
-                <i class="fas fa-comments"></i>
-                <span>
-                  Der generierte Plan dient als <strong>wissenschaftlich fundierte Grundlage für Arztgespräche</strong>.
-                </span>
-              </li>
-              <li>
-                <i class="fas fa-ban"></i>
-                <span>
-                  <strong>Keine eigenständige Umsetzung</strong> ohne professionelle medizinische Beratung.
-                </span>
-              </li>
-              <li>
-                <i class="fas fa-handshake"></i>
-                <span>
-                  Besprich den MEDLESS-Plan <strong>immer mit deinem behandelnden Arzt</strong>.
-                </span>
-              </li>
-              <li>
-                <i class="fas fa-user-check"></i>
-                <span>
-                  Dein Arzt kann den Plan an deine <strong>individuelle gesundheitliche Situation</strong> anpassen.
-                </span>
-              </li>
-            </ul>
-            
-            <p>
-              <strong>Verwenden Sie diesen Plan als Gesprächsgrundlage mit Ihrem Arzt.</strong> 
-              Laden Sie das PDF herunter, nehmen Sie es mit in die Sprechstunde und 
-              besprechen Sie gemeinsam, ob und wie ein Cannabinoid-Einsatz in Ihrem 
-              Fall sinnvoll sein könnte.
+            <p style="margin-top: 1.5rem;">
+              <strong>Ändern Sie niemals eigenständig Ihre Medikation.</strong> Jede Anpassung muss mit Ihrem behandelnden Arzt oder Ihrer Ärztin besprochen und überwacht werden.
             </p>
             
           </div>
@@ -3641,6 +3601,9 @@ app.get('/', (c) => {
         <div class="footer-branding">
           <h3>MEDLESS</h3>
           <p class="tagline">Dein Weg zu weniger Medikamenten – individuell, sicher und wissenschaftlich begleitet.</p>
+          <p style="margin-top: var(--space-3); font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.8);">
+            MedLess bietet KI-gestützte Ausschleichpläne auf Basis von Cannabinoiden und deinem Endocannabinoid-System – als Gesprächsgrundlage für ärztlich begleitete Entscheidungen.
+          </p>
           <p style="margin-top: var(--space-3); font-size: 14px; color: var(--text-muted);">
             Eine Marke der CBD-Vertriebskompetenz GmbH
           </p>
