@@ -7,6 +7,165 @@ type Bindings = {
   OPENAI_API_KEY?: string;
 }
 
+// ============================================================
+// TYPE DEFINITIONS: Medication Category Safety Rules
+// ============================================================
+
+interface MedicationCategory {
+  id: number;
+  name: string;
+  risk_level: string | null;
+  can_reduce_to_zero: number | null;
+  default_min_target_fraction: number | null;
+  max_weekly_reduction_pct: number | null;
+  requires_specialist: number | null;
+  notes: string | null;
+}
+
+interface MedicationWithCategory {
+  id: number;
+  name: string;
+  generic_name: string;
+  category_id: number | null;
+  // ... other medication fields
+  category?: MedicationCategory | null;
+  category_name?: string;
+  risk_level?: string | null;
+  // New safety fields from category
+  can_reduce_to_zero?: number | null;
+  default_min_target_fraction?: number | null;
+  max_weekly_reduction_pct?: number | null;
+  requires_specialist?: number | null;
+  category_notes?: string | null;
+}
+
+interface SafetyResult {
+  effectiveTargetMg: number;
+  effectiveWeeklyReduction: number;
+  safetyNotes: string[];
+  limitedByCategory: boolean;
+  appliedCategoryRules: boolean;
+}
+
+// ============================================================
+// SAFETY FUNCTION: Apply Category-Based Reduction Limits
+// ============================================================
+
+function applyCategorySafetyRules(params: {
+  startMg: number;
+  reductionGoal: number;
+  durationWeeks: number;
+  medicationName: string;
+  category?: MedicationWithCategory | null;
+}): SafetyResult {
+  const { startMg, reductionGoal, durationWeeks, medicationName, category } = params;
+  
+  const safetyNotes: string[] = [];
+  let appliedCategoryRules = false;
+  let limitedByCategory = false;
+  
+  // Base calculation from user input
+  let targetFraction = 1 - (reductionGoal / 100);
+  
+  // If no category data, return original calculation
+  if (!category || 
+      (category.can_reduce_to_zero === null && 
+       category.default_min_target_fraction === null && 
+       category.max_weekly_reduction_pct === null)) {
+    const desiredTargetMg = startMg * targetFraction;
+    const weeklyReduction = (startMg - desiredTargetMg) / durationWeeks;
+    
+    return {
+      effectiveTargetMg: desiredTargetMg,
+      effectiveWeeklyReduction: weeklyReduction,
+      safetyNotes: [],
+      limitedByCategory: false,
+      appliedCategoryRules: false
+    };
+  }
+  
+  appliedCategoryRules = true;
+  
+  // Rule 1: Check if reduction to zero is allowed
+  if (category.can_reduce_to_zero === 0 || category.risk_level === 'lifelong') {
+    if (category.default_min_target_fraction !== null && category.default_min_target_fraction > 0) {
+      // Use category's minimum target fraction
+      targetFraction = Math.max(targetFraction, category.default_min_target_fraction);
+      if (targetFraction > (1 - reductionGoal / 100)) {
+        limitedByCategory = true;
+        safetyNotes.push(
+          `⚠️ ${medicationName}: Reduktion begrenzt auf max. ${Math.round((1 - targetFraction) * 100)}% (Kategorie-Sicherheitsregel)`
+        );
+      }
+    } else {
+      // No reduction allowed at all
+      targetFraction = 1.0;
+      limitedByCategory = true;
+      safetyNotes.push(
+        `🔒 ${medicationName}: Keine Reduktion möglich (lebenslange Medikation)`
+      );
+    }
+  } 
+  // Rule 2: Apply minimum target fraction (even if can_reduce_to_zero = 1)
+  else if (category.default_min_target_fraction !== null && category.default_min_target_fraction > 0) {
+    const originalTargetFraction = targetFraction;
+    targetFraction = Math.max(targetFraction, category.default_min_target_fraction);
+    if (targetFraction > originalTargetFraction) {
+      limitedByCategory = true;
+      safetyNotes.push(
+        `⚠️ ${medicationName}: Reduktion begrenzt auf max. ${Math.round((1 - targetFraction) * 100)}% (Sicherheitsgrenze)`
+      );
+    }
+  }
+  
+  // Calculate desired target
+  const desiredTargetMg = Math.max(0, startMg * targetFraction);
+  
+  // Base weekly reduction
+  let weeklyReductionBase = (startMg - desiredTargetMg) / durationWeeks;
+  
+  // Rule 3: Apply maximum weekly reduction percentage
+  let effectiveWeeklyReduction = weeklyReductionBase;
+  
+  if (category.max_weekly_reduction_pct !== null && category.max_weekly_reduction_pct > 0) {
+    const maxWeeklyReductionMg = startMg * (category.max_weekly_reduction_pct / 100);
+    
+    if (weeklyReductionBase > maxWeeklyReductionMg) {
+      effectiveWeeklyReduction = maxWeeklyReductionMg;
+      limitedByCategory = true;
+      safetyNotes.push(
+        `🐌 ${medicationName}: Reduktionsgeschwindigkeit begrenzt auf max. ${category.max_weekly_reduction_pct}%/Woche`
+      );
+    }
+  }
+  
+  // Calculate effective target based on weekly reduction limit
+  const effectiveTargetMg = Math.max(0, startMg - (effectiveWeeklyReduction * durationWeeks));
+  
+  // Additional note if target changed due to speed limit
+  if (effectiveTargetMg > desiredTargetMg && limitedByCategory) {
+    const actualReductionPct = Math.round(((startMg - effectiveTargetMg) / startMg) * 100);
+    safetyNotes.push(
+      `ℹ️ ${medicationName}: Tatsächliche Reduktion: ${actualReductionPct}% (statt ${reductionGoal}%)`
+    );
+  }
+  
+  // Add specialist note if required
+  if (category.requires_specialist === 1) {
+    safetyNotes.push(
+      `👨‍⚕️ ${medicationName}: Fachärztliche Begleitung erforderlich`
+    );
+  }
+  
+  return {
+    effectiveTargetMg,
+    effectiveWeeklyReduction,
+    safetyNotes,
+    limitedByCategory,
+    appliedCategoryRules
+  };
+}
+
 const app = new Hono<{ Bindings: Bindings }>()
 
 // MEDLESS Product Data - CBD Dosier-Sprays (FIXED VALUES - DO NOT CHANGE)
@@ -201,7 +360,14 @@ app.get('/api/medications', async (c) => {
   const { env } = c;
   try {
     const result = await env.DB.prepare(`
-      SELECT m.*, mc.name as category_name, mc.risk_level
+      SELECT m.*, 
+             mc.name as category_name, 
+             mc.risk_level,
+             mc.can_reduce_to_zero,
+             mc.default_min_target_fraction,
+             mc.max_weekly_reduction_pct,
+             mc.requires_specialist,
+             mc.notes as category_notes
       FROM medications m
       LEFT JOIN medication_categories mc ON m.category_id = mc.id
       ORDER BY m.name
@@ -220,7 +386,14 @@ app.get('/api/medications/search/:query', async (c) => {
   
   try {
     const result = await env.DB.prepare(`
-      SELECT m.*, mc.name as category_name, mc.risk_level
+      SELECT m.*, 
+             mc.name as category_name, 
+             mc.risk_level,
+             mc.can_reduce_to_zero,
+             mc.default_min_target_fraction,
+             mc.max_weekly_reduction_pct,
+             mc.requires_specialist,
+             mc.notes as category_notes
       FROM medications m
       LEFT JOIN medication_categories mc ON m.category_id = mc.id
       WHERE m.name LIKE ? OR m.generic_name LIKE ?
@@ -287,12 +460,19 @@ app.post('/api/analyze', async (c) => {
     
     for (const med of medications) {
       const medResult = await env.DB.prepare(`
-        SELECT m.*, mc.risk_level
+        SELECT m.*, 
+               mc.name as category_name,
+               mc.risk_level,
+               mc.can_reduce_to_zero,
+               mc.default_min_target_fraction,
+               mc.max_weekly_reduction_pct,
+               mc.requires_specialist,
+               mc.notes as category_notes
         FROM medications m
         LEFT JOIN medication_categories mc ON m.category_id = mc.id
         WHERE m.name LIKE ? OR m.generic_name LIKE ?
         LIMIT 1
-      `).bind(`%${med.name}%`, `%${med.name}%`).first();
+      `).bind(`%${med.name}%`, `%${med.name}%`).first() as MedicationWithCategory | null;
       
       if (medResult) {
         const interactions = await env.DB.prepare(`
@@ -381,11 +561,25 @@ app.post('/api/analyze', async (c) => {
     const weeklyPlan = cbdPlan.map((cbdWeek: any) => {
       const week = cbdWeek.week;
       
-      // Calculate medication doses for this week
-      const weekMedications = medications.map((med: any) => {
+      // Calculate medication doses for this week WITH CATEGORY SAFETY RULES
+      const weekMedications = medications.map((med: any, index: number) => {
         const startMg = med.mgPerDay;
-        const targetMg = startMg * (1 - reductionGoal / 100);
-        const weeklyReduction = (startMg - targetMg) / durationWeeks;
+        
+        // Find the medication's category data from analysisResults
+        const medAnalysis = analysisResults[index];
+        const medCategory = medAnalysis?.medication as MedicationWithCategory | null;
+        
+        // Apply category safety rules
+        const safetyResult = applyCategorySafetyRules({
+          startMg,
+          reductionGoal,
+          durationWeeks,
+          medicationName: med.name,
+          category: medCategory
+        });
+        
+        const targetMg = safetyResult.effectiveTargetMg;
+        const weeklyReduction = safetyResult.effectiveWeeklyReduction;
         const currentMg = startMg - (weeklyReduction * (week - 1));
         
         return {
@@ -394,7 +588,13 @@ app.post('/api/analyze', async (c) => {
           currentMg: Math.round(currentMg * 10) / 10,
           targetMg: Math.round(targetMg * 10) / 10,
           reduction: Math.round(weeklyReduction * 10) / 10,
-          reductionPercent: Math.round(((startMg - currentMg) / startMg) * 100)
+          reductionPercent: Math.round(((startMg - currentMg) / startMg) * 100),
+          // NEW: Safety information
+          safety: week === 1 ? { // Only add safety info to first week
+            appliedCategoryRules: safetyResult.appliedCategoryRules,
+            limitedByCategory: safetyResult.limitedByCategory,
+            notes: safetyResult.safetyNotes
+          } : undefined
         };
       });
       
@@ -420,6 +620,27 @@ app.post('/api/analyze', async (c) => {
     
     // Calculate total costs for the plan
     const costAnalysis = calculatePlanCosts(weeklyPlan);
+    
+    // Collect all category safety notes from first week
+    const categorySafetyNotes: string[] = [];
+    if (weeklyPlan.length > 0 && weeklyPlan[0].medications) {
+      weeklyPlan[0].medications.forEach((med: any) => {
+        if (med.safety && med.safety.notes && med.safety.notes.length > 0) {
+          categorySafetyNotes.push(...med.safety.notes);
+        }
+      });
+    }
+    
+    // Build warnings array
+    const warnings: string[] = [];
+    if (maxSeverity === 'critical' || maxSeverity === 'high') {
+      warnings.push('⚠️ Kritische Wechselwirkungen erkannt!');
+      warnings.push('Konsultieren Sie unbedingt einen Arzt vor der Cannabinoid-Einnahme.');
+    }
+    // Add category safety notes to warnings
+    if (categorySafetyNotes.length > 0) {
+      warnings.push(...categorySafetyNotes);
+    }
     
     return c.json({
       success: true,
@@ -462,8 +683,12 @@ app.post('/api/analyze', async (c) => {
         hasBenzoOrOpioid,
         notes: adjustmentNotes
       },
-      warnings: maxSeverity === 'critical' || maxSeverity === 'high' ? 
-        ['⚠️ Kritische Wechselwirkungen erkannt!', 'Konsultieren Sie unbedingt einen Arzt vor der Cannabinoid-Einnahme.'] : []
+      warnings,
+      // NEW: Category safety summary
+      categorySafety: {
+        appliedRules: categorySafetyNotes.length > 0,
+        notes: categorySafetyNotes
+      }
     });
     
   } catch (error: any) {
