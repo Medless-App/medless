@@ -575,6 +575,66 @@ app.get('/', (c) => {
       /* Max Width for Readability */
       --max-width-text: 65ch;
       --max-width-card-text: 45ch;
+      
+      /* LAYOUT OPTIMIZATION - Consistent Spacing */
+      --section-padding-y: 90px;
+      --heading-margin-bottom: 22px;
+      --paragraph-spacing: 16px;
+      --line-height-comfortable: 1.7;
+    }
+    
+    /* ============================================================
+       GLOBAL LAYOUT IMPROVEMENTS
+       ============================================================ */
+    
+    /* Consistent Line Heights for Better Readability */
+    p, li, .faq-answer-content {
+      line-height: var(--line-height-comfortable);
+    }
+    
+    /* Consistent Paragraph Spacing */
+    p + p {
+      margin-top: var(--paragraph-spacing);
+    }
+    
+    /* Consistent Heading Bottom Margins */
+    h1, h2, h3, h4 {
+      margin-bottom: var(--heading-margin-bottom);
+    }
+    
+    /* Section Dividers - Subtle Horizontal Lines */
+    .section-divider {
+      width: 30%;
+      height: 1px;
+      background: #E6E6E6;
+      margin: 0 auto;
+      border: none;
+    }
+    
+    /* Consistent Section Padding */
+    section {
+      padding: var(--section-padding-y) 0;
+    }
+    
+    /* Card and Text Block Spacing */
+    .explanation-card p,
+    .process-card p,
+    .faq-answer-content p {
+      line-height: var(--line-height-comfortable);
+    }
+    
+    .explanation-card p + p,
+    .process-card p + p,
+    .faq-answer-content p + p {
+      margin-top: var(--paragraph-spacing);
+    }
+    
+    /* Card Horizontal Padding */
+    .explanation-card,
+    .process-card,
+    .step-content {
+      padding-left: var(--space-5);
+      padding-right: var(--space-5);
     }
     
     /* ============================================================
@@ -2772,6 +2832,11 @@ app.get('/', (c) => {
       </div>
     </section>
     
+    <!-- Section Divider -->
+    <div style="padding: 40px 0;">
+      <hr class="section-divider">
+    </div>
+    
     <!-- ============================================================
          5) MEDLESS LÖSUNG SECTION
          ============================================================ -->
@@ -3308,6 +3373,11 @@ app.get('/', (c) => {
       </div>
     </section>
     
+    <!-- Section Divider -->
+    <div style="padding: 40px 0;">
+      <hr class="section-divider">
+    </div>
+    
     <!-- ============================================================
          9) FAQ SECTION
          ============================================================ -->
@@ -3588,6 +3658,11 @@ app.get('/', (c) => {
     </div>
     
   </main>
+  
+  <!-- Section Divider -->
+  <div style="padding: 40px 0;">
+    <hr class="section-divider">
+  </div>
   
   <!-- ============================================================
        FOOTER
