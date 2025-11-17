@@ -3141,10 +3141,17 @@ app.get('/', (c) => {
         font-size: 0.95rem;
       }
       
-      /* Step content lists - mehr Platz links auf Mobile */
+      /* Step content lists - Bullets linksbündig mit Text, gleiche Schriftgröße */
       .step-content ul {
-        padding-left: 0.75rem;
+        padding-left: 0;
         margin-left: 0;
+        list-style-position: outside;
+      }
+      
+      .step-content ul li {
+        margin-left: 1.25rem;
+        padding-left: 0.25rem;
+        font-size: inherit; /* Gleiche Größe wie .step-content p */
       }
       
       /* Safety Warning Mobile */
@@ -3356,9 +3363,13 @@ app.get('/', (c) => {
         align-items: flex-start;
       }
       
-      /* Step content lists - noch weniger padding auf sehr kleinen Displays */
+      /* Step content lists - Extra small displays: gleiches Alignment */
       .step-content ul {
-        padding-left: 0.5rem;
+        padding-left: 0;
+      }
+      
+      .step-content ul li {
+        margin-left: 1.1rem;
       }
       
       .footer-branding h3 {
@@ -3942,7 +3953,7 @@ app.get('/', (c) => {
               <p>
                 Innerhalb von Sekunden erhältst du:
               </p>
-              <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+              <ul style="margin-top: 0.5rem;">
                 <li>einen theoretischen, wöchentlichen Reduktionsplan für deine Medikamente</li>
                 <li>eine dazu passende Cannabinoid-Dosierung auf Basis der MEDLESS-Produktlinie</li>
                 <li>eine genaue Mengenberechnung, welche MEDLESS-Produkte du für den gesamten Zeitraum benötigst</li>
