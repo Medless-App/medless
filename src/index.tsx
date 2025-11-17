@@ -1201,7 +1201,7 @@ app.get('/', (c) => {
       margin-bottom: 28px;
     }
     
-    /* FAQ Accordion - Refined */
+    /* FAQ Accordion - Optimized Animation */
     .faq-item {
       border: 1px solid var(--faq-border-color);
       border-radius: var(--faq-border-radius);
@@ -1213,12 +1213,18 @@ app.get('/', (c) => {
     
     .faq-question {
       padding: 18px 20px;
-      background: white;
+      background: #F9F9F9;
       border-radius: var(--faq-border-radius);
+      transition: background 280ms ease-in-out;
+    }
+    
+    .faq-item.active .faq-question {
+      background: #F9F9F9;
     }
     
     .faq-answer {
       padding: 0 20px 20px;
+      background: white;
     }
     
     .faq-item.active {
@@ -2567,11 +2573,15 @@ app.get('/', (c) => {
       font-size: 18px;
       font-weight: 600;
       color: var(--text-dark);
-      background: white;
+      background: #F9F9F9;
       border: none;
       cursor: pointer;
       text-align: left;
-      transition: all 0.2s ease;
+      transition: background 280ms ease-in-out;
+    }
+    
+    .faq-item.active .faq-question {
+      background: #F9F9F9;
     }
     
     .faq-question-text {
@@ -2589,11 +2599,15 @@ app.get('/', (c) => {
       border-radius: 50%;
       color: var(--primary-green);
       font-size: 1rem;
-      transition: transform 0.3s ease;
+      transition: transform 200ms ease-in-out, background 200ms ease-in-out;
+    }
+    
+    .faq-icon i {
+      transition: transform 200ms ease-in-out;
     }
     
     .faq-item.active .faq-icon {
-      transform: rotate(180deg);
+      transform: rotate(90deg);
       background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
       color: white;
     }
@@ -2601,12 +2615,13 @@ app.get('/', (c) => {
     .faq-answer {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s ease, padding 0.4s ease;
+      background: white;
+      transition: max-height 280ms ease-in-out, padding 280ms ease-in-out;
     }
     
     .faq-item.active .faq-answer {
       max-height: 1000px;
-      padding: 0 var(--space-4) var(--space-4);
+      padding: 20px 20px 20px 20px;
     }
     
     .faq-answer-content {
