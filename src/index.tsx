@@ -777,6 +777,114 @@ app.get('/', (c) => {
     }
     
     /* ============================================================
+       HOVER INTERACTIONS - OPTIMIERT & DEZENT
+       ============================================================ */
+    
+    /* 1) BUTTONS - Leichte Farbdunklung + Minimaler Scale */
+    .cta-button-primary:hover,
+    button.cta-button-primary:hover {
+      background: linear-gradient(135deg, #0B4C36, #0E5F45) !important;
+      transform: scale(1.01) !important;
+      transition: all 200ms ease-out !important;
+      box-shadow: 0 4px 12px rgba(14, 95, 69, 0.14), 0 6px 20px rgba(14, 95, 69, 0.09) !important;
+    }
+    
+    .cta-button-primary:active,
+    button.cta-button-primary:active {
+      transform: scale(0.98) !important;
+      transition: all 100ms ease-out !important;
+    }
+    
+    /* Button Arrow Icon - Subtle Movement */
+    .cta-button-primary:hover .arrow-icon {
+      transform: translateX(3px);
+      transition: transform 200ms ease-out;
+    }
+    
+    /* 2) CARDS - Leichter Shadow + Minimaler Lift */
+    .explanation-card:hover,
+    .process-card:hover,
+    .step:hover,
+    .ecs-card:hover,
+    .cyp-card:hover {
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08), 0 6px 16px rgba(0, 0, 0, 0.06) !important;
+      transform: translateY(-2px) !important;
+      transition: all 200ms ease-out !important;
+    }
+    
+    /* 3) FAQ ACCORDION - Nur Titelzeile leicht abdunkeln */
+    .faq-item:hover {
+      border-color: var(--faq-border-color) !important;
+      box-shadow: var(--card-shadow) !important;
+    }
+    
+    .faq-question:hover {
+      background: #F7F7F7 !important;
+      transition: background 180ms ease-out !important;
+    }
+    
+    /* 4) FOOTER LINKS - Unterstreichungsanimation */
+    .footer-links a {
+      position: relative;
+      transition: color 200ms ease-out;
+    }
+    
+    .footer-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.9);
+      transition: width 200ms ease-out;
+    }
+    
+    .footer-links a:hover {
+      color: rgba(255, 255, 255, 0.95) !important;
+    }
+    
+    .footer-links a:hover::after {
+      width: 100%;
+    }
+    
+    /* Footer Social Icons - Subtle Lift */
+    .footer-social a:hover {
+      background: rgba(255, 255, 255, 0.15) !important;
+      transform: translateY(-2px) !important;
+      transition: all 180ms ease-out !important;
+    }
+    
+    /* 5) ICONS - Kleine Farbverstärkung */
+    .card-icon i:hover,
+    .card-icon-circle i:hover,
+    .hero-features i:hover,
+    .medical-list i:hover {
+      color: #0B4C36 !important;
+      transition: color 180ms ease-out !important;
+    }
+    
+    /* Scroll-to-Top Button */
+    .scroll-to-top:hover {
+      transform: translateY(-3px) scale(1.02) !important;
+      box-shadow: 0 6px 18px rgba(12, 92, 76, 0.35) !important;
+      transition: all 200ms ease-out !important;
+    }
+    
+    /* Header Navigation Links */
+    .header-nav a:hover {
+      color: var(--primary-green) !important;
+      transition: color 180ms ease-out !important;
+    }
+    
+    /* Header CTA Button */
+    .header-cta:hover {
+      background: linear-gradient(135deg, #0B4C36, #0E5F45) !important;
+      transform: scale(1.01) !important;
+      transition: all 200ms ease-out !important;
+    }
+    
+    /* ============================================================
        UI COMPONENT OPTIMIZATION - HARMONIZED
        ============================================================ */
     
@@ -842,13 +950,7 @@ app.get('/', (c) => {
       transition: all 0.25s ease;
     }
     
-    .explanation-card:hover,
-    .process-card:hover,
-    .faq-item:hover,
-    .step:hover {
-      box-shadow: var(--card-shadow-hover);
-      transform: translateY(-1px);
-    }
+    /* Hover styles moved to dedicated HOVER INTERACTIONS section above */
     
     /* Process Cards Grid - Equal Heights */
     .process-cards-grid {
@@ -919,27 +1021,10 @@ app.get('/', (c) => {
       white-space: nowrap;
     }
     
-    .cta-button-primary:hover,
-    button.cta-button-primary:hover {
-      background: linear-gradient(135deg, var(--button-hover-bg), var(--primary-dark-green));
-      transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(14, 95, 69, 0.15), 0 8px 24px rgba(14, 95, 69, 0.1);
-    }
-    
-    .cta-button-primary:active,
-    button.cta-button-primary:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 6px rgba(14, 95, 69, 0.1), 0 4px 12px rgba(14, 95, 69, 0.06);
-    }
-    
     /* Arrow Icon in Buttons */
     .cta-button-primary .arrow-icon {
       font-size: 16px;
       transition: transform 0.2s ease;
-    }
-    
-    .cta-button-primary:hover .arrow-icon {
-      transform: translateX(3px);
     }
     
     /* Footer Optimization - Airy & Professional */
@@ -989,18 +1074,12 @@ app.get('/', (c) => {
       transition: color 0.2s ease;
     }
     
-    .footer-links a:hover {
-      color: white;
-    }
+    /* Hover styles moved to dedicated HOVER INTERACTIONS section above */
     
     .footer-social a {
       color: rgba(255, 255, 255, 0.85);
       font-size: 22px;
       transition: color 0.2s ease;
-    }
-    
-    .footer-social a:hover {
-      color: white;
     }
     
     /* Section Dividers - Clean & Centered */
@@ -1155,10 +1234,7 @@ app.get('/', (c) => {
       box-shadow: var(--button-shadow);
     }
     
-    .cta-button-primary:hover,
-    button.cta-button-primary:hover {
-      box-shadow: 0 4px 14px rgba(14, 95, 69, 0.16), 0 8px 24px rgba(14, 95, 69, 0.1);
-    }
+    /* Hover styles moved to dedicated HOVER INTERACTIONS section */
     
     /* Science Cards - Equal Heights */
     .explanation-card {
@@ -1225,10 +1301,7 @@ app.get('/', (c) => {
       transition: all 0.2s ease;
     }
     
-    .footer-social a:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-    }
+    /* Hover styles moved to dedicated HOVER INTERACTIONS section above */
     
     .footer-social a i {
       font-size: 20px;
@@ -1362,9 +1435,7 @@ app.get('/', (c) => {
       transition: color 0.2s ease;
     }
     
-    .header-nav a:hover {
-      color: var(--primary-dark-green);
-    }
+    /* Hover styles moved to dedicated HOVER INTERACTIONS section */
     
     .header-cta {
       display: inline-flex;
@@ -1381,11 +1452,6 @@ app.get('/', (c) => {
       text-decoration: none;
       transition: all 0.2s ease;
       white-space: nowrap;
-    }
-    
-    .header-cta:hover {
-      background: var(--accent-mint-light);
-      border-color: var(--primary-dark-green);
     }
     
     /* Hero Mobile Logo (inside hero, only visible on mobile) */
@@ -2489,10 +2555,7 @@ app.get('/', (c) => {
       box-shadow: var(--card-shadow);
     }
     
-    .faq-item:hover {
-      border-color: var(--icon-color-primary);
-      box-shadow: var(--card-shadow-hover);
-    }
+    /* Hover styles moved to dedicated HOVER INTERACTIONS section above */
     
     .faq-question {
       width: 100%;
@@ -2509,10 +2572,6 @@ app.get('/', (c) => {
       cursor: pointer;
       text-align: left;
       transition: all 0.2s ease;
-    }
-    
-    .faq-question:hover {
-      background: rgba(14, 95, 69, 0.02);
     }
     
     .faq-question-text {
@@ -2603,10 +2662,7 @@ app.get('/', (c) => {
       visibility: visible;
     }
     
-    .scroll-to-top:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 20px rgba(12, 92, 76, 0.4);
-    }
+    /* Hover styles moved to dedicated HOVER INTERACTIONS section above */
     
     /* ============================================================
        FOOTER
@@ -2668,10 +2724,7 @@ app.get('/', (c) => {
       transition: color 0.2s ease;
     }
     
-    .footer-links a:hover {
-      color: white;
-      text-decoration: underline;
-    }
+    /* Hover styles moved to dedicated HOVER INTERACTIONS section above */
     
     .footer-disclaimer {
       background: rgba(0, 0, 0, 0.2);
@@ -2729,10 +2782,7 @@ app.get('/', (c) => {
       transition: all 0.2s ease;
     }
     
-    .footer-social a:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-    }
+    /* Hover styles moved to dedicated HOVER INTERACTIONS section above */
     
     /* ============================================================
        RESPONSIVE DESIGN
