@@ -485,7 +485,7 @@ app.get('/', (c) => {
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   
   <!-- FontAwesome Icons -->
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
@@ -558,8 +558,23 @@ app.get('/', (c) => {
       --shadow-medium: 0 1px 2px rgba(0, 0, 0, 0.05), 0 8px 24px rgba(0, 0, 0, 0.06);
       --shadow-large: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 30px -2px rgba(0, 0, 0, 0.08);
       
-      /* Typography */
-      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      /* Typography - Medical Professional */
+      --font-family: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      
+      /* Typography Scale (Clinical) */
+      --font-size-body: 16px;
+      --line-height-body: 1.6;
+      --text-body-color: #374151;
+      --text-secondary-color: #4B5563;
+      
+      /* Spacing - Medical Clean */
+      --spacing-paragraph: 20px;
+      --spacing-block: 64px;
+      --spacing-block-small: 48px;
+      
+      /* Max Width for Readability */
+      --max-width-text: 65ch;
+      --max-width-card-text: 45ch;
     }
     
     /* ============================================================
@@ -578,11 +593,13 @@ app.get('/', (c) => {
     
     body {
       font-family: var(--font-family);
-      color: var(--text-primary);
+      font-size: var(--font-size-body);
+      color: var(--text-body-color);
       background: var(--background-white);
-      line-height: 1.6;
+      line-height: var(--line-height-body);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
     
     .container {
@@ -597,7 +614,7 @@ app.get('/', (c) => {
     
     .hero {
       background: linear-gradient(180deg, var(--background-ultra-light) 0%, var(--background-white) 100%);
-      padding: 80px 0;
+      padding: var(--spacing-block) 0 var(--spacing-block-small);
       overflow: hidden;
     }
     
@@ -609,49 +626,54 @@ app.get('/', (c) => {
     }
     
     .hero-headline {
-      font-size: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
-      font-weight: 800;
+      font-size: clamp(2.2rem, 1.4rem + 1.5vw, 2.8rem);
+      font-weight: 700;
       color: var(--primary-dark-green);
-      line-height: 1.1;
-      margin-bottom: var(--space-5);
-      letter-spacing: -0.02em;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--space-4);
+      max-width: var(--max-width-text);
     }
     
     .hero-subheadline {
-      font-size: clamp(1.125rem, 1rem + 0.4vw, 1.5rem);
+      font-size: 18px;
       font-weight: 400;
-      color: var(--text-secondary);
-      line-height: 1.5;
-      margin-bottom: 2rem;
+      color: var(--text-body-color);
+      line-height: 1.6;
+      margin-bottom: var(--space-5);
+      max-width: 60ch;
     }
     
     .hero-description {
-      font-size: 1.125rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
+      font-size: 16px;
+      color: var(--text-body-color);
+      line-height: 1.6;
+      margin-bottom: var(--spacing-paragraph);
+      max-width: var(--max-width-text);
     }
     
     .hero-features {
       list-style: none;
       display: grid;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
+      gap: var(--space-3);
+      margin-bottom: var(--space-6);
     }
     
     .hero-features li {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      font-size: 1rem;
-      color: var(--text-secondary);
+      gap: var(--space-2);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--text-secondary-color);
     }
     
     .checkmark-icon {
-      width: 24px;
-      height: 24px;
-      min-width: 24px;
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
       color: var(--primary-green);
+      flex-shrink: 0;
     }
     
     .cta-button-primary {
@@ -751,25 +773,26 @@ app.get('/', (c) => {
        ============================================================ */
     
     section {
-      padding: 100px 0;
+      padding: var(--spacing-block) 0;
     }
     
     .section-headline {
-      font-size: clamp(1.75rem, 1.1rem + 1.6vw, 2.25rem);
-      font-weight: 700;
+      font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem);
+      font-weight: 600;
       color: var(--brand-600);
       text-align: center;
-      margin-bottom: var(--space-7);
-      line-height: 1.2;
+      margin-bottom: var(--spacing-block-small);
+      line-height: 1.25;
+      letter-spacing: -0.005em;
     }
     
     .section-description {
-      font-size: 1.125rem;
-      color: var(--text-muted);
+      font-size: 16px;
+      color: var(--text-body-color);
       text-align: center;
-      line-height: 1.7;
-      max-width: 700px;
-      margin: 0 auto 4rem;
+      line-height: 1.6;
+      max-width: var(--max-width-text);
+      margin: 0 auto var(--spacing-paragraph);
     }
     
     /* ============================================================
@@ -784,9 +807,9 @@ app.get('/', (c) => {
       background: white;
       border: 1px solid var(--border-light);
       border-radius: var(--radius-large);
-      padding: var(--space-6);
-      margin-bottom: 2rem;
-      box-shadow: var(--shadow-soft);
+      padding: var(--space-5);
+      margin-bottom: var(--spacing-paragraph);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.03);
     }
     
     .card-icon {
@@ -806,17 +829,20 @@ app.get('/', (c) => {
     }
     
     .explanation-card h3 {
-      font-size: 1.5rem;
+      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.4rem);
       font-weight: 600;
       color: var(--primary-dark-green);
-      margin-bottom: 1rem;
+      line-height: 1.3;
+      margin-bottom: var(--space-3);
+      max-width: var(--max-width-card-text);
     }
     
     .explanation-card p {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 1rem;
+      font-size: 16px;
+      color: var(--text-body-color);
+      line-height: 1.6;
+      margin-bottom: var(--space-4);
+      max-width: var(--max-width-card-text);
     }
     
     .explanation-card p:last-child {
@@ -826,23 +852,23 @@ app.get('/', (c) => {
     .process-cards-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
-      margin-top: 3rem;
+      gap: var(--space-5);
+      margin-top: var(--spacing-block-small);
     }
     
     .process-card {
       background: white;
       border: 1px solid var(--border-light);
       border-radius: var(--radius-large);
-      padding: var(--space-6);
-      box-shadow: var(--shadow-small);
+      padding: var(--space-5);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.03);
       position: relative;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
     }
     
     .process-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-medium);
+      transform: translateY(-2px);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.06);
       border-color: var(--gray-300);
     }
     
@@ -874,19 +900,25 @@ app.get('/', (c) => {
     }
     
     .process-card h4 {
-      font-size: 1.25rem;
+      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.4rem);
       font-weight: 600;
       color: var(--primary-dark-green);
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: var(--space-3);
       line-height: 1.3;
+      max-width: var(--max-width-card-text);
+      margin-left: auto;
+      margin-right: auto;
     }
     
     .process-card p {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
+      font-size: 16px;
+      color: var(--text-secondary-color);
       line-height: 1.6;
       text-align: center;
+      max-width: 36ch;
+      margin-left: auto;
+      margin-right: auto;
     }
     
     /* ============================================================
@@ -906,8 +938,8 @@ app.get('/', (c) => {
     .step {
       display: grid;
       grid-template-columns: 64px 1fr;
-      gap: 2rem;
-      margin-bottom: 4rem;
+      gap: var(--space-5);
+      margin-bottom: var(--spacing-block-small);
       position: relative;
     }
     
@@ -951,17 +983,18 @@ app.get('/', (c) => {
     }
     
     .step-content h4 {
-      font-size: 1.5rem;
+      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.4rem);
       font-weight: 600;
       color: var(--primary-dark-green);
-      margin-bottom: 0.75rem;
+      margin-bottom: var(--space-3);
       line-height: 1.3;
     }
     
     .step-content p {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
+      font-size: 16px;
+      color: var(--text-body-color);
+      line-height: 1.6;
+      max-width: var(--max-width-text);
     }
     
     /* ============================================================
@@ -980,15 +1013,15 @@ app.get('/', (c) => {
       background: white;
       border: 3px solid #FCA5A5;
       border-radius: var(--radius-large);
-      padding: 3rem;
-      box-shadow: 0 10px 30px rgba(220, 38, 38, 0.15);
+      padding: var(--space-6);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.08);
     }
     
     .warning-header {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+      gap: var(--space-5);
+      margin-bottom: var(--space-5);
     }
     
     .warning-icon-circle {
@@ -1009,20 +1042,20 @@ app.get('/', (c) => {
     }
     
     .warning-title {
-      font-size: 2rem;
-      font-weight: 700;
+      font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem);
+      font-weight: 600;
       color: #DC2626;
-      line-height: 1.2;
+      line-height: 1.25;
     }
     
     .warning-content {
-      font-size: 1.125rem;
-      color: var(--text-primary);
-      line-height: 1.8;
+      font-size: 16px;
+      color: var(--text-body-color);
+      line-height: 1.6;
     }
     
     .warning-content p {
-      margin-bottom: 1.5rem;
+      margin-bottom: var(--spacing-paragraph);
     }
     
     .warning-content p:last-child {
@@ -1036,25 +1069,26 @@ app.get('/', (c) => {
     
     .warning-list {
       list-style: none;
-      margin: 1.5rem 0;
+      margin: var(--space-5) 0;
       padding-left: 0;
     }
     
     .warning-list li {
       display: flex;
       align-items: flex-start;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      font-size: 1.125rem;
-      color: var(--text-primary);
-      line-height: 1.7;
+      gap: var(--space-2);
+      margin-bottom: var(--space-3);
+      font-size: 16px;
+      color: var(--text-body-color);
+      line-height: 1.6;
     }
     
     .warning-list li i {
       color: #DC2626;
-      font-size: 1.25rem;
-      margin-top: 0.25rem;
-      min-width: 20px;
+      font-size: 18px;
+      margin-top: 2px;
+      min-width: 18px;
+      flex-shrink: 0;
     }
     
     /* ============================================================
@@ -1068,11 +1102,11 @@ app.get('/', (c) => {
     /* Progress Bar Container */
     .progress-bar-container {
       max-width: 800px;
-      margin: 0 auto 4rem;
-      padding: 2rem;
+      margin: 0 auto var(--spacing-block-small);
+      padding: var(--space-5);
       background: white;
       border-radius: var(--radius-large);
-      box-shadow: var(--shadow-soft);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.03);
     }
     
     .progress-steps {
@@ -1138,8 +1172,8 @@ app.get('/', (c) => {
     }
     
     .progress-label {
-      margin-top: 0.5rem;
-      font-size: 0.75rem;
+      margin-top: var(--space-2);
+      font-size: 12px;
       font-weight: 500;
       color: var(--text-muted);
       text-align: center;
@@ -1339,36 +1373,38 @@ app.get('/', (c) => {
     
     .form-card {
       background: white;
-      border: 2px solid var(--accent-mint-light);
+      border: 1px solid var(--border-light);
       border-radius: var(--radius-large);
-      padding: 2.5rem;
-      margin-bottom: 2rem;
-      box-shadow: var(--shadow-soft);
+      padding: var(--space-6);
+      margin-bottom: var(--spacing-paragraph);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.03);
     }
     
     .form-card h3 {
-      font-size: 1.75rem;
-      font-weight: 700;
+      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.4rem);
+      font-weight: 600;
       color: var(--primary-dark-green);
-      margin-bottom: 0.5rem;
+      line-height: 1.3;
+      margin-bottom: var(--space-2);
     }
     
     .form-card .subtitle {
-      font-size: 1rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
+      font-size: 16px;
+      color: var(--text-body-color);
+      line-height: 1.6;
+      margin-bottom: var(--space-5);
     }
     
     .form-row {
-      margin-bottom: 1.5rem;
+      margin-bottom: var(--space-5);
     }
     
     .form-row label {
       display: block;
-      font-size: 0.95rem;
+      font-size: 14px;
       font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
+      color: var(--text-body-color);
+      margin-bottom: var(--space-2);
     }
     
     .form-row input[type="text"],
@@ -1377,11 +1413,11 @@ app.get('/', (c) => {
     .form-row select,
     .form-row textarea {
       width: 100%;
-      padding: 0.875rem 1rem;
-      font-size: 1rem;
+      padding: var(--space-3) var(--space-4);
+      font-size: 16px;
       font-family: var(--font-family);
-      color: var(--text-primary);
-      border: 2px solid var(--border-light);
+      color: var(--text-body-color);
+      border: 1px solid var(--border-light);
       border-radius: var(--radius-small);
       background: white;
       transition: all 0.2s ease;
@@ -1392,7 +1428,7 @@ app.get('/', (c) => {
     .form-row textarea:focus {
       outline: none;
       border-color: var(--primary-green);
-      box-shadow: 0 0 0 3px rgba(15, 122, 103, 0.1);
+      box-shadow: 0 0 0 2px rgba(15, 122, 103, 0.08);
     }
     
     .form-row input::placeholder,
@@ -1420,13 +1456,13 @@ app.get('/', (c) => {
     .radio-pill label {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      font-size: 0.95rem;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-5);
+      font-size: 14px;
       font-weight: 600;
-      color: var(--text-secondary);
+      color: var(--text-secondary-color);
       background: white;
-      border: 2px solid var(--border-light);
+      border: 1px solid var(--border-light);
       border-radius: var(--radius-full);
       cursor: pointer;
       transition: all 0.2s ease;
@@ -1437,7 +1473,7 @@ app.get('/', (c) => {
       background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
       color: white;
       border-color: var(--primary-green);
-      box-shadow: 0 4px 12px rgba(12, 92, 76, 0.2);
+      box-shadow: 0 2px 8px rgba(12, 92, 76, 0.15);
     }
     
     .radio-pill label:hover {
@@ -1448,19 +1484,20 @@ app.get('/', (c) => {
     /* Form Navigation Buttons */
     .form-navigation {
       display: flex;
-      gap: 1rem;
+      gap: var(--space-4);
       justify-content: space-between;
-      margin-top: 2rem;
+      margin-top: var(--space-6);
     }
     
     .btn-secondary {
-      padding: 0.875rem 2rem;
-      font-size: 1rem;
+      height: 48px;
+      padding: 0 var(--space-6);
+      font-size: 16px;
       font-weight: 600;
-      color: var(--text-primary);
+      color: var(--text-body-color);
       background: white;
-      border: 2px solid var(--border-light);
-      border-radius: var(--radius-small);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-medium);
       cursor: pointer;
       transition: all 0.2s ease;
     }
@@ -1471,21 +1508,22 @@ app.get('/', (c) => {
     }
     
     .btn-primary {
-      padding: 0.875rem 2.5rem;
-      font-size: 1rem;
+      height: 48px;
+      padding: 0 var(--space-6);
+      font-size: 16px;
       font-weight: 600;
       color: white;
       background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
       border: none;
-      border-radius: 14px;
+      border-radius: var(--radius-medium);
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(12, 92, 76, 0.2);
-      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(12, 92, 76, 0.15);
+      transition: all 0.2s ease;
     }
     
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(12, 92, 76, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 12px rgba(12, 92, 76, 0.2);
     }
     
     .btn-primary:disabled {
@@ -1583,11 +1621,11 @@ app.get('/', (c) => {
     
     .faq-item {
       background: white;
-      border: 2px solid var(--accent-mint-light);
+      border: 1px solid var(--border-light);
       border-radius: var(--radius-medium);
-      margin-bottom: 1rem;
+      margin-bottom: var(--space-4);
       overflow: hidden;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
     }
     
     .faq-item:hover {
@@ -1600,9 +1638,9 @@ app.get('/', (c) => {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      padding: 1.5rem;
-      font-size: 1.125rem;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      font-size: 16px;
       font-weight: 600;
       color: var(--primary-dark-green);
       background: white;
@@ -1648,17 +1686,17 @@ app.get('/', (c) => {
     
     .faq-item.active .faq-answer {
       max-height: 1000px;
-      padding: 0 1.5rem 1.5rem;
+      padding: 0 var(--space-4) var(--space-4);
     }
     
     .faq-answer-content {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
+      font-size: 16px;
+      color: var(--text-body-color);
+      line-height: 1.6;
     }
     
     .faq-answer-content p {
-      margin-bottom: 1rem;
+      margin-bottom: var(--space-4);
     }
     
     .faq-answer-content p:last-child {
@@ -1716,53 +1754,53 @@ app.get('/', (c) => {
     footer {
       background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
       color: white;
-      padding: 4rem 0 2rem;
+      padding: var(--spacing-block) 0 var(--space-6);
     }
     
     .footer-content {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr;
-      gap: 3rem;
-      margin-bottom: 3rem;
+      gap: var(--spacing-block-small);
+      margin-bottom: var(--spacing-block-small);
     }
     
     .footer-branding h3 {
-      font-size: 2rem;
-      font-weight: 800;
+      font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem);
+      font-weight: 700;
       color: white;
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--space-2);
     }
     
     .footer-branding .tagline {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 1.5rem;
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: var(--space-5);
     }
     
     .footer-branding p {
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.8);
-      line-height: 1.7;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
     }
     
     .footer-section h4 {
-      font-size: 1.125rem;
+      font-size: 16px;
       font-weight: 600;
       color: white;
-      margin-bottom: 1rem;
+      margin-bottom: var(--space-4);
     }
     
     .footer-links {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: var(--space-3);
     }
     
     .footer-links a {
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.85);
       text-decoration: none;
-      font-size: 0.95rem;
+      font-size: 14px;
       transition: color 0.2s ease;
     }
     
@@ -1774,8 +1812,8 @@ app.get('/', (c) => {
     .footer-disclaimer {
       background: rgba(0, 0, 0, 0.2);
       border-radius: var(--radius-medium);
-      padding: 1.5rem;
-      margin-bottom: 2rem;
+      padding: var(--space-5);
+      margin-bottom: var(--space-6);
     }
     
     .footer-disclaimer p {
@@ -1796,17 +1834,17 @@ app.get('/', (c) => {
     
     .footer-bottom {
       border-top: 1px solid rgba(255, 255, 255, 0.2);
-      padding-top: 2rem;
+      padding-top: var(--space-6);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: var(--space-4);
     }
     
     .footer-copyright {
-      font-size: 0.875rem;
-      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.75);
     }
     
     .footer-social {
@@ -1839,15 +1877,15 @@ app.get('/', (c) => {
     @media (max-width: 768px) {
       .hero-grid {
         grid-template-columns: 1fr;
-        gap: 3rem;
+        gap: var(--spacing-block-small);
       }
       
-      .hero-headline {
-        font-size: 2.5rem;
+      .hero {
+        padding: var(--spacing-block-small) 0;
       }
       
-      .hero-subheadline {
-        font-size: 1.25rem;
+      .container {
+        padding: 0 var(--space-4);
       }
       
       .hero-illustration {
@@ -1856,21 +1894,18 @@ app.get('/', (c) => {
       
       .process-cards-grid {
         grid-template-columns: 1fr;
-      }
-      
-      .section-headline {
-        font-size: 2rem;
+        gap: var(--space-4);
       }
       
       section {
-        padding: 60px 0;
+        padding: var(--spacing-block-small) 0;
       }
       
       /* Steps Section Mobile */
       .step {
         grid-template-columns: 48px 1fr;
-        gap: 1rem;
-        margin-bottom: 3rem;
+        gap: var(--space-4);
+        margin-bottom: var(--space-6);
       }
       
       .step-number-circle {
@@ -1887,7 +1922,7 @@ app.get('/', (c) => {
       }
       
       .step-content h4 {
-        font-size: 1.25rem;
+        font-size: 16px;
       }
       
       .step-content p {
