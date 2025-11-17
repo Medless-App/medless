@@ -1,4 +1,108 @@
+// ============================================================
+// MEDICATION SAFETY CLASSIFICATIONS
+// Zentrale Konfiguration für Medikamenten-Hinweise
+// ============================================================
+
+const MEDICATION_CLASSIFICATIONS = {
+  benzodiazepines: {
+    keywords: ['diazepam', 'lorazepam', 'alprazolam', 'oxazepam', 'temazepam', 
+               'zolpidem', 'zopiclon', 'clonazepam', 'bromazepam', 'benzo'],
+    badge: { text: 'vorsichtig reduzieren', color: 'bg-yellow-50 text-yellow-800 border border-yellow-200' },
+    hint: 'Hinweis: Dieses Medikament gehört zu einer Wirkstoffgruppe, die in der Regel langsam und unter ärztlicher Begleitung reduziert wird. MEDLESS zeigt nur einen theoretischen Verlauf – bitte jede Änderung mit Ihrem Arzt besprechen.'
+  },
+  antidepressants: {
+    keywords: ['citalopram', 'sertralin', 'fluoxetin', 'venlafaxin', 'duloxetin', 
+               'amitriptylin', 'escitalopram', 'paroxetin', 'mirtazapin', 'trazodon'],
+    badge: { text: 'vorsichtig reduzieren', color: 'bg-yellow-50 text-yellow-800 border border-yellow-200' },
+    hint: 'Hinweis: Antidepressiva sollten nicht abrupt abgesetzt werden. MEDLESS kann einen theoretischen Ausschleichverlauf darstellen, ersetzt aber keine ärztliche Entscheidung.'
+  },
+  antiepileptics: {
+    keywords: ['valproat', 'carbamazepin', 'lamotrigin', 'levetiracetam', 'gabapentin', 
+               'pregabalin', 'topiramat', 'phenytoin'],
+    badge: { text: 'vorsichtig reduzieren', color: 'bg-yellow-50 text-yellow-800 border border-yellow-200' },
+    hint: 'Hinweis: Antiepileptika erfordern ein sehr vorsichtiges Ausschleichen unter ärztlicher Kontrolle. Ein abruptes Absetzen kann schwerwiegende Folgen haben.'
+  },
+  anticoagulants: {
+    keywords: ['warfarin', 'phenprocoumon', 'apixaban', 'rivaroxaban', 'dabigatran', 
+               'edoxaban', 'clopidogrel', 'marcumar', 'xarelto', 'eliquis'],
+    badge: { text: 'kritische Dauertherapie', color: 'bg-orange-50 text-orange-800 border border-orange-200' },
+    hint: 'Hinweis: Blutverdünner sind in vielen Fällen langfristig oder lebenswichtig. MEDLESS macht hierzu nur sehr vorsichtige oder keine Reduktionsvorschläge. Eine Anpassung darf ausschließlich ärztlich erfolgen.'
+  },
+  immunosuppressants: {
+    keywords: ['tacrolimus', 'ciclosporin', 'mycophenolat', 'azathioprin', 'sirolimus',
+               'everolimus', 'certolizumab', 'infliximab'],
+    badge: { text: 'kritische Dauertherapie', color: 'bg-orange-50 text-orange-800 border border-orange-200' },
+    hint: 'Hinweis: Medikamente zur Verhinderung einer Organabstoßung sind in der Regel unverzichtbar. MEDLESS berechnet hierfür keinen vollständigen Ausschleichplan, zeigt aber die Belastung im Überblick.'
+  },
+  opioids: {
+    keywords: ['morphin', 'oxycodon', 'fentanyl', 'hydromorphon', 'tramadol', 
+               'tilidin', 'buprenorphin', 'pethidin', 'tapentadol'],
+    badge: { text: 'vorsichtig reduzieren', color: 'bg-yellow-50 text-yellow-800 border border-yellow-200' },
+    hint: 'Hinweis: Starke Schmerzmittel erfordern ein langsames, begleitetes Ausschleichen. MEDLESS kann einen theoretischen Verlauf berechnen – die Umsetzung darf nur in ärztlicher Abstimmung erfolgen.'
+  }
+};
+
+/**
+ * Klassifiziert ein Medikament basierend auf Name/Generic Name
+ * @param {string} medicationName - Name des Medikaments
+ * @param {string} genericName - Generischer Name (optional)
+ * @returns {Object|null} Classification object oder null
+ */
+function classifyMedication(medicationName, genericName = '') {
+  const searchText = `${medicationName} ${genericName}`.toLowerCase();
+  
+  for (const [key, classification] of Object.entries(MEDICATION_CLASSIFICATIONS)) {
+    if (classification.keywords.some(keyword => searchText.includes(keyword))) {
+      return { type: key, ...classification };
+    }
+  }
+  
+  return null;
+}
+
+/**
+ * Prüft ob mindestens ein Medikament in höherer Risikogruppe ist
+ * @param {Array} medications - Array von Medikamenten
+ * @returns {boolean}
+ */
+function hasHighRiskMedication(medications) {
+  return medications.some(med => {
+    const classification = classifyMedication(med.name || '', med.generic_name || '');
+    return classification !== null;
+  });
+}
+
+/**
+ * Konvertiert Tailwind-Klassen zu inline CSS für Badges
+ * @param {string} tailwindClasses - Tailwind CSS Klassen
+ * @returns {string} Inline CSS String
+ */
+function getBadgeStyles(tailwindClasses) {
+  // Map common Tailwind colors to CSS
+  const colorMap = {
+    'bg-yellow-50': 'background-color: #fefce8',
+    'text-yellow-800': 'color: #854d0e',
+    'border-yellow-200': 'border: 1px solid #fef08a',
+    'bg-orange-50': 'background-color: #fff7ed',
+    'text-orange-800': 'color: #9a3412',
+    'border-orange-200': 'border: 1px solid #fed7aa',
+  };
+  
+  const styles = [];
+  const classes = tailwindClasses.split(' ');
+  
+  classes.forEach(cls => {
+    if (colorMap[cls]) {
+      styles.push(colorMap[cls]);
+    }
+  });
+  
+  return styles.join('; ');
+}
+
+// ============================================================
 // MEDLESS Product Data - CBD Dosier-Sprays (for frontend calculations)
+// ============================================================
 const MEDLESS_PRODUCTS = [
   { nr: 5,  cbdPerSpray: 5.8,  name: 'MEDLESS Nr. 5',  price: 24.90 },
   { nr: 10, cbdPerSpray: 11.5, name: 'MEDLESS Nr. 10', price: 39.90 },
@@ -98,13 +202,20 @@ function setupAutocomplete(input) {
       item.addEventListener('click', function() {
         input.value = med.name;
         
-        // Dosierung muss vom Kunden selbst eingegeben werden
-        // (keine automatische Befüllung mehr)
+        // Store medication data for later use
+        const hiddenInput = input.closest('.medication-input-group').querySelector('.medication-name-hidden');
+        if (hiddenInput) {
+          hiddenInput.value = med.name;
+          hiddenInput.dataset.genericName = med.generic_name || '';
+        }
+        
+        // Show safety hint if applicable
+        showMedicationSafetyHint(input.closest('.medication-input-group'), med.name, med.generic_name);
         
         closeAllLists();
         
         // Focus auf Dosierungs-Eingabefeld setzen
-        const dosageInput = input.parentElement.querySelector('input[name="medication_dosage[]"]');
+        const dosageInput = input.closest('.medication-input-group').querySelector('input[name="medication_mg_per_day[]"]');
         if (dosageInput) {
           dosageInput.focus();
         }
@@ -163,6 +274,127 @@ function setupAutocomplete(input) {
       closeAllLists();
     }
   });
+}
+
+/**
+ * Zeigt Safety-Hinweis für ein Medikament an
+ * @param {HTMLElement} inputGroup - Das Medikamenten-Input-Container-Element
+ * @param {string} medicationName - Name des Medikaments
+ * @param {string} genericName - Generischer Name (optional)
+ */
+function showMedicationSafetyHint(inputGroup, medicationName, genericName = '') {
+  // Entferne existierenden Hinweis
+  const existingHint = inputGroup.querySelector('.medication-safety-hint');
+  if (existingHint) {
+    existingHint.remove();
+  }
+  
+  // Entferne existierendes Badge
+  const existingBadge = inputGroup.querySelector('.medication-safety-badge');
+  if (existingBadge) {
+    existingBadge.remove();
+  }
+  
+  // Klassifiziere Medikament
+  const classification = classifyMedication(medicationName, genericName);
+  
+  if (!classification) {
+    updateGlobalSafetyNotice(); // Update global notice even if this med has no hint
+    return; // Kein Hinweis nötig für dieses Medikament
+  }
+  
+  // Füge Badge neben Medikamentennamen hinzu
+  const nameLabel = inputGroup.querySelector('label');
+  if (nameLabel && classification.badge) {
+    const badge = document.createElement('span');
+    badge.className = 'medication-safety-badge';
+    badge.style.cssText = `
+      display: inline-block;
+      margin-left: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      ${getBadgeStyles(classification.badge.color)}
+    `;
+    badge.textContent = classification.badge.text;
+    nameLabel.appendChild(badge);
+  }
+  
+  // Erstelle Hinweis-Element
+  const hintDiv = document.createElement('div');
+  hintDiv.className = 'medication-safety-hint';
+  hintDiv.style.cssText = 'margin-top: 0.5rem; padding: 0.75rem; background-color: #f9fafb; border-left: 3px solid #9ca3af; border-radius: 4px;';
+  hintDiv.innerHTML = `
+    <p style="margin: 0; font-size: 0.875rem; line-height: 1.5; color: #6b7280;">
+      ${classification.hint}
+    </p>
+  `;
+  
+  // Füge Hinweis unter dem Medikamentennamen-Input ein
+  const inputWrapper = inputGroup.querySelector('div[style*="position: relative"]');
+  if (inputWrapper) {
+    inputWrapper.appendChild(hintDiv);
+  }
+  
+  // Update global safety notice
+  updateGlobalSafetyNotice();
+}
+
+/**
+ * Aktualisiert oder zeigt den globalen Safety-Hinweis unter der Medikamentenliste
+ */
+function updateGlobalSafetyNotice() {
+  const container = document.getElementById('medication-inputs');
+  if (!container) return;
+  
+  // Entferne existierenden globalen Hinweis
+  const existingNotice = document.getElementById('global-safety-notice');
+  if (existingNotice) {
+    existingNotice.remove();
+  }
+  
+  // Sammle alle eingegebenen Medikamente
+  const medicationInputs = container.querySelectorAll('.medication-display-input');
+  const medications = [];
+  
+  medicationInputs.forEach(input => {
+    const name = input.value.trim();
+    if (name) {
+      const hiddenInput = input.closest('.medication-input-group').querySelector('.medication-name-hidden');
+      const genericName = hiddenInput?.dataset?.genericName || '';
+      medications.push({ name, genericName });
+    }
+  });
+  
+  // Prüfe ob mindestens ein High-Risk Medikament dabei ist
+  const hasHighRisk = hasHighRiskMedication(medications);
+  
+  if (!hasHighRisk || medications.length === 0) {
+    return; // Kein Hinweis nötig
+  }
+  
+  // Erstelle globalen Hinweis
+  const noticeDiv = document.createElement('div');
+  noticeDiv.id = 'global-safety-notice';
+  noticeDiv.style.cssText = 'margin-top: 1.5rem; padding: 1.25rem; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px;';
+  noticeDiv.innerHTML = `
+    <h4 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">
+      <i class="fas fa-info-circle" style="color: #6b7280; margin-right: 0.5rem;"></i>
+      MedLess-Hinweis zu Ihrer Medikation
+    </h4>
+    <p style="margin: 0; font-size: 0.875rem; line-height: 1.6; color: #6b7280;">
+      Bei einigen Ihrer Medikamente ist ein besonders vorsichtiges Vorgehen empfohlen. 
+      Der berechnete Ausschleichplan ist nur eine theoretische Orientierung und ersetzt keine ärztliche Entscheidung. 
+      <strong style="color: #374151;">Bitte besprechen Sie alle Änderungen mit Ihrem behandelnden Arzt.</strong>
+    </p>
+  `;
+  
+  // Füge Hinweis nach dem medication-inputs Container ein
+  const addButton = document.getElementById('add-medication');
+  if (addButton && addButton.parentNode) {
+    addButton.parentNode.insertBefore(noticeDiv, addButton.nextSibling);
+  }
 }
 
 // Add medication input - DISABLED (now handled in index.tsx inline JavaScript)
@@ -235,6 +467,7 @@ function createMedicationInput() {
     removeBtn.addEventListener('click', () => {
       inputGroup.remove();
       renumberMedications();
+      updateGlobalSafetyNotice(); // Update global notice after removal
     });
   }
 }
@@ -1075,14 +1308,31 @@ function displayResults(data, firstName = '', gender = '') {
     const interactions = item.interactions;
     const hasInteractions = interactions && interactions.length > 0;
     
+    // Klassifiziere Medikament für Badge und Hinweis
+    const classification = classifyMedication(med.name || '', med.generic_name || '');
+    
     html += `
       <div style="padding: 1rem; border-radius: 12px; background: #f9fafb; border: 1px solid #e5e7eb;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-          <div>
-            <h3 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #1f2937;">${med.name}</h3>
+          <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <h3 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #1f2937;">${med.name}</h3>
+              ${classification && classification.badge ? `
+                <span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; ${getBadgeStyles(classification.badge.color)}">
+                  ${classification.badge.text}
+                </span>
+              ` : ''}
+            </div>
             ${med.generic_name ? `<p style="margin: 0.25rem 0 0; font-size: 0.8rem; color: #6b7280;">${med.generic_name}</p>` : ''}
+            ${classification && classification.hint ? `
+              <div style="margin-top: 0.75rem; padding: 0.75rem; background-color: #f9fafb; border-left: 3px solid #9ca3af; border-radius: 4px;">
+                <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #6b7280;">
+                  ${classification.hint}
+                </p>
+              </div>
+            ` : ''}
           </div>
-          <div style="text-align: right;">
+          <div style="text-align: right; margin-left: 1rem;">
             <p style="margin: 0; font-size: 0.7rem; color: #9ca3af;">Tagesdosis</p>
             <p style="margin: 0.25rem 0 0; font-size: 0.9rem; font-weight: 600; color: #1f2937;">${item.dosage}</p>
           </div>
@@ -1109,6 +1359,28 @@ function displayResults(data, firstName = '', gender = '') {
       </div>
     </div>
   `;
+  
+  // Globaler Safety-Hinweis wenn High-Risk Medikamente vorhanden
+  const analysisWithMeds = analysis.map(item => ({
+    name: item.medication?.name || '',
+    genericName: item.medication?.generic_name || ''
+  }));
+  
+  if (hasHighRiskMedication(analysisWithMeds) || maxSeverity === 'high' || maxSeverity === 'critical') {
+    html += `
+      <div style="margin-top: 1.2rem; padding: 1.25rem; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px;">
+        <h4 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">
+          <i class="fas fa-info-circle" style="color: #6b7280; margin-right: 0.5rem;"></i>
+          MedLess-Hinweis zu Ihrer Medikation
+        </h4>
+        <p style="margin: 0; font-size: 0.875rem; line-height: 1.6; color: #6b7280;">
+          Bei einigen Ihrer Medikamente ist ein besonders vorsichtiges Vorgehen empfohlen. 
+          Der berechnete Ausschleichplan ist nur eine theoretische Orientierung und ersetzt keine ärztliche Entscheidung. 
+          <strong style="color: #374151;">Bitte besprechen Sie alle Änderungen mit Ihrem behandelnden Arzt.</strong>
+        </p>
+      </div>
+    `;
+  }
   
   // Critical warnings (Homepage-Stil)
   if (warnings && warnings.length > 0) {
