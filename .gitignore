@@ -31,3 +31,14 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+
+# Archive & Backups
+archive/
+*.backup
+*.bak
+*_backup.*
+temp_*
+
+# Development prototypes
+*_old.*
+*_test.*
