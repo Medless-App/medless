@@ -720,6 +720,63 @@ app.get('/', (c) => {
     }
     
     /* ============================================================
+       SCROLL ANIMATIONS - MEDIZINISCH-SERIÖS & DEZENT
+       ============================================================ */
+    
+    /* Animation Base State - Hidden before scroll */
+    .scroll-animate {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 400ms ease-out, transform 400ms ease-out;
+    }
+    
+    /* Animation Active State - Visible after scroll-in */
+    .scroll-animate.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Card Groups - Staggered Animation */
+    .scroll-animate-card {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 380ms ease-out, transform 380ms ease-out;
+    }
+    
+    .scroll-animate-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Stagger Delays for Card Groups */
+    .scroll-animate-card:nth-child(1) { transition-delay: 0ms; }
+    .scroll-animate-card:nth-child(2) { transition-delay: 80ms; }
+    .scroll-animate-card:nth-child(3) { transition-delay: 160ms; }
+    .scroll-animate-card:nth-child(4) { transition-delay: 240ms; }
+    .scroll-animate-card:nth-child(5) { transition-delay: 320ms; }
+    .scroll-animate-card:nth-child(6) { transition-delay: 400ms; }
+    
+    /* Reduced Motion Support - Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-animate,
+      .scroll-animate-card {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+    
+    /* Mobile: Weaker Animation Movement */
+    @media (max-width: 768px) {
+      .scroll-animate {
+        transform: translateY(12px);
+      }
+      .scroll-animate-card {
+        transform: translateY(10px);
+      }
+    }
+    
+    /* ============================================================
        UI COMPONENT OPTIMIZATION - HARMONIZED
        ============================================================ */
     
@@ -3194,7 +3251,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          1) HERO SECTION
          ============================================================ -->
-    <section class="hero" id="wie-es-funktioniert">
+    <section class="hero scroll-animate" id="wie-es-funktioniert">
       <div class="container">
         <div class="hero-grid">
           
@@ -3260,7 +3317,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          2) WARUM Medless SECTION
          ============================================================ -->
-    <section class="why-medless" id="why-medless">
+    <section class="why-medless scroll-animate" id="why-medless">
       <div class="container">
         
         <h2 class="section-headline">
@@ -3308,7 +3365,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          3) DER WUNSCH SECTION (Lösung)
          ============================================================ -->
-    <section id="wissenschaft" class="wunsch-section" style="background: #f9fafb;">
+    <section id="wissenschaft" class="wunsch-section scroll-animate" style="background: #f9fafb;">
       <div class="container">
         
         <h2 class="section-headline">
@@ -3321,7 +3378,7 @@ app.get('/', (c) => {
         
         <div class="process-cards-grid" style="margin-top: 3rem;">
           
-          <div class="process-card">
+          <div class="process-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-heartbeat"></i>
             </div>
@@ -3331,7 +3388,7 @@ app.get('/', (c) => {
             </p>
           </div>
           
-          <div class="process-card">
+          <div class="process-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-leaf"></i>
             </div>
@@ -3341,7 +3398,7 @@ app.get('/', (c) => {
             </p>
           </div>
           
-          <div class="process-card">
+          <div class="process-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-shield-alt"></i>
             </div>
@@ -3351,7 +3408,7 @@ app.get('/', (c) => {
             </p>
           </div>
           
-          <div class="process-card">
+          <div class="process-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-laptop-medical"></i>
             </div>
@@ -3361,7 +3418,7 @@ app.get('/', (c) => {
             </p>
           </div>
           
-          <div class="process-card">
+          <div class="process-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-user-md"></i>
             </div>
@@ -3371,7 +3428,7 @@ app.get('/', (c) => {
             </p>
           </div>
           
-          <div class="process-card">
+          <div class="process-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-hands-helping"></i>
             </div>
@@ -3389,7 +3446,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          4) ENDOCANNABINOID-SYSTEM (ECS) SECTION - NEU
          ============================================================ -->
-    <section style="padding: 80px 0; background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);">
+    <section class="scroll-animate" style="padding: 80px 0; background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);">
       <div class="container">
         
         <h2 class="section-headline">
@@ -3430,7 +3487,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          5) MEDLESS LÖSUNG SECTION
          ============================================================ -->
-    <section style="padding: 80px 0;">
+    <section class="scroll-animate" style="padding: 80px 0;">
       <div class="container">
         
         <h2 class="section-headline">
@@ -3441,7 +3498,7 @@ app.get('/', (c) => {
           MEDLESS verbindet moderne Cannabinoid-Forschung mit künstlicher Intelligenz zu einem innovativen System der Medikamentenreduktion.
         </p>
         
-        <div class="explanation-card ecs-card" style="margin-top: 3rem;">
+        <div class="explanation-card ecs-card scroll-animate-card" style="margin-top: 3rem;">
           <div class="card-icon">
             <i class="fas fa-flask"></i>
           </div>
@@ -3457,7 +3514,7 @@ app.get('/', (c) => {
           </p>
         </div>
         
-        <div class="explanation-card cyp-card" style="margin-top: 2rem;">
+        <div class="explanation-card cyp-card scroll-animate-card" style="margin-top: 2rem;">
           <div class="card-icon">
             <i class="fas fa-calculator"></i>
           </div>
@@ -3492,7 +3549,7 @@ app.get('/', (c) => {
           </p>
         </div>
         
-        <div class="explanation-card" style="margin-top: 2rem; background: #F0FDF4;">
+        <div class="explanation-card scroll-animate-card" style="margin-top: 2rem; background: #F0FDF4;">
           <div class="card-icon">
             <i class="fas fa-brain"></i>
           </div>
@@ -3540,7 +3597,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          6) SO FUNKTIONIERT Medless SECTION
          ============================================================ -->
-    <section class="how-it-works">
+    <section class="how-it-works scroll-animate">
       <div class="container">
         
         <h2 class="section-headline">
@@ -3550,7 +3607,7 @@ app.get('/', (c) => {
         <div class="steps-container">
           
           <!-- Step 1 -->
-          <div class="step">
+          <div class="step scroll-animate-card">
             <div class="step-number-circle">1</div>
             <div class="step-connector"></div>
             <div class="step-content">
@@ -3562,7 +3619,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- Step 2 -->
-          <div class="step">
+          <div class="step scroll-animate-card">
             <div class="step-number-circle">2</div>
             <div class="step-connector"></div>
             <div class="step-content">
@@ -3574,7 +3631,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- Step 3 -->
-          <div class="step">
+          <div class="step scroll-animate-card">
             <div class="step-number-circle">3</div>
             <div class="step-connector"></div>
             <div class="step-content">
@@ -3586,7 +3643,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- Step 4 -->
-          <div class="step">
+          <div class="step scroll-animate-card">
             <div class="step-number-circle">4</div>
             <div class="step-connector"></div>
             <div class="step-content">
@@ -3598,7 +3655,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- Step 5 -->
-          <div class="step">
+          <div class="step scroll-animate-card">
             <div class="step-number-circle">5</div>
             <div class="step-content">
               <h4>MEDLESS-AI berechnet automatisch</h4>
@@ -3664,7 +3721,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          8) PLANNER SECTION (Form with Progress Bar)
          ============================================================ -->
-    <section id="planner-section" class="planner-section">
+    <section id="planner-section" class="planner-section scroll-animate">
       <div class="container">
         
         <h2 class="section-headline">
@@ -3971,7 +4028,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          9) FAQ SECTION
          ============================================================ -->
-    <section class="faq-section" id="faq">
+    <section class="faq-section scroll-animate" id="faq">
       <div class="container">
         
         <h2 class="section-headline">
@@ -3986,7 +4043,7 @@ app.get('/', (c) => {
         <div class="faq-container">
           
           <!-- FAQ 1 -->
-          <div class="faq-item">
+          <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
                 Ist MedLess nur bei vielen Medikamenten sinnvoll – oder auch bei einem einzigen?
@@ -4008,7 +4065,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- FAQ 2 -->
-          <div class="faq-item">
+          <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
                 Wie können Cannabinoide helfen, Medikamente zu reduzieren?
@@ -4034,7 +4091,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- FAQ 3 -->
-          <div class="faq-item">
+          <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
                 Was ist das Endocannabinoid-System (ECS)?
@@ -4061,7 +4118,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- FAQ 4 -->
-          <div class="faq-item">
+          <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
                 Ersetzt MedLess eine ärztliche Beratung oder Diagnose?
@@ -4086,7 +4143,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- FAQ 5 -->
-          <div class="faq-item">
+          <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
                 Wie wird die Cannabinoid-Dosierung in MedLess berechnet?
@@ -4114,7 +4171,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- FAQ 6 -->
-          <div class="faq-item">
+          <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
                 Warum verwendet der Plan nur MEDLESS-Produkte?
@@ -4139,7 +4196,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- FAQ 7 -->
-          <div class="faq-item">
+          <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
                 Bekomme ich eine Übersicht über die Kosten?
@@ -4167,7 +4224,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- FAQ 8 -->
-          <div class="faq-item">
+          <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
                 Sind Cannabinoide legal und machen sie abhängig?
@@ -4192,7 +4249,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- FAQ 9 -->
-          <div class="faq-item">
+          <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
                 Wie schnell kann ich meine Medikamente reduzieren?
@@ -4214,7 +4271,7 @@ app.get('/', (c) => {
           </div>
           
           <!-- FAQ 10 -->
-          <div class="faq-item">
+          <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
                 Kann mein Arzt MedLess auch nutzen?
@@ -4257,7 +4314,7 @@ app.get('/', (c) => {
   <!-- ============================================================
        FOOTER
        ============================================================ -->
-  <footer>
+  <footer class="scroll-animate">
     <div class="container">
       
       <div class="footer-content">
@@ -4469,6 +4526,42 @@ app.get('/', (c) => {
         scrollToTopBtn.classList.remove('visible');
       }
     });
+    
+    // ============================================================
+    // SCROLL ANIMATIONS - Dezent, medizinisch-seriös
+    // ============================================================
+    
+    // Intersection Observer Setup (Performance-optimiert)
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          // Optional: Observer nach Animation deaktivieren für Performance
+          // scrollObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,        // Trigger bei 10% Sichtbarkeit
+      rootMargin: '0px 0px -50px 0px'  // Start etwas früher
+    });
+    
+    // Initialisiere Animationen beim Laden der Seite
+    function initScrollAnimations() {
+      // Alle Elemente mit .scroll-animate oder .scroll-animate-card animieren
+      const animateElements = document.querySelectorAll('.scroll-animate, .scroll-animate-card');
+      
+      animateElements.forEach(element => {
+        scrollObserver.observe(element);
+      });
+    }
+    
+    // Starte Animationen nach DOM-Load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initScrollAnimations);
+    } else {
+      // DOM bereits geladen
+      initScrollAnimations();
+    }
   </script>
   
   <!-- Main Application Logic -->
