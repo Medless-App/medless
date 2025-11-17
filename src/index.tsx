@@ -2307,7 +2307,24 @@ app.get('/', (c) => {
   <header class="site-header">
     <div class="header-container">
       <div class="header-logo">
-        <img src="https://www.genspark.ai/api/files/s/PLloGp9o" alt="MEDLESS Logo" />
+        <svg viewBox="0 0 520 180" xmlns="http://www.w3.org/2000/svg" style="height: 48px; width: auto;">
+          <!-- Circles representing medication reduction -->
+          <circle cx="60" cy="50" r="30" fill="#0C5C4C"/>
+          <circle cx="110" cy="50" r="20" fill="#0C5C4C"/>
+          <circle cx="150" cy="50" r="14" fill="#0C5C4C"/>
+          <circle cx="180" cy="50" r="10" fill="#0C5C4C"/>
+          <circle cx="205" cy="50" r="7" fill="#0C5C4C"/>
+          <circle cx="225" cy="50" r="5" fill="#0C5C4C"/>
+          <circle cx="240" cy="50" r="3" fill="#0C5C4C"/>
+          <circle cx="252" cy="50" r="2" fill="#0C5C4C"/>
+          
+          <!-- MedLess Text -->
+          <text x="30" y="120" font-family="Inter, system-ui, sans-serif" font-size="52" font-weight="700" fill="#0C5C4C">MedLess</text>
+          
+          <!-- Tagline -->
+          <text x="35" y="145" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="400" fill="#0C5C4C">weniger Medikamente</text>
+          <text x="65" y="165" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="400" fill="#0C5C4C">mehr Leben</text>
+        </svg>
       </div>
       
       <nav class="header-nav">
