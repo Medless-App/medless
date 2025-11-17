@@ -2307,7 +2307,7 @@ app.get('/', (c) => {
   <header class="site-header">
     <div class="header-container">
       <div class="header-logo">
-        <img src="https://www.genspark.ai/api/files/s/PLloGp9oDu" alt="MEDLESS Logo" />
+        <img src="https://www.genspark.ai/api/files/s/PLloGp9o" alt="MEDLESS Logo" />
       </div>
       
       <nav class="header-nav">
