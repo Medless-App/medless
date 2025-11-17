@@ -683,22 +683,9 @@ app.get('/', (c) => {
       border-color: var(--primary-dark-green);
     }
     
-    /* Mobile Top Logo (above everything) */
-    .mobile-top-logo-container {
+    /* Hero Mobile Logo (inside hero, only visible on mobile) */
+    .hero-logo-mobile {
       display: none;
-      background: var(--background-white);
-      padding: var(--space-6) var(--space-4) var(--space-2);
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .mobile-top-logo {
-      width: 100%;
-      max-width: 320px;
-      height: auto;
-      display: block;
     }
     
     /* Mobile Header - HIDE */
@@ -707,9 +694,13 @@ app.get('/', (c) => {
         display: none;
       }
       
-      /* Show mobile top logo */
-      .mobile-top-logo-container {
+      /* Show mobile logo in hero */
+      .hero-logo-mobile {
         display: block;
+        width: 100%;
+        max-width: 340px;
+        height: auto;
+        margin: 0 auto var(--space-4);
       }
     }
     
@@ -2043,7 +2034,7 @@ app.get('/', (c) => {
       }
       
       .hero {
-        padding: 0 0 var(--space-4);
+        padding: var(--space-5) 0 var(--space-4);
       }
       
       .container {
@@ -2544,28 +2535,6 @@ app.get('/', (c) => {
     </div>
   </header>
   
-  <!-- Mobile Top Logo (only visible on mobile, above everything) -->
-  <div class="mobile-top-logo-container">
-    <svg class="mobile-top-logo" viewBox="0 0 520 180" xmlns="http://www.w3.org/2000/svg">
-      <!-- Circles representing medication reduction -->
-      <circle cx="60" cy="50" r="30" fill="#0C5C4C"/>
-      <circle cx="110" cy="50" r="20" fill="#0C5C4C"/>
-      <circle cx="150" cy="50" r="14" fill="#0C5C4C"/>
-      <circle cx="180" cy="50" r="10" fill="#0C5C4C"/>
-      <circle cx="205" cy="50" r="7" fill="#0C5C4C"/>
-      <circle cx="225" cy="50" r="5" fill="#0C5C4C"/>
-      <circle cx="240" cy="50" r="3" fill="#0C5C4C"/>
-      <circle cx="252" cy="50" r="2" fill="#0C5C4C"/>
-      
-      <!-- MedLess Text -->
-      <text x="30" y="120" font-family="Inter, system-ui, sans-serif" font-size="52" font-weight="700" fill="#0C5C4C">MedLess</text>
-      
-      <!-- Tagline -->
-      <text x="35" y="145" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="400" fill="#0C5C4C">weniger Medikamente</text>
-      <text x="65" y="165" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="400" fill="#0C5C4C">mehr Leben</text>
-    </svg>
-  </div>
-  
   <main>
     
     <!-- ============================================================
@@ -2577,6 +2546,26 @@ app.get('/', (c) => {
           
           <!-- Left: Content -->
           <div class="hero-content">
+            <!-- Mobile Logo (only visible on mobile, centered above headline) -->
+            <svg class="hero-logo-mobile" viewBox="0 0 520 180" xmlns="http://www.w3.org/2000/svg">
+              <!-- Circles representing medication reduction -->
+              <circle cx="60" cy="50" r="30" fill="#0C5C4C"/>
+              <circle cx="110" cy="50" r="20" fill="#0C5C4C"/>
+              <circle cx="150" cy="50" r="14" fill="#0C5C4C"/>
+              <circle cx="180" cy="50" r="10" fill="#0C5C4C"/>
+              <circle cx="205" cy="50" r="7" fill="#0C5C4C"/>
+              <circle cx="225" cy="50" r="5" fill="#0C5C4C"/>
+              <circle cx="240" cy="50" r="3" fill="#0C5C4C"/>
+              <circle cx="252" cy="50" r="2" fill="#0C5C4C"/>
+              
+              <!-- MedLess Text -->
+              <text x="30" y="120" font-family="Inter, system-ui, sans-serif" font-size="52" font-weight="700" fill="#0C5C4C">MedLess</text>
+              
+              <!-- Tagline -->
+              <text x="35" y="145" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="400" fill="#0C5C4C">weniger Medikamente</text>
+              <text x="65" y="165" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="400" fill="#0C5C4C">mehr Leben</text>
+            </svg>
+            
             <h1 class="hero-headline">
               Dein Weg zu weniger Medikamenten.
             </h1>
