@@ -3369,7 +3369,7 @@ app.get('/', (c) => {
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Was sind Cannabinoide und wie wirken sie im Körper?
+                Ist MedLess nur bei vielen Medikamenten sinnvoll – oder auch bei einem einzigen?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -3378,23 +3378,42 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  <strong>Cannabinoide</strong> sind Pflanzenstoffe aus der Cannabis-Pflanze, 
-                  die an körpereigene Rezeptoren des Endocannabinoid-Systems (ECS) andocken. 
-                  Die bekanntesten sind <strong>CBD (Cannabidiol)</strong> und 
-                  <strong>THC (Tetrahydrocannabinol)</strong>.
+                  MedLess ist sowohl für Menschen mit vielen Medikamenten (Polypharmazie) als auch für Personen geeignet, die nur ein einziges Dauer-Medikament ausschleichen möchten – zum Beispiel ein Schlafmittel, ein Antidepressivum zur Nacht, ein Schmerzmittel oder ein „Magenschutz"-Präparat.
                 </p>
                 <p>
-                  Während THC psychoaktiv wirkt, ist CBD nicht berauschend und wird häufig 
-                  zur Unterstützung bei Schmerzen, Schlafstörungen, Entzündungen und 
-                  Stressregulation eingesetzt. Cannabinoide modulieren Neurotransmitter, 
-                  beeinflussen das Immunsystem und wirken auf Leberenzyme (CYP450), 
-                  die auch Medikamente abbauen.
+                  Die KI berechnet einen theoretischen Reduktionsplan, der sich an deiner individuellen Situation orientiert. Die tatsächliche Umsetzung erfolgt immer gemeinsam mit deinem Arzt.
                 </p>
               </div>
             </div>
           </div>
           
           <!-- FAQ 2 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Wie können Cannabinoide helfen, Medikamente zu reduzieren?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  Cannabinoide wirken auf zwei Ebenen:
+                </p>
+                <ul>
+                  <li>Sie unterstützen das Endocannabinoid-System (ECS), das an der Regulation von Schlaf, Schmerz, Stimmung, Stress und Entzündungen beteiligt ist.</li>
+                  <li>Sie können Leberenzyme beeinflussen, die am Abbau bestimmter Medikamente beteiligt sind (CYP450-System).</li>
+                </ul>
+                <p>
+                  Wenn Symptome durch ein stabileres ECS zurückgehen, kann es sein, dass dein Körper weniger Medikamente benötigt. Gleichzeitig können sich durch Enzymveränderungen auch Blutspiegel einzelner Medikamente ändern. Deshalb muss jede tatsächliche Dosisanpassung immer ärztlich begleitet werden.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ 3 -->
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
@@ -3407,51 +3426,15 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Das <strong>Endocannabinoid-System (ECS)</strong> ist ein körpereigenes 
-                  Regulierungssystem, das in jedem Menschen vorhanden ist. Es besteht aus:
+                  Das Endocannabinoid-System ist ein körpereigenes Regulationssystem. Es besteht aus:
                 </p>
                 <ul>
-                  <li><strong>Endocannabinoiden</strong> (körpereigene Botenstoffe)</li>
-                  <li><strong>CB1- und CB2-Rezeptoren</strong> (Andockstellen im Gehirn, Immunsystem, Organen)</li>
-                  <li><strong>Enzymen</strong>, die Endocannabinoide abbauen</li>
+                  <li>Endocannabinoiden (körpereigenen Botenstoffen)</li>
+                  <li>Rezeptoren (z. B. CB1 und CB2) im Gehirn, Nervensystem, Immunsystem und Organen</li>
+                  <li>Enzymen, die diese Botenstoffe auf- und abbauen</li>
                 </ul>
                 <p>
-                  Das ECS reguliert Schmerz, Schlaf, Appetit, Immunfunktion, Stimmung und 
-                  Stressreaktionen. Ein geschwächtes ECS kann zu chronischen Schmerzen, 
-                  Schlafstörungen oder Entzündungen führen – Cannabinoide aus Pflanzen 
-                  können das ECS unterstützen und stärken.
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          <!-- FAQ 3 -->
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              <span class="faq-question-text">
-                Was sind CYP450-Enzyme und warum sind sie wichtig?
-              </span>
-              <div class="faq-icon">
-                <i class="fas fa-chevron-down"></i>
-              </div>
-            </button>
-            <div class="faq-answer">
-              <div class="faq-answer-content">
-                <p>
-                  <strong>CYP450-Enzyme</strong> sind Leberenzyme, die etwa 60 % aller 
-                  gängigen Medikamente abbauen. Cannabinoide wie CBD können diese Enzyme 
-                  <strong>hemmen (inhibieren)</strong> oder <strong>aktivieren (induzieren)</strong>.
-                </p>
-                <p>
-                  <strong>Hemmung:</strong> Medikamente werden langsamer abgebaut → höhere 
-                  Blutspiegel → potenziell niedrigere Dosis nötig.<br/>
-                  <strong>Induktion:</strong> Medikamente werden schneller abgebaut → niedrigere 
-                  Blutspiegel → ggf. höhere Dosis nötig.
-                </p>
-                <p>
-                  Diese Wechselwirkung ist der <strong>pharmakologische Mechanismus</strong>, 
-                  durch den Cannabinoide den Medikamentenbedarf beeinflussen können. 
-                  Medless berücksichtigt diese Interaktionen bei der Planerstellung.
+                  Das ECS hilft, innere Balance zu halten – etwa bei Schlaf, Schmerz, Stimmung, Appetit, Stressreaktion und Entzündungsprozessen. Gerät es aus dem Gleichgewicht, greifen viele Menschen zu Medikamenten. MedLess setzt dort an, wo Cannabinoide das ECS unterstützen können.
                 </p>
               </div>
             </div>
@@ -3461,7 +3444,7 @@ app.get('/', (c) => {
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Wie können Cannabinoide dabei helfen, Medikamente zu reduzieren?
+                Ersetzt MedLess eine ärztliche Beratung oder Diagnose?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -3470,24 +3453,13 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Cannabinoide wirken auf <strong>zwei Ebenen</strong>:
+                  Nein. MedLess bietet keine medizinische Diagnose und keine Therapieempfehlung.
                 </p>
                 <p>
-                  <strong>1. ECS-Unterstützung:</strong> Sie stärken das körpereigene 
-                  Regulierungssystem für Schmerz, Schlaf, Entzündung und Stress. Ein 
-                  stabileres ECS kann dazu führen, dass weniger Symptome auftreten und 
-                  der Körper besser selbst reguliert.
+                  Die Anwendung erstellt einen theoretischen, strukturierten Ausschleichplan auf Basis deiner Eingaben und wissenschaftlicher Grundlagen. Dieser Plan ist ausdrücklich als Gesprächsgrundlage für deinen behandelnden Arzt gedacht.
                 </p>
                 <p>
-                  <strong>2. Pharmakologische Wechselwirkung:</strong> Cannabinoide 
-                  beeinflussen den Abbau bestimmter Medikamente über CYP450-Enzyme. 
-                  Dadurch können Medikamente länger im Körper wirken und Sie benötigen 
-                  möglicherweise eine geringere Dosis.
-                </p>
-                <p>
-                  <strong>Wichtig:</strong> Dies ist ein individueller Prozess und muss 
-                  immer ärztlich begleitet werden. Medless zeigt nur ein 
-                  <em>theoretisches Potenzial</em> auf.
+                  Ändere deine Medikation niemals eigenständig, sondern immer nur nach ärztlicher Rücksprache.
                 </p>
               </div>
             </div>
@@ -3497,7 +3469,7 @@ app.get('/', (c) => {
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Ist Medless eine medizinische Beratung oder Diagnose?
+                Wie wird die Cannabinoid-Dosierung in MedLess berechnet?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -3506,19 +3478,16 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  <strong>Nein.</strong> Medless ist ein <strong>Informationstool</strong>, 
-                  das auf wissenschaftlichen Studien und pharmakologischen Daten basiert. 
-                  Es erstellt einen <strong>theoretischen Dosierungsplan</strong>, der als 
-                  <strong>Gesprächsgrundlage</strong> für Ihren Arzt dient.
+                  MedLess orientiert sich an in der Fachliteratur beschriebenen Dosisbereichen und nutzt unter anderem:
                 </p>
+                <ul>
+                  <li>dein Körpergewicht und dein Alter</li>
+                  <li>die Art und Anzahl deiner Medikamente</li>
+                  <li>den gewählten Ausschleichzeitraum</li>
+                  <li>Sicherheitsmargen bei sensiblen Wirkstoffgruppen</li>
+                </ul>
                 <p>
-                  Medless ersetzt <strong>keine</strong> ärztliche Beratung, Diagnose 
-                  oder Behandlung. Jede Änderung Ihrer Medikation muss mit Ihrem 
-                  behandelnden Arzt besprochen und überwacht werden.
-                </p>
-                <p>
-                  <strong>Verwenden Sie den Plan niemals eigenständig zur 
-                  Medikamenten-Reduktion.</strong>
+                  Die Dosierung wird vorsichtig eingeschlichen und über den Verlauf angepasst. Sie ist nicht als starre Vorgabe zu verstehen, sondern als Vorschlag, den dein Arzt anpassen kann.
                 </p>
               </div>
             </div>
@@ -3528,7 +3497,7 @@ app.get('/', (c) => {
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Wie wird die Cannabinoid-Dosierung berechnet?
+                Warum verwendet der Plan nur MEDLESS-Produkte?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -3537,26 +3506,13 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Die Dosierung basiert auf <strong>evidenzbasierten Richtlinien</strong> 
-                  (Studie: Blessing et al., 2015) und wird <strong>gewichtsabhängig</strong> 
-                  berechnet:
+                  Die KI ist gezielt auf die MEDLESS-Produktlinie trainiert. Das bedeutet: Cannabinoidgehalt, Konzentrationen und Terpenprofil dieser Produkte sind exakt im System hinterlegt.
                 </p>
-                <ul>
-                  <li><strong>Startdosis:</strong> 0,5 mg CBD pro kg Körpergewicht/Tag</li>
-                  <li><strong>Zieldosis:</strong> 1,0 mg CBD pro kg Körpergewicht/Tag</li>
-                  <li><strong>Einschleichphase:</strong> 6-12 Wochen (Standard: 8 Wochen)</li>
-                </ul>
                 <p>
-                  <strong>Individuelle Anpassungen:</strong>
+                  Nur auf dieser Basis kann die KI seriös berechnen, wie viele Einheiten du für deinen Ausschleichzeitraum benötigst und welche Dosierungen sinnvoll sind.
                 </p>
-                <ul>
-                  <li>Bei Benzodiazepinen/Opioiden: Startdosis wird halbiert (Sicherheit)</li>
-                  <li>Bei Senioren (65+): Dosis wird um 20 % reduziert</li>
-                  <li>Bei Untergewicht/Übergewicht: BMI-basierte Anpassung</li>
-                </ul>
                 <p>
-                  Die Dosierung wird <strong>wöchentlich schrittweise</strong> erhöht, 
-                  um den Körper sanft einzustellen.
+                  Wenn du andere Produkte verwendest, stimmen die Mengen- und Dosisberechnungen nicht mehr zuverlässig.
                 </p>
               </div>
             </div>
@@ -3566,7 +3522,7 @@ app.get('/', (c) => {
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Welche Medikamente werden von CYP450-Wechselwirkungen beeinflusst?
+                Bekomme ich eine Übersicht über die Kosten?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -3575,27 +3531,47 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Etwa <strong>60 % aller gängigen Medikamente</strong> werden über 
-                  CYP450-Enzyme abgebaut. Dazu gehören unter anderem:
+                  Ja. In deinem PDF-Plan siehst du:
                 </p>
                 <ul>
-                  <li><strong>Schmerzmittel:</strong> Ibuprofen, Diclofenac, Tramadol</li>
-                  <li><strong>Antidepressiva:</strong> Sertralin, Citalopram, Fluoxetin</li>
-                  <li><strong>Benzodiazepine:</strong> Diazepam, Lorazepam, Alprazolam</li>
-                  <li><strong>Blutdrucksenker:</strong> Amlodipin, Metoprolol, Losartan</li>
-                  <li><strong>Blutverdünner:</strong> Warfarin, Clopidogrel</li>
-                  <li><strong>Antiepileptika:</strong> Carbamazepin, Valproat</li>
+                  <li>welche MEDLESS-Produkte du benötigst</li>
+                  <li>für welchen Zeitraum sie ausreichen</li>
+                  <li>die geschätzten Gesamtkosten für den gesamten Ausschleichplan</li>
+                  <li>auf Wunsch auch eine Orientierung, wie hoch die Kosten pro Woche liegen</li>
                 </ul>
                 <p>
-                  Medless analysiert Ihre Medikamente und zeigt an, ob 
-                  <strong>Wechselwirkungen</strong> zu erwarten sind. Die tatsächliche 
-                  Auswirkung muss jedoch <strong>individuell ärztlich überwacht</strong> werden.
+                  So kannst du vorab entscheiden, ob und in welchem Umfang du den Plan umsetzen möchtest.
                 </p>
               </div>
             </div>
           </div>
           
           <!-- FAQ 8 -->
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span class="faq-question-text">
+                Sind Cannabinoide legal und machen sie abhängig?
+              </span>
+              <div class="faq-icon">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>
+                  Nicht-psychoaktive Cannabinoide wie CBD sind in vielen Ländern legal, solange der THC-Gehalt unter der jeweiligen gesetzlichen Grenze (häufig 0,2–0,3 %) liegt. Die genaue Rechtslage hängt vom Land ab und kann sich ändern.
+                </p>
+                <p>
+                  CBD gilt als nicht berauschend und macht nach aktuellem Wissensstand nicht abhängig.
+                </p>
+                <p>
+                  THC-haltige Produkte oberhalb der gesetzlichen Grenze unterliegen meist dem Suchtmittelrecht und sind nur eingeschränkt verfügbar.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ 9 -->
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
@@ -3608,61 +3584,10 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  <strong>Das hängt von vielen individuellen Faktoren ab</strong> und kann 
-                  nicht pauschal beantwortet werden. Medless bietet eine 
-                  <strong>theoretische Simulation</strong> über 8 Wochen (Einschleichphase) 
-                  plus Erhaltungsphase.
+                  Das hängt von vielen Faktoren ab: Art des Medikaments, Dauer der Einnahme, Dosis, Begleiterkrankungen und deiner individuellen Reaktion.
                 </p>
                 <p>
-                  <strong>Wichtige Faktoren:</strong>
-                </p>
-                <ul>
-                  <li>Art und Schwere Ihrer Erkrankung</li>
-                  <li>Dauer der Medikamenteneinnahme</li>
-                  <li>Reaktion Ihres Körpers auf Cannabinoide</li>
-                  <li>Genetische Faktoren (Leberfunktion, CYP450-Varianten)</li>
-                  <li>Begleitende Therapien (Ernährung, Bewegung, Stressmanagement)</li>
-                </ul>
-                <p>
-                  <strong>Realistische Erwartung:</strong> Ein Reduktionsziel von 
-                  <strong>25-50 %</strong> über 3-6 Monate ist für viele Menschen realistisch – 
-                  aber nur unter ärztlicher Kontrolle.
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          <!-- FAQ 9 -->
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              <span class="faq-question-text">
-                Was passiert, wenn ich Cannabinoide absetze?
-              </span>
-              <div class="faq-icon">
-                <i class="fas fa-chevron-down"></i>
-              </div>
-            </button>
-            <div class="faq-answer">
-              <div class="faq-answer-content">
-                <p>
-                  Wenn Sie Cannabinoide absetzen, <strong>fällt die ECS-Unterstützung weg</strong>. 
-                  Je nachdem, wie stark Ihr Körper von der Cannabinoid-Zufuhr profitiert hat, 
-                  können folgende Szenarien eintreten:
-                </p>
-                <p>
-                  <strong>1. Stabilisiertes ECS:</strong> Ihr ECS hat sich durch die 
-                  Cannabinoid-Gabe stabilisiert und bleibt auch ohne weitere Zufuhr stark. 
-                  Symptome bleiben reduziert, Medikamentenbedarf bleibt niedrig.
-                </p>
-                <p>
-                  <strong>2. ECS benötigt weiterhin Unterstützung:</strong> Nach Absetzen 
-                  kehren Symptome zurück, Sie benötigen wieder höhere Medikamentendosen. 
-                  In diesem Fall ist eine <strong>Dauergabe</strong> von Cannabinoiden sinnvoll.
-                </p>
-                <p>
-                  <strong>Empfehlung:</strong> Cannabinoide langsam ausschleichen und 
-                  Symptome eng beobachten. Ihr Arzt kann anhand Ihrer Reaktion entscheiden, 
-                  ob eine Dauergabe oder ein Auslassversuch sinnvoll ist.
+                  MedLess simuliert Ausschleichverläufe von etwa 2 bis 12 Wochen, die eher vorsichtig angelegt sind. Dein Arzt kann den Plan bei Bedarf verlängern, Zwischenschritte einbauen oder eine langsamere Strategie wählen.
                 </p>
               </div>
             </div>
@@ -3672,7 +3597,7 @@ app.get('/', (c) => {
           <div class="faq-item">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Sind Cannabinoide legal und wo kann ich sie kaufen?
+                Kann mein Arzt MedLess auch nutzen?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -3681,23 +3606,10 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  <strong>CBD-Produkte sind in Deutschland legal</strong>, solange sie 
-                  einen THC-Gehalt von unter 0,2 % aufweisen. Sie sind frei verkäuflich 
-                  in Apotheken, Online-Shops und spezialisierten CBD-Geschäften.
+                  Ja. Dein Arzt kann deinen Plan mit dir gemeinsam ansehen, verändern oder neu bewerten.
                 </p>
                 <p>
-                  <strong>Qualitätsmerkmale:</strong>
-                </p>
-                <ul>
-                  <li>Zertifizierte Laboranalysen (COA - Certificate of Analysis)</li>
-                  <li>Klare Angabe zu CBD- und THC-Gehalt</li>
-                  <li>Bio-Anbau ohne Pestizide</li>
-                  <li>Vollspektrum-Öle (enthalten auch Terpene und Flavonoide)</li>
-                </ul>
-                <p>
-                  <strong>Empfehlung:</strong> Kaufen Sie nur bei seriösen Anbietern mit 
-                  transparenten Laborberichten. MEDLESS empfiehlt MEDLESS-Produkte 
-                  (CBD-Dosier-Sprays), die präzise Dosierungen ermöglichen.
+                  Die Idee von MedLess ist nicht, ärztliche Entscheidungen zu ersetzen, sondern sie zu unterstützen – durch mehr Übersicht, Struktur und Transparenz.
                 </p>
               </div>
             </div>
