@@ -1035,6 +1035,20 @@ app.get('/', (c) => {
       }
     }
     
+    @keyframes checkmarkPop {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
     /* ============================================================
        UI COMPONENT OPTIMIZATION - HARMONIZED
        ============================================================ */
@@ -4230,6 +4244,90 @@ app.get('/', (c) => {
                 </button>
               </div>
             </div>
+            
+          </div>
+        </div>
+        
+        <!-- ============================================================
+             ZWISCHEN-SCREEN: Plan Ready Interstitial
+             ============================================================ -->
+        <div id="plan-ready-interstitial" class="hidden" style="padding: 60px 20px; background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%);">
+          <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+            
+            <!-- Success Icon Animation -->
+            <div style="margin-bottom: 2rem;">
+              <div style="display: inline-flex; align-items: center; justify-content: center; width: 120px; height: 120px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; box-shadow: 0 10px 30px rgba(5, 150, 105, 0.3);">
+                <i class="fas fa-check" style="color: white; font-size: 4rem; animation: checkmarkPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);"></i>
+              </div>
+            </div>
+            
+            <!-- Headline -->
+            <h2 style="font-size: 2.5rem; font-weight: 800; color: #0b7b6c; margin-bottom: 1.5rem; line-height: 1.2;">
+              Dein MEDLESS-Ausschleichplan ist fertig.
+            </h2>
+            
+            <!-- Description -->
+            <p style="font-size: 1.2rem; color: #374151; max-width: 700px; margin: 0 auto 2.5rem auto; line-height: 1.7;">
+              Auf Basis deiner Angaben wurde ein <strong>individueller, theoretischer MEDLESS-Ausschleichplan</strong> berechnet. 
+              Du kannst dir jetzt alle Reduktionsschritte, Dosierungen und die geschätzten Produktkosten im Detail ansehen.
+            </p>
+            
+            <!-- Feature Bullets -->
+            <div style="background: white; border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); margin-bottom: 3rem; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
+              <div style="display: flex; align-items: start; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="flex-shrink: 0; width: 48px; height: 48px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fas fa-calendar-week" style="color: white; font-size: 1.5rem;"></i>
+                </div>
+                <div>
+                  <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem; font-weight: 700; color: #111827;">
+                    Wöchentliche Medikamentenreduktion
+                  </h4>
+                  <p style="margin: 0; color: #6b7280; font-size: 0.95rem; line-height: 1.6;">
+                    Jede Woche zeigt präzise, wie du deine Medikamente schrittweise reduzierst.
+                  </p>
+                </div>
+              </div>
+              
+              <div style="display: flex; align-items: start; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="flex-shrink: 0; width: 48px; height: 48px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fas fa-cannabis" style="color: white; font-size: 1.5rem;"></i>
+                </div>
+                <div>
+                  <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem; font-weight: 700; color: #111827;">
+                    Cannabinoid-Dosierungen nach MEDLESS-Logik
+                  </h4>
+                  <p style="margin: 0; color: #6b7280; font-size: 0.95rem; line-height: 1.6;">
+                    Individuell berechnete CBD-Kompensation basierend auf deinem Körpergewicht und Medikamenten.
+                  </p>
+                </div>
+              </div>
+              
+              <div style="display: flex; align-items: start; gap: 1.5rem;">
+                <div style="flex-shrink: 0; width: 48px; height: 48px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fas fa-chart-line" style="color: white; font-size: 1.5rem;"></i>
+                </div>
+                <div>
+                  <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem; font-weight: 700; color: #111827;">
+                    Geschätzte Produktmengen & Kostenübersicht
+                  </h4>
+                  <p style="margin: 0; color: #6b7280; font-size: 0.95rem; line-height: 1.6;">
+                    Transparente Übersicht über benötigte KANNASAN-Produkte und voraussichtliche Kosten.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- CTA Button -->
+            <button id="show-results-button" class="btn-primary" style="font-size: 1.3rem; padding: 1.2rem 3rem; box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3); transition: all 0.3s ease;">
+              <i class="fas fa-file-medical" style="margin-right: 0.75rem;"></i>
+              Plan jetzt ansehen
+            </button>
+            
+            <!-- Disclaimer -->
+            <p style="margin-top: 2rem; font-size: 0.9rem; color: #9ca3af; max-width: 600px; margin-left: auto; margin-right: auto;">
+              <i class="fas fa-info-circle" style="margin-right: 0.5rem;"></i>
+              Dieser Plan ist ein theoretisches Modell und ersetzt keine ärztliche Beratung.
+            </p>
             
           </div>
         </div>

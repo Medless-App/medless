@@ -652,7 +652,7 @@ function animateLoadingSteps() {
                 }, 50);
               }
               
-              // Register button click handler
+              // Register button click handler for "Plan jetzt anzeigen"
               if (showPlanButton) {
                 console.log('✅ Button click handler registered');
                 showPlanButton.addEventListener('click', () => {
@@ -667,10 +667,18 @@ function animateLoadingSteps() {
                       loadingEl.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
                       loadingEl.style.opacity = '0';
                       loadingEl.style.transform = 'scale(0.98)';
+                      
+                      // Hide loading after fade-out
+                      setTimeout(() => {
+                        loadingEl.classList.add('hidden');
+                        loadingEl.style.opacity = '1';
+                        loadingEl.style.transform = 'scale(1)';
+                        console.log('✅ Loading hidden, resolving animation promise');
+                        resolve();
+                      }, 800);
+                    } else {
+                      resolve();
                     }
-                    
-                    console.log('✅ Resolving animation promise NOW');
-                    resolve();
                   }, 300);
                 });
               } else {
@@ -730,16 +738,80 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     console.log('📊 API response success:', response.data.success);
 
     if (response.data.success) {
-      console.log('🎉 Calling displayResults()');
-      console.log('📦 Response data:', response.data);
+      console.log('🎉 API successful - showing interstitial screen');
       
-      try {
-        displayResults(response.data, firstName, gender);
-        console.log('✅ displayResults() completed successfully');
-      } catch (displayError) {
-        console.error('❌ ERROR in displayResults():', displayError);
-        console.error('Stack trace:', displayError.stack);
-        alert('Fehler beim Anzeigen der Ergebnisse: ' + displayError.message);
+      // Show plan-ready interstitial screen
+      const interstitialEl = document.getElementById('plan-ready-interstitial');
+      const resultsDiv = document.getElementById('results');
+      
+      if (interstitialEl) {
+        // Show interstitial with fade-in
+        interstitialEl.classList.remove('hidden');
+        interstitialEl.style.opacity = '0';
+        interstitialEl.style.transform = 'translateY(20px)';
+        
+        // Smooth scroll to interstitial
+        setTimeout(() => {
+          interstitialEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+        
+        // Fade in animation
+        setTimeout(() => {
+          interstitialEl.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+          interstitialEl.style.opacity = '1';
+          interstitialEl.style.transform = 'translateY(0)';
+        }, 150);
+        
+        // Setup button click handler for "Plan jetzt ansehen"
+        const showResultsButton = document.getElementById('show-results-button');
+        if (showResultsButton) {
+          showResultsButton.addEventListener('click', () => {
+            console.log('🎯 User clicked "Plan jetzt ansehen" - showing results');
+            
+            // Change button to loading state
+            showResultsButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Wird geladen...';
+            showResultsButton.disabled = true;
+            
+            setTimeout(() => {
+              // Fade out interstitial
+              interstitialEl.style.opacity = '0';
+              interstitialEl.style.transform = 'translateY(-20px)';
+              
+              setTimeout(() => {
+                // Hide interstitial
+                interstitialEl.classList.add('hidden');
+                
+                // Display results
+                try {
+                  console.log('📊 Calling displayResults()');
+                  displayResults(response.data, firstName, gender);
+                  console.log('✅ displayResults() completed successfully');
+                  
+                  // Show results with animation
+                  if (resultsDiv) {
+                    resultsDiv.classList.remove('hidden');
+                    resultsDiv.style.opacity = '0';
+                    resultsDiv.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                      resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                    
+                    setTimeout(() => {
+                      resultsDiv.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                      resultsDiv.style.opacity = '1';
+                      resultsDiv.style.transform = 'translateY(0)';
+                    }, 150);
+                  }
+                } catch (displayError) {
+                  console.error('❌ ERROR in displayResults():', displayError);
+                  console.error('Stack trace:', displayError.stack);
+                  alert('Fehler beim Anzeigen der Ergebnisse: ' + displayError.message);
+                }
+              }, 800);
+            }, 300);
+          });
+        }
       }
     } else {
       throw new Error(response.data.error || 'Analyse fehlgeschlagen');
@@ -747,8 +819,7 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
   } catch (error) {
     console.error('❌ Fehler bei der Analyse:', error);
     alert('Fehler bei der Analyse: ' + (error.response?.data?.error || error.message));
-  } finally {
-    console.log('🧹 Finally block: hiding loading element');
+    // Hide loading on error
     document.getElementById('loading').classList.add('hidden');
   }
 }
