@@ -23,14 +23,19 @@ async function loadMedications() {
   }
 }
 
-// Initialize autocomplete on page load
+// Initialize everything on page load
 document.addEventListener('DOMContentLoaded', () => {
   loadMedications();
   
-  // Setup autocomplete for initial input
-  const initialInput = document.querySelector('input[name="medication_name[]"]');
-  if (initialInput) {
-    setupAutocomplete(initialInput);
+  // Create first medication input field
+  createMedicationInput();
+  
+  // Setup "add medication" button handler
+  const addButton = document.getElementById('add-medication');
+  if (addButton) {
+    addButton.addEventListener('click', () => {
+      createMedicationInput();
+    });
   }
 });
 
@@ -245,15 +250,7 @@ function renumberMedications() {
   });
 }
 
-// Initialize first medication input on page load
-document.addEventListener('DOMContentLoaded', () => {
-  createMedicationInput();
-});
-
-// Add medication button handler
-document.getElementById('add-medication')?.addEventListener('click', () => {
-  createMedicationInput();
-});
+// Medication button handler now set up in main DOMContentLoaded listener above
 
 // Handle initial remove buttons
 document.addEventListener('click', (e) => {
@@ -266,75 +263,233 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Handle manual form submission
+// Validation helper functions
+function showFieldError(input, message) {
+  // Remove existing error
+  clearFieldError(input);
+  
+  // Add error styling to input
+  input.style.borderColor = '#dc2626';
+  input.style.backgroundColor = '#fef2f2';
+  
+  // Create error message element
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'field-error-message';
+  errorDiv.style.cssText = `
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeInError 0.3s ease-in-out;
+  `;
+  errorDiv.innerHTML = `
+    <i class="fas fa-exclamation-circle"></i>
+    <span>${message}</span>
+  `;
+  
+  // Insert after input or its parent container
+  const container = input.closest('.form-row') || input.parentElement;
+  container.appendChild(errorDiv);
+  
+  // Scroll to error
+  input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function clearFieldError(input) {
+  // Reset input styling
+  input.style.borderColor = '';
+  input.style.backgroundColor = '';
+  
+  // Remove error message
+  const container = input.closest('.form-row') || input.parentElement;
+  const errorMsg = container.querySelector('.field-error-message');
+  if (errorMsg) {
+    errorMsg.remove();
+  }
+}
+
+function clearAllErrors() {
+  document.querySelectorAll('.field-error-message').forEach(el => el.remove());
+  document.querySelectorAll('input, select').forEach(input => {
+    input.style.borderColor = '';
+    input.style.backgroundColor = '';
+  });
+}
+
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+// Handle manual form submission with comprehensive validation
 document.getElementById('medication-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
   
-  const form = e.target;
-  const firstName = form.querySelector('input[name="first_name"]').value.trim();
-  const gender = form.querySelector('input[name="gender"]:checked')?.value;
-  const email = form.querySelector('input[name="email"]').value.trim();
-  const age = parseInt(form.querySelector('input[name="age"]').value) || null;
-  const weight = parseFloat(form.querySelector('input[name="weight"]').value) || null;
-  const height = parseFloat(form.querySelector('input[name="height"]').value) || null;
+  // Clear all previous errors
+  clearAllErrors();
   
-  // Get medications from new autocomplete inputs (medication_display[] contains the visible names)
+  const form = e.target;
+  let hasErrors = false;
+  let firstErrorField = null;
+  
+  // === SCHRITT 1: Persönliche Daten ===
+  const firstNameInput = form.querySelector('input[name="first_name"]');
+  const firstName = firstNameInput.value.trim();
+  if (!firstName) {
+    showFieldError(firstNameInput, 'Bitte geben Sie Ihren Vornamen an.');
+    hasErrors = true;
+    if (!firstErrorField) firstErrorField = firstNameInput;
+  }
+  
+  const genderInputs = form.querySelectorAll('input[name="gender"]');
+  const gender = form.querySelector('input[name="gender"]:checked')?.value;
+  if (!gender) {
+    // Show error on first gender radio button
+    const genderContainer = genderInputs[0].closest('.form-row');
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'field-error-message';
+    errorDiv.style.cssText = `
+      color: #dc2626;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    `;
+    errorDiv.innerHTML = `
+      <i class="fas fa-exclamation-circle"></i>
+      <span>Bitte wählen Sie Ihr Geschlecht aus.</span>
+    `;
+    genderContainer.appendChild(errorDiv);
+    hasErrors = true;
+    if (!firstErrorField) firstErrorField = genderInputs[0];
+  }
+  
+  // === SCHRITT 2: Gesundheitsdaten (Optional, aber wenn ausgefüllt dann validieren) ===
+  const ageInput = form.querySelector('input[name="age"]');
+  const age = parseInt(ageInput.value) || null;
+  if (ageInput.value && (!age || age < 1 || age > 120)) {
+    showFieldError(ageInput, 'Bitte geben Sie ein gültiges Alter ein (1-120 Jahre).');
+    hasErrors = true;
+    if (!firstErrorField) firstErrorField = ageInput;
+  }
+  
+  const weightInput = form.querySelector('input[name="weight"]');
+  const weight = parseFloat(weightInput.value) || null;
+  if (weightInput.value && (!weight || weight < 1 || weight > 500)) {
+    showFieldError(weightInput, 'Bitte geben Sie ein gültiges Körpergewicht ein (1-500 kg).');
+    hasErrors = true;
+    if (!firstErrorField) firstErrorField = weightInput;
+  }
+  
+  const heightInput = form.querySelector('input[name="height"]');
+  const height = parseFloat(heightInput.value) || null;
+  if (heightInput.value && (!height || height < 50 || height > 300)) {
+    showFieldError(heightInput, 'Bitte geben Sie eine gültige Körpergröße ein (50-300 cm).');
+    hasErrors = true;
+    if (!firstErrorField) firstErrorField = heightInput;
+  }
+  
+  // === SCHRITT 3: Medikamente ===
   const medicationNames = form.querySelectorAll('input[name="medication_display[]"], input.medication-display-input');
   const medicationMgPerDay = form.querySelectorAll('input[name="medication_mg_per_day[]"]');
   
-  const durationWeeks = parseInt(form.querySelector('select[name="duration_weeks"]').value);
-  const reductionGoal = parseInt(form.querySelector('select[name="reduction_goal"]').value);
-
-  if (!firstName) {
-    alert('Bitte geben Sie Ihren Vornamen an.');
-    return;
-  }
-
-  if (!gender) {
-    alert('Bitte wählen Sie Ihr Geschlecht aus.');
-    return;
-  }
-
-  if (!email) {
-    alert('Bitte geben Sie Ihre E-Mail-Adresse an.');
-    return;
-  }
-
-  if (!durationWeeks || isNaN(durationWeeks)) {
-    alert('Bitte wählen Sie eine Plan-Dauer aus.');
-    return;
-  }
-
-  if (!reductionGoal || isNaN(reductionGoal)) {
-    alert('Bitte wählen Sie ein Reduktionsziel aus.');
-    return;
-  }
-
   const medications = [];
+  let hasMedicationError = false;
+  
   medicationNames.forEach((nameInput, index) => {
     const name = nameInput.value.trim();
-    const mgPerDayValue = parseFloat(medicationMgPerDay[index]?.value);
+    const mgInput = medicationMgPerDay[index];
+    const mgPerDayValue = parseFloat(mgInput?.value);
     
     if (name) {
       // Validate mg/day is provided and valid
-      if (!mgPerDayValue || isNaN(mgPerDayValue) || mgPerDayValue <= 0) {
-        alert(`Bitte geben Sie eine gültige Tagesdosis in mg für "${name}" ein.`);
-        throw new Error('Invalid mg/day value');
+      if (!mgInput || !mgInput.value || !mgPerDayValue || isNaN(mgPerDayValue) || mgPerDayValue <= 0) {
+        showFieldError(mgInput, `Bitte geben Sie eine gültige Tagesdosis in mg an (größer als 0).`);
+        hasErrors = true;
+        hasMedicationError = true;
+        if (!firstErrorField) firstErrorField = mgInput;
+      } else {
+        medications.push({
+          name: name,
+          dosage: `${mgPerDayValue} mg/Tag`,
+          mgPerDay: mgPerDayValue
+        });
       }
-      
-      medications.push({
-        name: name,
-        dosage: `${mgPerDayValue} mg/Tag`,  // Generate dosage from mg/day value
-        mgPerDay: mgPerDayValue
-      });
+    } else if (mgInput && mgInput.value) {
+      // Has dosage but no medication name
+      showFieldError(nameInput, 'Bitte geben Sie den Medikamentennamen an.');
+      hasErrors = true;
+      hasMedicationError = true;
+      if (!firstErrorField) firstErrorField = nameInput;
     }
   });
-
-  if (medications.length === 0) {
-    alert('Bitte geben Sie mindestens ein Medikament an.');
+  
+  if (medications.length === 0 && !hasMedicationError) {
+    const firstMedInput = medicationNames[0];
+    if (firstMedInput) {
+      showFieldError(firstMedInput, 'Bitte geben Sie mindestens ein Medikament an.');
+      hasErrors = true;
+      if (!firstErrorField) firstErrorField = firstMedInput;
+    }
+  }
+  
+  // === SCHRITT 4: Reduktionsplan ===
+  const durationSelect = form.querySelector('select[name="duration_weeks"]');
+  const durationWeeks = parseInt(durationSelect.value);
+  if (!durationWeeks || isNaN(durationWeeks)) {
+    showFieldError(durationSelect, 'Bitte wählen Sie eine Plan-Dauer aus.');
+    hasErrors = true;
+    if (!firstErrorField) firstErrorField = durationSelect;
+  }
+  
+  const reductionSelect = form.querySelector('select[name="reduction_goal"]');
+  const reductionGoal = parseInt(reductionSelect.value);
+  if (!reductionGoal || isNaN(reductionGoal)) {
+    showFieldError(reductionSelect, 'Bitte wählen Sie ein Reduktionsziel aus.');
+    hasErrors = true;
+    if (!firstErrorField) firstErrorField = reductionSelect;
+  }
+  
+  // === SCHRITT 5: E-Mail ===
+  const emailInput = form.querySelector('input[name="email"]');
+  const email = emailInput.value.trim();
+  if (!email) {
+    showFieldError(emailInput, 'Bitte geben Sie Ihre E-Mail-Adresse an.');
+    hasErrors = true;
+    if (!firstErrorField) firstErrorField = emailInput;
+  } else if (!validateEmail(email)) {
+    showFieldError(emailInput, 'Bitte geben Sie eine gültige E-Mail-Adresse ein.');
+    hasErrors = true;
+    if (!firstErrorField) firstErrorField = emailInput;
+  }
+  
+  // If there are validation errors, scroll to first error and stop
+  if (hasErrors) {
+    if (firstErrorField) {
+      firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstErrorField.focus();
+    }
     return;
   }
-
+  
+  // === VALIDATION SUCCESSFUL - START KI CALCULATION ===
+  // Disable form
+  const submitButton = form.querySelector('button[type="submit"]');
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.style.opacity = '0.6';
+    submitButton.style.cursor = 'not-allowed';
+  }
+  
+  // Disable all inputs
+  form.querySelectorAll('input, select, button').forEach(el => {
+    if (el !== submitButton) el.disabled = true;
+  });
+  
+  // Start analysis with loading animation
   await analyzeMedications(medications, durationWeeks, firstName, gender, email, age, weight, height, reductionGoal);
 });
 

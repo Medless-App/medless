@@ -31,6 +31,15 @@ MEDLESS ist ein **wissenschaftsbasiertes Tool** zur Planung der schrittweisen Me
 
 ## ✨ Features
 
+### ✅ **Frontend-Validierung (NEU)**
+```
+- Inline-Fehlermeldungen statt Browser-Alerts
+- Visuelle Fehlermarkierung (rote Border + rosa Hintergrund)
+- Auto-Scroll zum ersten Fehlerfeld
+- Validierung BEFORE Loading Animation
+- Form Disabling nach erfolgreicher Validierung
+```
+
 ### 🧪 **Algorithmic Core**
 ```
 - Lineare Medikamenten-Reduktion (individuell pro Medikament)
