@@ -3653,15 +3653,18 @@ app.get('/', (c) => {
         <div class="footer-branding">
           <h3>MEDLESS</h3>
           <p class="tagline">Dein Weg zu weniger Medikamenten – individuell, sicher und wissenschaftlich begleitet.</p>
+          <p style="margin-top: var(--space-3); font-size: 14px; color: var(--text-muted);">
+            Eine Marke der CBD-Vertriebskompetenz GmbH
+          </p>
         </div>
         
         <!-- Legal -->
         <div class="footer-section">
           <h4>Rechtliches</h4>
           <ul class="footer-links">
-            <li><a href="#">Impressum</a></li>
-            <li><a href="#">Datenschutz</a></li>
-            <li><a href="#">Medizinischer Hinweis</a></li>
+            <li><a href="/impressum">Impressum</a></li>
+            <li><a href="/datenschutz">Datenschutz</a></li>
+            <li><a href="/agb">AGB</a></li>
           </ul>
         </div>
         
@@ -3669,8 +3672,9 @@ app.get('/', (c) => {
         <div class="footer-section">
           <h4>Kontakt</h4>
           <ul class="footer-links">
-            <li><a href="mailto:info@medless.de">info@medless.de</a></li>
-            <li><a href="tel:+491234567890">+49 123 456 7890</a></li>
+            <li><a href="mailto:hallo@medless.care">hallo@medless.care</a></li>
+            <li><a href="tel:+43316931288">+43 316 / 931 288</a></li>
+            <li>Asperngasse 4, 8020 Graz</li>
           </ul>
         </div>
         
@@ -3696,7 +3700,7 @@ app.get('/', (c) => {
       <!-- Bottom Bar -->
       <div class="footer-bottom">
         <div class="footer-copyright">
-          © 2025 MEDLESS. Alle Rechte vorbehalten.
+          © 2025 CBD-Vertriebskompetenz GmbH. Alle Rechte vorbehalten. | UID: ATU72762156
         </div>
         <div class="footer-social">
           <a href="#" aria-label="Instagram">
@@ -3915,5 +3919,395 @@ app.get('/demo', (c) => {
 </body>
 </html>`)
 })
+
+// Impressum page
+app.get('/impressum', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impressum – MEDLESS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap&subset=latin-ext" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    ${getSharedStyles()}
+    .legal-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-4);
+    }
+    .legal-page h1 {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      margin-bottom: var(--space-6);
+    }
+    .legal-page h2 {
+      font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.75rem);
+      margin-top: var(--space-6);
+      margin-bottom: var(--space-4);
+    }
+    .legal-page p {
+      margin-bottom: var(--space-4);
+      line-height: 1.7;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--primary-dark-green);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: var(--space-6);
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="legal-page">
+    <a href="/" class="back-link">
+      <i class="fas fa-arrow-left"></i>
+      Zurück zur Startseite
+    </a>
+    
+    <h1>Impressum</h1>
+    
+    <h2>Angaben gemäß § 5 TMG</h2>
+    <p>
+      <strong>medless</strong> ist eine Marke der<br>
+      <strong>CBD-Vertriebskompetenz GmbH</strong><br>
+      Asperngasse 4<br>
+      8020 Graz<br>
+      Österreich
+    </p>
+    
+    <h2>Kontakt</h2>
+    <p>
+      Telefon: <a href="tel:+43316931288">+43 316 / 931 288</a><br>
+      Fax: 0810/955402-5355<br>
+      E-Mail: <a href="mailto:hallo@medless.care">hallo@medless.care</a>
+    </p>
+    
+    <h2>Registereintrag</h2>
+    <p>
+      UID-Nummer: ATU72762156
+    </p>
+    
+    <h2>Haftungsausschluss</h2>
+    <p>
+      <strong>Medizinischer Hinweis:</strong> MEDLESS ist ein KI-gestütztes Informationstool und kein Ersatz für ärztlichen Rat, Diagnose oder Behandlung. Alle Berechnungen basieren auf wissenschaftlichen Studien und pharmakologischen Daten, ersetzen jedoch keine individuelle medizinische Beurteilung.
+    </p>
+    <p>
+      <strong>Ändern Sie niemals eigenständig Ihre Medikation.</strong> Jede Anpassung muss mit Ihrem behandelnden Arzt besprochen und überwacht werden.
+    </p>
+  </div>
+</body>
+</html>
+  `)
+})
+
+// Datenschutz page
+app.get('/datenschutz', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datenschutzerklärung – MEDLESS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap&subset=latin-ext" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    ${getSharedStyles()}
+    .legal-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-4);
+    }
+    .legal-page h1 {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      margin-bottom: var(--space-6);
+    }
+    .legal-page h2 {
+      font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.75rem);
+      margin-top: var(--space-6);
+      margin-bottom: var(--space-4);
+    }
+    .legal-page h3 {
+      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.4rem);
+      margin-top: var(--space-5);
+      margin-bottom: var(--space-3);
+    }
+    .legal-page p, .legal-page li {
+      margin-bottom: var(--space-3);
+      line-height: 1.7;
+    }
+    .legal-page ul {
+      padding-left: var(--space-5);
+      margin-bottom: var(--space-4);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--primary-dark-green);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: var(--space-6);
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="legal-page">
+    <a href="/" class="back-link">
+      <i class="fas fa-arrow-left"></i>
+      Zurück zur Startseite
+    </a>
+    
+    <h1>Datenschutzerklärung</h1>
+    
+    <p>
+      Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.
+    </p>
+    
+    <h2>Datenerfassung auf dieser Website</h2>
+    
+    <h3>Wer ist verantwortlich für die Datenerfassung auf dieser Website?</h3>
+    <p>
+      Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber (siehe Impressum).
+    </p>
+    
+    <h3>Wie erfassen wir Ihre Daten?</h3>
+    <p>
+      Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei kann es sich z. B. um Daten handeln, die Sie in ein Kontaktformular eingeben. Andere Daten werden automatisch beim Besuch der Website durch unsere IT-Systeme erfasst. Das sind vor allem technische Daten (z. B. Internetbrowser, Betriebssystem oder Uhrzeit des Seitenaufrufs). Die Erfassung dieser Daten erfolgt automatisch, sobald Sie diese Website betreten.
+    </p>
+    
+    <h3>Wofür nutzen wir Ihre Daten?</h3>
+    <p>
+      Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden.
+    </p>
+    
+    <h3>Welche Rechte haben Sie bezüglich Ihrer Daten?</h3>
+    <p>Sie haben als Betroffener folgende Rechte:</p>
+    <ul>
+      <li>gemäß Art. 15 DSGVO das Recht, in dem dort bezeichneten Umfang Auskunft über Ihre von uns verarbeiteten personenbezogenen Daten zu verlangen;</li>
+      <li>gemäß Art. 16 DSGVO das Recht, unverzüglich die Berichtigung unrichtiger oder Vervollständigung Ihrer bei uns gespeicherten personenbezogenen Daten zu verlangen;</li>
+      <li>gemäß Art. 17 DSGVO das Recht, die Löschung Ihrer bei uns gespeicherten personenbezogenen Daten zu verlangen;</li>
+      <li>gemäß Art. 18 DSGVO das Recht, die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen;</li>
+      <li>gemäß Art. 20 DSGVO das Recht, Ihre personenbezogenen Daten, die Sie uns bereitgestellt haben, in einem strukturierten, gängigen und maschinenlesebaren Format zu erhalten;</li>
+      <li>gemäß Art. 77 DSGVO das Recht, sich bei einer Aufsichtsbehörde zu beschweren.</li>
+    </ul>
+    
+    <h2>Hosting</h2>
+    <p>
+      Diese Website wird bei einem externen Dienstleister gehostet (Cloudflare Pages). Personenbezogene Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert. Hierbei kann es sich v. a. um IP-Adressen, Kontaktanfragen, Meta- und Kommunikationsdaten, Vertragsdaten, Kontaktdaten, Namen, Webseitenzugriffe und sonstige Daten, die über eine Website generiert werden, handeln.
+    </p>
+    <p>
+      Der Einsatz des Hosters erfolgt zum Zwecke der Vertragserfüllung gegenüber unseren potenziellen und bestehenden Kunden (Art. 6 Abs. 1 lit. b DSGVO) und im Interesse einer sicheren, schnellen und effizienten Bereitstellung unseres Online-Angebots durch einen professionellen Anbieter (Art. 6 Abs. 1 lit. f DSGVO).
+    </p>
+    
+    <h2>Cookies</h2>
+    <p>
+      Diese Website benutzt Cookies um eine optimale Erfahrung zu gewährleisten. Diese Cookies werden auf Ihrem Endgerät abgelegt.
+    </p>
+    
+    <h3>Unbedingt nötige Cookies</h3>
+    <p>
+      Diese Cookies sind unerlässlich, um ein Funktionieren der Website zu ermöglichen. Diese Cookies sind nur zuständig, um Aktionen wie Sprache, Währung, Login Session und andere Cookie-Einstellungen zu ermöglichen. Sie können diese Cookies in Ihrem Browser deaktivieren, dadurch funktioniert unsere Webseite allerdings nicht mehr korrekt.
+    </p>
+    
+    <h3>Analyse & Statistik</h3>
+    <p>
+      Diese Cookies ermöglichen es uns, statistische Erhebungen durchzuführen, wie z.B. wie viele Besucher sich gerade auf unserer Website befinden und von wo diese kommen. Das hilft uns zu verstehen, welche Produkte populärer sind als andere.
+    </p>
+    
+    <h3>Marketing</h3>
+    <p>
+      Diese Cookies werden im Regelfall von unseren Werbepartnern benutzt. Sie werden verwendet, um von unseren Website-Benutzern ein Interessensprofil zu erstellen, um personalisierte Werbung zu schalten. Wenn Sie diesen Cookies nicht zustimmen, werden Sie keine persönlich auf Sie zugeschnittene Werbung erhalten.
+    </p>
+    
+    <h2>Kontakt</h2>
+    <p>
+      Bei Fragen zum Datenschutz kontaktieren Sie uns bitte:<br>
+      Telefon: <a href="tel:+43316931288">+43 316 / 931 288</a><br>
+      Fax: 0810/955402-5355<br>
+      E-Mail: <a href="mailto:hallo@medless.care">hallo@medless.care</a>
+    </p>
+  </div>
+</body>
+</html>
+  `)
+})
+
+// AGB page  
+app.get('/agb', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGB – MEDLESS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap&subset=latin-ext" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    ${getSharedStyles()}
+    .legal-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-4);
+    }
+    .legal-page h1 {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      margin-bottom: var(--space-6);
+    }
+    .legal-page h2 {
+      font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.75rem);
+      margin-top: var(--space-6);
+      margin-bottom: var(--space-4);
+    }
+    .legal-page p {
+      margin-bottom: var(--space-4);
+      line-height: 1.7;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--primary-dark-green);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: var(--space-6);
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="legal-page">
+    <a href="/" class="back-link">
+      <i class="fas fa-arrow-left"></i>
+      Zurück zur Startseite
+    </a>
+    
+    <h1>Allgemeine Geschäftsbedingungen (AGB)</h1>
+    
+    <h2>I. Geltung</h2>
+    <p>
+      Die Lieferungen, Leistungen und Angebote unseres Unternehmens erfolgen ausschließlich aufgrund dieser AGB, und zwar unabhängig von der Art des Rechtsgeschäftes. Sämtliche unserer privatrechtlichen Willenserklärungen sind auf Grundlage dieser AGB zu verstehen. Entgegenstehende oder von unseren AGB abweichende Bedingungen des Kunden erkennen wir nicht an, es sei denn, wir hätten schriftlich und ausdrücklich ihrer Geltung zugestimmt.
+    </p>
+    
+    <h2>II. Vertragsabschluss</h2>
+    <p>
+      <strong>a)</strong> Unsere Angebote verstehen sich unverbindlich und freibleibend. Von diesen AGB oder anderen unserer schriftlichen Willenserklärungen abweichende mündliche Zusagen, Nebenabreden und dergleichen, insbesondere solche, die von Verkäufern, Zustellern, etc. abgegeben werden, sind für uns nicht verbindlich.
+    </p>
+    <p>
+      <strong>b)</strong> Jeder Auftrag bedarf zum Vertragsabschluss einer Auftragsbestätigung. Das Absenden oder Übergeben der vom Kunden bestellten Ware bewirkt ebenfalls den Vertragsabschluss.
+    </p>
+    
+    <h2>III. Preis</h2>
+    <p>
+      Alle von uns genannten Preise sind, sofern nichts anderes ausdrücklich vermerkt ist, exklusive Umsatzsteuer zu verstehen. Sollten sich die Lohnkosten zwischen Vertragsabschluss und Lieferung aufgrund kollektivvertraglicher Regelungen in der Branche oder innerbetrieblicher Abschlüsse oder sollten sich andere, für die Kalkulation relevante Kostenstellen verändern, so sind wir berechtigt, die Preise entsprechend zu erhöhen oder zu ermäßigen.
+    </p>
+    
+    <h2>IV. Zahlungsbedingungen, Verzugszinsen</h2>
+    <p>
+      <strong>a)</strong> Mangels gegenteiliger Vereinbarung sind unsere Forderungen Zug um Zug gegen Übergabe der Ware bar zu bezahlen. Unsere Rechnungen sind ab Warenübernahme zur Zahlung fällig.
+    </p>
+    <p>
+      <strong>b)</strong> Eine Verzinsung von Voraus- oder Akontozahlungen findet nicht statt.
+    </p>
+    <p>
+      <strong>c)</strong> Für den Fall des Zahlungsverzuges sind wir ab Fälligkeit berechtigt, Verzugszinsen in Höhe von 12% per anno zu verrechnen.
+    </p>
+    
+    <h2>X. Erfüllungsort</h2>
+    <p>
+      Erfüllungsort ist der Sitz unseres Unternehmens in 8020 Graz, Asperngasse 4.
+    </p>
+    
+    <h2>XVIII. Rechtswahl, Gerichtsstand</h2>
+    <p>
+      Es gilt österreichisches Recht. Die Anwendbarkeit des UN-Kaufrechtes wird ausdrücklich ausgeschlossen. Die Vertragssprache ist deutsch. Zur Entscheidung aller aus diesem Vertrag entstehenden Streitigkeiten ist das sachlich zuständige Gericht für 8020 Graz ausschließlich örtlich zuständig.
+    </p>
+    
+    <h2>XIX. Datenschutz</h2>
+    <p>
+      Der Kunde erteilt seine Zustimmung, dass auch die im Kaufvertrag mit enthaltenen personenbezogenen Daten in Erfüllung dieses Vertrages von uns automationsunterstützt gespeichert und verarbeitet werden.
+    </p>
+    
+    <p style="margin-top: var(--space-6); padding-top: var(--space-6); border-top: 1px solid var(--border-light); font-size: 14px; color: var(--text-muted);">
+      Stand: Januar 2025<br>
+      CBD-Vertriebskompetenz GmbH<br>
+      Asperngasse 4, 8020 Graz
+    </p>
+  </div>
+</body>
+</html>
+  `)
+})
+
+// Helper function to get shared styles
+function getSharedStyles() {
+  return `
+    :root {
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+      --space-9: 96px;
+      --primary-dark-green: #0C5C4C;
+      --primary-green: #0F7A67;
+      --accent-mint: #CFF1E7;
+      --accent-mint-light: #E8F8F4;
+      --gray-50: #F9FAFB;
+      --gray-100: #F3F4F6;
+      --gray-200: #E5E7EB;
+      --gray-300: #D1D5DB;
+      --gray-400: #9CA3AF;
+      --gray-500: #6B7280;
+      --gray-600: #4B5563;
+      --gray-700: #374151;
+      --gray-800: #1F2937;
+      --gray-900: #111827;
+      --background-white: #FFFFFF;
+      --background-ultra-light: #F9FAFB;
+      --text-body-color: #374151;
+      --text-muted: #6B7280;
+      --border-light: #E5E7EB;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: var(--font-family);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-body-color);
+      background: var(--background-white);
+      -webkit-font-smoothing: antialiased;
+    }
+    a {
+      color: var(--primary-dark-green);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  `
+}
 
 export default app
