@@ -1,9 +1,9 @@
 module.exports = {
   apps: [
     {
-      name: 'ecs-aktivierung',
+      name: 'medless',
       script: 'npx',
-      args: 'wrangler pages dev dist --d1=ecs-aktivierung-production --local --ip 0.0.0.0 --port 3000',
+      args: 'wrangler pages dev dist --d1=medless-production --local --ip 0.0.0.0 --port 3000',
       env: {
         NODE_ENV: 'development',
         PORT: 3000

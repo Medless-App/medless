@@ -2575,18 +2575,17 @@ app.get('/', (c) => {
             </h1>
             
             <h2 class="hero-subheadline">
-              MEDLESS nutzt Cannabinoide und künstliche Intelligenz, um einen individuell 
-              berechneten Ausschleichplan zu erstellen – sanft, kontrolliert und ärztlich abzustimmen.
+              Ein theoretischer Ausschleichplan, der dir und deinem Arzt zeigt, wie Medikamentenreduktion mit Unterstützung des Endocannabinoid-Systems aussehen könnte – wissenschaftlich fundiert, individuell berechnet.
             </h2>
             
             <ul class="hero-features">
               <li>
                 <i class="fas fa-check-circle checkmark-icon"></i>
-                <span>Ausschleichpläne in 2–12 Wochen</span>
+                <span>Theoretische Simulation in 2–12 Wochen</span>
               </li>
               <li>
                 <i class="fas fa-check-circle checkmark-icon"></i>
-                <span>10–100% Reduktionsziel</span>
+                <span>Zeigt, wie das ECS bei der Reduktion unterstützen könnte</span>
               </li>
               <li>
                 <i class="fas fa-check-circle checkmark-icon"></i>
@@ -2594,7 +2593,7 @@ app.get('/', (c) => {
               </li>
               <li>
                 <i class="fas fa-check-circle checkmark-icon"></i>
-                <span>Basiert ausschließlich auf Cannabinoid-Wirkmechanik</span>
+                <span>Für die Zusammenarbeit mit deinem Arzt entwickelt</span>
               </li>
             </ul>
             
@@ -2615,46 +2614,42 @@ app.get('/', (c) => {
       <div class="container">
         
         <h2 class="section-headline">
-          Zu viele Medikamente. Zu wenig individuelle Begleitung.
+          Zu viele Medikamente – oder eine einzige, die dein Leben bestimmt.
         </h2>
         
         <p class="section-description">
-          Die moderne Medizin steht vor einer wachsenden Herausforderung: Polypharmazie – die gleichzeitige Einnahme mehrerer Medikamente – betrifft zunehmend mehr Menschen, besonders im fortgeschrittenen Alter.
-        </p>
-        
-        <p class="section-description" style="margin-top: 1rem; font-weight: 600;">
-          Die Folgen sind gravierend:
+          Es spielt keine Rolle, ob du fünf verschiedene Tabletten nimmst oder nur eine einzige, die du nicht mehr loswirst. Medikamentenabhängigkeit beginnt nicht erst bei Polypharmazie – sie beginnt in dem Moment, wo du dir wünschst, weniger zu nehmen, aber keinen sicheren Plan hast, wie.
         </p>
         
         <ul class="hero-features" style="max-width: 900px; margin: 2rem auto;">
           <li>
             <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span>Erhöhte Belastung für Leber, Nieren und andere Organe</span>
+            <span><strong>Du bist nicht allein:</strong> Millionen Menschen stecken genau dort, wo du bist – mit dem Wunsch nach weniger, aber ohne echte Unterstützung</span>
           </li>
           <li>
             <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span>Verstärkte Nebenwirkungen durch Wechselwirkungen zwischen Medikamenten</span>
+            <span><strong>Es fehlt der Plan:</strong> Selbst Ärzte haben oft keine Zeit, individualisierte Ausschleichpläne zu erstellen</span>
           </li>
           <li>
             <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span>Patienten fühlen sich überfordert und allein gelassen</span>
+            <span><strong>Gefährliche Eigenversuche:</strong> Einfach „langsam reduzieren" kann zu Entzugssymptomen oder gesundheitlichen Risiken führen</span>
           </li>
           <li>
             <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span>Ärzte haben kaum Zeit für die Entwicklung individueller Ausschleichpläne</span>
+            <span><strong>Angst vor dem Absetzen:</strong> Was passiert, wenn ich weniger nehme? Kommen die Symptome zurück? Wird es schlimmer?</span>
           </li>
           <li>
             <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span>Medikamente werden oft länger eingenommen als medizinisch notwendig</span>
+            <span><strong>Jahre gehen ins Land:</strong> Viele nehmen Medikamente länger als nötig – einfach, weil niemand gezeigt hat, wie ein Ausstieg funktionieren könnte</span>
           </li>
           <li>
             <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span>Eigenständiges Absetzen ohne Plan birgt gesundheitliche Risiken</span>
+            <span><strong>Der Balanceakt:</strong> Zwischen Symptomkontrolle und dem Wunsch nach weniger Chemie – ein ständiger innerer Konflikt</span>
           </li>
         </ul>
         
         <p class="section-description" style="margin-top: 2rem; font-size: 1.25rem; font-weight: 700; color: var(--primary-dark-green);">
-          Das Problem ist nicht der Patient – es ist der fehlende Plan.
+          Das Problem bist nicht du – es fehlt der sichere Plan nach unten.
         </p>
         
       </div>
@@ -2682,7 +2677,7 @@ app.get('/', (c) => {
             </div>
             <h4>Weniger Nebenwirkungen</h4>
             <p>
-              Müdigkeit, Schwindel, Verdauungsprobleme – viele Nebenwirkungen beeinträchtigen die tägliche Lebensqualität erheblich.
+              Endlich wieder klar im Kopf sein. Ohne den Nebel, die Müdigkeit oder das Gefühl, nicht mehr du selbst zu sein.
             </p>
           </div>
           
@@ -2692,7 +2687,7 @@ app.get('/', (c) => {
             </div>
             <h4>Natürlichere Lösungen</h4>
             <p>
-              Der Wunsch, den Körper weniger mit synthetischen Substanzen zu belasten und sanftere Alternativen zu nutzen.
+              Das Vertrauen zurückgewinnen in die Selbstheilungskräfte deines Körpers – unterstützt durch das ECS.
             </p>
           </div>
           
@@ -2702,7 +2697,7 @@ app.get('/', (c) => {
             </div>
             <h4>Sicherheit & Kontrolle</h4>
             <p>
-              Die Gewissheit, dass jeder Schritt medizinisch fundiert und sicher ist – ohne gefährliche Eigenexperimente.
+              Ein Plan, der dir zeigt, dass Reduktion möglich ist – ohne Rätselraten, ohne Risiko, mit System.
             </p>
           </div>
           
@@ -2712,7 +2707,7 @@ app.get('/', (c) => {
             </div>
             <h4>Moderne Unterstützung</h4>
             <p>
-              Technologie, die hilft, komplexe medizinische Zusammenhänge zu verstehen und individuelle Lösungen zu finden.
+              KI und Wissenschaft auf deiner Seite – damit du nicht mehr alleine herausfinden musst, wie es gehen könnte.
             </p>
           </div>
           
@@ -2722,7 +2717,7 @@ app.get('/', (c) => {
             </div>
             <h4>Professionelle Begleitung</h4>
             <p>
-              Kein Risiko durch unkontrolliertes eigenständiges Reduzieren, sondern strukturierte, wissenschaftlich fundierte Pläne.
+              Ein Werkzeug, das deinem Arzt zeigt, wie Cannabinoid-gestützte Reduktion funktionieren kann – für eine fundierte Entscheidung.
             </p>
           </div>
           
@@ -2732,7 +2727,7 @@ app.get('/', (c) => {
             </div>
             <h4>Selbstbestimmung</h4>
             <p>
-              Die Freiheit zurückgewinnen, weniger abhängig von Medikamenten zu sein und aktiv Entscheidungen über die eigene Gesundheit zu treffen.
+              Du entscheidest, wann und wie viel. MEDLESS zeigt dir die Möglichkeiten – dein Arzt begleitet dich sicher dabei.
             </p>
           </div>
           
@@ -2742,7 +2737,43 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         4) MEDLESS LÖSUNG SECTION
+         4) ENDOCANNABINOID-SYSTEM (ECS) SECTION - NEU
+         ============================================================ -->
+    <section style="padding: 80px 0; background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);">
+      <div class="container">
+        
+        <h2 class="section-headline">
+          Das Endocannabinoid-System – deine innere Regulierungskraft
+        </h2>
+        
+        <p class="section-description">
+          Bevor wir über Medikamentenreduktion sprechen, ist es wichtig zu verstehen, warum das überhaupt funktionieren kann: Dein Körper besitzt ein eigenes System zur Regulation von Stress, Schmerz, Schlaf und Stimmung – das <strong>Endocannabinoid-System (ECS)</strong>.
+        </p>
+        
+        <ul class="hero-features" style="max-width: 900px; margin: 2rem auto;">
+          <li>
+            <i class="fas fa-check-circle checkmark-icon"></i>
+            <span><strong>Körpereigenes Regulierungssystem:</strong> Das ECS existiert in jedem Menschen und ist verantwortlich für Balance (Homöostase) in nahezu allen Körperfunktionen</span>
+          </li>
+          <li>
+            <i class="fas fa-check-circle checkmark-icon"></i>
+            <span><strong>Cannabinoide unterstützen das ECS:</strong> Pflanzliche Cannabinoide wie CBD docken an dieselben Rezeptoren an wie körpereigene Endocannabinoide und können so das System stärken</span>
+          </li>
+          <li>
+            <i class="fas fa-check-circle checkmark-icon"></i>
+            <span><strong>Die Brücke zur Medikamentenreduktion:</strong> Wenn das ECS stark ist, können Symptome besser reguliert werden – oft genau die Symptome, für die ursprünglich Medikamente verschrieben wurden</span>
+          </li>
+        </ul>
+        
+        <p class="section-description" style="margin-top: 2rem; font-weight: 600; font-size: 1.15rem; color: #166534;">
+          MEDLESS nutzt dieses Wissen, um dir zu zeigen, wie eine theoretische Medikamentenreduktion mit ECS-Unterstützung aussehen könnte.
+        </p>
+        
+      </div>
+    </section>
+    
+    <!-- ============================================================
+         5) MEDLESS LÖSUNG SECTION
          ============================================================ -->
     <section style="padding: 80px 0;">
       <div class="container">
@@ -2839,7 +2870,7 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         5) SO FUNKTIONIERT Medless SECTION
+         6) SO FUNKTIONIERT Medless SECTION
          ============================================================ -->
     <section class="how-it-works">
       <div class="container">
@@ -2929,7 +2960,7 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         4) SAFETY WARNING SECTION
+         7) SAFETY WARNING SECTION
          ============================================================ -->
     <section class="safety-warning">
       <div class="container">
@@ -3003,7 +3034,7 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         5) PLANNER SECTION (Form with Progress Bar)
+         8) PLANNER SECTION (Form with Progress Bar)
          ============================================================ -->
     <section id="planner-section" class="planner-section">
       <div class="container">
@@ -3305,7 +3336,7 @@ app.get('/', (c) => {
     </section>
     
     <!-- ============================================================
-         6) FAQ SECTION
+         9) FAQ SECTION
          ============================================================ -->
     <section class="faq-section" id="faq">
       <div class="container">
