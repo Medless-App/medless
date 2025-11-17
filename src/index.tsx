@@ -694,13 +694,15 @@ app.get('/', (c) => {
         display: none;
       }
       
-      /* Show mobile logo in hero */
+      /* Show mobile logo in hero - centered on page */
       .hero-logo-mobile {
         display: block;
-        width: 100%;
-        max-width: 340px;
+        width: 90%;
+        max-width: 400px;
         height: auto;
-        margin: 0 auto var(--space-4);
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: var(--space-4);
       }
     }
     
