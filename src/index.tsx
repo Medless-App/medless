@@ -663,24 +663,23 @@ app.get('/', (c) => {
     .header-cta {
       display: inline-flex;
       align-items: center;
-      height: 44px;
-      padding: 0 var(--space-5);
-      font-size: 15px;
+      height: 38px;
+      padding: 0 var(--space-4);
+      font-size: 14px;
       font-weight: 600;
-      color: white;
-      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
-      border: none;
+      color: var(--primary-dark-green);
+      background: white;
+      border: 1px solid var(--primary-green);
       border-radius: var(--radius-medium);
       cursor: pointer;
       text-decoration: none;
       transition: all 0.2s ease;
-      box-shadow: 0 2px 4px rgba(12, 92, 76, 0.1);
       white-space: nowrap;
     }
     
     .header-cta:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 3px 8px rgba(12, 92, 76, 0.15);
+      background: var(--accent-mint-light);
+      border-color: var(--primary-dark-green);
     }
     
     /* Mobile Header */
@@ -1206,6 +1205,37 @@ app.get('/', (c) => {
       margin-top: 2px;
       min-width: 18px;
       flex-shrink: 0;
+    }
+    
+    /* Medical List (for explanation cards - calm, professional) */
+    .medical-list {
+      list-style: none;
+      margin: var(--space-5) 0;
+      padding-left: 0;
+    }
+    
+    .medical-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+      font-size: 16px;
+      color: var(--text-body-color);
+      line-height: 1.6;
+    }
+    
+    .medical-list li i {
+      color: var(--primary-green);
+      font-size: 18px;
+      margin-top: 2px;
+      min-width: 20px;
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+    
+    .medical-list li strong {
+      color: var(--text-body-color);
+      font-weight: 600;
     }
     
     /* ============================================================
@@ -2560,7 +2590,7 @@ app.get('/', (c) => {
           <p>
             MEDLESS berechnet anhand Ihrer persönlichen Daten einen maßgeschneiderten Reduktionsplan:
           </p>
-          <ul class="warning-list" style="margin-top: 1rem;">
+          <ul class="medical-list" style="margin-top: 1.5rem;">
             <li>
               <i class="fas fa-user"></i>
               <span><strong>Körpergröße, Gewicht, Alter, Geschlecht:</strong> Biologische Faktoren beeinflussen Stoffwechsel und Medikamentenwirkung</span>
@@ -2580,7 +2610,7 @@ app.get('/', (c) => {
           </ul>
         </div>
         
-        <div class="explanation-card" style="margin-top: 2rem; background: linear-gradient(135deg, #e0fdf7 0%, #f5f7fa 100%);">
+        <div class="explanation-card" style="margin-top: 2rem; background: #F0FDF4;">
           <div class="card-icon">
             <i class="fas fa-brain"></i>
           </div>
@@ -2588,7 +2618,7 @@ app.get('/', (c) => {
           <p>
             Unsere künstliche Intelligenz berücksichtigt:
           </p>
-          <ul class="warning-list" style="margin-top: 1rem;">
+          <ul class="medical-list" style="margin-top: 1.5rem;">
             <li>
               <i class="fas fa-exchange-alt"></i>
               <span>Bekannte Wechselwirkungen zwischen Medikamenten und Cannabinoiden</span>
