@@ -1214,42 +1214,47 @@ function displayResults(data, firstName = '', gender = '') {
     const avgPerWeek = (costs.totalCost / totalWeeks).toFixed(2);
     
     html += `
-      <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: radial-gradient(circle at top left, #e0fdf7, #f5f7fa); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-        <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">💰 Benötigte Produkte für Ihren vollständigen Plan</h2>
+      <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 16px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="margin: 0 0 1.25rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">💰 Benötigte Produkte für Ihren vollständigen Plan</h2>
         
-        <div class="table-container" style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem;">
+        <!-- Produkttabelle mit sauberen Linien -->
+        <div class="table-container" style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1.25rem; background: #fafafa; border-radius: 8px; padding: 0.5rem;">
           <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
             <thead>
-              <tr style="border-bottom: 2px solid rgba(11,123,108,0.2);">
-                <th style="text-align: left; padding: 0.75rem 0.5rem; font-weight: 600; color: #374151;">Produkt</th>
-                <th style="text-align: center; padding: 0.75rem 0.5rem; font-weight: 600; color: #374151;">mg/Hub</th>
-                <th style="text-align: center; padding: 0.75rem 0.5rem; font-weight: 600; color: #374151;">Anzahl Fläschchen</th>
-                <th style="text-align: right; padding: 0.75rem 0.5rem; font-weight: 600; color: #374151;">Preis pro Flasche</th>
-                <th style="text-align: right; padding: 0.75rem 0.5rem; font-weight: 600; color: #374151;">Gesamtkosten</th>
+              <tr style="border-bottom: 2px solid #e5e7eb;">
+                <th style="text-align: left; padding: 0.875rem 0.75rem; font-weight: 600; color: #374151; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Produkt</th>
+                <th style="text-align: center; padding: 0.875rem 0.75rem; font-weight: 600; color: #374151; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">mg/Hub</th>
+                <th style="text-align: center; padding: 0.875rem 0.75rem; font-weight: 600; color: #374151; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Anzahl</th>
+                <th style="text-align: right; padding: 0.875rem 0.75rem; font-weight: 600; color: #374151; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Stückpreis</th>
+                <th style="text-align: right; padding: 0.875rem 0.75rem; font-weight: 600; color: #374151; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Gesamt</th>
               </tr>
             </thead>
             <tbody>
               ${costs.costBreakdown.map((item, idx) => `
-                <tr style="border-bottom: 1px solid rgba(229,231,235,0.6);">
-                  <td style="padding: 0.75rem 0.5rem; color: #1f2937;">${item.product}</td>
-                  <td style="padding: 0.75rem 0.5rem; text-align: center; color: #4b5563;">${item.productNr ? (MEDLESS_PRODUCTS.find(p => p.nr === item.productNr)?.cbdPerSpray.toFixed(1) || '-') : '-'}</td>
-                  <td style="padding: 0.75rem 0.5rem; text-align: center; color: #4b5563;">${item.bottleCount} Stück</td>
-                  <td style="padding: 0.75rem 0.5rem; text-align: right; color: #4b5563;">${item.pricePerBottle.toFixed(2)} €</td>
-                  <td style="padding: 0.75rem 0.5rem; text-align: right; font-weight: 600; color: #0b7b6c;">${item.totalCost.toFixed(2)} €</td>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                  <td style="padding: 0.875rem 0.75rem; color: #1f2937; font-weight: 500;">${item.product}</td>
+                  <td style="padding: 0.875rem 0.75rem; text-align: center; color: #6b7280;">${item.productNr ? (MEDLESS_PRODUCTS.find(p => p.nr === item.productNr)?.cbdPerSpray.toFixed(1) || '–') : '–'}</td>
+                  <td style="padding: 0.875rem 0.75rem; text-align: center; color: #6b7280;">${item.bottleCount}×</td>
+                  <td style="padding: 0.875rem 0.75rem; text-align: right; color: #6b7280;">${item.pricePerBottle.toFixed(2)} €</td>
+                  <td style="padding: 0.875rem 0.75rem; text-align: right; font-weight: 600; color: #0b7b6c;">${item.totalCost.toFixed(2)} €</td>
                 </tr>
               `).join('')}
             </tbody>
           </table>
         </div>
         
-        <div style="padding: 1rem; border-radius: 12px; background: white;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-            <p style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #374151;">Gesamtkosten des Programms:</p>
-            <p style="margin: 0; font-size: 1.75rem; font-weight: 700; color: #0b7b6c;">${costs.totalCost.toFixed(2)} €</p>
+        <!-- Gesamtkosten Card -->
+        <div style="padding: 1.25rem 1.5rem; border-radius: 12px; background: linear-gradient(135deg, #f0fdf4 0%, #f9fafb 100%); border: 1px solid #d1fae5;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.875rem; border-bottom: 1px solid #d1fae5;">
+            <div>
+              <p style="margin: 0 0 0.25rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; font-weight: 500;">Gesamtkosten</p>
+              <p style="margin: 0; font-size: 0.875rem; color: #6b7280;">des vollständigen Programms</p>
+            </div>
+            <p style="margin: 0; font-size: 2rem; font-weight: 700; color: #0b7b6c; letter-spacing: -0.02em;">${costs.totalCost.toFixed(2)} €</p>
           </div>
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <p style="margin: 0; font-size: 0.85rem; color: #6b7280;">Durchschnittliche Kosten pro Woche:</p>
-            <p style="margin: 0; font-size: 1.1rem; font-weight: 600; color: #0b7b6c;">${avgPerWeek} €</p>
+            <p style="margin: 0; font-size: 0.875rem; color: #6b7280;">∅ Kosten pro Woche</p>
+            <p style="margin: 0; font-size: 1.25rem; font-weight: 600; color: #047857;">${avgPerWeek} €</p>
           </div>
         </div>
       </div>
@@ -1262,32 +1267,37 @@ function displayResults(data, firstName = '', gender = '') {
   
   if (personalization) {
     html += `
-      <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-        <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre Ausgangsdaten</h2>
+      <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 16px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="margin: 0 0 1.25rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre Ausgangsdaten</h2>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+        <!-- 2x2 Grid für bessere Übersicht -->
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;">
           ${personalization.age ? `
-            <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
-              <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">Alter</p>
-              <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.age} Jahre</p>
-            </div>
-          ` : ''}
-          ${personalization.height ? `
-            <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
-              <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">Größe</p>
-              <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.height} cm</p>
+            <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
+              <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Alter</p>
+              <p style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin: 0;">${personalization.age}</p>
+              <p style="font-size: 0.8rem; color: #6b7280; margin: 0.25rem 0 0;">Jahre</p>
             </div>
           ` : ''}
           ${personalization.weight ? `
-            <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
-              <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">Gewicht</p>
-              <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.weight} kg</p>
+            <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
+              <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Gewicht</p>
+              <p style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin: 0;">${personalization.weight}</p>
+              <p style="font-size: 0.8rem; color: #6b7280; margin: 0.25rem 0 0;">kg</p>
+            </div>
+          ` : ''}
+          ${personalization.height ? `
+            <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
+              <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Größe</p>
+              <p style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin: 0;">${personalization.height}</p>
+              <p style="font-size: 0.8rem; color: #6b7280; margin: 0.25rem 0 0;">cm</p>
             </div>
           ` : ''}
           ${personalization.bmi ? `
-            <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
-              <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">BMI</p>
-              <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.bmi.toFixed(1)}</p>
+            <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
+              <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">BMI</p>
+              <p style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin: 0;">${personalization.bmi.toFixed(1)}</p>
+              <p style="font-size: 0.8rem; color: #6b7280; margin: 0.25rem 0 0;">Body-Mass-Index</p>
             </div>
           ` : ''}
         </div>
@@ -1300,10 +1310,10 @@ function displayResults(data, firstName = '', gender = '') {
   // ============================================================
   
   html += `
-    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-      <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre aktuelle Medikation</h2>
+    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 16px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      <h2 style="margin: 0 0 1.25rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre aktuelle Medikation</h2>
       
-      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
   `;
   
   analysis.forEach((item) => {
@@ -1314,45 +1324,52 @@ function displayResults(data, firstName = '', gender = '') {
     // Klassifiziere Medikament für Badge und Hinweis
     const classification = classifyMedication(med.name || '', med.generic_name || '');
     
+    // Tagesdosis mit Fallback
+    const dosageDisplay = item.dosage || item.mgPerDay ? `${item.mgPerDay} mg/Tag` : '– keine Angabe';
+    
     html += `
-      <div style="padding: 1rem; border-radius: 12px; background: #f9fafb; border: 1px solid #e5e7eb;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+      <div style="padding: 1.25rem; border-radius: 12px; background: #fafafa; border: 1px solid #e5e7eb;">
+        <!-- Medikament Header: Name, Generic Name, Dosis in einer Zeile -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
           <div style="flex: 1;">
-            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-              <h3 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #1f2937;">${med.name}</h3>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.375rem;">
+              <h3 style="margin: 0; font-size: 1rem; font-weight: 600; color: #1f2937;">${med.name || '–'}</h3>
               ${classification && classification.badge ? `
-                <span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; ${getBadgeStyles(classification.badge.color)}">
+                <span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 500; ${getBadgeStyles(classification.badge.color)}">
                   ${classification.badge.text}
                 </span>
               ` : ''}
             </div>
-            ${med.generic_name ? `<p style="margin: 0.25rem 0 0; font-size: 0.8rem; color: #6b7280;">${med.generic_name}</p>` : ''}
-            ${classification && classification.hint ? `
-              <div style="margin-top: 0.75rem; padding: 0.75rem; background-color: #f9fafb; border-left: 3px solid #9ca3af; border-radius: 4px;">
-                <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #6b7280;">
-                  ${classification.hint}
-                </p>
-              </div>
-            ` : ''}
+            ${med.generic_name ? `<p style="margin: 0; font-size: 0.8rem; color: #9ca3af;">${med.generic_name}</p>` : ''}
           </div>
-          <div style="text-align: right; margin-left: 1rem;">
-            <p style="margin: 0; font-size: 0.7rem; color: #9ca3af;">Tagesdosis</p>
-            <p style="margin: 0.25rem 0 0; font-size: 0.9rem; font-weight: 600; color: #1f2937;">${item.dosage}</p>
+          <div style="text-align: right; padding-left: 1rem;">
+            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af;">Dosis</p>
+            <p style="margin: 0; font-size: 1rem; font-weight: 600; color: #1f2937;">${dosageDisplay}</p>
           </div>
         </div>
         
+        <!-- Category-spezifischer Hinweis -->
+        ${classification && classification.hint ? `
+          <div style="margin-top: 0.875rem; padding: 0.875rem; background-color: white; border-left: 3px solid #9ca3af; border-radius: 6px;">
+            <p style="margin: 0; font-size: 0.8rem; line-height: 1.6; color: #6b7280;">
+              ${classification.hint}
+            </p>
+          </div>
+        ` : ''}
+        
+        <!-- Wechselwirkungen -->
         ${hasInteractions ? `
-          <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e5e7eb;">
-            <p style="margin: 0 0 0.5rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280;">Hinweise zu Wechselwirkungen:</p>
+          <div style="margin-top: 0.875rem; padding: 0.875rem; background: white; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 0.625rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; font-weight: 500;">Wechselwirkungen:</p>
             ${interactions.map(i => `
-              <div style="margin-bottom: 0.5rem; font-size: 0.85rem; color: #374151;">
-                <p style="margin: 0; font-weight: 600;">${i.description}</p>
-                ${i.recommendation ? `<p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">${i.recommendation}</p>` : ''}
+              <div style="margin-bottom: 0.625rem; font-size: 0.85rem; line-height: 1.5;">
+                <p style="margin: 0; font-weight: 600; color: #374151;">${i.description || '–'}</p>
+                ${i.recommendation ? `<p style="margin: 0.375rem 0 0; color: #6b7280;">${i.recommendation}</p>` : ''}
               </div>
             `).join('')}
           </div>
         ` : `
-          <p style="margin: 0.75rem 0 0; font-size: 0.85rem; color: #6b7280;">Keine bekannten Wechselwirkungen mit Cannabinoiden</p>
+          <p style="margin: 0.875rem 0 0; font-size: 0.85rem; color: #9ca3af; font-style: italic;">Keine bekannten Wechselwirkungen mit Cannabinoiden</p>
         `}
       </div>
     `;
@@ -1452,42 +1469,51 @@ function displayResults(data, firstName = '', gender = '') {
   
   if (product && personalization) {
     html += `
-      <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-        <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre CBD-Dosierungsempfehlung</h2>
+      <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 16px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="margin: 0 0 1.25rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre CBD-Dosierungsempfehlung</h2>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-          <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
-            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">CBD Start-Dosis</p>
-            <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.cbdStartMg.toFixed(1)} mg</p>
+        <!-- Horizontale Info-Kacheln -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
+            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Start-Dosis</p>
+            <p style="font-size: 1.5rem; font-weight: 700; color: #0b7b6c; margin: 0;">${personalization.cbdStartMg.toFixed(1)}</p>
+            <p style="font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0;">mg CBD</p>
           </div>
-          <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
-            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">CBD Ziel-Dosis</p>
-            <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${personalization.cbdEndMg.toFixed(1)} mg</p>
+          <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
+            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Ziel-Dosis</p>
+            <p style="font-size: 1.5rem; font-weight: 700; color: #0b7b6c; margin: 0;">${personalization.cbdEndMg.toFixed(1)}</p>
+            <p style="font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0;">mg CBD</p>
           </div>
-          <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
-            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">Wöchentlicher Anstieg</p>
-            <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${((personalization.cbdEndMg - personalization.cbdStartMg) / weeklyPlan.length).toFixed(1)} mg</p>
+          <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
+            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Wöchentlich</p>
+            <p style="font-size: 1.5rem; font-weight: 700; color: #0b7b6c; margin: 0;">+${((personalization.cbdEndMg - personalization.cbdStartMg) / weeklyPlan.length).toFixed(1)}</p>
+            <p style="font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0;">mg CBD</p>
           </div>
-          <div style="padding-left: 0.75rem; border-left: 3px solid #0b7b6c;">
-            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 0.25rem;">Empfohlenes Produkt</p>
-            <p style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 0;">${product.name}</p>
+          <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
+            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Produkt</p>
+            <p style="font-size: 1.125rem; font-weight: 700; color: #1f2937; margin: 0;">${product.name}</p>
+            <p style="font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0;">empfohlen</p>
           </div>
         </div>
         
-        <div style="padding: 1rem; border-radius: 12px; background: #f9fafb;">
-          <p style="margin: 0 0 0.75rem; font-size: 0.85rem; font-weight: 600; color: #374151;">Berechnung der täglichen Sprühstöße</p>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
-            <div>
-              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Morgens</p>
-              <p style="margin: 0; font-size: 2rem; font-weight: 700; color: #0b7b6c;">${product.morningSprays}</p>
+        <!-- CBD-Anwendung pro Tag (klar getrennt) -->
+        <div style="padding: 1.25rem; border-radius: 12px; background: linear-gradient(135deg, #ecfdf5 0%, #f9fafb 100%); border: 1px solid #d1fae5;">
+          <h3 style="margin: 0 0 1rem; font-size: 0.9rem; font-weight: 600; color: #047857; text-transform: uppercase; letter-spacing: 0.05em;">CBD-Anwendung pro Tag</h3>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+            <div style="text-align: center; padding: 0.75rem; background: white; border-radius: 8px;">
+              <p style="margin: 0 0 0.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af;">Morgens</p>
+              <p style="margin: 0; font-size: 2.5rem; font-weight: 700; color: #0b7b6c; line-height: 1;">${product.morningSprays}×</p>
+              <p style="margin: 0.375rem 0 0; font-size: 0.75rem; color: #6b7280;">Sprühstöße</p>
             </div>
-            <div>
-              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Abends</p>
-              <p style="margin: 0; font-size: 2rem; font-weight: 700; color: #0b7b6c;">${product.eveningSprays}</p>
+            <div style="text-align: center; padding: 0.75rem; background: white; border-radius: 8px;">
+              <p style="margin: 0 0 0.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af;">Abends</p>
+              <p style="margin: 0; font-size: 2.5rem; font-weight: 700; color: #0b7b6c; line-height: 1;">${product.eveningSprays}×</p>
+              <p style="margin: 0.375rem 0 0; font-size: 0.75rem; color: #6b7280;">Sprühstöße</p>
             </div>
-            <div>
-              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Gesamt pro Tag</p>
-              <p style="margin: 0; font-size: 2rem; font-weight: 700; color: #0b7b6c;">${product.totalSpraysPerDay}</p>
+            <div style="text-align: center; padding: 0.75rem; background: white; border-radius: 8px; border: 2px solid #0b7b6c;">
+              <p style="margin: 0 0 0.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #047857; font-weight: 600;">Gesamt</p>
+              <p style="margin: 0; font-size: 2.5rem; font-weight: 700; color: #0b7b6c; line-height: 1;">${product.totalSpraysPerDay}×</p>
+              <p style="margin: 0.375rem 0 0; font-size: 0.75rem; color: #047857; font-weight: 500;">pro Tag</p>
             </div>
           </div>
         </div>
@@ -1500,27 +1526,31 @@ function displayResults(data, firstName = '', gender = '') {
   // ============================================================
   
   html += `
-    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-      <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Wöchentlicher Reduktionsplan</h2>
+    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 16px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      <h2 style="margin: 0 0 1.25rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Wöchentlicher Reduktionsplan</h2>
   `;
 
-  // Wöchentlicher Reduktionsplan - Jede Woche eigene Box (Homepage-Stil)
+  // Wöchentlicher Reduktionsplan - Jede Woche eigene Box mit klarerem Schatten
   weeklyPlan.forEach((week, weekIndex) => {
     html += `
-      <div style="margin-bottom: 1.2rem; padding: 1.2rem; border-radius: 16px; background: #f9fafb; border: 1px solid #e5e7eb;">
-        <h3 style="margin: 0 0 1rem; font-size: 1.1rem; font-weight: 700; color: #0b7b6c;">Woche ${week.week}</h3>
+      <div style="margin-bottom: 1.5rem; padding: 1.5rem; border-radius: 12px; background: white; border: 2px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <!-- Wochentitel mit Untertitel -->
+        <div style="margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 2px solid #f3f4f6;">
+          <h3 style="margin: 0 0 0.25rem; font-size: 1.125rem; font-weight: 700; color: #0b7b6c;">Woche ${week.week}</h3>
+          <p style="margin: 0; font-size: 0.8rem; color: #9ca3af;">Medikamenten- und CBD-Anpassung</p>
+        </div>
         
-        <!-- Medikamenten-Dosierung -->
-        <h4 style="margin: 0 0 0.75rem; font-size: 0.85rem; font-weight: 600; color: #374151;">Medikamenten-Dosierung</h4>
-        <div class="table-container" style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+        <!-- Medikamenten-Dosierung Tabelle -->
+        <h4 style="margin: 0 0 0.875rem; font-size: 0.85rem; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.05em;">Medikamenten-Dosierung</h4>
+        <div class="table-container" style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1.25rem; background: #fafafa; border-radius: 8px; padding: 0.5rem;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
             <thead>
-              <tr style="border-bottom: 1px solid rgba(11,123,108,0.2);">
-                <th style="text-align: left; padding: 0.5rem; font-weight: 600; color: #6b7280; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">Medikament</th>
-                <th style="text-align: center; padding: 0.5rem; font-weight: 600; color: #6b7280; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">Start</th>
-                <th style="text-align: center; padding: 0.5rem; font-weight: 600; color: #6b7280; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">Woche ${week.week}</th>
-                <th style="text-align: center; padding: 0.5rem; font-weight: 600; color: #6b7280; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">Ziel</th>
-                <th style="text-align: center; padding: 0.5rem; font-weight: 600; color: #6b7280; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">Veränderung</th>
+              <tr style="border-bottom: 2px solid #e5e7eb;">
+                <th style="text-align: left; padding: 0.75rem 0.625rem; font-weight: 600; color: #6b7280; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Medikament</th>
+                <th style="text-align: center; padding: 0.75rem 0.625rem; font-weight: 600; color: #6b7280; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Start</th>
+                <th style="text-align: center; padding: 0.75rem 0.625rem; font-weight: 600; color: #6b7280; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Woche ${week.week}</th>
+                <th style="text-align: center; padding: 0.75rem 0.625rem; font-weight: 600; color: #6b7280; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Ziel</th>
+                <th style="text-align: center; padding: 0.75rem 0.625rem; font-weight: 600; color: #6b7280; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Änderung</th>
               </tr>
             </thead>
             <tbody>
@@ -1544,51 +1574,56 @@ function displayResults(data, firstName = '', gender = '') {
         </div>
         
         <!-- CBD-Dosierung -->
-        <h4 style="margin: 1rem 0 0.75rem; font-size: 0.85rem; font-weight: 600; color: #374151;">CBD-Dosierung</h4>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; margin-bottom: 1rem;">
-          <div style="padding-left: 0.5rem; border-left: 3px solid #0b7b6c;">
-            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">CBD mg/Tag</p>
-            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.cbdDose} mg</p>
+        <h4 style="margin: 1.5rem 0 1rem; font-size: 0.85rem; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 0.05em;">CBD-Dosierung</h4>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem;">
+          <div style="padding: 1rem; background: #f0fdf4; border-radius: 8px; text-align: center; border: 1px solid #d1fae5;">
+            <p style="margin: 0 0 0.5rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.05em;">CBD mg/Tag</p>
+            <p style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #0b7b6c;">${week.cbdDose}</p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">mg</p>
           </div>
-          <div style="padding-left: 0.5rem; border-left: 3px solid #0b7b6c;">
-            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Produkt</p>
-            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.kannasanProduct.name}</p>
+          <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center; border: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 0.5rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.05em;">Produkt</p>
+            <p style="margin: 0; font-size: 0.9rem; font-weight: 600; color: #1f2937;">${week.kannasanProduct.name}</p>
           </div>
-          <div style="padding-left: 0.5rem; border-left: 3px solid #0b7b6c;">
-            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Morgens</p>
-            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.morningSprays}×</p>
+          <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center; border: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 0.5rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.05em;">Morgens</p>
+            <p style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #1f2937;">${week.morningSprays}</p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">Sprühstöße</p>
           </div>
-          <div style="padding-left: 0.5rem; border-left: 3px solid #0b7b6c;">
-            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Abends</p>
-            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.eveningSprays}×</p>
+          <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center; border: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 0.5rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.05em;">Abends</p>
+            <p style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #1f2937;">${week.eveningSprays}</p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">Sprühstöße</p>
           </div>
         </div>
         
-        <p style="margin: 0 0 1rem; font-size: 0.85rem; color: #6b7280;"><strong>Gesamt:</strong> ${week.totalSprays} Sprühstöße täglich = ${week.actualCbdMg} mg CBD</p>
+        <div style="padding: 1rem; border-radius: 8px; background: linear-gradient(135deg, #ecfdf5 0%, #f9fafb 100%); border: 1px solid #d1fae5; text-align: center;">
+          <p style="margin: 0; font-size: 0.8rem; color: #047857;"><strong>Gesamt:</strong> ${week.totalSprays} Sprühstöße täglich = <strong style="font-size: 1.1rem; color: #0b7b6c;">${week.actualCbdMg} mg CBD</strong></p>
+        </div>
         
         <!-- Fläschchen-Status -->
         ${week.bottleStatus ? `
-        <h4 style="margin: 1rem 0 0.75rem; font-size: 0.85rem; font-weight: 600; color: #374151;">Fläschchen-Status</h4>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 0.75rem;">
-          <div style="padding-left: 0.5rem; border-left: 2px solid #e5e7eb;">
-            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Verbraucht</p>
-            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.bottleStatus.used} / ${week.bottleStatus.totalCapacity}</p>
-            <p style="margin: 0.25rem 0 0; font-size: 0.7rem; color: #9ca3af;">Hübe</p>
+        <h4 style="margin: 1.5rem 0 1rem; font-size: 0.85rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em;">Fläschchen-Status</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+          <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center; border: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 0.5rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.05em;">Verbraucht</p>
+            <p style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #1f2937;">${week.bottleStatus.used}</p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">von ${week.bottleStatus.totalCapacity} Hüben</p>
           </div>
-          <div style="padding-left: 0.5rem; border-left: 2px solid #e5e7eb;">
-            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Verbleibend</p>
-            <p style="margin: 0; font-weight: 600; color: #1f2937;">${week.bottleStatus.remaining}</p>
-            <p style="margin: 0.25rem 0 0; font-size: 0.7rem; color: #9ca3af;">Hübe</p>
+          <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center; border: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 0.5rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.05em;">Verbleibend</p>
+            <p style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #1f2937;">${week.bottleStatus.remaining}</p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">Hübe</p>
           </div>
-          <div style="padding-left: 0.5rem; border-left: 2px solid #e5e7eb;">
-            <p style="margin: 0 0 0.25rem; font-size: 0.7rem; color: #9ca3af;">Leer in</p>
-            <p style="margin: 0; font-weight: 600; color: #1f2937;">~${week.bottleStatus.emptyInWeeks}</p>
-            <p style="margin: 0.25rem 0 0; font-size: 0.7rem; color: #9ca3af;">Wochen</p>
+          <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center; border: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 0.5rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.05em;">Leer in</p>
+            <p style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #1f2937;">~${week.bottleStatus.emptyInWeeks}</p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">Wochen</p>
           </div>
         </div>
         
-        <div style="padding: 0.75rem; border-radius: 8px; font-size: 0.85rem; ${week.bottleStatus.productChangeNext ? 'background: #fef3c7; color: #92400e;' : 'background: #d1fae5; color: #065f46;'}">
-          <strong>Empfehlung:</strong> ${week.bottleStatus.productChangeNext ? 'Produktwechsel in nächster Woche erforderlich' : 'Aktuelles Fläschchen weiterverwenden'}
+        <div style="padding: 1rem; border-radius: 8px; font-size: 0.85rem; text-align: center; ${week.bottleStatus.productChangeNext ? 'background: linear-gradient(135deg, #fef3c7 0%, #fef9f3 100%); border: 1px solid #fde68a; color: #92400e;' : 'background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%); border: 1px solid #a7f3d0; color: #065f46;'}">
+          <strong>💡 Empfehlung:</strong> ${week.bottleStatus.productChangeNext ? 'Produktwechsel in nächster Woche erforderlich' : 'Aktuelles Fläschchen weiterverwenden'}
         </div>
         ` : ''}
         
@@ -1635,78 +1670,82 @@ function displayResults(data, firstName = '', gender = '') {
   `;
 
   // ============================================================
-  // 7. MEDIZINISCHE HINWEISE (Homepage-Stil)
+  // 7. MEDIZINISCHE HINWEISE (Dark Background)
   // ============================================================
   
   html += `
-    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-      <h2 style="margin: 0 0 1.25rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Wichtige medizinische Hinweise</h2>
+    <div style="margin-top: 1.5rem; padding: 2rem 1.5rem; border-radius: 16px; background: #f3f4f6; border: 1px solid #e5e7eb;">
+      <h2 style="margin: 0 0 1.5rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c; text-align: center;">⚕️ Wichtige medizinische Hinweise</h2>
       
       <!-- Allgemeine Hinweise -->
-      <h3 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">Allgemeine Hinweise</h3>
-      <div style="display: flex; flex-direction: column; gap: 0.875rem; font-size: 0.85rem; color: #374151; margin-bottom: 1.5rem;">
-        <div style="display: flex; align-items: flex-start;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0; line-height: 1.6;"><strong>Theoretischer Plan:</strong> Die Berechnungen von MedLess zeigen theoretische Möglichkeiten der Reduktion. Ob und in welchem Tempo tatsächlich reduziert wird, entscheidet immer Ihr Arzt.</p>
-        </div>
-        
-        <div style="display: flex; align-items: flex-start;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0; line-height: 1.6;"><strong>Besondere Medikamentengruppen:</strong> Bei Blutverdünnern, Immunsuppressiva, Antidepressiva, Antiepileptika, Benzodiazepinen und starken Schmerzmitteln ist ein besonders vorsichtiges Vorgehen erforderlich.</p>
-        </div>
-        
-        <div style="display: flex; align-items: flex-start;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0; line-height: 1.6;"><strong>Keine selbstständige Medikamentenänderung:</strong> Reduzieren Sie Medikamente ausschließlich unter ärztlicher Aufsicht. Eigenständige Änderungen können gesundheitsgefährdend sein.</p>
-        </div>
-        
-        <div style="display: flex; align-items: flex-start;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0; line-height: 1.6;"><strong>Niemals abrupt absetzen:</strong> Setzen Sie Medikamente niemals abrupt ab - immer schrittweise gemäß ärztlichem Plan.</p>
-        </div>
-        
-        <div style="display: flex; align-items: flex-start;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0; line-height: 1.6;"><strong>Bei Nebenwirkungen:</strong> Kontaktieren Sie sofort Ihren Arzt bei unerwünschten Symptomen oder Nebenwirkungen.</p>
+      <div style="margin-bottom: 2rem;">
+        <h3 style="margin: 0 0 1rem; font-size: 0.9rem; font-weight: 700; color: #1f2937; text-transform: uppercase; letter-spacing: 0.05em;">Allgemeine Hinweise</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.9rem; color: #374151;">
+          <div style="display: flex; align-items: flex-start;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #0b7b6c; margin: 0.5rem 0.75rem 0 0; flex-shrink: 0;"></div>
+            <p style="margin: 0; line-height: 1.6;"><strong style="color: #1f2937;">Theoretischer Plan:</strong> Die Berechnungen von MedLess zeigen theoretische Möglichkeiten der Reduktion. Ob und in welchem Tempo tatsächlich reduziert wird, entscheidet immer Ihr Arzt.</p>
+          </div>
+          
+          <div style="display: flex; align-items: flex-start;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #0b7b6c; margin: 0.5rem 0.75rem 0 0; flex-shrink: 0;"></div>
+            <p style="margin: 0; line-height: 1.6;"><strong style="color: #1f2937;">Besondere Medikamentengruppen:</strong> Bei Blutverdünnern, Immunsuppressiva, Antidepressiva, Antiepileptika, Benzodiazepinen und starken Schmerzmitteln ist ein besonders vorsichtiges Vorgehen erforderlich.</p>
+          </div>
+          
+          <div style="display: flex; align-items: flex-start;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #0b7b6c; margin: 0.5rem 0.75rem 0 0; flex-shrink: 0;"></div>
+            <p style="margin: 0; line-height: 1.6;"><strong style="color: #1f2937;">Keine selbstständige Medikamentenänderung:</strong> Reduzieren Sie Medikamente ausschließlich unter ärztlicher Aufsicht. Eigenständige Änderungen können gesundheitsgefährdend sein.</p>
+          </div>
+          
+          <div style="display: flex; align-items: flex-start;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #0b7b6c; margin: 0.5rem 0.75rem 0 0; flex-shrink: 0;"></div>
+            <p style="margin: 0; line-height: 1.6;"><strong style="color: #1f2937;">Niemals abrupt absetzen:</strong> Setzen Sie Medikamente niemals abrupt ab - immer schrittweise gemäß ärztlichem Plan.</p>
+          </div>
+          
+          <div style="display: flex; align-items: flex-start;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #0b7b6c; margin: 0.5rem 0.75rem 0 0; flex-shrink: 0;"></div>
+            <p style="margin: 0; line-height: 1.6;"><strong style="color: #1f2937;">Bei Nebenwirkungen:</strong> Kontaktieren Sie sofort Ihren Arzt bei unerwünschten Symptomen oder Nebenwirkungen.</p>
+          </div>
         </div>
       </div>
       
       <!-- Hinweise zu Cannabinoiden -->
-      <h3 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">Hinweise zu Cannabinoiden</h3>
-      <div style="display: flex; flex-direction: column; gap: 0.875rem; font-size: 0.85rem; color: #374151;">
-        <div style="display: flex; align-items: flex-start;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0; line-height: 1.6;"><strong>CYP450-Interaktionen beachten:</strong> Cannabinoide können den Abbau bestimmter Medikamente über das Cytochrom-P450-System beeinflussen. Ihr Arzt sollte mögliche Wechselwirkungen prüfen.</p>
-        </div>
-        
-        <div style="display: flex; align-items: flex-start;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0; line-height: 1.6;"><strong>Kein Alkohol während der Behandlung:</strong> Alkohol kann Wechselwirkungen verstärken und den Reduktionsprozess gefährden.</p>
-        </div>
-        
-        <div style="display: flex; align-items: flex-start;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0; line-height: 1.6;"><strong>Keine Grapefruit:</strong> Grapefruit beeinflusst ebenfalls das CYP450-System und sollte während der Behandlung vermieden werden.</p>
-        </div>
-        
-        <div style="display: flex; align-items: flex-start;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0; line-height: 1.6;"><strong>Müdigkeit möglich:</strong> Cannabinoide können Müdigkeit verursachen. Fahren Sie kein Fahrzeug, bis Sie wissen, wie Sie auf Cannabinoide reagieren.</p>
+      <div>
+        <h3 style="margin: 0 0 1rem; font-size: 0.9rem; font-weight: 700; color: #1f2937; text-transform: uppercase; letter-spacing: 0.05em;">Hinweise zu Cannabinoiden</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.9rem; color: #374151;">
+          <div style="display: flex; align-items: flex-start;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #0b7b6c; margin: 0.5rem 0.75rem 0 0; flex-shrink: 0;"></div>
+            <p style="margin: 0; line-height: 1.6;"><strong style="color: #1f2937;">CYP450-Interaktionen beachten:</strong> Cannabinoide können den Abbau bestimmter Medikamente über das Cytochrom-P450-System beeinflussen. Ihr Arzt sollte mögliche Wechselwirkungen prüfen.</p>
+          </div>
+          
+          <div style="display: flex; align-items: flex-start;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #0b7b6c; margin: 0.5rem 0.75rem 0 0; flex-shrink: 0;"></div>
+            <p style="margin: 0; line-height: 1.6;"><strong style="color: #1f2937;">Kein Alkohol während der Behandlung:</strong> Alkohol kann Wechselwirkungen verstärken und den Reduktionsprozess gefährden.</p>
+          </div>
+          
+          <div style="display: flex; align-items: flex-start;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #0b7b6c; margin: 0.5rem 0.75rem 0 0; flex-shrink: 0;"></div>
+            <p style="margin: 0; line-height: 1.6;"><strong style="color: #1f2937;">Keine Grapefruit:</strong> Grapefruit beeinflusst ebenfalls das CYP450-System und sollte während der Behandlung vermieden werden.</p>
+          </div>
+          
+          <div style="display: flex; align-items: flex-start;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #0b7b6c; margin: 0.5rem 0.75rem 0 0; flex-shrink: 0;"></div>
+            <p style="margin: 0; line-height: 1.6;"><strong style="color: #1f2937;">Müdigkeit möglich:</strong> Cannabinoide können Müdigkeit verursachen. Fahren Sie kein Fahrzeug, bis Sie wissen, wie Sie auf Cannabinoide reagieren.</p>
+          </div>
         </div>
       </div>
     </div>
   `;
 
   // ============================================================
-  // PDF DOWNLOAD BUTTON
+  // PDF DOWNLOAD BUTTON (Centered with adequate spacing)
   // ============================================================
   
   html += `
-    <div style="margin: 2rem 0 1rem; text-align: center;">
+    <div style="margin: 3rem 0 2rem; text-align: center;">
       <button 
         onclick="downloadPDF(event)" 
         style="
-          padding: 1rem 2rem; 
+          padding: 1.25rem 2.5rem; 
           background: linear-gradient(135deg, #0b7b6c 0%, #10b981 100%); 
           color: white; 
           border: none; 
@@ -1727,8 +1766,8 @@ function displayResults(data, firstName = '', gender = '') {
         <span>Plan als PDF herunterladen</span>
       </button>
       
-      <p style="margin: 0.75rem 0 0; font-size: 0.85rem; color: #6b7280;">
-        <i class="fas fa-info-circle"></i>
+      <p style="margin: 1rem 0 0; font-size: 0.85rem; color: #6b7280;">
+        <i class="fas fa-info-circle" style="margin-right: 0.25rem;"></i>
         Ihr persönlicher Ausschleichplan zum Ausdrucken und für Ihren Arzt
       </p>
     </div>
