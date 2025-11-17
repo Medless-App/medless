@@ -1192,12 +1192,15 @@ function displayResults(data, firstName = '', gender = '') {
   
   html += `
     <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: radial-gradient(circle at top left, #e0fdf7, #f5f7fa); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-      <h1 style="margin: 0 0 0.6rem; font-size: 1.6rem; line-height: 1.2; color: #0b7b6c; font-weight: 700;">
+      <h1 style="margin: 0 0 0.75rem; font-size: 1.6rem; line-height: 1.2; color: #0b7b6c; font-weight: 700;">
         Ihr persönlicher MedLess-Dosierungs- und Reduktionsplan
       </h1>
-      <p style="margin: 0; font-size: 0.95rem; line-height: 1.6; color: #4b5563;">
+      <p style="margin: 0 0 0.875rem; font-size: 0.95rem; line-height: 1.6; color: #4b5563;">
         Dieser Plan zeigt Ihnen eine strukturierte, medizinisch fundierte Kombination aus CBD-Dosierung und schrittweiser Medikamentenreduktion. 
-        <strong style="color: #0b7b6c;">Bitte besprechen Sie jede Änderung mit Ihrem Arzt.</strong>
+        Er basiert auf Ihren Eingaben und bekannten pharmakologischen Daten.
+      </p>
+      <p style="margin: 0; font-size: 0.95rem; line-height: 1.6; color: #4b5563;">
+        <strong style="color: #0b7b6c;">Er ersetzt keine ärztliche Entscheidung. Bitte besprechen Sie jede Änderung mit Ihrem behandelnden Arzt.</strong>
       </p>
     </div>
   `;
@@ -1360,13 +1363,64 @@ function displayResults(data, firstName = '', gender = '') {
     </div>
   `;
   
-  // Globaler Safety-Hinweis wenn High-Risk Medikamente vorhanden
+  // ============================================================
+  // MEDIKAMENTEN-SPEZIFISCHE KATEGORIE-HINWEISE
+  // ============================================================
+  
+  // Sammle alle Medikamenten-Kategorien
   const analysisWithMeds = analysis.map(item => ({
     name: item.medication?.name || '',
     genericName: item.medication?.generic_name || ''
   }));
   
-  if (hasHighRiskMedication(analysisWithMeds) || maxSeverity === 'high' || maxSeverity === 'critical') {
+  const categoryHints = [];
+  const detectedCategories = new Set();
+  
+  // Prüfe jedes Medikament auf Kategorie
+  analysisWithMeds.forEach(med => {
+    const classification = classifyMedication(med.name, med.genericName);
+    if (classification) {
+      detectedCategories.add(classification.type);
+    }
+  });
+  
+  // Definiere kategorie-spezifische Hinweise
+  const CATEGORY_SPECIFIC_HINTS = {
+    benzodiazepines: 'Bei Benzodiazepinen und Schlafmitteln ist ein langsames, stufenweises Ausschleichen wichtig. Der hier dargestellte Verlauf ist eine mögliche Orientierung – Tempo und Schritte sollten individuell durch Ihren Arzt angepasst werden.',
+    antidepressants: 'Antidepressiva sollten nicht abrupt beendet werden. Ein zu schneller Wechsel kann zu Absetzsymptomen oder einem Wiederaufflammen der Beschwerden führen. Nutzen Sie diesen Plan nur als Grundlage für das Gespräch mit Ihrem Arzt.',
+    anticoagulants: 'Blutverdünner werden häufig langfristig oder dauerhaft eingesetzt, zum Beispiel zum Schutz vor Schlaganfall oder Thrombosen. MEDLESS macht hier nur sehr vorsichtige oder keine Reduktionsvorschläge. Eine mögliche Anpassung muss immer ärztlich entschieden werden.',
+    immunosuppressants: 'Medikamente zur Verhinderung einer Organabstoßung sind in der Regel unverzichtbar. In diesem Plan wird keine vollständige Reduktion bis 0 mg vorgeschlagen. Änderungen dürfen nur in spezialisierten Zentren erfolgen.',
+    opioids: 'Starke Schmerzmittel sollten immer unter engmaschiger ärztlicher Kontrolle reduziert werden. MEDLESS kann helfen, einen möglichen Verlauf zu strukturieren – ersetzt aber keine persönliche Betreuung.',
+    antiepileptics: 'Antiepileptika erfordern ein sehr vorsichtiges Ausschleichen. Ein abruptes Absetzen kann zu schweren Anfällen führen. Jede Dosisänderung sollte nur in enger Abstimmung mit Ihrem Neurologen erfolgen.'
+  };
+  
+  // Sammle relevante Hinweise
+  detectedCategories.forEach(category => {
+    if (CATEGORY_SPECIFIC_HINTS[category]) {
+      categoryHints.push(CATEGORY_SPECIFIC_HINTS[category]);
+    }
+  });
+  
+  // Zeige kategorie-spezifische Hinweise (maximal 4)
+  if (categoryHints.length > 0) {
+    html += `
+      <div style="margin-top: 1.2rem; padding: 1.25rem 1.5rem; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px;">
+        <h4 style="margin: 0 0 0.875rem; font-size: 1rem; font-weight: 600; color: #374151;">
+          Hinweise zu Ihrer Medikation
+        </h4>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          ${categoryHints.slice(0, 4).map(hint => `
+            <p style="margin: 0; font-size: 0.875rem; line-height: 1.6; color: #6b7280;">
+              ${hint}
+            </p>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+  
+  // Globaler Safety-Hinweis wenn High-Risk Medikamente vorhanden (aber keine kategorie-spezifischen)
+  if ((hasHighRiskMedication(analysisWithMeds) || maxSeverity === 'high' || maxSeverity === 'critical') && categoryHints.length === 0) {
     html += `
       <div style="margin-top: 1.2rem; padding: 1.25rem; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px;">
         <h4 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">
@@ -1537,6 +1591,41 @@ function displayResults(data, firstName = '', gender = '') {
           <strong>Empfehlung:</strong> ${week.bottleStatus.productChangeNext ? 'Produktwechsel in nächster Woche erforderlich' : 'Aktuelles Fläschchen weiterverwenden'}
         </div>
         ` : ''}
+        
+        ${(() => {
+          // Prüfe ob in dieser Woche ein High-Risk-Medikament reduziert wird
+          const hasReduction = week.medications.some(med => {
+            // Finde das Medikament in der Analyse
+            const medData = analysis.find(a => 
+              a.medication.name.toLowerCase().includes(med.name.toLowerCase()) || 
+              med.name.toLowerCase().includes(a.medication.name.toLowerCase())
+            );
+            
+            if (!medData) return false;
+            
+            // Klassifiziere das Medikament
+            const classification = classifyMedication(medData.medication.name, medData.medication.generic_name);
+            
+            // Prüfe ob es High-Risk ist UND reduziert wird
+            if (classification && (med.startMg - med.currentMg) > 0) {
+              return true;
+            }
+            
+            return false;
+          });
+          
+          // Zeige Hinweis nur wenn tatsächlich reduziert wird
+          if (hasReduction) {
+            return `
+              <div style="margin-top: 1rem; padding: 0.75rem; background-color: #fef9f3; border-left: 3px solid #f59e0b; border-radius: 4px;">
+                <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #92400e;">
+                  <strong>Hinweis:</strong> In dieser Woche wird mindestens ein sensibles Medikament reduziert. Bitte achten Sie auf Veränderungen Ihres Befindens und besprechen Sie Auffälligkeiten mit Ihrem Arzt.
+                </p>
+              </div>
+            `;
+          }
+          return '';
+        })()}
       </div>
     `;
   });
@@ -1551,42 +1640,58 @@ function displayResults(data, firstName = '', gender = '') {
   
   html += `
     <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-      <h2 style="margin: 0 0 1rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Wichtige medizinische Hinweise</h2>
+      <h2 style="margin: 0 0 1.25rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Wichtige medizinische Hinweise</h2>
       
-      <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem; color: #374151;">
+      <!-- Allgemeine Hinweise -->
+      <h3 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">Allgemeine Hinweise</h3>
+      <div style="display: flex; flex-direction: column; gap: 0.875rem; font-size: 0.85rem; color: #374151; margin-bottom: 1.5rem;">
         <div style="display: flex; align-items: flex-start;">
           <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0;"><strong>Keine selbstständige Medikamentenänderung:</strong> Reduzieren Sie Medikamente ausschließlich unter ärztlicher Aufsicht. Eigenständige Änderungen können gesundheitsgefährdend sein.</p>
+          <p style="margin: 0; line-height: 1.6;"><strong>Theoretischer Plan:</strong> Die Berechnungen von MedLess zeigen theoretische Möglichkeiten der Reduktion. Ob und in welchem Tempo tatsächlich reduziert wird, entscheidet immer Ihr Arzt.</p>
         </div>
         
         <div style="display: flex; align-items: flex-start;">
           <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0;"><strong>CYP450-Interaktionen beachten:</strong> Cannabinoide können den Abbau bestimmter Medikamente über das Cytochrom-P450-System beeinflussen. Ihr Arzt sollte mögliche Wechselwirkungen prüfen.</p>
+          <p style="margin: 0; line-height: 1.6;"><strong>Besondere Medikamentengruppen:</strong> Bei Blutverdünnern, Immunsuppressiva, Antidepressiva, Antiepileptika, Benzodiazepinen und starken Schmerzmitteln ist ein besonders vorsichtiges Vorgehen erforderlich.</p>
         </div>
         
         <div style="display: flex; align-items: flex-start;">
           <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0;"><strong>Kein Alkohol während der Reduktion:</strong> Alkohol kann Wechselwirkungen verstärken und den Reduktionsprozess gefährden.</p>
+          <p style="margin: 0; line-height: 1.6;"><strong>Keine selbstständige Medikamentenänderung:</strong> Reduzieren Sie Medikamente ausschließlich unter ärztlicher Aufsicht. Eigenständige Änderungen können gesundheitsgefährdend sein.</p>
         </div>
         
         <div style="display: flex; align-items: flex-start;">
           <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0;"><strong>Keine Grapefruit:</strong> Grapefruit beeinflusst ebenfalls das CYP450-System und sollte während der Behandlung vermieden werden.</p>
+          <p style="margin: 0; line-height: 1.6;"><strong>Niemals abrupt absetzen:</strong> Setzen Sie Medikamente niemals abrupt ab - immer schrittweise gemäß ärztlichem Plan.</p>
         </div>
         
         <div style="display: flex; align-items: flex-start;">
           <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0;"><strong>Müdigkeit möglich:</strong> Cannabinoide können Müdigkeit verursachen. Fahren Sie kein Fahrzeug, bis Sie wissen, wie Sie auf Cannabinoide reagieren.</p>
+          <p style="margin: 0; line-height: 1.6;"><strong>Bei Nebenwirkungen:</strong> Kontaktieren Sie sofort Ihren Arzt bei unerwünschten Symptomen oder Nebenwirkungen.</p>
+        </div>
+      </div>
+      
+      <!-- Hinweise zu Cannabinoiden -->
+      <h3 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">Hinweise zu Cannabinoiden</h3>
+      <div style="display: flex; flex-direction: column; gap: 0.875rem; font-size: 0.85rem; color: #374151;">
+        <div style="display: flex; align-items: flex-start;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
+          <p style="margin: 0; line-height: 1.6;"><strong>CYP450-Interaktionen beachten:</strong> Cannabinoide können den Abbau bestimmter Medikamente über das Cytochrom-P450-System beeinflussen. Ihr Arzt sollte mögliche Wechselwirkungen prüfen.</p>
         </div>
         
         <div style="display: flex; align-items: flex-start;">
           <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0;"><strong>Niemals abrupt absetzen:</strong> Setzen Sie Medikamente niemals abrupt ab - immer schrittweise gemäß ärztlichem Plan.</p>
+          <p style="margin: 0; line-height: 1.6;"><strong>Kein Alkohol während der Behandlung:</strong> Alkohol kann Wechselwirkungen verstärken und den Reduktionsprozess gefährden.</p>
         </div>
         
         <div style="display: flex; align-items: flex-start;">
           <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
-          <p style="margin: 0;"><strong>Bei Nebenwirkungen:</strong> Kontaktieren Sie sofort Ihren Arzt bei unerwünschten Symptomen oder Nebenwirkungen.</p>
+          <p style="margin: 0; line-height: 1.6;"><strong>Keine Grapefruit:</strong> Grapefruit beeinflusst ebenfalls das CYP450-System und sollte während der Behandlung vermieden werden.</p>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0b7b6c; margin: 0.4rem 0.75rem 0 0; flex-shrink: 0;"></div>
+          <p style="margin: 0; line-height: 1.6;"><strong>Müdigkeit möglich:</strong> Cannabinoide können Müdigkeit verursachen. Fahren Sie kein Fahrzeug, bis Sie wissen, wie Sie auf Cannabinoide reagieren.</p>
         </div>
       </div>
     </div>
