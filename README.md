@@ -1,351 +1,326 @@
-# MedLess-AI - Multi-Medication Reduction System with CBD Compensation
+# MEDLESS 🌿
 
-🌿 **Strukturierte Medikamenten-Reduktion mit automatischer CBD-Kompensation und intelligentem KannaSan-Produktmanagement**
+<div align="center">
 
-## 📋 Projekt-Übersicht
+![Status](https://img.shields.io/badge/Status-Production-success?style=for-the-badge)
+![Platform](https://img.shields.io/badge/Cloudflare-Pages-orange?style=for-the-badge&logo=cloudflare)
+![License](https://img.shields.io/badge/License-Proprietary-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-3.0-green?style=for-the-badge)
 
-**Name**: MedLess-AI - Multi-Medication Reduction System  
-**Ziel**: Unterstützung bei der schrittweisen Reduktion von Medikamenten mit personalisierter CBD-Kompensation unter ärztlicher Aufsicht. Intelligentes KannaSan-Fläschchen-Management verhindert unnötige Produktwechsel.
+**CBD-basierter Medikamenten-Reduktionsplaner mit algorithmischer Dosierungsberechnung**
 
-### 🎯 Hauptfunktionen
+[🌐 Live Demo](https://medless.pages.dev) · [📚 Dokumentation](./TECHNICAL_DOCUMENTATION.md) · [🤖 AI-Konzept](./KI_INTEGRATION_KONZEPT.md)
 
-✅ **Vollständig implementiert:**
-- ✨ **Multi-Medikamenten-Unterstützung** - Mehrere Medikamente gleichzeitig reduzieren
-- 📊 **Individuelle Reduktionskurven** - Jedes Medikament hat eigene lineare Reduktion
-- 🌿 **Unified CBD-Kompensation** - Eine CBD-Kurve (0.5 → 1.0 mg/kg) für alle Medikamente
-- 💊 **Einfache Eingabe** - Nur mg/Tag erforderlich (Beschreibung automatisch generiert)
-- 📅 **Wochenplan-Format** - Übersichtliche wöchentliche Übersicht
-- 🔬 **Automatische Medikamenten-Analyse** - CBD-Wechselwirkungen mit Severity-Level
-- 🧪 **KannaSan Produktauswahl** - 5 Produkte: Nr. 5, 10, 15, 20, 25 (5.8-29 mg CBD/Spray)
-- 💧 **Intelligente Fläschchen-Verfolgung** - 100 Sprays pro 10ml Flasche tracking
-- ⚠️ **Sicherheitsregeln** - Benzo/Opioid-Erkennung → CBD-Startdosis halbiert
-- 🎯 **Personalisierung** - Alter, BMI, Körpergewicht-basierte Anpassungen
-- 📄 **PDF-Generierung** - Vollständiger Plan mit Fläschchen-Status zum Download
-- 📱 **Responsive Design** - TailwindCSS, FontAwesome Icons
-- 🔒 **Rechtlicher Disclaimer** - Ärztliche Aufsicht erforderlich
+</div>
 
 ---
 
-## 🌐 URLs
+## 🎯 Was ist MEDLESS?
 
-**Lokale Entwicklung:**
-- Sandbox: https://3000-ijld9858qau0wmsm3gjq0-82b888ba.sandbox.novita.ai
-- Localhost: http://localhost:3000
+MEDLESS ist ein **wissenschaftsbasiertes Tool** zur Planung der schrittweisen Medikamentenreduktion mit personalisierter CBD-Kompensation. Das System berechnet **100% algorithmisch** individuelle Reduktionspläne basierend auf:
 
-**API-Endpunkte:**
-- `GET /` - Homepage mit Formular
-- `POST /api/analyze` - Medikamente analysieren & MedLess-AI Plan erstellen
-  - Input: medications[] (name, mgPerDay), bodyWeight, height, age, reductionGoal, durationWeeks
-  - Output: weeklyPlan[] mit medications[], CBD-Dosis, KannaSan-Produkt, bottleStatus
+- ✅ **Körpergewicht, Alter, BMI** (Personalisierung)
+- ✅ **52 Medikamente** mit CBD-Interaktionsdaten
+- ✅ **CYP450-Enzyme** (Stoffwechsel-Analyse)
+- ✅ **5 KANNASAN-Produkte** (5.8-29 mg CBD/Spray)
+- ✅ **Fläschchen-Tracking** (100 Sprays/10ml Flasche)
 
----
-
-## 💾 Daten-Architektur
-
-### **Datenbank: Cloudflare D1 (SQLite)**
-
-**Haupt-Tabellen:**
-
-1. **medication_categories** - Medikamenten-Kategorien
-   - Blutverdünner, Antidepressiva, Antiepileptika, Benzodiazepine, Opioide, etc.
-   - Risk-Level: low, medium, high, very_high
-
-2. **medications** (26+ Einträge)
-   - Name, generischer Name, CYP450-Enzyme
-   - Beispiele: Marcumar, Prozac, Tavor, Tramal, Lyrica, etc.
-
-3. **cbd_interactions** (26+ Einträge)
-   - Interaktionstyp: inhibition, enhancement, reduction, neutral
-   - Schweregrad: low, medium, high, critical
-   - Mechanismus, Empfehlungen, Quellen
-
-### **MedLess-AI Datenpipeline:**
-```
-User Input (medications[], bodyWeight, height, age, reductionGoal, weeks)
-  ↓
-CBD-Dosis-Berechnung (0.5 mg/kg Start → 1.0 mg/kg Ende)
-  ↓
-Personalisierung (Alter, BMI, Benzo/Opioid-Detection)
-  ↓
-KannaSan Produktauswahl (optimal für CBD-Dosis)
-  ↓
-Fläschchen-Tracking (100 Sprays/Flasche, Verbrauch pro Woche)
-  ↓
-Wochenplan-Generierung (medications[], CBD, bottleStatus)
-  ↓
-PDF + UI Display
-```
-
-### **KannaSan Produkt-Datenbank:**
-| Produkt | CBD/Spray | 2 Sprays | Flasche | Verwendung |
-|---------|-----------|----------|---------|------------|
-| **Nr. 5**  | 5.8 mg  | 11.6 mg | 10ml (100 Sprays) | Niedrige Dosen |
-| **Nr. 10** | 11.5 mg | 23.0 mg | 10ml (100 Sprays) | Mittlere Dosen |
-| **Nr. 15** | 17.5 mg | 35.0 mg | 10ml (100 Sprays) | Standard |
-| **Nr. 20** | 23.2 mg | 46.4 mg | 10ml (100 Sprays) | Höhere Dosen |
-| **Nr. 25** | 29.0 mg | 58.0 mg | 10ml (100 Sprays) | Sehr hohe Dosen |
+> ⚠️ **Wichtig:** Dieses Tool dient ausschließlich der Planung unter **ärztlicher Aufsicht**. Keine Eigenmedikation!
 
 ---
 
-## 💧 Fläschchen-Tracking Logic (NEW!)
+## ✨ Features
 
-### **🔥 Kernprinzip: Keine unnötigen Produktwechsel**
-
-Das System verfolgt den Fläschchen-Verbrauch und wechselt Produkte NUR wenn notwendig:
-
-### **Tracking-Parameter:**
-- **Kapazität:** 100 Sprays pro 10ml Flasche
-- **Verbrauch:** Täglich × 7 Tage = Wochenverbrauch
-- **Status:** Verbraucht/Rest/Wochen bis leer
-
-### **Produktwechsel-Regeln:**
-✅ **Wechsel NUR wenn:**
-1. Flasche leer oder fast leer (<7 Sprays Reservezeitung)
-2. Dosierung erfordert >12 Sprays/Tag (Effizienz-Limit)
-
-❌ **KEIN Wechsel wenn:**
-- Flasche noch ausreichend Sprays hat
-- Dosierung mit aktuellem Produkt machbar ist
-
-### **Beispiel-Szenario:**
-
+### 🧪 **Algorithmic Core**
 ```
-Woche 1-5: KannaSan Nr. 15 (17.5 mg/Spray)
-- Woche 1: 2 Sprays/Tag = 14/Woche → Verbraucht: 14/100
-- Woche 2: 3 Sprays/Tag = 21/Woche → Verbraucht: 35/100
-- Woche 3: 3 Sprays/Tag = 21/Woche → Verbraucht: 56/100
-- Woche 4: 3 Sprays/Tag = 21/Woche → Verbraucht: 77/100
-- Woche 5: 3 Sprays/Tag = 21/Woche → Verbraucht: 98/100 ⚠️
-
-Woche 6-8: KannaSan Nr. 25 (29 mg/Spray) - NEUE FLASCHE
-- Woche 6: 2 Sprays/Tag = 14/Woche → Verbraucht: 14/100
-- Woche 7: 3 Sprays/Tag = 21/Woche → Verbraucht: 35/100
-- Woche 8: 3 Sprays/Tag = 21/Woche → Verbraucht: 56/100
+- Lineare Medikamenten-Reduktion (individuell pro Medikament)
+- CBD-Kompensation (0.5 → 1.0 mg/kg Körpergewicht)
+- Benzo/Opioid-Erkennung → CBD-Startdosis halbiert
+- Alter-/BMI-basierte Anpassungen
 ```
 
-### **Fläschchen-Status im UI:**
+### 💊 **Multi-Medication Support**
+- **Mehrere Medikamente gleichzeitig** reduzieren
+- **Individuelle Reduktionskurven** pro Medikament
+- **Eine unified CBD-Kurve** für alle Medikamente
+- **Übersichtlicher Wochenplan** (1-24 Wochen)
 
-**Woche 5 Beispiel:**
-```
-💧 Fläschchen-Status
------------------------------------------
-Verbraucht: 98 / 100 Hübe
-Verbleibend: 2 Hübe
-Voraussichtlich leer in: ~0 Wochen
+### 🧴 **KANNASAN Integration**
+- **5 Spray-Produkte:** Nr. 5, 10, 15, 20, 25
+- **Intelligente Produktauswahl** (minimale Sprays, keine Überdosierung)
+- **Fläschchen-Tracking** (Verbrauch, Rest, Wechsel-Warnung)
+- **Verteilung:** 40% morgens, 60% abends
 
-⚠️ Produktwechsel in nächster Woche erforderlich
-```
-
-**Woche 6 Beispiel:**
-```
-💧 Fläschchen-Status
------------------------------------------
-Verbraucht: 14 / 100 Hübe
-Verbleibend: 86 Hübe
-Voraussichtlich leer in: ~6 Wochen
-
-✅ Aktuelles Fläschchen weiter verwenden
-```
+### 📄 **PDF-Export**
+- **Vollständiger Wochenplan** mit allen Details
+- **Medikamenten-Analyse** (CBD-Interaktionen)
+- **Fläschchen-Status** pro Woche
+- **Sicherheitshinweise** & Disclaimer
 
 ---
 
-## 📖 Benutzerhandbuch
+## 🚀 Quick Start
 
-### **Schritt 1: Persönliche Daten eingeben**
-1. **Körpergewicht** (kg) - PFLICHTFELD für CBD-Berechnung
-2. **Körpergröße** (cm) - PFLICHTFELD für BMI-Berechnung
-3. **Alter** (Jahre) - Optional, empfohlen für Senior-Anpassung (65+)
-4. **Geschlecht** - Optional
-
-### **Schritt 2: Medikamente eingeben**
-1. **Medikamentenname** - z.B. "Diazepam", "Tramadol", "Lyrica"
-2. **Tagesdosis in mg** ⭐ PFLICHTFELD - z.B. "10", "150", "300"
-3. Klicken Sie "+ Weiteres Medikament" für mehrere Medikamente
-
-**Wichtig:** Nur noch mg/Tag erforderlich! Dosierungsbeschreibung wird automatisch generiert.
-
-### **Schritt 3: Reduktionsplan wählen**
-1. **Reduktionsziel** - Wie viel % möchten Sie reduzieren? (z.B. 50%, 75%, 100%)
-2. **Dauer in Wochen** - Wie lange soll die Reduktion dauern? (z.B. 8, 12, 16 Wochen)
-
-### **Schritt 4: Plan erstellen**
-- Klicken Sie auf "MedLess-AI Plan erstellen"
-- Das System berechnet:
-  - Individuelle Reduktionskurven für jedes Medikament
-  - CBD-Kompensation (0.5 → 1.0 mg/kg Körpergewicht)
-  - Optimale KannaSan-Produkte mit Fläschchen-Tracking
-  - Benzo/Opioid-Erkennung → CBD-Startdosis halbiert
-
-### **Schritt 5: Ergebnis nutzen**
-Sie erhalten:
-- 📊 **Plan-Übersicht** - Anzahl Medikamente, CBD-Dosis, Dauer
-- 🧪 **Produktinformationen** - KannaSan Spray Spezifikationen
-- 🎯 **Personalisierung** - BMI, BSA, CBD-Anpassungen, Sicherheitshinweise
-- 💊 **Medikamenten-Analyse** - Wechselwirkungen mit CBD
-- 📅 **Wochenplan** - Pro Woche:
-  - Medikamente (Aktuell → Ziel, Reduktion)
-  - CBD-Kompensation (Dosis, Produkt, Sprays morgens/abends)
-  - 💧 Fläschchen-Status (Verbrauch, Rest, Produktwechsel-Warnung)
-- 💡 **Sicherheitshinweise** - Ärztliche Begleitung, Einnahmehinweise
-- 📄 **PDF-Download** - Vollständiger Plan als PDF
-
----
-
-## 🧪 MedLess-AI Algorithmus
-
-### **1. CBD-Dosis-Berechnung**
-```typescript
-CBD_Start = 0.5 mg/kg × Körpergewicht
-CBD_Ende = 1.0 mg/kg × Körpergewicht
-
-// Lineare Progression
-CBD_Woche[n] = CBD_Start + ((CBD_Ende - CBD_Start) / Wochen) × (n - 1)
+### **🌐 Online verwenden (empfohlen)**
+```
+https://medless.pages.dev
 ```
 
-### **2. Medikamenten-Reduktion (Linear)**
-```typescript
-für jedes Medikament:
-  Start_Dosis = Eingabe mg/Tag
-  Ziel_Dosis = Start_Dosis × (1 - Reduktionsziel / 100)
-  Wöchentliche_Reduktion = (Start_Dosis - Ziel_Dosis) / Wochen
-  
-  Aktuelle_Dosis[Woche] = Start_Dosis - (Wöchentliche_Reduktion × (Woche - 1))
-```
-
-### **3. KannaSan Produktauswahl**
-```typescript
-Optimales_Produkt = wähle_Produkt_mit:
-  - Minimalen Sprays pro Tag
-  - KEINE Überdosierung (max 10% Toleranz)
-  - Max 6 Sprays pro Einnahme (morgens/abends)
-  - Verteilung: 40% morgens, 60% abends
-```
-
-### **4. Fläschchen-Tracking**
-```typescript
-Flasche_Kapazität = 100 Sprays
-Aktuelles_Produkt = KannaSan Nr. X
-Verbleibend = 100
-
-für jede Woche:
-  Sprays_diese_Woche = Sprays_pro_Tag × 7
-  
-  // Produktwechsel-Prüfung
-  wenn (Verbleibend < Sprays_diese_Woche) ODER (Sprays_pro_Tag > 12):
-    Aktuelles_Produkt = wähle_neues_optimales_Produkt()
-    Verbleibend = 100  // Neue Flasche
-  
-  Verbleibend -= Sprays_diese_Woche
-  
-  Ausgabe:
-    - Verbraucht: (100 - Verbleibend)
-    - Rest: Verbleibend
-    - Voraussichtlich leer in: Verbleibend / Sprays_pro_Tag / 7
-    - Produktwechsel nächste Woche: (Verbleibend < nächste_Woche_Sprays)
-```
-
-### **5. Personalisierung**
-
-**Benzo/Opioid-Erkennung:**
-```typescript
-wenn Medikament enthält ["Diazepam", "Tavor", "Oxazepam", "Tramadol", "Oxycodon", etc.]:
-  CBD_Start = CBD_Start / 2  // Halbierte Startdosis
-  Hinweis: "🔥 Sicherheitsregel: Benzo/Opioid erkannt"
-```
-
-**Alter-basierte Anpassungen:**
-```typescript
-wenn Alter >= 65:
-  CBD_Start = CBD_Start × 0.7  // 70% für Senioren
-  Hinweis: "📅 Senior-Anpassung (65+)"
-```
-
-**BMI-basierte Anpassungen:**
-```typescript
-BMI = Gewicht / (Größe/100)²
-
-wenn BMI < 18.5:
-  CBD_Start = CBD_Start × 0.85  // 85% für Untergewicht
-wenn BMI > 30:
-  CBD_Start = CBD_Start × 1.1   // 110% für Übergewicht
-```
-
----
-
-## 🚀 Deployment
-
-### **Status:** ✅ Vollständig funktionsfähig mit Fläschchen-Tracking!
-### **Plattform:** Cloudflare Pages
-### **Tech Stack:**
-- **Backend:** Hono (TypeScript) - Edge-optimiert
-- **Database:** Cloudflare D1 (SQLite) - Distributed
-- **Frontend:** HTML + TailwindCSS + Vanilla JS
-- **Icons:** FontAwesome 6.4.0
-- **HTTP Client:** Axios 1.6.0
-- **PDF:** jsPDF 2.5.1
-
-### **Lokale Entwicklung:**
+### **💻 Lokal entwickeln**
 
 ```bash
-# Dependencies installieren
+# 1. Repository klonen
+git clone https://github.com/Medless-App/medless.git
+cd medless
+
+# 2. Dependencies installieren
 npm install
 
-# Datenbank initialisieren
+# 3. Lokale D1-Datenbank erstellen
 npm run db:migrate:local
 npm run db:seed  # Optional: Testdaten
 
-# Build (IMMER vor erstem Start!)
+# 4. Build (WICHTIG vor erstem Start!)
 npm run build
 
-# Server starten (PM2 - empfohlen)
-fuser -k 3000/tcp 2>/dev/null || true
+# 5. Development Server starten
+npm run dev:sandbox
+# Oder mit PM2 (empfohlen):
 pm2 start ecosystem.config.cjs
 
-# Testen
-curl http://localhost:3000
-pm2 logs --nostream
-```
-
-### **Cloudflare Pages Deployment:**
-
-```bash
-# 1. Cloudflare API Key einrichten
-# Call setup_cloudflare_api_key tool first!
-
-# 2. Produktions-Datenbank erstellen
-npx wrangler d1 create ecs-aktivierung-production
-
-# 3. Database ID in wrangler.jsonc eintragen
-
-# 4. Migrationen anwenden (Produktion)
-npm run db:migrate:prod
-
-# 5. Build und Deploy
-npm run deploy:prod
+# 6. Öffnen
+# http://localhost:3000
 ```
 
 ---
 
-## 📊 Test-Szenarien
+## 📊 Architektur
 
-### **Test 1: Single Medication (Diazepam)**
+### **Tech Stack**
+
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Backend** | Hono (TypeScript) | Edge-optimiertes Web Framework |
+| **Database** | Cloudflare D1 (SQLite) | 52 Medikamente + Interaktionen |
+| **Frontend** | Vanilla JS + TailwindCSS | Responsive, lightweight |
+| **Hosting** | Cloudflare Pages | Global Edge Network |
+| **PDF** | jsPDF | Client-side PDF Generation |
+
+### **Data Flow**
+
+```
+User Input (Medikamente, Gewicht, Alter...)
+         ↓
+  [CBD-Algorithmus]
+    0.5 → 1.0 mg/kg
+         ↓
+  [Personalisierung]
+   Alter, BMI, Benzos
+         ↓
+  [D1 Database Query]
+   52 Meds + Interactions
+         ↓
+  [Produkt-Selection]
+   KANNASAN Nr. 5-25
+         ↓
+  [Fläschchen-Tracking]
+   100 Sprays/Flasche
+         ↓
+  [Wochenplan-Generation]
+   Woche 1-24
+         ↓
+    [PDF + UI Display]
+```
+
+### **Datenbank-Schema**
+
+```sql
+-- 15 Kategorien (Blutverdünner, Antidepressiva, Benzodiazepine...)
+medication_categories (id, name, description, risk_level)
+
+-- 52 Medikamente (Marcumar, Prozac, Tavor, Tramadol, Lyrica...)
+medications (id, name, generic_name, category_id, cyp450_enzymes...)
+
+-- 52 CBD-Interaktionen (inhibition, enhancement, reduction...)
+cbd_interactions (id, medication_id, interaction_type, severity...)
+
+-- 5 Dosierungs-Richtlinien (pro Severity-Level)
+cbd_dosage_guidelines (id, severity, dosage_adjustment_factor...)
+```
+
+---
+
+## 🧮 Algorithmus-Details
+
+### **1. CBD-Dosierung**
+
+```typescript
+// Basis-Berechnung
+cbdStart = userWeight * 0.5 mg/kg
+cbdEnd = userWeight * 1.0 mg/kg
+
+// Sicherheitsregeln
+if (hasBenzoOrOpioid) cbdStart = cbdStart / 2  // 🔥 Halbierung!
+if (age >= 65) cbdStart = cbdStart * 0.8       // Senior-Anpassung
+if (bmi < 18.5) cbdStart = cbdStart * 0.85     // Untergewicht
+if (bmi > 30) cbdStart = cbdStart * 1.1        // Übergewicht
+
+// Lineare Progression
+cbdWeek[n] = cbdStart + ((cbdEnd - cbdStart) / weeks) * (n - 1)
+```
+
+### **2. Medikamenten-Reduktion**
+
+```typescript
+// Pro Medikament individuell
+startDose = medication.mgPerDay
+targetDose = startDose * (1 - reductionGoal / 100)
+weeklyReduction = (startDose - targetDose) / durationWeeks
+
+// Lineare Reduktion
+currentDose[week] = startDose - (weeklyReduction * (week - 1))
+```
+
+### **3. KANNASAN Produkt-Auswahl**
+
+```typescript
+// Optimierungskriterien
+selectOptimalProduct(cbdDose):
+  for each product (Nr. 5, 10, 15, 20, 25):
+    spraysPerDay = cbdDose / product.cbdPerSpray
+    
+    // Constraints
+    if (spraysPerDay > 12) continue  // Zu viele Sprays
+    if (cbdDelivered > cbdDose * 1.1) continue  // Überdosierung
+    if (spraysPerIntake > 6) continue  // Max 6 Sprays/Einnahme
+    
+    // Wähle mit minimalen Sprays
+    return productWithMinimalSprays
+```
+
+### **4. Fläschchen-Tracking**
+
+```typescript
+bottleCapacity = 100 sprays
+bottleRemaining = 100
+
+for each week:
+  spraysThisWeek = spraysPerDay * 7
+  
+  // Produktwechsel-Prüfung
+  if (bottleRemaining < spraysThisWeek || spraysPerDay > 12):
+    selectNewProduct()
+    bottleRemaining = 100  // Neue Flasche
+  
+  bottleRemaining -= spraysThisWeek
+  
+  // Status-Output
+  consumed = 100 - bottleRemaining
+  weeksUntilEmpty = bottleRemaining / spraysPerDay / 7
+  switchNextWeek = (bottleRemaining < nextWeekSprays)
+```
+
+---
+
+## 📖 API-Dokumentation
+
+### **POST /api/analyze**
+
+**Analyseert Medikamente und erstellt individuellen Reduktionsplan.**
+
+#### Request Body:
 ```json
 {
-  "medications": [{"name": "Diazepam", "mgPerDay": 10}],
+  "medications": [
+    {"name": "Diazepam", "mgPerDay": 10},
+    {"name": "Tramadol", "mgPerDay": 150}
+  ],
   "bodyWeight": 70,
-  "height": 170,
-  "age": 45,
+  "height": 175,
+  "age": 52,
+  "gender": "male",
   "reductionGoal": 50,
   "durationWeeks": 8
 }
 ```
-**Ergebnis:**
-- ✅ Benzo-Erkennung → CBD-Start halbiert (17.5 mg statt 35 mg)
-- ✅ KannaSan Nr. 15 für niedrige Start-Dosis
-- ✅ Fläschchen-Tracking: 98/100 nach Woche 5 → Wechsel zu Nr. 25 in Woche 6
-- ✅ Medikament: 10 mg → 5 mg (50% Reduktion über 8 Wochen)
 
-### **Test 2: Multi-Medication (Tramadol + Lyrica)**
+#### Response:
+```json
+{
+  "summary": {...},
+  "bmi": 22.9,
+  "bsa": 1.85,
+  "cbdProgression": {...},
+  "personalization": {...},
+  "analysis": [
+    {
+      "medication": {...},
+      "interaction": {...},
+      "dosageAdjustment": {...}
+    }
+  ],
+  "weeklyPlan": [
+    {
+      "week": 1,
+      "medications": [...],
+      "cbd": {...},
+      "product": {...},
+      "bottleStatus": {...}
+    }
+  ],
+  "costs": {...},
+  "safetyNotes": [...]
+}
+```
+
+**Komplette API-Specs:** Siehe [TECHNICAL_DOCUMENTATION.md](./TECHNICAL_DOCUMENTATION.md)
+
+---
+
+## 🗂️ Projekt-Struktur
+
+```
+medless/
+├── src/
+│   └── index.tsx           # Hono Backend (1,200+ Zeilen)
+├── public/static/
+│   └── app.js              # Frontend (1,277 Zeilen)
+├── migrations/             # D1 Database Migrations
+│   ├── 0001_initial_schema.sql
+│   ├── 0002_add_customer_emails.sql
+│   └── 0003_expand_interaction_types.sql
+├── seed.sql                # 52 Medikamente + Interaktionen
+├── wrangler.jsonc          # Cloudflare Config
+├── package.json            # Dependencies
+├── ecosystem.config.cjs    # PM2 Config
+├── vite.config.ts          # Build Config
+└── docs/
+    ├── TECHNICAL_DOCUMENTATION.md    # Tech-Specs
+    ├── KI_INTEGRATION_KONZEPT.md     # AI-Konzept
+    ├── FLOWCHARTS_BILDER.md          # Flowcharts
+    └── MEDLESS_VERIFIKATION_PROMPT.txt # Verifikation
+```
+
+---
+
+## 🧪 Test-Szenarien
+
+### **Test 1: Single Medication (Benzo)**
+```json
+{
+  "medications": [{"name": "Diazepam", "mgPerDay": 10}],
+  "bodyWeight": 70,
+  "reductionGoal": 50,
+  "durationWeeks": 8
+}
+```
+**Erwartetes Ergebnis:**
+- ✅ Benzo-Erkennung → CBD-Start halbiert (17.5 mg statt 35 mg)
+- ✅ KANNASAN Nr. 15 für Startdosis
+- ✅ Fläschchen wechselt bei ~98/100 Sprays
+- ✅ Diazepam: 10 mg → 5 mg (50% über 8 Wochen)
+
+### **Test 2: Multi-Medication**
 ```json
 {
   "medications": [
@@ -353,110 +328,161 @@ npm run deploy:prod
     {"name": "Lyrica", "mgPerDay": 300}
   ],
   "bodyWeight": 80,
-  "height": 175,
-  "age": 52,
   "reductionGoal": 75,
   "durationWeeks": 12
 }
 ```
-**Ergebnis:**
+**Erwartetes Ergebnis:**
 - ✅ Opioid-Erkennung (Tramadol) → CBD-Start halbiert
-- ✅ Zwei separate Reduktionskurven
-- ✅ Eine unified CBD-Kompensation
-- ✅ Fläschchen-Tracking über 12 Wochen
-- ✅ Tramadol: 150 → 37.5 mg (75% Reduktion)
-- ✅ Lyrica: 300 → 75 mg (75% Reduktion)
+- ✅ 2 separate Reduktionskurven
+- ✅ 1 unified CBD-Kompensation
+- ✅ Tramadol: 150 → 37.5 mg
+- ✅ Lyrica: 300 → 75 mg
+
+**Weitere Tests:** Siehe [VERIFICATION_REPORT_V2.0.md](./VERIFICATION_REPORT_V2.0.md)
 
 ---
 
-## 🐛 Kürzlich implementierte Features
+## 🚀 Deployment
 
-### **Feature #1: Bottle Tracking System - IMPLEMENTIERT ✅**
-- **Feature:** Intelligentes Fläschchen-Management für KannaSan Produkte
-- **Funktionen:**
-  - 100 Sprays/Flasche Kapazität tracking
-  - Keine unnötigen Produktwechsel
-  - Produktwechsel nur bei Flasche leer ODER >12 Sprays/Tag
-  - Status-Display: Verbraucht/Rest/Wochen bis leer
-  - Produktwechsel-Warnung
-- **UI:** Fläschchen-Status Box in jeder Woche (Frontend + PDF)
-- **Commit:** `f40d8a4` - "✅ Implement MedLess-AI bottle tracking system"
+### **Production (Cloudflare Pages)**
 
-### **Feature #2: Simplified Medication Input - IMPLEMENTIERT ✅**
-- **Vorher:** Name + Dosierungsbeschreibung (beide Felder)
-- **Nachher:** Name + mg/Tag (Beschreibung automatisch generiert)
-- **Grund:** Einfacher, präziser, bessere UX
+```bash
+# 1. Cloudflare API Key einrichten
+# (siehe Deploy-Tab in Cloudflare Dashboard)
 
-### **Feature #3: Multi-Medication Support - IMPLEMENTIERT ✅**
-- Mehrere Medikamente gleichzeitig
-- Individuelle lineare Reduktionskurven
-- Eine unified CBD-Kompensation für alle
+# 2. Produktions-Datenbank erstellen
+npx wrangler d1 create medless-production
 
----
+# 3. Database ID in wrangler.jsonc eintragen
 
-## 🔮 Nächste Schritte (Empfohlen)
+# 4. Migrationen anwenden
+npm run db:migrate:prod
 
-### **Deployment & Production:**
-1. **Cloudflare Pages Deployment** - Live gehen mit bottle tracking
-2. **Custom Domain** - redumed-ai.de oder ecs-aktivierung.de
-3. **D1 Production Migrations** - Datenbank migrieren
+# 5. Build & Deploy
+npm run deploy:prod
+```
 
-### **Feature Enhancements:**
-4. **Email Export** - Wochenplan per E-Mail
-5. **Progress Tracker** - User kann Fortschritt dokumentieren
-6. **More Medications** - Datenbank erweitern (aktuell: 26)
-7. **Multi-Language** - Englische Version
+### **Manuelle Qualitätskontrolle (empfohlen)**
 
-### **Technical Improvements:**
-8. **Error Handling** - Besseres User-Feedback
-9. **Loading States** - Progress-Spinner
-10. **Form Validation** - Enhanced client-side validation
-11. **Mobile Optimization** - Touch-friendly controls
+```bash
+# 1. Lokal testen
+npm run build
+pm2 start ecosystem.config.cjs
+curl http://localhost:3000
+
+# 2. Wenn OK → Deploy
+npm run deploy:prod
+
+# 3. Verifizieren
+curl https://medless.pages.dev
+```
 
 ---
 
-## 📚 Wissenschaftliche Grundlagen
+## 📚 Dokumentation
 
-### **Lineare Reduktionsstrategie:**
-- **Medikamente:** Gleichmäßige Reduktion über Wochen
+| Dokument | Beschreibung |
+|----------|--------------|
+| [TECHNICAL_DOCUMENTATION.md](./TECHNICAL_DOCUMENTATION.md) | Komplette technische Spezifikation |
+| [KI_INTEGRATION_KONZEPT.md](./KI_INTEGRATION_KONZEPT.md) | AI-Text-Generation Konzept |
+| [FLOWCHARTS_BILDER.md](./FLOWCHARTS_BILDER.md) | System-Flowcharts |
+| [MEDLESS_VERIFIKATION_PROMPT.txt](./MEDLESS_VERIFIKATION_PROMPT.txt) | Externe AI-Verifikation |
+| [PDF_GENERATION_STANDARDS.md](./PDF_GENERATION_STANDARDS.md) | PDF-Generierung |
+
+---
+
+## 🔬 Wissenschaftliche Grundlagen
+
+### **CBD & CYP450-Enzyme**
+- CBD hemmt **CYP3A4, CYP2C9, CYP2D6, CYP2C19**
+- Risiko: **Erhöhte Medikamentenspiegel** im Blut
+- Quellen:
+  - [ProjectCBD - CBD Cytochrome P450](https://projectcbd.org/safety/cbd-cytochrome-p450/)
+  - [PubMed Central - CBD Drug Interactions](https://pmc.ncbi.nlm.nih.gov/articles/PMC11022902/)
+  - [Nordic Oil - CBD Wechselwirkungen](https://www.nordicoil.de/blogs/cbd/cbd-wechselwirkungen)
+
+### **Lineare Reduktionsstrategie**
+- **Medikamente:** Gleichmäßige Reduktion (linear)
 - **CBD:** Linearer Anstieg zur Kompensation
 - **Verhältnis:** 0.5 → 1.0 mg/kg (Verdopplung über Planzeit)
 
-### **CBD-Wechselwirkungen (CYP450):**
-- CBD hemmt CYP3A4, CYP2C9, CYP2D6, CYP2C19
-- Risiko: Erhöhte Medikamentenspiegel
-- **Benzo/Opioid:** Besondere Vorsicht → Halbierte CBD-Dosis
-
-### **KannaSan Spray-Verteilung:**
+### **KANNASAN Spray-Anwendung**
 - **Morgens:** 40% der Tagesdosis (Fokus, Balance)
 - **Abends:** 60% der Tagesdosis (Entspannung, Schlaf)
 - **Sublingual:** Spray unter die Zunge
 
-### **Fläschchen-Ökonomie:**
-- 10ml Flasche = 100 Sprays
-- Bei 3 Sprays/Tag = ~33 Tage Versorgung
-- Produktwechsel nur wenn nötig → Kosteneffizienz
+---
+
+## 🛠️ Development
+
+### **Scripts**
+
+```bash
+# Development
+npm run dev              # Vite dev server
+npm run dev:sandbox      # Wrangler dev (für D1 access)
+npm run build            # Build für Production
+
+# Database
+npm run db:migrate:local # Lokale Migrationen
+npm run db:migrate:prod  # Production Migrationen
+npm run db:seed          # Testdaten laden
+npm run db:reset         # Datenbank zurücksetzen
+
+# Deployment
+npm run deploy           # Deploy zu Cloudflare
+npm run deploy:prod      # Deploy mit Project Name
+
+# Utilities
+npm run clean-port       # Port 3000 freigeben
+npm run test             # Curl test zu localhost:3000
+```
+
+### **PM2 Commands**
+
+```bash
+pm2 start ecosystem.config.cjs  # Server starten
+pm2 list                        # Status anzeigen
+pm2 logs --nostream            # Logs anzeigen
+pm2 restart medless            # Neu starten
+pm2 delete medless             # Stoppen & entfernen
+```
 
 ---
 
-## 📞 Support & Quellen
+## 🤝 Contributing
 
-**Wissenschaftliche Quellen:**
-- [ProjectCBD - CBD Cytochrome P450](https://projectcbd.org/safety/cbd-cytochrome-p450/)
-- [PubMed Central - CBD Drug Interactions](https://pmc.ncbi.nlm.nih.gov/articles/PMC11022902/)
-- [Nordic Oil - CBD Wechselwirkungen](https://www.nordicoil.de/blogs/cbd/cbd-wechselwirkungen)
-
-**Letzte Aktualisierung:** 14. November 2025  
-**Version:** 3.0 - MedLess-AI mit Bottle Tracking
+Dieses Projekt ist **Proprietary**. Für Beiträge oder Fragen:
+- 📧 Email: office@cbd-kompetenzzentrum.com
+- 📱 Instagram: [@ECS_Wissen](https://instagram.com/ECS_Wissen)
 
 ---
 
-## ⚖️ Rechtlicher Hinweis
+## 📄 Lizenz
 
-Diese Anwendung dient ausschließlich Informationszwecken und stellt keine medizinische Beratung, Diagnose oder Behandlung dar. Die Reduktion von Medikamenten muss IMMER unter ärztlicher Aufsicht erfolgen. Ändern Sie niemals eigenständig Ihre Medikation. Bei gesundheitlichen Fragen konsultieren Sie bitte einen Arzt.
-
-**WICHTIG:** MedLess-AI ist ein Planungstool für Ärzte und Patienten im gemeinsamen Gespräch.
+**Proprietary** - Alle Rechte vorbehalten.
 
 ---
+
+## ⚠️ Rechtlicher Hinweis
+
+Diese Anwendung dient ausschließlich **Informationszwecken** und stellt **keine medizinische Beratung**, Diagnose oder Behandlung dar. 
+
+**Die Reduktion von Medikamenten muss IMMER unter ärztlicher Aufsicht erfolgen.**
+
+Ändern Sie niemals eigenständig Ihre Medikation. Bei gesundheitlichen Fragen konsultieren Sie bitte einen Arzt oder Apotheker.
+
+**MEDLESS ist ein Planungstool für Ärzte und Patienten im gemeinsamen Gespräch.**
+
+---
+
+<div align="center">
 
 **Made with 💚 for structured medication reduction**
+
+[🌐 Live Demo](https://medless.pages.dev) · [📚 Docs](./TECHNICAL_DOCUMENTATION.md) · [📦 GitHub](https://github.com/Medless-App/medless)
+
+**Version 3.0** | Last Updated: 17. November 2025
+
+</div>
