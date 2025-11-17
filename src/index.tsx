@@ -2601,6 +2601,10 @@ app.get('/', (c) => {
     }
     
     .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
       height: 48px;
       padding: 0 var(--space-6);
       font-size: 16px;
@@ -2613,12 +2617,25 @@ app.get('/', (c) => {
       transition: all 0.2s ease;
     }
     
+    .btn-secondary i {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      line-height: 1;
+    }
+    
     .btn-secondary:hover {
       border-color: var(--primary-green);
       color: var(--primary-green);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(12, 92, 76, 0.1);
     }
     
     .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
       height: 48px;
       padding: 0 var(--space-6);
       font-size: 16px;
@@ -2632,9 +2649,17 @@ app.get('/', (c) => {
       transition: all 0.2s ease;
     }
     
+    .btn-primary i {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      line-height: 1;
+    }
+    
     .btn-primary:hover {
       transform: translateY(-1px);
       box-shadow: 0 3px 12px rgba(12, 92, 76, 0.2);
+      background: linear-gradient(135deg, #0B4C36, #0E5F45);
     }
     
     .btn-primary:disabled {
@@ -4179,9 +4204,9 @@ app.get('/', (c) => {
                 <input type="email" id="email" name="email" placeholder="ihre.email@beispiel.de" autocomplete="email" />
               </div>
               
-              <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 1rem;">
-                <i class="fas fa-lock" style="color: var(--primary-green);"></i>
-                Ihre Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.
+              <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 1rem; display: flex; align-items: center; gap: 0.375rem;">
+                <i class="fas fa-lock" style="color: var(--primary-green); font-size: 0.625rem; flex-shrink: 0;"></i>
+                <span>Ihre Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.</span>
               </p>
             </div>
             
