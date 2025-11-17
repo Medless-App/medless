@@ -885,6 +885,146 @@ app.get('/', (c) => {
     }
     
     /* ============================================================
+       LOADING ANIMATION - OPTIMIERT & MEDIZINISCH-SERIÖS
+       ============================================================ */
+    
+    /* Loading Overlay Styles - Modernized */
+    #loading {
+      position: relative;
+      padding: 0;
+      margin: 2rem 0;
+    }
+    
+    #loading .loading-card {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(14, 95, 69, 0.08);
+      text-align: center;
+      animation: fadeInUp 400ms ease-out;
+    }
+    
+    /* Loader Circle - Ruhige Rotation */
+    .loader-circle {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 2rem;
+      position: relative;
+      animation: rotateLoader 1000ms ease-in-out infinite;
+    }
+    
+    /* Loading Text - Sanftes Fade-in */
+    .loading-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0E5F45;
+      margin-bottom: 0.75rem;
+      animation: fadeIn 500ms ease-out 200ms both;
+    }
+    
+    .loading-subtitle {
+      font-size: 1rem;
+      color: #6B7280;
+      margin-bottom: 0.5rem;
+      animation: fadeIn 500ms ease-out 400ms both;
+    }
+    
+    /* Status Text with Dots Animation */
+    #analysis-status {
+      color: #0E5F45;
+      font-weight: 600;
+    }
+    
+    #status-dots {
+      display: inline-block;
+      width: 1.5em;
+      text-align: left;
+    }
+    
+    #status-dots::after {
+      content: '...';
+      animation: dotsAnimation 1500ms steps(4, end) infinite;
+    }
+    
+    /* Progress Circle - Smooth */
+    #progress-circle {
+      transition: stroke-dashoffset 400ms ease-in-out;
+    }
+    
+    /* Mobile Optimierung */
+    @media (max-width: 768px) {
+      #loading .loading-card {
+        padding: 2rem 1.5rem;
+      }
+      
+      .loader-circle {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .loading-title {
+        font-size: 1.25rem;
+      }
+      
+      .loading-subtitle {
+        font-size: 0.9rem;
+      }
+      
+      #live-stats {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+      }
+    }
+    
+    /* Keyframe Animations */
+    @keyframes rotateLoader {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes dotsAnimation {
+      0%, 20% {
+        content: '';
+      }
+      40% {
+        content: '.';
+      }
+      60% {
+        content: '..';
+      }
+      80%, 100% {
+        content: '...';
+      }
+    }
+    
+    /* ============================================================
        UI COMPONENT OPTIMIZATION - HARMONIZED
        ============================================================ */
     
@@ -4021,28 +4161,29 @@ app.get('/', (c) => {
         </form>
         
         <!-- Loading Animation -->
-        <div id="loading" class="hidden" style="margin-top: 1.5rem;">
-          <div style="max-width: 700px; margin: 0 auto; padding: 2.5rem 2rem; background: white; border-radius: var(--radius-large); box-shadow: var(--shadow-soft); text-align: center; position: relative; overflow: hidden;">
+        <div id="loading" class="hidden">
+          <div class="loading-card">
             
-            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--primary-dark-green);">
-              <i class="fas fa-sparkles" style="margin-right: 0.5rem;"></i>
-              KI analysiert Ihre Daten
+            <h3 class="loading-title">
+              <i class="fas fa-brain" style="margin-right: 0.5rem;"></i>
+              MEDLESS berechnet deinen individuellen Ausschleichplan
             </h3>
-            <p style="color: var(--text-muted); margin-bottom: 1.8rem; font-size: 1rem;">
-              <span id="analysis-status">Analyse wird gestartet</span>
-              <span id="status-dots" style="display: inline-block;">...</span>
+            <p class="loading-subtitle">
+              <span id="analysis-status">KI-Analyse läuft</span><span id="status-dots"></span>
             </p>
             
-            <!-- Circular Progress (GRÖSSER) -->
-            <div style="position: relative; display: inline-block; margin-bottom: 1.8rem;">
-              <svg width="160" height="160" style="transform: rotate(-90deg);">
-                <circle cx="80" cy="80" r="70" fill="none" stroke="#e5e7eb" stroke-width="8"></circle>
-                <circle id="progress-circle" cx="80" cy="80" r="70" fill="none" stroke="var(--primary-green)" stroke-width="8" stroke-linecap="round" stroke-dasharray="440" stroke-dashoffset="440" style="transition: stroke-dashoffset 0.3s ease;"></circle>
-              </svg>
+            <!-- Circular Progress - Optimized -->
+            <div style="position: relative; display: inline-block; margin-bottom: 2rem;">
+              <div class="loader-circle">
+                <svg width="100" height="100" viewBox="0 0 100 100" style="transform: rotate(-90deg);">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="6"></circle>
+                  <circle id="progress-circle" cx="50" cy="50" r="42" fill="none" stroke="#0E5F45" stroke-width="6" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                </svg>
+              </div>
               
-              <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <i id="center-icon" class="fas fa-brain" style="color: var(--primary-green); font-size: 2.5rem; margin-bottom: 0.5rem;"></i>
-                <div id="center-percentage" style="font-size: 1.8rem; font-weight: 700; color: var(--primary-green);">0%</div>
+              <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;">
+                <i id="center-icon" class="fas fa-heartbeat" style="color: #0E5F45; font-size: 2rem; margin-bottom: 0.25rem;"></i>
+                <div id="center-percentage" style="font-size: 1.25rem; font-weight: 700; color: #0E5F45;">0%</div>
               </div>
             </div>
             
