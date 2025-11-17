@@ -589,15 +589,18 @@ app.get('/', (c) => {
       --max-text-width: 730px;
       --list-item-spacing: 12px;
       
-      /* UI OPTIMIZATION */
+      /* UI OPTIMIZATION - HARMONIZED */
       --icon-color-primary: #0E5F45;
       --icon-size: 34px;
+      --icon-stroke-width: 2px;
       --card-padding: 36px;
       --card-border-radius: 5px;
-      --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 14px rgba(0, 0, 0, 0.05);
+      --card-shadow-hover: 0 3px 12px rgba(0, 0, 0, 0.06), 0 6px 18px rgba(0, 0, 0, 0.06);
       --warning-border-color: #D9534F;
-      --button-padding-y: 16px;
-      --button-padding-x: 32px;
+      --button-padding-y: 14px;
+      --button-padding-x: 28px;
+      --button-hover-bg: #0B4C36;
     }
     
     /* ============================================================
@@ -704,43 +707,93 @@ app.get('/', (c) => {
     }
     
     /* ============================================================
-       UI COMPONENT OPTIMIZATION
+       UI COMPONENT OPTIMIZATION - HARMONIZED
        ============================================================ */
     
-    /* Icon Styling - Consistent Brand Color */
+    /* Icon Styling - Perfect Consistency */
     .card-icon i,
     .card-icon-circle i,
     .process-card .card-icon-circle i,
     .hero-features i,
     .medical-list i,
-    .checkmark-icon {
+    .warning-list i,
+    .checkmark-icon,
+    .faq-icon i,
+    .step-number-circle,
+    i.fas,
+    i.far,
+    i.fab {
       color: var(--icon-color-primary) !important;
       font-size: var(--icon-size);
       line-height: 1;
-    }
-    
-    .fas, .fab {
-      font-weight: 900;
+      font-weight: 400;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     
-    /* Card Styling - Consistent Shadows & Padding */
+    /* Hero Features Icons */
+    .hero-features i {
+      font-size: var(--icon-size);
+      min-width: var(--icon-size);
+      color: var(--icon-color-primary) !important;
+    }
+    
+    /* Medical List Icons */
+    .medical-list i,
+    .warning-list i {
+      font-size: 28px;
+      min-width: 28px;
+      color: var(--icon-color-primary) !important;
+    }
+    
+    /* FAQ Icons */
+    .faq-icon i {
+      font-size: 20px;
+      color: var(--icon-color-primary) !important;
+      transition: transform 0.3s ease;
+    }
+    
+    .faq-item.active .faq-icon i {
+      transform: rotate(180deg);
+    }
+    
+    /* Card Styling - Perfect Shadows & Padding */
     .explanation-card,
     .process-card,
     .faq-item,
-    .step {
+    .step,
+    .ecs-card,
+    .cyp-card {
       background: white;
       border: 1px solid var(--border-light);
       border-radius: var(--card-border-radius);
       padding: var(--card-padding);
       box-shadow: var(--card-shadow);
-      transition: box-shadow 0.2s ease;
+      transition: all 0.25s ease;
     }
     
     .explanation-card:hover,
     .process-card:hover,
-    .faq-item:hover {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 6px 16px rgba(0, 0, 0, 0.04);
+    .faq-item:hover,
+    .step:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-1px);
+    }
+    
+    /* Process Cards Grid - Equal Heights */
+    .process-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-6);
+      align-items: stretch;
+    }
+    
+    .process-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      height: 100%;
     }
     
     /* Warning Box - Subtle Professional Design */
@@ -775,10 +828,12 @@ app.get('/', (c) => {
       margin: 0;
     }
     
-    /* CTA Buttons - Larger & More Prominent */
-    .cta-button-primary {
+    /* CTA Buttons - Harmonized & Consistent */
+    .cta-button-primary,
+    button.cta-button-primary {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 12px;
       padding: var(--button-padding-y) var(--button-padding-x);
       font-size: 17px;
@@ -790,17 +845,31 @@ app.get('/', (c) => {
       cursor: pointer;
       text-decoration: none;
       transition: all 0.2s ease;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.05);
+      white-space: nowrap;
     }
     
-    .cta-button-primary:hover {
-      background: linear-gradient(135deg, #094435, #0C5C4C);
-      transform: translateY(-1px);
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 6px 16px rgba(0, 0, 0, 0.08);
+    .cta-button-primary:hover,
+    button.cta-button-primary:hover {
+      background: linear-gradient(135deg, var(--button-hover-bg), var(--primary-dark-green));
+      transform: translateY(-2px);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08), 0 6px 16px rgba(0, 0, 0, 0.06);
     }
     
-    .cta-button-primary:active {
+    .cta-button-primary:active,
+    button.cta-button-primary:active {
       transform: translateY(0);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Arrow Icon in Buttons */
+    .cta-button-primary .arrow-icon {
+      font-size: 16px;
+      transition: transform 0.2s ease;
+    }
+    
+    .cta-button-primary:hover .arrow-icon {
+      transform: translateX(3px);
     }
     
     /* Footer Optimization - Airy & Professional */
@@ -872,6 +941,85 @@ app.get('/', (c) => {
       margin: 0 auto;
       border: none;
       opacity: 1;
+    }
+    
+    /* Image & Visual Element Harmonization */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .hero-logo-mobile {
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 var(--space-4);
+    }
+    
+    /* Steps Container - Equal Height Alignment */
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-5);
+      position: relative;
+    }
+    
+    .step-number-circle {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(14, 95, 69, 0.2);
+    }
+    
+    .step-connector {
+      position: absolute;
+      left: 24px;
+      top: 48px;
+      width: 2px;
+      height: calc(100% + var(--space-6));
+      background: linear-gradient(180deg, var(--primary-green), var(--accent-mint));
+      opacity: 0.3;
+    }
+    
+    .step:last-child .step-connector {
+      display: none;
+    }
+    
+    .step-content {
+      flex: 1;
+      padding-top: 4px;
+    }
+    
+    .step-content h4 {
+      color: var(--heading-color);
+      margin-bottom: 12px;
+    }
+    
+    .step-content p {
+      color: var(--body-text-color);
+      line-height: var(--line-height-comfortable);
+    }
+    
+    /* Card Icon Containers - Consistent Size */
+    .card-icon,
+    .card-icon-circle {
+      flex-shrink: 0;
     }
     
     /* Section Dividers - Subtle Horizontal Lines */
