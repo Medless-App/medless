@@ -1196,12 +1196,28 @@ function displayResults(data, firstName = '', gender = '') {
         Ihr persönlicher MedLess-Dosierungs- und Reduktionsplan
       </h1>
       <p style="margin: 0 0 0.875rem; font-size: 0.95rem; line-height: 1.6; color: #4b5563;">
-        Dieser Plan zeigt Ihnen eine strukturierte, medizinisch fundierte Kombination aus CBD-Dosierung und schrittweiser Medikamentenreduktion. 
+        Dieser Plan zeigt Ihnen eine strukturierte, medizinisch fundierte Kombination aus Cannabinoid-Dosierung und schrittweiser Medikamentenreduktion. 
         Er basiert auf Ihren Eingaben und bekannten pharmakologischen Daten.
       </p>
       <p style="margin: 0; font-size: 0.95rem; line-height: 1.6; color: #4b5563;">
         <strong style="color: #0b7b6c;">Er ersetzt keine ärztliche Entscheidung. Bitte besprechen Sie jede Änderung mit Ihrem behandelnden Arzt.</strong>
       </p>
+      
+      ${(() => {
+        // PlanIntelligenz 2.0: Overall plan summary
+        const intel = data.planIntelligence;
+        if (!intel) return '';
+        
+        return `
+          <div style="margin-top: 1.25rem; padding: 1rem 1.25rem; border-radius: 8px; background: rgba(255,255,255,0.7); border-left: 3px solid #0b7b6c;">
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.6; color: #374151;">
+              Über den gesamten Zeitraum sinkt Ihre tägliche Medikamentenlast von <strong>${intel.overallStartLoad} mg</strong> auf <strong>${intel.overallEndLoad} mg</strong> 
+              (–<strong>${intel.totalLoadReductionPct}%</strong>). 
+              Die geplante Reduktionsgeschwindigkeit ist im Durchschnitt <strong>${intel.reductionSpeedCategory}</strong>.
+            </p>
+          </div>
+        `;
+      })()}
     </div>
   `;
   
@@ -1301,6 +1317,15 @@ function displayResults(data, firstName = '', gender = '') {
             </div>
           ` : ''}
         </div>
+        
+        ${personalization.idealWeightKg ? `
+          <!-- PlanIntelligenz 2.0: Ideal weight display -->
+          <div style="margin-top: 1rem; padding: 0.875rem 1rem; border-radius: 8px; background: #f9fafb; border: 1px solid #e5e7eb; text-align: center;">
+            <p style="margin: 0; font-size: 0.85rem; color: #6b7280;">
+              Theoretisches Idealgewicht (Devine-Formel): <strong style="color: #1f2937;">${personalization.idealWeightKg} kg</strong>
+            </p>
+          </div>
+        ` : ''}
       </div>
     `;
   }
@@ -1470,24 +1495,24 @@ function displayResults(data, firstName = '', gender = '') {
   if (product && personalization) {
     html += `
       <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 16px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-        <h2 style="margin: 0 0 1.25rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre CBD-Dosierungsempfehlung</h2>
+        <h2 style="margin: 0 0 1.25rem; font-size: 1.2rem; font-weight: 700; color: #0b7b6c;">Ihre Cannabinoid-Dosierungsempfehlung</h2>
         
         <!-- Horizontale Info-Kacheln -->
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
           <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
-            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Start-Dosis</p>
+            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Cannabinoid-Start</p>
             <p style="font-size: 1.5rem; font-weight: 700; color: #0b7b6c; margin: 0;">${personalization.cbdStartMg.toFixed(1)}</p>
-            <p style="font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0;">mg CBD</p>
+            <p style="font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0;">mg (z.B. CBD)</p>
           </div>
           <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
-            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Ziel-Dosis</p>
+            <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Cannabinoid-Ziel</p>
             <p style="font-size: 1.5rem; font-weight: 700; color: #0b7b6c; margin: 0;">${personalization.cbdEndMg.toFixed(1)}</p>
-            <p style="font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0;">mg CBD</p>
+            <p style="font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0;">mg (z.B. CBD)</p>
           </div>
           <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
             <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Wöchentlich</p>
             <p style="font-size: 1.5rem; font-weight: 700; color: #0b7b6c; margin: 0;">+${((personalization.cbdEndMg - personalization.cbdStartMg) / weeklyPlan.length).toFixed(1)}</p>
-            <p style="font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0;">mg CBD</p>
+            <p style="font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0;">mg Anstieg</p>
           </div>
           <div style="padding: 1rem; background: #fafafa; border-radius: 8px; text-align: center;">
             <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin: 0 0 0.5rem; font-weight: 500;">Produkt</p>
@@ -1496,9 +1521,27 @@ function displayResults(data, firstName = '', gender = '') {
           </div>
         </div>
         
-        <!-- CBD-Anwendung pro Tag (klar getrennt) -->
+        ${(() => {
+          // PlanIntelligenz 2.0: Show weeks to target dose
+          const intel = data.planIntelligence;
+          if (intel && intel.weeksToCbdTarget) {
+            return `
+              <div style="margin-bottom: 1.5rem; padding: 1rem; border-radius: 8px; background: #f0fdf4; border: 1px solid #d1fae5;">
+                <p style="margin: 0; font-size: 0.85rem; color: #047857;">
+                  <strong>Voraussichtliches Erreichen der Ziel-Cannabinoid-Dosis: Woche ${Math.ceil(intel.weeksToCbdTarget)}</strong> (theoretischer Wert)
+                </p>
+                <p style="margin: 0.5rem 0 0; font-size: 0.8rem; color: #059669;">
+                  In dieser Phase stabilisiert sich die Cannabinoid-Therapie und die Medikamente werden weiter reduziert.
+                </p>
+              </div>
+            `;
+          }
+          return '';
+        })()}
+        
+        <!-- Cannabinoid-Anwendung pro Tag (klar getrennt) -->
         <div style="padding: 1.25rem; border-radius: 12px; background: linear-gradient(135deg, #ecfdf5 0%, #f9fafb 100%); border: 1px solid #d1fae5;">
-          <h3 style="margin: 0 0 1rem; font-size: 0.9rem; font-weight: 600; color: #047857; text-transform: uppercase; letter-spacing: 0.05em;">CBD-Anwendung pro Tag</h3>
+          <h3 style="margin: 0 0 1rem; font-size: 0.9rem; font-weight: 600; color: #047857; text-transform: uppercase; letter-spacing: 0.05em;">Cannabinoid-Anwendung pro Tag</h3>
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
             <div style="text-align: center; padding: 0.75rem; background: white; border-radius: 8px;">
               <p style="margin: 0 0 0.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af;">Morgens</p>
@@ -1628,6 +1671,34 @@ function displayResults(data, firstName = '', gender = '') {
         ` : ''}
         
         ${(() => {
+          // PlanIntelligenz 2.0: Weekly metrics display
+          let metricsHtml = '<div style="margin-top: 1.5rem; padding: 0.875rem; border-radius: 6px; background: #f9fafb; border: 1px solid #e5e7eb;">';
+          metricsHtml += '<div style="font-size: 0.8rem; color: #6b7280; line-height: 1.6;">';
+          
+          // Medication load
+          if (week.totalMedicationLoad !== undefined) {
+            metricsHtml += `<p style="margin: 0 0 0.375rem 0;">• Tägliche Medikamentenlast: <strong style="color: #1f2937;">${week.totalMedicationLoad} mg/Tag</strong></p>`;
+          }
+          
+          // Cannabinoid dose with mg/kg
+          if (week.actualCbdMg !== undefined) {
+            let cbdText = `• Cannabinoid-Dosis: <strong style="color: #1f2937;">${week.actualCbdMg} mg/Tag</strong>`;
+            if (week.cannabinoidMgPerKg !== null && week.cannabinoidMgPerKg !== undefined) {
+              cbdText += ` (~<strong>${week.cannabinoidMgPerKg} mg/kg</strong> KG)`;
+            }
+            metricsHtml += `<p style="margin: 0 0 0.375rem 0;">${cbdText}</p>`;
+          }
+          
+          // Cannabinoid-to-load ratio
+          if (week.cannabinoidToLoadRatio !== null && week.cannabinoidToLoadRatio !== undefined) {
+            metricsHtml += `<p style="margin: 0;">• Cannabinoid-Anteil an der täglichen Stofflast: <strong style="color: #1f2937;">${week.cannabinoidToLoadRatio}%</strong></p>`;
+          }
+          
+          metricsHtml += '</div></div>';
+          return metricsHtml;
+        })()}
+        
+        ${(() => {
           // Prüfe ob in dieser Woche ein High-Risk-Medikament reduziert wird
           const hasReduction = week.medications.some(med => {
             // Finde das Medikament in der Analyse
@@ -1666,6 +1737,54 @@ function displayResults(data, firstName = '', gender = '') {
   });
   
   html += `
+    </div>
+  `;
+
+  // ============================================================
+  // PlanIntelligenz 2.0: SICHERHEITSÜBERSICHT
+  // ============================================================
+  
+  html += `
+    <div style="margin-top: 1.5rem; padding: 1.5rem 1.3rem; border-radius: 12px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      <h2 style="margin: 0 0 1.25rem; font-size: 1.1rem; font-weight: 700; color: #0b7b6c;">Sicherheitsübersicht Ihres Plans</h2>
+      
+      ${(() => {
+        const intel = data.planIntelligence;
+        if (!intel) return '';
+        
+        let overview = '<p style="margin: 0; font-size: 0.9rem; line-height: 1.7; color: #374151;">';
+        overview += `In Ihrem Plan werden insgesamt <strong>${intel.totalMedicationCount}</strong> Medikamente berücksichtigt. `;
+        
+        if (intel.sensitiveMedCount > 0) {
+          overview += `Davon fallen <strong>${intel.sensitiveMedCount}</strong> in Gruppen, bei denen ein besonders vorsichtiges Vorgehen empfohlen wird (z.B. Blutverdünner, Immunsuppressiva, Antidepressiva, Antiepileptika, Benzodiazepine oder starke Schmerzmittel). `;
+        }
+        
+        overview += 'Die berechneten Verläufe sind theoretische Vorschläge. Ob, wann und in welchem Tempo tatsächlich reduziert wird, entscheidet immer Ihr behandelnder Arzt.';
+        overview += '</p>';
+        
+        return overview;
+      })()}
+      
+      ${(() => {
+        // PlanIntelligenz 2.0: Intelligent comparison of reduction speeds
+        const intel = data.planIntelligence;
+        if (!intel || !intel.cannabinoidIncreasePctPerWeek || !intel.avgReductionSpeedPct) return '';
+        
+        const cannabinoidSpeed = intel.cannabinoidIncreasePctPerWeek;
+        const medSpeed = intel.avgReductionSpeedPct;
+        
+        let comparisonHtml = '<div style="margin-top: 1.25rem; padding: 1rem 1.25rem; border-radius: 8px; background: #f0fdf4; border-left: 3px solid #0b7b6c;">';
+        comparisonHtml += '<p style="margin: 0; font-size: 0.9rem; line-height: 1.6; color: #047857;">';
+        
+        if (cannabinoidSpeed < medSpeed) {
+          comparisonHtml += '<strong>Hinweis zur Dosierungsanpassung:</strong> In den ersten Wochen werden Ihre Medikamente etwas schneller reduziert, als die Cannabinoid-Dosis ansteigt. Achten Sie in dieser Phase besonders auf Ihr Körpergefühl und sprechen Sie Veränderungen mit Ihrem Arzt durch.';
+        } else {
+          comparisonHtml += '<strong>Hinweis zur Dosierungsanpassung:</strong> Die Cannabinoid-Dosis wird in einem ähnlichen oder etwas schnelleren Tempo angepasst als die Medikamente reduziert werden. Dies kann dazu beitragen, den Übergang sanfter zu gestalten, ersetzt aber keine ärztliche Kontrolle.';
+        }
+        
+        comparisonHtml += '</p></div>';
+        return comparisonHtml;
+      })()}
     </div>
   `;
 

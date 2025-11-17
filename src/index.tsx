@@ -447,11 +447,20 @@ app.post('/api/analyze', async (c) => {
     // Calculate BMI and BSA if data provided
     let bmi = null;
     let bsa = null;
+    let idealWeightKg = null; // PlanIntelligenz 2.0: Ideal weight (Devine formula)
     
     if (weight && height) {
       const heightInMeters = height / 100;
       bmi = Math.round((weight / (heightInMeters * heightInMeters)) * 10) / 10;
       bsa = Math.round(Math.sqrt((height * weight) / 3600) * 100) / 100;
+      
+      // PlanIntelligenz 2.0: Calculate ideal weight using Devine formula
+      if (gender === 'male') {
+        idealWeightKg = Math.round((50 + 0.9 * (height - 152)) * 10) / 10;
+      } else if (gender === 'female') {
+        idealWeightKg = Math.round((45.5 + 0.9 * (height - 152)) * 10) / 10;
+      }
+      // For 'diverse' or undefined gender, idealWeightKg remains null
     }
     
     // Analyze each medication for interactions
@@ -521,6 +530,27 @@ app.post('/api/analyze', async (c) => {
       adjustmentNotes.push('⚠️ Benzodiazepine oder Opioide erkannt: CBD-Startdosis wird halbiert (Sicherheitsregel)');
     }
     
+    // PlanIntelligenz 2.0: Count sensitive medications
+    const sensitiveMedCount = analysisResults.filter(result => {
+      const medName = result.medication.name?.toLowerCase() || '';
+      const categoryName = (result.medication as MedicationWithCategory)?.category_name?.toLowerCase() || '';
+      const riskLevel = (result.medication as MedicationWithCategory)?.risk_level?.toLowerCase() || '';
+      
+      return (
+        medName.includes('benzo') || medName.includes('diazepam') || medName.includes('lorazepam') ||
+        medName.includes('alprazolam') || medName.includes('clonazepam') ||
+        medName.includes('tramadol') || medName.includes('oxycodon') || medName.includes('morphin') ||
+        medName.includes('antidepress') || medName.includes('ssri') || medName.includes('snri') ||
+        medName.includes('epileps') || medName.includes('antikonvulsiv') ||
+        medName.includes('marcumar') || medName.includes('warfarin') || medName.includes('blutverdünn') ||
+        medName.includes('immunsuppress') || medName.includes('ciclosporin') ||
+        categoryName.includes('benzo') || categoryName.includes('antidepress') ||
+        categoryName.includes('epileps') || categoryName.includes('blutverdünn') ||
+        categoryName.includes('immunsuppress') || categoryName.includes('opioid') ||
+        riskLevel === 'very_high' || riskLevel === 'high'
+      );
+    }).length;
+    
     // CBD Dosing: Body weight-based (0.5 mg/kg start → 1.0 mg/kg end)
     const defaultWeight = 70; // Default if no weight provided
     const userWeight = weight || defaultWeight;
@@ -582,6 +612,10 @@ app.post('/api/analyze', async (c) => {
         const weeklyReduction = safetyResult.effectiveWeeklyReduction;
         const currentMg = startMg - (weeklyReduction * (week - 1));
         
+        // PlanIntelligenz 2.0: Calculate reduction speed per medication
+        const reductionSpeed = startMg > 0 ? weeklyReduction / startMg : 0;
+        const reductionSpeedPct = Math.round(reductionSpeed * 100 * 10) / 10;
+        
         return {
           name: med.name,
           startMg: Math.round(startMg * 10) / 10,
@@ -589,6 +623,7 @@ app.post('/api/analyze', async (c) => {
           targetMg: Math.round(targetMg * 10) / 10,
           reduction: Math.round(weeklyReduction * 10) / 10,
           reductionPercent: Math.round(((startMg - currentMg) / startMg) * 100),
+          reductionSpeedPct, // PlanIntelligenz 2.0: New field
           // NEW: Safety information
           safety: week === 1 ? { // Only add safety info to first week
             appliedCategoryRules: safetyResult.appliedCategoryRules,
@@ -601,6 +636,19 @@ app.post('/api/analyze', async (c) => {
       // Calculate total medication load
       const totalMedicationLoad = weekMedications.reduce((sum: number, med: any) => sum + med.currentMg, 0);
       
+      // PlanIntelligenz 2.0: Calculate cannabinoid mg/kg body weight
+      const cannabinoidMgPerKg = userWeight > 0 
+        ? Math.round((cbdWeek.actualCbdMg / userWeight) * 10) / 10 
+        : null;
+      
+      // PlanIntelligenz 2.0: Calculate cannabinoid-to-medication ratio
+      const cannabinoidToLoadRatio = totalMedicationLoad > 0 
+        ? Math.round((cbdWeek.actualCbdMg / totalMedicationLoad) * 1000) / 10 // Percentage with 1 decimal
+        : null;
+      
+      // PlanIntelligenz 2.0: Weekly cannabinoid intake (mg/week)
+      const weeklyCannabinoidIntakeMg = Math.round(cbdWeek.actualCbdMg * 7 * 10) / 10;
+      
       return {
         week,
         medications: weekMedications,
@@ -611,7 +659,11 @@ app.post('/api/analyze', async (c) => {
         eveningSprays: cbdWeek.eveningSprays,
         totalSprays: cbdWeek.totalSprays,
         actualCbdMg: cbdWeek.actualCbdMg,
-        bottleStatus: cbdWeek.bottleStatus
+        bottleStatus: cbdWeek.bottleStatus,
+        // PlanIntelligenz 2.0: New weekly metrics
+        cannabinoidMgPerKg,
+        cannabinoidToLoadRatio,
+        weeklyCannabinoidIntakeMg
       };
     });
     
@@ -620,6 +672,54 @@ app.post('/api/analyze', async (c) => {
     
     // Calculate total costs for the plan
     const costAnalysis = calculatePlanCosts(weeklyPlan);
+    
+    // PlanIntelligenz 2.0: Calculate overall medication load metrics
+    const overallStartLoad = medications.reduce((sum: number, med: any) => sum + med.mgPerDay, 0);
+    const overallEndLoad = weeklyPlan.length > 0 
+      ? weeklyPlan[weeklyPlan.length - 1].medications.reduce((sum: number, med: any) => sum + med.targetMg, 0)
+      : overallStartLoad;
+    const totalLoadReductionPct = overallStartLoad > 0 
+      ? Math.round(((overallStartLoad - overallEndLoad) / overallStartLoad) * 1000) / 10
+      : 0;
+    
+    // PlanIntelligenz 2.0: Calculate average reduction speed
+    const reductionSpeeds = medications.map((med: any, index: number) => {
+      const medAnalysis = analysisResults[index];
+      const medCategory = medAnalysis?.medication as MedicationWithCategory | null;
+      
+      const safetyResult = applyCategorySafetyRules({
+        startMg: med.mgPerDay,
+        reductionGoal,
+        durationWeeks,
+        medicationName: med.name,
+        category: medCategory
+      });
+      
+      const weeklyReduction = safetyResult.effectiveWeeklyReduction;
+      return med.mgPerDay > 0 ? (weeklyReduction / med.mgPerDay) * 100 : 0;
+    });
+    
+    const avgReductionSpeedPct = reductionSpeeds.length > 0
+      ? reductionSpeeds.reduce((sum: number, speed: number) => sum + speed, 0) / reductionSpeeds.length
+      : 0;
+    
+    // PlanIntelligenz 2.0: Categorize average reduction speed
+    let reductionSpeedCategory = 'moderat';
+    if (avgReductionSpeedPct < 2) {
+      reductionSpeedCategory = 'sehr langsam';
+    } else if (avgReductionSpeedPct > 5) {
+      reductionSpeedCategory = 'relativ schnell';
+    }
+    
+    // PlanIntelligenz 2.0: Calculate weeks to CBD target
+    const weeksToCbdTarget = cbdWeeklyIncrease > 0 
+      ? Math.round(((cbdEndMg - cbdStartMg) / cbdWeeklyIncrease) * 10) / 10
+      : null;
+    
+    // PlanIntelligenz 2.0: Calculate cannabinoid increase percentage per week
+    const cannabinoidIncreasePctPerWeek = cbdStartMg > 0 
+      ? Math.round((cbdWeeklyIncrease / cbdStartMg) * 1000) / 10
+      : null;
     
     // Collect all category safety notes from first week
     const categorySafetyNotes: string[] = [];
@@ -678,6 +778,7 @@ app.post('/api/analyze', async (c) => {
         height,
         bmi,
         bsa,
+        idealWeightKg, // PlanIntelligenz 2.0: Ideal weight
         cbdStartMg: Math.round(cbdStartMg * 10) / 10,
         cbdEndMg: Math.round(cbdEndMg * 10) / 10,
         hasBenzoOrOpioid,
@@ -688,6 +789,18 @@ app.post('/api/analyze', async (c) => {
       categorySafety: {
         appliedRules: categorySafetyNotes.length > 0,
         notes: categorySafetyNotes
+      },
+      // PlanIntelligenz 2.0: New overall metrics
+      planIntelligence: {
+        overallStartLoad: Math.round(overallStartLoad * 10) / 10,
+        overallEndLoad: Math.round(overallEndLoad * 10) / 10,
+        totalLoadReductionPct,
+        avgReductionSpeedPct: Math.round(avgReductionSpeedPct * 10) / 10,
+        reductionSpeedCategory,
+        weeksToCbdTarget,
+        cannabinoidIncreasePctPerWeek,
+        totalMedicationCount: medications.length,
+        sensitiveMedCount
       }
     });
     
