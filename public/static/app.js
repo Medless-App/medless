@@ -1,10 +1,10 @@
-// KANNASAN Product Data - CBD Dosier-Sprays (for frontend calculations)
-const KANNASAN_PRODUCTS = [
-  { nr: 5,  cbdPerSpray: 5.8,  name: 'Kannasan Nr. 5',  price: 24.90 },
-  { nr: 10, cbdPerSpray: 11.5, name: 'Kannasan Nr. 10', price: 39.90 },
-  { nr: 15, cbdPerSpray: 17.5, name: 'Kannasan Nr. 15', price: 59.90 },
-  { nr: 20, cbdPerSpray: 23.2, name: 'Kannasan Nr. 20', price: 79.90 },
-  { nr: 25, cbdPerSpray: 29.0, name: 'Kannasan Nr. 25', price: 99.90 }
+// MEDLESS Product Data - CBD Dosier-Sprays (for frontend calculations)
+const MEDLESS_PRODUCTS = [
+  { nr: 5,  cbdPerSpray: 5.8,  name: 'MEDLESS Nr. 5',  price: 24.90 },
+  { nr: 10, cbdPerSpray: 11.5, name: 'MEDLESS Nr. 10', price: 39.90 },
+  { nr: 15, cbdPerSpray: 17.5, name: 'MEDLESS Nr. 15', price: 59.90 },
+  { nr: 20, cbdPerSpray: 23.2, name: 'MEDLESS Nr. 20', price: 79.90 },
+  { nr: 25, cbdPerSpray: 29.0, name: 'MEDLESS Nr. 25', price: 99.90 }
 ];
 
 // Global medications list
@@ -763,7 +763,7 @@ function displayResults(data, firstName = '', gender = '') {
               ${costs.costBreakdown.map((item, idx) => `
                 <tr style="border-bottom: 1px solid rgba(229,231,235,0.6);">
                   <td style="padding: 0.75rem 0.5rem; color: #1f2937;">${item.product}</td>
-                  <td style="padding: 0.75rem 0.5rem; text-align: center; color: #4b5563;">${item.productNr ? (KANNASAN_PRODUCTS.find(p => p.nr === item.productNr)?.cbdPerSpray.toFixed(1) || '-') : '-'}</td>
+                  <td style="padding: 0.75rem 0.5rem; text-align: center; color: #4b5563;">${item.productNr ? (MEDLESS_PRODUCTS.find(p => p.nr === item.productNr)?.cbdPerSpray.toFixed(1) || '-') : '-'}</td>
                   <td style="padding: 0.75rem 0.5rem; text-align: center; color: #4b5563;">${item.bottleCount} Stück</td>
                   <td style="padding: 0.75rem 0.5rem; text-align: right; color: #4b5563;">${item.pricePerBottle.toFixed(2)} €</td>
                   <td style="padding: 0.75rem 0.5rem; text-align: right; font-weight: 600; color: #0b7b6c;">${item.totalCost.toFixed(2)} €</td>

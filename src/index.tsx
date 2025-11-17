@@ -9,23 +9,23 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>()
 
-// KANNASAN Product Data - CBD Dosier-Sprays (FIXED VALUES - DO NOT CHANGE)
-const KANNASAN_PRODUCTS = [
-  { nr: 5,  cbdPerSpray: 5.8,  name: 'Kannasan Nr. 5',  price: 24.90 },
-  { nr: 10, cbdPerSpray: 11.5, name: 'Kannasan Nr. 10', price: 39.90 },
-  { nr: 15, cbdPerSpray: 17.5, name: 'Kannasan Nr. 15', price: 59.90 },
-  { nr: 20, cbdPerSpray: 23.2, name: 'Kannasan Nr. 20', price: 79.90 },
-  { nr: 25, cbdPerSpray: 29.0, name: 'Kannasan Nr. 25', price: 99.90 }
+// MEDLESS Product Data - CBD Dosier-Sprays (FIXED VALUES - DO NOT CHANGE)
+const MEDLESS_PRODUCTS = [
+  { nr: 5,  cbdPerSpray: 5.8,  name: 'MEDLESS Nr. 5',  price: 24.90 },
+  { nr: 10, cbdPerSpray: 11.5, name: 'MEDLESS Nr. 10', price: 39.90 },
+  { nr: 15, cbdPerSpray: 17.5, name: 'MEDLESS Nr. 15', price: 59.90 },
+  { nr: 20, cbdPerSpray: 23.2, name: 'MEDLESS Nr. 20', price: 79.90 },
+  { nr: 25, cbdPerSpray: 29.0, name: 'MEDLESS Nr. 25', price: 99.90 }
 ];
 
 const BOTTLE_CAPACITY = 100; // Sprays per 10ml bottle (FIXED - 100 sprays = 10ml)
 
 // Medless-AI: Select optimal product with minimal sprays, no overdose, max 6 sprays per time
 function selectOptimalProduct(targetDailyMg: number) {
-  let bestProduct = KANNASAN_PRODUCTS[0];
+  let bestProduct = MEDLESS_PRODUCTS[0];
   let bestSprayCount = 999;
   
-  for (const product of KANNASAN_PRODUCTS) {
+  for (const product of MEDLESS_PRODUCTS) {
     const totalSprays = Math.ceil(targetDailyMg / product.cbdPerSpray);
     const morningSprays = Math.max(1, Math.round(totalSprays * 0.4));
     const eveningSprays = totalSprays - morningSprays;
@@ -133,7 +133,7 @@ function calculatePlanCosts(weeklyPlan: any[]) {
   weeklyPlan.forEach((week) => {
     const product = week.kannasanProduct;
     const spraysThisWeek = week.totalSprays * 7;
-    const productKey = `Kannasan Nr. ${product.nr}`;
+    const productKey = `MEDLESS Nr. ${product.nr}`;
     
     // Check if product changed or bottle empty
     if (!currentProduct || currentProduct.nr !== product.nr || bottleRemaining < spraysThisWeek) {
@@ -145,7 +145,7 @@ function calculatePlanCosts(weeklyPlan: any[]) {
       if (!bottleUsage[productKey]) {
         bottleUsage[productKey] = {
           count: 0,
-          product: KANNASAN_PRODUCTS.find(p => p.nr === product.nr),
+          product: MEDLESS_PRODUCTS.find(p => p.nr === product.nr),
           totalSprays: 0,
           weeks: []
         };
@@ -415,8 +415,8 @@ app.post('/api/analyze', async (c) => {
       };
     });
     
-    // Get first week's KANNASAN product for product info box
-    const firstWeekKannasan = weeklyPlan[0];
+    // Get first week's MEDLESS product for product info box
+    const firstWeekMedless = weeklyPlan[0];
     
     // Calculate total costs for the plan
     const costAnalysis = calculatePlanCosts(weeklyPlan);
@@ -434,18 +434,18 @@ app.post('/api/analyze', async (c) => {
         weeklyIncrease: Math.round(cbdWeeklyIncrease * 10) / 10
       },
       product: {
-        name: firstWeekKannasan.kannasanProduct.name,
-        nr: firstWeekKannasan.kannasanProduct.nr,
+        name: firstWeekMedless.kannasanProduct.name,
+        nr: firstWeekMedless.kannasanProduct.nr,
         type: 'CBD Dosier-Spray',
         packaging: '10ml Flasche mit Pumpsprühaufsatz',
-        concentration: `${firstWeekKannasan.kannasanProduct.cbdPerSpray} mg CBD pro Sprühstoß`,
-        cbdPerSpray: firstWeekKannasan.kannasanProduct.cbdPerSpray,
-        twoSprays: `${firstWeekKannasan.kannasanProduct.cbdPerSpray * 2} mg CBD bei 2 Sprühstößen`,
+        concentration: `${firstWeekMedless.kannasanProduct.cbdPerSpray} mg CBD pro Sprühstoß`,
+        cbdPerSpray: firstWeekMedless.kannasanProduct.cbdPerSpray,
+        twoSprays: `${firstWeekMedless.kannasanProduct.cbdPerSpray * 2} mg CBD bei 2 Sprühstößen`,
         dosageUnit: 'Sprühstöße',
-        totalSpraysPerDay: firstWeekKannasan.totalSprays,
-        morningSprays: firstWeekKannasan.morningSprays,
-        eveningSprays: firstWeekKannasan.eveningSprays,
-        actualDailyMg: firstWeekKannasan.actualCbdMg,
+        totalSpraysPerDay: firstWeekMedless.totalSprays,
+        morningSprays: firstWeekMedless.morningSprays,
+        eveningSprays: firstWeekMedless.eveningSprays,
+        actualDailyMg: firstWeekMedless.actualCbdMg,
         application: 'Oral: Sprühstoß direkt in den Mund oder unter die Zunge. Produkt vor Gebrauch gut schütteln.',
         note: 'Produkt kann sich wöchentlich ändern basierend auf CBD-Dosis'
       },
@@ -3652,7 +3652,7 @@ app.get('/', (c) => {
                 </ul>
                 <p>
                   <strong>Empfehlung:</strong> Kaufen Sie nur bei seriösen Anbietern mit 
-                  transparenten Laborberichten. Medless empfiehlt KANNASAN-Produkte 
+                  transparenten Laborberichten. MEDLESS empfiehlt MEDLESS-Produkte 
                   (CBD-Dosier-Sprays), die präzise Dosierungen ermöglichen.
                 </p>
               </div>
@@ -3917,7 +3917,7 @@ app.get('/demo', (c) => {
       <ul class="check-list">
         <li><i class="fas fa-check-circle"></i><span>Algorithmusbasierte Dosierungsberechnung</span></li>
         <li><i class="fas fa-check-circle"></i><span>52 Medikamente mit CBD-Interaktionsdaten</span></li>
-        <li><i class="fas fa-check-circle"></i><span>Wochenplan mit KANNASAN-Produktempfehlung</span></li>
+        <li><i class="fas fa-check-circle"></i><span>Wochenplan mit MEDLESS-Produktempfehlung</span></li>
       </ul>
       <a href="/" class="cta-primary"><span>Zur Haupt-App</span><i class="fas fa-arrow-right"></i></a>
     </div>
