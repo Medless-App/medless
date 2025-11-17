@@ -687,12 +687,12 @@ app.get('/', (c) => {
     .mobile-top-logo-container {
       display: none;
       background: var(--background-white);
-      padding: var(--space-4) 0 var(--space-3);
+      padding: var(--space-5) 0 var(--space-2);
       text-align: center;
     }
     
     .mobile-top-logo {
-      max-width: 200px;
+      max-width: 260px;
       height: auto;
       margin: 0 auto;
     }
@@ -2039,7 +2039,7 @@ app.get('/', (c) => {
       }
       
       .hero {
-        padding: var(--space-5) 0;
+        padding: var(--space-3) 0 var(--space-5);
       }
       
       .container {
@@ -2049,14 +2049,25 @@ app.get('/', (c) => {
       /* Typography Mobile */
       .hero-headline {
         font-size: clamp(1.75rem, 1rem + 2vw, 2.2rem);
+        margin-bottom: var(--space-3);
       }
       
       .hero-subheadline {
         font-size: 16px;
+        margin-bottom: var(--space-4);
+      }
+      
+      .hero-description {
+        margin-bottom: var(--space-4);
+      }
+      
+      .hero-features {
+        margin-bottom: var(--space-4);
       }
       
       .section-headline {
         font-size: clamp(1.5rem, 1rem + 1.2vw, 1.75rem);
+        margin-bottom: var(--space-4);
       }
       
       /* Hero Features Mobile */
@@ -2074,7 +2085,7 @@ app.get('/', (c) => {
       
       .process-cards-grid {
         grid-template-columns: 1fr;
-        gap: var(--space-5);
+        gap: var(--space-4);
       }
       
       .process-card {
@@ -2090,13 +2101,22 @@ app.get('/', (c) => {
       }
       
       section {
-        padding: var(--space-7) 0;
+        padding: var(--space-5) 0;
       }
       
       /* Reduce spacing for "Der Wunsch" section on mobile */
       .wunsch-section {
-        padding-top: var(--space-6);
-        padding-bottom: var(--space-6);
+        padding-top: var(--space-4);
+        padding-bottom: var(--space-4);
+      }
+      
+      /* Tighter spacing for specific sections */
+      .why-medless {
+        padding: var(--space-4) 0;
+      }
+      
+      .how-section {
+        padding: var(--space-4) 0;
       }
       
       /* Explanation Cards Mobile */
@@ -2116,7 +2136,7 @@ app.get('/', (c) => {
       .step {
         grid-template-columns: 48px 1fr;
         gap: var(--space-4);
-        margin-bottom: var(--space-6);
+        margin-bottom: var(--space-5);
       }
       
       .step-number-circle {
