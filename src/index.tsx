@@ -687,14 +687,18 @@ app.get('/', (c) => {
     .mobile-top-logo-container {
       display: none;
       background: var(--background-white);
-      padding: var(--space-5) 0 var(--space-2);
+      padding: var(--space-6) var(--space-4) var(--space-2);
       text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     
     .mobile-top-logo {
-      max-width: 260px;
+      width: 100%;
+      max-width: 320px;
       height: auto;
-      margin: 0 auto;
+      display: block;
     }
     
     /* Mobile Header - HIDE */
@@ -2039,7 +2043,7 @@ app.get('/', (c) => {
       }
       
       .hero {
-        padding: var(--space-3) 0 var(--space-5);
+        padding: 0 0 var(--space-4);
       }
       
       .container {
@@ -2049,25 +2053,25 @@ app.get('/', (c) => {
       /* Typography Mobile */
       .hero-headline {
         font-size: clamp(1.75rem, 1rem + 2vw, 2.2rem);
-        margin-bottom: var(--space-3);
+        margin-bottom: var(--space-2);
       }
       
       .hero-subheadline {
         font-size: 16px;
-        margin-bottom: var(--space-4);
+        margin-bottom: var(--space-3);
       }
       
       .hero-description {
-        margin-bottom: var(--space-4);
+        margin-bottom: var(--space-3);
       }
       
       .hero-features {
-        margin-bottom: var(--space-4);
+        margin-bottom: var(--space-3);
       }
       
       .section-headline {
         font-size: clamp(1.5rem, 1rem + 1.2vw, 1.75rem);
-        margin-bottom: var(--space-4);
+        margin-bottom: var(--space-3);
       }
       
       /* Hero Features Mobile */
@@ -2085,7 +2089,7 @@ app.get('/', (c) => {
       
       .process-cards-grid {
         grid-template-columns: 1fr;
-        gap: var(--space-4);
+        gap: var(--space-3);
       }
       
       .process-card {
@@ -2101,31 +2105,37 @@ app.get('/', (c) => {
       }
       
       section {
-        padding: var(--space-5) 0;
+        padding: var(--space-4) 0;
       }
       
       /* Reduce spacing for "Der Wunsch" section on mobile */
       .wunsch-section {
-        padding-top: var(--space-4);
-        padding-bottom: var(--space-4);
+        padding-top: var(--space-3);
+        padding-bottom: var(--space-3);
       }
       
       /* Tighter spacing for specific sections */
       .why-medless {
-        padding: var(--space-4) 0;
+        padding: var(--space-3) 0;
       }
       
       .how-section {
+        padding: var(--space-3) 0;
+      }
+      
+      .safety-warning {
         padding: var(--space-4) 0;
       }
       
       /* Explanation Cards Mobile */
       .explanation-card {
-        padding: var(--space-5);
+        padding: var(--space-4);
+        margin-bottom: var(--space-3);
       }
       
       .explanation-card h3 {
         font-size: 18px;
+        margin-bottom: var(--space-2);
       }
       
       .explanation-card p {
@@ -2135,8 +2145,8 @@ app.get('/', (c) => {
       /* Steps Section Mobile */
       .step {
         grid-template-columns: 48px 1fr;
-        gap: var(--space-4);
-        margin-bottom: var(--space-5);
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
       }
       
       .step-number-circle {
