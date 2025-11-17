@@ -582,14 +582,16 @@ app.get('/', (c) => {
       --paragraph-spacing: 16px;
       --line-height-comfortable: 1.7;
       
-      /* TYPOGRAPHY OPTIMIZATION */
+      /* TYPOGRAPHY OPTIMIZATION - FINAL */
       --heading-color: #1A1A1A;
+      --text-dark: #333333;
+      --text-medium: #555555;
       --body-text-size: 17px;
-      --body-text-color: #3D3D3D;
+      --body-text-color: #555555;
       --max-text-width: 730px;
       --list-item-spacing: 12px;
       
-      /* UI OPTIMIZATION - HARMONIZED */
+      /* UI OPTIMIZATION - FINAL TUNING */
       --icon-color-primary: #0E5F45;
       --icon-size: 34px;
       --icon-stroke-width: 2px;
@@ -601,6 +603,11 @@ app.get('/', (c) => {
       --button-padding-y: 14px;
       --button-padding-x: 28px;
       --button-hover-bg: #0B4C36;
+      --button-border-radius: 6px;
+      --button-shadow: 0 3px 10px rgba(14, 95, 69, 0.12), 0 6px 20px rgba(14, 95, 69, 0.08);
+      --faq-border-color: #E4E4E4;
+      --faq-border-radius: 4px;
+      --section-gap: 100px;
     }
     
     /* ============================================================
@@ -635,39 +642,45 @@ app.get('/', (c) => {
       letter-spacing: -0.02em;
     }
     
-    /* H2 - Main Section Headlines */
+    /* H2 - Main Section Headlines - FINAL */
     h2, .section-headline {
-      font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2rem);
+      font-size: clamp(1.875rem, 1.3rem + 1.6vw, 2.125rem);
       font-weight: 700;
       line-height: 1.25;
       color: var(--heading-color);
       letter-spacing: -0.01em;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
     
-    /* H3 - Card/Sub-Section Headlines */
+    /* H3 - Card/Sub-Section Headlines - FINAL */
     h3 {
       font-size: clamp(1.25rem, 1rem + 0.5vw, 1.375rem);
       font-weight: 600;
       line-height: 1.35;
-      color: var(--heading-color);
+      color: var(--text-dark);
       margin-bottom: 14px;
     }
     
-    /* H4 - Small Card Headlines */
+    /* H4 - Small Card Headlines - FINAL */
     h4 {
       font-size: clamp(1.125rem, 0.95rem + 0.3vw, 1.25rem);
       font-weight: 600;
       line-height: 1.4;
-      color: var(--heading-color);
+      color: var(--text-dark);
       margin-bottom: 12px;
     }
     
-    /* Body Text - Improved Readability */
+    /* Body Text - Improved Readability - FINAL */
     p, li, .section-description {
       font-size: var(--body-text-size);
-      color: var(--body-text-color);
+      color: var(--text-medium);
       line-height: var(--line-height-comfortable);
+    }
+    
+    /* Strong Text */
+    strong, b {
+      font-weight: 600;
+      color: var(--text-dark);
     }
     
     /* Content Max-Width for Readability */
@@ -828,7 +841,7 @@ app.get('/', (c) => {
       margin: 0;
     }
     
-    /* CTA Buttons - Harmonized & Consistent */
+    /* CTA Buttons - FINAL PROMINENT STYLE */
     .cta-button-primary,
     button.cta-button-primary {
       display: inline-flex;
@@ -837,15 +850,15 @@ app.get('/', (c) => {
       gap: 12px;
       padding: var(--button-padding-y) var(--button-padding-x);
       font-size: 17px;
-      font-weight: 600;
+      font-weight: 700;
       color: white;
       background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
       border: none;
-      border-radius: var(--card-border-radius);
+      border-radius: var(--button-border-radius);
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.25s ease;
+      box-shadow: var(--button-shadow);
       white-space: nowrap;
     }
     
@@ -853,13 +866,13 @@ app.get('/', (c) => {
     button.cta-button-primary:hover {
       background: linear-gradient(135deg, var(--button-hover-bg), var(--primary-dark-green));
       transform: translateY(-2px);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08), 0 6px 16px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 14px rgba(14, 95, 69, 0.15), 0 8px 24px rgba(14, 95, 69, 0.1);
     }
     
     .cta-button-primary:active,
     button.cta-button-primary:active {
       transform: translateY(0);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 6px rgba(14, 95, 69, 0.1), 0 4px 12px rgba(14, 95, 69, 0.06);
     }
     
     /* Arrow Icon in Buttons */
@@ -1022,6 +1035,157 @@ app.get('/', (c) => {
       flex-shrink: 0;
     }
     
+    /* ============================================================
+       FINAL VISUAL TUNING
+       ============================================================ */
+    
+    /* Text Color Consistency */
+    h1, h2, h3, h4 {
+      color: var(--heading-color);
+    }
+    
+    p, li {
+      color: var(--body-text-color);
+    }
+    
+    strong {
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+    
+    /* Section Hierarchy - Clear Separation */
+    section {
+      padding: var(--section-gap) 0;
+    }
+    
+    .section-headline {
+      font-size: clamp(1.875rem, 1.3rem + 1.6vw, 2.125rem);
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 28px;
+    }
+    
+    /* FAQ Accordion - Refined */
+    .faq-item {
+      border: 1px solid var(--faq-border-color);
+      border-radius: var(--faq-border-radius);
+      padding: 0;
+      margin-bottom: 14px;
+      background: white;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .faq-question {
+      padding: 18px 20px;
+      background: white;
+      border-radius: var(--faq-border-radius);
+    }
+    
+    .faq-answer {
+      padding: 0 20px 20px;
+    }
+    
+    .faq-item.active {
+      border-color: var(--icon-color-primary);
+      box-shadow: 0 2px 8px rgba(14, 95, 69, 0.08), 0 4px 16px rgba(14, 95, 69, 0.06);
+    }
+    
+    /* CTA Buttons - Strong Emphasis */
+    .cta-button-primary,
+    button.cta-button-primary {
+      border-radius: var(--button-border-radius);
+      font-weight: 700;
+      box-shadow: var(--button-shadow);
+    }
+    
+    .cta-button-primary:hover,
+    button.cta-button-primary:hover {
+      box-shadow: 0 4px 14px rgba(14, 95, 69, 0.16), 0 8px 24px rgba(14, 95, 69, 0.1);
+    }
+    
+    /* Science Cards - Equal Heights */
+    .explanation-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 320px;
+    }
+    
+    .explanation-card h3 {
+      margin-top: 0;
+      margin-bottom: 18px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .explanation-card .card-icon {
+      margin-bottom: 20px;
+    }
+    
+    /* Warning Box - Very Calm */
+    .warning-box {
+      background: white;
+      border: 1.5px solid var(--warning-border-color);
+      padding: 32px;
+      box-shadow: 0 1px 4px rgba(217, 83, 79, 0.04), 0 2px 8px rgba(217, 83, 79, 0.03);
+    }
+    
+    .warning-icon-circle {
+      background: rgba(217, 83, 79, 0.06);
+    }
+    
+    /* Footer - Harmonious Alignment */
+    .footer-content {
+      grid-template-columns: 1.1fr 1fr 1fr;
+      gap: 70px;
+      align-items: start;
+    }
+    
+    .footer-section h4,
+    .footer-branding h3 {
+      font-size: 19px;
+    }
+    
+    .footer-links a {
+      font-size: 16px;
+    }
+    
+    .footer-social {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+    
+    .footer-social a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .footer-social a i {
+      font-size: 20px;
+      color: white;
+    }
+    
+    /* Section Dividers - More Visible */
+    .section-divider {
+      width: 28%;
+      height: 1px;
+      background: #DADADA;
+      opacity: 1;
+    }
+    
     /* Section Dividers - Subtle Horizontal Lines */
     .section-divider {
       width: 30%;
@@ -1031,9 +1195,13 @@ app.get('/', (c) => {
       border: none;
     }
     
-    /* Consistent Section Padding */
+    /* Consistent Section Padding - Final */
     section {
-      padding: var(--section-padding-y) 0;
+      padding: var(--section-gap) 0;
+    }
+    
+    section + section {
+      margin-top: 0;
     }
     
     /* Card and Text Block Spacing */
@@ -2256,16 +2424,17 @@ app.get('/', (c) => {
     
     .faq-item {
       background: white;
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-medium);
+      border: 1px solid var(--faq-border-color);
+      border-radius: var(--faq-border-radius);
       margin-bottom: var(--space-4);
       overflow: hidden;
       transition: all 0.2s ease;
+      box-shadow: var(--card-shadow);
     }
     
     .faq-item:hover {
-      border-color: var(--accent-mint);
-      box-shadow: var(--shadow-soft);
+      border-color: var(--icon-color-primary);
+      box-shadow: var(--card-shadow-hover);
     }
     
     .faq-question {
@@ -2274,10 +2443,10 @@ app.get('/', (c) => {
       align-items: center;
       justify-content: space-between;
       gap: var(--space-4);
-      padding: var(--space-4);
-      font-size: 16px;
+      padding: 18px 20px;
+      font-size: 18px;
       font-weight: 600;
-      color: var(--primary-dark-green);
+      color: var(--text-dark);
       background: white;
       border: none;
       cursor: pointer;
@@ -2286,7 +2455,7 @@ app.get('/', (c) => {
     }
     
     .faq-question:hover {
-      background: var(--accent-mint-light);
+      background: rgba(14, 95, 69, 0.02);
     }
     
     .faq-question-text {
