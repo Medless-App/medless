@@ -581,6 +581,13 @@ app.get('/', (c) => {
       --heading-margin-bottom: 22px;
       --paragraph-spacing: 16px;
       --line-height-comfortable: 1.7;
+      
+      /* TYPOGRAPHY OPTIMIZATION */
+      --heading-color: #1A1A1A;
+      --body-text-size: 17px;
+      --body-text-color: #3D3D3D;
+      --max-text-width: 730px;
+      --list-item-spacing: 12px;
     }
     
     /* ============================================================
@@ -600,6 +607,90 @@ app.get('/', (c) => {
     /* Consistent Heading Bottom Margins */
     h1, h2, h3, h4 {
       margin-bottom: var(--heading-margin-bottom);
+    }
+    
+    /* ============================================================
+       TYPOGRAPHY HIERARCHY & READABILITY
+       ============================================================ */
+    
+    /* H1 - Only in Hero */
+    h1, .hero-headline {
+      font-size: clamp(2.5rem, 1.5rem + 3vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--heading-color);
+      letter-spacing: -0.02em;
+    }
+    
+    /* H2 - Main Section Headlines */
+    h2, .section-headline {
+      font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--heading-color);
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+    }
+    
+    /* H3 - Card/Sub-Section Headlines */
+    h3 {
+      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.375rem);
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--heading-color);
+      margin-bottom: 14px;
+    }
+    
+    /* H4 - Small Card Headlines */
+    h4 {
+      font-size: clamp(1.125rem, 0.95rem + 0.3vw, 1.25rem);
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--heading-color);
+      margin-bottom: 12px;
+    }
+    
+    /* Body Text - Improved Readability */
+    p, li, .section-description {
+      font-size: var(--body-text-size);
+      color: var(--body-text-color);
+      line-height: var(--line-height-comfortable);
+    }
+    
+    /* Content Max-Width for Readability */
+    .section-description,
+    .explanation-card p,
+    .faq-answer-content p,
+    .warning-content p {
+      max-width: var(--max-text-width);
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* List Spacing */
+    ul li + li,
+    ol li + li {
+      margin-top: var(--list-item-spacing);
+    }
+    
+    .hero-features li + li,
+    .medical-list li + li,
+    .warning-list li + li {
+      margin-top: var(--list-item-spacing);
+    }
+    
+    /* FAQ Typography */
+    .faq-question-text {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--heading-color);
+    }
+    
+    .faq-answer-content {
+      font-size: 17px;
+      line-height: var(--line-height-comfortable);
+      color: var(--body-text-color);
     }
     
     /* Section Dividers - Subtle Horizontal Lines */
@@ -793,12 +884,12 @@ app.get('/', (c) => {
     }
     
     .hero-headline {
-      font-size: clamp(2rem, 1.2rem + 1.5vw, 2.5rem);
+      font-size: clamp(2.5rem, 1.5rem + 3vw, 3.5rem);
       font-weight: 700;
-      color: var(--primary-dark-green);
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-      margin-bottom: var(--space-4);
+      color: var(--heading-color);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-5);
       max-width: var(--max-width-text);
     }
     
@@ -944,21 +1035,21 @@ app.get('/', (c) => {
     }
     
     .section-headline {
-      font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem);
-      font-weight: 600;
-      color: var(--brand-600);
+      font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2rem);
+      font-weight: 700;
+      color: var(--heading-color);
       text-align: center;
-      margin-bottom: var(--spacing-block-small);
+      margin-bottom: 24px;
       line-height: 1.25;
-      letter-spacing: -0.005em;
+      letter-spacing: -0.01em;
     }
     
     .section-description {
-      font-size: 16px;
-      color: var(--text-body-color);
+      font-size: var(--body-text-size);
+      color: var(--body-text-color);
       text-align: center;
-      line-height: 1.6;
-      max-width: var(--max-width-text);
+      line-height: var(--line-height-comfortable);
+      max-width: var(--max-text-width);
       margin: 0 auto var(--spacing-paragraph);
     }
     
@@ -1001,20 +1092,20 @@ app.get('/', (c) => {
     }
     
     .explanation-card h3 {
-      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.4rem);
+      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.375rem);
       font-weight: 600;
-      color: var(--primary-dark-green);
-      line-height: 1.3;
-      margin-bottom: var(--space-3);
+      color: var(--heading-color);
+      line-height: 1.35;
+      margin-bottom: 14px;
       max-width: var(--max-width-card-text);
     }
     
     .explanation-card p {
-      font-size: 16px;
-      color: var(--text-body-color);
-      line-height: 1.6;
+      font-size: var(--body-text-size);
+      color: var(--body-text-color);
+      line-height: var(--line-height-comfortable);
       margin-bottom: var(--space-4);
-      max-width: var(--max-width-card-text);
+      max-width: var(--max-text-width);
     }
     
     .explanation-card p:last-child {
@@ -1084,23 +1175,23 @@ app.get('/', (c) => {
     }
     
     .process-card h4 {
-      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.4rem);
+      font-size: clamp(1.125rem, 0.95rem + 0.3vw, 1.25rem);
       font-weight: 600;
-      color: var(--primary-dark-green);
+      color: var(--heading-color);
       text-align: center;
-      margin-bottom: var(--space-3);
-      line-height: 1.3;
+      margin-bottom: 12px;
+      line-height: 1.4;
       max-width: var(--max-width-card-text);
       margin-left: auto;
       margin-right: auto;
     }
     
     .process-card p {
-      font-size: 16px;
-      color: var(--text-secondary-color);
-      line-height: 1.6;
+      font-size: var(--body-text-size);
+      color: var(--body-text-color);
+      line-height: var(--line-height-comfortable);
       text-align: center;
-      max-width: 36ch;
+      max-width: 40ch;
       margin-left: auto;
       margin-right: auto;
     }
