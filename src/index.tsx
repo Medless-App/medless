@@ -686,6 +686,7 @@ app.get('/', (c) => {
     @media (max-width: 768px) {
       .header-container {
         height: 64px;
+        padding: 0 var(--space-4);
       }
       
       .header-logo img {
@@ -698,9 +699,31 @@ app.get('/', (c) => {
       }
       
       .header-cta {
-        font-size: 14px;
-        padding: 0 var(--space-4);
-        height: 40px;
+        font-size: 13px;
+        padding: 0 var(--space-3);
+        height: 36px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 140px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header-container {
+        padding: 0 var(--space-3);
+      }
+      
+      .header-logo img {
+        height: 36px;
+        max-width: 120px;
+      }
+      
+      .header-cta {
+        font-size: 12px;
+        padding: 0 var(--space-2);
+        height: 34px;
+        max-width: 110px;
       }
     }
     
@@ -2363,10 +2386,6 @@ app.get('/', (c) => {
         <a href="#faq">FAQ</a>
         <a href="#kontakt">Kontakt</a>
       </nav>
-      
-      <a href="#planner-section" class="header-cta">
-        Jetzt Ausschleichplan starten
-      </a>
     </div>
   </header>
   
