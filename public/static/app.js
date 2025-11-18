@@ -2057,15 +2057,26 @@ function downloadPDF(event) {
     
     // Helper: Add MEDLESS logo to current page (top-left, every page)
     const addLogo = () => {
-      doc.setFontSize(14);
-      doc.setFont(undefined, 'bold');
-      doc.setTextColor(...colors.primary);
-      doc.text('MEDLESS', margin, margin - 5);
+      // MEDLESS Logo Image (120px width, proportional height)
+      const logoUrl = 'https://www.genspark.ai/api/files/s/PLloGp9oWie';
       
-      doc.setFontSize(7);
-      doc.setFont(undefined, 'normal');
-      doc.setTextColor(...colors.mediumGray);
-      doc.text('Weniger Medikamente. Mehr Leben.', margin, margin - 1);
+      try {
+        // Add logo image (120px width = ~42mm in PDF)
+        // Position: margin (20) from left, margin-8 from top
+        doc.addImage(logoUrl, 'PNG', margin, margin - 8, 42, 12);
+      } catch (error) {
+        // Fallback to text if image fails
+        console.warn('Logo image failed, using text fallback:', error);
+        doc.setFontSize(14);
+        doc.setFont(undefined, 'bold');
+        doc.setTextColor(...colors.primary);
+        doc.text('MEDLESS', margin, margin - 5);
+        
+        doc.setFontSize(7);
+        doc.setFont(undefined, 'normal');
+        doc.setTextColor(...colors.mediumGray);
+        doc.text('Weniger Medikamente. Mehr Leben.', margin, margin - 1);
+      }
     };
     
     // Helper: Page break with consistent margins
