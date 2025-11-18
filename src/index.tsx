@@ -1270,8 +1270,6 @@ app.get('/', (c) => {
       display: flex;
       align-items: center;
       justify-content: center;
-      /* Extra padding to prevent clipping */
-      padding: 20px;
     }
     
     /* Progress Ring - Subtle Pulse Effect */
@@ -1356,7 +1354,6 @@ app.get('/', (c) => {
         width: 140px;
         height: 140px;
         margin-bottom: 2rem;
-        padding: 15px;
       }
       
       .loader-circle svg {
@@ -4748,39 +4745,37 @@ app.get('/', (c) => {
             </p>
             
             <!-- Circular Progress - Professional Health-Tech -->
-            <div style="position: relative; display: inline-block; margin-bottom: 2.5rem; width: 160px; height: 160px;">
-              <div class="loader-circle">
-                <svg width="120" height="120" viewBox="0 0 100 100" style="transform: rotate(-90deg); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg);">
-                  <!-- Glow Filter for Professional Effect -->
-                  <defs>
-                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
-                      <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
-                  </defs>
-                  
-                  <!-- Background Circle -->
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="5"></circle>
-                  
-                  <!-- Progress Circle with Glow -->
-                  <circle id="progress-circle" cx="50" cy="50" r="42" fill="none" stroke="url(#progressGradient)" stroke-width="5" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264"></circle>
-                  
-                  <!-- Gradient for Progress Ring -->
-                  <defs>
-                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style="stop-color:#0E5F45;stop-opacity:1" />
-                      <stop offset="100%" style="stop-color:#097969;stop-opacity:1" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
+            <div class="loader-circle">
+              <svg width="120" height="120" viewBox="0 0 100 100" style="transform: rotate(-90deg);">
+                <!-- Glow Filter for Professional Effect -->
+                <defs>
+                  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                
+                <!-- Background Circle -->
+                <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="5"></circle>
+                
+                <!-- Progress Circle with Glow -->
+                <circle id="progress-circle" cx="50" cy="50" r="42" fill="none" stroke="url(#progressGradient)" stroke-width="5" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                
+                <!-- Gradient for Progress Ring -->
+                <defs>
+                  <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#0E5F45;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#097969;stop-opacity:1" />
+                  </linearGradient>
+                </defs>
+              </svg>
               
-              <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;">
+              <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;">
                 <i id="center-icon" class="fas fa-heartbeat" style="color: #0E5F45; font-size: 2rem; margin-bottom: 0.5rem;"></i>
-                <div id="center-percentage" style="font-size: 1.75rem; font-weight: 700; color: #0E5F45; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; justify-content: center;">0%</div>
+                <div id="center-percentage" style="font-size: 1.75rem; font-weight: 700; color: #0E5F45; letter-spacing: -0.02em; line-height: 1;">0%</div>
               </div>
             </div>
             
