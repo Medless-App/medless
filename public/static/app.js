@@ -1863,32 +1863,37 @@ function displayResults(data, firstName = '', gender = '') {
     <style>
       /* Professional Medical PDF Button */
       .pdf-download-button {
-        /* Form & Size */
-        padding: 14px 28px;
-        height: 52px;
+        /* Form & Size - Full width up to 320px */
+        padding: 16px 32px;
+        max-width: 320px;
+        width: 100%;
+        height: 56px;
         border-radius: 12px;
         border: none;
         
-        /* Colors - Medical Professional */
-        background: #097969;
+        /* Colors - MEDLESS Green (#0E5F45) */
+        background: #0E5F45;
         color: white;
         
-        /* Typography */
+        /* Typography - Professional Medical */
         font-size: 17px;
         font-weight: 600;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         letter-spacing: -0.01em;
         
-        /* Layout */
+        /* Layout - Icon left, text right */
         display: inline-flex;
         align-items: center;
-        gap: 10px;
+        justify-content: center;
+        gap: 12px;
         
-        /* Shadow - Subtle Medical */
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        /* Shadow - Professional depth */
+        box-shadow: 
+          0 2px 4px rgba(14, 95, 69, 0.08),
+          0 4px 12px rgba(14, 95, 69, 0.12);
         
-        /* Animation */
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Animation - Smooth scale effect */
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         cursor: pointer;
         
         /* Prevent text selection */
@@ -1897,15 +1902,20 @@ function displayResults(data, firstName = '', gender = '') {
       }
       
       .pdf-download-button:hover {
-        background: #066c59;
+        /* Hover: +10% lighter (#107A5A) */
+        background: #107A5A;
         transform: scale(1.03);
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        box-shadow: 
+          0 4px 8px rgba(14, 95, 69, 0.12),
+          0 8px 20px rgba(14, 95, 69, 0.16);
       }
       
       .pdf-download-button:active {
-        background: #087564;
+        background: #0D5540;
         transform: scale(1.01);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 
+          0 2px 4px rgba(14, 95, 69, 0.1),
+          0 4px 10px rgba(14, 95, 69, 0.14);
       }
       
       .pdf-download-button:disabled {
@@ -1916,24 +1926,27 @@ function displayResults(data, firstName = '', gender = '') {
       }
       
       .pdf-download-button i {
-        font-size: 20px;
+        font-size: 22px;
+        color: white;
       }
       
       /* Mobile Optimization */
       @media (max-width: 768px) {
         .pdf-download-button {
-          width: 90%;
-          padding: 14px 24px;
+          max-width: 90%;
+          padding: 15px 28px;
           font-size: 16px;
+        }
+        
+        .pdf-download-button i {
+          font-size: 20px;
         }
       }
       
       @media (max-width: 360px) {
-        .pdf-download-button i {
-          display: none;
-        }
         .pdf-download-button {
-          width: 100%;
+          max-width: 100%;
+          padding: 14px 24px;
         }
       }
     </style>
@@ -2029,16 +2042,30 @@ function downloadPDF(event) {
     const contentWidth = pageWidth - (margin * 2);
     let y = margin;
     
-    // COLORS (Medical Professional Palette)
+    // COLORS (Medical Professional Palette - MEDLESS Brand)
     const colors = {
-      primary: [11, 123, 108],      // Green
-      darkGray: [31, 41, 55],        // Headers
-      mediumGray: [75, 85, 99],      // Body text
-      lightGray: [156, 163, 175],    // Secondary text
-      tableBorder: [229, 231, 235],  // Light border
-      tableHeader: [243, 244, 246],  // Table header bg
-      warning: [245, 158, 11],       // Orange warning
-      critical: [239, 68, 68]        // Red critical
+      primary: [14, 95, 69],         // MEDLESS Green #0E5F45
+      primaryLight: [232, 245, 240], // Light green for headers #E8F5F0
+      darkGray: [51, 51, 51],        // Headers #333333
+      mediumGray: [107, 114, 128],   // Body text #6B7280
+      lightGray: [156, 163, 175],    // Secondary text #9CA3AF
+      tableBorder: [229, 229, 229],  // Light border #E5E5E5
+      tableHeader: [248, 250, 252],  // Table header bg
+      warning: [245, 158, 11],       // Orange warning (keep for severity)
+      warningBox: [250, 250, 250]    // Light gray for warning box #FAFAFA
+    };
+    
+    // Helper: Add MEDLESS logo to current page (top-left, every page)
+    const addLogo = () => {
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.setTextColor(...colors.primary);
+      doc.text('MEDLESS', margin, margin - 5);
+      
+      doc.setFontSize(7);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(...colors.mediumGray);
+      doc.text('Weniger Medikamente. Mehr Leben.', margin, margin - 1);
     };
     
     // Helper: Page break with consistent margins
@@ -2046,7 +2073,8 @@ function downloadPDF(event) {
       if (y + neededSpace > pageHeight - margin - 15) {
         addFooter();
         doc.addPage();
-        y = margin;
+        y = margin + 8; // 8px spacing after logo
+        addLogo();
         return true;
       }
       return false;
@@ -2057,7 +2085,10 @@ function downloadPDF(event) {
       doc.setFontSize(8);
       doc.setTextColor(...colors.lightGray);
       doc.text('© 2025 MEDLESS – Alle Rechte vorbehalten', margin, pageHeight - 10);
-      doc.text(`Seite ${doc.internal.getCurrentPageInfo().pageNumber}`, pageWidth - margin - 15, pageHeight - 10);
+      
+      const pageInfo = doc.internal.getCurrentPageInfo();
+      const totalPages = doc.internal.pages.length - 1; // jsPDF counts from 1, subtract offset
+      doc.text(`Seite ${pageInfo.pageNumber}`, pageWidth - margin - 15, pageHeight - 10);
     };
     
     // Helper: Draw table cell
@@ -2100,59 +2131,53 @@ function downloadPDF(event) {
     };
     
     // ============================================================
-    // 1. TITLE SECTION - Professional Header
+    // 1. TITLE SECTION - Professional Header with Logo
     // ============================================================
     
-    // Logo area (green box with "MEDLESS")
-    doc.setFillColor(...colors.primary);
-    doc.rect(margin, y, 40, 12, 'F');
-    doc.setFontSize(16);
-    doc.setFont(undefined, 'bold');
-    doc.setTextColor(255, 255, 255);
-    doc.text('MEDLESS', margin + 20, y + 8, { align: 'center' });
+    // Add logo to first page
+    addLogo();
+    y += 8;
     
-    // Main title
-    doc.setFontSize(18);
+    // Main title (22pt, Bold, MEDLESS Green)
+    doc.setFontSize(22);
     doc.setFont(undefined, 'bold');
     doc.setTextColor(...colors.primary);
-    doc.text('Ihr persönlicher Ausschleichplan', margin + 45, y + 8);
+    doc.text('MEDLESS – Ihr persönlicher Ausschleichplan', margin, y);
+    y += 10;
     
-    y += 14;
-    
-    // Date (right-aligned)
-    doc.setFontSize(9);
-    doc.setTextColor(...colors.lightGray);
+    // Date (right-aligned, smaller)
+    doc.setFontSize(10);
+    doc.setTextColor(...colors.mediumGray);
     doc.setFont(undefined, 'normal');
     const today = new Date().toLocaleDateString('de-DE', { 
       year: 'numeric', 
       month: 'long', 
       day: 'numeric' 
     });
-    doc.text(`Erstellt am: ${today}`, pageWidth - margin, y, { align: 'right' });
-    y += 5;
+    doc.text(`Erstellt am: ${today}`, pageWidth - margin, y - 2, { align: 'right' });
     
     // Separator line
     doc.setDrawColor(...colors.tableBorder);
     doc.setLineWidth(0.5);
     doc.line(margin, y, pageWidth - margin, y);
-    y += 8;
+    y += 10;
     
     // ============================================================
-    // 2. PATIENT DATA - Professional Table
+    // 2. PATIENT DATA - Professional Two-Column Table
     // ============================================================
     
-    checkPageBreak(45);
+    checkPageBreak(60);
     
-    // Section header
-    doc.setFontSize(13);
+    // Section header (16pt, Bold, MEDLESS Green)
+    doc.setFontSize(16);
     doc.setFont(undefined, 'bold');
-    doc.setTextColor(...colors.darkGray);
+    doc.setTextColor(...colors.primary);
     doc.text('Ihre Ausgangsdaten', margin, y);
-    y += 7;
+    y += 10;
     
-    // Two-column table for patient data
+    // Two-column layout for patient data
     const colWidth = contentWidth / 2;
-    const rowHeight = 8;
+    const rowHeight = 9;
     let tableData = [];
     
     if (firstName) tableData.push(['Name', firstName]);
@@ -2163,73 +2188,73 @@ function downloadPDF(event) {
     if (personalization?.bmi) tableData.push(['Body-Mass-Index', personalization.bmi.toFixed(1)]);
     if (personalization?.idealWeightKg) tableData.push(['Idealgewicht (Devine)', `${personalization.idealWeightKg} kg`]);
     
-    // Draw table
+    // Draw table with light gray background
     tableData.forEach((row, idx) => {
-      // Label cell
+      // Label cell (left column)
       drawTableCell(margin, y, colWidth, rowHeight, row[0], {
         bold: true,
-        fontSize: 10,
+        fontSize: 11,
         bgColor: colors.tableHeader,
         textColor: colors.darkGray
       });
       
-      // Value cell
+      // Value cell (right column)
       drawTableCell(margin + colWidth, y, colWidth, rowHeight, row[1], {
-        fontSize: 10,
+        fontSize: 11,
         textColor: colors.darkGray
       });
       
       y += rowHeight;
     });
     
-    y += 10;
+    y += 28; // 28px spacing between sections
     
     // ============================================================
-    // 3. MEDICATION LIST - Table with Interactions
+    // 3. MEDICATION LIST - Professional Clinical Table
     // ============================================================
     
     if (analysis && analysis.length > 0) {
-      checkPageBreak(40);
+      checkPageBreak(50);
       
-      // Section header
-      doc.setFontSize(13);
+      // Section header (16pt, Bold, MEDLESS Green)
+      doc.setFontSize(16);
       doc.setFont(undefined, 'bold');
-      doc.setTextColor(...colors.darkGray);
+      doc.setTextColor(...colors.primary);
       doc.text('Ihre aktuelle Medikation', margin, y);
-      y += 7;
+      y += 10;
       
-      // Table header for medications
+      // Table header for medications (Green background #E8F5F0)
       const medTableColWidth = contentWidth * 0.50;
       const doseTableColWidth = contentWidth * 0.20;
       const interactionTableColWidth = contentWidth * 0.30;
       
       let xPos = margin;
-      drawTableCell(xPos, y, medTableColWidth, 7, 'Medikament', {
+      drawTableCell(xPos, y, medTableColWidth, 8, 'Medikament', {
         bold: true,
-        fontSize: 10,
-        bgColor: colors.tableHeader,
-        textColor: colors.darkGray
+        fontSize: 11,
+        bgColor: colors.primaryLight,
+        textColor: colors.primary
       });
       xPos += medTableColWidth;
       
-      drawTableCell(xPos, y, doseTableColWidth, 7, 'Dosis', {
+      drawTableCell(xPos, y, doseTableColWidth, 8, 'Dosis', {
         bold: true,
-        fontSize: 10,
+        fontSize: 11,
         align: 'center',
-        bgColor: colors.tableHeader,
-        textColor: colors.darkGray
+        bgColor: colors.primaryLight,
+        textColor: colors.primary
       });
       xPos += doseTableColWidth;
       
-      drawTableCell(xPos, y, interactionTableColWidth, 7, 'Wechselwirkung', {
+      drawTableCell(xPos, y, interactionTableColWidth, 8, 'Wechselwirkung', {
         bold: true,
-        fontSize: 10,
+        fontSize: 11,
         align: 'center',
-        bgColor: colors.tableHeader,
-        textColor: colors.darkGray
+        bgColor: colors.primaryLight,
+        textColor: colors.primary
       });
       
-      y += 7;
+      y += 8;
       
       analysis.forEach((item, idx) => {
         checkPageBreak(12);
@@ -2245,21 +2270,21 @@ function downloadPDF(event) {
         }
         
         xPos = margin;
-        drawTableCell(xPos, y, medTableColWidth, 10, medText, {
-          fontSize: 9,
+        drawTableCell(xPos, y, medTableColWidth, 11, medText, {
+          fontSize: 11,
           textColor: colors.darkGray
         });
         xPos += medTableColWidth;
         
         // Dosage cell
-        drawTableCell(xPos, y, doseTableColWidth, 10, dosage, {
-          fontSize: 9,
+        drawTableCell(xPos, y, doseTableColWidth, 11, dosage, {
+          fontSize: 11,
           align: 'center',
           textColor: colors.mediumGray
         });
         xPos += doseTableColWidth;
         
-        // Interaction cell
+        // Interaction cell (keep warning colors for severity)
         if (item.interactions && item.interactions.length > 0) {
           const interaction = item.interactions[0];
           const severity = interaction.severity || 'unknown';
@@ -2269,204 +2294,201 @@ function downloadPDF(event) {
           let severityColor = colors.mediumGray;
           
           if (severity === 'critical') {
-            severityColor = colors.critical;
+            severityColor = colors.warning; // Orange instead of red
             severityIcon = '●';
           } else if (severity === 'high') {
             severityColor = colors.warning;
             severityIcon = '●';
           }
           
-          drawTableCell(xPos, y, interactionTableColWidth, 10, `${severityIcon} ${severityText}`, {
-            fontSize: 9,
+          drawTableCell(xPos, y, interactionTableColWidth, 11, `${severityIcon} ${severityText}`, {
+            fontSize: 11,
             align: 'center',
             textColor: severityColor
           });
         } else {
-          drawTableCell(xPos, y, interactionTableColWidth, 10, 'Keine bekannt', {
-            fontSize: 9,
+          drawTableCell(xPos, y, interactionTableColWidth, 11, 'Keine bekannt', {
+            fontSize: 11,
             align: 'center',
             textColor: colors.lightGray
           });
         }
         
-        y += 10;
+        y += 11;
       });
       
-      y += 8;
+      y += 28; // 28px spacing between sections
     }
     
     // ============================================================
-    // 4. WEEKLY PLAN - Professional Medical Table
+    // 4. WEEKLY PLAN - Professional Medical Table (FIXED SPACING)
     // ============================================================
     
     doc.addPage();
-    y = margin;
+    y = margin + 8; // Add spacing after logo
+    addLogo();
     
-    // Section header
-    doc.setFontSize(14);
+    // Section header (16pt, Bold, MEDLESS Green)
+    doc.setFontSize(16);
     doc.setFont(undefined, 'bold');
-    doc.setTextColor(...colors.darkGray);
+    doc.setTextColor(...colors.primary);
     doc.text('Wöchentlicher Reduktionsplan', margin, y);
-    y += 10;
+    y += 12;
     
     weeklyPlan.forEach((week, weekIdx) => {
       // Ensure entire week block stays together (no page break mid-block)
-      const weekBlockHeight = 70; // Estimated height for week block
+      const weekBlockHeight = 75; // Estimated height for week block
       checkPageBreak(weekBlockHeight);
       
-      // Week header box
-      doc.setFillColor(...colors.primary);
-      doc.rect(margin, y, contentWidth, 10, 'F');
-      
-      doc.setFontSize(12);
+      // Week header (14pt, bold, MEDLESS Green) - FIXED: 12px spacing below
+      doc.setFontSize(14);
       doc.setFont(undefined, 'bold');
-      doc.setTextColor(255, 255, 255);
-      doc.text(`Woche ${week.week}`, margin + 3, y + 6.5);
+      doc.setTextColor(...colors.primary);
+      doc.text(`Woche ${week.week}`, margin, y);
+      y += 12; // FIXED: Consistent 12px spacing
       
-      y += 12;
-      
-      // Medications table
-      doc.setFontSize(10);
+      // Medications subsection header (12pt, bold) - FIXED: 12px spacing below
+      doc.setFontSize(12);
       doc.setFont(undefined, 'bold');
       doc.setTextColor(...colors.darkGray);
       doc.text('Medikamentendosierung', margin, y);
-      y += 5;
+      y += 12; // FIXED: Consistent 12px spacing
       
-      // Table header
+      // Table header (Green background #E8F5F0, 1.4 line height)
       const medColWidth = contentWidth * 0.35;
       const doseColWidth = contentWidth * 0.2;
       const changeColWidth = contentWidth * 0.25;
       const targetColWidth = contentWidth * 0.2;
       
       let xPos = margin;
-      drawTableCell(xPos, y, medColWidth, 7, 'Medikament', {
+      drawTableCell(xPos, y, medColWidth, 8, 'Medikament', {
         bold: true,
-        fontSize: 9,
-        bgColor: colors.tableHeader,
-        textColor: colors.darkGray
+        fontSize: 11,
+        bgColor: colors.primaryLight,
+        textColor: colors.primary
       });
       xPos += medColWidth;
       
-      drawTableCell(xPos, y, doseColWidth, 7, 'Startdosis', {
+      drawTableCell(xPos, y, doseColWidth, 8, 'Startdosis', {
         bold: true,
-        fontSize: 9,
+        fontSize: 11,
         align: 'center',
-        bgColor: colors.tableHeader,
-        textColor: colors.darkGray
+        bgColor: colors.primaryLight,
+        textColor: colors.primary
       });
       xPos += doseColWidth;
       
-      drawTableCell(xPos, y, doseColWidth, 7, 'Diese Woche', {
+      drawTableCell(xPos, y, doseColWidth, 8, 'Diese Woche', {
         bold: true,
-        fontSize: 9,
+        fontSize: 11,
         align: 'center',
-        bgColor: colors.tableHeader,
-        textColor: colors.darkGray
+        bgColor: colors.primaryLight,
+        textColor: colors.primary
       });
       xPos += doseColWidth;
       
-      drawTableCell(xPos, y, doseColWidth, 7, 'Zieldosis', {
+      drawTableCell(xPos, y, doseColWidth, 8, 'Zieldosis', {
         bold: true,
-        fontSize: 9,
+        fontSize: 11,
         align: 'center',
-        bgColor: colors.tableHeader,
-        textColor: colors.darkGray
+        bgColor: colors.primaryLight,
+        textColor: colors.primary
       });
       xPos += doseColWidth;
       
-      drawTableCell(xPos, y, targetColWidth, 7, 'Veränderung', {
+      drawTableCell(xPos, y, targetColWidth, 8, 'Veränderung', {
         bold: true,
-        fontSize: 9,
+        fontSize: 11,
         align: 'center',
-        bgColor: colors.tableHeader,
-        textColor: colors.darkGray
+        bgColor: colors.primaryLight,
+        textColor: colors.primary
       });
       
-      y += 7;
+      y += 8;
       
-      // Medication rows
+      // Medication rows (11-12pt text, 1.4 line height)
       week.medications.forEach(med => {
         xPos = margin;
         
-        drawTableCell(xPos, y, medColWidth, 7, med.name, {
-          fontSize: 9,
+        drawTableCell(xPos, y, medColWidth, 9, med.name, {
+          fontSize: 11,
           textColor: colors.darkGray
         });
         xPos += medColWidth;
         
-        drawTableCell(xPos, y, doseColWidth, 7, `${med.startMg} mg`, {
-          fontSize: 9,
+        drawTableCell(xPos, y, doseColWidth, 9, `${med.startMg} mg`, {
+          fontSize: 11,
           align: 'center',
           textColor: colors.mediumGray
         });
         xPos += doseColWidth;
         
-        drawTableCell(xPos, y, doseColWidth, 7, `${med.currentMg} mg`, {
-          fontSize: 9,
+        drawTableCell(xPos, y, doseColWidth, 9, `${med.currentMg} mg`, {
+          fontSize: 11,
           align: 'center',
           bold: true,
           textColor: colors.darkGray
         });
         xPos += doseColWidth;
         
-        drawTableCell(xPos, y, doseColWidth, 7, `${med.targetMg} mg`, {
-          fontSize: 9,
+        drawTableCell(xPos, y, doseColWidth, 9, `${med.targetMg} mg`, {
+          fontSize: 11,
           align: 'center',
           textColor: colors.mediumGray
         });
         xPos += doseColWidth;
         
         const change = med.reduction || 0;
-        drawTableCell(xPos, y, targetColWidth, 7, `-${change} mg/Wo`, {
-          fontSize: 9,
+        drawTableCell(xPos, y, targetColWidth, 9, `-${change} mg/Wo`, {
+          fontSize: 11,
           align: 'center',
           textColor: colors.mediumGray
         });
         
-        y += 7;
+        y += 9;
       });
       
-      y += 5;
+      y += 12; // FIXED: Consistent 12px spacing
       
-      // Cannabinoid dosing section
-      doc.setFontSize(10);
+      // Cannabinoid dosing section header - FIXED: 12px spacing below
+      doc.setFontSize(12);
       doc.setFont(undefined, 'bold');
       doc.setTextColor(...colors.darkGray);
       doc.text('Cannabinoid-Dosierung', margin, y);
-      y += 5;
+      y += 12; // FIXED: Consistent 12px spacing
       
-      // Cannabinoid info box
+      // Cannabinoid info box (professional light green)
       doc.setDrawColor(...colors.tableBorder);
       doc.setLineWidth(0.5);
-      doc.setFillColor(240, 253, 244);
-      doc.rect(margin, y, contentWidth, 20, 'FD');
+      doc.setFillColor(240, 253, 244); // Light green
+      doc.rect(margin, y, contentWidth, 22, 'FD');
       
-      doc.setFontSize(9);
+      doc.setFontSize(11);
       doc.setFont(undefined, 'normal');
       doc.setTextColor(...colors.darkGray);
       
-      const cbdY = y + 5;
+      const cbdY = y + 6;
       doc.text(`Cannabinoid-Dosis:`, margin + 3, cbdY);
       doc.setFont(undefined, 'bold');
-      doc.text(`${week.actualCbdMg} mg/Tag`, margin + 40, cbdY);
+      doc.text(`${week.actualCbdMg} mg/Tag`, margin + 42, cbdY);
       
       doc.setFont(undefined, 'normal');
       doc.text(`Produkt:`, margin + 75, cbdY);
       doc.setFont(undefined, 'bold');
-      doc.text(week.kannasanProduct.name, margin + 93, cbdY);
+      doc.text(week.kannasanProduct.name, margin + 95, cbdY);
       
-      const cbdY2 = cbdY + 5;
+      const cbdY2 = cbdY + 6;
       doc.setFont(undefined, 'normal');
       doc.text(`Anwendung:`, margin + 3, cbdY2);
-      doc.text(`${week.morningSprays}× morgens, ${week.eveningSprays}× abends`, margin + 25, cbdY2);
+      doc.text(`${week.morningSprays}× morgens, ${week.eveningSprays}× abends`, margin + 27, cbdY2);
       doc.setTextColor(...colors.mediumGray);
-      doc.text(`(${week.totalSprays}× täglich)`, margin + 80, cbdY2);
+      doc.text(`(${week.totalSprays}× täglich)`, margin + 85, cbdY2);
       
-      y += 22;
+      y += 24;
       
-      // PlanIntelligenz 2.0: Weekly metrics
+      // PlanIntelligenz 2.0: Weekly metrics (smaller, subtle)
       if (week.totalMedicationLoad || week.cannabinoidMgPerKg) {
-        doc.setFontSize(8);
+        doc.setFontSize(9);
         doc.setTextColor(...colors.lightGray);
         const metricsY = y + 2;
         
@@ -2482,11 +2504,11 @@ function downloadPDF(event) {
           doc.text(`Anteil: ${week.cannabinoidToLoadRatio}%`, margin + 130, metricsY);
         }
         
-        y += 5;
+        y += 6;
       }
       
-      // Spacing between weeks (24-32pt as requested)
-      y += 12;
+      // FIXED: 28px spacing between weeks (professional medical standard)
+      y += 28;
     });
     
     // ============================================================
@@ -2494,32 +2516,33 @@ function downloadPDF(event) {
     // ============================================================
     
     doc.addPage();
-    y = margin;
+    y = margin + 8; // Add spacing after logo
+    addLogo();
     
-    // Section header with icon
-    doc.setFontSize(14);
+    // Section header with icon (16pt, Bold, MEDLESS Green)
+    doc.setFontSize(16);
     doc.setFont(undefined, 'bold');
-    doc.setTextColor(...colors.darkGray);
-    doc.text('⚕ Wichtige medizinische Hinweise', margin, y);
-    y += 10;
+    doc.setTextColor(...colors.primary);
+    doc.text('🔔 Wichtige medizinische Hinweise', margin, y);
+    y += 12;
     
-    // Warning box
+    // Warning box (light gray background #FAFAFA)
     doc.setDrawColor(...colors.tableBorder);
-    doc.setFillColor(248, 250, 252);
+    doc.setFillColor(...colors.warningBox);
     doc.rect(margin, y, contentWidth, pageHeight - y - margin - 20, 'FD');
     
-    y += 8;
+    y += 10;
     
-    // General warnings
-    doc.setFontSize(11);
+    // General warnings section
+    doc.setFontSize(12);
     doc.setFont(undefined, 'bold');
     doc.setTextColor(...colors.darkGray);
     doc.text('Allgemeine Hinweise', margin + 5, y);
-    y += 6;
+    y += 8;
     
-    doc.setFontSize(10);
+    doc.setFontSize(11);
     doc.setFont(undefined, 'normal');
-    doc.setTextColor(...colors.mediumGray);
+    doc.setTextColor(...colors.darkGray);
     
     const generalWarnings = [
       'Dieser Plan zeigt theoretische Reduktionsmöglichkeiten. Die tatsächliche Umsetzung erfolgt ausschließlich unter ärztlicher Aufsicht.',
@@ -2531,21 +2554,21 @@ function downloadPDF(event) {
     generalWarnings.forEach(warning => {
       const lines = doc.splitTextToSize(`• ${warning}`, contentWidth - 15);
       doc.text(lines, margin + 7, y);
-      y += lines.length * 5 + 2;
+      y += lines.length * 6 + 2; // 1.4 line height
     });
     
-    y += 5;
+    y += 8;
     
-    // Cannabinoid specific warnings
-    doc.setFontSize(11);
+    // Cannabinoid specific warnings section
+    doc.setFontSize(12);
     doc.setFont(undefined, 'bold');
     doc.setTextColor(...colors.darkGray);
     doc.text('Hinweise zu Cannabinoiden', margin + 5, y);
-    y += 6;
+    y += 8;
     
-    doc.setFontSize(10);
+    doc.setFontSize(11);
     doc.setFont(undefined, 'normal');
-    doc.setTextColor(...colors.mediumGray);
+    doc.setTextColor(...colors.darkGray);
     
     const cbdWarnings = [
       'CYP450-Interaktionen: Cannabinoide können den Abbau bestimmter Medikamente beeinflussen.',
@@ -2558,7 +2581,7 @@ function downloadPDF(event) {
     cbdWarnings.forEach(warning => {
       const lines = doc.splitTextToSize(`• ${warning}`, contentWidth - 15);
       doc.text(lines, margin + 7, y);
-      y += lines.length * 5 + 2;
+      y += lines.length * 6 + 2; // 1.4 line height
     });
     
     // Add footer to last page
