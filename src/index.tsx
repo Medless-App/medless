@@ -1233,44 +1233,75 @@ app.get('/', (c) => {
       margin: 2rem 0;
     }
     
+    /* ============================================================
+       LOADING CARD - Professional Health-Tech Dashboard
+       ============================================================ */
+    
     #loading .loading-card {
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
-      padding: 3rem 2rem;
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(8px);
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(14, 95, 69, 0.08);
+      padding: 3.5rem 2.5rem;
+      
+      /* Subtle mint/green gradient background */
+      background: linear-gradient(135deg, 
+        rgba(240, 253, 250, 0.95) 0%, 
+        rgba(255, 255, 255, 0.95) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      
+      /* Professional card shadow */
+      border-radius: 20px;
+      border: 1px solid rgba(14, 95, 69, 0.08);
+      box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.02),
+        0 10px 30px rgba(14, 95, 69, 0.08),
+        0 20px 50px rgba(14, 95, 69, 0.05);
+      
       text-align: center;
-      animation: fadeInUp 400ms ease-out;
+      animation: fadeInUp 400ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    /* Loader Circle - Ruhige Rotation */
+    /* Progress Ring Container */
     .loader-circle {
-      width: 100px;
-      height: 100px;
-      margin: 0 auto 2rem;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 2.5rem;
       position: relative;
-      animation: rotateLoader 1000ms ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
-    /* Loading Text - Sanftes Fade-in */
+    /* Progress Ring - Subtle Pulse Effect */
+    .loader-circle svg {
+      filter: drop-shadow(0 2px 8px rgba(14, 95, 69, 0.15));
+      animation: ringPulse 3s ease-in-out infinite;
+    }
+    
+    /* Center Icon - Breathing Animation */
+    #center-icon {
+      animation: iconBreath 3s ease-in-out infinite;
+    }
+    
+    /* Loading Titles */
     .loading-title {
       font-size: 1.5rem;
       font-weight: 700;
       color: #0E5F45;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.875rem;
+      letter-spacing: -0.02em;
       animation: fadeIn 500ms ease-out 200ms both;
     }
     
     .loading-subtitle {
-      font-size: 1rem;
+      font-size: 1.05rem;
       color: #6B7280;
-      margin-bottom: 0.5rem;
+      margin-bottom: 2rem;
+      font-weight: 500;
       animation: fadeIn 500ms ease-out 400ms both;
     }
     
-    /* Status Text with Dots Animation */
+    /* Status Text */
     #analysis-status {
       color: #0E5F45;
       font-weight: 600;
@@ -1287,20 +1318,48 @@ app.get('/', (c) => {
       animation: dotsAnimation 1500ms steps(4, end) infinite;
     }
     
-    /* Progress Circle - Smooth */
+    /* Progress Circle - Smooth Transition */
     #progress-circle {
-      transition: stroke-dashoffset 400ms ease-in-out;
+      transition: stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      filter: url(#glow);
     }
     
-    /* Mobile Optimierung */
+    /* Center Percentage - Smooth Growth */
+    #center-percentage {
+      transition: font-size 300ms ease-in-out;
+    }
+    
+    /* KPI Cards - Professional Hover Effect */
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(14, 95, 69, 0.12) !important;
+      border-color: rgba(14, 95, 69, 0.2) !important;
+    }
+    
+    /* Mobile Optimization - Responsive & Performant */
     @media (max-width: 768px) {
       #loading .loading-card {
-        padding: 2rem 1.5rem;
+        padding: 2.5rem 1.5rem;
+        border-radius: 16px;
       }
       
       .loader-circle {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
+        margin-bottom: 2rem;
+      }
+      
+      .loader-circle svg {
+        width: 100px;
+        height: 100px;
+      }
+      
+      #center-icon {
+        font-size: 1.75rem !important;
+      }
+      
+      #center-percentage {
+        font-size: 1.25rem !important;
       }
       
       .loading-title {
@@ -1308,25 +1367,73 @@ app.get('/', (c) => {
       }
       
       .loading-subtitle {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
       }
       
       #live-stats {
         grid-template-columns: 1fr !important;
-        gap: 0.75rem !important;
+        gap: 1rem !important;
+      }
+      
+      .kpi-card {
+        padding: 1.25rem 1rem !important;
+      }
+      
+      .kpi-card div[id^="counter-"] {
+        font-size: 2rem !important;
       }
     }
     
-    /* Keyframe Animations */
-    @keyframes rotateLoader {
-      0% {
-        transform: rotate(0deg);
+    /* Extra Small Screens */
+    @media (max-width: 480px) {
+      #loading .loading-card {
+        padding: 2rem 1.25rem;
       }
-      100% {
-        transform: rotate(360deg);
+      
+      .loading-title {
+        font-size: 1.125rem;
       }
     }
     
+    /* ============================================================
+       KEYFRAME ANIMATIONS - Professional & Performant
+       ============================================================ */
+    
+    /* Ring Pulse - Subtle breathing effect */
+    @keyframes ringPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.02);
+        opacity: 0.95;
+      }
+    }
+    
+    /* Icon Breath - Gentle scale animation */
+    @keyframes iconBreath {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.08);
+      }
+    }
+    
+    /* KPI Card Entry - Staggered fade-in */
+    @keyframes kpiCardEntry {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Fade In */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -4630,34 +4737,67 @@ app.get('/', (c) => {
               <span id="analysis-status">KI-Analyse läuft</span><span id="status-dots"></span>
             </p>
             
-            <!-- Circular Progress - Optimized -->
-            <div style="position: relative; display: inline-block; margin-bottom: 2rem;">
+            <!-- Circular Progress - Professional Health-Tech -->
+            <div style="position: relative; display: inline-block; margin-bottom: 2.5rem;">
               <div class="loader-circle">
-                <svg width="100" height="100" viewBox="0 0 100 100" style="transform: rotate(-90deg);">
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="6"></circle>
-                  <circle id="progress-circle" cx="50" cy="50" r="42" fill="none" stroke="#0E5F45" stroke-width="6" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                <svg width="120" height="120" viewBox="0 0 100 100" style="transform: rotate(-90deg);">
+                  <!-- Glow Filter for Professional Effect -->
+                  <defs>
+                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  
+                  <!-- Background Circle -->
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="5"></circle>
+                  
+                  <!-- Progress Circle with Glow -->
+                  <circle id="progress-circle" cx="50" cy="50" r="42" fill="none" stroke="url(#progressGradient)" stroke-width="5" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                  
+                  <!-- Gradient for Progress Ring -->
+                  <defs>
+                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#0E5F45;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#097969;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
                 </svg>
               </div>
               
               <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;">
-                <i id="center-icon" class="fas fa-heartbeat" style="color: #0E5F45; font-size: 2rem; margin-bottom: 0.25rem;"></i>
-                <div id="center-percentage" style="font-size: 1.25rem; font-weight: 700; color: #0E5F45;">0%</div>
+                <i id="center-icon" class="fas fa-heartbeat" style="color: #0E5F45; font-size: 2.25rem; margin-bottom: 0.375rem;"></i>
+                <div id="center-percentage" style="font-size: 1.5rem; font-weight: 700; color: #0E5F45; letter-spacing: -0.02em;">0%</div>
               </div>
             </div>
             
-            <!-- Live Counter Stats (GRÖSSER) -->
-            <div id="live-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.8rem;">
-              <div style="background: white; padding: 1.2rem 0.8rem; border-radius: 12px; border: 2px solid var(--border-light);">
-                <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green);" id="counter-medications">0</div>
-                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.4;">Medikamente<br>analysiert</div>
+            <!-- Live Counter Stats - Professional KPI Dashboard -->
+            <div id="live-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 2rem;">
+              <div class="kpi-card" style="background: white; padding: 1.5rem 1rem; border-radius: 14px; border: 1px solid rgba(14, 95, 69, 0.12); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); animation: kpiCardEntry 500ms ease-out 600ms both;">
+                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                  <i class="fas fa-pills" style="color: #0E5F45; font-size: 1.25rem; opacity: 0.8;"></i>
+                </div>
+                <div style="font-size: 2.25rem; font-weight: 700; color: #0E5F45; letter-spacing: -0.02em; line-height: 1;" id="counter-medications">0</div>
+                <div style="font-size: 0.875rem; color: #6B7280; margin-top: 0.5rem; font-weight: 500; line-height: 1.3;">Medikamente<br>analysiert</div>
               </div>
-              <div style="background: white; padding: 1.2rem 0.8rem; border-radius: 12px; border: 2px solid var(--border-light);">
-                <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green);" id="counter-interactions">0</div>
-                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.4;">Wechsel-<br>wirkungen</div>
+              
+              <div class="kpi-card" style="background: white; padding: 1.5rem 1rem; border-radius: 14px; border: 1px solid rgba(14, 95, 69, 0.12); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); animation: kpiCardEntry 500ms ease-out 700ms both;">
+                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                  <i class="fas fa-exclamation-triangle" style="color: #0E5F45; font-size: 1.25rem; opacity: 0.8;"></i>
+                </div>
+                <div style="font-size: 2.25rem; font-weight: 700; color: #0E5F45; letter-spacing: -0.02em; line-height: 1;" id="counter-interactions">0</div>
+                <div style="font-size: 0.875rem; color: #6B7280; margin-top: 0.5rem; font-weight: 500; line-height: 1.3;">Wechsel-<br>wirkungen</div>
               </div>
-              <div style="background: white; padding: 1.2rem 0.8rem; border-radius: 12px; border: 2px solid var(--border-light);">
-                <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green);" id="counter-calculations">0</div>
-                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.4;">Berechnungen<br>durchgeführt</div>
+              
+              <div class="kpi-card" style="background: white; padding: 1.5rem 1rem; border-radius: 14px; border: 1px solid rgba(14, 95, 69, 0.12); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); animation: kpiCardEntry 500ms ease-out 800ms both;">
+                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                  <i class="fas fa-calculator" style="color: #0E5F45; font-size: 1.25rem; opacity: 0.8;"></i>
+                </div>
+                <div style="font-size: 2.25rem; font-weight: 700; color: #0E5F45; letter-spacing: -0.02em; line-height: 1;" id="counter-calculations">0</div>
+                <div style="font-size: 0.875rem; color: #6B7280; margin-top: 0.5rem; font-weight: 500; line-height: 1.3;">Berechnungen<br>durchgeführt</div>
               </div>
             </div>
             

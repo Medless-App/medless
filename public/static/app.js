@@ -794,8 +794,8 @@ function animateLoadingSteps() {
       if (statusDots) statusDots.textContent = '.'.repeat(dotCount || 1);
     }, 500);
     
-    // SVG circle animation (circumference = 2 * PI * r = 2 * PI * 70 = 440)
-    const circumference = 440;
+    // SVG circle animation (circumference = 2 * PI * r = 2 * PI * 42 = 264)
+    const circumference = 264;
     
     // Execute steps sequentially
     let delay = 0;
