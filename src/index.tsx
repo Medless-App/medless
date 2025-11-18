@@ -1388,6 +1388,40 @@ app.get('/', (c) => {
     }
     
     /* ============================================================
+       PLAN READY HERO - RESPONSIVE SPACING
+       ============================================================ */
+    
+    /* Desktop: Genug Platz für Header (72px) + Extra-Puffer */
+    .plan-ready-hero {
+      padding-top: 140px !important; /* 72px Header + 68px Puffer = 140px */
+    }
+    
+    /* Tablet: Reduzierter Abstand */
+    @media (max-width: 1024px) {
+      .plan-ready-hero {
+        padding-top: 120px !important; /* 72px Header + 48px Puffer = 120px */
+      }
+    }
+    
+    /* Mobile: Kein Header (hidden), aber trotzdem Abstand oben */
+    @media (max-width: 768px) {
+      .plan-ready-hero {
+        padding-top: 80px !important; /* Kein Header, aber sauberer Top-Abstand */
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+      }
+    }
+    
+    /* Extra Small Mobile: Noch kompakter */
+    @media (max-width: 480px) {
+      .plan-ready-hero {
+        padding-top: 60px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+    }
+    
+    /* ============================================================
        UI COMPONENT OPTIMIZATION - HARMONIZED
        ============================================================ */
     
@@ -4650,7 +4684,7 @@ app.get('/', (c) => {
         <!-- ============================================================
              ZWISCHEN-SCREEN: Plan Ready Interstitial
              ============================================================ -->
-        <div id="plan-ready-interstitial" class="hidden" style="padding: 60px 20px; background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%);">
+        <div id="plan-ready-interstitial" class="hidden plan-ready-hero" style="padding: 140px 20px 60px 20px; background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%);">
           <div style="max-width: 900px; margin: 0 auto; text-align: center;">
             
             <!-- Success Icon Animation -->
