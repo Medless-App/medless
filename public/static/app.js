@@ -2058,26 +2058,38 @@ function downloadPDF(event) {
     
     // Helper: Add MEDLESS logo to current page (top-left, every page)
     const addLogo = () => {
-      // MEDLESS Logo Image (120px width, proportional height)
-      const logoUrl = 'https://www.genspark.ai/api/files/s/PLloGp9oWie';
+      // MEDLESS Logo with professional medical styling
+      const logoY = margin - 8;
       
-      try {
-        // Add logo image (120px width = ~42mm in PDF)
-        // Position: margin (20) from left, margin-8 from top
-        doc.addImage(logoUrl, 'PNG', margin, margin - 8, 42, 12);
-      } catch (error) {
-        // Fallback to text if image fails
-        console.warn('Logo image failed, using text fallback:', error);
-        doc.setFontSize(14);
-        doc.setFont(undefined, 'bold');
-        doc.setTextColor(...colors.primary);
-        doc.text('MEDLESS', margin, margin - 5);
-        
-        doc.setFontSize(7);
-        doc.setFont(undefined, 'normal');
-        doc.setTextColor(...colors.mediumGray);
-        doc.text('Weniger Medikamente. Mehr Leben.', margin, margin - 1);
-      }
+      // Draw logo circles (representing the reducing medication dots)
+      const circleY = logoY + 2;
+      const circles = [
+        { x: margin, size: 3 },
+        { x: margin + 5, size: 2.5 },
+        { x: margin + 9, size: 2 },
+        { x: margin + 12.5, size: 1.5 },
+        { x: margin + 15.5, size: 1.2 },
+        { x: margin + 18, size: 0.9 },
+        { x: margin + 20, size: 0.7 },
+        { x: margin + 21.5, size: 0.5 }
+      ];
+      
+      doc.setFillColor(...colors.primary);
+      circles.forEach(circle => {
+        doc.circle(circle.x, circleY, circle.size, 'F');
+      });
+      
+      // MEDLESS text
+      doc.setFontSize(16);
+      doc.setFont(undefined, 'bold');
+      doc.setTextColor(...colors.primary);
+      doc.text('MedLess', margin + 24, logoY + 4);
+      
+      // Tagline
+      doc.setFontSize(7);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(...colors.mediumGray);
+      doc.text('weniger Medikamente, mehr Leben', margin, logoY + 10);
     };
     
     // Helper: Page break with consistent margins
