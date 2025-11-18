@@ -1860,26 +1860,88 @@ function displayResults(data, firstName = '', gender = '') {
   // ============================================================
   
   html += `
+    <style>
+      /* Professional Medical PDF Button */
+      .pdf-download-button {
+        /* Form & Size */
+        padding: 14px 28px;
+        height: 52px;
+        border-radius: 12px;
+        border: none;
+        
+        /* Colors - Medical Professional */
+        background: #097969;
+        color: white;
+        
+        /* Typography */
+        font-size: 17px;
+        font-weight: 600;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        letter-spacing: -0.01em;
+        
+        /* Layout */
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        
+        /* Shadow - Subtle Medical */
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        
+        /* Animation */
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        
+        /* Prevent text selection */
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      
+      .pdf-download-button:hover {
+        background: #066c59;
+        transform: scale(1.03);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+      }
+      
+      .pdf-download-button:active {
+        background: #087564;
+        transform: scale(1.01);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .pdf-download-button:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+        transform: scale(1);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      }
+      
+      .pdf-download-button i {
+        font-size: 20px;
+      }
+      
+      /* Mobile Optimization */
+      @media (max-width: 768px) {
+        .pdf-download-button {
+          width: 90%;
+          padding: 14px 24px;
+          font-size: 16px;
+        }
+      }
+      
+      @media (max-width: 360px) {
+        .pdf-download-button i {
+          display: none;
+        }
+        .pdf-download-button {
+          width: 100%;
+        }
+      }
+    </style>
+    
     <div style="margin: 3rem 0 2rem; text-align: center;">
       <button 
         onclick="downloadPDF(event)" 
-        style="
-          padding: 1.25rem 2.5rem; 
-          background: linear-gradient(135deg, #0b7b6c 0%, #10b981 100%); 
-          color: white; 
-          border: none; 
-          border-radius: 12px; 
-          font-size: 1rem; 
-          font-weight: 600; 
-          cursor: pointer;
-          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-          transition: all 0.3s ease;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-        "
-        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'"
-        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)'"
+        class="pdf-download-button"
       >
         <i class="fas fa-file-pdf"></i>
         <span>Plan als PDF herunterladen</span>
@@ -2057,16 +2119,16 @@ function downloadPDF(event) {
     
     y += 14;
     
-    // Date and subtitle
+    // Date (right-aligned)
     doc.setFontSize(9);
-    doc.setTextColor(...colors.mediumGray);
+    doc.setTextColor(...colors.lightGray);
     doc.setFont(undefined, 'normal');
     const today = new Date().toLocaleDateString('de-DE', { 
       year: 'numeric', 
       month: 'long', 
       day: 'numeric' 
     });
-    doc.text(`Erstellt am: ${today}`, margin, y);
+    doc.text(`Erstellt am: ${today}`, pageWidth - margin, y, { align: 'right' });
     y += 5;
     
     // Separator line
@@ -2136,49 +2198,75 @@ function downloadPDF(event) {
       doc.text('Ihre aktuelle Medikation', margin, y);
       y += 7;
       
+      // Table header for medications
+      const medTableColWidth = contentWidth * 0.50;
+      const doseTableColWidth = contentWidth * 0.20;
+      const interactionTableColWidth = contentWidth * 0.30;
+      
+      let xPos = margin;
+      drawTableCell(xPos, y, medTableColWidth, 7, 'Medikament', {
+        bold: true,
+        fontSize: 10,
+        bgColor: colors.tableHeader,
+        textColor: colors.darkGray
+      });
+      xPos += medTableColWidth;
+      
+      drawTableCell(xPos, y, doseTableColWidth, 7, 'Dosis', {
+        bold: true,
+        fontSize: 10,
+        align: 'center',
+        bgColor: colors.tableHeader,
+        textColor: colors.darkGray
+      });
+      xPos += doseTableColWidth;
+      
+      drawTableCell(xPos, y, interactionTableColWidth, 7, 'Wechselwirkung', {
+        bold: true,
+        fontSize: 10,
+        align: 'center',
+        bgColor: colors.tableHeader,
+        textColor: colors.darkGray
+      });
+      
+      y += 7;
+      
       analysis.forEach((item, idx) => {
-        checkPageBreak(20);
+        checkPageBreak(12);
         
         const medName = item.medication.name || item.medication.generic_name || 'Unbekannt';
         const genericName = item.medication.generic_name || '';
         const dosage = item.mgPerDay ? `${item.mgPerDay} mg/Tag` : 'Keine Angabe';
         
-        // Medication row background
-        if (idx % 2 === 0) {
-          doc.setFillColor(250, 250, 250);
-          doc.rect(margin, y - 2, contentWidth, 14, 'F');
-        }
-        
-        // Medication name + dosage
-        doc.setFontSize(11);
-        doc.setFont(undefined, 'bold');
-        doc.setTextColor(...colors.darkGray);
-        doc.text(medName, margin + 2, y);
-        
-        doc.setFont(undefined, 'normal');
-        doc.setFontSize(10);
-        doc.setTextColor(...colors.mediumGray);
-        doc.text(dosage, pageWidth - margin - 30, y, { align: 'right' });
-        
-        y += 5;
-        
-        // Generic name if different
+        // Medication name cell (with generic name if different)
+        let medText = medName;
         if (genericName && genericName.toLowerCase() !== medName.toLowerCase()) {
-          doc.setFontSize(9);
-          doc.setTextColor(...colors.lightGray);
-          doc.text(`Wirkstoff: ${genericName}`, margin + 2, y);
-          y += 4;
+          medText += ` (${genericName})`;
         }
         
-        // Interaction info
+        xPos = margin;
+        drawTableCell(xPos, y, medTableColWidth, 10, medText, {
+          fontSize: 9,
+          textColor: colors.darkGray
+        });
+        xPos += medTableColWidth;
+        
+        // Dosage cell
+        drawTableCell(xPos, y, doseTableColWidth, 10, dosage, {
+          fontSize: 9,
+          align: 'center',
+          textColor: colors.mediumGray
+        });
+        xPos += doseTableColWidth;
+        
+        // Interaction cell
         if (item.interactions && item.interactions.length > 0) {
           const interaction = item.interactions[0];
           const severity = interaction.severity || 'unknown';
           
-          // Severity icon and color
-          let severityColor = colors.mediumGray;
-          let severityIcon = '○';
           let severityText = severity.charAt(0).toUpperCase() + severity.slice(1);
+          let severityIcon = '○';
+          let severityColor = colors.mediumGray;
           
           if (severity === 'critical') {
             severityColor = colors.critical;
@@ -2188,29 +2276,20 @@ function downloadPDF(event) {
             severityIcon = '●';
           }
           
-          doc.setFontSize(9);
-          doc.setTextColor(...severityColor);
-          doc.text(`${severityIcon} Wechselwirkung: ${severityText}`, margin + 2, y);
-          
-          y += 4;
-          
-          // Interaction description (truncated)
-          if (interaction.description) {
-            doc.setTextColor(...colors.lightGray);
-            const desc = interaction.description.substring(0, 90) + (interaction.description.length > 90 ? '...' : '');
-            const lines = doc.splitTextToSize(desc, contentWidth - 10);
-            doc.text(lines, margin + 4, y);
-            y += lines.length * 3.5;
-          }
+          drawTableCell(xPos, y, interactionTableColWidth, 10, `${severityIcon} ${severityText}`, {
+            fontSize: 9,
+            align: 'center',
+            textColor: severityColor
+          });
+        } else {
+          drawTableCell(xPos, y, interactionTableColWidth, 10, 'Keine bekannt', {
+            fontSize: 9,
+            align: 'center',
+            textColor: colors.lightGray
+          });
         }
         
-        y += 5;
-        
-        // Separator line
-        doc.setDrawColor(...colors.tableBorder);
-        doc.setLineWidth(0.1);
-        doc.line(margin, y, pageWidth - margin, y);
-        y += 2;
+        y += 10;
       });
       
       y += 8;
@@ -2231,7 +2310,9 @@ function downloadPDF(event) {
     y += 10;
     
     weeklyPlan.forEach((week, weekIdx) => {
-      checkPageBreak(65);
+      // Ensure entire week block stays together (no page break mid-block)
+      const weekBlockHeight = 70; // Estimated height for week block
+      checkPageBreak(weekBlockHeight);
       
       // Week header box
       doc.setFillColor(...colors.primary);
@@ -2404,7 +2485,8 @@ function downloadPDF(event) {
         y += 5;
       }
       
-      y += 8;
+      // Spacing between weeks (24-32pt as requested)
+      y += 12;
     });
     
     // ============================================================
