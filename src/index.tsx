@@ -2066,19 +2066,19 @@ app.get('/', (c) => {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: white;
-      border-bottom: 1px solid var(--gray-200);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      background: #FFFFFF;
+      border-bottom: 1px solid #E5E7EB;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
     
     .header-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 2rem;
+      padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 72px;
+      height: 68px;
     }
     
     .header-logo {
@@ -2095,15 +2095,27 @@ app.get('/', (c) => {
     .header-nav {
       display: flex;
       align-items: center;
-      gap: var(--space-6);
+      gap: 32px;
     }
     
     .header-nav a {
       font-size: 15px;
-      font-weight: 500;
-      color: var(--text-body-color);
+      font-weight: 600;
+      color: #1F2933;
       text-decoration: none;
-      transition: color 0.2s ease;
+      transition: all 0.2s ease;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+      border-bottom-color: #0E5A45;
+    }
+    
+    .header-nav a.active {
+      color: #0E5A45;
+      border-bottom-color: #0E5A45;
     }
     
     /* Hover styles moved to dedicated HOVER INTERACTIONS section */
@@ -2111,18 +2123,25 @@ app.get('/', (c) => {
     .header-cta {
       display: inline-flex;
       align-items: center;
-      height: 38px;
-      padding: 0 var(--space-4);
+      height: 40px;
+      padding: 0 20px;
       font-size: 14px;
       font-weight: 600;
-      color: var(--primary-dark-green);
-      background: white;
-      border: 1px solid var(--primary-green);
-      border-radius: var(--radius-medium);
+      color: white;
+      background: #0E5A45;
+      border: none;
+      border-radius: 10px;
       cursor: pointer;
       text-decoration: none;
       transition: all 0.2s ease;
       white-space: nowrap;
+      margin-left: 24px;
+    }
+    
+    .header-cta:hover {
+      background: #0C4D3A;
+      box-shadow: 0 2px 8px rgba(14, 90, 69, 0.16);
+      transform: translateY(-1px);
     }
     
     /* Hero Mobile Logo (inside hero, only visible on mobile) */
@@ -2155,16 +2174,23 @@ app.get('/', (c) => {
        ============================================================ */
     
     .hero {
-      background: linear-gradient(180deg, var(--background-ultra-light) 0%, var(--background-white) 100%);
-      padding: var(--spacing-block) 0 var(--spacing-block-small);
+      background: linear-gradient(135deg, #FFFFFF 0%, #F4FBF8 100%);
+      padding: 88px 0 96px;
       overflow: hidden;
     }
     
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 4rem;
-      align-items: center;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 64px;
+      align-items: start;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
     }
     
     .hero-logo-small {
@@ -2175,22 +2201,22 @@ app.get('/', (c) => {
     }
     
     .hero-headline {
-      font-size: clamp(2.5rem, 1.5rem + 3vw, 3.5rem);
+      font-size: clamp(44px, 3vw, 52px);
       font-weight: 700;
-      color: var(--heading-color);
-      line-height: 1.15;
+      color: #1A1A1A;
+      line-height: 1.1;
       letter-spacing: -0.02em;
-      margin-bottom: var(--space-5);
-      max-width: var(--max-width-text);
+      margin-bottom: 24px;
+      max-width: 14ch;
     }
     
     .hero-subheadline {
       font-size: 18px;
       font-weight: 400;
-      color: var(--text-body-color);
+      color: #374151;
       line-height: 1.6;
-      margin-bottom: var(--space-5);
-      max-width: 60ch;
+      margin-bottom: 24px;
+      max-width: 560px;
     }
     
     .hero-description {
@@ -2204,14 +2230,86 @@ app.get('/', (c) => {
     .hero-features {
       list-style: none;
       display: grid;
-      gap: var(--space-3);
-      margin-bottom: var(--space-6);
+      gap: 10px;
+      margin-bottom: 32px;
     }
     
     .hero-features li {
       display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .hero-features li i {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    
+    .hero-features li span {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    /* Hero Info Card (right side) */
+    .hero-info-card {
+      background: white;
+      border: 1px solid #E5E7EB;
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+    
+    .hero-info-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1A1A1A;
+      margin-bottom: 16px;
+    }
+    
+    .hero-info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 14px;
+    }
+    
+    .hero-info-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #F3F4F6;
+    }
+    
+    .hero-info-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .hero-info-list .info-number {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
       align-items: center;
-      gap: var(--space-2);
+      justify-content: center;
+      background: #E8F5F0;
+      color: #0E5A45;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 50%;
+    }
+    
+    .hero-info-list .info-text {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #4B5563;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-info-card {
+        margin-top: 24px;
+      }
       font-size: 16px;
       line-height: 1.5;
       color: var(--text-secondary-color);
@@ -4015,10 +4113,11 @@ app.get('/', (c) => {
       </div>
       
       <nav class="header-nav">
-        <a href="#wie-es-funktioniert">Wie es funktioniert</a>
+        <a href="#wie-es-funktioniert" class="active">Wie es funktioniert</a>
         <a href="#wissenschaft">Wissenschaft</a>
         <a href="#faq">FAQ</a>
         <a href="#kontakt">Kontakt</a>
+        <a href="#" class="header-cta" onclick="document.getElementById('app-section').scrollIntoView({behavior: 'smooth'}); return false;">Plan starten</a>
       </nav>
     </div>
   </header>
@@ -4085,6 +4184,29 @@ app.get('/', (c) => {
               <span>Jetzt Ausschleichplan starten</span>
               <i class="fas fa-arrow-right arrow-icon"></i>
             </button>
+          </div>
+          
+          <!-- Right: Info Card (Desktop only) -->
+          <div class="hero-info-card">
+            <h3>Wie MEDLESS funktioniert</h3>
+            <ul class="hero-info-list">
+              <li>
+                <span class="info-number">1</span>
+                <span class="info-text">Daten eingeben: Körperdaten & aktuelle Medikamente</span>
+              </li>
+              <li>
+                <span class="info-number">2</span>
+                <span class="info-text">Plan berechnen: Algorithmus erstellt individuellen Reduktionsplan</span>
+              </li>
+              <li>
+                <span class="info-number">3</span>
+                <span class="info-text">Mit Arzt besprechen: Plan als PDF für medizinische Aufsicht</span>
+              </li>
+              <li>
+                <span class="info-number">4</span>
+                <span class="info-text">CBD-Empfehlung: Personalisierte Produktvorschläge zur Unterstützung</span>
+              </li>
+            </ul>
           </div>
 
         </div>
