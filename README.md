@@ -5,11 +5,11 @@
 ![Status](https://img.shields.io/badge/Status-Production-success?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/Cloudflare-Pages-orange?style=for-the-badge&logo=cloudflare)
 ![License](https://img.shields.io/badge/License-Proprietary-blue?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-3.1-green?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-4.0-green?style=for-the-badge)
 
-**CBD-basierter Medikamenten-Reduktionsplaner mit algorithmischer Dosierungsberechnung**
+**CBD-basierter Medikamenten-Reduktionsplaner mit PlanIntelligenz 2.0 und professionellem PDF-Export**
 
-[🌐 Live Demo](https://medless.pages.dev) · [📚 Dokumentation](./TECHNICAL_DOCUMENTATION.md) · [🤖 AI-Konzept](./KI_INTEGRATION_KONZEPT.md)
+[🌐 Live Demo](https://62902cfb.medless.pages.dev) · [📚 Dokumentation](./TECHNICAL_DOCUMENTATION.md) · [🤖 AI-Konzept](./KI_INTEGRATION_KONZEPT.md)
 
 </div>
 
@@ -40,7 +40,7 @@ MEDLESS ist ein **wissenschaftsbasiertes Tool** zur Planung der schrittweisen Me
 - Form Disabling nach erfolgreicher Validierung
 ```
 
-### 🎨 **Medizinisches UI/UX Design (NEU)**
+### 🎨 **Medizinisches UI/UX Design**
 ```
 - 📊 Clean table styling für Produktkosten mit separater Totals-Card
 - 📐 2x2 Grid für Ausgangsdaten (Alter, Gewicht, Größe, BMI)
@@ -53,6 +53,34 @@ MEDLESS ist ein **wissenschaftsbasiertes Tool** zur Planung der schrittweisen Me
 - 🎯 Konsistente Typographie (2-3 Textgrößen max)
 - 💚 Green (#0b7b6c) als primärer Akzent
 - 📱 Mobile-First & PDF-kompatibles Inline-CSS
+```
+
+### 🧠 **PlanIntelligenz 2.0 (NEU)**
+```
+- 📊 10 professionelle medizinische Berechnungen
+- ⚖️ Idealgewicht nach Devine-Formel (geschlechtsspezifisch)
+- 📈 Medikamentenlast-Analyse (Start/Ende/Reduktion)
+- 🎯 Reduktionsgeschwindigkeits-Kategorien (langsam/moderat/schnell)
+- 💊 Erkennung sensibler Medikamente (Benzos, Antidepressiva, Antiepileptika)
+- 🌿 Cannabinoid-Metriken pro Woche (mg/kg, Verhältnis zur Medikamentenlast)
+- 📅 Wöchentliche Cannabinoid-Aufnahme-Berechnung
+- 🔍 Intelligente Vergleichs-Hinweise (Cannabinoid- vs. Medikamenten-Geschwindigkeit)
+- 📝 Professionelle medizinische Terminologie ("Cannabinoid (z.B. CBD)")
+- 🎨 Übersichtliche Dashboard-Darstellung aller Metriken
+```
+
+### 📄 **Professioneller PDF-Export (NEU)**
+```
+- 🏥 Klinisches Dokumentations-Design (vergleichbar mit Arztbriefen)
+- 📋 Strukturierter Header mit MEDLESS-Logo
+- 👤 Zweispaltige Patienten-Datentabelle
+- 💊 Medikamentenliste mit Schweregrad-Indikatoren
+- 📅 Professionelle Wochen-Tabellen (5 Spalten)
+- ⚕️ Klinische Sicherheitshinweise-Sektion
+- 📃 Seitenzahlen und professioneller Footer
+- 🎨 Medizinische Typographie-Hierarchie (8 Stufen)
+- 🎨 Professionelle Farbpalette (Grün, Grau, dezente Warnfarben)
+- 📏 Konsistente Abstände und Tabellen-Layouts
 ```
 
 ### 🧪 **Algorithmic Core**
@@ -259,7 +287,7 @@ for each week:
     {"name": "Diazepam", "mgPerDay": 10},
     {"name": "Tramadol", "mgPerDay": 150}
   ],
-  "bodyWeight": 70,
+  "weight": 70,
   "height": 175,
   "age": 52,
   "gender": "male",
@@ -275,7 +303,27 @@ for each week:
   "bmi": 22.9,
   "bsa": 1.85,
   "cbdProgression": {...},
-  "personalization": {...},
+  "personalization": {
+    "firstName": "Max",
+    "gender": "male",
+    "age": 52,
+    "weight": 70,
+    "height": 175,
+    "bmi": 22.9,
+    "bsa": 1.85,
+    "idealWeightKg": 75.2
+  },
+  "planIntelligence": {
+    "overallStartLoad": 160,
+    "overallEndLoad": 80,
+    "totalLoadReductionPct": 50,
+    "avgReductionSpeedPct": 6.25,
+    "reductionSpeedCategory": "schnell",
+    "weeksToCbdTarget": 8,
+    "cannabinoidIncreasePctPerWeek": 12.5,
+    "totalMedicationCount": 2,
+    "sensitiveMedCount": 1
+  },
   "analysis": [
     {
       "medication": {...},
@@ -287,7 +335,10 @@ for each week:
     {
       "week": 1,
       "medications": [...],
-      "cbd": {...},
+      "actualCbdMg": 35,
+      "cannabinoidMgPerKg": 0.5,
+      "cannabinoidToLoadRatio": 21.9,
+      "weeklyCannabinoidIntakeMg": 245,
       "product": {...},
       "bottleStatus": {...}
     }
@@ -412,7 +463,8 @@ curl https://medless.pages.dev
 | [KI_INTEGRATION_KONZEPT.md](./KI_INTEGRATION_KONZEPT.md) | AI-Text-Generation Konzept |
 | [FLOWCHARTS_BILDER.md](./FLOWCHARTS_BILDER.md) | System-Flowcharts |
 | [MEDLESS_VERIFIKATION_PROMPT.txt](./MEDLESS_VERIFIKATION_PROMPT.txt) | Externe AI-Verifikation |
-| [PDF_GENERATION_STANDARDS.md](./PDF_GENERATION_STANDARDS.md) | PDF-Generierung |
+| [PDF_REDESIGN_DOCUMENTATION.md](./PDF_REDESIGN_DOCUMENTATION.md) | Professionelles PDF-Design |
+| [PLANINTELLIGENZ_TEST_PROTOCOL.md](./PLANINTELLIGENZ_TEST_PROTOCOL.md) | PlanIntelligenz 2.0 Tests |
 
 ---
 
@@ -507,6 +559,6 @@ Diese Anwendung dient ausschließlich **Informationszwecken** und stellt **keine
 
 [🌐 Live Demo](https://medless.pages.dev) · [📚 Docs](./TECHNICAL_DOCUMENTATION.md) · [📦 GitHub](https://github.com/Medless-App/medless)
 
-**Version 3.1** | Last Updated: 17. November 2025 (UI/UX Redesign)
+**Version 4.0** | Last Updated: 18. November 2025 (PlanIntelligenz 2.0 + Professional PDF)
 
 </div>
