@@ -855,7 +855,8 @@ function animateLoadingSteps() {
             // Final values
             if (centerPercentage) {
               centerPercentage.textContent = '100%';
-              centerPercentage.style.fontSize = '2rem';
+              // Keep font-size consistent to prevent clipping
+              centerPercentage.style.fontSize = '1.75rem';
             }
             if (statusText) {
               statusText.innerHTML = '<i class="fas fa-check-circle"></i> Analyse erfolgreich abgeschlossen';

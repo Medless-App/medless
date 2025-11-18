@@ -1263,13 +1263,15 @@ app.get('/', (c) => {
     
     /* Progress Ring Container */
     .loader-circle {
-      width: 120px;
-      height: 120px;
+      width: 160px;
+      height: 160px;
       margin: 0 auto 2.5rem;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      /* Extra padding to prevent clipping */
+      padding: 20px;
     }
     
     /* Progress Ring - Subtle Pulse Effect */
@@ -1324,9 +1326,16 @@ app.get('/', (c) => {
       filter: url(#glow);
     }
     
-    /* Center Percentage - Smooth Growth */
+    /* Center Percentage - Perfect Centering & Smooth Growth */
     #center-percentage {
       transition: font-size 300ms ease-in-out;
+      /* Ensure perfect vertical alignment */
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Prevent clipping at 100% */
+      font-size: 1.75rem;
     }
     
     /* KPI Cards - Professional Hover Effect */
@@ -1344,22 +1353,23 @@ app.get('/', (c) => {
       }
       
       .loader-circle {
-        width: 100px;
-        height: 100px;
+        width: 140px;
+        height: 140px;
         margin-bottom: 2rem;
+        padding: 15px;
       }
       
       .loader-circle svg {
-        width: 100px;
-        height: 100px;
+        width: 110px;
+        height: 110px;
       }
       
       #center-icon {
-        font-size: 1.75rem !important;
+        font-size: 1.5rem !important;
       }
       
       #center-percentage {
-        font-size: 1.25rem !important;
+        font-size: 1.4rem !important;
       }
       
       .loading-title {
@@ -4738,9 +4748,9 @@ app.get('/', (c) => {
             </p>
             
             <!-- Circular Progress - Professional Health-Tech -->
-            <div style="position: relative; display: inline-block; margin-bottom: 2.5rem;">
+            <div style="position: relative; display: inline-block; margin-bottom: 2.5rem; width: 160px; height: 160px;">
               <div class="loader-circle">
-                <svg width="120" height="120" viewBox="0 0 100 100" style="transform: rotate(-90deg);">
+                <svg width="120" height="120" viewBox="0 0 100 100" style="transform: rotate(-90deg); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg);">
                   <!-- Glow Filter for Professional Effect -->
                   <defs>
                     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -4768,9 +4778,9 @@ app.get('/', (c) => {
                 </svg>
               </div>
               
-              <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;">
-                <i id="center-icon" class="fas fa-heartbeat" style="color: #0E5F45; font-size: 2.25rem; margin-bottom: 0.375rem;"></i>
-                <div id="center-percentage" style="font-size: 1.5rem; font-weight: 700; color: #0E5F45; letter-spacing: -0.02em;">0%</div>
+              <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;">
+                <i id="center-icon" class="fas fa-heartbeat" style="color: #0E5F45; font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                <div id="center-percentage" style="font-size: 1.75rem; font-weight: 700; color: #0E5F45; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; justify-content: center;">0%</div>
               </div>
             </div>
             
