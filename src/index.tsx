@@ -1859,6 +1859,11 @@ app.get('/', (c) => {
       padding: var(--section-gap) 0;
     }
     
+    /* Scroll offset for anchor links (compensate for sticky header) */
+    section[id] {
+      scroll-margin-top: 88px; /* Header height (68px) + spacing (20px) */
+    }
+    
     .section-headline {
       font-size: clamp(1.875rem, 1.3rem + 1.6vw, 2.125rem);
       font-weight: 700;
