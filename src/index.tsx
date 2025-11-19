@@ -4180,18 +4180,46 @@ app.get('/', (c) => {
       padding: 0;
       margin: 0;
       display: grid;
-      gap: 16px;
+      gap: 20px;
     }
     
-    .ecs-list li {
+    /* ECS Bullet Point Styling */
+    .ecs-bullet {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: 14px;
     }
     
-    .ecs-list li i {
+    .ecs-icon {
       flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       margin-top: 2px;
+    }
+    
+    .ecs-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    
+    .ecs-text {
+      flex: 1;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #374151;
+    }
+    
+    .ecs-text strong {
+      color: #0E5A45;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
     }
     
     @media (min-width: 769px) {
@@ -4215,6 +4243,17 @@ app.get('/', (c) => {
         border-radius: 12px;
         padding: 32px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      
+      .ecs-highlights .ecs-text {
+        font-size: 16px;
+      }
+      
+      .ecs-highlights .ecs-icon {
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
+        min-height: 26px;
       }
     }
     
@@ -4586,20 +4625,47 @@ app.get('/', (c) => {
           </div>
           
           <div class="ecs-highlights">
-            <ul class="ecs-list">
-              <li>
-                <i class="fas fa-check-circle checkmark-icon"></i>
-                <span><strong>Körpereigenes Regulierungssystem:</strong> Das ECS existiert in jedem Menschen und ist verantwortlich für Balance (Homöostase) in nahezu allen Körperfunktionen</span>
-              </li>
-              <li>
-                <i class="fas fa-check-circle checkmark-icon"></i>
-                <span><strong>Cannabinoide unterstützen das ECS:</strong> Pflanzliche Cannabinoide wie CBD docken an dieselben Rezeptoren an wie körpereigene Endocannabinoide und können so das System stärken</span>
-              </li>
-              <li>
-                <i class="fas fa-check-circle checkmark-icon"></i>
-                <span><strong>Die Brücke zur Medikamentenreduktion:</strong> Wenn das ECS stark ist, können Symptome besser reguliert werden – oft genau die Symptome, für die ursprünglich Medikamente verschrieben wurden</span>
-              </li>
-            </ul>
+            <div class="ecs-list">
+              <div class="ecs-bullet">
+                <span class="ecs-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="11" fill="#0E5A45" fill-opacity="0.12"/>
+                    <circle cx="12" cy="12" r="10" stroke="#0E5A45" stroke-width="1.5"/>
+                    <path d="M8 12.5L10.5 15L16 9.5" stroke="#0E5A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <div class="ecs-text">
+                  <strong>Körpereigenes Regulierungssystem:</strong>
+                  Das ECS existiert in jedem Menschen und ist verantwortlich für Balance (Homöostase) in nahezu allen Körperfunktionen
+                </div>
+              </div>
+              <div class="ecs-bullet">
+                <span class="ecs-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="11" fill="#0E5A45" fill-opacity="0.12"/>
+                    <circle cx="12" cy="12" r="10" stroke="#0E5A45" stroke-width="1.5"/>
+                    <path d="M8 12.5L10.5 15L16 9.5" stroke="#0E5A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <div class="ecs-text">
+                  <strong>Cannabinoide unterstützen das ECS:</strong>
+                  Pflanzliche Cannabinoide wie CBD docken an dieselben Rezeptoren an wie körpereigene Endocannabinoide und können so das System stärken
+                </div>
+              </div>
+              <div class="ecs-bullet">
+                <span class="ecs-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="11" fill="#0E5A45" fill-opacity="0.12"/>
+                    <circle cx="12" cy="12" r="10" stroke="#0E5A45" stroke-width="1.5"/>
+                    <path d="M8 12.5L10.5 15L16 9.5" stroke="#0E5A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <div class="ecs-text">
+                  <strong>Die Brücke zur Medikamentenreduktion:</strong>
+                  Wenn das ECS stark ist, können Symptome besser reguliert werden – oft genau die Symptome, für die ursprünglich Medikamente verschrieben wurden
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         
