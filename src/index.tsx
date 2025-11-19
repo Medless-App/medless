@@ -2118,30 +2118,16 @@ app.get('/', (c) => {
       border-bottom-color: #0E5A45;
     }
     
-    /* Hover styles moved to dedicated HOVER INTERACTIONS section */
-    
-    .header-cta {
-      display: inline-flex;
-      align-items: center;
-      height: 40px;
-      padding: 0 20px;
-      font-size: 14px;
-      font-weight: 600;
-      color: white;
-      background: #0E5A45;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-      margin-left: 24px;
+    /* Right-aligned contact link */
+    .header-nav-contact {
+      margin-left: auto;
+      color: #6B7280 !important;
+      font-weight: 500 !important;
     }
     
-    .header-cta:hover {
-      background: #0C4D3A;
-      box-shadow: 0 2px 8px rgba(14, 90, 69, 0.16);
-      transform: translateY(-1px);
+    .header-nav-contact:hover {
+      color: #0E5A45 !important;
+      border-bottom-color: transparent !important;
     }
     
     /* Hero Mobile Logo (inside hero, only visible on mobile) */
@@ -4113,11 +4099,11 @@ app.get('/', (c) => {
       </div>
       
       <nav class="header-nav">
-        <a href="#wie-es-funktioniert" class="active">Wie es funktioniert</a>
-        <a href="#wissenschaft">Wissenschaft</a>
+        <a href="#ueber-medless">Über MEDLESS</a>
+        <a href="#funktionsweise">Funktionsweise</a>
+        <a href="#wissenschaft-ecs">Wissenschaft & ECS</a>
         <a href="#faq">FAQ</a>
-        <a href="#kontakt">Kontakt</a>
-        <a href="#" class="header-cta" onclick="document.getElementById('app-section').scrollIntoView({behavior: 'smooth'}); return false;">Plan starten</a>
+        <a href="#kontakt" class="header-nav-contact">Kontakt</a>
       </nav>
     </div>
   </header>
@@ -4216,7 +4202,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          2) WARUM Medless SECTION
          ============================================================ -->
-    <section class="why-medless scroll-animate" id="why-medless">
+    <section class="why-medless scroll-animate" id="ueber-medless">
       <div class="container">
         
         <h2 class="section-headline">
@@ -4264,7 +4250,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          3) DER WUNSCH SECTION (Lösung)
          ============================================================ -->
-    <section id="wissenschaft" class="wunsch-section scroll-animate" style="background: #f9fafb;">
+    <section id="funktionsweise" class="wunsch-section scroll-animate" style="background: #f9fafb;">
       <div class="container">
         
         <h2 class="section-headline">
@@ -4345,7 +4331,7 @@ app.get('/', (c) => {
     <!-- ============================================================
          4) ENDOCANNABINOID-SYSTEM (ECS) SECTION - NEU
          ============================================================ -->
-    <section class="scroll-animate" style="padding: 80px 0; background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);">
+    <section id="wissenschaft-ecs" class="scroll-animate" style="padding: 80px 0; background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);">
       <div class="container">
         
         <h2 class="section-headline">
@@ -5329,7 +5315,7 @@ app.get('/', (c) => {
   <!-- ============================================================
        FOOTER
        ============================================================ -->
-  <footer class="scroll-animate">
+  <footer id="kontakt" class="scroll-animate">
     <div class="container">
       
       <div class="footer-content">
@@ -5412,7 +5398,66 @@ app.get('/', (c) => {
   
   <!-- Navigation Functions -->
   <script>
+    // ============================================================
+    // SCROLL SPY - Active Navigation Highlighting
+    // ============================================================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('section[id], footer[id]');
+      const navLinks = document.querySelectorAll('.header-nav a');
+      
+      // Intersection Observer for scroll spy
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -75% 0px', // Trigger when section is 20% from top
+        threshold: 0
+      };
+      
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.getAttribute('id');
+            
+            // Remove active class from all nav links
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+            });
+            
+            // Add active class to corresponding nav link
+            const activeLink = document.querySelector('.header-nav a[href="#' + sectionId + '"]');
+            if (activeLink) {
+              activeLink.classList.add('active');
+            }
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all sections
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+      
+      // Handle clicks on nav links
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetSection = document.getElementById(targetId);
+          
+          if (targetSection) {
+            targetSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+    
+    // ============================================================
     // Multi-step form navigation
+    // ============================================================
+    
     let currentStep = 1;
     const totalSteps = 5;
     
