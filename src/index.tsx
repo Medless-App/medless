@@ -4068,6 +4068,234 @@ app.get('/', (c) => {
         background: #10B981 !important;
       }
     }
+    
+    /* ============================================================
+       DESKTOP LAYOUT OPTIMIZATION - Content Sections
+       ============================================================ */
+    
+    /* Problem List - 2 Column Grid (Desktop) */
+    .problem-list {
+      list-style: none;
+      padding: 0;
+      margin: 2rem auto;
+      max-width: 900px;
+      display: grid;
+      gap: 16px;
+    }
+    
+    .problem-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .problem-list li i {
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-size: 24px;
+    }
+    
+    @media (min-width: 769px) {
+      .problem-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px 32px;
+        max-width: 1100px;
+      }
+    }
+    
+    /* Benefits Grid - 3x2 Layout (Desktop) */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    
+    .benefit-card {
+      background: white;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .benefit-card .card-icon-circle {
+      width: 64px;
+      height: 64px;
+      background: rgba(14, 95, 69, 0.08);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .benefit-card .card-icon-circle i {
+      font-size: 32px;
+      color: #0E5A45;
+    }
+    
+    .benefit-card h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1A1A1A;
+      margin-bottom: 12px;
+    }
+    
+    .benefit-card p {
+      font-size: 15px;
+      color: #555555;
+      line-height: 1.6;
+    }
+    
+    @media (min-width: 769px) {
+      .benefits-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+      
+      .benefit-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+    }
+    
+    /* ECS Content Grid - 2 Column Layout (Desktop) */
+    .ecs-content-grid {
+      margin: 2rem auto;
+      max-width: 900px;
+    }
+    
+    .ecs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 16px;
+    }
+    
+    .ecs-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .ecs-list li i {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    
+    @media (min-width: 769px) {
+      .ecs-content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 48px;
+        align-items: start;
+        max-width: 1100px;
+      }
+      
+      .ecs-text {
+        font-size: 17px;
+        line-height: 1.7;
+        color: #374151;
+      }
+      
+      .ecs-highlights {
+        background: white;
+        border: 1px solid rgba(14, 95, 69, 0.15);
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+    }
+    
+    /* Science Grid - 3 Column Cards (Desktop) */
+    .science-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin-top: 3rem;
+    }
+    
+    .science-card {
+      background: white;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 36px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+    
+    .science-card .card-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(14, 95, 69, 0.08);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .science-card .card-icon i {
+      font-size: 32px;
+      color: #0E5A45;
+    }
+    
+    .science-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1A1A1A;
+      margin-bottom: 16px;
+    }
+    
+    .science-card p {
+      font-size: 16px;
+      color: #555555;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    
+    .science-card p:last-child {
+      margin-bottom: 0;
+    }
+    
+    @media (min-width: 769px) {
+      .science-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+      
+      .science-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      }
+    }
+    
+    @media (min-width: 1200px) {
+      .science-grid {
+        gap: 40px;
+      }
+    }
+    
+    /* Desktop: Unified Section Spacing */
+    @media (min-width: 769px) {
+      section {
+        padding: 100px 0;
+      }
+      
+      .why-medless {
+        background: white;
+      }
+      
+      .wunsch-section {
+        background: #FAFAFA;
+      }
+    }
   </style>
 </head>
 <body>
@@ -4213,7 +4441,7 @@ app.get('/', (c) => {
           Es spielt keine Rolle, ob du fünf verschiedene Tabletten nimmst oder nur eine einzige, die du nicht mehr loswirst. Medikamentenabhängigkeit beginnt nicht erst bei Polypharmazie – sie beginnt in dem Moment, wo du dir wünschst, weniger zu nehmen, aber keinen sicheren Plan hast, wie.
         </p>
         
-        <ul class="hero-features" style="max-width: 900px; margin: 2rem auto;">
+        <ul class="problem-list">
           <li>
             <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
             <span><strong>Du bist nicht allein:</strong> Millionen Menschen stecken genau dort, wo du bist – mit dem Wunsch nach weniger, aber ohne echte Unterstützung</span>
@@ -4261,9 +4489,9 @@ app.get('/', (c) => {
           Menschen wünschen sich mehr als nur Symptomfreiheit. Sie sehnen sich nach einem Leben mit:
         </p>
         
-        <div class="process-cards-grid" style="margin-top: 3rem;">
+        <div class="benefits-grid" style="margin-top: 3rem;">
           
-          <div class="process-card scroll-animate-card">
+          <div class="benefit-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-heartbeat"></i>
             </div>
@@ -4273,7 +4501,7 @@ app.get('/', (c) => {
             </p>
           </div>
           
-          <div class="process-card scroll-animate-card">
+          <div class="benefit-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-leaf"></i>
             </div>
@@ -4283,7 +4511,7 @@ app.get('/', (c) => {
             </p>
           </div>
           
-          <div class="process-card scroll-animate-card">
+          <div class="benefit-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-shield-alt"></i>
             </div>
@@ -4293,7 +4521,7 @@ app.get('/', (c) => {
             </p>
           </div>
           
-          <div class="process-card scroll-animate-card">
+          <div class="benefit-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-laptop-medical"></i>
             </div>
@@ -4303,7 +4531,7 @@ app.get('/', (c) => {
             </p>
           </div>
           
-          <div class="process-card scroll-animate-card">
+          <div class="benefit-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-user-md"></i>
             </div>
@@ -4313,7 +4541,7 @@ app.get('/', (c) => {
             </p>
           </div>
           
-          <div class="process-card scroll-animate-card">
+          <div class="benefit-card scroll-animate-card">
             <div class="card-icon-circle">
               <i class="fas fa-hands-helping"></i>
             </div>
@@ -4342,20 +4570,33 @@ app.get('/', (c) => {
           Bevor wir über Medikamentenreduktion sprechen, ist es wichtig zu verstehen, warum das überhaupt funktionieren kann: Dein Körper besitzt ein eigenes System zur Regulation von Stress, Schmerz, Schlaf und Stimmung – das <strong>Endocannabinoid-System (ECS)</strong>.
         </p>
         
-        <ul class="hero-features" style="max-width: 900px; margin: 2rem auto;">
-          <li>
-            <i class="fas fa-check-circle checkmark-icon"></i>
-            <span><strong>Körpereigenes Regulierungssystem:</strong> Das ECS existiert in jedem Menschen und ist verantwortlich für Balance (Homöostase) in nahezu allen Körperfunktionen</span>
-          </li>
-          <li>
-            <i class="fas fa-check-circle checkmark-icon"></i>
-            <span><strong>Cannabinoide unterstützen das ECS:</strong> Pflanzliche Cannabinoide wie CBD docken an dieselben Rezeptoren an wie körpereigene Endocannabinoide und können so das System stärken</span>
-          </li>
-          <li>
-            <i class="fas fa-check-circle checkmark-icon"></i>
-            <span><strong>Die Brücke zur Medikamentenreduktion:</strong> Wenn das ECS stark ist, können Symptome besser reguliert werden – oft genau die Symptome, für die ursprünglich Medikamente verschrieben wurden</span>
-          </li>
-        </ul>
+        <div class="ecs-content-grid">
+          <div class="ecs-text">
+            <p>
+              Dein Körper besitzt ein eigenes System zur Regulation von Stress, Schmerz, Schlaf und Stimmung – das <strong>Endocannabinoid-System (ECS)</strong>.
+            </p>
+            <p style="margin-top: 1rem;">
+              Das ECS existiert in jedem Menschen und ist verantwortlich für Balance (Homöostase) in nahezu allen Körperfunktionen. Pflanzliche Cannabinoide wie CBD können dieses System stärken.
+            </p>
+          </div>
+          
+          <div class="ecs-highlights">
+            <ul class="ecs-list">
+              <li>
+                <i class="fas fa-check-circle checkmark-icon"></i>
+                <span><strong>Körpereigenes Regulierungssystem:</strong> Das ECS existiert in jedem Menschen und ist verantwortlich für Balance (Homöostase) in nahezu allen Körperfunktionen</span>
+              </li>
+              <li>
+                <i class="fas fa-check-circle checkmark-icon"></i>
+                <span><strong>Cannabinoide unterstützen das ECS:</strong> Pflanzliche Cannabinoide wie CBD docken an dieselben Rezeptoren an wie körpereigene Endocannabinoide und können so das System stärken</span>
+              </li>
+              <li>
+                <i class="fas fa-check-circle checkmark-icon"></i>
+                <span><strong>Die Brücke zur Medikamentenreduktion:</strong> Wenn das ECS stark ist, können Symptome besser reguliert werden – oft genau die Symptome, für die ursprünglich Medikamente verschrieben wurden</span>
+              </li>
+            </ul>
+          </div>
+        </div>
         
         <p class="section-description" style="margin-top: 2rem; font-weight: 600; font-size: 1.15rem; color: #166534;">
           MEDLESS nutzt dieses Wissen, um dir zu zeigen, wie eine theoretische Medikamentenreduktion mit ECS-Unterstützung aussehen könnte.
@@ -4383,11 +4624,13 @@ app.get('/', (c) => {
           MEDLESS verbindet moderne Cannabinoid-Forschung mit künstlicher Intelligenz zu einem innovativen System der Medikamentenreduktion.
         </p>
         
-        <div class="explanation-card ecs-card scroll-animate-card" style="margin-top: 3rem;">
-          <div class="card-icon">
-            <i class="fas fa-flask"></i>
-          </div>
-          <h3>Wissenschaftliche Grundlage</h3>
+        <div class="science-grid">
+          
+          <div class="science-card scroll-animate-card">
+            <div class="card-icon">
+              <i class="fas fa-flask"></i>
+            </div>
+            <h3>Wissenschaftliche Grundlage</h3>
           <p>
             MEDLESS arbeitet mit Cannabinoiden und dem Wissen über das Endocannabinoid-System (ECS) – nicht pauschal „nur mit CBD". Diese pflanzlichen Wirkstoffe interagieren mit körpereigenen Systemen, die an Schlaf, Schmerzempfinden, Stimmung, Stressregulation und Entzündungen beteiligt sind.
           </p>
@@ -4397,13 +4640,13 @@ app.get('/', (c) => {
           <p style="margin-top: 1rem;">
             MEDLESS nutzt diese Zusammenhänge, um theoretische Ausschleichmodelle zu berechnen. Es ersetzt keine klinischen Leitlinien und keine ärztliche Entscheidung, sondern stellt eine strukturierte, wissenschaftlich inspirierte Grundlage für das Arztgespräch bereit.
           </p>
-        </div>
-        
-        <div class="explanation-card cyp-card scroll-animate-card" style="margin-top: 2rem;">
-          <div class="card-icon">
-            <i class="fas fa-calculator"></i>
           </div>
-          <h3>Individuelle Berechnung</h3>
+          
+          <div class="science-card scroll-animate-card">
+            <div class="card-icon">
+              <i class="fas fa-calculator"></i>
+            </div>
+            <h3>Individuelle Berechnung</h3>
           <p>
             MEDLESS berechnet anhand deiner persönlichen Daten einen maßgeschneiderten, theoretischen Reduktionsplan:
           </p>
@@ -4432,13 +4675,13 @@ app.get('/', (c) => {
           <p style="margin-top: 1rem;">
             Die Berechnung zeigt dir, wie ein möglicher Weg nach unten aussehen könnte – die tatsächliche Umsetzung erfolgt immer gemeinsam mit deinem Arzt.
           </p>
-        </div>
-        
-        <div class="explanation-card scroll-animate-card" style="margin-top: 2rem; background: #F0FDF4;">
-          <div class="card-icon">
-            <i class="fas fa-brain"></i>
           </div>
-          <h3>KI-Intelligenz</h3>
+          
+          <div class="science-card scroll-animate-card" style="background: #F0FDF4;">
+            <div class="card-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3>KI-Intelligenz</h3>
           <p>
             Unsere KI berücksichtigt:
           </p>
@@ -4470,6 +4713,8 @@ app.get('/', (c) => {
           <p style="margin-top: 1rem;">
             Im Plan erhältst du zudem eine transparente Übersicht über die Gesamtkosten der MEDLESS-Produkte für deinen gewählten Ausschleichzeitraum.
           </p>
+          </div>
+          
         </div>
         
         <p class="section-description" style="margin-top: 3rem; font-size: 1.1rem; font-weight: 600;">
