@@ -2259,157 +2259,205 @@ app.get('/', (c) => {
       padding: 24px;
     }
     
-    /* CSS STYLING */
+    /* CSS STYLING - VERSION "BIG HERO" */
     .visual-wrapper {
       position: relative;
       width: 100%;
-      max-width: 450px;
-      height: 400px;
+      height: 500px; /* Mehr Platz geben */
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto;
+      perspective: 1000px; /* Wichtig für 3D */
     }
 
-    /* Der grüne Leucht-Hintergrund */
+    /* Der grüne Leucht-Hintergrund - Größer */
     .glow-blob {
       position: absolute;
-      width: 300px;
-      height: 300px;
-      background: linear-gradient(135deg, #1DB98D 0%, #0F5A46 100%);
-      filter: blur(60px);
+      width: 450px; /* Deutlich größer */
+      height: 450px;
+      background: radial-gradient(circle, rgba(29, 185, 141, 0.4) 0%, rgba(15, 90, 70, 0.1) 70%);
+      filter: blur(80px);
       border-radius: 50%;
-      opacity: 0.4;
-      animation: pulseBlob 8s infinite alternate;
       z-index: 0;
+      animation: pulseBlob 6s infinite alternate;
     }
 
     /* Glassmorphism Basis-Stil */
     .glass-card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.7); /* Etwas transparenter */
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-      border-radius: 24px;
+      box-shadow: 
+        0 30px 60px rgba(15, 90, 70, 0.15), /* Farbiger Schatten */
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+      border-radius: 28px;
       position: relative;
       z-index: 2;
     }
 
-    /* Hauptkarte */
+    /* Hauptkarte - Mit 3D Drehung */
     .main-card {
-      width: 320px;
-      padding: 30px;
+      width: 400px; /* Breiter */
+      padding: 40px; /* Mehr Luft innen */
+      transform: rotateY(-12deg) rotateX(5deg); /* Der 3D Look */
+      transition: transform 0.3s ease;
       animation: floatCard 6s ease-in-out infinite;
+    }
+
+    /* Interaktivität: Wenn man mit der Maus drüber fährt, dreht sie sich gerade */
+    .visual-wrapper:hover .main-card {
+      transform: rotateY(0deg) rotateX(0deg) scale(1.02);
     }
 
     .card-header {
       display: flex;
       align-items: center;
-      gap: 15px;
-      margin-bottom: 20px;
+      gap: 18px;
+      margin-bottom: 25px;
     }
 
     .icon-box {
-      width: 40px;
-      height: 40px;
-      background: #ECFDF5;
+      width: 50px; 
+      height: 50px; /* Größer */
+      background: #ECFDF5; 
       color: #0F5A46;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
+      border-radius: 14px;
+      display: flex; 
+      align-items: center; 
       justify-content: center;
+    }
+    
+    .icon-box svg { 
+      width: 28px; 
+      height: 28px; 
     }
 
     .status-text {
-      font-weight: 700;
+      font-weight: 800; 
       color: #1F2937;
-      font-size: 1.1rem;
+      font-size: 1.3rem; /* Größer */
     }
 
-    .divider {
-      height: 1px;
-      background: #E5E7EB;
-      margin-bottom: 20px;
+    .divider { 
+      height: 1px; 
+      background: linear-gradient(90deg, transparent, #E5E7EB, transparent); 
+      margin-bottom: 25px; 
     }
 
     /* Balken-Design */
-    .metric-item {
-      margin-bottom: 20px;
+    .metric-item { 
+      margin-bottom: 25px; 
     }
-    .metric-item:last-child { margin-bottom: 0; }
 
     .metric-label {
-      display: flex;
+      display: flex; 
       justify-content: space-between;
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-      font-weight: 500;
+      font-size: 1rem; 
+      margin-bottom: 10px;
+      font-weight: 600; 
       color: #4B5563;
     }
 
-    .trend-down { color: #0F5A46; font-size: 0.8rem; background: #ECFDF5; padding: 2px 8px; border-radius: 4px; }
-    .trend-up { color: #1DB98D; font-size: 0.8rem; background: #F0FDFA; padding: 2px 8px; border-radius: 4px; }
-
-    .progress-bg {
-      height: 10px;
-      background: #F3F4F6;
-      border-radius: 10px;
-      overflow: hidden;
+    .trend-down { 
+      color: #0F5A46; 
+      font-size: 0.85rem; 
+      background: #d1fae5; 
+      padding: 4px 10px; 
+      border-radius: 6px; 
+    }
+    
+    .trend-up { 
+      color: #059669; 
+      font-size: 0.85rem; 
+      background: #ECFDF5; 
+      padding: 4px 10px; 
+      border-radius: 6px; 
     }
 
-    .progress-fill {
-      height: 100%;
-      border-radius: 10px;
-      animation: fillBar 1.5s ease-out forwards;
+    .progress-bg { 
+      height: 12px; 
+      background: #F3F4F6; 
+      border-radius: 12px; 
+      overflow: hidden; 
+    }
+    
+    .progress-fill { 
+      height: 100%; 
+      border-radius: 12px; 
+      animation: fillBar 1.5s ease-out forwards; 
+    }
+    
+    .progress-fill.down { 
+      background: linear-gradient(90deg, #9CA3AF, #6B7280); 
+      width: 0; 
+      animation-delay: 0.2s; 
+    }
+    
+    .progress-fill.up { 
+      background: linear-gradient(90deg, #10B981, #34D399); 
+      width: 0; 
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); 
+      animation-delay: 0.4s; 
     }
 
-    .progress-fill.down { background: linear-gradient(90deg, #9CA3AF, #6B7280); width: 0; animation-delay: 0.2s; } /* Grau/Dezent für Medis */
-    .progress-fill.up { background: linear-gradient(90deg, #1DB98D, #34D399); width: 0; box-shadow: 0 0 10px rgba(29, 185, 141, 0.4); animation-delay: 0.4s; } /* Leuchtend Grün für Leben */
-
-    /* Schwebendes Badge rechts unten */
+    /* Schwebendes Badge - Jetzt links positioniert für Balance */
     .float-badge {
       position: absolute;
-      bottom: 40px;
-      right: 0;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-radius: 16px;
-      animation: floatBadge 7s ease-in-out infinite reverse; /* Schwebt gegenläufig */
+      bottom: 60px;
+      right: -20px; /* Ragt leicht raus */
+      padding: 15px 25px;
+      display: flex; 
+      align-items: center; 
+      gap: 15px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      transform: translateZ(40px); /* Schwebt VOR der Karte */
+      animation: floatBadge 7s ease-in-out infinite reverse;
     }
 
     .check-circle {
-      width: 24px;
-      height: 24px;
-      background: #0F5A46;
+      width: 28px; 
+      height: 28px;
+      background: #0F5A46; 
       color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 16px;
     }
 
-    .badge-text strong { display: block; font-size: 0.9rem; color: #1F2937; }
-    .badge-text span { font-size: 0.75rem; color: #6B7280; }
+    .badge-text strong { 
+      display: block; 
+      font-size: 1rem; 
+      color: #1F2937; 
+    }
+    
+    .badge-text span { 
+      font-size: 0.8rem; 
+      color: #6B7280; 
+    }
 
-    /* Animationen Keyframes */
+    /* Animationen */
     @keyframes floatCard {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
+      0%, 100% { transform: rotateY(-12deg) rotateX(5deg) translateY(0); }
+      50% { transform: rotateY(-12deg) rotateX(5deg) translateY(-20px); }
     }
+    
     @keyframes floatBadge {
-      0%, 100% { transform: translateY(0) translateX(0); }
-      50% { transform: translateY(-10px) translateX(-5px); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
+    
     @keyframes pulseBlob {
-      0% { transform: scale(1); opacity: 0.4; }
-      100% { transform: scale(1.1); opacity: 0.6; }
+      0% { transform: scale(0.9); opacity: 0.3; }
+      100% { transform: scale(1.1); opacity: 0.5; }
     }
-    @keyframes fillBar {
-      from { width: 0; }
+    
+    @keyframes fillBar { 
+      from { width: 0; } 
     }
     
     /* Mobile: Visualization ausblenden */
