@@ -2250,7 +2250,9 @@ app.get('/', (c) => {
     .hero-features li {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: 16px;
+      margin-bottom: 12px;
+      text-align: left;
     }
     
     .hero-features li i {
@@ -2323,6 +2325,28 @@ app.get('/', (c) => {
       transform: rotateY(-8deg) rotateX(3deg);
       transition: transform 0.3s ease;
       animation: floatCard 6s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Medical Scan Effect - Premium Animation */
+    .main-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
+      transform: skewX(-25deg);
+      animation: shine 6s infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes shine {
+      0% { left: -100%; opacity: 0; }
+      20% { left: 200%; opacity: 1; }
+      100% { left: 200%; opacity: 0; }
     }
 
     /* Interaktivität: Wenn man mit der Maus drüber fährt, dreht sie sich gerade */
@@ -2421,18 +2445,18 @@ app.get('/', (c) => {
       animation-delay: 0.4s; 
     }
 
-    /* Schwebendes Badge - Jetzt links positioniert für Balance */
+    /* Schwebendes Badge - Außerhalb der Karte */
     .float-badge {
       position: absolute;
-      bottom: -20px;
-      right: -30px;
+      bottom: -25px;
+      right: -25px;
       padding: 15px 25px;
       display: flex; 
       align-items: center; 
       gap: 15px;
       border-radius: 20px;
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       transform: translateZ(40px);
       animation: floatBadge 7s ease-in-out infinite reverse;
       z-index: 10;
