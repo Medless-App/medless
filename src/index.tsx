@@ -854,11 +854,18 @@ app.get('/', (c) => {
       --space-8: 64px;
       --space-9: 96px;
       
-      /* BRAND COLORS (unchanged) */
-      --primary-dark-green: #0C5C4C;
-      --primary-green: #0F7A67;
-      --accent-mint: #CFF1E7;
-      --accent-mint-light: #E8F8F4;
+      /* BRAND COLORS - HEALTH TECH REDESIGN */
+      --forest-green: #0E5A45;          /* Tiefes Waldgrün (Hauptfarbe) */
+      --forest-green-dark: #0B4536;     /* Dunkleres Waldgrün (Hover) */
+      --mint-fresh: #10B981;            /* Frisches Mint (Akzent) */
+      --mint-light: #D1FAE5;            /* Helles Mint (Hintergründe) */
+      --mint-ultra-light: #ECFDF5;      /* Ultra-helles Mint */
+      
+      /* Legacy support */
+      --primary-dark-green: #0E5A45;
+      --primary-green: #10B981;
+      --accent-mint: #D1FAE5;
+      --accent-mint-light: #ECFDF5;
       
       /* NEUTRAL GRAYS (Tailwind-like) */
       --gray-50: #F9FAFB;
@@ -937,11 +944,12 @@ app.get('/', (c) => {
       --card-border-radius: 5px;
       --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 14px rgba(0, 0, 0, 0.05);
       --card-shadow-hover: 0 3px 12px rgba(0, 0, 0, 0.06), 0 6px 18px rgba(0, 0, 0, 0.06);
-      --warning-border-color: #D9534F;
-      --button-padding-y: 14px;
-      --button-padding-x: 28px;
-      --button-hover-bg: #0B4C36;
-      --button-border-radius: 6px;
+      --warning-border-color: #3B82F6;  /* Sanftes Blau statt Rot */
+      --button-padding-y: 16px;
+      --button-padding-x: 32px;
+      --button-hover-bg: #0B4536;
+      --button-border-radius: 12px;      /* Abgerundete Ecken */
+      --button-shadow: 0 4px 6px -1px rgba(14, 90, 69, 0.15), 0 2px 4px -1px rgba(14, 90, 69, 0.08);
       --button-shadow: 0 3px 10px rgba(14, 95, 69, 0.12), 0 6px 20px rgba(14, 95, 69, 0.08);
       --faq-border-color: #E4E4E4;
       --faq-border-radius: 4px;
@@ -2241,60 +2249,138 @@ app.get('/', (c) => {
       line-height: 1.5;
     }
     
-    /* Hero Info Card (right side) */
+    /* Hero Visual Decoration (right side) - Modern Health Tech */
     .hero-info-card {
-      background: white;
-      border: 1px solid #E5E7EB;
-      border-radius: 16px;
-      padding: 32px 28px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+      border-radius: 24px;
+      overflow: hidden;
+      padding: 48px;
+    }
+    
+    .hero-info-card::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(14, 90, 69, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .hero-info-card::after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      right: 10%;
+      width: 150px;
+      height: 150px;
+      background: rgba(16, 185, 129, 0.2);
+      border-radius: 50%;
+      filter: blur(40px);
     }
     
     .hero-info-card h3 {
-      font-size: 18px;
-      font-weight: 600;
-      color: #1A1A1A;
-      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0E5A45;
+      text-align: center;
+      margin-bottom: 24px;
     }
     
     .hero-info-list {
+      position: relative;
+      z-index: 1;
       list-style: none;
       padding: 0;
       margin: 0;
-      display: grid;
-      gap: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
     
     .hero-info-list li {
+      position: relative;
       display: flex;
-      align-items: flex-start;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
       gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid #F3F4F6;
+      background: white;
+      border-radius: 12px;
+      padding: 20px 16px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
     }
     
-    .hero-info-list li:last-child {
-      border-bottom: none;
+    .hero-info-list li:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Arrows between steps (Desktop only) */
+    .hero-info-list li:not(:last-child)::after {
+      content: '\u2192';
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      color: #10B981;
+      font-weight: 700;
+    }
+    
+    @media (min-width: 769px) {
+      .hero-info-list {
+        flex-direction: row;
+        gap: 12px;
+      }
+      
+      .hero-info-list li {
+        flex: 1;
+        min-width: 0;
+      }
+      
+      .hero-info-list li:not(:last-child)::after {
+        content: '\u2192';
+        position: absolute;
+        bottom: auto;
+        left: auto;
+        right: -18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 28px;
+      }
     }
     
     .hero-info-list .info-number {
       flex-shrink: 0;
-      width: 24px;
-      height: 24px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #E8F5F0;
-      color: #0E5A45;
-      font-size: 13px;
+      background: linear-gradient(135deg, #0E5A45 0%, #10B981 100%);
+      color: white;
+      font-size: 16px;
       font-weight: 700;
       border-radius: 50%;
+      margin-bottom: 8px;
     }
     
     .hero-info-list .info-text {
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.5;
-      color: #4B5563;
+      color: #374151;
+      font-weight: 500;
     }
     
     @media (max-width: 768px) {
@@ -2318,22 +2404,27 @@ app.get('/', (c) => {
       display: inline-flex;
       align-items: center;
       gap: var(--space-3);
-      height: 48px;
-      padding: 0 var(--space-6);
-      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      height: 54px;
+      padding: 0 var(--space-7);
+      background: linear-gradient(135deg, var(--forest-green) 0%, var(--mint-fresh) 100%);
       color: white;
-      font-size: 1rem;
+      font-size: 17px;
       font-weight: 600;
       border: none;
-      border-radius: var(--radius-medium);
+      border-radius: var(--button-border-radius);
       cursor: pointer;
-      box-shadow: var(--shadow-small);
-      transition: all 0.3s ease;
+      box-shadow: var(--button-shadow);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .cta-button-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(12, 92, 76, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(14, 90, 69, 0.3), 0 4px 10px rgba(14, 90, 69, 0.2);
+      background: linear-gradient(135deg, var(--forest-green-dark) 0%, #0E9F6E 100%);
+    }
+    
+    .cta-button-primary:active {
+      transform: translateY(-1px);
     }
     
     .arrow-icon {
@@ -2683,7 +2774,7 @@ app.get('/', (c) => {
       width: 56px;
       height: 56px;
       min-width: 56px;
-      background: rgba(217, 83, 79, 0.08);
+      background: rgba(59, 130, 246, 0.10);  /* Sanftes Blau */
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -2692,7 +2783,7 @@ app.get('/', (c) => {
     
     .warning-icon-circle i {
       font-size: 28px;
-      color: var(--warning-border-color);
+      color: #3B82F6;  /* Sanftes Blau statt Rot */
     }
     
     .warning-title {
@@ -2718,7 +2809,7 @@ app.get('/', (c) => {
     
     .warning-content strong {
       font-weight: 700;
-      color: #DC2626;
+      color: #1E40AF;  /* Dunkleres Blau für bessere Lesbarkeit */
     }
     
     .warning-list {
@@ -2738,7 +2829,7 @@ app.get('/', (c) => {
     }
     
     .warning-list li i {
-      color: #DC2626;
+      color: #3B82F6;  /* Sanftes Blau */
       font-size: 18px;
       margin-top: 2px;
       min-width: 18px;
@@ -2782,6 +2873,12 @@ app.get('/', (c) => {
     
     .planner-section {
       background: var(--background-ultra-light);
+    }
+    
+    /* HEALTH TECH REDESIGN: Zentriertes Formular */
+    #medication-form {
+      max-width: 600px;
+      margin: 0 auto;
     }
     
     /* Progress Bar Container */
@@ -3059,10 +3156,10 @@ app.get('/', (c) => {
     .form-card {
       background: white;
       border: 1px solid var(--border-light);
-      border-radius: var(--radius-large);
-      padding: var(--space-6);
+      border-radius: 16px;
+      padding: var(--space-7);
       margin-bottom: var(--spacing-paragraph);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 20px -5px rgba(0, 0, 0, 0.08);
     }
     
     .form-card h3 {
@@ -3099,12 +3196,12 @@ app.get('/', (c) => {
     .form-row select,
     .form-row textarea {
       width: 100%;
-      padding: var(--space-3) var(--space-4);
+      padding: 14px 16px;
       font-size: 16px;
       font-family: var(--font-family);
       color: var(--text-body-color);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-small);
+      border: 2px solid var(--border-light);
+      border-radius: 10px;
       background: white;
       transition: all 0.2s ease;
     }
@@ -3113,8 +3210,9 @@ app.get('/', (c) => {
     .form-row select:focus,
     .form-row textarea:focus {
       outline: none;
-      border-color: var(--primary-green);
-      box-shadow: 0 0 0 2px rgba(15, 122, 103, 0.08);
+      border-color: var(--forest-green);
+      box-shadow: 0 0 0 3px rgba(14, 90, 69, 0.10);
+      background: #FAFAFA;
     }
     
     .form-row input::placeholder,
@@ -4412,11 +4510,11 @@ app.get('/', (c) => {
             </svg>
             
             <h1 class="hero-headline">
-              Dein Weg zu weniger Medikamenten.
+              Weniger Tabletten. Mehr Leben.
             </h1>
             
             <h2 class="hero-subheadline">
-              Ein theoretischer Ausschleichplan, der dir und deinem Arzt zeigt, wie Medikamentenreduktion mit Unterstützung des Endocannabinoid-Systems aussehen könnte – wissenschaftlich fundiert, individuell berechnet.
+              Dein persönlicher Fahrplan in die Unabhängigkeit – ärztlich begleitbar, KI-berechnet und wissenschaftlich fundiert.
             </h2>
             
             <ul class="hero-features">
@@ -4439,7 +4537,7 @@ app.get('/', (c) => {
             </ul>
             
             <button class="cta-button-primary" onclick="document.getElementById('planner-section').scrollIntoView({behavior:'smooth'})">
-              <span>Jetzt Ausschleichplan starten</span>
+              <span>Kostenlos Analyse starten</span>
               <i class="fas fa-arrow-right arrow-icon"></i>
             </button>
           </div>
