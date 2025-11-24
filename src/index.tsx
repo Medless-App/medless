@@ -2080,18 +2080,17 @@ app.get('/', (c) => {
       top: 0;
       z-index: 100;
       background: #FFFFFF;
-      border-bottom: 1px solid #E5E7EB;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     }
     
     .header-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 20px 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 68px;
     }
     
     .header-logo {
@@ -2100,21 +2099,21 @@ app.get('/', (c) => {
     }
     
     .header-logo img {
-      height: 48px;
+      height: 56px;
       width: auto;
-      max-width: 200px;
+      max-width: 220px;
     }
     
     .header-nav {
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 28px;
     }
     
     .header-nav a {
       font-size: 15px;
-      font-weight: 600;
-      color: #1F2933;
+      font-weight: 500;
+      color: #4B5563;
       text-decoration: none;
       transition: all 0.2s ease;
       padding-bottom: 2px;
