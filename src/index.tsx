@@ -2769,49 +2769,57 @@ app.get('/', (c) => {
        HOW IT WORKS SECTION
        ============================================================ */
     
+    /* Bereichs-Überschrift */
+    .how-it-works h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    
     .how-it-works {
       background: #F9FAFB;
       padding: 80px 0;
     }
     
+    /* Container für die Schritte */
     .steps-container {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 3rem;
       max-width: 1200px;
       margin: 0 auto;
     }
     
+    /* Einzelne Schritt-Karte */
     .step {
-      background: white;
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s ease;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
       text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+      flex: 1;
     }
     
     .step:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     }
     
+    /* Nummerierungskreis */
     .step-number-circle {
-      width: 48px;
-      height: 48px;
-      background: #D1FAE5;
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: #064E3B;
-      margin-bottom: 20px;
+      background-color: #e6f7f1;
+      color: #00a86b;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
     }
     
     .step-connector {
@@ -2822,18 +2830,19 @@ app.get('/', (c) => {
       flex: 1;
     }
     
+    /* Karten-Überschrift */
     .step-content h4 {
-      font-size: 1.15rem;
+      font-size: 1.25rem;
       font-weight: 600;
-      color: #1F2937;
-      margin-bottom: 12px;
-      line-height: 1.3;
+      color: #1a1a1a;
+      margin-bottom: 1rem;
     }
     
+    /* Karten-Text */
     .step-content p {
-      font-size: 15px;
-      color: #4B5563;
+      font-size: 1rem;
       line-height: 1.6;
+      color: #555;
     }
     
     /* Hide step 5 on desktop (only show 4 cards) */
@@ -2844,12 +2853,12 @@ app.get('/', (c) => {
     /* Mobile: Stack vertically */
     @media (max-width: 768px) {
       .steps-container {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        flex-direction: column;
+        gap: 1.5rem;
       }
       
       .step:nth-child(5) {
-        display: flex;
+        display: block;
       }
       
       .step:hover {
