@@ -2187,7 +2187,7 @@ app.get('/', (c) => {
     
     .hero {
       background: linear-gradient(135deg, #FFFFFF 0%, #F4FBF8 100%);
-      padding: 30px 0 35px;
+      padding: 35px 0 40px;
       overflow: hidden;
     }
     
@@ -2218,7 +2218,7 @@ app.get('/', (c) => {
       color: #1A1A1A;
       line-height: 1.1;
       letter-spacing: -0.02em;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       max-width: 14ch;
     }
     
@@ -2226,8 +2226,8 @@ app.get('/', (c) => {
       font-size: 18px;
       font-weight: 400;
       color: #374151;
-      line-height: 1.5;
-      margin-bottom: 16px;
+      line-height: 1.55;
+      margin-bottom: 18px;
       max-width: 560px;
     }
     
@@ -2243,14 +2243,14 @@ app.get('/', (c) => {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 24px;
+      gap: 6px;
+      margin-bottom: 26px;
     }
     
     .hero-features li {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 0;
       text-align: left;
     }
@@ -2265,7 +2265,7 @@ app.get('/', (c) => {
     
     .hero-features li span {
       font-size: 16px;
-      line-height: 1.5;
+      line-height: 1.45;
       flex: 1;
     }
     
