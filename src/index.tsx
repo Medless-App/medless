@@ -2968,12 +2968,11 @@ app.get('/', (c) => {
     }
     
     .medical-list li i {
-      color: var(--primary-green);
+      color: #1DB98D;
       font-size: 18px;
       margin-top: 2px;
       min-width: 20px;
       flex-shrink: 0;
-      opacity: 0.85;
     }
     
     .medical-list li strong {
@@ -4483,12 +4482,12 @@ app.get('/', (c) => {
     }
     
     .science-card {
-      background: white;
+      background: #FFFFFF;
       border: 1px solid #E5E7EB;
-      border-radius: 12px;
-      padding: 36px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-      transition: all 0.2s ease;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
     }
     
     .science-card .card-icon {
@@ -4504,7 +4503,7 @@ app.get('/', (c) => {
     
     .science-card .card-icon i {
       font-size: 32px;
-      color: #0E5A45;
+      color: #0F5A46;
     }
     
     .science-card h3 {
@@ -4533,7 +4532,8 @@ app.get('/', (c) => {
       
       .science-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        border-color: #1DB98D;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
       }
     }
     
@@ -4957,7 +4957,7 @@ app.get('/', (c) => {
           </p>
           </div>
           
-          <div class="science-card scroll-animate-card" style="background: #F0FDF4;">
+          <div class="science-card scroll-animate-card">
             <div class="card-icon">
               <i class="fas fa-brain"></i>
             </div>
