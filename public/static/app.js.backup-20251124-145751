@@ -1998,9 +1998,10 @@ function displayResults(data, firstName = '', gender = '') {
   console.log('✅ displayResults() function completed successfully');
 }
 
+// Download PDF function - Simple and reliable using data directly
 // ============================================================
-// KOMPAKTES 2-SEITEN-PDF - THERAPIE-COCKPIT
-// Modern, übersichtlich, max. 2 Seiten
+// PROFESSIONAL MEDICAL PDF GENERATION
+// Redesigned for clinical documentation standards
 // ============================================================
 
 function downloadPDF(event) {
@@ -2024,7 +2025,7 @@ function downloadPDF(event) {
   const originalButtonHTML = button?.innerHTML || '<i class="fas fa-file-pdf"></i> <span>Plan als PDF herunterladen</span>';
   
   try {
-    console.log('🎯 PDF-Generierung gestartet (Kompaktes 2-Seiten-Layout)...');
+    console.log('🎯 PDF-Generierung gestartet (Professional Medical Layout)...');
     
     // Show loading
     if (button) {
@@ -2038,83 +2039,152 @@ function downloadPDF(event) {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
-    const margin = 15;  // Kleinere Margin für mehr Platz
+    const margin = 20;
     const contentWidth = pageWidth - (margin * 2);
     let y = margin;
     
-    // COLORS (MEDLESS Brand - Kompakt & Modern)
+    // COLORS (Medical Professional Palette - MEDLESS Brand)
     const colors = {
-      primary: [15, 90, 70],          // MEDLESS Waldgrün #0F5A46
-      mint: [29, 185, 141],           // Mintgrün #1DB98D
-      lightMint: [209, 250, 229],     // Helles Mintgrün #D1FAE5
-      darkGray: [31, 41, 55],         // Dunkles Grau #1F2937
-      mediumGray: [107, 114, 128],    // Mittleres Grau #6B7280
-      lightGray: [156, 163, 175],     // Helles Grau #9CA3AF
-      tableBorder: [229, 231, 235],   // Tabellen-Border #E5E7EB
-      tableHeader: [249, 250, 251],   // Tabellen-Header #F9FAFB
-      red: [220, 38, 38],             // Rot für Medikamente #DC2626
-      green: [29, 185, 141],          // Grün für Cannabinoide #1DB98D
-      warningOrange: [245, 158, 11]   // Orange für Warnungen
+      primary: [14, 95, 69],         // MEDLESS Green #0E5F45
+      primaryLight: [232, 245, 240], // Light green for headers #E8F5F0
+      darkGray: [51, 51, 51],        // Headers #333333
+      mediumGray: [107, 114, 128],   // Body text #6B7280
+      lightGray: [156, 163, 175],    // Secondary text #9CA3AF
+      tableBorder: [229, 229, 229],  // Light border #E5E5E5
+      tableHeader: [248, 250, 252],  // Table header bg
+      warning: [245, 158, 11],       // Orange warning (keep for severity)
+      warningBox: [250, 250, 250]    // Light gray for warning box #FAFAFA
     };
     
-    // Helper: Add compact MedLess logo
-    const addLogo = (xPos, yPos) => {
-      doc.setFontSize(14);
+    // Helper: Add MEDLESS logo to current page (top-left, every page)
+    const addLogo = () => {
+      // MEDLESS Logo with professional medical styling
+      const logoY = margin - 8;
+      
+      // Draw logo circles (representing the reducing medication dots)
+      const circleY = logoY + 2;
+      const circles = [
+        { x: margin, size: 3 },
+        { x: margin + 5, size: 2.5 },
+        { x: margin + 9, size: 2 },
+        { x: margin + 12.5, size: 1.5 },
+        { x: margin + 15.5, size: 1.2 },
+        { x: margin + 18, size: 0.9 },
+        { x: margin + 20, size: 0.7 },
+        { x: margin + 21.5, size: 0.5 }
+      ];
+      
+      doc.setFillColor(...colors.primary);
+      circles.forEach(circle => {
+        doc.circle(circle.x, circleY, circle.size, 'F');
+      });
+      
+      // MEDLESS text
+      doc.setFontSize(16);
       doc.setFont(undefined, 'bold');
       doc.setTextColor(...colors.primary);
-      doc.text('Med', xPos, yPos);
-      doc.setTextColor(...colors.mint);
-      doc.text('Less', xPos + 10, yPos);
-      doc.setTextColor(...colors.mint);
-      doc.text('.', xPos + 22, yPos);
+      doc.text('MedLess', margin + 24, logoY + 4);
       
+      // Tagline
       doc.setFontSize(7);
       doc.setFont(undefined, 'normal');
       doc.setTextColor(...colors.mediumGray);
-      doc.text('weniger Medikamente, mehr Leben', xPos, yPos + 4);
+      doc.text('weniger Medikamente, mehr Leben', margin, logoY + 10);
     };
     
-    // Helper: Add simple footer
-    const addFooter = (pageNum) => {
-      doc.setFontSize(7);
+    // Helper: Page break with consistent margins
+    const checkPageBreak = (neededSpace) => {
+      if (y + neededSpace > pageHeight - margin - 15) {
+        addFooter();
+        doc.addPage();
+        y = margin + 8; // 8px spacing after logo
+        addLogo();
+        return true;
+      }
+      return false;
+    };
+    
+    // Helper: Add footer to current page
+    const addFooter = () => {
+      doc.setFontSize(8);
       doc.setTextColor(...colors.lightGray);
-      doc.text('© 2025 MEDLESS – Dieser Plan ersetzt keine ärztliche Entscheidung', margin, pageHeight - 8);
-      doc.text(`Seite ${pageNum} von 2`, pageWidth - margin - 15, pageHeight - 8);
+      doc.text('© 2025 MEDLESS – Alle Rechte vorbehalten', margin, pageHeight - 10);
+      
+      const pageInfo = doc.internal.getCurrentPageInfo();
+      const totalPages = doc.internal.pages.length - 1; // jsPDF counts from 1, subtract offset
+      doc.text(`Seite ${pageInfo.pageNumber}`, pageWidth - margin - 15, pageHeight - 10);
+    };
+    
+    // Helper: Draw table cell
+    const drawTableCell = (x, y, width, height, text, options = {}) => {
+      const {
+        align = 'left',
+        bold = false,
+        fontSize = 10,
+        textColor = colors.darkGray,
+        bgColor = null,
+        borderColor = colors.tableBorder
+      } = options;
+      
+      // Background
+      if (bgColor) {
+        doc.setFillColor(...bgColor);
+        doc.rect(x, y, width, height, 'F');
+      }
+      
+      // Border
+      doc.setDrawColor(...borderColor);
+      doc.setLineWidth(0.1);
+      doc.rect(x, y, width, height);
+      
+      // Text
+      doc.setFontSize(fontSize);
+      doc.setFont(undefined, bold ? 'bold' : 'normal');
+      doc.setTextColor(...textColor);
+      
+      const textY = y + (height / 2) + 1.5;
+      const padding = 2;
+      
+      if (align === 'center') {
+        doc.text(text, x + (width / 2), textY, { align: 'center' });
+      } else if (align === 'right') {
+        doc.text(text, x + width - padding, textY, { align: 'right' });
+      } else {
+        doc.text(text, x + padding, textY);
+      }
     };
     
     // ============================================================
-    // SEITE 1: THERAPIE-COCKPIT
+    // 1. TITLE SECTION - Professional Header with Logo
     // ============================================================
     
-    // HEADER: Patientendaten (Links) + Logo/Datum (Rechts)
-    y = margin;
+    // Add logo to first page
+    addLogo();
+    y += 8;
     
-    // Links: Patientendaten
-    doc.setFontSize(9);
-    doc.setTextColor(...colors.darkGray);
+    // Main title (22pt, Bold, MEDLESS Green)
+    doc.setFontSize(22);
     doc.setFont(undefined, 'bold');
-    let patientInfo = `${firstName || 'Patient'}`;
-    if (personalization?.age) patientInfo += `, ${personalization.age} Jahre`;
-    if (personalization?.height) patientInfo += `, ${personalization.height}cm`;
-    if (personalization?.weight) patientInfo += `, ${personalization.weight}kg`;
-    if (personalization?.bmi) patientInfo += `, BMI ${personalization.bmi.toFixed(1)}`;
-    doc.text(patientInfo, margin, y + 3);
+    doc.setTextColor(...colors.primary);
+    doc.text('MEDLESS – Ihr persönlicher Ausschleichplan', margin, y);
+    y += 10;
     
-    // Rechts: Logo + Datum
-    const today = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    addLogo(pageWidth - 40, y + 3);
-    doc.setFontSize(8);
+    // Date (right-aligned, smaller)
+    doc.setFontSize(10);
     doc.setTextColor(...colors.mediumGray);
     doc.setFont(undefined, 'normal');
-    doc.text(today, pageWidth - margin, y + 3, { align: 'right' });
+    const today = new Date().toLocaleDateString('de-DE', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    doc.text(`Erstellt am: ${today}`, pageWidth - margin, y - 2, { align: 'right' });
     
-    y += 12;
-    
-    // Trennlinie
+    // Separator line
     doc.setDrawColor(...colors.tableBorder);
-    doc.setLineWidth(0.3);
+    doc.setLineWidth(0.5);
     doc.line(margin, y, pageWidth - margin, y);
-    y += 8;
+    y += 10;
     
     // ============================================================
     // 2. PATIENT DATA - Professional Two-Column Table
