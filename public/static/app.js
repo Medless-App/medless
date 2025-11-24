@@ -1188,54 +1188,75 @@ function displayResults(data, firstName = '', gender = '') {
   `;
 
   // ============================================================
-  // 1. FUTURISTISCHES AI-DASHBOARD (Ergebnisseite Hero)
+  // 1. SAUBERES ERGEBNIS-DASHBOARD (Statisch & Professionell)
   // ============================================================
   
   html += `
-    <section class="ai-results-dashboard">
+    <section class="clean-results-dashboard">
       
-      <div class="ai-core-wrapper">
-        <div class="ai-circle pulse-effect">
-          <div class="ai-icon">🧠</div>
-          <div class="ai-percent">100%</div>
-          <div class="ai-status">Analyse fertig</div>
-        </div>
-
-        <svg class="connection-lines" width="100%" height="120px" viewBox="0 0 800 120" preserveAspectRatio="none">
-          <path class="flow-line" d="M400,0 C400,60 150,40 150,120" fill="none" stroke="#1DB98D" stroke-width="2" stroke-opacity="0.6" />
-          <path class="flow-line" d="M400,0 C400,60 400,40 400,120" fill="none" stroke="#1DB98D" stroke-width="2" stroke-opacity="0.6" />
-          <path class="flow-line" d="M400,0 C400,60 650,40 650,120" fill="none" stroke="#1DB98D" stroke-width="2" stroke-opacity="0.6" />
-        </svg>
-      </div>
-
-      <div class="results-grid">
-        <div class="glass-card result-card delay-1">
-          <div class="card-icon-top">💊</div>
+      <!-- 3 Analyse-Fakten (Garantiert nebeneinander) -->
+      <div class="results-stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0F5A46" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M9 9h6v6H9z"/>
+            </svg>
+          </div>
           <div class="stat-number">263</div>
-          <div class="stat-label">Medikamente<br>analysiert</div>
+          <div class="stat-label">Medikamente analysiert</div>
         </div>
 
-        <div class="glass-card result-card delay-2">
-          <div class="card-icon-top">⚠️</div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0F5A46" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
           <div class="stat-number">47</div>
-          <div class="stat-label">Wechselwirkungen<br>geprüft</div>
+          <div class="stat-label">Wechselwirkungen geprüft</div>
         </div>
 
-        <div class="glass-card result-card delay-3">
-          <div class="card-icon-top">🧮</div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0F5A46" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+            </svg>
+          </div>
           <div class="stat-number">2.847</div>
-          <div class="stat-label">Berechnungen<br>durchgeführt</div>
+          <div class="stat-label">Berechnungen durchgeführt</div>
         </div>
       </div>
 
-      <div class="cta-dock glass-card delay-4">
-        <div class="cta-text-group">
-          <h3>Ihr Dosierplan ist fertig!</h3>
-          <p>Ihre Strategie zur Medikamentenreduktion wurde erfolgreich erstellt.</p>
+      <!-- Die große "Plan Fertig" Hero-Card -->
+      <div class="plan-ready-hero">
+        <div class="hero-content">
+          <h2 class="hero-title">✓ Analyse erfolgreich abgeschlossen</h2>
+          <p class="hero-subtitle">Dein persönlicher Fahrplan zur Reduktion liegt bereit.</p>
+          
+          <div class="hero-features">
+            <div class="feature-item">
+              <span class="feature-icon">📉</span>
+              <span class="feature-text">Individuelle Reduktionskurve</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon">🌿</span>
+              <span class="feature-text">Exakte CBD-Dosierung</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon">💰</span>
+              <span class="feature-text">Kosten-Transparenz</span>
+            </div>
+          </div>
+          
+          <button class="hero-cta-button" onclick="document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => window.scrollBy(0, 100), 500);">
+            Plan jetzt öffnen ➔
+          </button>
         </div>
-        <button class="btn-primary-glow" onclick="document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => window.scrollBy(0, 100), 500);">
-          👁️ Plan jetzt anzeigen
-        </button>
       </div>
 
     </section>

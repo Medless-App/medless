@@ -4118,181 +4118,50 @@ app.get('/', (c) => {
     }
     
     /* ============================================================
-       AI RESULTS DASHBOARD - NEUE STRUKTUR
+       SAUBERES ERGEBNIS-DASHBOARD - STATISCH & PROFESSIONELL
        ============================================================ */
     
-    .ai-results-dashboard {
+    .clean-results-dashboard {
       margin: 2rem 0 3rem 0;
       padding: 0;
     }
     
-    /* AI Core Wrapper (Kreis + Linien) */
-    .ai-core-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 2rem;
+    /* ============================================================
+       3 STATISTIK-KARTEN (Garantiert nebeneinander)
+       ============================================================ */
+    
+    .results-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto 40px auto;
     }
     
-    /* AI Circle (100%) */
-    .ai-circle {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #FFFFFF 0%, #F0FDF9 100%);
-      border: 4px solid #1DB98D;
-      box-shadow: 
-        0 0 40px rgba(29, 185, 141, 0.3),
-        0 20px 60px rgba(0, 0, 0, 0.08);
+    .stat-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 30px 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border-color: #1DB98D;
+    }
+    
+    .stat-icon {
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      position: relative;
-      z-index: 10;
-      animation: fadeInScale 0.8s ease-out;
+      margin-bottom: 16px;
     }
     
-    .pulse-effect {
-      animation: fadeInScale 0.8s ease-out, pulseGlow 2.5s ease-in-out 0.8s infinite;
-    }
-    
-    .ai-icon {
-      font-size: 48px;
-      margin-bottom: 8px;
-      filter: drop-shadow(0 2px 8px rgba(29, 185, 141, 0.3));
-    }
-    
-    .ai-percent {
-      font-size: 56px;
-      font-weight: 800;
-      color: #0F5A46;
-      line-height: 1;
-      margin-bottom: 4px;
-      text-shadow: 0 2px 4px rgba(15, 90, 70, 0.1);
-    }
-    
-    .ai-status {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1DB98D;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    
-    /* Connection Lines (SVG Paths) */
-    .connection-lines {
-      margin: -40px 0 -20px 0;
-      z-index: 5;
-      opacity: 0;
-      animation: fadeIn 0.8s ease-out 1.2s forwards;
-    }
-    
-    .flow-line {
-      stroke-dasharray: 1000;
-      stroke-dashoffset: 1000;
-      animation: drawLine 2s ease-out 1.4s forwards, flowPulse 3s ease-in-out 3.4s infinite;
-    }
-    
-    .flow-line:nth-child(2) {
-      animation-delay: 1.5s, 3.5s;
-    }
-    
-    .flow-line:nth-child(3) {
-      animation-delay: 1.6s, 3.6s;
-    }
-    
-    @keyframes drawLine {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
-    
-    @keyframes flowPulse {
-      0%, 100% {
-        stroke-opacity: 0.4;
-      }
-      50% {
-        stroke-opacity: 0.8;
-      }
-    }
-    
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-    
-    /* Glass Cards */
-    .glass-card {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      border-radius: 20px;
-      padding: 30px 25px;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.06),
-        inset 0 1px 1px rgba(255, 255, 255, 0.9);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .glass-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        #1DB98D 50%, 
-        transparent 100%
-      );
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    
-    .glass-card:hover::before {
-      opacity: 1;
-    }
-    
-    /* Result Card (3 Statistik-Karten) */
-    .result-card {
-      text-align: center;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    
-    .result-card.delay-1 {
-      animation: fadeInUp 0.8s ease-out 1.8s forwards;
-    }
-    
-    .result-card.delay-2 {
-      animation: fadeInUp 0.8s ease-out 2.0s forwards;
-    }
-    
-    .result-card.delay-3 {
-      animation: fadeInUp 0.8s ease-out 2.2s forwards;
-    }
-    
-    .result-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 
-        0 20px 60px rgba(29, 185, 141, 0.15),
-        inset 0 1px 1px rgba(255, 255, 255, 0.9);
-      border-color: rgba(29, 185, 141, 0.3);
-    }
-    
-    .card-icon-top {
-      font-size: 40px;
-      margin-bottom: 12px;
-      filter: drop-shadow(0 2px 8px rgba(29, 185, 141, 0.2));
+    .stat-icon svg {
+      stroke-width: 2;
     }
     
     .stat-number {
@@ -4300,9 +4169,8 @@ app.get('/', (c) => {
       font-weight: 800;
       color: #0F5A46;
       line-height: 1;
-      margin: 12px 0 8px 0;
+      margin: 0 0 8px 0;
       letter-spacing: -1px;
-      text-shadow: 0 2px 8px rgba(15, 90, 70, 0.1);
     }
     
     .stat-label {
@@ -4312,125 +4180,128 @@ app.get('/', (c) => {
       line-height: 1.4;
     }
     
-    /* CTA Dock (Unten) */
-    .cta-dock {
-      max-width: 700px;
-      margin: 3rem auto 0 auto;
-      padding: 40px 35px;
+    /* ============================================================
+       DIE GROSSE "PLAN FERTIG" HERO-CARD
+       ============================================================ */
+    
+    .plan-ready-hero {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F0FDF9 100%);
+      border: 2px solid #0F5A46;
+      border-radius: 16px;
+      padding: 50px 40px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+    
+    .hero-content {
       text-align: center;
-      opacity: 0;
-      transform: translateY(30px);
     }
     
-    .cta-dock.delay-4 {
-      animation: fadeInUp 0.8s ease-out 2.4s forwards;
-    }
-    
-    .cta-text-group h3 {
-      font-size: 28px;
+    .hero-title {
+      font-size: 32px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #0F5A46;
       margin: 0 0 12px 0;
       line-height: 1.2;
     }
     
-    .cta-text-group p {
-      font-size: 16px;
-      color: #6B7280;
-      margin: 0 0 28px 0;
+    .hero-subtitle {
+      font-size: 18px;
+      color: #4B5563;
+      margin: 0 0 40px 0;
       line-height: 1.6;
     }
     
-    /* Primary Glow Button */
-    .btn-primary-glow {
-      display: inline-flex;
+    /* Highlight-Features (3 Icons nebeneinander) */
+    .hero-features {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .feature-item {
+      display: flex;
       align-items: center;
       gap: 10px;
-      padding: 16px 40px;
-      font-size: 17px;
+    }
+    
+    .feature-icon {
+      font-size: 28px;
+    }
+    
+    .feature-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1F2937;
+    }
+    
+    /* Der große CTA-Button */
+    .hero-cta-button {
+      display: inline-block;
+      padding: 18px 50px;
+      font-size: 18px;
       font-weight: 600;
       color: white;
       background: linear-gradient(135deg, #0F5A46 0%, #1DB98D 100%);
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      box-shadow: 
-        0 8px 24px rgba(29, 185, 141, 0.35),
-        0 0 40px rgba(29, 185, 141, 0.2);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(29, 185, 141, 0.3);
+      transition: all 0.3s ease;
     }
     
-    .btn-primary-glow::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
+    .hero-cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(29, 185, 141, 0.4);
     }
     
-    .btn-primary-glow:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 
-        0 12px 32px rgba(29, 185, 141, 0.45),
-        0 0 60px rgba(29, 185, 141, 0.3);
+    .hero-cta-button:active {
+      transform: translateY(0);
     }
     
-    .btn-primary-glow:hover::before {
-      width: 300px;
-      height: 300px;
-    }
+    /* ============================================================
+       RESPONSIVE - MOBILE
+       ============================================================ */
     
-    .btn-primary-glow:active {
-      transform: translateY(-1px) scale(1.02);
-    }
-    
-    /* Results Grid (3 Karten nebeneinander) */
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
-      max-width: 1000px;
-      margin: 0 auto 20px auto;
-    }
-    
-    /* Mobile Responsive */
     @media (max-width: 768px) {
-      .ai-circle {
-        width: 160px;
-        height: 160px;
-      }
-      
-      .ai-percent {
-        font-size: 44px;
-      }
-      
-      .results-grid {
+      .results-stats-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 16px;
+      }
+      
+      .stat-card {
+        padding: 24px 16px;
       }
       
       .stat-number {
         font-size: 40px;
       }
       
-      .cta-dock {
-        padding: 32px 24px;
+      .plan-ready-hero {
+        padding: 40px 24px;
       }
       
-      .cta-text-group h3 {
-        font-size: 24px;
+      .hero-title {
+        font-size: 26px;
       }
       
-      .btn-primary-glow {
-        padding: 14px 32px;
-        font-size: 15px;
+      .hero-subtitle {
+        font-size: 16px;
+      }
+      
+      .hero-features {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+      }
+      
+      .hero-cta-button {
+        width: 100%;
+        padding: 16px 40px;
+        font-size: 16px;
       }
     }
     
