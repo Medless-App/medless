@@ -2791,6 +2791,8 @@ app.get('/', (c) => {
       position: relative;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
     
     .step:hover {
@@ -2799,16 +2801,16 @@ app.get('/', (c) => {
     }
     
     .step-number-circle {
-      width: 40px;
-      height: 40px;
-      background: #ECFDF5;
+      width: 48px;
+      height: 48px;
+      background: #D1FAE5;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #0F5A46;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #064E3B;
       margin-bottom: 20px;
     }
     
@@ -2830,7 +2832,7 @@ app.get('/', (c) => {
     
     .step-content p {
       font-size: 15px;
-      color: #6B7280;
+      color: #4B5563;
       line-height: 1.6;
     }
     
