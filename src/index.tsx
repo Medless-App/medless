@@ -3680,6 +3680,444 @@ app.get('/', (c) => {
     /* Hover styles moved to dedicated HOVER INTERACTIONS section above */
     
     /* ============================================================
+       RESULTS PAGE - HIGH-TECH AI DASHBOARD
+       ============================================================ */
+    
+    /* Container für die Ergebnisseite */
+    #results {
+      background: linear-gradient(to bottom, #FFFFFF 0%, #F9FAFB 100%);
+      padding: 60px 20px;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Subtiles Tech-Muster im Hintergrund */
+    #results::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(90deg, rgba(29, 185, 141, 0.02) 1px, transparent 1px),
+        linear-gradient(rgba(29, 185, 141, 0.02) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    /* Alle Inhalte über dem Muster */
+    #results > * {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* ============================================================
+       100% KREIS - Herzstück des Dashboards
+       ============================================================ */
+    
+    .analysis-complete-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 80px;
+      animation: fadeInScale 0.8s ease-out;
+    }
+    
+    .circle-container {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Pulsierender Mint-Glow Hintergrund */
+    .glow-circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(29, 185, 141, 0.15) 0%, transparent 70%);
+      filter: blur(30px);
+      animation: pulseGlow 2.5s ease-in-out infinite;
+      z-index: -1;
+    }
+    
+    /* Hauptkreis (100%) */
+    .percentage-circle {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F0FDF9 100%);
+      border: 4px solid #1DB98D;
+      box-shadow: 
+        0 0 40px rgba(29, 185, 141, 0.3),
+        0 20px 60px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .percentage-circle .percentage {
+      font-size: 64px;
+      font-weight: 800;
+      color: #0F5A46;
+      line-height: 1;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 4px rgba(15, 90, 70, 0.1);
+    }
+    
+    .percentage-circle .status-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1DB98D;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    
+    /* ============================================================
+       DATEN-VERBINDUNGEN (Pulsierende Linien)
+       ============================================================ */
+    
+    .data-connections {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .connection-line {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        rgba(29, 185, 141, 0) 0%, 
+        rgba(29, 185, 141, 0.6) 50%, 
+        rgba(29, 185, 141, 0) 100%
+      );
+      transform-origin: left center;
+      animation: pulseConnection 2s ease-in-out infinite;
+      opacity: 0;
+      animation-delay: 1.2s;
+      animation-fill-mode: forwards;
+    }
+    
+    .connection-line.to-card-1 { animation-delay: 1.2s; }
+    .connection-line.to-card-2 { animation-delay: 1.4s; }
+    .connection-line.to-card-3 { animation-delay: 1.6s; }
+    
+    /* ============================================================
+       DATEN-KARTEN - Glassmorphism Design
+       ============================================================ */
+    
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto 60px auto;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out 1.8s forwards;
+    }
+    
+    .data-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 20px;
+      padding: 35px 28px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.06),
+        inset 0 1px 1px rgba(255, 255, 255, 0.9);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Leuchtender Akzent oben */
+    .data-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        #1DB98D 50%, 
+        transparent 100%
+      );
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .data-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 
+        0 20px 60px rgba(29, 185, 141, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.9);
+      border-color: rgba(29, 185, 141, 0.3);
+    }
+    
+    .data-card:hover::before {
+      opacity: 1;
+    }
+    
+    /* Icon mit Leuchteffekt */
+    .data-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(29, 185, 141, 0.2);
+      transition: all 0.4s ease;
+    }
+    
+    .data-card:hover .data-card-icon {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 8px 24px rgba(29, 185, 141, 0.35);
+    }
+    
+    .data-card-icon i {
+      font-size: 26px;
+      color: #0F5A46;
+      filter: drop-shadow(0 2px 4px rgba(15, 90, 70, 0.2));
+    }
+    
+    /* Extra fette Zahlen */
+    .data-card-value {
+      font-size: 48px;
+      font-weight: 800;
+      color: #0F5A46;
+      line-height: 1;
+      margin: 16px 0 12px 0;
+      letter-spacing: -1px;
+      text-shadow: 0 2px 8px rgba(15, 90, 70, 0.1);
+    }
+    
+    .data-card-label {
+      font-size: 15px;
+      font-weight: 500;
+      color: #6B7280;
+      line-height: 1.5;
+    }
+    
+    /* ============================================================
+       CTA-BEREICH - Elegante Glassmorphism Karte
+       ============================================================ */
+    
+    .results-cta-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out 2.2s forwards;
+    }
+    
+    .results-cta-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(30px) saturate(180%);
+      -webkit-backdrop-filter: blur(30px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 24px;
+      padding: 50px 40px;
+      box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.08),
+        inset 0 1px 2px rgba(255, 255, 255, 0.95);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Subtiler Leuchteffekt */
+    .results-cta-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        #1DB98D 50%, 
+        transparent 100%
+      );
+      opacity: 0.6;
+    }
+    
+    .results-cta-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    
+    .results-cta-subtitle {
+      font-size: 17px;
+      color: #6B7280;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    
+    /* Der EINE leuchtende Button */
+    .cta-primary-glow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 48px;
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, #0F5A46 0%, #1DB98D 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 
+        0 8px 24px rgba(29, 185, 141, 0.35),
+        0 0 40px rgba(29, 185, 141, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-primary-glow::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .cta-primary-glow:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 12px 32px rgba(29, 185, 141, 0.45),
+        0 0 60px rgba(29, 185, 141, 0.3);
+    }
+    
+    .cta-primary-glow:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .cta-primary-glow:active {
+      transform: translateY(-1px) scale(1.02);
+    }
+    
+    /* ============================================================
+       ANIMATIONEN
+       ============================================================ */
+    
+    @keyframes fadeInScale {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes pulseGlow {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+      50% {
+        transform: scale(1.15);
+        opacity: 0.8;
+      }
+    }
+    
+    @keyframes pulseConnection {
+      0% {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.7;
+        transform: scaleX(1);
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE - Mobile Optimierung
+       ============================================================ */
+    
+    @media (max-width: 768px) {
+      .circle-container {
+        width: 220px;
+        height: 220px;
+      }
+      
+      .percentage-circle {
+        width: 180px;
+        height: 180px;
+      }
+      
+      .percentage-circle .percentage {
+        font-size: 52px;
+      }
+      
+      .results-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .data-card-value {
+        font-size: 40px;
+      }
+      
+      .results-cta-card {
+        padding: 40px 28px;
+      }
+      
+      .results-cta-title {
+        font-size: 26px;
+      }
+      
+      .cta-primary-glow {
+        padding: 16px 36px;
+        font-size: 16px;
+      }
+    }
+    
+    /* ============================================================
        FOOTER
        ============================================================ */
     
