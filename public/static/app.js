@@ -772,8 +772,6 @@ function animateLoadingSteps() {
     const counterMeds = document.getElementById('counter-medications');
     const counterInteractions = document.getElementById('counter-interactions');
     const counterCalculations = document.getElementById('counter-calculations');
-    const planReadyMessage = document.getElementById('plan-ready-message');
-    const showPlanButton = document.getElementById('show-plan-button');
     
     // Animation steps
     const steps = [
@@ -870,55 +868,27 @@ function animateLoadingSteps() {
             if (counterInteractions) counterInteractions.textContent = '47';
             if (counterCalculations) counterCalculations.textContent = '2.847';
             
-            // Show "Plan ready" button after 1 second
+            // DIRECT TRANSITION: Hide loading and resolve immediately (no button needed)
             setTimeout(() => {
-              console.log('🎁 Showing "Plan ready" button');
-              
-              if (planReadyMessage) {
-                planReadyMessage.style.display = 'block';
-                planReadyMessage.style.opacity = '0';
-                planReadyMessage.style.transform = 'translateY(10px)';
+              console.log('🎬 Animation completed - fading out loading screen');
+              const loadingEl = document.getElementById('loading');
+              if (loadingEl) {
+                loadingEl.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                loadingEl.style.opacity = '0';
+                loadingEl.style.transform = 'scale(0.98)';
                 
+                // Hide loading after fade-out and resolve promise
                 setTimeout(() => {
-                  planReadyMessage.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
-                  planReadyMessage.style.opacity = '1';
-                  planReadyMessage.style.transform = 'translateY(0)';
-                }, 50);
-              }
-              
-              // Register button click handler for "Plan jetzt anzeigen"
-              if (showPlanButton) {
-                console.log('✅ Button click handler registered');
-                showPlanButton.addEventListener('click', () => {
-                  console.log('🎯 User clicked "Plan anzeigen" button');
-                  
-                  showPlanButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Wird geladen...</span>';
-                  
-                  setTimeout(() => {
-                    console.log('🎬 Fading out loading animation');
-                    const loadingEl = document.getElementById('loading');
-                    if (loadingEl) {
-                      loadingEl.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                      loadingEl.style.opacity = '0';
-                      loadingEl.style.transform = 'scale(0.98)';
-                      
-                      // Hide loading after fade-out
-                      setTimeout(() => {
-                        loadingEl.classList.add('hidden');
-                        loadingEl.style.opacity = '1';
-                        loadingEl.style.transform = 'scale(1)';
-                        console.log('✅ Loading hidden, resolving animation promise');
-                        resolve();
-                      }, 800);
-                    } else {
-                      resolve();
-                    }
-                  }, 300);
-                });
+                  loadingEl.classList.add('hidden');
+                  loadingEl.style.opacity = '1';
+                  loadingEl.style.transform = 'scale(1)';
+                  console.log('✅ Loading hidden, resolving animation promise - ready for results');
+                  resolve();
+                }, 800);
               } else {
-                console.error('❌ Button not found!');
+                resolve();
               }
-            }, 1000);
+            }, 800);
             
           }, step.duration);
         }

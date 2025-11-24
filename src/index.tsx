@@ -6181,21 +6181,7 @@ app.get('/', (c) => {
             </div>
             
             <!-- Plan Ready Message (GRÖSSER) -->
-            <div id="plan-ready-message" style="display: none; margin-top: 1.5rem;">
-              <div style="background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green)); padding: 2rem 1.5rem; border-radius: var(--radius-medium); box-shadow: var(--shadow-medium); text-align: center;">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.8rem;">
-                  <i class="fas fa-file-medical" style="color: white; font-size: 3rem;"></i>
-                  <h3 style="margin: 0; font-size: 1.8rem; font-weight: 800; color: white;">Ihr Dosierplan ist fertig!</h3>
-                </div>
-                <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 1.1rem; font-weight: 500; margin-bottom: 1.5rem;">
-                  Ihre persönliche Medikamenten-Reduktionsstrategie wurde erfolgreich erstellt.
-                </p>
-                <button id="show-plan-button" class="btn-primary" style="background: white; color: var(--primary-green); font-size: 1.1rem; padding: 1rem 2rem;">
-                  <i class="fas fa-eye"></i>
-                  Plan jetzt anzeigen
-                </button>
-              </div>
-            </div>
+
             
           </div>
         </div>
