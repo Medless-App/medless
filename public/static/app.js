@@ -2068,7 +2068,7 @@ function downloadPDF(event) {
     const colors = {
       primary: [15, 90, 70],          // Waldgrün #0F5A46
       mint: [29, 185, 141],           // Mintgrün #1DB98D
-      lightMint: [209, 250, 229],     // Helles Mintgrün #D1FAE5
+      lightMint: [240, 253, 244],     // Sehr helles Mintgrün (bessere Lesbarkeit)
       darkGray: [31, 41, 55],         // Dunkles Grau #1F2937
       mediumGray: [107, 114, 128],    // Mittleres Grau #6B7280
       lightGray: [156, 163, 175],     // Helles Grau #9CA3AF
@@ -2083,18 +2083,15 @@ function downloadPDF(event) {
     // HELPER FUNCTIONS
     // ============================================================
     
-    // Kompaktes Logo
+    // Sauberes Logo ohne Sonderzeichen
     const addLogo = (xPos, yPos) => {
       doc.setFontSize(14);
-      doc.setFont(undefined, 'bold');
+      doc.setFont('helvetica', 'bold');
       doc.setTextColor(...colors.primary);
-      doc.text('Med', xPos, yPos);
-      doc.setTextColor(...colors.mint);
-      doc.text('Less', xPos + 10, yPos);
-      doc.text('.', xPos + 22, yPos);
+      doc.text('MedLess', xPos, yPos);
       
       doc.setFontSize(7);
-      doc.setFont(undefined, 'normal');
+      doc.setFont('helvetica', 'normal');
       doc.setTextColor(...colors.mediumGray);
       doc.text('weniger Medikamente, mehr Leben', xPos, yPos + 4);
     };
@@ -2114,16 +2111,17 @@ function downloadPDF(event) {
     // HEADER: Patientendaten (Links) + Logo/Datum (Rechts)
     y = margin;
     
-    // Links: Patientendaten
-    doc.setFontSize(9);
-    doc.setTextColor(...colors.darkGray);
-    doc.setFont(undefined, 'bold');
-    let patientInfo = `${firstName || 'Patient'}`;
-    if (personalization?.age) patientInfo += `, ${personalization.age} Jahre`;
-    if (personalization?.height) patientInfo += `, ${personalization.height}cm`;
-    if (personalization?.weight) patientInfo += `, ${personalization.weight}kg`;
-    if (personalization?.bmi) patientInfo += `, BMI ${personalization.bmi.toFixed(1)}`;
-    doc.text(patientInfo, margin, y + 3);
+    // Links: Patientendaten (schoen formatiert)
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...colors.mediumGray);
+    let patientLine = '';
+    if (firstName) patientLine += `Name: ${firstName}`;
+    if (personalization?.age) patientLine += ` | Alter: ${personalization.age}J`;
+    if (personalization?.height) patientLine += ` | ${personalization.height}cm`;
+    if (personalization?.weight) patientLine += ` | ${personalization.weight}kg`;
+    if (personalization?.bmi) patientLine += ` | BMI ${personalization.bmi.toFixed(1)}`;
+    doc.text(patientLine || 'Patient', margin, y + 3);
     
     // Rechts: Logo + Datum
     const today = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -2288,7 +2286,7 @@ function downloadPDF(event) {
     doc.setFontSize(11);
     doc.setFont(undefined, 'bold');
     doc.setTextColor(...colors.primary);
-    doc.text('💰 Benötigtes Material & Kosten', margin + 3, y + 6);
+    doc.text('BENOETIGTES MATERIAL & KOSTEN', margin + 3, y + 6);
     
     // Produktliste
     doc.setFontSize(9);
@@ -2304,8 +2302,9 @@ function downloadPDF(event) {
       
       const totalCost = costs.totalCost.toFixed(2);
       const weeklyAvg = (costs.totalCost / weeklyPlan.length).toFixed(2);
-      doc.setFont(undefined, 'bold');
-      doc.text(`Gesamtkosten: ${totalCost} €`, margin + 3, y + 19);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`Gesamtkosten:`, margin + 3, y + 19);
+      doc.text(`${totalCost} EUR`, pageWidth - margin - 30, y + 19, { align: 'right' });
       doc.setFont(undefined, 'normal');
       doc.setTextColor(...colors.mediumGray);
       doc.text(`(Durchschnitt: ${weeklyAvg} € pro Woche)`, margin + 45, y + 19);
@@ -2434,7 +2433,7 @@ function downloadPDF(event) {
     xPos += colW3;
     doc.text('Verbrauch', xPos + 2, y + 6);
     xPos += colW4;
-    doc.text('✓', xPos + 5, y + 6);
+    doc.text('Check', xPos + 2, y + 6);
     
     y += rowH;
     
@@ -2461,18 +2460,20 @@ function downloadPDF(event) {
       doc.text(`${week.week}`, xPos + 5, y + 6);
       xPos += colW1;
       
-      // Medikament
+      // Medikament (Dosis fett, Aenderung klein)
       const med = week.medications[0];
       if (med) {
-        const medText = `${med.name.substring(0, 12)} ${med.currentMg}mg`;
-        doc.text(medText, xPos + 2, y + 6);
+        // Dosis fett anzeigen
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${med.currentMg}mg`, xPos + 2, y + 6);
+        doc.setFont('helvetica', 'normal');
         
-        // Änderung (fett)
+        // Aenderung klein und rot daneben
         if (med.reduction && med.reduction > 0) {
-          doc.setFont(undefined, 'bold');
+          doc.setFontSize(7);
           doc.setTextColor(...colors.red);
-          doc.text(`-${med.reduction}`, xPos + 35, y + 6);
-          doc.setFont(undefined, 'normal');
+          doc.text(`(-${med.reduction}mg)`, xPos + 20, y + 6);
+          doc.setFontSize(8);
           doc.setTextColor(...colors.darkGray);
         }
       }
@@ -2484,13 +2485,13 @@ function downloadPDF(event) {
       doc.text(`${product}: ${application}`, xPos + 2, y + 6);
       xPos += colW3;
       
-      // Verbrauch
+      // Verbrauch (ohne Emoji!)
       if (week.bottleStatus && week.bottleStatus.productChangeNext) {
         doc.setTextColor(...colors.warningOrange);
-        doc.setFont(undefined, 'bold');
+        doc.setFont('helvetica', 'bold');
         doc.setFontSize(7);
-        doc.text('⚠️ Wechsel', xPos + 2, y + 6);
-        doc.setFont(undefined, 'normal');
+        doc.text('WECHSEL', xPos + 2, y + 6);
+        doc.setFont('helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(...colors.darkGray);
       } else {
@@ -2498,9 +2499,10 @@ function downloadPDF(event) {
       }
       xPos += colW4;
       
-      // Checkbox
-      doc.setLineWidth(0.3);
-      doc.rect(xPos + 5, y + 2, 4, 4);
+      // Checkbox (sauberes leeres Quadrat)
+      doc.setDrawColor(...colors.tableBorder);
+      doc.setLineWidth(0.4);
+      doc.rect(xPos + 4, y + 2.5, 5, 5);
       
       y += rowH;
     });
@@ -2524,7 +2526,7 @@ function downloadPDF(event) {
     doc.setFontSize(9);
     doc.setFont(undefined, 'bold');
     doc.setTextColor(...colors.darkGray);
-    doc.text('⚠️ Wichtige Hinweise', margin + 2, y + 5);
+    doc.text('WICHTIGE HINWEISE', margin + 2, y + 5);
     
     // Hinweise (kompakt)
     doc.setFontSize(7);
