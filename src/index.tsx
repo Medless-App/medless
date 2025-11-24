@@ -921,10 +921,10 @@ app.get('/', (c) => {
       --max-width-text: 65ch;
       --max-width-card-text: 45ch;
       
-      /* LAYOUT OPTIMIZATION - Consistent Spacing */
-      --section-padding-y: 90px;
-      --heading-margin-bottom: 22px;
-      --paragraph-spacing: 16px;
+      /* LAYOUT OPTIMIZATION - Compact Spacing */
+      --section-padding-y: 60px;
+      --heading-margin-bottom: 18px;
+      --paragraph-spacing: 14px;
       --line-height-comfortable: 1.7;
       
       /* TYPOGRAPHY OPTIMIZATION - FINAL */
@@ -953,7 +953,7 @@ app.get('/', (c) => {
       --button-shadow: 0 3px 10px rgba(14, 95, 69, 0.12), 0 6px 20px rgba(14, 95, 69, 0.08);
       --faq-border-color: #E4E4E4;
       --faq-border-radius: 4px;
-      --section-gap: 100px;
+      --section-gap: 60px;
     }
     
     /* ============================================================
@@ -2187,7 +2187,7 @@ app.get('/', (c) => {
     
     .hero {
       background: linear-gradient(135deg, #FFFFFF 0%, #F4FBF8 100%);
-      padding: 88px 0 96px;
+      padding: 40px 0 50px;
       overflow: hidden;
     }
     
@@ -2218,7 +2218,7 @@ app.get('/', (c) => {
       color: #1A1A1A;
       line-height: 1.1;
       letter-spacing: -0.02em;
-      margin-bottom: 24px;
+      margin-bottom: 15px;
       max-width: 14ch;
     }
     
@@ -2227,7 +2227,7 @@ app.get('/', (c) => {
       font-weight: 400;
       color: #374151;
       line-height: 1.6;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       max-width: 560px;
     }
     
@@ -2243,15 +2243,15 @@ app.get('/', (c) => {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      margin-bottom: 32px;
+      gap: 10px;
+      margin-bottom: 28px;
     }
     
     .hero-features li {
       display: flex;
       align-items: flex-start;
       gap: 16px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       text-align: left;
     }
     
