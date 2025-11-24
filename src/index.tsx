@@ -2249,126 +2249,225 @@ app.get('/', (c) => {
       line-height: 1.5;
     }
     
-    /* Hero Document Preview (right side) - Schwebende Dokument-Vorschau */
-    .hero-document-preview {
+    /* Hero Visualization - Digitale Körperanalyse & Erfolgskurve */
+    .hero-visualization {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 500px;
-      padding: 48px;
+      padding: 24px;
     }
     
-    /* Hintergrund Gradient Circle mit Blur */
-    .preview-bg-circle {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(14, 90, 69, 0.1) 50%, transparent 80%);
-      border-radius: 50%;
-      filter: blur(60px);
-      z-index: 0;
-    }
-    
-    /* Schwebendes Dokument */
-    .floating-document {
+    /* Visualization Card Container */
+    .viz-card {
       position: relative;
-      z-index: 1;
-      width: 340px;
+      width: 100%;
+      max-width: 380px;
+      height: 480px;
       background: white;
-      border-radius: 12px;
+      border-radius: 20px;
       box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.12),
-        0 10px 20px rgba(0, 0, 0, 0.08);
+        0 20px 40px rgba(14, 90, 69, 0.12),
+        0 10px 25px rgba(0, 0, 0, 0.08);
       padding: 32px;
-      transform: rotate(-2deg);
-      transition: all 0.3s ease;
-      animation: float 6s ease-in-out infinite;
+      overflow: hidden;
     }
     
-    .floating-document:hover {
-      transform: rotate(0deg) translateY(-8px);
-      box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.15),
-        0 15px 30px rgba(0, 0, 0, 0.10);
+    /* Digitale Körper-Silhouette (Hintergrund) */
+    .body-silhouette {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
     }
     
-    @keyframes float {
+    /* Körper-Punkte (Nervensystem) */
+    .body-point {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle, #10B981 0%, rgba(16, 185, 129, 0.3) 70%);
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+    }
+    
+    .body-point.head {
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+    }
+    
+    .body-point.head-left {
+      top: 75px;
+      left: calc(50% - 25px);
+    }
+    
+    .body-point.head-right {
+      top: 75px;
+      left: calc(50% + 25px);
+    }
+    
+    .body-point.shoulder-left {
+      top: 120px;
+      left: calc(50% - 60px);
+    }
+    
+    .body-point.shoulder-right {
+      top: 120px;
+      left: calc(50% + 60px);
+    }
+    
+    .body-point.chest {
+      top: 180px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+    }
+    
+    /* Pulsieren Animation */
+    @keyframes pulse {
       0%, 100% {
-        transform: rotate(-2deg) translateY(0px);
+        transform: scale(1);
+        opacity: 1;
       }
       50% {
-        transform: rotate(-2deg) translateY(-10px);
+        transform: scale(1.3);
+        opacity: 0.7;
       }
     }
     
-    /* Dokument Header mit grünem Balken (Logo-Bereich) */
-    .doc-header {
-      margin-bottom: 24px;
+    @keyframes pulse-slow {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+      }
     }
     
-    .doc-logo-bar {
-      width: 80px;
-      height: 8px;
-      background: linear-gradient(135deg, #0E5A45 0%, #10B981 100%);
-      border-radius: 4px;
+    .body-point.pulse {
+      animation: pulse 2s ease-in-out infinite;
     }
     
-    /* Dokument Content (stilisierte Text-Linien) */
-    .doc-content {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 32px;
+    .body-point.pulse-slow {
+      animation: pulse-slow 3s ease-in-out infinite;
     }
     
-    .doc-line {
-      height: 8px;
-      background: #E5E7EB;
-      border-radius: 4px;
-    }
-    
-    .doc-line.long {
+    /* Netzwerk-Linien (SVG) */
+    .body-network {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.6;
     }
     
-    .doc-line.medium {
-      width: 75%;
+    .network-line {
+      stroke: #10B981;
+      stroke-width: 2;
+      opacity: 0.4;
+      animation: line-fade 3s ease-in-out infinite;
     }
     
-    .doc-line.short {
-      width: 50%;
+    .network-line-thin {
+      stroke: #10B981;
+      stroke-width: 1;
+      opacity: 0.25;
+      stroke-dasharray: 4,4;
     }
     
-    /* Erfolgs-Badge unten im Dokument */
-    .success-badge {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 20px;
-      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
-      border-radius: 10px;
-      border: 2px solid #10B981;
+    @keyframes line-fade {
+      0%, 100% {
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 0.6;
+      }
     }
     
-    .success-badge svg {
-      width: 32px;
-      height: 32px;
-      flex-shrink: 0;
+    /* Chart Overlay (Vordergrund) */
+    .chart-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
     }
     
-    .success-badge span {
-      font-size: 15px;
-      font-weight: 700;
+    .chart-svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Absteigende Linie Animation */
+    .chart-line-med {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      animation: draw-line 3s ease-out forwards;
+    }
+    
+    /* Aufsteigende Linie Animation */
+    .chart-line-success {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      animation: draw-line 3s ease-out 0.5s forwards;
+      filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+    }
+    
+    @keyframes draw-line {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+    
+    /* Chart Labels */
+    .chart-label {
+      position: absolute;
+      font-size: 12px;
+      font-weight: 600;
+      z-index: 3;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .chart-label.med-label {
+      top: 60px;
+      left: 50px;
+      color: #6B7280;
+      font-size: 11px;
+    }
+    
+    .chart-label.success-label {
+      top: 40px;
+      right: 40px;
       color: #0E5A45;
+      font-weight: 700;
+      text-align: right;
+      line-height: 1.3;
     }
     
-    /* Mobile: Dokument-Vorschau ausblenden */
+    .chart-label.success-label span {
+      font-size: 10px;
+      color: #10B981;
+      font-weight: 600;
+    }
+    
+    /* Mobile: Visualization ausblenden */
     @media (max-width: 768px) {
-      .hero-document-preview {
+      .hero-visualization {
         display: none;
       }
     }
@@ -4532,36 +4631,86 @@ app.get('/', (c) => {
             </button>
           </div>
           
-          <!-- Right: Schwebende Dokument-Vorschau (Desktop only) -->
-          <div class="hero-document-preview">
-            <!-- Hintergrund Gradient Circle -->
-            <div class="preview-bg-circle"></div>
-            
-            <!-- Schwebendes Dokument -->
-            <div class="floating-document">
-              <!-- Dokument-Header mit Logo-Bar -->
-              <div class="doc-header">
-                <div class="doc-logo-bar"></div>
-              </div>
+          <!-- Right: Digitale Körperanalyse & Erfolgskurve (Desktop only) -->
+          <div class="hero-visualization">
+            <!-- Container Card -->
+            <div class="viz-card">
               
-              <!-- Dokument-Inhalt (stilisierte Linien) -->
-              <div class="doc-content">
-                <div class="doc-line long"></div>
-                <div class="doc-line medium"></div>
-                <div class="doc-line long"></div>
-                <div class="doc-line short"></div>
-                <div class="doc-line medium"></div>
-                <div class="doc-line long"></div>
-              </div>
-              
-              <!-- Erfolgs-Badge -->
-              <div class="success-badge">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" fill="#10B981"/>
-                  <path d="M8 12.5L10.5 15L16 9.5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Digitale Körper-Silhouette (Hintergrund) -->
+              <div class="body-silhouette">
+                <!-- Kopf -->
+                <div class="body-point head pulse"></div>
+                <div class="body-point head-left"></div>
+                <div class="body-point head-right"></div>
+                
+                <!-- Schultern -->
+                <div class="body-point shoulder-left pulse-slow"></div>
+                <div class="body-point shoulder-right pulse-slow"></div>
+                
+                <!-- Brust/Herz -->
+                <div class="body-point chest pulse"></div>
+                
+                <!-- Verbindungslinien -->
+                <svg class="body-network" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Kopf zu Schultern -->
+                  <line x1="150" y1="60" x2="100" y2="120" class="network-line" />
+                  <line x1="150" y1="60" x2="200" y2="120" class="network-line" />
+                  
+                  <!-- Schultern zu Brust -->
+                  <line x1="100" y1="120" x2="150" y2="180" class="network-line" />
+                  <line x1="200" y1="120" x2="150" y2="180" class="network-line" />
+                  
+                  <!-- Netzwerk-Linien -->
+                  <line x1="150" y1="60" x2="150" y2="180" class="network-line-thin" />
+                  <line x1="130" y1="80" x2="170" y2="80" class="network-line-thin" />
+                  <line x1="120" y1="140" x2="180" y2="140" class="network-line-thin" />
                 </svg>
-                <span>Analyse fertig</span>
               </div>
+              
+              <!-- Diagramm-Linien (Vordergrund) -->
+              <div class="chart-overlay">
+                <svg class="chart-svg" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Achsen -->
+                  <line x1="40" y1="350" x2="260" y2="350" stroke="#E5E7EB" stroke-width="1.5"/>
+                  <line x1="40" y1="350" x2="40" y2="50" stroke="#E5E7EB" stroke-width="1.5"/>
+                  
+                  <!-- Absteigende Linie (Medikamente) -->
+                  <path 
+                    d="M 60 80 Q 120 150, 180 220 T 260 320" 
+                    stroke="#9CA3AF" 
+                    stroke-width="3" 
+                    stroke-dasharray="8,6"
+                    fill="none"
+                    class="chart-line-med"
+                  />
+                  
+                  <!-- Aufsteigende Linie (Lebensqualität) -->
+                  <path 
+                    d="M 60 320 Q 120 250, 180 140 T 260 60" 
+                    stroke="#10B981" 
+                    stroke-width="4" 
+                    fill="none"
+                    class="chart-line-success"
+                    filter="url(#glow)"
+                  />
+                  
+                  <!-- Glow Filter -->
+                  <defs>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                </svg>
+                
+                <!-- Labels -->
+                <div class="chart-label med-label">Medikamente</div>
+                <div class="chart-label success-label">Lebensqualität<br><span>ECS-Balance</span></div>
+              </div>
+              
             </div>
           </div>
 
