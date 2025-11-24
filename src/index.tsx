@@ -2098,10 +2098,24 @@ app.get('/', (c) => {
       align-items: center;
     }
     
-    .header-logo img {
-      height: 56px;
-      width: auto;
-      max-width: 220px;
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    
+    .logo-med {
+      color: #0F5A46;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
     }
     
     .header-nav {
@@ -2111,7 +2125,7 @@ app.get('/', (c) => {
     }
     
     .header-nav a {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 500;
       color: #4B5563;
       text-decoration: none;
@@ -2267,6 +2281,7 @@ app.get('/', (c) => {
       align-items: center;
       justify-content: center;
       perspective: 1000px; /* Wichtig für 3D */
+      transform: scale(1.2); /* 20% größer für mehr Impact */
     }
 
     /* Der grüne Leucht-Hintergrund - Größer */
@@ -2274,7 +2289,7 @@ app.get('/', (c) => {
       position: absolute;
       width: 450px; /* Deutlich größer */
       height: 450px;
-      background: radial-gradient(circle, rgba(29, 185, 141, 0.4) 0%, rgba(15, 90, 70, 0.1) 70%);
+      background: radial-gradient(circle, rgba(29, 185, 141, 0.55) 0%, rgba(15, 90, 70, 0.2) 70%);
       filter: blur(80px);
       border-radius: 50%;
       z-index: 0;
@@ -2451,8 +2466,8 @@ app.get('/', (c) => {
     }
     
     @keyframes pulseBlob {
-      0% { transform: scale(0.9); opacity: 0.3; }
-      100% { transform: scale(1.1); opacity: 0.5; }
+      0% { transform: scale(0.9); opacity: 0.5; }
+      100% { transform: scale(1.1); opacity: 0.7; }
     }
     
     @keyframes fillBar { 
@@ -4531,24 +4546,9 @@ app.get('/', (c) => {
   <header class="site-header">
     <div class="header-container">
       <div class="header-logo">
-        <svg viewBox="0 0 520 180" xmlns="http://www.w3.org/2000/svg" style="height: 48px; width: auto;">
-          <!-- Circles representing medication reduction -->
-          <circle cx="60" cy="50" r="30" fill="#0C5C4C"/>
-          <circle cx="110" cy="50" r="20" fill="#0C5C4C"/>
-          <circle cx="150" cy="50" r="14" fill="#0C5C4C"/>
-          <circle cx="180" cy="50" r="10" fill="#0C5C4C"/>
-          <circle cx="205" cy="50" r="7" fill="#0C5C4C"/>
-          <circle cx="225" cy="50" r="5" fill="#0C5C4C"/>
-          <circle cx="240" cy="50" r="3" fill="#0C5C4C"/>
-          <circle cx="252" cy="50" r="2" fill="#0C5C4C"/>
-          
-          <!-- MedLess Text -->
-          <text x="30" y="120" font-family="Inter, system-ui, sans-serif" font-size="52" font-weight="700" fill="#0C5C4C">MedLess</text>
-          
-          <!-- Tagline -->
-          <text x="35" y="145" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="400" fill="#0C5C4C">weniger Medikamente</text>
-          <text x="65" y="165" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="400" fill="#0C5C4C">mehr Leben</text>
-        </svg>
+        <span class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+        </span>
       </div>
       
       <nav class="header-nav">
