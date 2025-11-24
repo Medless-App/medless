@@ -4514,9 +4514,25 @@ app.get('/', (c) => {
       .hero-features li {
         font-size: 15px;
         text-align: left !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
       }
       
       .hero-features li span {
+        text-align: left !important;
+        display: block !important;
+      }
+      
+      /* Extra: Alle 4 Eintraege explizit */
+      .hero-features li:nth-child(1),
+      .hero-features li:nth-child(2),
+      .hero-features li:nth-child(3),
+      .hero-features li:nth-child(4) {
+        text-align: left !important;
+      }
+      
+      .hero-features li:nth-child(3) span {
         text-align: left !important;
       }
       
