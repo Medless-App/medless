@@ -2241,8 +2241,9 @@ app.get('/', (c) => {
     
     .hero-features {
       list-style: none;
-      display: grid;
-      gap: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
       margin-bottom: 32px;
     }
     
@@ -2254,12 +2255,16 @@ app.get('/', (c) => {
     
     .hero-features li i {
       flex-shrink: 0;
-      margin-top: 2px;
+      min-width: 24px;
+      width: 24px;
+      height: 24px;
+      margin-top: 0;
     }
     
     .hero-features li span {
       font-size: 16px;
       line-height: 1.5;
+      flex: 1;
     }
     
     /* Hero Visualization - Glassmorphism Status Card */
@@ -2419,8 +2424,8 @@ app.get('/', (c) => {
     /* Schwebendes Badge - Jetzt links positioniert für Balance */
     .float-badge {
       position: absolute;
-      bottom: 60px;
-      right: -20px; /* Ragt leicht raus */
+      bottom: -20px;
+      right: -30px;
       padding: 15px 25px;
       display: flex; 
       align-items: center; 
@@ -2428,8 +2433,9 @@ app.get('/', (c) => {
       border-radius: 20px;
       background: rgba(255, 255, 255, 0.9);
       box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-      transform: translateZ(40px); /* Schwebt VOR der Karte */
+      transform: translateZ(40px);
       animation: floatBadge 7s ease-in-out infinite reverse;
+      z-index: 10;
     }
 
     .check-circle {
@@ -2492,9 +2498,9 @@ app.get('/', (c) => {
     }
     
     .checkmark-icon {
-      width: 18px;
-      height: 18px;
-      min-width: 18px;
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
       color: var(--primary-green);
       flex-shrink: 0;
     }
