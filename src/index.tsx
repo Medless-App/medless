@@ -5572,7 +5572,7 @@ app.get('/', (c) => {
           <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Ist MedLess nur bei vielen Medikamenten sinnvoll – oder auch bei einem einzigen?
+                Lohnt sich MedLess auch bei nur einem einzigen Medikament?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -5581,8 +5581,14 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  MedLess ist sowohl für Menschen mit vielen Medikamenten (Polypharmazie) als auch für Personen geeignet, die nur ein einziges Dauer-Medikament ausschleichen möchten – zum Beispiel ein Schlafmittel, ein Antidepressivum zur Nacht, ein Schmerzmittel oder ein „Magenschutz"-Präparat.
+                  MedLess ist sowohl für Menschen mit vielen Medikamenten (Polypharmazie) als auch für Personen geeignet, die nur ein einziges Dauer-Medikament ausschleichen möchten – zum Beispiel:
                 </p>
+                <ul>
+                  <li>ein Schlafmittel</li>
+                  <li>ein Antidepressivum zur Nacht</li>
+                  <li>ein Schmerzmittel</li>
+                  <li>oder ein „Magenschutz"-Präparat</li>
+                </ul>
                 <p>
                   Die KI berechnet einen theoretischen Reduktionsplan, der sich an deiner individuellen Situation orientiert. Die tatsächliche Umsetzung erfolgt immer gemeinsam mit deinem Arzt.
                 </p>
@@ -5594,7 +5600,7 @@ app.get('/', (c) => {
           <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Wie können Cannabinoide helfen, Medikamente zu reduzieren?
+                Wie unterstützen Cannabinoide beim Reduzieren?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -5606,11 +5612,11 @@ app.get('/', (c) => {
                   Cannabinoide wirken auf zwei Ebenen:
                 </p>
                 <ul>
-                  <li>Sie unterstützen das Endocannabinoid-System (ECS), das an der Regulation von Schlaf, Schmerz, Stimmung, Stress und Entzündungen beteiligt ist.</li>
-                  <li>Sie können Leberenzyme beeinflussen, die am Abbau bestimmter Medikamente beteiligt sind (CYP450-System).</li>
+                  <li><strong>Stärkung des ECS:</strong> Sie unterstützen das Endocannabinoid-System, das Schlaf, Schmerz, Stimmung und Stress reguliert.</li>
+                  <li><strong>Enzym-Einfluss:</strong> Sie können Leberenzyme (CYP450) beeinflussen, die Medikamente abbauen.</li>
                 </ul>
                 <p>
-                  Wenn Symptome durch ein stabileres ECS zurückgehen, kann es sein, dass dein Körper weniger Medikamente benötigt. Gleichzeitig können sich durch Enzymveränderungen auch Blutspiegel einzelner Medikamente ändern. Deshalb muss jede tatsächliche Dosisanpassung immer ärztlich begleitet werden.
+                  Wenn Symptome durch ein stabileres ECS zurückgehen, benötigt der Körper oft weniger Medikamente. Da sich Blutspiegel ändern können, ist die ärztliche Begleitung Pflicht.
                 </p>
               </div>
             </div>
@@ -5629,15 +5635,15 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Das Endocannabinoid-System ist ein körpereigenes Regulationssystem. Es besteht aus:
+                  Das ECS ist ein körpereigenes Regulationssystem für die innere Balance (Homöostase). Es besteht aus:
                 </p>
                 <ul>
                   <li>Endocannabinoiden (körpereigenen Botenstoffen)</li>
-                  <li>Rezeptoren (z. B. CB1 und CB2) im Gehirn, Nervensystem, Immunsystem und Organen</li>
-                  <li>Enzymen, die diese Botenstoffe auf- und abbauen</li>
+                  <li>Rezeptoren (CB1 und CB2) in Gehirn, Nerven und Organen</li>
+                  <li>Enzymen zum Auf- und Abbau</li>
                 </ul>
                 <p>
-                  Das ECS hilft, innere Balance zu halten – etwa bei Schlaf, Schmerz, Stimmung, Appetit, Stressreaktion und Entzündungsprozessen. Gerät es aus dem Gleichgewicht, greifen viele Menschen zu Medikamenten. MedLess setzt dort an, wo Cannabinoide das ECS unterstützen können.
+                  Gerät dieses System aus dem Gleichgewicht (bei Stress, Schmerz, Schlafproblemen), greifen viele zu Medikamenten. MedLess setzt dort an, wo Cannabinoide das ECS natürlich unterstützen können.
                 </p>
               </div>
             </div>
@@ -5647,7 +5653,7 @@ app.get('/', (c) => {
           <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Ersetzt MedLess eine ärztliche Beratung oder Diagnose?
+                Ersetzt MedLess den Arztbesuch?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -5656,13 +5662,7 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Nein. MedLess bietet keine medizinische Diagnose und keine Therapieempfehlung.
-                </p>
-                <p>
-                  Die Anwendung erstellt einen theoretischen, strukturierten Ausschleichplan auf Basis deiner Eingaben und wissenschaftlicher Grundlagen. Dieser Plan ist ausdrücklich als Gesprächsgrundlage für deinen behandelnden Arzt gedacht.
-                </p>
-                <p>
-                  Ändere deine Medikation niemals eigenständig, sondern immer nur nach ärztlicher Rücksprache.
+                  <strong>Nein.</strong> MedLess bietet keine medizinische Diagnose und keine Therapieempfehlung. Die Anwendung erstellt einen theoretischen, strukturierten Ausschleichplan auf Basis wissenschaftlicher Daten. Dieser Plan ist ausdrücklich als <strong>Gesprächsgrundlage für deinen behandelnden Arzt</strong> gedacht. Ändere deine Medikation niemals eigenständig.
                 </p>
               </div>
             </div>
@@ -5672,7 +5672,7 @@ app.get('/', (c) => {
           <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Wie wird die Cannabinoid-Dosierung in MedLess berechnet?
+                Wie berechnet die KI die Dosierung?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -5681,16 +5681,16 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  MedLess orientiert sich an in der Fachliteratur beschriebenen Dosisbereichen und nutzt unter anderem:
+                  MedLess orientiert sich an Fachliteratur und nutzt unter anderem:
                 </p>
                 <ul>
-                  <li>dein Körpergewicht und dein Alter</li>
-                  <li>die Art und Anzahl deiner Medikamente</li>
-                  <li>den gewählten Ausschleichzeitraum</li>
-                  <li>Sicherheitsmargen bei sensiblen Wirkstoffgruppen</li>
+                  <li>Dein Körpergewicht und Alter</li>
+                  <li>Art und Anzahl der Medikamente</li>
+                  <li>Den gewählten Zeitrahmen</li>
+                  <li>Sicherheitsmargen bei sensiblen Wirkstoffen</li>
                 </ul>
                 <p>
-                  Die Dosierung wird vorsichtig eingeschlichen und über den Verlauf angepasst. Sie ist nicht als starre Vorgabe zu verstehen, sondern als Vorschlag, den dein Arzt anpassen kann.
+                  Die Dosierung wird vorsichtig eingeschlichen und ist ein Vorschlag, den dein Arzt anpassen kann.
                 </p>
               </div>
             </div>
@@ -5700,7 +5700,7 @@ app.get('/', (c) => {
           <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Warum verwendet der Plan nur MEDLESS-Produkte?
+                Warum funktioniert der Plan nur mit MEDLESS-Produkten?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -5709,13 +5709,7 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Die KI ist gezielt auf die MEDLESS-Produktlinie trainiert. Das bedeutet: Cannabinoidgehalt, Konzentrationen und Terpenprofil dieser Produkte sind exakt im System hinterlegt.
-                </p>
-                <p>
-                  Nur auf dieser Basis kann die KI seriös berechnen, wie viele Einheiten du für deinen Ausschleichzeitraum benötigst und welche Dosierungen sinnvoll sind.
-                </p>
-                <p>
-                  Wenn du andere Produkte verwendest, stimmen die Mengen- und Dosisberechnungen nicht mehr zuverlässig.
+                  Die KI ist gezielt auf die <strong>Bioverfügbarkeit der MEDLESS-Linie</strong> trainiert. Cannabinoidgehalt, Konzentrationen und Terpenprofile sind exakt hinterlegt. Nur auf dieser Basis kann die KI seriös berechnen, wie viele Tropfen/Einheiten du benötigst. Bei Fremdprodukten wären die Berechnungen unzuverlässig und potenziell unsicher.
                 </p>
               </div>
             </div>
@@ -5725,7 +5719,7 @@ app.get('/', (c) => {
           <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Bekomme ich eine Übersicht über die Kosten?
+                Sehe ich die Kosten vorab?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -5734,17 +5728,14 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Ja. In deinem PDF-Plan siehst du:
+                  Ja. In deinem PDF-Plan siehst du transparent:
                 </p>
                 <ul>
-                  <li>welche MEDLESS-Produkte du benötigst</li>
+                  <li>welche Produkte du genau benötigst</li>
                   <li>für welchen Zeitraum sie ausreichen</li>
-                  <li>die geschätzten Gesamtkosten für den gesamten Ausschleichplan</li>
-                  <li>auf Wunsch auch eine Orientierung, wie hoch die Kosten pro Woche liegen</li>
+                  <li>die geschätzten Gesamtkosten</li>
+                  <li>die Kosten pro Woche (zur Orientierung)</li>
                 </ul>
-                <p>
-                  So kannst du vorab entscheiden, ob und in welchem Umfang du den Plan umsetzen möchtest.
-                </p>
               </div>
             </div>
           </div>
@@ -5753,7 +5744,7 @@ app.get('/', (c) => {
           <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Sind Cannabinoide legal und machen sie abhängig?
+                Ist das legal und werde ich davon "high"?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -5762,13 +5753,7 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Nicht-psychoaktive Cannabinoide wie CBD sind in vielen Ländern legal, solange der THC-Gehalt unter der jeweiligen gesetzlichen Grenze (häufig 0,2–0,3 %) liegt. Die genaue Rechtslage hängt vom Land ab und kann sich ändern.
-                </p>
-                <p>
-                  CBD gilt als nicht berauschend und macht nach aktuellem Wissensstand nicht abhängig.
-                </p>
-                <p>
-                  THC-haltige Produkte oberhalb der gesetzlichen Grenze unterliegen meist dem Suchtmittelrecht und sind nur eingeschränkt verfügbar.
+                  Nicht-psychoaktive Cannabinoide wie CBD sind in vielen Ländern legal, solange der THC-Gehalt unter der gesetzlichen Grenze liegt (meist 0,2–0,3 %). CBD wirkt <strong>nicht berauschend</strong> und macht nach aktuellem Wissensstand nicht abhängig.
                 </p>
               </div>
             </div>
@@ -5778,7 +5763,7 @@ app.get('/', (c) => {
           <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Wie schnell kann ich meine Medikamente reduzieren?
+                Wie schnell kann ich ausschleichen?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -5787,10 +5772,7 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Das hängt von vielen Faktoren ab: Art des Medikaments, Dauer der Einnahme, Dosis, Begleiterkrankungen und deiner individuellen Reaktion.
-                </p>
-                <p>
-                  MedLess simuliert Ausschleichverläufe von etwa 2 bis 12 Wochen, die eher vorsichtig angelegt sind. Dein Arzt kann den Plan bei Bedarf verlängern, Zwischenschritte einbauen oder eine langsamere Strategie wählen.
+                  Das hängt von Medikament, Dauer der Einnahme und deiner Reaktion ab. MedLess simuliert Verläufe von <strong>2 bis 12 Wochen</strong>, die eher vorsichtig angelegt sind. Dein Arzt kann den Plan jederzeit verlängern oder Pausen einbauen.
                 </p>
               </div>
             </div>
@@ -5800,7 +5782,7 @@ app.get('/', (c) => {
           <div class="faq-item scroll-animate-card">
             <button class="faq-question" onclick="toggleFAQ(this)">
               <span class="faq-question-text">
-                Kann mein Arzt MedLess auch nutzen?
+                Kann mein Arzt das Tool auch nutzen?
               </span>
               <div class="faq-icon">
                 <i class="fas fa-chevron-down"></i>
@@ -5809,10 +5791,7 @@ app.get('/', (c) => {
             <div class="faq-answer">
               <div class="faq-answer-content">
                 <p>
-                  Ja. Dein Arzt kann deinen Plan mit dir gemeinsam ansehen, verändern oder neu bewerten.
-                </p>
-                <p>
-                  Die Idee von MedLess ist nicht, ärztliche Entscheidungen zu ersetzen, sondern sie zu unterstützen – durch mehr Übersicht, Struktur und Transparenz.
+                  Ja. Die Idee von MedLess ist es nicht, den Arzt zu ersetzen, sondern ihn zu unterstützen – durch mehr Übersicht, Struktur und einen klaren Fahrplan, den er mit dir gemeinsam bewerten kann.
                 </p>
               </div>
             </div>
