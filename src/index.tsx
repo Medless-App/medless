@@ -2249,7 +2249,7 @@ app.get('/', (c) => {
       line-height: 1.5;
     }
     
-    /* Hero Visualization - Medizinisches Analyse-Dashboard */
+    /* Hero Visualization - Glassmorphism Status Card */
     .hero-visualization {
       position: relative;
       display: flex;
@@ -2259,88 +2259,160 @@ app.get('/', (c) => {
       padding: 24px;
     }
     
-    /* Dashboard Card - Glassmorphismus-Effekt */
-    .dashboard-card {
+    /* CSS STYLING */
+    .visual-wrapper {
       position: relative;
       width: 100%;
       max-width: 450px;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(229, 231, 235, 0.8);
-      border-radius: 24px;
-      box-shadow: 
-        0 25px 50px rgba(14, 90, 69, 0.08),
-        0 10px 20px rgba(0, 0, 0, 0.06),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
-      padding: 32px;
-      overflow: hidden;
-    }
-    
-    /* Status Badge */
-    .status-badge {
-      position: absolute;
-      top: 20px;
-      right: 24px;
+      height: 400px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
-      border: 1.5px solid #10B981;
-      border-radius: 20px;
-      font-size: 12px;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    /* Der grüne Leucht-Hintergrund */
+    .glow-blob {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, #1DB98D 0%, #0F5A46 100%);
+      filter: blur(60px);
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: pulseBlob 8s infinite alternate;
+      z-index: 0;
+    }
+
+    /* Glassmorphism Basis-Stil */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      border-radius: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Hauptkarte */
+    .main-card {
+      width: 320px;
+      padding: 30px;
+      animation: floatCard 6s ease-in-out infinite;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .icon-box {
+      width: 40px;
+      height: 40px;
+      background: #ECFDF5;
+      color: #0F5A46;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .status-text {
       font-weight: 700;
-      color: #0E5A45;
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
-      z-index: 10;
+      color: #1F2937;
+      font-size: 1.1rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: #E5E7EB;
+      margin-bottom: 20px;
+    }
+
+    /* Balken-Design */
+    .metric-item {
+      margin-bottom: 20px;
+    }
+    .metric-item:last-child { margin-bottom: 0; }
+
+    .metric-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #4B5563;
+    }
+
+    .trend-down { color: #0F5A46; font-size: 0.8rem; background: #ECFDF5; padding: 2px 8px; border-radius: 4px; }
+    .trend-up { color: #1DB98D; font-size: 0.8rem; background: #F0FDFA; padding: 2px 8px; border-radius: 4px; }
+
+    .progress-bg {
+      height: 10px;
+      background: #F3F4F6;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 10px;
+      animation: fillBar 1.5s ease-out forwards;
+    }
+
+    .progress-fill.down { background: linear-gradient(90deg, #9CA3AF, #6B7280); width: 0; animation-delay: 0.2s; } /* Grau/Dezent für Medis */
+    .progress-fill.up { background: linear-gradient(90deg, #1DB98D, #34D399); width: 0; box-shadow: 0 0 10px rgba(29, 185, 141, 0.4); animation-delay: 0.4s; } /* Leuchtend Grün für Leben */
+
+    /* Schwebendes Badge rechts unten */
+    .float-badge {
+      position: absolute;
+      bottom: 40px;
+      right: 0;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-radius: 16px;
+      animation: floatBadge 7s ease-in-out infinite reverse; /* Schwebt gegenläufig */
+    }
+
+    .check-circle {
+      width: 24px;
+      height: 24px;
+      background: #0F5A46;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .badge-text strong { display: block; font-size: 0.9rem; color: #1F2937; }
+    .badge-text span { font-size: 0.75rem; color: #6B7280; }
+
+    /* Animationen Keyframes */
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-10px) translateX(-5px); }
+    }
+    @keyframes pulseBlob {
+      0% { transform: scale(1); opacity: 0.4; }
+      100% { transform: scale(1.1); opacity: 0.6; }
+    }
+    @keyframes fillBar {
+      from { width: 0; }
     }
     
-    .status-badge svg {
-      flex-shrink: 0;
-    }
-    
-    /* Dashboard Chart SVG */
-    .dashboard-chart {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    
-    /* Kurven-Animationen */
-    .curve-medication {
-      stroke-dasharray: 800;
-      stroke-dashoffset: 800;
-      animation: draw-curve 2.5s ease-out forwards;
-    }
-    
-    .curve-vitality {
-      stroke-dasharray: 800;
-      stroke-dashoffset: 800;
-      animation: draw-curve 2.5s ease-out 0.3s forwards;
-    }
-    
-    @keyframes draw-curve {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
-    
-    /* Data Points Pulse */
-    .data-point {
-      filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6));
-    }
-    
-    /* Hover-Effekt für Card */
-    .dashboard-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 
-        0 30px 60px rgba(14, 90, 69, 0.12),
-        0 15px 30px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 1);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    /* Mobile: Dashboard ausblenden */
+    /* Mobile: Visualization ausblenden */
     @media (max-width: 768px) {
       .hero-visualization {
         display: none;
@@ -4506,87 +4578,49 @@ app.get('/', (c) => {
             </button>
           </div>
           
-          <!-- Right: Medizinisches Analyse-Dashboard (Desktop only) -->
+          <!-- Right: Glassmorphism Status Card (Desktop only) -->
           <div class="hero-visualization">
-            <!-- Dashboard Card -->
-            <div class="dashboard-card">
-              
-              <!-- Status Badge -->
-              <div class="status-badge">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="8" cy="8" r="7" fill="#10B981"/>
-                  <path d="M5 8L7 10L11 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>Status: Optimiert</span>
+            <div class="visual-wrapper">
+              <div class="glow-blob"></div>
+
+              <div class="glass-card main-card">
+                <div class="card-header">
+                  <div class="icon-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                  </div>
+                  <span class="status-text">Analyse abgeschlossen</span>
+                </div>
+                
+                <div class="divider"></div>
+
+                <div class="metric-item">
+                  <div class="metric-label">
+                    <span>Medikamenten-Last</span>
+                    <span class="trend-down">- Optimiert</span>
+                  </div>
+                  <div class="progress-bg">
+                    <div class="progress-fill down" style="width: 35%;"></div>
+                  </div>
+                </div>
+
+                <div class="metric-item">
+                  <div class="metric-label">
+                    <span>Lebensqualität (ECS)</span>
+                    <span class="trend-up">+ Gesteigert</span>
+                  </div>
+                  <div class="progress-bg">
+                    <div class="progress-fill up" style="width: 85%;"></div>
+                  </div>
+                </div>
               </div>
-              
-              <!-- Dashboard Content -->
-              <svg class="dashboard-chart" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
-                <!-- Hintergrund Grid -->
-                <defs>
-                  <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#F3F4F6" stroke-width="0.5"/>
-                  </pattern>
-                  
-                  <!-- Gradient für Erfolgskurve -->
-                  <linearGradient id="successGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#0E5A45;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#10B981;stop-opacity:1" />
-                  </linearGradient>
-                  
-                  <!-- Glow Filter -->
-                  <filter id="glow">
-                    <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-                
-                <!-- Grid Background -->
-                <rect width="400" height="320" fill="url(#grid)" opacity="0.4"/>
-                
-                <!-- Achsen -->
-                <line x1="40" y1="280" x2="380" y2="280" stroke="#E5E7EB" stroke-width="2"/>
-                <line x1="40" y1="280" x2="40" y2="40" stroke="#E5E7EB" stroke-width="2"/>
-                
-                <!-- Kurve 1: Medikamente (absteigend) -->
-                <path 
-                  d="M 60 80 C 120 100, 180 160, 240 200 C 280 230, 320 250, 360 270" 
-                  stroke="#9CA3AF" 
-                  stroke-width="3" 
-                  stroke-dasharray="10,8"
-                  fill="none"
-                  class="curve-medication"
-                />
-                
-                <!-- Kurve 2: Lebensqualität (aufsteigend mit Gradient) -->
-                <path 
-                  d="M 60 260 C 120 240, 180 160, 240 100 C 280 60, 320 50, 360 45" 
-                  stroke="url(#successGradient)" 
-                  stroke-width="5" 
-                  fill="none"
-                  class="curve-vitality"
-                  filter="url(#glow)"
-                />
-                
-                <!-- Data Points auf Erfolgskurve -->
-                <circle cx="120" cy="240" r="6" fill="#10B981" class="data-point pulse-point" opacity="0.9">
-                  <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="240" cy="100" r="6" fill="#10B981" class="data-point pulse-point" opacity="0.9">
-                  <animate attributeName="r" values="6;8;6" dur="2s" begin="0.5s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="360" cy="45" r="6" fill="#10B981" class="data-point pulse-point" opacity="0.9">
-                  <animate attributeName="r" values="6;8;6" dur="2s" begin="1s" repeatCount="indefinite"/>
-                </circle>
-                
-                <!-- Labels -->
-                <text x="360" y="290" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#6B7280" text-anchor="end">Dosis</text>
-                <text x="360" y="30" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0E5A45" text-anchor="end">Vitalität</text>
-              </svg>
-              
+
+              <div class="glass-card float-badge">
+                <div class="check-circle">✓</div>
+                <div class="badge-text">
+                  <strong>Plan bereit</strong>
+                  <span>Ärztlich prüfbar</span>
+                </div>
+              </div>
             </div>
           </div>
 
