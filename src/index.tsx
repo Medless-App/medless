@@ -4498,13 +4498,19 @@ app.get('/', (c) => {
         margin-bottom: var(--space-3);
       }
       
-      /* Hero Features Mobile */
+      /* Hero Features Mobile - IMMER linksbuendig! */
       .hero-features {
         gap: var(--space-2);
+        text-align: left !important;
       }
       
       .hero-features li {
         font-size: 15px;
+        text-align: left !important;
+      }
+      
+      .hero-features li span {
+        text-align: left !important;
       }
       
       .hero-illustration {
