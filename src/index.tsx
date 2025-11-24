@@ -2770,75 +2770,90 @@ app.get('/', (c) => {
        ============================================================ */
     
     .how-it-works {
-      background: var(--background-white);
+      background: #F9FAFB;
+      padding: 80px 0;
     }
     
     .steps-container {
-      max-width: 700px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      max-width: 1200px;
       margin: 0 auto;
-      position: relative;
     }
     
     .step {
-      display: grid;
-      grid-template-columns: 64px 1fr;
-      gap: var(--space-5);
-      margin-bottom: var(--spacing-block-small);
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
     
-    .step:last-child {
-      margin-bottom: 0;
+    .step:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     }
     
     .step-number-circle {
-      width: 64px;
-      height: 64px;
-      min-width: 64px;
-      background: linear-gradient(135deg, var(--primary-dark-green), var(--primary-green));
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #0F5A46, #1DB98D);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: white;
-      box-shadow: var(--shadow-medium);
-      position: relative;
-      z-index: 2;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(15, 90, 70, 0.2);
     }
     
     .step-connector {
-      position: absolute;
-      left: 31px;
-      top: 64px;
-      width: 2px;
-      height: calc(100% - 64px + 4rem);
-      background: var(--accent-mint);
-      z-index: 1;
-    }
-    
-    .step:last-child .step-connector {
       display: none;
     }
     
     .step-content {
-      padding-top: 0.5rem;
+      flex: 1;
     }
     
     .step-content h4 {
-      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.4rem);
+      font-size: 1.15rem;
       font-weight: 600;
-      color: var(--primary-dark-green);
-      margin-bottom: var(--space-3);
+      color: #1F2937;
+      margin-bottom: 12px;
       line-height: 1.3;
     }
     
     .step-content p {
-      font-size: 16px;
-      color: var(--text-body-color);
+      font-size: 15px;
+      color: #6B7280;
       line-height: 1.6;
-      max-width: var(--max-width-text);
+    }
+    
+    /* Hide step 5 on desktop (only show 4 cards) */
+    .step:nth-child(5) {
+      display: none;
+    }
+    
+    /* Mobile: Stack vertically */
+    @media (max-width: 768px) {
+      .steps-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .step:nth-child(5) {
+        display: flex;
+      }
+      
+      .step:hover {
+        transform: none;
+      }
     }
     
     /* ============================================================
