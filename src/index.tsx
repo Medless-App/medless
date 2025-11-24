@@ -4696,43 +4696,27 @@ app.get('/', (c) => {
       <div class="container">
         
         <h2 class="section-headline">
-          Zu viele Medikamente – oder eine einzige, die dein Leben bestimmt.
+          Gefangen zwischen „Ich muss" und „Ich will nicht mehr".
         </h2>
         
         <p class="section-description">
-          Es spielt keine Rolle, ob du fünf verschiedene Tabletten nimmst oder nur eine einzige, die du nicht mehr loswirst. Medikamentenabhängigkeit beginnt nicht erst bei Polypharmazie – sie beginnt in dem Moment, wo du dir wünschst, weniger zu nehmen, aber keinen sicheren Plan hast, wie.
+          Medikamentenabhängigkeit beginnt oft schleichend. Du willst reduzieren, hast aber Angst vor den Symptomen oder dem Entzug? Das Problem bist nicht du – es fehlte bisher nur der sichere Plan nach unten.
         </p>
         
         <ul class="problem-list">
           <li>
             <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span><strong>Du bist nicht allein:</strong> Millionen Menschen stecken genau dort, wo du bist – mit dem Wunsch nach weniger, aber ohne echte Unterstützung</span>
+            <span><strong>Der fehlende Fahrplan:</strong> „Einfach weglassen" ist gefährlich. Dir fehlte eine exakte Anleitung.</span>
           </li>
           <li>
             <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span><strong>Es fehlt der Plan:</strong> Selbst Ärzte haben oft keine Zeit, individualisierte Ausschleichpläne zu erstellen</span>
+            <span><strong>Die Zeitnot im System:</strong> Dein Arzt will helfen, hat aber oft keine Kapazität für komplexe Berechnungen.</span>
           </li>
           <li>
             <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span><strong>Gefährliche Eigenversuche:</strong> Einfach „langsam reduzieren" kann zu Entzugssymptomen oder gesundheitlichen Risiken führen</span>
-          </li>
-          <li>
-            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span><strong>Angst vor dem Absetzen:</strong> Was passiert, wenn ich weniger nehme? Kommen die Symptome zurück? Wird es schlimmer?</span>
-          </li>
-          <li>
-            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span><strong>Jahre gehen ins Land:</strong> Viele nehmen Medikamente länger als nötig – einfach, weil niemand gezeigt hat, wie ein Ausstieg funktionieren könnte</span>
-          </li>
-          <li>
-            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
-            <span><strong>Der Balanceakt:</strong> Zwischen Symptomkontrolle und dem Wunsch nach weniger Chemie – ein ständiger innerer Konflikt</span>
+            <span><strong>Die Angst vor dem Rückfall:</strong> Wir berechnen, wie dein Körper stabil bleiben kann.</span>
           </li>
         </ul>
-        
-        <p class="section-description" style="margin-top: 2rem; font-size: 1.25rem; font-weight: 700; color: var(--primary-dark-green);">
-          Das Problem bist nicht du – es fehlt der sichere Plan nach unten.
-        </p>
         
       </div>
     </section>
@@ -4825,11 +4809,11 @@ app.get('/', (c) => {
       <div class="container">
         
         <h2 class="section-headline">
-          Das Endocannabinoid-System – deine innere Regulierungskraft
+          Dein biologisches Sicherheitsnetz.
         </h2>
         
         <p class="section-description">
-          Bevor wir über Medikamentenreduktion sprechen, ist es wichtig zu verstehen, warum das überhaupt funktionieren kann: Dein Körper besitzt ein eigenes System zur Regulation von Stress, Schmerz, Schlaf und Stimmung – das <strong>Endocannabinoid-System (ECS)</strong>.
+          Warum scheitern viele beim Absetzen? Weil das innere Gleichgewicht kippt. MedLess stärkt parallel dein Endocannabinoid-System (ECS). Stell es dir wie eine Waage vor: Wenn wir auf der einen Seite die Chemie reduzieren, legen wir auf der anderen Seite natürliche Unterstützung nach. So bleibt dein System stabil.
         </p>
         
         <div class="ecs-content-grid">
@@ -5095,7 +5079,7 @@ app.get('/', (c) => {
         
         <div style="text-align: center; margin-top: 3rem;">
           <button class="cta-button-primary" onclick="document.getElementById('planner-section').scrollIntoView({behavior:'smooth'})">
-            <span>Jetzt Plan berechnen</span>
+            <span>Kostenlos Analyse starten</span>
             <i class="fas fa-arrow-right arrow-icon"></i>
           </button>
         </div>
@@ -5144,7 +5128,7 @@ app.get('/', (c) => {
       <div class="container">
         
         <h2 class="section-headline">
-          Ihren persönlichen Dosierungsplan erstellen
+          Kostenlos Analyse starten
         </h2>
         
         <p class="section-description">
@@ -5367,7 +5351,7 @@ app.get('/', (c) => {
               </button>
               <button type="submit" class="btn-primary">
                 <i class="fas fa-rocket"></i>
-                Plan erstellen
+                Kostenlos Analyse starten
               </button>
             </div>
           </div>
