@@ -4308,28 +4308,50 @@ app.get('/', (c) => {
       list-style: none;
       padding: 0;
       margin: 2rem auto;
-      max-width: 900px;
+      max-width: 1200px;
       display: grid;
-      gap: 16px;
+      gap: 20px;
     }
     
     .problem-list li {
+      background: #fff;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
       display: flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .problem-list li:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
     }
     
     .problem-list li i {
       flex-shrink: 0;
-      margin-top: 2px;
-      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ECFDF5;
+      border-radius: 50%;
+      color: #0F5A46;
+      font-size: 20px;
+    }
+    
+    .problem-list li strong {
+      color: #1F2937;
+      font-weight: 700;
     }
     
     @media (min-width: 769px) {
       .problem-list {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 24px 32px;
-        max-width: 1100px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
       }
     }
     
@@ -4721,15 +4743,15 @@ app.get('/', (c) => {
         
         <ul class="problem-list">
           <li>
-            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
+            <i class="fas fa-exclamation-circle"></i>
             <span><strong>Der fehlende Fahrplan:</strong> „Einfach weglassen" ist gefährlich. Dir fehlte eine exakte Anleitung.</span>
           </li>
           <li>
-            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
+            <i class="fas fa-exclamation-circle"></i>
             <span><strong>Die Zeitnot im System:</strong> Dein Arzt will helfen, hat aber oft keine Kapazität für komplexe Berechnungen.</span>
           </li>
           <li>
-            <i class="fas fa-exclamation-circle" style="color: #DC2626;"></i>
+            <i class="fas fa-exclamation-circle"></i>
             <span><strong>Die Angst vor dem Rückfall:</strong> Wir berechnen, wie dein Körper stabil bleiben kann.</span>
           </li>
         </ul>
