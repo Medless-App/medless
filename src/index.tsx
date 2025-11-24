@@ -4483,11 +4483,13 @@ app.get('/', (c) => {
       .hero-headline {
         font-size: clamp(1.75rem, 1rem + 2vw, 2.2rem);
         margin-bottom: var(--space-2);
+        text-align: center;  /* Headline bleibt zentriert */
       }
       
       .hero-subheadline {
         font-size: 16px;
         margin-bottom: var(--space-3);
+        text-align: center;  /* Subheadline bleibt zentriert */
       }
       
       .hero-description {
