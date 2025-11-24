@@ -1188,11 +1188,60 @@ function displayResults(data, firstName = '', gender = '') {
   `;
 
   // ============================================================
-  // 1. KOPFBEREICH - TITEL & UNTERTITEL (Homepage-Stil)
+  // 1. FUTURISTISCHES AI-DASHBOARD (Ergebnisseite Hero)
   // ============================================================
   
   html += `
-    <div style="margin-top: 1.2rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: radial-gradient(circle at top left, #e0fdf7, #f5f7fa); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+    <section class="ai-results-dashboard">
+      
+      <div class="ai-core-wrapper">
+        <div class="ai-circle pulse-effect">
+          <div class="ai-icon">🧠</div>
+          <div class="ai-percent">100%</div>
+          <div class="ai-status">Analyse fertig</div>
+        </div>
+
+        <svg class="connection-lines" width="100%" height="120px" viewBox="0 0 800 120" preserveAspectRatio="none">
+          <path class="flow-line" d="M400,0 C400,60 150,40 150,120" fill="none" stroke="#1DB98D" stroke-width="2" stroke-opacity="0.6" />
+          <path class="flow-line" d="M400,0 C400,60 400,40 400,120" fill="none" stroke="#1DB98D" stroke-width="2" stroke-opacity="0.6" />
+          <path class="flow-line" d="M400,0 C400,60 650,40 650,120" fill="none" stroke="#1DB98D" stroke-width="2" stroke-opacity="0.6" />
+        </svg>
+      </div>
+
+      <div class="results-grid">
+        <div class="glass-card result-card delay-1">
+          <div class="card-icon-top">💊</div>
+          <div class="stat-number">263</div>
+          <div class="stat-label">Medikamente<br>analysiert</div>
+        </div>
+
+        <div class="glass-card result-card delay-2">
+          <div class="card-icon-top">⚠️</div>
+          <div class="stat-number">47</div>
+          <div class="stat-label">Wechselwirkungen<br>geprüft</div>
+        </div>
+
+        <div class="glass-card result-card delay-3">
+          <div class="card-icon-top">🧮</div>
+          <div class="stat-number">2.847</div>
+          <div class="stat-label">Berechnungen<br>durchgeführt</div>
+        </div>
+      </div>
+
+      <div class="cta-dock glass-card delay-4">
+        <div class="cta-text-group">
+          <h3>Ihr Dosierplan ist fertig!</h3>
+          <p>Ihre Strategie zur Medikamentenreduktion wurde erfolgreich erstellt.</p>
+        </div>
+        <button class="btn-primary-glow" onclick="document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => window.scrollBy(0, 100), 500);">
+          👁️ Plan jetzt anzeigen
+        </button>
+      </div>
+
+    </section>
+    
+    <!-- Separator & Intro für Details -->
+    <div style="margin-top: 3rem; padding: 1.5rem 1.3rem; border-radius: 24px; background: radial-gradient(circle at top left, #e0fdf7, #f5f7fa); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
       <h1 style="margin: 0 0 0.75rem; font-size: 1.6rem; line-height: 1.2; color: #0b7b6c; font-weight: 700;">
         Ihr persönlicher MedLess-Dosierungs- und Reduktionsplan
       </h1>
