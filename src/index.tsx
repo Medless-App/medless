@@ -2249,138 +2249,128 @@ app.get('/', (c) => {
       line-height: 1.5;
     }
     
-    /* Hero Visual Decoration (right side) - Modern Health Tech */
-    .hero-info-card {
+    /* Hero Document Preview (right side) - Schwebende Dokument-Vorschau */
+    .hero-document-preview {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 400px;
-      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
-      border-radius: 24px;
-      overflow: hidden;
+      min-height: 500px;
       padding: 48px;
     }
     
-    .hero-info-card::before {
-      content: '';
+    /* Hintergrund Gradient Circle mit Blur */
+    .preview-bg-circle {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(14, 90, 69, 0.15) 0%, transparent 70%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(14, 90, 69, 0.1) 50%, transparent 80%);
       border-radius: 50%;
+      filter: blur(60px);
+      z-index: 0;
     }
     
-    .hero-info-card::after {
-      content: '';
-      position: absolute;
-      top: 20%;
-      right: 10%;
-      width: 150px;
-      height: 150px;
-      background: rgba(16, 185, 129, 0.2);
-      border-radius: 50%;
-      filter: blur(40px);
-    }
-    
-    .hero-info-card h3 {
+    /* Schwebendes Dokument */
+    .floating-document {
       position: relative;
       z-index: 1;
-      font-size: 20px;
-      font-weight: 700;
-      color: #0E5A45;
-      text-align: center;
+      width: 340px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.12),
+        0 10px 20px rgba(0, 0, 0, 0.08);
+      padding: 32px;
+      transform: rotate(-2deg);
+      transition: all 0.3s ease;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .floating-document:hover {
+      transform: rotate(0deg) translateY(-8px);
+      box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.15),
+        0 15px 30px rgba(0, 0, 0, 0.10);
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: rotate(-2deg) translateY(0px);
+      }
+      50% {
+        transform: rotate(-2deg) translateY(-10px);
+      }
+    }
+    
+    /* Dokument Header mit grünem Balken (Logo-Bereich) */
+    .doc-header {
       margin-bottom: 24px;
     }
     
-    .hero-info-list {
-      position: relative;
-      z-index: 1;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-    
-    .hero-info-list li {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 12px;
-      background: white;
-      border-radius: 12px;
-      padding: 20px 16px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      transition: all 0.2s ease;
-    }
-    
-    .hero-info-list li:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-    }
-    
-    /* Arrows between steps (Desktop only) */
-    .hero-info-list li:not(:last-child)::after {
-      content: '\u2192';
-      position: absolute;
-      bottom: -32px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 24px;
-      color: #10B981;
-      font-weight: 700;
-    }
-    
-    @media (min-width: 769px) {
-      .hero-info-list {
-        flex-direction: row;
-        gap: 12px;
-      }
-      
-      .hero-info-list li {
-        flex: 1;
-        min-width: 0;
-      }
-      
-      .hero-info-list li:not(:last-child)::after {
-        content: '\u2192';
-        position: absolute;
-        bottom: auto;
-        left: auto;
-        right: -18px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 28px;
-      }
-    }
-    
-    .hero-info-list .info-number {
-      flex-shrink: 0;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .doc-logo-bar {
+      width: 80px;
+      height: 8px;
       background: linear-gradient(135deg, #0E5A45 0%, #10B981 100%);
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      border-radius: 50%;
-      margin-bottom: 8px;
+      border-radius: 4px;
     }
     
-    .hero-info-list .info-text {
-      font-size: 13px;
-      line-height: 1.5;
-      color: #374151;
-      font-weight: 500;
+    /* Dokument Content (stilisierte Text-Linien) */
+    .doc-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    
+    .doc-line {
+      height: 8px;
+      background: #E5E7EB;
+      border-radius: 4px;
+    }
+    
+    .doc-line.long {
+      width: 100%;
+    }
+    
+    .doc-line.medium {
+      width: 75%;
+    }
+    
+    .doc-line.short {
+      width: 50%;
+    }
+    
+    /* Erfolgs-Badge unten im Dokument */
+    .success-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+      border-radius: 10px;
+      border: 2px solid #10B981;
+    }
+    
+    .success-badge svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+    
+    .success-badge span {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0E5A45;
+    }
+    
+    /* Mobile: Dokument-Vorschau ausblenden */
+    @media (max-width: 768px) {
+      .hero-document-preview {
+        display: none;
+      }
     }
     
     @media (max-width: 768px) {
@@ -4542,27 +4532,37 @@ app.get('/', (c) => {
             </button>
           </div>
           
-          <!-- Right: Info Card (Desktop only) -->
-          <div class="hero-info-card">
-            <h3>Wie MEDLESS funktioniert</h3>
-            <ul class="hero-info-list">
-              <li>
-                <span class="info-number">1</span>
-                <span class="info-text">Daten eingeben: Körperdaten & aktuelle Medikamente</span>
-              </li>
-              <li>
-                <span class="info-number">2</span>
-                <span class="info-text">Plan berechnen: Algorithmus erstellt individuellen Reduktionsplan</span>
-              </li>
-              <li>
-                <span class="info-number">3</span>
-                <span class="info-text">Mit Arzt besprechen: Plan als PDF für medizinische Aufsicht</span>
-              </li>
-              <li>
-                <span class="info-number">4</span>
-                <span class="info-text">CBD-Empfehlung: Personalisierte Produktvorschläge zur Unterstützung</span>
-              </li>
-            </ul>
+          <!-- Right: Schwebende Dokument-Vorschau (Desktop only) -->
+          <div class="hero-document-preview">
+            <!-- Hintergrund Gradient Circle -->
+            <div class="preview-bg-circle"></div>
+            
+            <!-- Schwebendes Dokument -->
+            <div class="floating-document">
+              <!-- Dokument-Header mit Logo-Bar -->
+              <div class="doc-header">
+                <div class="doc-logo-bar"></div>
+              </div>
+              
+              <!-- Dokument-Inhalt (stilisierte Linien) -->
+              <div class="doc-content">
+                <div class="doc-line long"></div>
+                <div class="doc-line medium"></div>
+                <div class="doc-line long"></div>
+                <div class="doc-line short"></div>
+                <div class="doc-line medium"></div>
+                <div class="doc-line long"></div>
+              </div>
+              
+              <!-- Erfolgs-Badge -->
+              <div class="success-badge">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" fill="#10B981"/>
+                  <path d="M8 12.5L10.5 15L16 9.5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Analyse fertig</span>
+              </div>
+            </div>
           </div>
 
         </div>
