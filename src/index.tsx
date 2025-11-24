@@ -4509,6 +4509,8 @@ app.get('/', (c) => {
       .hero-features {
         gap: var(--space-2);
         text-align: left !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
       }
       
       .hero-features li {
@@ -4517,23 +4519,45 @@ app.get('/', (c) => {
         display: flex !important;
         align-items: flex-start !important;
         justify-content: flex-start !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+      }
+      
+      .hero-features li i {
+        margin-left: 0 !important;
+        margin-right: 12px !important;
       }
       
       .hero-features li span {
         text-align: left !important;
         display: block !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
       }
       
-      /* Extra: Alle 4 Eintraege explizit */
+      /* Extra: Alle 4 Eintraege explizit - KEIN EINZUG! */
       .hero-features li:nth-child(1),
       .hero-features li:nth-child(2),
       .hero-features li:nth-child(3),
       .hero-features li:nth-child(4) {
         text-align: left !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+      }
+      
+      .hero-features li:nth-child(3) {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+      }
+      
+      .hero-features li:nth-child(3) i {
+        margin-left: 0 !important;
       }
       
       .hero-features li:nth-child(3) span {
         text-align: left !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
       }
       
       .hero-illustration {
