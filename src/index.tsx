@@ -2784,9 +2784,9 @@ app.get('/', (c) => {
     
     .step {
       background: white;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       transition: all 0.3s ease;
       position: relative;
       display: flex;
@@ -2795,22 +2795,21 @@ app.get('/', (c) => {
     
     .step:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     }
     
     .step-number-circle {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, #0F5A46, #1DB98D);
+      width: 40px;
+      height: 40px;
+      background: #ECFDF5;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 700;
-      color: white;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 12px rgba(15, 90, 70, 0.2);
+      color: #0F5A46;
+      margin-bottom: 20px;
     }
     
     .step-connector {
@@ -5031,9 +5030,9 @@ app.get('/', (c) => {
             <div class="step-number-circle">1</div>
             <div class="step-connector"></div>
             <div class="step-content">
-              <h4>Basisdaten eingeben</h4>
+              <h4>Analyse starten</h4>
               <p>
-                Gib deine Basisdaten ein: Vorname, Alter, Geschlecht, Körpergröße und Gewicht. Diese Angaben helfen, Stoffwechsel, Dosierung und Belastbarkeit besser einzuschätzen.
+                Erfasse deine Körperdaten und Medikamente sicher und diskret in wenigen Minuten.
               </p>
             </div>
           </div>
@@ -5043,9 +5042,9 @@ app.get('/', (c) => {
             <div class="step-number-circle">2</div>
             <div class="step-connector"></div>
             <div class="step-content">
-              <h4>Medikamente hinzufügen</h4>
+              <h4>KI-Berechnung</h4>
               <p>
-                Trage alle Medikamente ein, die du aktuell einnimmst – egal ob es viele sind oder nur ein einziges dauerhaftes Medikament (z. B. Schlafmittel, Antidepressivum zur Nacht oder „Magenschutz"). Zu jedem Medikament gibst du Wirkstoff, Dosierung und Einnahmehäufigkeit an.
+                Unser Algorithmus prüft Wechselwirkungen und erstellt deinen individuellen Reduktionsfahrplan.
               </p>
             </div>
           </div>
@@ -5055,9 +5054,9 @@ app.get('/', (c) => {
             <div class="step-number-circle">3</div>
             <div class="step-connector"></div>
             <div class="step-content">
-              <h4>Dauer auswählen</h4>
+              <h4>Ärztliche Abstimmung</h4>
               <p>
-                Wähle deinen gewünschten Zeitraum für das Ausschleichen – zum Beispiel 2, 4, 8 oder 12 Wochen. Kürzere Zeiträume stehen für schnellere, längere für sanftere Reduktion. Der Plan bleibt theoretisch und kann von deinem Arzt angepasst oder gestreckt werden.
+                Du erhältst ein professionelles PDF, mit dem dein Arzt die Dosisanpassung fundiert begleiten kann.
               </p>
             </div>
           </div>
@@ -5067,9 +5066,9 @@ app.get('/', (c) => {
             <div class="step-number-circle">4</div>
             <div class="step-connector"></div>
             <div class="step-content">
-              <h4>Reduktionsziel auswählen</h4>
+              <h4>Natürliche Balance</h4>
               <p>
-                Lege fest, was du erreichen möchtest: Möchtest du die Dosis um z. B. 10–25 % reduzieren oder ein deutlich größeres Reduktionsziel bis hin zum kompletten Ausschleichen wählen? MEDLESS berechnet auf dieser Basis einen vorsichtigen Verlauf in kleinen Schritten.
+                Gleiche die Reduktion sanft aus – mit exakt berechneter Unterstützung für dein Endocannabinoid-System.
               </p>
             </div>
           </div>
