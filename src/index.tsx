@@ -4474,6 +4474,11 @@ app.get('/', (c) => {
         padding: 0 var(--space-4);
       }
       
+      /* WICHTIG: hero-content auf mobile linksbuendig! */
+      .hero-content {
+        text-align: left !important;
+      }
+      
       /* Typography Mobile */
       .hero-headline {
         font-size: clamp(1.75rem, 1rem + 2vw, 2.2rem);
