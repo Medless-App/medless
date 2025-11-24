@@ -2193,9 +2193,9 @@ app.get('/', (c) => {
     
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 64px;
-      align-items: start;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
     }
     
     @media (max-width: 768px) {
@@ -2272,25 +2272,26 @@ app.get('/', (c) => {
       padding: 24px;
     }
     
-    /* CSS STYLING - VERSION "BIG HERO" */
+    /* CSS STYLING - BALANCED HERO */
     .visual-wrapper {
       position: relative;
       width: 100%;
-      height: 500px; /* Mehr Platz geben */
+      max-width: 450px;
+      height: 420px;
       display: flex;
       align-items: center;
       justify-content: center;
-      perspective: 1000px; /* Wichtig für 3D */
-      transform: scale(1.2); /* 20% größer für mehr Impact */
+      perspective: 1000px;
+      margin: 0 auto;
     }
 
-    /* Der grüne Leucht-Hintergrund - Größer */
+    /* Der grüne Leucht-Hintergrund - Ausgewogen */
     .glow-blob {
       position: absolute;
-      width: 450px; /* Deutlich größer */
-      height: 450px;
-      background: radial-gradient(circle, rgba(29, 185, 141, 0.55) 0%, rgba(15, 90, 70, 0.2) 70%);
-      filter: blur(80px);
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(29, 185, 141, 0.45) 0%, rgba(15, 90, 70, 0.15) 70%);
+      filter: blur(70px);
       border-radius: 50%;
       z-index: 0;
       animation: pulseBlob 6s infinite alternate;
@@ -2310,11 +2311,11 @@ app.get('/', (c) => {
       z-index: 2;
     }
 
-    /* Hauptkarte - Mit 3D Drehung */
+    /* Hauptkarte - Ausgewogen & Zentriert */
     .main-card {
-      width: 400px; /* Breiter */
-      padding: 40px; /* Mehr Luft innen */
-      transform: rotateY(-12deg) rotateX(5deg); /* Der 3D Look */
+      width: 360px;
+      padding: 32px;
+      transform: rotateY(-8deg) rotateX(3deg);
       transition: transform 0.3s ease;
       animation: floatCard 6s ease-in-out infinite;
     }
