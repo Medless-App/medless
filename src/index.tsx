@@ -2421,6 +2421,10 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
   
   <!-- Article Detail -->
   <article class="article-detail">
+    <!-- Header Image -->
+    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <img src="/static/artikel4-antidepressiva-absetzen.jpg" alt="Person in ruhiger Umgebung - mentale Gesundheit und Weg aus der Depression" style="width: 100%; height: auto; display: block;" />
+    </div>
     
     <span class="article-category">Mentale Gesundheit</span>
     
@@ -10042,7 +10046,7 @@ app.get('/', (c) => {
           
           <!-- Article 4: Antidepressiva absetzen -->
           <a href="/magazin/antidepressiva-absetzen-ohne-entzug" class="magazine-card scroll-animate-card">
-            <div class="magazine-card-image" style="background: linear-gradient(135deg, #FBCFE8 0%, #F9A8D4 100%);"></div>
+            <div class="magazine-card-image" style="background-image: url('/static/artikel4-antidepressiva-absetzen.jpg'); background-size: cover; background-position: center;"></div>
             <div class="magazine-card-content">
               <span class="magazine-card-category" style="background: #FCE7F3; color: #BE185D;">Mentale Gesundheit</span>
               <h3 class="magazine-card-title">Antidepressiva absetzen: Der sanfte Weg ohne Entzug</h3>
