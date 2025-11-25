@@ -4511,6 +4511,10 @@ app.get('/', (c) => {
         text-align: left !important;
         padding-left: 0 !important;
         margin-left: 0 !important;
+        justify-content: flex-start !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
       }
       
       .hero-features li {
@@ -4558,6 +4562,34 @@ app.get('/', (c) => {
         text-align: left !important;
         padding-left: 0 !important;
         margin-left: 0 !important;
+      }
+      
+      /* Mobile Spacing Optimization */
+      .hero {
+        padding: 30px 0 35px !important;
+      }
+      
+      .hero-headline {
+        margin-bottom: 12px !important;
+      }
+      
+      .hero-subheadline {
+        margin-bottom: 18px !important;
+        line-height: 1.55 !important;
+      }
+      
+      .hero-features {
+        gap: 6px !important;
+        margin-bottom: 26px !important;
+      }
+      
+      .hero-features li {
+        margin-bottom: 0 !important;
+        gap: 14px !important;
+      }
+      
+      .hero-features li span {
+        line-height: 1.45 !important;
       }
       
       .hero-illustration {
