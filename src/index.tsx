@@ -2529,6 +2529,408 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
   `)
 })
 
+// Magazine Article Route: Schlaftabletten loswerden
+app.get('/magazin/schlaftabletten-loswerden', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Schlaftabletten loswerden: Endlich wieder natürlich einschlafen – MEDLESS</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #0F5A46;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      font-size: 16px;
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #E0E7FF;
+      color: #3730A3;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      color: #0F5A46;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      font-size: 19px;
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #0F5A46;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0F5A46;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    
+    .article-content h3 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #1F2937;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+    
+    .article-content p {
+      margin-bottom: 20px;
+    }
+    
+    .article-content ul,
+    .article-content ol {
+      margin: 24px 0 24px 24px;
+    }
+    
+    .article-content ul {
+      list-style-type: disc;
+    }
+    
+    .article-content ol {
+      list-style-type: decimal;
+    }
+    
+    .article-content li {
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+    
+    .article-content li strong {
+      color: #1F2937;
+    }
+    
+    .article-content strong {
+      font-weight: 600;
+      color: #0F5A46;
+    }
+    
+    .article-content em {
+      font-style: italic;
+      color: #6B7280;
+    }
+    
+    .article-content hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 48px 0;
+    }
+    
+    .cta-box {
+      background: linear-gradient(to right, #f0fdf4, #dcfce7);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 40px 0;
+      border-left: 5px solid #0F5A46;
+    }
+    
+    .cta-box h3 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: #0F5A46;
+    }
+    
+    .cta-box p {
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+      color: #374151;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      background-color: #0F5A46;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 90, 70, 0.3);
+    }
+    
+    footer {
+      background: #F9FAFB;
+      border-top: 1px solid #E5E7EB;
+      padding: 48px 32px;
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: #6B7280;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .article-detail {
+        padding: 48px 24px;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 16px 20px;
+      }
+      
+      .header-nav {
+        gap: 16px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <a href="/" class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+        </a>
+      </div>
+      <nav class="header-nav">
+        <a href="/#about">Über MEDLESS</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#contact">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Article Detail -->
+  <article class="article-detail">
+    
+    <span class="article-category">Schlaf & Erholung</span>
+    
+    <h1 class="article-title">Schlaftabletten loswerden: Endlich wieder natürlich einschlafen (Der 8-Wochen-Plan)</h1>
+    
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> 15. Januar 2025</span>
+      <span><i class="far fa-clock"></i> 7 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
+      
+      <p class="intro">
+        <strong>Jede Nacht das gleiche Spiel: Ohne Tablette keine Ruhe. Erfahre, wie du die Abhängigkeit durchbrichst und deinem Körper wieder beibringst, natürlich zu schlafen.</strong>
+      </p>
+      
+      <hr>
+      
+      <h2>Die stille Abhängigkeit: "Ohne geht es nicht mehr"</h2>
+      <p>Du öffnest die Schublade. Eine Tablette. Vielleicht zwei. Du weißt, dass du davon wegkommen solltest. Aber die Angst vor der schlaflosen Nacht ist größer.</p>
+      <p>Du bist nicht allein: <strong>1,5 Millionen Menschen</strong> in Deutschland sind von Schlafmitteln abhängig. Besonders tückisch sind Benzodiazepine und sogenannte Z-Substanzen (Zolpidem, Zopiclon).</p>
+      <p>Die gute Nachricht: Dein Körper hat das Schlafen nicht verlernt. Er hat es nur vergessen. Mit dem richtigen Plan kannst du ihn wieder trainieren.</p>
+      
+      <h2>Warum Schlafmittel zur Falle werden</h2>
+      <p>Schlafmittel verstärken den beruhigenden Botenstoff GABA im Gehirn. Das funktioniert anfangs super. Aber nach wenigen Wochen (oft schon nach 4!) passt sich das Gehirn an.</p>
+      <ul>
+          <li><strong>Toleranz:</strong> Du brauchst immer mehr für die gleiche Wirkung.</li>
+          <li><strong>Rebound:</strong> Wenn du die Tablette weglässt, schläfst du schlechter als je zuvor.</li>
+      </ul>
+      <p><strong>Das Ergebnis:</strong> Du nimmst die Tablette nicht mehr, um zu schlafen – sondern nur noch, um den Entzug zu vermeiden.</p>
+      
+      <h2>Der sichere Ausweg: Der 8-Wochen-Plan</h2>
+      <p>🚨 <strong>Wichtig:</strong> Setze Schlafmittel NIEMALS kalt ab ("Cold Turkey"). Das kann zu Krampfanfällen und massiver Schlaflosigkeit führen.</p>
+      
+      <h3>Phase 1: Vorbereitung (Woche 0)</h3>
+      <ul>
+          <li>Ist deine Lebenssituation gerade stabil?</li>
+          <li>Hast du mit deinem Arzt gesprochen?</li>
+          <li>Hast du ein Schlaftagebuch gestartet?</li>
+      </ul>
+      
+      <h3>Phase 2: Langsames Ausschleichen (Woche 1-8)</h3>
+      <p>Wir reduzieren die Dosis in winzigen Schritten (z.B. alle 2 Wochen um 10-20%).</p>
+      <p><em>Beispiel:</em> Eine halbe Tablette weniger ist oft schon zu viel. Wir reden von Krümeln! Das Ziel ist, dass das Gehirn den Entzug gar nicht bemerkt.</p>
+      
+      <h3>Phase 3: Stabilisierung</h3>
+      <p>Dein Gehirn lernt jetzt wieder, eigenes GABA zu produzieren. Hier ist Geduld gefragt.</p>
+      
+      <h2>Dein natürlicher Schlaf-Lehrer: Das ECS</h2>
+      <p>Warum schlafen manche Menschen wie Steine und andere nicht? Ein Schlüssel ist das <strong>Endocannabinoid-System (ECS)</strong>. Es steuert deinen Schlaf-Wach-Rhythmus und die Tiefe deines Schlafs.</p>
+      <p><strong>Die MedLess-Strategie:</strong> Während wir die chemische Bremse (Tablette) lösen, stärken wir das natürliche Bremssystem (ECS).</p>
+      <ul>
+          <li><strong>Tieferer Schlaf:</strong> Ein starkes ECS fördert die Tiefschlafphasen, die durch Tabletten oft unterdrückt werden.</li>
+          <li><strong>Weniger Angst:</strong> Es beruhigt das Gedankenkarussell am Abend.</li>
+      </ul>
+      
+      <h2>5 natürliche Helfer (statt Chemie)</h2>
+      <ol>
+          <li><strong>Melatonin:</strong> Das körpereigene Schlafhormon (als Spray oder Kapsel) hilft beim "Reset" der inneren Uhr.</li>
+          <li><strong>CBD (Cannabidiol):</strong> Kann das ECS unterstützen und Angst lösen, ohne abhängig zu machen.</li>
+          <li><strong>Baldrian & Hopfen:</strong> Die Klassiker. Sie wirken ähnlich wie Schlafmittel auf GABA, aber viel sanfter.</li>
+          <li><strong>Lavendelöl:</strong> Studien zeigen, dass es Angstzustände effektiv lindert.</li>
+          <li><strong>Magnesium:</strong> Entspannt die Muskeln und beruhigt die Nerven.</li>
+      </ol>
+      
+      <h2>Die 3 goldenen Regeln der Schlafhygiene</h2>
+      <p>Ohne diese Basis hilft kein Medikament der Welt dauerhaft:</p>
+      <ol>
+          <li><strong>Das Bett ist nur zum Schlafen da:</strong> Kein Handy, kein Fernseher, kein Grübeln. Wenn du nach 20 Min. nicht schläfst: Aufstehen!</li>
+          <li><strong>Licht aus, Dunkelheit an:</strong> Melatonin braucht Dunkelheit. Blaulicht (Handy) ist Gift für den Schlaf.</li>
+          <li><strong>Kühle Temperatur:</strong> 16-18 Grad sind ideal. Dein Körper muss abkühlen, um einzuschlafen.</li>
+      </ol>
+      
+      <div class="cta-box">
+          <h3>Vertrau deinem Körper</h3>
+          <p>Du brauchst keine Tabletten, um zu schlafen. Schlaf ist ein natürlicher Instinkt. Er kommt zurück, wenn du ihm die Chance gibst. Möchtest du wissen, wie dein individueller, ECS-gestützter Ausschleichplan aussehen könnte?</p>
+          <br>
+          <a href="/#start-analysis" class="btn-primary">Jetzt kostenlose KI-Analyse starten ➔</a>
+      </div>
+      
+      <hr>
+      
+      <h3 style="font-size: 1rem; font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <ul style="font-size: 0.9rem; color: #6B7280;">
+          <li><strong>Deutsche Hauptstelle für Suchtfragen (DHS):</strong> "Die Sucht und ihre Stoffe: Benzodiazepine".</li>
+          <li><strong>Bundesärztekammer (2022):</strong> "Leitfaden Medikamentenabhängigkeit".</li>
+          <li><strong>Stiftung Gesundheitswissen:</strong> "Schlafmittel-Abhängigkeit behandeln".</li>
+          <li><strong>PMC (2023):</strong> "Cannabinoids: Emerging sleep modulator".</li>
+      </ul>
+      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Behandlung. Setzen Sie Schlafmittel niemals eigenständig ab. Bei schweren Schlafstörungen konsultieren Sie einen Arzt.</em></p>
+    </div>
+  </article>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
+  `)
+})
+
 // Magazine Article Route: Täglich 5 Tabletten
 app.get('/magazin/taeglich-5-tabletten', (c) => {
   return c.html(`
@@ -8854,6 +9256,22 @@ app.get('/', (c) => {
               <h3 class="magazine-card-title">Antidepressiva absetzen: Der sanfte Weg ohne Entzug</h3>
               <p class="magazine-card-excerpt">
                 Du willst absetzen, hast aber Angst vor dem "Loch" danach? Erfahre, wie du "Brain Zaps" und Stimmungstiefs mit einem 8-Wochen-Plan vermeidest.
+              </p>
+              <span class="magazine-card-link">
+                Artikel lesen
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+          
+          <!-- Article 5: Schlaftabletten loswerden -->
+          <a href="/magazin/schlaftabletten-loswerden" class="magazine-card scroll-animate-card">
+            <div class="magazine-card-image" style="background: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%);"></div>
+            <div class="magazine-card-content">
+              <span class="magazine-card-category" style="background: #E0E7FF; color: #3730A3;">Schlaf & Erholung</span>
+              <h3 class="magazine-card-title">Schlaftabletten loswerden: Endlich wieder natürlich einschlafen</h3>
+              <p class="magazine-card-excerpt">
+                Jede Nacht dasselbe Spiel: Ohne Tablette keine Ruhe. Erfahre, wie du die Abhängigkeit durchbrichst und deinem Körper den natürlichen Schlaf zurückgibst.
               </p>
               <span class="magazine-card-link">
                 Artikel lesen
