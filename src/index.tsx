@@ -2839,6 +2839,10 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
   
   <!-- Article Detail -->
   <article class="article-detail">
+    <!-- Header Image -->
+    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <img src="/static/artikel5-schlaftabletten.jpg" alt="Person schläft friedlich - natürlicher Schlaf ohne Tabletten" style="width: 100%; height: auto; display: block;" />
+    </div>
     
     <span class="article-category">Schlaf & Erholung</span>
     
@@ -10066,7 +10070,7 @@ app.get('/', (c) => {
           
           <!-- Article 5: Schlaftabletten loswerden -->
           <a href="/magazin/schlaftabletten-loswerden" class="magazine-card scroll-animate-card">
-            <div class="magazine-card-image" style="background: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%);"></div>
+            <div class="magazine-card-image" style="background-image: url('/static/artikel5-schlaftabletten.jpg'); background-size: cover; background-position: center;"></div>
             <div class="magazine-card-content">
               <span class="magazine-card-category" style="background: #E0E7FF; color: #3730A3;">Schlaf & Erholung</span>
               <h3 class="magazine-card-title">Schlaftabletten loswerden: Endlich wieder natürlich einschlafen</h3>
