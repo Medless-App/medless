@@ -882,6 +882,407 @@ app.post('/api/analyze', async (c) => {
   }
 })
 
+// Magazine Article Route: Medikamente absetzen - 7 Fehler
+app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Medikamente absetzen: Die 7 gefährlichsten Fehler – MEDLESS</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #0F5A46;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      font-size: 16px;
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #DBEAFE;
+      color: #1E40AF;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      color: #0F5A46;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      font-size: 19px;
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #0F5A46;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0F5A46;
+      margin-top: 56px;
+      margin-bottom: 24px;
+    }
+    
+    .article-content h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #0F5A46;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    
+    .article-content p {
+      margin-bottom: 24px;
+    }
+    
+    .article-content ul {
+      margin: 24px 0;
+      padding-left: 32px;
+    }
+    
+    .article-content li {
+      margin-bottom: 16px;
+    }
+    
+    .article-content strong {
+      color: #0F5A46;
+      font-weight: 600;
+    }
+    
+    .article-content em {
+      color: #6B7280;
+      font-style: italic;
+    }
+    
+    .article-content hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 48px 0;
+    }
+    
+    .cta-box {
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+      padding: 48px;
+      border-radius: 16px;
+      border-left: 5px solid #0F5A46;
+      margin: 64px 0;
+      text-align: center;
+    }
+    
+    .cta-box h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0F5A46;
+      margin: 0 0 16px 0;
+    }
+    
+    .cta-box p {
+      font-size: 17px;
+      color: #374151;
+      margin-bottom: 24px;
+    }
+    
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 32px;
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, #0E5A45, #10B981);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(14, 90, 69, 0.2);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(14, 90, 69, 0.3);
+    }
+    
+    footer {
+      background: linear-gradient(135deg, #0E5A45, #10B981);
+      padding: 60px 0 20px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      text-align: center;
+    }
+    
+    .footer-content p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    
+    @media (max-width: 768px) {
+      .header-nav {
+        display: none;
+      }
+      
+      .article-detail {
+        padding: 60px 24px;
+      }
+      
+      .article-content {
+        font-size: 17px;
+      }
+      
+      .cta-box {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="header-logo">
+        <span class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+        </span>
+      </a>
+      
+      <nav class="header-nav">
+        <a href="/#ueber-medless">Über MEDLESS</a>
+        <a href="/#funktionsweise">Funktionsweise</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Article Content -->
+  <article class="article-detail">
+    <span class="article-category">Sicherheit & Praxis</span>
+    <h1 class="article-title">Medikamente absetzen: Die 7 gefährlichsten Fehler (und wie du sie vermeidest)</h1>
+    
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> Januar 2025</span>
+      <span><i class="far fa-clock"></i> 12 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
+      <p class="intro"><strong>Du willst Medikamente reduzieren? Großartig. Aber Vorsicht: Der falsche Weg kann gefährlich werden. Erfahre hier, warum der "kalte Entzug" scheitert und wie du sicher ausschleichst.</strong></p>
+
+      <hr>
+
+      <h2>"Ich setze einfach ab" – warum das fast schiefging</h2>
+      <p>Sarah, 58, hatte genug. Seit Jahren nahm sie acht verschiedene Tabletten. Die Nebenwirkungen waren schlimmer als ihre ursprünglichen Beschwerden. An einem Sonntagmorgen entschied sie: <em>"Das war's. Ich höre auf."</em></p>
+      <p>Sie nahm keine ihrer Tabletten mehr. Drei Tage später saß sie in der Notaufnahme: Blutdruck 190/110, Herzrasen, Panik.</p>
+      <p><strong>Die Diagnose:</strong> Rebound-Effekt durch abruptes Absetzen eines Betablockers.</p>
+      <p>Sarah hatte einen klassischen Fehler gemacht. Der Wunsch nach weniger Medikamenten ist richtig (50% der Deutschen wollen reduzieren!), aber die Methode entscheidet über Erfolg oder Gefahr.</p>
+
+      <h2>Fehler 1: Der kalte Entzug ("Cold Turkey")</h2>
+      <p><strong>Was passiert:</strong> Du hörst von heute auf morgen auf. Von 100 auf 0.</p>
+      <p><strong>Warum es gefährlich ist:</strong> Dein Körper hat sich an den Wirkstoff angepasst (Adaptation). Fehlt dieser plötzlich, reagiert der Körper mit einer massiven Gegenregulation.</p>
+      <ul>
+          <li><strong>Betablocker:</strong> Herzrasen, Blutdruckkrisen.</li>
+          <li><strong>Antidepressiva:</strong> "Brain Zaps" (Stromschläge im Kopf), Übelkeit.</li>
+          <li><strong>Schlafmittel:</strong> Krampfanfälle, massive Angstzustände.</li>
+          <li><strong>Säureblocker (PPI):</strong> Extremes Sodbrennen (Rebound).</li>
+      </ul>
+      <p>✅ <strong>Die Lösung:</strong> Ausschleichen. Reduziere die Dosis schrittweise über Wochen.</p>
+
+      <h2>Fehler 2: Alles gleichzeitig reduzieren</h2>
+      <p><strong>Was passiert:</strong> Du willst schnell Ergebnisse und reduzierst Blutdruckmittel, Schmerzmittel und Schlafmittel gleichzeitig.</p>
+      <p><strong>Warum es gefährlich ist:</strong> Wenn Probleme auftreten, weißt du nicht, welches Medikament fehlt. Du verlierst die Kontrolle.</p>
+      <p>✅ <strong>Die Lösung:</strong> Ein Medikament nach dem anderen. Mache 4-6 Wochen Pause zwischen zwei Reduktionen.</p>
+
+      <h2>Fehler 3: Alleingang ohne Arzt</h2>
+      <p><strong>Was passiert:</strong> <em>"Mein Arzt hat eh keine Zeit"</em> – also machst du es allein.</p>
+      <p><strong>Warum es gefährlich ist:</strong> Du kannst medizinische Warnsignale (Blutdruckspitzen, Laborwerte) nicht selbst beurteilen.</p>
+      <p>✅ <strong>Die Lösung:</strong> Bereite das Gespräch vor. Nutze Tools wie MedLess, um einen Plan als Gesprächsgrundlage zu erstellen.</p>
+
+      <h2>Fehler 4: Warnsignale ignorieren</h2>
+      <p>Manche Symptome sind lebensbedrohlich. <strong>Gehe SOFORT zum Arzt bei:</strong></p>
+      <ul>
+          <li>Starkem Schwindel mit Ohnmachtsgefühl</li>
+          <li>Herzrasen (Puls >120 in Ruhe)</li>
+          <li>Krampfanfällen oder Muskelzuckungen</li>
+          <li>Starker Verwirrtheit oder Suizidgedanken</li>
+      </ul>
+
+      <h2>Fehler 5: Keine Vorbereitung des Körpers</h2>
+      <p>Du nimmst dem Körper die "Krücke" (Medikament) weg, hast aber die Muskeln nicht trainiert. Stärke dich <strong>vorher</strong>:</p>
+      <ul>
+          <li><strong>Schlaf:</strong> Optimiere deine Schlafhygiene.</li>
+          <li><strong>Ernährung:</strong> Iss entzündungshemmend (Omega-3).</li>
+          <li><strong>Wasser:</strong> Trinke 2-3 Liter täglich.</li>
+      </ul>
+
+      <h2>Fehler 6: Zu schnell reduzieren</h2>
+      <p><strong>Die 10%-Regel:</strong> Experten empfehlen oft Schritte von nur 10-25% Reduktion. Je länger du ein Medikament nimmst, desto langsamer muss der Ausstieg sein. Die letzten Milligramme sind oft die schwersten!</p>
+
+      <h2>Fehler 7: Die Ursache ignorieren</h2>
+      <p>Das Medikament war nur das Pflaster. Wenn du es abreißt, blutet die Wunde wieder, wenn sie nicht geheilt ist. Arbeite parallel an der Ursache (Physiotherapie bei Schmerzen, Gewichtsreduktion bei Blutdruck).</p>
+
+      <h2>Dein Geheimtipp: Das Endocannabinoid-System (ECS)</h2>
+      <p>Um all diese Fehler zu vermeiden, nutzen wir bei MedLess dein körpereigenes <strong>Endocannabinoid-System</strong>. Wenn du Medikamente reduzierst, entsteht eine Lücke. Indem wir das ECS gezielt stärken (z.B. durch präzise dosierte Cannabinoide), füllen wir diese Lücke natürlich auf.</p>
+
+      <!-- CTA Box -->
+      <div class="cta-box">
+          <h3>Dein sicherer Fahrplan</h3>
+          <p>Sarah hat es beim zweiten Versuch geschafft – mit Plan, Arzt und Geduld. Möchtest du wissen, wie dein persönlicher Ausschleichplan aussehen könnte?</p>
+          <a href="/#planner-section" class="btn-primary">
+            Jetzt kostenlose KI-Analyse starten ➔
+          </a>
+      </div>
+
+      <hr>
+
+      <h3>Quellen & Referenzen</h3>
+      <ul style="font-size: 0.9rem; color: #666;">
+          <li><strong>Apotheken Umschau (2024):</strong> "Medikamente einschleichen und ausschleichen".</li>
+          <li><strong>Deutsches Ärzteblatt:</strong> "Absetz- und Rebound-Phänomene bei Antidepressiva".</li>
+          <li><strong>SWR (2025):</strong> "Antidepressiva absetzen ohne Symptome".</li>
+          <li><strong>CHIP (2025):</strong> "Rebound-Effekt: Diese Medikamente niemals abrupt absetzen".</li>
+      </ul>
+      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information und ersetzt keine ärztliche Beratung. Bei Notfällen wählen Sie 112.</em></p>
+    </div>
+  </article>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
+  `)
+})
+
 // Magazine Article Route: Täglich 5 Tabletten
 app.get('/magazin/taeglich-5-tabletten', (c) => {
   return c.html(`
@@ -7167,14 +7568,14 @@ app.get('/', (c) => {
             </div>
           </a>
           
-          <!-- Placeholder Article 2 -->
-          <a href="#" class="magazine-card scroll-animate-card">
-            <div class="magazine-card-image"></div>
+          <!-- Article 2: Medikamente absetzen -->
+          <a href="/magazin/medikamente-absetzen-7-fehler" class="magazine-card scroll-animate-card">
+            <div class="magazine-card-image" style="background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);"></div>
             <div class="magazine-card-content">
-              <span class="magazine-card-category">ECS</span>
-              <h3 class="magazine-card-title">Das Endocannabinoid-System verstehen</h3>
+              <span class="magazine-card-category">Sicherheit & Praxis</span>
+              <h3 class="magazine-card-title">Medikamente absetzen: Die 7 gefährlichsten Fehler</h3>
               <p class="magazine-card-excerpt">
-                Wie funktioniert das körpereigene Cannabinoid-System und warum ist es so wichtig für unsere Gesundheit?
+                Du willst reduzieren? Vorsicht: Der falsche Weg kann direkt in die Notaufnahme führen. Erfahre, wie du den "Rebound-Effekt" vermeidest.
               </p>
               <span class="magazine-card-link">
                 Artikel lesen
