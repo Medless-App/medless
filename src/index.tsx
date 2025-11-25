@@ -27,16 +27,30 @@ interface MedicationWithCategory {
   name: string;
   generic_name: string;
   category_id: number | null;
-  // ... other medication fields
+  cyp450_enzyme?: string | null;
+  description?: string | null;
+  common_dosage?: string | null;
+  
+  // Category fields (from JOIN)
   category?: MedicationCategory | null;
   category_name?: string;
   risk_level?: string | null;
-  // New safety fields from category
+  
+  // Category safety fields
   can_reduce_to_zero?: number | null;
   default_min_target_fraction?: number | null;
   max_weekly_reduction_pct?: number | null;
   requires_specialist?: number | null;
   category_notes?: string | null;
+  
+  // ===== NEW: Medication-specific pharmacokinetic fields (Migration 0005) =====
+  half_life_hours?: number | null;
+  therapeutic_min_ng_ml?: number | null;
+  therapeutic_max_ng_ml?: number | null;
+  withdrawal_risk_score?: number | null;
+  // Note: max_weekly_reduction_pct also exists as medication-specific field
+  // Note: can_reduce_to_zero also exists as medication-specific field
+  cbd_interaction_strength?: 'low' | 'medium' | 'high' | 'critical' | null;
 }
 
 interface SafetyResult {
@@ -64,6 +78,24 @@ function applyCategorySafetyRules(params: {
   let appliedCategoryRules = false;
   let limitedByCategory = false;
   
+  // ===== NEW: Add withdrawal risk warnings based on Migration 0005 fields =====
+  if (category?.withdrawal_risk_score && category.withdrawal_risk_score >= 7) {
+    safetyNotes.push(
+      `⚠️ ${medicationName}: Hohes Absetzrisiko (Score: ${category.withdrawal_risk_score}/10) - Langsame Reduktion empfohlen`
+    );
+  }
+  
+  // ===== NEW: Add CBD interaction strength warnings =====
+  if (category?.cbd_interaction_strength === 'critical') {
+    safetyNotes.push(
+      `🚨 ${medicationName}: Kritische CBD-Wechselwirkung - Engmaschige ärztliche Kontrolle erforderlich`
+    );
+  } else if (category?.cbd_interaction_strength === 'high') {
+    safetyNotes.push(
+      `⚠️ ${medicationName}: Starke CBD-Wechselwirkung - Vorsicht bei gleichzeitiger Einnahme`
+    );
+  }
+  
   // Base calculation from user input
   let targetFraction = 1 - (reductionGoal / 100);
   
@@ -78,7 +110,7 @@ function applyCategorySafetyRules(params: {
     return {
       effectiveTargetMg: desiredTargetMg,
       effectiveWeeklyReduction: weeklyReduction,
-      safetyNotes: [],
+      safetyNotes,
       limitedByCategory: false,
       appliedCategoryRules: false
     };
@@ -86,8 +118,10 @@ function applyCategorySafetyRules(params: {
   
   appliedCategoryRules = true;
   
-  // Rule 1: Check if reduction to zero is allowed
-  if (category.can_reduce_to_zero === 0 || category.risk_level === 'lifelong' || category.risk_level === 'very_high') {
+  // Rule 1: Check if reduction to zero is allowed (MEDICATION-SPECIFIC has priority)
+  const canReduceToZero = category.can_reduce_to_zero ?? 1; // Default: reduction allowed
+  
+  if (canReduceToZero === 0 || category.risk_level === 'lifelong' || category.risk_level === 'very_high') {
     if (category.default_min_target_fraction !== null && category.default_min_target_fraction > 0) {
       // Use category's minimum target fraction
       targetFraction = Math.max(targetFraction, category.default_min_target_fraction);
@@ -98,11 +132,11 @@ function applyCategorySafetyRules(params: {
         );
       }
     } else {
-      // No reduction allowed at all
-      targetFraction = 1.0;
+      // No reduction allowed at all - set minimum target to 50%
+      targetFraction = 0.5;
       limitedByCategory = true;
       safetyNotes.push(
-        `🔒 ${medicationName}: Keine Reduktion möglich (lebenslange Medikation)`
+        `🔒 ${medicationName}: Keine Vollreduktion möglich - Minimum 50% Erhaltungsdosis`
       );
     }
   } 
@@ -124,17 +158,40 @@ function applyCategorySafetyRules(params: {
   // Base weekly reduction
   let weeklyReductionBase = (startMg - desiredTargetMg) / durationWeeks;
   
-  // Rule 3: Apply maximum weekly reduction percentage
+  // Rule 3: Apply maximum weekly reduction percentage (MEDICATION-SPECIFIC has priority over category)
   let effectiveWeeklyReduction = weeklyReductionBase;
   
-  if (category.max_weekly_reduction_pct !== null && category.max_weekly_reduction_pct > 0) {
-    const maxWeeklyReductionMg = startMg * (category.max_weekly_reduction_pct / 100);
+  const maxWeeklyReductionPct = category.max_weekly_reduction_pct; // Use medication-specific if available
+  
+  if (maxWeeklyReductionPct !== null && maxWeeklyReductionPct > 0) {
+    const maxWeeklyReductionMg = startMg * (maxWeeklyReductionPct / 100);
     
     if (weeklyReductionBase > maxWeeklyReductionMg) {
       effectiveWeeklyReduction = maxWeeklyReductionMg;
       limitedByCategory = true;
       safetyNotes.push(
-        `🐌 ${medicationName}: Reduktionsgeschwindigkeit begrenzt auf max. ${category.max_weekly_reduction_pct}%/Woche`
+        `🐌 ${medicationName}: Reduktionsgeschwindigkeit begrenzt auf max. ${maxWeeklyReductionPct}%/Woche`
+      );
+    }
+  }
+  
+  // ===== NEW: Apply half-life-based reduction factor (Migration 0005) =====
+  if (category.half_life_hours && category.half_life_hours > 0) {
+    const steadyStateDays = (category.half_life_hours * 5) / 24; // 5 half-lives = steady state
+    
+    if (steadyStateDays > 7) {
+      // Long half-life (> 7 days steady state) - reduce speed by 50%
+      effectiveWeeklyReduction *= 0.5;
+      limitedByCategory = true;
+      safetyNotes.push(
+        `🕐 ${medicationName}: Lange Halbwertszeit (${Math.round(category.half_life_hours)}h) - Reduktion auf 50% verlangsamt`
+      );
+    } else if (steadyStateDays > 3) {
+      // Medium half-life (3-7 days) - reduce speed by 25%
+      effectiveWeeklyReduction *= 0.75;
+      limitedByCategory = true;
+      safetyNotes.push(
+        `🕐 ${medicationName}: Mittlere Halbwertszeit (${Math.round(category.half_life_hours)}h) - Reduktion auf 75% angepasst`
       );
     }
   }
@@ -367,7 +424,12 @@ app.get('/api/medications', async (c) => {
              mc.default_min_target_fraction,
              mc.max_weekly_reduction_pct,
              mc.requires_specialist,
-             mc.notes as category_notes
+             mc.notes as category_notes,
+             m.half_life_hours,
+             m.therapeutic_min_ng_ml,
+             m.therapeutic_max_ng_ml,
+             m.withdrawal_risk_score,
+             m.cbd_interaction_strength
       FROM medications m
       LEFT JOIN medication_categories mc ON m.category_id = mc.id
       ORDER BY m.name
@@ -393,7 +455,12 @@ app.get('/api/medications/search/:query', async (c) => {
              mc.default_min_target_fraction,
              mc.max_weekly_reduction_pct,
              mc.requires_specialist,
-             mc.notes as category_notes
+             mc.notes as category_notes,
+             m.half_life_hours,
+             m.therapeutic_min_ng_ml,
+             m.therapeutic_max_ng_ml,
+             m.withdrawal_risk_score,
+             m.cbd_interaction_strength
       FROM medications m
       LEFT JOIN medication_categories mc ON m.category_id = mc.id
       WHERE m.name LIKE ? OR m.generic_name LIKE ?
@@ -476,7 +543,12 @@ app.post('/api/analyze', async (c) => {
                mc.default_min_target_fraction,
                mc.max_weekly_reduction_pct,
                mc.requires_specialist,
-               mc.notes as category_notes
+               mc.notes as category_notes,
+               m.half_life_hours,
+               m.therapeutic_min_ng_ml,
+               m.therapeutic_max_ng_ml,
+               m.withdrawal_risk_score,
+               m.cbd_interaction_strength
         FROM medications m
         LEFT JOIN medication_categories mc ON m.category_id = mc.id
         WHERE m.name LIKE ? OR m.generic_name LIKE ?
