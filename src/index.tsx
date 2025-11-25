@@ -3244,6 +3244,8 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
   </header>
   
   <!-- Article Detail -->
+  <img src="/static/artikel6-cbd-studien.jpg" alt="CBD Öl mit Labor-Equipment - Wissenschaftliche Forschung zu Cannabidiol" style="width: 100%; max-width: 900px; height: auto; border-radius: 16px; margin: 0 auto 32px auto; display: block; box-shadow: 0 4px 16px rgba(0,0,0,0.08);" />
+  
   <article class="article-detail">
     
     <span class="article-category">Wissenschaft & Fakten</span>
@@ -10086,7 +10088,7 @@ app.get('/', (c) => {
           
           <!-- Article 6: CBD Studien und Fakten -->
           <a href="/magazin/cbd-studien-und-fakten" class="magazine-card scroll-animate-card">
-            <div class="magazine-card-image" style="background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);"></div>
+            <div class="magazine-card-image" style="background-image: url('/static/artikel6-cbd-studien.jpg'); background-size: cover; background-position: center;"></div>
             <div class="magazine-card-content">
               <span class="magazine-card-category" style="background: #D1FAE5; color: #065F46;">Wissenschaft & Fakten</span>
               <h3 class="magazine-card-title">CBD bei Medikamentenreduktion: Was die Wissenschaft wirklich sagt</h3>
