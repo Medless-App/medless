@@ -882,6 +882,374 @@ app.post('/api/analyze', async (c) => {
   }
 })
 
+// Magazine Article Route: Täglich 5 Tabletten
+app.get('/magazin/taeglich-5-tabletten', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Täglich 5 Tabletten oder mehr? Warum das gefährlich ist. – MEDLESS</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #0F5A46;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      font-size: 16px;
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #D1FAE5;
+      color: #0E5A45;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      color: #0F5A46;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0F5A46;
+      margin-top: 56px;
+      margin-bottom: 24px;
+    }
+    
+    .article-content p {
+      margin-bottom: 24px;
+    }
+    
+    .article-content ul {
+      margin: 24px 0;
+      padding-left: 32px;
+    }
+    
+    .article-content li {
+      margin-bottom: 16px;
+    }
+    
+    .article-content strong {
+      color: #0F5A46;
+      font-weight: 600;
+    }
+    
+    .article-cta {
+      margin: 64px 0;
+      padding: 48px;
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+      border: 2px solid #D1FAE5;
+      border-radius: 16px;
+      text-align: center;
+    }
+    
+    .article-cta h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #0F5A46;
+      margin-bottom: 24px;
+    }
+    
+    .cta-button-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 32px;
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, #0E5A45, #10B981);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(14, 90, 69, 0.2);
+    }
+    
+    .cta-button-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(14, 90, 69, 0.3);
+    }
+    
+    footer {
+      background: linear-gradient(135deg, #0E5A45, #10B981);
+      padding: 60px 0 20px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      text-align: center;
+    }
+    
+    .footer-content p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    
+    @media (max-width: 768px) {
+      .header-nav {
+        display: none;
+      }
+      
+      .article-detail {
+        padding: 60px 24px;
+      }
+      
+      .article-content {
+        font-size: 17px;
+      }
+      
+      .article-cta {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="header-logo">
+        <span class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+        </span>
+      </a>
+      
+      <nav class="header-nav">
+        <a href="/#ueber-medless">Über MEDLESS</a>
+        <a href="/#funktionsweise">Funktionsweise</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Article Content -->
+  <article class="article-detail">
+    <span class="article-category">Polypharmazie</span>
+    <h1 class="article-title">Täglich 5 Tabletten oder mehr? Warum das gefährlich ist.</h1>
+    
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> Januar 2025</span>
+      <span><i class="far fa-clock"></i> 8 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
+      <p>
+        Ab fünf Medikamenten täglich sprechen Ärzte von <strong>Polypharmazie</strong> – ein Zustand, der längst nicht mehr nur ältere Menschen betrifft. Immer mehr Erwachsene schlucken mehrere Tabletten pro Tag, oft über Jahre hinweg, ohne die Risiken wirklich zu kennen.
+      </p>
+      
+      <p>
+        Doch was passiert, wenn sich Wirkstoffe im Körper gegenseitig beeinflussen? Und warum wird das Risiko so selten besprochen?
+      </p>
+      
+      <h2>Was ist Polypharmazie?</h2>
+      
+      <p>
+        Polypharmazie beschreibt die gleichzeitige Einnahme von fünf oder mehr verschreibungspflichtigen Medikamenten. Offiziell ist das keine Krankheit – aber ein erheblicher Risikofaktor.
+      </p>
+      
+      <p>
+        <strong>Das Problem:</strong> Jedes Medikament wird einzeln getestet und verschrieben. Doch wie sie zusammenwirken, wenn fünf, sechs oder sogar zehn Wirkstoffe gleichzeitig im Blutkreislauf sind, ist oft unklar.
+      </p>
+      
+      <h2>Die Risiken: Wenn Medikamente miteinander kämpfen</h2>
+      
+      <p>
+        Je mehr Medikamente, desto höher das Risiko für:
+      </p>
+      
+      <ul>
+        <li><strong>Wechselwirkungen:</strong> Ein Medikament verstärkt oder schwächt ein anderes. Das kann lebensbedrohlich werden (z. B. bei Blutverdünnern).</li>
+        <li><strong>Unerwünschte Nebenwirkungen:</strong> Müdigkeit, Schwindel, Übelkeit, Verwirrtheit – oft werden diese Symptome als „Altersschwäche" abgetan, obwohl sie direkt mit Medikamenten zusammenhängen.</li>
+        <li><strong>Kaskadeneffekte:</strong> Ein Medikament verursacht ein Problem, das mit einem weiteren Medikament behandelt wird – und so weiter. Die Medikamentenliste wächst, der Körper leidet.</li>
+        <li><strong>Erhöhtes Sturzrisiko:</strong> Besonders bei älteren Menschen steigt durch Schwindel und Benommenheit das Risiko für schwere Stürze.</li>
+        <li><strong>Kognitive Beeinträchtigungen:</strong> Manche Wirkstoffkombinationen können das Denkvermögen, die Konzentration und das Gedächtnis beeinträchtigen.</li>
+      </ul>
+      
+      <h2>Warum passiert das so oft?</h2>
+      
+      <p>
+        In vielen Fällen ist Polypharmazie keine bewusste Entscheidung, sondern das Ergebnis von:
+      </p>
+      
+      <ul>
+        <li><strong>Symptombehandlung statt Ursachenanalyse:</strong> Ein neues Symptom wird mit einem neuen Medikament behandelt – ohne zu hinterfragen, ob es von einem bereits eingenommenen Medikament kommt.</li>
+        <li><strong>Mehrfachbehandlung:</strong> Verschiedene Ärzte verschreiben Medikamente, ohne über die gesamte Medikamentenliste Bescheid zu wissen.</li>
+        <li><strong>Zeitmangel in der Praxis:</strong> Ärzte haben oft nicht genug Zeit, um die gesamte Medikation eines Patienten zu überprüfen.</li>
+        <li><strong>Angst vor dem Absetzen:</strong> Viele Patienten trauen sich nicht, ein Medikament zu hinterfragen oder abzusetzen – aus Angst vor Rückfällen oder Entzugssymptomen.</li>
+      </ul>
+      
+      <h2>Was kannst du tun?</h2>
+      
+      <p>
+        Wenn du täglich fünf oder mehr Medikamente einnimmst, solltest du aktiv werden:
+      </p>
+      
+      <ul>
+        <li><strong>Medikamentenliste aktualisieren:</strong> Erstelle eine vollständige Liste aller Medikamente (inklusive rezeptfreier Präparate und Nahrungsergänzungsmittel) und besprich sie mit deinem Arzt.</li>
+        <li><strong>Regelmäßige Überprüfungen:</strong> Frag deinen Arzt, ob alle Medikamente noch notwendig sind. Oft können Dosierungen angepasst oder Medikamente abgesetzt werden.</li>
+        <li><strong>Zweitmeinung einholen:</strong> Ein Gespräch mit einem Apotheker oder einem anderen Arzt kann helfen, Wechselwirkungen zu erkennen.</li>
+        <li><strong>Natürliche Unterstützung prüfen:</strong> Moderne Ansätze wie die Stärkung des Endocannabinoid-Systems können dabei helfen, den Medikamentenbedarf zu reduzieren – immer in Absprache mit einem Arzt.</li>
+      </ul>
+      
+      <!-- CTA Section -->
+      <div class="article-cta">
+        <h3>Möchtest du deine Medikamente prüfen?</h3>
+        <p style="margin-bottom: 24px; font-size: 17px; color: #374151;">
+          MEDLESS hilft dir, einen individuellen Ausschleichplan zu erstellen – KI-berechnet, wissenschaftlich fundiert und für die ärztliche Begleitung entwickelt.
+        </p>
+        <a href="/#planner-section" class="cta-button-primary">
+          Kostenlos Analyse starten
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+      
+      <h2>Fazit</h2>
+      
+      <p>
+        Polypharmazie ist ein stilles, aber wachsendes Problem. Viele Menschen nehmen täglich mehrere Medikamente, ohne sich der Risiken bewusst zu sein. Doch es gibt Möglichkeiten, die Medikamentenlast sicher zu reduzieren – mit ärztlicher Begleitung, einem individuellen Plan und moderner Unterstützung durch das Endocannabinoid-System.
+      </p>
+      
+      <p>
+        <strong>Der erste Schritt:</strong> Bewusstsein schaffen. Der zweite: Handeln.
+      </p>
+    </div>
+  </article>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
+  `)
+})
+
 // Main Route: Homepage
 app.get('/', (c) => {
   return c.html(`
@@ -5402,6 +5770,221 @@ app.get('/', (c) => {
         background: #FAFAFA;
       }
     }
+    
+    /* ============================================================
+       MAGAZINE SECTION - NEW
+       ============================================================ */
+    
+    .magazine-section {
+      background: var(--background-ultra-light);
+      padding: var(--spacing-block) 0;
+    }
+    
+    .magazine-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 3rem;
+    }
+    
+    .magazine-card {
+      background: white;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-large);
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .magazine-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-shadow-hover);
+      border-color: var(--primary-green);
+    }
+    
+    .magazine-card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+    }
+    
+    .magazine-card-content {
+      padding: var(--space-5);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .magazine-card-category {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--accent-mint);
+      color: var(--primary-dark-green);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: var(--radius-small);
+      margin-bottom: var(--space-3);
+      align-self: flex-start;
+    }
+    
+    .magazine-card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--heading-color);
+      line-height: 1.4;
+      margin-bottom: var(--space-3);
+    }
+    
+    .magazine-card-excerpt {
+      font-size: 15px;
+      color: var(--text-body-color);
+      line-height: 1.6;
+      margin-bottom: var(--space-4);
+      flex: 1;
+    }
+    
+    .magazine-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-green);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .magazine-card-link:hover {
+      color: var(--primary-dark-green);
+      gap: 12px;
+    }
+    
+    .magazine-card-link i {
+      font-size: 12px;
+    }
+    
+    /* Article Detail Page */
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--spacing-block) var(--space-5);
+    }
+    
+    .article-header {
+      margin-bottom: var(--space-7);
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: var(--accent-mint);
+      color: var(--primary-dark-green);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: var(--radius-small);
+      margin-bottom: var(--space-4);
+    }
+    
+    .article-title {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--primary-dark-green);
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: var(--space-4);
+      font-size: 14px;
+      color: var(--text-muted);
+      padding-bottom: var(--space-5);
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .article-content {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-body-color);
+    }
+    
+    .article-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--primary-dark-green);
+      margin-top: var(--space-7);
+      margin-bottom: var(--space-4);
+    }
+    
+    .article-content p {
+      margin-bottom: var(--space-5);
+    }
+    
+    .article-content ul,
+    .article-content ol {
+      margin: var(--space-5) 0;
+      padding-left: 2rem;
+    }
+    
+    .article-content li {
+      margin-bottom: var(--space-3);
+    }
+    
+    .article-content strong {
+      color: var(--primary-dark-green);
+      font-weight: 600;
+    }
+    
+    .article-cta {
+      margin: var(--space-8) 0;
+      padding: var(--space-6);
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+      border: 2px solid var(--accent-mint);
+      border-radius: var(--radius-large);
+      text-align: center;
+    }
+    
+    .article-cta h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-dark-green);
+      margin-bottom: var(--space-4);
+    }
+    
+    .article-cta .cta-button-primary {
+      margin: 0 auto;
+    }
+    
+    @media (max-width: 1024px) {
+      .magazine-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .magazine-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .article-detail {
+        padding: var(--space-6) var(--space-4);
+      }
+      
+      .article-content {
+        font-size: 17px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -5422,6 +6005,7 @@ app.get('/', (c) => {
         <a href="#funktionsweise">Funktionsweise</a>
         <a href="#wissenschaft-ecs">Wissenschaft & ECS</a>
         <a href="#faq">FAQ</a>
+        <a href="#magazin">Magazin</a>
         <a href="#kontakt" class="header-nav-contact">Kontakt</a>
       </nav>
     </div>
@@ -6545,6 +7129,75 @@ app.get('/', (c) => {
               </div>
             </div>
           </div>
+          
+        </div>
+        
+      </div>
+    </section>
+    
+    <!-- ============================================================
+         MAGAZIN SECTION - NEW
+         ============================================================ -->
+    <section id="magazin" class="magazine-section scroll-animate">
+      <div class="container">
+        
+        <h2 class="section-headline">
+          Wissen & Ratgeber
+        </h2>
+        
+        <p class="section-description">
+          Medizinische Hintergründe, Tipps zur Reduktion und Neuigkeiten aus der Forschung.
+        </p>
+        
+        <div class="magazine-grid">
+          
+          <!-- Article 1: Polypharmazie -->
+          <a href="/magazin/taeglich-5-tabletten" class="magazine-card scroll-animate-card">
+            <div class="magazine-card-image"></div>
+            <div class="magazine-card-content">
+              <span class="magazine-card-category">Polypharmazie</span>
+              <h3 class="magazine-card-title">Täglich 5 Tabletten oder mehr? Warum das gefährlich ist.</h3>
+              <p class="magazine-card-excerpt">
+                Die stille Gefahr der Polypharmazie: Was passiert, wenn sich Medikamente im Körper gegenseitig beeinflussen?
+              </p>
+              <span class="magazine-card-link">
+                Artikel lesen
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+          
+          <!-- Placeholder Article 2 -->
+          <a href="#" class="magazine-card scroll-animate-card">
+            <div class="magazine-card-image"></div>
+            <div class="magazine-card-content">
+              <span class="magazine-card-category">ECS</span>
+              <h3 class="magazine-card-title">Das Endocannabinoid-System verstehen</h3>
+              <p class="magazine-card-excerpt">
+                Wie funktioniert das körpereigene Cannabinoid-System und warum ist es so wichtig für unsere Gesundheit?
+              </p>
+              <span class="magazine-card-link">
+                Artikel lesen
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+          
+          <!-- Placeholder Article 3 -->
+          <a href="#" class="magazine-card scroll-animate-card">
+            <div class="magazine-card-image"></div>
+            <div class="magazine-card-content">
+              <span class="magazine-card-category">Wechselwirkungen</span>
+              <h3 class="magazine-card-title">CBD und Medikamente: Was Sie wissen müssen</h3>
+              <p class="magazine-card-excerpt">
+                Welche Wechselwirkungen zwischen CBD und gängigen Medikamenten sind bekannt? Ein Überblick.
+              </p>
+              <span class="magazine-card-link">
+                Artikel lesen
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
           
         </div>
         
