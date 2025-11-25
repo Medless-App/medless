@@ -3972,9 +3972,13 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
   
   <!-- Article Content -->
   <article class="article-detail">
-    <!-- Header Image -->
-    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <img src="https://www.genspark.ai/api/files/s/7ENuZbn0I" alt="Hand mit vielen verschiedenen Medikamenten" style="width: 100%; height: auto; display: block;" />
+    <!-- Header Visual -->
+    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); background: linear-gradient(135deg, #DC2626 0%, #EF4444 50%, #F87171 100%); padding: 80px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;">
+      <div style="font-size: 80px; color: white; text-shadow: 0 4px 16px rgba(0,0,0,0.2);">
+        <i class="fas fa-pills"></i>
+      </div>
+      <div style="color: white; font-size: 24px; font-weight: 700; text-align: center; text-shadow: 0 2px 8px rgba(0,0,0,0.2);">Polypharmazie</div>
+      <div style="color: rgba(255,255,255,0.9); font-size: 16px; font-weight: 500; text-align: center;">Ab 5 Medikamenten täglich steigt das Risiko exponentiell</div>
     </div>
     
     <span class="article-category">Polypharmazie</span>
@@ -9984,7 +9988,12 @@ app.get('/', (c) => {
           
           <!-- Article 1: Polypharmazie -->
           <a href="/magazin/taeglich-5-tabletten" class="magazine-card scroll-animate-card">
-            <div class="magazine-card-image" style="background-image: url('https://www.genspark.ai/api/files/s/7ENuZbn0I'); background-size: cover; background-position: center;"></div>
+            <div class="magazine-card-image" style="background: linear-gradient(135deg, #DC2626 0%, #EF4444 50%, #F87171 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+              <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; font-size: 48px; text-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                <i class="fas fa-pills"></i>
+                <div style="font-size: 14px; margin-top: 8px; font-weight: 600; letter-spacing: 0.5px;">5+ Medikamente</div>
+              </div>
+            </div>
             <div class="magazine-card-content">
               <span class="magazine-card-category">Polypharmazie</span>
               <h3 class="magazine-card-title">Täglich 5 Tabletten oder mehr? Warum das gefährlich ist.</h3>
