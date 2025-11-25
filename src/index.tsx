@@ -1183,6 +1183,11 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   
   <!-- Article Content -->
   <article class="article-detail">
+    <!-- Header Image -->
+    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <img src="/static/artikel3-endocannabinoid-system.jpg" alt="Menschlicher Körper mit Endocannabinoid-System und neuronalen Verbindungen" style="width: 100%; height: auto; display: block;" />
+    </div>
+    
     <span class="article-category">Wissen & Grundlagen</span>
     <h1 class="article-title">Das Endocannabinoid-System: Dein körpereigenes Schutzschild (und warum kaum ein Arzt darüber spricht)</h1>
     
@@ -10021,7 +10026,7 @@ app.get('/', (c) => {
           
           <!-- Article 3: Endocannabinoid-System -->
           <a href="/magazin/endocannabinoid-system-erklaert" class="magazine-card scroll-animate-card">
-            <div class="magazine-card-image" style="background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%);"></div>
+            <div class="magazine-card-image" style="background-image: url('/static/artikel3-endocannabinoid-system.jpg'); background-size: cover; background-position: center;"></div>
             <div class="magazine-card-content">
               <span class="magazine-card-category">Wissen & Grundlagen</span>
               <h3 class="magazine-card-title">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h3>
