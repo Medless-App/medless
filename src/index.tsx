@@ -3317,6 +3317,387 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
   `)
 })
 
+// Magazine Article Route: Magenschutz (PPI) absetzen
+app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Die Säure-Falle: Warum "Magenschutz" oft das Gegenteil bewirkt – MEDLESS</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #0F5A46;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      font-size: 16px;
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #FED7AA;
+      color: #9A3412;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      color: #0F5A46;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      font-size: 19px;
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #0F5A46;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0F5A46;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    
+    .article-content h3 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #1F2937;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+    
+    .article-content p {
+      margin-bottom: 20px;
+    }
+    
+    .article-content ul,
+    .article-content ol {
+      margin: 24px 0 24px 24px;
+    }
+    
+    .article-content ul {
+      list-style-type: disc;
+    }
+    
+    .article-content ol {
+      list-style-type: decimal;
+    }
+    
+    .article-content li {
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+    
+    .article-content li strong {
+      color: #1F2937;
+    }
+    
+    .article-content strong {
+      font-weight: 600;
+      color: #0F5A46;
+    }
+    
+    .article-content em {
+      font-style: italic;
+      color: #6B7280;
+    }
+    
+    .article-content hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 48px 0;
+    }
+    
+    .cta-box {
+      background: linear-gradient(to right, #f0fdf4, #dcfce7);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 40px 0;
+      border-left: 5px solid #0F5A46;
+    }
+    
+    .cta-box h3 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: #0F5A46;
+    }
+    
+    .cta-box p {
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+      color: #374151;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      background-color: #0F5A46;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 90, 70, 0.3);
+    }
+    
+    footer {
+      background: #F9FAFB;
+      border-top: 1px solid #E5E7EB;
+      padding: 48px 32px;
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: #6B7280;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .article-detail {
+        padding: 48px 24px;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 16px 20px;
+      }
+      
+      .header-nav {
+        gap: 16px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <a href="/" class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+        </a>
+      </div>
+      <nav class="header-nav">
+        <a href="/#about">Über MEDLESS</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#contact">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Article Detail -->
+  <article class="article-detail">
+    
+    <span class="article-category">Magen & Verdauung</span>
+    
+    <h1 class="article-title">Die Säure-Falle: Warum "Magenschutz" oft das Gegenteil bewirkt (und wie du davon loskommst)</h1>
+    
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> 20. Januar 2025</span>
+      <span><i class="far fa-clock"></i> 6 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
+      
+      <p class="intro">
+        <strong>"Nehmen Sie das morgens dazu, um den Magen zu schützen." Ein Satz, den Millionen Deutsche hören. Doch was als kurzfristiger Schutz gedacht war, wird oft zur Dauerlösung mit Risiken. Erfahre, warum das Absetzen so schwer ist und wie es trotzdem klappt.</strong>
+      </p>
+      
+      <hr>
+      
+      <h2>Der Klassiker: "Nur zur Sicherheit"</h2>
+      <p>Es fängt meist harmlos an. Du bekommst ein Schmerzmittel (wie Ibuprofen) oder Antibiotika. Der Arzt verschreibt dazu Pantoprazol oder Omeprazol. "Ein Magenschutz", heißt es. Klingt vernünftig.</p>
+      <p>Die Schmerzmittel setzt du nach zwei Wochen ab. Den Magenschutz nimmst du weiter. "Kann ja nicht schaden", denkst du. Monate vergehen. Jahre vergehen.</p>
+      <p>Dann vergisst du die Tablette einmal im Urlaub. Und plötzlich ist es da: Ein Brennen, das bis in den Hals steigt. Sodbrennen, schlimmer als je zuvor. Du greifst sofort zur Tablette. Die Erleichterung folgt.</p>
+      <p>Deine Schlussfolgerung: <em>"Puh, ich habe wohl wirklich zu viel Magensäure. Gut, dass ich die Tabletten nehme."</em></p>
+      <p><strong>Doch das ist ein Trugschluss. Dein Magen ist nicht krank. Er ist abhängig.</strong></p>
+      
+      <h2>Der Rebound-Effekt: Warum dein Magen rebelliert</h2>
+      <p>Diese Medikamente (Protonenpumpenhemmer, kurz PPI) blockieren die Säureproduktion extrem effektiv. Dein Körper ist aber schlau. Er merkt: "Huch, zu wenig Säure für die Verdauung!"</p>
+      <p>Was macht er? Er baut <strong>mehr</strong> Säure-Pumpen, um gegen die Blockade anzukämpfen. Solange du die Tablette nimmst, merkst du davon nichts. Aber sobald du sie weglässt, arbeiten all diese neuen Pumpen auf Hochtouren. Es kommt zur "Säureflut".</p>
+      <p>Das nennt man den <strong>Rebound-Effekt</strong>. Das Sodbrennen ist kein Zeichen deiner Krankheit, sondern ein Entzugssymptom.</p>
+      
+      <h2>Sind PPI wirklich harmlos?</h2>
+      <p>Leider nein. Wenn wir die Magensäure dauerhaft unterdrücken, zahlen wir einen Preis:</p>
+      <ul>
+          <li><strong>Nährstoffmangel:</strong> Ohne Säure können Vitamin B12, Magnesium und Calcium schlechter aufgenommen werden.</li>
+          <li><strong>Knochenbrüche:</strong> Durch den Calcium-Mangel steigt langfristig das Risiko für Osteoporose.</li>
+          <li><strong>Infektionen:</strong> Magensäure ist unsere erste Barriere gegen Bakterien. Fehlt sie, haben Keime leichteres Spiel.</li>
+      </ul>
+      
+      <h2>Der Ausweg: Ausschleichen statt Absetzen</h2>
+      <p>Wer PPI von heute auf morgen weglässt, scheitert fast immer am Rebound. Der einzige Weg ist Geduld.</p>
+      
+      <h3>Die "Jeden-zweiten-Tag"-Methode</h3>
+      <p>Ein bewährter Trick ist, die Dosis nicht sofort zu halbieren, sondern die Einnahme-Intervalle zu strecken.</p>
+      <ol>
+          <li><strong>Schritt 1:</strong> Nimm die Tablette nur noch jeden 2. Tag (für 2 Wochen). An den Pausen-Tagen kannst du bei Bedarf ein mildes Antazidum (z.B. Rennie oder Talcid) nehmen.</li>
+          <li><strong>Schritt 2:</strong> Reduziere auf jeden 3. Tag.</li>
+          <li><strong>Schritt 3:</strong> Versuche es ganz ohne.</li>
+      </ol>
+      
+      <h2>Wie dir MedLess und das ECS dabei helfen</h2>
+      <p>Auch hier spielt dein <strong>Endocannabinoid-System (ECS)</strong> eine spannende Rolle. Es reguliert nämlich nicht nur Schmerz, sondern auch die Verdauung und Entzündungen im Magen-Darm-Trakt.</p>
+      <p>Wenn du den chemischen "Hammer" (PPI) wegnimmst, kann eine gezielte Stärkung des ECS (z.B. durch Ernährung oder CBD) helfen, den Magen auf natürliche Weise zu beruhigen, ohne die Säureproduktion komplett lahmzulegen.</p>
+      
+      <div class="cta-box">
+          <h3>Raus aus der Säure-Falle?</h3>
+          <p>Du willst nicht den Rest deines Lebens Magentabletten schlucken? Wir berechnen dir einen Plan, wie du sicher und sanft davon loskommst – ohne dass das Feuer zurückkehrt.</p>
+          <br>
+          <a href="/#start-analysis" class="btn-primary">Jetzt kostenlose Analyse starten ➔</a>
+      </div>
+      
+      <hr>
+      
+      <h3 style="font-size: 1rem; font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Fakten</h3>
+      <ul style="font-size: 0.9rem; color: #6B7280;">
+          <li><strong>Deutsche Gesellschaft für Gastroenterologie:</strong> Leitlinie zu PPI.</li>
+          <li><strong>Ärzteblatt:</strong> "Langzeitrisiken von Protonenpumpeninhibitoren".</li>
+          <li><strong>Apotheken Umschau:</strong> "Magenschutz richtig absetzen".</li>
+      </ul>
+      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel ersetzt keine ärztliche Beratung. Bei starken Magenschmerzen oder Vorerkrankungen (z.B. Barett-Ösophagus) niemals ohne Arzt absetzen.</em></p>
+    </div>
+  </article>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
+  `)
+})
+
 // Magazine Article Route: Täglich 5 Tabletten
 app.get('/magazin/taeglich-5-tabletten', (c) => {
   return c.html(`
@@ -9674,6 +10055,22 @@ app.get('/', (c) => {
               <h3 class="magazine-card-title">CBD bei Medikamentenreduktion: Was die Wissenschaft wirklich sagt</h3>
               <p class="magazine-card-excerpt">
                 Überall hörst du: "CBD ist das neue Wundermittel". Doch was stimmt davon? Wir checken die aktuelle Studienlage (2025) und klären über Risiken auf.
+              </p>
+              <span class="magazine-card-link">
+                Artikel lesen
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+          
+          <!-- Article 7: Magenschutz (PPI) absetzen -->
+          <a href="/magazin/magenschutz-absetzen-ppi" class="magazine-card scroll-animate-card">
+            <div class="magazine-card-image" style="background: linear-gradient(135deg, #FED7AA 0%, #FDBA74 100%);"></div>
+            <div class="magazine-card-content">
+              <span class="magazine-card-category" style="background: #FED7AA; color: #9A3412;">Magen & Verdauung</span>
+              <h3 class="magazine-card-title">Die Säure-Falle: Warum "Magenschutz" oft das Gegenteil bewirkt</h3>
+              <p class="magazine-card-excerpt">
+                Eigentlich wolltest du deinen Magen nur schützen. Jetzt kommst du nicht mehr los, weil das Sodbrennen sofort zurückkehrt? Wir zeigen dir den Ausweg.
               </p>
               <span class="magazine-card-link">
                 Artikel lesen
