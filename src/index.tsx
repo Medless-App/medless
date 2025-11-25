@@ -3974,7 +3974,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
   <article class="article-detail">
     <!-- Header Image -->
     <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <img src="/static/polypharmazie.jpg" alt="Hand mit verschiedenen Medikamenten und Tabletten" style="width: 100%; height: auto; display: block;" />
+      <img src="/static/medications-elderly-hand.jpg" alt="Ältere Hand greift nach Tablette aus Schale mit vielen bunten Medikamenten" style="width: 100%; height: auto; display: block;" />
     </div>
     
     <span class="article-category">Polypharmazie</span>
@@ -9984,7 +9984,7 @@ app.get('/', (c) => {
           
           <!-- Article 1: Polypharmazie -->
           <a href="/magazin/taeglich-5-tabletten" class="magazine-card scroll-animate-card">
-            <div class="magazine-card-image" style="background-image: url('/static/polypharmazie.jpg'); background-size: cover; background-position: center;"></div>
+            <div class="magazine-card-image" style="background-image: url('/static/medications-elderly-hand.jpg'); background-size: cover; background-position: center;"></div>
             <div class="magazine-card-content">
               <span class="magazine-card-category">Polypharmazie</span>
               <h3 class="magazine-card-title">Täglich 5 Tabletten oder mehr? Warum das gefährlich ist.</h3>
