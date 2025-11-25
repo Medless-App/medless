@@ -882,6 +882,403 @@ app.post('/api/analyze', async (c) => {
   }
 })
 
+// Magazine Article Route: Endocannabinoid-System erklärt
+app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Das Endocannabinoid-System: Dein körpereigenes Schutzschild – MEDLESS</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #0F5A46;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      font-size: 16px;
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #F3E8FF;
+      color: #7C3AED;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      color: #0F5A46;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      font-size: 19px;
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #0F5A46;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0F5A46;
+      margin-top: 56px;
+      margin-bottom: 24px;
+    }
+    
+    .article-content h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #0F5A46;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    
+    .article-content p {
+      margin-bottom: 24px;
+    }
+    
+    .article-content ul,
+    .article-content ol {
+      margin: 24px 0;
+      padding-left: 32px;
+    }
+    
+    .article-content li {
+      margin-bottom: 16px;
+    }
+    
+    .article-content strong {
+      color: #0F5A46;
+      font-weight: 600;
+    }
+    
+    .article-content em {
+      color: #6B7280;
+      font-style: italic;
+    }
+    
+    .article-content hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 48px 0;
+    }
+    
+    .cta-box {
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+      padding: 48px;
+      border-radius: 16px;
+      border-left: 5px solid #0F5A46;
+      margin: 64px 0;
+      text-align: center;
+    }
+    
+    .cta-box h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0F5A46;
+      margin: 0 0 16px 0;
+    }
+    
+    .cta-box p {
+      font-size: 17px;
+      color: #374151;
+      margin-bottom: 24px;
+    }
+    
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 32px;
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, #0E5A45, #10B981);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(14, 90, 69, 0.2);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(14, 90, 69, 0.3);
+    }
+    
+    footer {
+      background: linear-gradient(135deg, #0E5A45, #10B981);
+      padding: 60px 0 20px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      text-align: center;
+    }
+    
+    .footer-content p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    
+    @media (max-width: 768px) {
+      .header-nav {
+        display: none;
+      }
+      
+      .article-detail {
+        padding: 60px 24px;
+      }
+      
+      .article-content {
+        font-size: 17px;
+      }
+      
+      .cta-box {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="header-logo">
+        <span class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+        </span>
+      </a>
+      
+      <nav class="header-nav">
+        <a href="/#ueber-medless">Über MEDLESS</a>
+        <a href="/#funktionsweise">Funktionsweise</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Article Content -->
+  <article class="article-detail">
+    <span class="article-category">Wissen & Grundlagen</span>
+    <h1 class="article-title">Das Endocannabinoid-System: Dein körpereigenes Schutzschild (und warum kaum ein Arzt darüber spricht)</h1>
+    
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> Januar 2025</span>
+      <span><i class="far fa-clock"></i> 10 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
+      <p class="intro"><strong>Stell dir vor, du hättest ein System in deinem Körper, das Schmerz, Schlaf und Stimmung ganz ohne Tabletten regulieren kann. Gute Nachricht: Du hast es. Hier lernst du es kennen.</strong></p>
+
+      <hr>
+
+      <h2>Das System, von dem 99% noch nie gehört haben</h2>
+      <p>Dein Körper besitzt eine Art "inneren Apotheker". Ein System, das unermüdlich arbeitet, um dein Gleichgewicht zu halten. Es kann Schmerzen dämpfen, Ängste lösen und Entzündungen stoppen.</p>
+      <p>Es heißt: <strong>Das Endocannabinoid-System (ECS).</strong></p>
+      <p>Obwohl es eines der wichtigsten Systeme für unsere Gesundheit ist, kennt es kaum jemand. Warum?</p>
+      <ul>
+          <li><strong>Späte Entdeckung:</strong> Es wurde erst 1992 entdeckt (zum Vergleich: das Kreislaufsystem kennen wir seit dem 17. Jahrhundert).</li>
+          <li><strong>Das Stigma:</strong> Der Name erinnert an Cannabis. Das hat die Forschung lange behindert, obwohl das ECS auch völlig ohne Cannabis existiert und arbeitet.</li>
+      </ul>
+
+      <h2>Was macht das ECS eigentlich? (Die einfache Erklärung)</h2>
+      <p>Die Hauptaufgabe des ECS ist <strong>Homöostase</strong> – das biologische Gleichgewicht. Stell dir deinen Körper wie einen Hochseilartisten vor:</p>
+      <ul>
+          <li>Zu viel Stress? Das ECS beruhigt.</li>
+          <li>Zu viel Schmerz? Das ECS dämpft.</li>
+          <li>Zu viel Entzündung? Das ECS kühlt ab.</li>
+      </ul>
+      <p>Es ist der <strong>Dirigent</strong>, der dafür sorgt, dass alle anderen Systeme (Nerven, Hormone, Immunsystem) harmonisch zusammenspielen.</p>
+
+      <h2>Die 3 Bausteine: Wie es funktioniert</h2>
+      <p>Das ECS besteht aus drei Hauptkomponenten:</p>
+      <ol>
+          <li><strong>Die Botenstoffe (Endocannabinoide):</strong> Moleküle, die dein Körper selbst herstellt. Zum Beispiel <em>Anandamid</em> (das "Glücksmolekül"), das Stimmung und Wohlbefinden reguliert.</li>
+          <li><strong>Die Empfänger (Rezeptoren):</strong> Sie sitzen auf deinen Zellen. <strong>CB1-Rezeptoren</strong> sind vor allem im Gehirn (steuern Schmerz, Schlaf) und <strong>CB2-Rezeptoren</strong> im Immunsystem (steuern Entzündungen).</li>
+          <li><strong>Die Aufräumer (Enzyme):</strong> Sie bauen die Botenstoffe wieder ab, sobald die Arbeit erledigt ist.</li>
+      </ol>
+
+      <h2>Was das ECS alles kann (und warum du Medikamente nimmst)</h2>
+      <p>Jetzt wird es spannend: Das ECS reguliert genau die Bereiche, für die die meisten Menschen Medikamente nehmen.</p>
+      <ul>
+          <li><strong>Schmerz:</strong> Wenn du dich verletzt, dämpft das ECS das Signal. (Medikament: Ibuprofen, Opioide).</li>
+          <li><strong>Stimmung:</strong> Das ECS hilft, Ängste zu lösen. (Medikament: Antidepressiva).</li>
+          <li><strong>Schlaf:</strong> Es steuert den Schlaf-Wach-Rhythmus. (Medikament: Schlafmittel).</li>
+      </ul>
+      <p><strong>Die MedLess-Erkenntnis:</strong> Wenn wir das ECS stärken, kann der Körper diese Aufgaben oft wieder besser selbst erledigen – und wir brauchen weniger Chemie von außen.</p>
+
+      <h2>Wie du dein ECS natürlich stärkst</h2>
+      <p>Du kannst dein ECS trainieren wie einen Muskel. Hier sind die besten Methoden:</p>
+      <ul>
+          <li>🏃 <strong>Bewegung ("Runner's High"):</strong> 30 Minuten moderates Ausdauertraining fluten dein Gehirn mit körpereigenen Glücksbotenstoffen (Anandamid).</li>
+          <li>🐟 <strong>Ernährung (Omega-3):</strong> Endocannabinoide werden aus Fett gebaut. Ohne Omega-3-Fettsäuren (Walnüsse, Fischöl) kann dein Körper sie nicht herstellen.</li>
+          <li>❄️ <strong>Kälte:</strong> Kurze, kalte Duschen aktivieren das ECS und erhöhen die Anzahl der Rezeptoren.</li>
+          <li>🌿 <strong>Phyto-Cannabinoide (CBD):</strong> Pflanzliche Cannabinoide können dem ECS helfen, indem sie den Abbau der körpereigenen Botenstoffe verlangsamen. So bleibt dein "Schutzschild" länger aktiv.</li>
+      </ul>
+
+      <h2>Warum das ECS beim Absetzen von Medikamenten hilft</h2>
+      <p>Wenn du Medikamente nimmst, fährt der Körper oft seine eigene Regulation herunter. Wenn du das Medikament absetzt, entsteht eine Lücke – das nennt man Entzug oder Rebound.</p>
+      <p><strong>Hier kommt das ECS ins Spiel:</strong> Indem wir das ECS gezielt unterstützen, füllen wir diese Lücke auf natürliche Weise. Der Übergang wird sanfter, und Symptome wie Schlaflosigkeit oder Unruhe werden abgefedert.</p>
+
+      <!-- CTA Box -->
+      <div class="cta-box">
+          <h3>Nutze deine innere Apotheke</h3>
+          <p>Dein Körper ist keine defekte Maschine. Er besitzt ein mächtiges System zur Selbstregulation. Willst du wissen, wie stark dein ECS ist und wie es dir beim Reduzieren helfen kann?</p>
+          <a href="/#planner-section" class="btn-primary">
+            Jetzt kostenlose Analyse starten ➔
+          </a>
+      </div>
+
+      <hr>
+
+      <h3>Quellen & Referenzen</h3>
+      <ul style="font-size: 0.9rem; color: #666;">
+          <li><strong>Biological Psychiatry (2016):</strong> "An Introduction to the Endogenous Cannabinoid System".</li>
+          <li><strong>Pharmacological Reviews (2006):</strong> "The Endocannabinoid System as an Emerging Target".</li>
+          <li><strong>PNAS (2015):</strong> "A runner's high depends on cannabinoid receptors".</li>
+          <li><strong>Drugcom (BZgA):</strong> "Endocannabinoid-System".</li>
+      </ul>
+      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information. Er ersetzt keine ärztliche Beratung.</em></p>
+    </div>
+  </article>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
+  `)
+})
+
 // Magazine Article Route: Medikamente absetzen - 7 Fehler
 app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
   return c.html(`
@@ -1267,6 +1664,441 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
           <li><strong>CHIP (2025):</strong> "Rebound-Effekt: Diese Medikamente niemals abrupt absetzen".</li>
       </ul>
       <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information und ersetzt keine ärztliche Beratung. Bei Notfällen wählen Sie 112.</em></p>
+    </div>
+  </article>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
+  `)
+})
+
+// Magazine Article Route: Endocannabinoid-System
+app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Das Endocannabinoid-System: Dein körpereigenes Schutzschild – MEDLESS</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #0F5A46;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      font-size: 16px;
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #FEF3C7;
+      color: #92400E;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      color: #0F5A46;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      font-size: 19px;
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #0F5A46;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0F5A46;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    
+    .article-content h3 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #1F2937;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+    
+    .article-content p {
+      margin-bottom: 20px;
+    }
+    
+    .article-content ul {
+      margin: 24px 0 24px 24px;
+      list-style-type: disc;
+    }
+    
+    .article-content li {
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+    
+    .article-content li strong {
+      color: #1F2937;
+    }
+    
+    .article-content strong {
+      font-weight: 600;
+      color: #0F5A46;
+    }
+    
+    .cta-box {
+      background: linear-gradient(135deg, #0F5A46 0%, #1DB98D 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 12px;
+      margin: 48px 0;
+      text-align: center;
+    }
+    
+    .cta-box h3 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: white;
+    }
+    
+    .cta-box p {
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+      opacity: 0.95;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background: white;
+      color: #0F5A46;
+      padding: 14px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    footer {
+      background: #F9FAFB;
+      border-top: 1px solid #E5E7EB;
+      padding: 48px 32px;
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: #6B7280;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .article-detail {
+        padding: 48px 24px;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 16px 20px;
+      }
+      
+      .header-nav {
+        gap: 16px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <a href="/" class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+        </a>
+      </div>
+      <nav class="header-nav">
+        <a href="/#about">Über MEDLESS</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#contact">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Article Detail -->
+  <article class="article-detail">
+    
+    <span class="article-category">Wissen & Grundlagen</span>
+    
+    <h1 class="article-title">
+      Das Endocannabinoid-System: Dein körpereigenes Schutzschild
+    </h1>
+    
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> 10. Januar 2025</span>
+      <span><i class="far fa-clock"></i> 6 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
+      
+      <p class="intro">
+        Stell dir vor, dein Körper hätte eine eigene Apotheke gegen Schmerz, Stress und Entzündungen – eine biologische Schutzinstanz, die rund um die Uhr arbeitet, ohne dass du es merkst. Die gute Nachricht: Du hast sie bereits. Sie heißt <strong>Endocannabinoid-System (ECS)</strong>.
+      </p>
+      
+      <p>
+        Trotz seiner zentralen Rolle ist das ECS eines der am wenigsten bekannten Körpersysteme – selbst vielen Ärzten. Warum? Weil es erst in den 1990er Jahren entdeckt wurde. Seitdem gilt es als <strong>Regulationssystem des Körpers</strong>, das alles von Schmerzwahrnehmung bis Stimmung beeinflusst.
+      </p>
+      
+      <h2>Was ist das Endocannabinoid-System?</h2>
+      
+      <p>
+        Das ECS ist ein <strong>körpereigenes Netzwerk aus Botenstoffen und Rezeptoren</strong>, das als Frühwarnsystem und Reparaturmechanismus dient. Es besteht aus drei Hauptkomponenten:
+      </p>
+      
+      <ul>
+        <li><strong>Endocannabinoide</strong> (körpereigene Botenstoffe wie Anandamid und 2-AG)</li>
+        <li><strong>Rezeptoren</strong> (CB1 im Gehirn/Nervensystem, CB2 im Immunsystem)</li>
+        <li><strong>Enzyme</strong>, die Endocannabinoide auf- und abbauen</li>
+      </ul>
+      
+      <p>
+        Wenn dein Körper aus dem Gleichgewicht gerät – etwa durch Stress, Schmerz oder Entzündungen – aktiviert das ECS seine „Notfall-Apotheke" und stellt gezielt Endocannabinoide her. Diese docken an Rezeptoren an und bringen dich zurück in Balance. Mediziner nennen das <strong>Homöostase</strong>.
+      </p>
+      
+      <h2>Warum ist das ECS so wichtig?</h2>
+      
+      <p>
+        Das Endocannabinoid-System reguliert fundamentale Körperfunktionen:
+      </p>
+      
+      <ul>
+        <li><strong>Schmerzverarbeitung</strong> – Es dämpft Schmerzsignale im Nervensystem</li>
+        <li><strong>Entzündungsreaktionen</strong> – Es bremst überschießende Immunantworten</li>
+        <li><strong>Stressregulation</strong> – Es moduliert Angst und emotionale Belastung</li>
+        <li><strong>Schlaf-Wach-Rhythmus</strong> – Es steuert den zirkadianen Rhythmus</li>
+        <li><strong>Appetit & Verdauung</strong> – Es beeinflusst Hunger und Darmfunktion</li>
+        <li><strong>Gedächtnis & Lernen</strong> – Es schützt Nervenzellen vor Überlastung</li>
+      </ul>
+      
+      <p>
+        Forscher sprechen mittlerweile von einer <strong>„Endocannabinoid-Defizienz"</strong> als möglicher Ursache für chronische Schmerzen, Migräne, Fibromyalgie und Reizdarmsyndrom.
+      </p>
+      
+      <h2>Wie CBD das Endocannabinoid-System unterstützt</h2>
+      
+      <p>
+        Hier wird es spannend: <strong>CBD (Cannabidiol)</strong> aus der Hanfpflanze interagiert direkt mit dem ECS – allerdings anders, als viele denken.
+      </p>
+      
+      <p>
+        CBD dockt nicht direkt an CB1- oder CB2-Rezeptoren an. Stattdessen:
+      </p>
+      
+      <ul>
+        <li><strong>Hemmt Enzyme</strong>, die körpereigene Endocannabinoide abbauen → mehr eigene Botenstoffe bleiben verfügbar</li>
+        <li><strong>Aktiviert zusätzliche Rezeptoren</strong> (z.B. Serotonin-Rezeptoren 5-HT1A für Stimmungsregulation)</li>
+        <li><strong>Reduziert chronische Entzündungen</strong>, indem es das Immunsystem moduliert</li>
+        <li><strong>Schützt Nervenzellen</strong> vor oxidativem Stress und Übererregung</li>
+      </ul>
+      
+      <p>
+        Das Ergebnis: Dein ECS arbeitet effizienter – ohne dass CBD dich „high" macht (das tut nur THC, das direkt an CB1-Rezeptoren bindet).
+      </p>
+      
+      <h2>Der Zusammenhang mit Medikamentenreduktion</h2>
+      
+      <p>
+        Viele chronische Medikamente (Schmerzmittel, Antidepressiva, Schlaftabletten) greifen in dieselben Körperfunktionen ein, die das ECS steuert – oft mit Nebenwirkungen und Abhängigkeitsrisiko.
+      </p>
+      
+      <p>
+        Wenn du dein ECS durch CBD unterstützt, kann dein Körper möglicherweise:
+      </p>
+      
+      <ul>
+        <li>Schmerzen besser selbst regulieren → weniger Schmerzmittel nötig</li>
+        <li>Stress und Angst natürlicher abbauen → niedrigere Antidepressiva-Dosis</li>
+        <li>Schlaf ohne chemische Einschlafhilfen finden → Ausschleichen von Z-Drugs</li>
+      </ul>
+      
+      <p>
+        <strong>Wichtig:</strong> CBD ist kein „Ersatz" für Medikamente, sondern ein <strong>modulierender Begleiter</strong>, der deinem Körper hilft, wieder selbst zu regulieren – was langfristig Medikamentendosen reduzieren kann.
+      </p>
+      
+      <h2>Warum spricht niemand darüber?</h2>
+      
+      <p>
+        Das ECS wurde erst 1992 entdeckt – zu spät für die meisten medizinischen Lehrpläne. Hinzu kommt die Stigmatisierung von Cannabis, die jahrzehntelang auch CBD-Forschung blockierte.
+      </p>
+      
+      <p>
+        Heute gibt es über 30.000 wissenschaftliche Studien zum ECS – aber das Wissen ist noch nicht in der Praxis angekommen. Das ändert sich gerade, langsam aber sicher.
+      </p>
+      
+      <div class="cta-box">
+        <h3>Unterstütze dein Endocannabinoid-System intelligent</h3>
+        <p>
+          Erfahre in unserer kostenlosen Analyse, wie CBD gezielt dein ECS aktivieren und deine Medikation langfristig reduzieren kann – mit einem individuellen 8-Wochen-Plan.
+        </p>
+        <a href="/#start-analysis" class="cta-button">Kostenlos Analyse starten</a>
+      </div>
+      
+      <h2>Fazit: Dein Körper kann mehr, als du denkst</h2>
+      
+      <p>
+        Das Endocannabinoid-System ist kein esoterisches Konzept, sondern <strong>messbare Biologie</strong>. Es ist dein körpereigenes Schutzschild gegen Schmerz, Stress und Entzündungen – und es funktioniert besser, wenn du es unterstützt.
+      </p>
+      
+      <p>
+        CBD gibt deinem ECS die Werkzeuge zurück, die es braucht, um dich selbst zu regulieren – ohne Abhängigkeiten, ohne High, ohne Nebenwirkungen schwerer Medikamente.
+      </p>
+      
+      <p>
+        <strong>Die Frage ist nicht, ob dein Körper das kann. Die Frage ist: Gibst du ihm die Chance?</strong>
+      </p>
+      
+      <hr style="border: none; border-top: 1px solid #E5E7EB; margin: 48px 0;" />
+      
+      <h3 style="font-size: 1rem; font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Weiterführende Literatur</h3>
+      <ul style="font-size: 0.9rem; color: #6B7280;">
+          <li><strong>Russo, E.B. (2016):</strong> "Clinical Endocannabinoid Deficiency Reconsidered" – Cannabis and Cannabinoid Research.</li>
+          <li><strong>Lu, H.C. & Mackie, K. (2016):</strong> "An Introduction to the Endogenous Cannabinoid System" – Biological Psychiatry.</li>
+          <li><strong>Pacher, P. et al. (2006):</strong> "The Endocannabinoid System as an Emerging Target of Pharmacotherapy" – Pharmacological Reviews.</li>
+          <li><strong>Blessing, E.M. et al. (2015):</strong> "Cannabidiol as a Potential Treatment for Anxiety Disorders" – Neurotherapeutics.</li>
+      </ul>
+      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information und ersetzt keine ärztliche Beratung. Jede Medikamentenänderung muss ärztlich begleitet werden.</em></p>
     </div>
   </article>
   
@@ -7584,14 +8416,14 @@ app.get('/', (c) => {
             </div>
           </a>
           
-          <!-- Placeholder Article 3 -->
-          <a href="#" class="magazine-card scroll-animate-card">
-            <div class="magazine-card-image"></div>
+          <!-- Article 3: Endocannabinoid-System -->
+          <a href="/magazin/endocannabinoid-system-erklaert" class="magazine-card scroll-animate-card">
+            <div class="magazine-card-image" style="background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%);"></div>
             <div class="magazine-card-content">
-              <span class="magazine-card-category">Wechselwirkungen</span>
-              <h3 class="magazine-card-title">CBD und Medikamente: Was Sie wissen müssen</h3>
+              <span class="magazine-card-category">Wissen & Grundlagen</span>
+              <h3 class="magazine-card-title">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h3>
               <p class="magazine-card-excerpt">
-                Welche Wechselwirkungen zwischen CBD und gängigen Medikamenten sind bekannt? Ein Überblick.
+                Stell dir vor, dein Körper hätte eine eigene Apotheke gegen Schmerz und Stress. Gute Nachricht: Du hast sie. Lerne dein ECS kennen.
               </p>
               <span class="magazine-card-link">
                 Artikel lesen
