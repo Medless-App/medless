@@ -1579,6 +1579,11 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
   
   <!-- Article Content -->
   <article class="article-detail">
+    <!-- Header Image -->
+    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <img src="/static/artikel2-medikamente-absetzen.jpg" alt="Gestresste Person mit Kopfschmerzen und Medikamenten - Rebound-Effekt beim Absetzen" style="width: 100%; height: auto; display: block;" />
+    </div>
+    
     <span class="article-category">Sicherheit & Praxis</span>
     <h1 class="article-title">Medikamente absetzen: Die 7 gefährlichsten Fehler (und wie du sie vermeidest)</h1>
     
@@ -10000,7 +10005,7 @@ app.get('/', (c) => {
           
           <!-- Article 2: Medikamente absetzen -->
           <a href="/magazin/medikamente-absetzen-7-fehler" class="magazine-card scroll-animate-card">
-            <div class="magazine-card-image" style="background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);"></div>
+            <div class="magazine-card-image" style="background-image: url('/static/artikel2-medikamente-absetzen.jpg'); background-size: cover; background-position: center;"></div>
             <div class="magazine-card-content">
               <span class="magazine-card-category">Sicherheit & Praxis</span>
               <h3 class="magazine-card-title">Medikamente absetzen: Die 7 gefährlichsten Fehler</h3>
