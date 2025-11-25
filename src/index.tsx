@@ -3657,10 +3657,20 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       <h3>Die "Jeden-zweiten-Tag"-Methode</h3>
       <p>Ein bewährter Trick ist, die Dosis nicht sofort zu halbieren, sondern die Einnahme-Intervalle zu strecken.</p>
       <ol>
-          <li><strong>Schritt 1:</strong> Nimm die Tablette nur noch jeden 2. Tag (für 2 Wochen). An den Pausen-Tagen kannst du bei Bedarf ein mildes Antazidum (z.B. Rennie oder Talcid) nehmen.</li>
+          <li><strong>Schritt 1:</strong> Nimm die Tablette nur noch <strong>jeden 2. Tag</strong> (für 2-4 Wochen).</li>
+          <li><strong>Die Brücke:</strong> An den "Pausen-Tagen" kannst du bei Bedarf ein mildes Antazidum (z.B. Rennie, Talcid oder Heilerde) nehmen. Das neutralisiert die Säure, ohne die Pumpen zu beeinflussen.</li>
           <li><strong>Schritt 2:</strong> Reduziere auf jeden 3. Tag.</li>
           <li><strong>Schritt 3:</strong> Versuche es ganz ohne.</li>
       </ol>
+      
+      <h2>5 natürliche Alternativen bei akutem Brennen</h2>
+      <p>Wenn es brennt, musst du nicht leiden. Diese Hausmittel helfen oft sofort:</p>
+      <ul>
+          <li><strong>Heilerde:</strong> Bindet überschüssige Säure wie ein Schwamm.</li>
+          <li><strong>Mandeln:</strong> 5-6 Mandeln sehr lange kauen, bis ein Brei entsteht.</li>
+          <li><strong>Kartoffelsaft:</strong> Wirkt stark basisch.</li>
+          <li><strong>Kaugummi:</strong> Regt den Speichelfluss an, was die Säure in der Speiseröhre neutralisiert.</li>
+      </ul>
       
       <h2>Wie dir MedLess und das ECS dabei helfen</h2>
       <p>Auch hier spielt dein <strong>Endocannabinoid-System (ECS)</strong> eine spannende Rolle. Es reguliert nämlich nicht nur Schmerz, sondern auch die Verdauung und Entzündungen im Magen-Darm-Trakt.</p>
@@ -3681,7 +3691,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
           <li><strong>Ärzteblatt:</strong> "Langzeitrisiken von Protonenpumpeninhibitoren".</li>
           <li><strong>Apotheken Umschau:</strong> "Magenschutz richtig absetzen".</li>
       </ul>
-      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel ersetzt keine ärztliche Beratung. Bei starken Magenschmerzen oder Vorerkrankungen (z.B. Barett-Ösophagus) niemals ohne Arzt absetzen.</em></p>
+      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel ersetzt keine ärztliche Beratung. Bei starken Magenschmerzen, Blut im Stuhl oder Vorerkrankungen (z.B. Barrett-Ösophagus) niemals ohne Arzt absetzen.</em></p>
     </div>
   </article>
   
