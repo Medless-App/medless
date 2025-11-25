@@ -2931,6 +2931,392 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
   `)
 })
 
+// Magazine Article Route: CBD Studien und Fakten
+app.get('/magazin/cbd-studien-und-fakten', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CBD bei Medikamentenreduktion: Was die Wissenschaft wirklich sagt – MEDLESS</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #0F5A46;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      font-size: 16px;
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #D1FAE5;
+      color: #065F46;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      color: #0F5A46;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      font-size: 19px;
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #0F5A46;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0F5A46;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    
+    .article-content h3 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #1F2937;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+    
+    .article-content p {
+      margin-bottom: 20px;
+    }
+    
+    .article-content ul,
+    .article-content ol {
+      margin: 24px 0 24px 24px;
+    }
+    
+    .article-content ul {
+      list-style-type: disc;
+    }
+    
+    .article-content ol {
+      list-style-type: decimal;
+    }
+    
+    .article-content li {
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+    
+    .article-content li strong {
+      color: #1F2937;
+    }
+    
+    .article-content strong {
+      font-weight: 600;
+      color: #0F5A46;
+    }
+    
+    .article-content em {
+      font-style: italic;
+      color: #6B7280;
+    }
+    
+    .article-content hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 48px 0;
+    }
+    
+    .cta-box {
+      background: linear-gradient(to right, #f0fdf4, #dcfce7);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 40px 0;
+      border-left: 5px solid #0F5A46;
+    }
+    
+    .cta-box h3 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: #0F5A46;
+    }
+    
+    .cta-box p {
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+      color: #374151;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      background-color: #0F5A46;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 90, 70, 0.3);
+    }
+    
+    footer {
+      background: #F9FAFB;
+      border-top: 1px solid #E5E7EB;
+      padding: 48px 32px;
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: #6B7280;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .article-detail {
+        padding: 48px 24px;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 16px 20px;
+      }
+      
+      .header-nav {
+        gap: 16px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <a href="/" class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+        </a>
+      </div>
+      <nav class="header-nav">
+        <a href="/#about">Über MEDLESS</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#contact">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Article Detail -->
+  <article class="article-detail">
+    
+    <span class="article-category">Wissenschaft & Fakten</span>
+    
+    <h1 class="article-title">CBD bei Medikamentenreduktion: Was die Wissenschaft wirklich sagt (Studien 2025)</h1>
+    
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> 18. Januar 2025</span>
+      <span><i class="far fa-clock"></i> 6 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
+      
+      <p class="intro">
+        <strong>Überall hörst du: "CBD ist das neue Wundermittel". Doch was stimmt davon? Erfahre, wie CBD dir beim Absetzen von Medikamenten helfen kann – und wo die Risiken liegen.</strong>
+      </p>
+      
+      <hr>
+      
+      <h2>Zwischen Hype und Realität</h2>
+      <p>Die Schlagzeilen überschlagen sich: "Schmerzfrei ohne Chemie!", "Endlich besser schlafen!". Doch zwischen Marketing-Versprechen und echter Wissenschaft klafft oft eine Lücke.</p>
+      <p>Die Wahrheit ist: <strong>CBD (Cannabidiol) ist kein Allheilmittel.</strong> Es ersetzt keinen Arzt und keine lebenswichtigen Medikamente. <strong>Aber:</strong> Hunderte Studien zeigen inzwischen, dass es eine extrem wertvolle Unterstützung sein kann, wenn man Medikamente reduzieren möchte.</p>
+      
+      <h2>Was ist CBD eigentlich? (Der 2-Minuten-Crashkurs)</h2>
+      <p>CBD ist einer von über 100 Wirkstoffen aus der Hanfpflanze. Der wichtigste Unterschied zu THC (dem "Kiffer-Wirkstoff"): <strong>CBD macht nicht high.</strong></p>
+      <ul>
+          <li>Es ist nicht psychoaktiv.</li>
+          <li>Es macht nicht abhängig.</li>
+          <li>Die WHO (Weltgesundheitsorganisation) stuft es als sicher ein.</li>
+      </ul>
+      <p><strong>Wie es wirkt:</strong> Es dockt nicht direkt an deine Zellen an, sondern moduliert dein körpereigenes <strong>Endocannabinoid-System (ECS)</strong>. Es hilft dem Körper, sich selbst wieder ins Gleichgewicht zu bringen.</p>
+      
+      <h2>Das sagen die Studien: Wo CBD wirklich hilft</h2>
+      
+      <h3>1. Bei Schmerzen (Opioid-Ersparnis)</h3>
+      <p>Das ist das stärkste Feld der Forschung. Studien zeigen, dass Patienten, die Cannabis-Medikamente nutzen, ihren Verbrauch an starken Schmerzmitteln (Opioiden) massiv senken können.</p>
+      <p><em>Das Ergebnis: Weniger Schmerzmittel nötig = weniger Nebenwirkungen, weniger Abhängigkeit.</em> (Quelle: Deutsche Gesellschaft für Schmerzmedizin)</p>
+      
+      <h3>2. Bei Angst & Stress</h3>
+      <p>CBD dämpft die Reaktion des Körpers auf Stresshormone. Der Vorteil: Im Gegensatz zu Beruhigungsmitteln (Benzodiazepinen) macht es nicht süchtig und führt nicht zu einer Toleranzentwicklung.</p>
+      
+      <h3>3. Bei Entzündungen</h3>
+      <p>CBD wirkt entzündungshemmend, ähnlich wie Ibuprofen, aber über einen anderen Mechanismus. Das macht es interessant für Rheuma- oder Arthrose-Patienten, die ihren Magen schonen wollen.</p>
+      
+      <h2>Vorsicht: Der "Elefant im Raum" (Wechselwirkungen)</h2>
+      <p>CBD ist natürlich, aber nicht harmlos. Es wird in der Leber über das gleiche Enzym-System abgebaut wie viele Medikamente (das <strong>Cytochrom P450</strong> System).</p>
+      <p><strong>Das Problem:</strong> Wenn CBD diese Enzyme "beschäftigt", können andere Medikamente nicht richtig abgebaut werden. Ihr Spiegel im Blut steigt.</p>
+      <p><strong>Besondere Vorsicht bei:</strong></p>
+      <ul>
+          <li>Blutverdünnern (Marcumar)</li>
+          <li>Bestimmten Antidepressiva</li>
+          <li>Herzmedikamenten (Betablockern)</li>
+      </ul>
+      <p><strong>Die MedLess-Regel:</strong> <em>Nimmst du Medikamente? Dann sprich VOR der CBD-Einnahme immer mit deinem Arzt!</em></p>
+      
+      <h2>Die Rechtslage: Ist das legal?</h2>
+      <p>In Deutschland ist CBD <strong>legal</strong>, solange der THC-Gehalt unter 0,2% (bzw. 0,3%) liegt. Es ist als Öl oder Kapsel meist frei verkäuflich, höher dosierte Präparate sind apothekenpflichtig.</p>
+      
+      <div class="cta-box">
+          <h3>Passt CBD zu deinen Medikamenten?</h3>
+          <p>CBD kann ein starker Hebel sein, um von Chemie loszukommen – aber nur, wenn es sicher kombiniert wird. Möchtest du prüfen, ob CBD in deinen persönlichen Reduktionsplan passen könnte?</p>
+          <br>
+          <a href="/#start-analysis" class="btn-primary">Jetzt kostenlose KI-Analyse starten ➔</a>
+      </div>
+      
+      <hr>
+      
+      <h3 style="font-size: 1rem; font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <ul style="font-size: 0.9rem; color: #6B7280;">
+          <li><strong>Deutsche Gesellschaft für Schmerzmedizin (2024):</strong> "Reduzierter Opioid-Verbrauch durch Cannabinoide".</li>
+          <li><strong>Springer Medizin (2022):</strong> "Cannabinoide reduzieren Opioidverbrauch".</li>
+          <li><strong>Ärzteblatt:</strong> "Interaktionspotenzial der Cannabinoide".</li>
+          <li><strong>WHO:</strong> "Cannabidiol (CBD) Critical Review Report".</li>
+      </ul>
+      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Beratung. CBD kann Wechselwirkungen mit Medikamenten haben. Sprechen Sie immer mit Ihrem Arzt.</em></p>
+    </div>
+  </article>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
+  `)
+})
+
 // Magazine Article Route: Täglich 5 Tabletten
 app.get('/magazin/taeglich-5-tabletten', (c) => {
   return c.html(`
@@ -9272,6 +9658,22 @@ app.get('/', (c) => {
               <h3 class="magazine-card-title">Schlaftabletten loswerden: Endlich wieder natürlich einschlafen</h3>
               <p class="magazine-card-excerpt">
                 Jede Nacht dasselbe Spiel: Ohne Tablette keine Ruhe. Erfahre, wie du die Abhängigkeit durchbrichst und deinem Körper den natürlichen Schlaf zurückgibst.
+              </p>
+              <span class="magazine-card-link">
+                Artikel lesen
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+          
+          <!-- Article 6: CBD Studien und Fakten -->
+          <a href="/magazin/cbd-studien-und-fakten" class="magazine-card scroll-animate-card">
+            <div class="magazine-card-image" style="background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);"></div>
+            <div class="magazine-card-content">
+              <span class="magazine-card-category" style="background: #D1FAE5; color: #065F46;">Wissenschaft & Fakten</span>
+              <h3 class="magazine-card-title">CBD bei Medikamentenreduktion: Was die Wissenschaft wirklich sagt</h3>
+              <p class="magazine-card-excerpt">
+                Überall hörst du: "CBD ist das neue Wundermittel". Doch was stimmt davon? Wir checken die aktuelle Studienlage (2025) und klären über Risiken auf.
               </p>
               <span class="magazine-card-link">
                 Artikel lesen
