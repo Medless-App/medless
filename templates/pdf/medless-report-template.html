@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEDLESS Cannabinoid-Balance-Plan</title>
+  <style>
+    /* ============================================================
+       MEDLESS PDF TEMPLATE - Professional Medical Report
+       Version: 1.0.0
+       Date: 2025-11-25
+       ============================================================ */
+    
+    @page {
+      size: A4;
+      margin: 15mm;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.6;
+      color: #1F2937;
+      background: #FFFFFF;
+    }
+    
+    /* ============================================================
+       PAGE BREAK CONTROLS
+       ============================================================ */
+    
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+    
+    .no-break {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    
+    /* ============================================================
+       HEADER STYLING
+       ============================================================ */
+    
+    .header {
+      text-align: center;
+      padding: 30px 0;
+      border-bottom: 3px solid #10B981;
+      margin-bottom: 30px;
+    }
+    
+    .logo-placeholder {
+      width: 180px;
+      height: 60px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    
+    .main-title {
+      font-size: 28pt;
+      font-weight: bold;
+      color: #059669;
+      margin-bottom: 15px;
+      letter-spacing: -0.5px;
+    }
+    
+    .subtitle {
+      font-size: 14pt;
+      color: #6B7280;
+      font-weight: 300;
+    }
+    
+    /* ============================================================
+       SECTION STYLING
+       ============================================================ */
+    
+    .section {
+      margin-bottom: 30px;
+    }
+    
+    .section-title {
+      font-size: 18pt;
+      font-weight: bold;
+      color: #059669;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #D1FAE5;
+    }
+    
+    .subsection-title {
+      font-size: 14pt;
+      font-weight: 600;
+      color: #047857;
+      margin: 20px 0 10px 0;
+    }
+    
+    /* ============================================================
+       CONTENT BOXES
+       ============================================================ */
+    
+    .info-box {
+      background: #F9FAFB;
+      border-left: 4px solid #10B981;
+      padding: 15px 20px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+    
+    .warning-box {
+      background: #FEF3C7;
+      border-left: 4px solid #F59E0B;
+      padding: 15px 20px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+    
+    .danger-box {
+      background: #FEE2E2;
+      border-left: 4px solid #DC2626;
+      padding: 15px 20px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+    
+    /* ============================================================
+       DATA TABLES
+       ============================================================ */
+    
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .data-table th {
+      background: #10B981;
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 10pt;
+    }
+    
+    .data-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .data-table tr:nth-child(even) {
+      background: #F9FAFB;
+    }
+    
+    /* ============================================================
+       LISTS
+       ============================================================ */
+    
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .checklist li {
+      padding: 8px 0 8px 30px;
+      position: relative;
+    }
+    
+    .checklist li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #10B981;
+      font-weight: bold;
+      font-size: 14pt;
+    }
+    
+    .bullet-list {
+      padding-left: 20px;
+      margin: 10px 0;
+    }
+    
+    .bullet-list li {
+      margin: 5px 0;
+    }
+    
+    /* ============================================================
+       METADATA / PATIENT INFO
+       ============================================================ */
+    
+    .metadata {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .meta-item {
+      padding: 12px;
+      background: #F9FAFB;
+      border-radius: 6px;
+      border: 1px solid #E5E7EB;
+    }
+    
+    .meta-label {
+      font-size: 9pt;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+    
+    .meta-value {
+      font-size: 13pt;
+      font-weight: 600;
+      color: #1F2937;
+    }
+    
+    /* ============================================================
+       DRUG CARD (for medication list)
+       ============================================================ */
+    
+    .drug-card {
+      background: white;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .drug-card-header {
+      font-size: 13pt;
+      font-weight: bold;
+      color: #047857;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #D1FAE5;
+    }
+    
+    .drug-card-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+    
+    .drug-card-label {
+      font-weight: 600;
+      color: #6B7280;
+      flex: 0 0 40%;
+    }
+    
+    .drug-card-value {
+      color: #1F2937;
+      flex: 1;
+    }
+    
+    /* ============================================================
+       RISK BADGES
+       ============================================================ */
+    
+    .risk-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 9pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .risk-low {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+    
+    .risk-medium {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+    
+    .risk-high {
+      background: #FECACA;
+      color: #991B1B;
+    }
+    
+    .risk-critical {
+      background: #FEE2E2;
+      color: #7F1D1D;
+      border: 2px solid #DC2626;
+    }
+    
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #E5E7EB;
+      font-size: 9pt;
+      color: #6B7280;
+      text-align: center;
+    }
+    
+    /* ============================================================
+       UTILITY CLASSES
+       ============================================================ */
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .text-right {
+      text-align: right;
+    }
+    
+    .text-muted {
+      color: #6B7280;
+    }
+    
+    .text-bold {
+      font-weight: 600;
+    }
+    
+    .mt-1 { margin-top: 10px; }
+    .mt-2 { margin-top: 20px; }
+    .mt-3 { margin-top: 30px; }
+    
+    .mb-1 { margin-bottom: 10px; }
+    .mb-2 { margin-bottom: 20px; }
+    .mb-3 { margin-bottom: 30px; }
+    
+    /* ============================================================
+       PRINT OPTIMIZATION
+       ============================================================ */
+    
+    @media print {
+      body {
+        background: white;
+      }
+      
+      .page-break {
+        page-break-after: always;
+      }
+      
+      .no-break {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       TEIL 1: PATIENTEN-PLAN (PATIENT SUMMARY)
+       ============================================================ -->
+
+  <!-- SEITE 1: TITELSEITE -->
+  <div class="page-break">
+    <div class="header">
+      <div class="logo-placeholder">
+        {{logo}}
+      </div>
+      <h1 class="main-title">MEDLESS Cannabinoid-Balance-Plan</h1>
+      <p class="subtitle">Personalisierter Dosierplan & Medikamenteninteraktionsbericht</p>
+    </div>
+
+    <div class="section" style="margin-top: 100px;">
+      <div class="metadata">
+        <div class="meta-item">
+          <div class="meta-label">Patient</div>
+          <div class="meta-value">{{patientName}}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Datum</div>
+          <div class="meta-value">{{date}}</div>
+        </div>
+      </div>
+
+      <div class="warning-box mt-3">
+        <p><strong>⚠️ Wichtiger Hinweis</strong></p>
+        <p>Dieser Plan wurde automatisch anhand Ihrer Angaben erstellt und ersetzt keine medizinische Beratung. Bitte konsultieren Sie vor Beginn der Einnahme Ihren Arzt oder Apotheker.</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>MEDLESS - Medikamentenreduktion mit Verstand</p>
+      <p>Generiert am {{date}}</p>
+    </div>
+  </div>
+
+  <!-- SEITE 2: PERSÖNLICHE DATEN -->
+  <div class="page-break">
+    <div class="header">
+      <h2 class="section-title">Persönliche Angaben</h2>
+    </div>
+
+    <div class="section">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Wert</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Alter</strong></td>
+            <td>{{age}} Jahre</td>
+          </tr>
+          <tr>
+            <td><strong>Gewicht</strong></td>
+            <td>{{weight}} kg</td>
+          </tr>
+          <tr>
+            <td><strong>Körpergröße</strong></td>
+            <td>{{height}} cm</td>
+          </tr>
+          <tr>
+            <td><strong>Body Mass Index (BMI)</strong></td>
+            <td>{{bmi}}</td>
+          </tr>
+          <tr>
+            <td><strong>Körperoberfläche (BSA)</strong></td>
+            <td>{{bsa}} m²</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box mt-3">
+        <h3 class="subsection-title">Relevante Angaben</h3>
+        <p>{{lifestyle}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEITE 3: DOSIERPLAN -->
+  <div class="page-break">
+    <div class="header">
+      <h2 class="section-title">Ihr Cannabinoid-Dosierplan</h2>
+    </div>
+
+    <div class="section">
+      <div class="info-box">
+        <h3 class="subsection-title">Produktinformation</h3>
+        <p><strong>Produktname:</strong> {{product}}</p>
+        <p><strong>Startdosierung:</strong> {{startDose}} mg</p>
+      </div>
+
+      <h3 class="subsection-title mt-3">Empfohlener Steigerungsplan</h3>
+      <div class="info-box">
+        {{titrationPlan}}
+      </div>
+
+      <h3 class="subsection-title mt-3">Tagesdosierung</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Tageszeit</th>
+            <th>Dosierung</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{dailyDosing}}
+        </tbody>
+      </table>
+
+      <h3 class="subsection-title mt-3">Erwartete Effekte in den ersten Tagen</h3>
+      <div class="info-box">
+        {{expectedEffects}}
+      </div>
+    </div>
+  </div>
+
+  <!-- SEITE 4: SICHERHEIT & HINWEISE -->
+  <div class="page-break">
+    <div class="header">
+      <h2 class="section-title">Wichtige Hinweise zur Sicherheit</h2>
+    </div>
+
+    <div class="section">
+      <div class="danger-box">
+        <h3 class="subsection-title">⚠️ Wichtige Warnhinweise</h3>
+        <ul class="checklist mt-2">
+          <li>Nicht mit Alkohol kombinieren</li>
+          <li>Nicht aktiv am Straßenverkehr teilnehmen, bis Sie wissen, wie Sie reagieren</li>
+          <li>Bei Schwindel, Atemnot, Herzrasen oder ungewöhnlichen Symptomen: Arzt kontaktieren</li>
+          <li>Bitte verwenden Sie dieses Produkt nur nach ärztlicher Rücksprache, wenn Sie starke Medikamente einnehmen</li>
+        </ul>
+      </div>
+
+      <h3 class="subsection-title mt-3">Individuelle Hinweise für Sie</h3>
+      <div class="info-box">
+        {{safetyNotes}}
+      </div>
+
+      <h3 class="subsection-title mt-3">Wann sollten Sie Ihren Arzt kontaktieren?</h3>
+      <ul class="bullet-list">
+        <li>Bei starken oder anhaltenden Nebenwirkungen</li>
+        <li>Bei Veränderungen Ihrer bestehenden Medikamentenwirkung</li>
+        <li>Bei Fragen zur Dosisanpassung</li>
+        <li>Vor jeder Änderung Ihrer Medikation</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       TEIL 2: ÄRZTLICHE INFORMATION (DOCTOR SUMMARY)
+       ============================================================ -->
+
+  <!-- SEITE 5: ARZTANSCHREIBEN -->
+  <div class="page-break">
+    <div class="header">
+      <h2 class="section-title">Information für den behandelnden Arzt</h2>
+    </div>
+
+    <div class="section">
+      <p class="mb-2">Liebe Ärztin, lieber Arzt,</p>
+
+      <p class="mb-2">
+        Ihr Patient hat über das MEDLESS-System einen personalisierten Cannabinoid-Balance- und 
+        Medikamenteninteraktionsbericht erstellt. Dieses Dokument dient als Informationsgrundlage 
+        und soll Ihnen eine strukturierte Übersicht über die vom Patienten eingegebenen Medikamente, 
+        mögliche pharmakokinetische Wechselwirkungen und den vorgeschlagenen Dosierplan bieten.
+      </p>
+
+      <div class="warning-box">
+        <p class="text-bold mb-1">⚠️ Wichtiger Hinweis zur medizinischen Verantwortung</p>
+        <p>
+          Das Dokument stellt keine Diagnose und keine Therapieanordnung dar. 
+          Die endgültige Verbesserung, Anpassung oder Reduktion von Medikamenten liegt 
+          vollständig in Ihrer ärztlichen Verantwortung.
+        </p>
+      </div>
+
+      <p class="mt-3">
+        Unser Ziel ist es, Ihnen und Ihrem Patienten eine evidenzorientierte, verständliche 
+        Übersicht bereitzustellen, die als Diskussionsgrundlage für gemeinsame therapeutische 
+        Entscheidungen dienen kann.
+      </p>
+
+      <p class="mt-3">
+        Mit freundlichen Grüßen<br>
+        <strong>Das MEDLESS-Team</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- SEITE 6: MEDIKATION DES PATIENTEN -->
+  <div class="page-break">
+    <div class="header">
+      <h2 class="section-title">Aktuelle Medikation des Patienten</h2>
+    </div>
+
+    <div class="section">
+      <p class="text-muted mb-2">
+        Die folgenden Medikamente wurden vom Patienten im MEDLESS-System angegeben. 
+        Alle Informationen zu Wechselwirkungen basieren auf aktuellen pharmakologischen Datenbanken.
+      </p>
+
+      {{drugList}}
+      
+      <!-- Example structure for each drug (this will be replaced):
+      <div class="drug-card no-break">
+        <div class="drug-card-header">
+          {{drugName}}
+        </div>
+        <div class="drug-card-row">
+          <span class="drug-card-label">Medikamentenklasse:</span>
+          <span class="drug-card-value">{{drugClass}}</span>
+        </div>
+        <div class="drug-card-row">
+          <span class="drug-card-label">CYP-Metabolismus:</span>
+          <span class="drug-card-value">{{cyp}}</span>
+        </div>
+        <div class="drug-card-row">
+          <span class="drug-card-label">Interaktionsrisiko:</span>
+          <span class="drug-card-value">
+            <span class="risk-badge risk-{{interactionRisk}}">{{interactionRisk}}</span>
+          </span>
+        </div>
+        <div class="drug-card-row">
+          <span class="drug-card-label">Mögliche Cannabinoid-Wirkung:</span>
+          <span class="drug-card-value">{{interactionImpact}}</span>
+        </div>
+      </div>
+      -->
+    </div>
+  </div>
+
+  <!-- SEITE 7: INTERAKTIONSANALYSE -->
+  <div class="page-break">
+    <div class="header">
+      <h2 class="section-title">Analyse der Wechselwirkungen</h2>
+    </div>
+
+    <div class="section">
+      <p class="text-muted mb-2">
+        Die folgende Analyse betrachtet potenzielle pharmakokinetische und pharmakodynamische 
+        Interaktionen zwischen den angegebenen Medikamenten und Cannabinoiden (insbesondere CBD und THC).
+      </p>
+
+      <div class="info-box">
+        {{interactionAnalysis}}
+      </div>
+
+      <h3 class="subsection-title mt-3">Relevante Cytochrom-P450-Enzyme</h3>
+      <div class="info-box">
+        <p>
+          CBD ist ein potenter Inhibitor von CYP2C19, CYP3A4 und CYP2D6. 
+          Dies kann die Plasmaspiegel von Medikamenten erhöhen, die über diese Enzyme metabolisiert werden.
+        </p>
+        <p class="mt-2">
+          THC wird primär über CYP2C9 und CYP3A4 metabolisiert und kann ebenfalls 
+          Interaktionen mit anderen Substanzen eingehen.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEITE 8: MONITORING-EMPFEHLUNGEN -->
+  <div class="page-break">
+    <div class="header">
+      <h2 class="section-title">Empfohlenes Monitoring</h2>
+    </div>
+
+    <div class="section">
+      <p class="text-muted mb-2">
+        Basierend auf der Medikation und den identifizierten Interaktionsrisiken werden 
+        folgende Monitoring-Maßnahmen empfohlen:
+      </p>
+
+      {{monitoring}}
+
+      <!-- Example monitoring table structure:
+      <table class="data-table mt-3">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Zeitpunkt</th>
+            <th>Begründung</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Therapeutisches Drug Monitoring (TDM)</td>
+            <td>Nach 1-2 Wochen</td>
+            <td>Bei Medikamenten mit enger therapeutischer Breite</td>
+          </tr>
+          <tr>
+            <td>Klinische Symptomkontrolle</td>
+            <td>Wöchentlich</td>
+            <td>Überwachung auf veränderte Medikamentenwirkung</td>
+          </tr>
+        </tbody>
+      </table>
+      -->
+
+      <div class="info-box mt-3">
+        <h3 class="subsection-title">Wichtige Hinweise zum Monitoring</h3>
+        <ul class="bullet-list">
+          <li>Regelmäßige klinische Kontrollen in den ersten 4 Wochen</li>
+          <li>Bei Dosisänderungen: Intensivierung des Monitorings</li>
+          <li>Dokumentation aller Veränderungen der Medikamentenwirkung</li>
+          <li>Enge Kommunikation zwischen Patient und Arzt</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEITE 9: RECHTLICHE HINWEISE -->
+  <div class="page-break">
+    <div class="header">
+      <h2 class="section-title">Rechtliche Hinweise</h2>
+    </div>
+
+    <div class="section">
+      <div class="warning-box">
+        <h3 class="subsection-title">Rechtlicher Hinweis</h3>
+        <p class="mb-2">
+          Das MEDLESS-System dient ausschließlich als digitale Informations- und Berechnungshilfe. 
+          Es ersetzt keine ärztliche Diagnose, keine Therapieanordnung und keine medizinische Beratung.
+        </p>
+        <p class="mb-2">
+          Alle im Dokument enthaltenen Daten beruhen auf den Angaben des Patienten und automatisierten 
+          Berechnungen basierend auf pharmakologischen Datenbanken. Die Vollständigkeit und Richtigkeit 
+          der eingegebenen Patientendaten kann vom System nicht überprüft werden.
+        </p>
+        <p>
+          <strong>Die medizinische Verantwortung liegt vollständig beim behandelnden Arzt.</strong>
+        </p>
+      </div>
+
+      <h3 class="subsection-title mt-3">Haftungsausschluss</h3>
+      <div class="info-box">
+        <ul class="bullet-list">
+          <li>Keine Gewährleistung für die Richtigkeit automatisch generierter Berechnungen</li>
+          <li>Keine Haftung für Folgen aus der Anwendung der bereitgestellten Informationen</li>
+          <li>Keine Garantie für Vollständigkeit der Interaktionsanalyse</li>
+          <li>Empfehlung zur Konsultation von Fachinformationen und Fachliteratur</li>
+        </ul>
+      </div>
+
+      <h3 class="subsection-title mt-3">Datenschutz</h3>
+      <div class="info-box">
+        <p>
+          Alle Patientendaten werden gemäß DSGVO verarbeitet. Die Datenverarbeitung erfolgt 
+          ausschließlich zum Zweck der Erstellung dieses personalisierten Berichts. 
+          Es werden keine Daten ohne Einwilligung an Dritte weitergegeben.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer mt-3">
+      <p><strong>MEDLESS - Medikamentenreduktion mit Verstand</strong></p>
+      <p>www.medless.de | info@medless.de</p>
+      <p>© 2025 MEDLESS. Alle Rechte vorbehalten.</p>
+    </div>
+  </div>
+
+</body>
+</html>
