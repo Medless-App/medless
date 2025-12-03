@@ -3,64 +3,7 @@
 // ============================================================
 
 import type { PatientReportData } from './report_data'
-
-// ============================================================
-// TEMPLATE FILLING FUNCTION
-// ============================================================
-
-export function fillTemplate(template: string, data: Record<string, any>): string {
-  let result = template;
-
-  // Replace simple {{key}} and {{nested.key}} placeholders
-  result = result.replace(/\{\{([^{}#/]+)\}\}/g, (match, key) => {
-    const trimmedKey = key.trim();
-    const keys = trimmedKey.split('.');
-    let value: any = data;
-    
-    for (const k of keys) {
-      if (value && typeof value === 'object') {
-        value = value[k];
-      } else {
-        return match;
-      }
-    }
-    
-    if (value === null || value === undefined) {
-      return match;
-    }
-    return String(value);
-  });
-
-  // Replace {{#array}}...{{/array}} blocks
-  result = result.replace(/\{\{#(\w+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (match, key, innerTemplate) => {
-    const arrayData = data[key];
-    if (!Array.isArray(arrayData) || arrayData.length === 0) {
-      return '';
-    }
-
-    return arrayData.map(item => {
-      let itemHtml = innerTemplate;
-      
-      if (typeof item !== 'object') {
-        itemHtml = itemHtml.replace(/\{\{\.\}\}/g, String(item));
-        return itemHtml;
-      }
-
-      itemHtml = itemHtml.replace(/\{\{([^{}#/]+)\}\}/g, (_, prop) => {
-        const trimmedProp = prop.trim();
-        const value = item[trimmedProp];
-        if (value === null || value === undefined) {
-          return `{{${trimmedProp}}}`;
-        }
-        return String(value);
-      });
-
-      return itemHtml;
-    }).join('');
-  });
-
-  return result;
-}
+import { fillTemplate } from './utils/template_engine'
 
 // ============================================================
 // PATIENT REPORT TEMPLATE (WITH EMOJIS, PATIENT-FRIENDLY)

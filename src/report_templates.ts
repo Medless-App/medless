@@ -1,68 +1,15 @@
 // ============================================================
-// REPORT HTML TEMPLATES FOR PDF GENERATION
+// DOCTOR REPORT HTML TEMPLATE FOR PDF GENERATION
 // ============================================================
 
 import type { PatientReportData, DoctorReportData } from './report_data'
-
-// ============================================================
-// TEMPLATE FILLING FUNCTION
-// ============================================================
-
-/**
- * Fills an HTML template with data using {{key}} and {{#array}}...{{/array}} syntax
- * Pure string replacement, no external libraries, stable and production-ready
- */
-function fillTemplate(template: string, data: Record<string, any>): string {
-  let result = template;
-
-  // 1) Replace simple {{key}} placeholders
-  result = result.replace(/\{\{([^{}#/]+)\}\}/g, (match, key) => {
-    const trimmedKey = key.trim();
-    const value = data[trimmedKey];
-    if (value === null || value === undefined) {
-      return match; // Leave placeholder unchanged if no data
-    }
-    return String(value);
-  });
-
-  // 2) Replace {{#array}}...{{/array}} blocks
-  result = result.replace(/\{\{#(\w+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (match, key, innerTemplate) => {
-    const arrayData = data[key];
-    if (!Array.isArray(arrayData) || arrayData.length === 0) {
-      return ''; // Remove block if no array data
-    }
-
-    return arrayData.map(item => {
-      let itemHtml = innerTemplate;
-      
-      // Replace {{.}} with the item itself (if item is primitive)
-      if (typeof item !== 'object') {
-        itemHtml = itemHtml.replace(/\{\{\.\}\}/g, String(item));
-        return itemHtml;
-      }
-
-      // Replace {{property}} with object properties
-      itemHtml = itemHtml.replace(/\{\{([^{}#/]+)\}\}/g, (_, prop) => {
-        const trimmedProp = prop.trim();
-        const value = item[trimmedProp];
-        if (value === null || value === undefined) {
-          return `{{${trimmedProp}}}`; // Leave placeholder if no data
-        }
-        return String(value);
-      });
-
-      return itemHtml;
-    }).join('');
-  });
-
-  return result;
-}
+import { fillTemplate } from './utils/template_engine'
 
 // ============================================================
 // DOCTOR REPORT TEMPLATE (EMOJI-FREE, A4-OPTIMIZED)
 // ============================================================
 
-const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
+export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -841,9 +788,22 @@ function renderLegalNotes(legalNotes?: string | string[]): string {
 }
 
 // ============================================================
-// PATIENT REPORT HTML RENDERER (EXISTING)
+// PATIENT REPORT HTML RENDERER (LEGACY)
+// ============================================================
+// ⚠️ ACHTUNG: Diese Funktion ist veraltet!
+// 
+// LEGACY: Alte Patientenbericht-Funktion aus report_templates.ts
+// Wird NUR für Rückwärtskompatibilität behalten.
+// 
+// FÜR NEUEN CODE BITTE VERWENDEN:
+// - import { renderPatientReportHtmlFixed } from './report_templates_patient'
+// 
+// Diese Legacy-Version wird in zukünftigen Updates entfernt.
 // ============================================================
 
+/**
+ * @deprecated Verwende stattdessen renderPatientReportHtmlFixed aus report_templates_patient.ts
+ */
 export function renderPatientReportHtml(data: PatientReportData): string {
   const sharedCSS = `
     <style>
