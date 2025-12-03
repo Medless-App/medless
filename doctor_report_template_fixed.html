@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEDLESS-Reduktionsplan – Ärztliche Dokumentation</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 10pt;
+      line-height: 1.6;
+      color: #222222;
+      background: white;
+      padding: 20mm;
+    }
+    
+    .container {
+      max-width: 170mm;
+      margin: 0 auto;
+    }
+    
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #E5E7EB;
+      margin-bottom: 20px;
+    }
+    
+    .header-logo img {
+      height: 28px;
+    }
+    
+    .header-text {
+      font-size: 8pt;
+      color: #666;
+      text-align: right;
+    }
+    
+    /* ANREDE */
+    .salutation {
+      color: #666;
+      font-size: 9pt;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+    
+    .intro-text {
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    
+    /* RISIKO-DASHBOARD */
+    .risk-dashboard {
+      background: #F9FAFB;
+      border: 2px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 24px 0;
+    }
+    
+    .risk-dashboard-title {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #00584D;
+      margin-bottom: 12px;
+    }
+    
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    
+    .risk-item {
+      background: white;
+      padding: 10px;
+      border-radius: 6px;
+      border-left: 4px solid #00C39A;
+    }
+    
+    .risk-label {
+      font-size: 8pt;
+      color: #666;
+      margin-bottom: 4px;
+    }
+    
+    .risk-value {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #00584D;
+    }
+    
+    /* TITEL */
+    h1 {
+      font-size: 18pt;
+      color: #00584D;
+      margin: 28px 0 8px 0;
+      font-weight: 700;
+      border-bottom: 3px solid #00C39A;
+      padding-bottom: 8px;
+    }
+    
+    .subtitle {
+      font-size: 10pt;
+      color: #666;
+      margin-bottom: 20px;
+    }
+    
+    /* PHARMAKOLOGIE-BOX */
+    .pharma-box {
+      background: #F0F9F7;
+      border: 1px solid #00C39A;
+      border-radius: 6px;
+      padding: 14px;
+      margin: 20px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .pharma-title {
+      grid-column: 1 / -1;
+      font-size: 10pt;
+      font-weight: 700;
+      color: #00584D;
+      margin-bottom: 8px;
+    }
+    
+    .pharma-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    
+    .pharma-label {
+      font-size: 8pt;
+      color: #666;
+    }
+    
+    .pharma-value {
+      font-size: 8pt;
+      font-weight: 600;
+      color: #222;
+    }
+    
+    /* ÜBERSCHRIFTEN */
+    h2 {
+      font-size: 13pt;
+      color: #00584D;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    
+    h3 {
+      font-size: 10pt;
+      color: #00584D;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    /* TABELLEN */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 9pt;
+    }
+    
+    th {
+      background: #E6F7F4;
+      color: #00584D;
+      font-weight: 600;
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #E5E7EB;
+    }
+    
+    td {
+      padding: 7px 8px;
+      border: 1px solid #E5E7EB;
+    }
+    
+    tr:nth-child(even) {
+      background: #F9FAFB;
+    }
+    
+    tr:nth-child(odd) {
+      background: #FFFFFF;
+    }
+    
+    /* MONITORING BOX */
+    .monitoring-box {
+      background: #F0F9F7;
+      border-left: 4px solid #00C39A;
+      padding: 14px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    
+    .monitoring-box h3 {
+      margin-top: 0;
+    }
+    
+    .monitoring-box ul {
+      margin: 10px 0 10px 20px;
+    }
+    
+    .monitoring-box li {
+      margin-bottom: 6px;
+    }
+    
+    /* BALKENDIAGRAMM */
+    .chart-section {
+      margin: 24px 0;
+    }
+    
+    .chart-title {
+      font-size: 10pt;
+      font-weight: 600;
+      color: #00584D;
+      margin-bottom: 12px;
+    }
+    
+    .chart-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    
+    .chart-label {
+      width: 60px;
+      font-size: 8pt;
+      color: #666;
+    }
+    
+    .chart-track {
+      flex: 1;
+      background: #E5E7EB;
+      border-radius: 999px;
+      height: 10px;
+      overflow: hidden;
+    }
+    
+    .chart-fill {
+      height: 100%;
+      background: #00C39A;
+      border-radius: 999px;
+      transition: width 0.3s;
+    }
+    
+    .chart-value {
+      width: 60px;
+      text-align: right;
+      font-size: 8pt;
+      color: #666;
+      margin-left: 8px;
+    }
+    
+    /* RECHTLICHE HINWEISE */
+    .legal-box {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      padding: 14px;
+      margin: 24px 0;
+      font-size: 8pt;
+      line-height: 1.6;
+      color: #666;
+    }
+    
+    .footer-version {
+      text-align: center;
+      font-size: 7pt;
+      color: #999;
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid #E5E7EB;
+    }
+    
+    /* UTILITIES */
+    .text-right {
+      text-align: right;
+    }
+    
+    .font-bold {
+      font-weight: 600;
+    }
+    
+    .mb-4 {
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+<!-- 1) HEADER -->
+<div class="header">
+  <div class="header-logo">
+    <img src="{{logo_url}}" alt="MEDLESS Logo" style="height:28px;">
+  </div>
+  <div class="header-text">
+    MEDLESS – KI-unterstützte Reduktionsplanung
+  </div>
+</div>
+
+<!-- 2) ANREDE UND EINLEITUNG -->
+<p class="salutation">Lieber Arzt, liebe Ärztin,</p>
+
+<p class="intro-text">
+  der Patient / die Patientin <strong>{{patient_name}}</strong> hat diesen MEDLESS-Plan online erstellt. 
+  Dieses Dokument enthält eine strukturierte Zusammenfassung des geplanten Cannabinoid-Einsatzes,
+  einen Reduktionsplan sowie eine Wechselwirkungs- und Risikoabschätzung auf Basis pharmakokinetischer Daten 
+  und definierter Reduktionsrichtlinien. 
+  Der Bericht dient ausschließlich als ärztliche Entscheidungsunterstützung; 
+  die finale Therapieentscheidung liegt bei Ihnen.
+</p>
+
+<!-- 3) RISIKO-DASHBOARD -->
+<div class="risk-dashboard">
+  <div class="risk-dashboard-title">⚠️ Risiko-Dashboard</div>
+  <div class="risk-grid">
+    <div class="risk-item">
+      <div class="risk-label">Wechselwirkung</div>
+      <div class="risk-value">{{wechselwirkung_level}}</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-label">Reduktionsgeschwindigkeit</div>
+      <div class="risk-value">{{reduktionsgeschwindigkeit}}</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-label">Kategorie</div>
+      <div class="risk-value">{{kategorie}}</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4) TITELBLOCK -->
+<h1>MEDLESS-Reduktionsplan – Ärztliche Dokumentation</h1>
+<p class="subtitle">Medizinische Dokumentation zur Reduktionsplanung</p>
+
+<!-- PHARMAKOLOGIE-BOX -->
+<div class="pharma-box">
+  <div class="pharma-title">📋 Pharmakologie: {{med_name}}</div>
+  
+  <div>
+    <div class="pharma-row">
+      <span class="pharma-label">Startdosis:</span>
+      <span class="pharma-value">{{startdosis}}</span>
+    </div>
+    <div class="pharma-row">
+      <span class="pharma-label">Zieldosis:</span>
+      <span class="pharma-value">{{zieldosis}}</span>
+    </div>
+    <div class="pharma-row">
+      <span class="pharma-label">Halbwertszeit:</span>
+      <span class="pharma-value">{{halbwertszeit}}</span>
+    </div>
+  </div>
+  
+  <div>
+    <div class="pharma-row">
+      <span class="pharma-label">Absetzrisiko:</span>
+      <span class="pharma-value">{{absetzrisiko}}</span>
+    </div>
+    <div class="pharma-row">
+      <span class="pharma-label">Kategorie:</span>
+      <span class="pharma-value">{{med_kategorie}}</span>
+    </div>
+    <div class="pharma-row">
+      <span class="pharma-label">CBD-IA-Risiko:</span>
+      <span class="pharma-value">{{cbd_interaktion_level}}</span>
+    </div>
+  </div>
+</div>
+
+<!-- 5) PATIENTENDATEN -->
+<h2>Patientendaten</h2>
+<table>
+  <tr>
+    <th style="width:30%;">Name</th>
+    <td>{{patient_name}}</td>
+    <th style="width:30%;">Alter</th>
+    <td>{{alter}} Jahre</td>
+  </tr>
+  <tr>
+    <th>Geschlecht</th>
+    <td>{{geschlecht}}</td>
+    <th>Gewicht</th>
+    <td>{{gewicht}} kg</td>
+  </tr>
+  <tr>
+    <th>Medikamente (gesamt)</th>
+    <td>{{anzahl_medikamente}}</td>
+    <th>BMI</th>
+    <td>{{bmi}}</td>
+  </tr>
+  <tr>
+    <th>Davon sensibel</th>
+    <td>{{anzahl_sensible_medikamente}}</td>
+    <th></th>
+    <td></td>
+  </tr>
+</table>
+
+<!-- 6) STRATEGIE-ZUSAMMENFASSUNG -->
+<h2>Strategie-Zusammenfassung</h2>
+<table>
+  <tr>
+    <th style="width:50%;">Reduktionsdauer</th>
+    <td>{{reduktionsdauer_wochen}} Wochen</td>
+  </tr>
+  <tr>
+    <th>Reduktionsziel</th>
+    <td>{{reduktionsziel_prozent}} %</td>
+  </tr>
+  <tr>
+    <th>Reduktionsgeschwindigkeit</th>
+    <td>{{reduktionsgeschwindigkeit}}</td>
+  </tr>
+  <tr>
+    <th>CBD-Dosis (Start → Ende)</th>
+    <td>{{cbd_start}} mg → {{cbd_ende}} mg täglich</td>
+  </tr>
+  <tr>
+    <th>Gesamte Lastreduktion</th>
+    <td>{{gesamt_lastreduktion_prozent}} %</td>
+  </tr>
+</table>
+
+<!-- 7) MEDIKATIONS-ÜBERSICHT -->
+<h2>Medikations-Übersicht</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Medikament</th>
+      <th>Start-Dosis</th>
+      <th>Ziel-Dosis</th>
+      <th>HWZ</th>
+      <th>WD-Risiko</th>
+      <th>CBD-IA Risiko</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>{{med_name}}</strong></td>
+      <td>{{startdosis}}</td>
+      <td>{{zieldosis}}</td>
+      <td>{{halbwertszeit}}</td>
+      <td>{{wd_risiko}}</td>
+      <td>{{cbd_interaktion_level}}</td>
+    </tr>
+  </tbody>
+</table>
+<p style="font-size:7pt;color:#666;margin-top:8px;">
+  <strong>Abkürzungen:</strong> HWZ = Halbwertszeit | WD = Withdrawal (Absetzsyndrom) | CBD-IA = CBD-Interaktionsstärke
+</p>
+
+<!-- 8) MONITORING-EMPFEHLUNGEN -->
+<div class="monitoring-box">
+  <h3>Monitoring-Empfehlungen</h3>
+  
+  <p><strong>Häufigkeit:</strong> {{monitoring_intervall_text}}</p>
+  
+  <p style="margin-top:12px;"><strong>Vitalparameter:</strong></p>
+  <ul>
+    {{#vitalparameter_liste}}
+    <li>{{.}}</li>
+    {{/vitalparameter_liste}}
+  </ul>
+  
+  <p style="margin-top:12px;"><strong>Warnsymptome:</strong></p>
+  <ul>
+    {{#warnsymptome_liste}}
+    <li>{{.}}</li>
+    {{/warnsymptome_liste}}
+  </ul>
+  
+  <p style="margin-top:12px;"><strong>Besondere Hinweise:</strong></p>
+  <p>{{besondere_hinweise}}</p>
+</div>
+
+<!-- 9) REDUKTIONSPLAN-DETAILS -->
+<h2>Reduktionsplan-Details (Wochenweise)</h2>
+<p class="mb-4" style="font-size:9pt;color:#666;">
+  Die folgende Tabelle zeigt die geplante wöchentliche Reduktion der Medikamentenlast und die parallele CBD-Steigerung.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Woche</th>
+      <th class="text-right">Med-Last (mg)</th>
+      <th class="text-right">CBD (mg)</th>
+      <th class="text-right">CBD/kg</th>
+      <th>Notizen</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#wochenplan}}
+    <tr>
+      <td style="font-weight:600;">{{woche}}</td>
+      <td class="text-right">{{med_last_mg}}</td>
+      <td class="text-right font-bold">{{cbd_mg}}</td>
+      <td class="text-right">{{cbd_pro_kg}}</td>
+      <td style="font-size:8pt;">{{notizen}}</td>
+    </tr>
+    {{/wochenplan}}
+  </tbody>
+</table>
+
+<!-- 10) BALKENDIAGRAMME -->
+<div class="chart-section">
+  <div class="chart-title">📊 Medikamentenlast pro Woche</div>
+  {{#wochenplan}}
+  <div class="chart-bar">
+    <div class="chart-label">Woche {{woche}}</div>
+    <div class="chart-track">
+      <div class="chart-fill" style="width:{{med_bar_width}}%;"></div>
+    </div>
+    <div class="chart-value">{{med_last_mg}} mg</div>
+  </div>
+  {{/wochenplan}}
+</div>
+
+<div class="chart-section">
+  <div class="chart-title">📊 CBD-Dosis pro Woche</div>
+  {{#wochenplan}}
+  <div class="chart-bar">
+    <div class="chart-label">Woche {{woche}}</div>
+    <div class="chart-track">
+      <div class="chart-fill" style="width:{{cbd_bar_width}}%;"></div>
+    </div>
+    <div class="chart-value">{{cbd_mg}} mg</div>
+  </div>
+  {{/wochenplan}}
+</div>
+
+<!-- 11) METHODOLOGIE -->
+<h2>Methodologie</h2>
+<table>
+  <tr>
+    <th style="width:50%;">CBD-Dosierungsmethode</th>
+    <td>{{cbd_dosierungsmethode}}</td>
+  </tr>
+  <tr>
+    <th>Reduktionsmethode</th>
+    <td>{{reduktionsmethode}}</td>
+  </tr>
+  <tr>
+    <th>Sicherheitsregeln angewandt</th>
+    <td>{{sicherheitsregeln}}</td>
+  </tr>
+</table>
+
+<!-- 12) RECHTLICHE HINWEISE -->
+<div class="legal-box">
+  <h3 style="margin-top:0;font-size:10pt;color:#00584D;">Rechtliche Hinweise</h3>
+  <p>
+    Dieser Bericht dient ausschließlich der ärztlichen Information und Dokumentation. 
+    Die endgültige Therapieentscheidung liegt beim behandelnden Arzt / bei der behandelnden Ärztin. 
+    Der Plan basiert auf pharmakokinetischen Daten und aktuellen Erkenntnissen zum Endocannabinoid-System.
+    Bei Unsicherheit, relevanten Komorbiditäten oder kritischen Wechselwirkungen ist eine engmaschige fachärztliche Begleitung erforderlich.
+  </p>
+  <p style="margin-top:10px;">
+    <strong>Wichtig:</strong> Diese Analyse dient ausschließlich als Entscheidungsstütze und ersetzt nicht die ärztliche Beurteilung.
+    Die finale Therapieverantwortung liegt beim behandelnden Arzt / bei der behandelnden Ärztin.
+  </p>
+</div>
+
+<!-- FOOTER VERSION -->
+<div class="footer-version">
+  MEDLESS Ärztebericht v2.0 – Erstellt mit KI-gestützter Pharmakokinetik-Analyse (PlanIntelligenz 2.0)
+</div>
+
+</div>
+</body>
+</html>

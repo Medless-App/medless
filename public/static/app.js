@@ -111,6 +111,106 @@ const MEDLESS_PRODUCTS = [
   { nr: 25, cbdPerSpray: 29.0, name: 'MEDLESS Nr. 25', price: 99.90 }
 ];
 
+// ============================================================
+// PDF GENERATION HELPER - Direct Download (html2pdf.js)
+// ============================================================
+
+// Robuste PDF-Erstellung über ein unsichtbares IFRAME
+// htmlString: voller HTML-Report (patient.html oder doctor.html)
+// fileName: gewünschter Dateiname, z.B. "MEDLESS_Plan_Patient.pdf"
+async function downloadHtmlAsPdf(htmlString, fileName) {
+  try {
+    if (!htmlString || typeof htmlString !== 'string' || htmlString.trim().length < 200) {
+      console.error('❌ downloadHtmlAsPdf: HTML string is empty or too short', {
+        length: htmlString ? htmlString.length : 0
+      });
+      alert('Beim Erstellen des PDF ist ein Fehler aufgetreten (kein Inhalt). Bitte versuchen Sie es später erneut.');
+      return;
+    }
+
+    if (typeof window.html2pdf === 'undefined') {
+      console.error('❌ downloadHtmlAsPdf: html2pdf.js ist nicht geladen');
+      alert('PDF-Funktion nicht verfügbar. Bitte laden Sie die Seite neu (Strg+Shift+R) und versuchen Sie es erneut.');
+      return;
+    }
+
+    console.log('📄 downloadHtmlAsPdf (IFRAME): starting PDF generation', {
+      fileName,
+      length: htmlString.length
+    });
+
+    // 1) IFRAME anlegen (unsichtbar, aber NICHT display:none)
+    const iframe = document.createElement('iframe');
+    iframe.id = 'medless-pdf-iframe';
+    iframe.style.position = 'fixed';
+    iframe.style.left = '-9999px';
+    iframe.style.top = '0';
+    iframe.style.width = '210mm';     // A4-Breite
+    iframe.style.height = '297mm';    // A4-Höhe
+    iframe.style.border = '0';
+    iframe.style.zIndex = '9999';
+    iframe.setAttribute('aria-hidden', 'true');
+
+    document.body.appendChild(iframe);
+
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+    // 2) Vollständiges HTML in das IFRAME-Dokument schreiben
+    iframeDoc.open();
+    iframeDoc.write(htmlString);
+    iframeDoc.close();
+
+    // 3) Warten, bis das IFRAME-Dokument fertig gerendert ist
+    await new Promise((resolve) => {
+      const done = () => {
+        // kleine Zusatz-Verzögerung, damit Fonts/Layout sicher fertig sind
+        setTimeout(resolve, 300);
+      };
+
+      if (iframe.contentWindow.document.readyState === 'complete') {
+        done();
+      } else {
+        iframe.onload = done;
+      }
+    });
+
+    const body = iframeDoc.body;
+    if (!body) {
+      console.error('❌ downloadHtmlAsPdf: iframe body is null/undefined');
+      alert('Beim Erstellen des PDF ist ein Fehler aufgetreten (kein Body).');
+      return;
+    }
+
+    const textSample = body.innerText ? body.innerText.slice(0, 200) : '';
+    console.log('📄 downloadHtmlAsPdf: iframe body ready', {
+      innerTextLength: body.innerText ? body.innerText.length : 0,
+      textSample
+    });
+
+    const opt = {
+      margin:       [10, 10, 10, 10],
+      filename:     fileName,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, scrollX: 0, scrollY: 0 },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    // 4) PDF aus dem IFRAME-Body erzeugen
+    await window.html2pdf().set(opt).from(body).save();
+
+    console.log('✅ downloadHtmlAsPdf: PDF generation finished', { fileName });
+  } catch (err) {
+    console.error('❌ downloadHtmlAsPdf: error during PDF generation', err);
+    alert('Beim Erstellen des PDF ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.');
+  } finally {
+    // 5) IFRAME aufräumen
+    const existing = document.getElementById('medless-pdf-iframe');
+    if (existing && existing.parentNode) {
+      existing.parentNode.removeChild(existing);
+    }
+  }
+}
+
 // Global medications list
 let allMedications = [];
 
@@ -129,18 +229,71 @@ async function loadMedications() {
 
 // Initialize everything on page load
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('DEBUG_MEDLESS: DOMContentLoaded FIRED');
+  
   loadMedications();
   
-  // Create first medication input field
-  createMedicationInput();
+  // IMPORTANT: Create first medication input field
+  // Note: medication-inputs container must exist in HTML (Step 3)
+  // We create it immediately so it's ready when user reaches Step 3
+  const medicationContainer = document.getElementById('medication-inputs');
+  if (medicationContainer) {
+    console.log('✅ medication-inputs container found - creating first input');
+    createMedicationInput();
+  } else {
+    console.warn('⚠️ medication-inputs container not found yet - will retry on step navigation');
+  }
   
   // Setup "add medication" button handler
   const addButton = document.getElementById('add-medication');
   if (addButton) {
+    console.log('✅ add-medication button found');
     addButton.addEventListener('click', () => {
+      console.log('🖱️ Add medication button clicked');
       createMedicationInput();
     });
+  } else {
+    console.warn('⚠️ add-medication button not found - will be initialized on step navigation');
   }
+  
+  // CRITICAL: Setup form submit handler INSIDE DOMContentLoaded
+  const medicationForm = document.getElementById('medication-form');
+  console.log('DEBUG_MEDLESS: medication-form element:', medicationForm);
+  
+  if (medicationForm) {
+    console.log('DEBUG_MEDLESS: Attaching submit event listener to form');
+    medicationForm.addEventListener('submit', handleFormSubmit);
+  } else {
+    console.error('DEBUG_MEDLESS: CRITICAL ERROR - medication-form NOT FOUND!');
+  }
+  
+  // FALLBACK: Initialize medication inputs when Step 3 becomes visible
+  // This handles cases where DOMContentLoaded fires before step navigation is set up
+  const observer = new MutationObserver(() => {
+    const step3 = document.getElementById('step-3');
+    const medicationContainer = document.getElementById('medication-inputs');
+    
+    if (step3 && !step3.classList.contains('hidden') && medicationContainer) {
+      const existingInputs = medicationContainer.querySelectorAll('.medication-input-group');
+      if (existingInputs.length === 0) {
+        console.log('🔄 Step 3 became visible - initializing medication inputs');
+        createMedicationInput();
+        
+        // Also ensure add-medication button is set up
+        const addBtn = document.getElementById('add-medication');
+        if (addBtn && !addBtn.hasAttribute('data-listener-attached')) {
+          addBtn.setAttribute('data-listener-attached', 'true');
+          addBtn.addEventListener('click', () => {
+            console.log('🖱️ Add medication button clicked (fallback handler)');
+            createMedicationInput();
+          });
+        }
+      }
+    }
+  });
+  
+  observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+
 });
 
 // Setup autocomplete for input field
@@ -402,8 +555,14 @@ function updateGlobalSafetyNotice() {
 let medicationCount = 0;
 
 function createMedicationInput() {
-  medicationCount++;
   const container = document.getElementById('medication-inputs');
+  
+  if (!container) {
+    console.error('❌ CRITICAL: medication-inputs container not found!');
+    return;
+  }
+  
+  medicationCount++;
   
   const inputGroup = document.createElement('div');
   inputGroup.className = 'medication-input-group';
@@ -556,9 +715,16 @@ function validateEmail(email) {
   return re.test(email);
 }
 
+
 // Handle manual form submission with comprehensive validation
-document.getElementById('medication-form')?.addEventListener('submit', async (e) => {
+// NOTE: This function is now called from DOMContentLoaded handler
+async function handleFormSubmit(e) {
   e.preventDefault();
+  
+  console.log('DEBUG_MEDLESS: FORM SUBMIT HANDLER TRIGGERED');
+  console.log('🔥 FORM SUBMIT EVENT TRIGGERED!');
+  console.log('📋 Form element:', e.target);
+  console.log('⏱️ Timestamp:', new Date().toISOString());
   
   // Clear all previous errors
   clearAllErrors();
@@ -647,8 +813,7 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
       } else {
         medications.push({
           name: name,
-          dosage: `${mgPerDayValue} mg/Tag`,
-          mgPerDay: mgPerDayValue
+          dailyDoseMg: mgPerDayValue
         });
       }
     } else if (mgInput && mgInput.value) {
@@ -722,9 +887,12 @@ document.getElementById('medication-form')?.addEventListener('submit', async (e)
     if (el !== submitButton) el.disabled = true;
   });
   
+  console.log('✅ VALIDATION PASSED - Starting analyzeMedications...');
+  console.log('📊 Data:', { medications, durationWeeks, firstName, gender, age, weight, height, reductionGoal });
+  
   // Start analysis with loading animation
   await analyzeMedications(medications, durationWeeks, firstName, gender, email, age, weight, height, reductionGoal);
-});
+}
 
 // Create floating particles effect
 function createParticles() {
@@ -900,8 +1068,15 @@ function animateLoadingSteps() {
 }
 
 
+// Variable to store the last analysis result for later use
+let lastAnalyzeAndReportsResult = null;
+let lastAnalyzePersonalData = { firstName: '', gender: '' };
+
 // Analyze medications with animated loading
+// JETZT MIT NEUER ROUTE: /api/analyze-and-reports
+// Diese Route liefert Analysis + Patient-Report + Arzt-Report in einem Request
 async function analyzeMedications(medications, durationWeeks, firstName = '', gender = '', email = '', age = null, weight = null, height = null, reductionGoal = 100) {
+  console.log('DEBUG_MEDLESS: analyzeMedications STARTED');
   console.log('🚀 analyzeMedications started');
   
   // Show loading and scroll to it
@@ -919,18 +1094,22 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
   const animationPromise = animateLoadingSteps();
 
   try {
-    // Make API call
-    console.log('📡 Making API call to /api/analyze');
-    const apiPromise = axios.post('/api/analyze', {
-      medications,
-      durationWeeks,
-      reductionGoal,
-      email,
-      firstName,
-      gender,
-      age,
-      weight,
-      height
+    // Make API call - NEUE ROUTE: /api/analyze-and-reports
+    // Diese Route gibt zurück: { analysis, patient: { data, html }, doctor: { data, html } }
+    console.log('📡 Making API call to /api/analyze-and-reports');
+    const apiPromise = axios.post('/api/analyze-and-reports', {
+      vorname: firstName,
+      geschlecht: gender,
+      alter: age,
+      gewicht: weight,
+      groesse: height,
+      medications: medications.map(med => ({
+        name: med.name,
+        dailyDoseMg: med.dailyDoseMg
+      })),
+      durationWeeks: durationWeeks,
+      reductionGoal: reductionGoal,
+      email: email
     });
 
     // Wait for both animation and API call to complete
@@ -939,53 +1118,429 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     const [response] = await Promise.all([apiPromise, animationPromise]);
 
     console.log('✅ Both API and animation completed');
+    console.log('📊 Full API response:', response.data);
     console.log('📊 API response success:', response.data.success);
 
     if (response.data.success) {
-      console.log('🎉 API successful - showing results directly');
+      console.log('DEBUG_MEDLESS: API /api/analyze-and-reports SUCCESS');
+      console.log('🎉 API successful - storing result and showing completion state');
       
-      // DIRECT TRANSITION: No interstitial, show results immediately
-      const resultsDiv = document.getElementById('results');
+      // Store result for later use
+      lastAnalyzeAndReportsResult = response.data;
+      lastAnalyzePersonalData = { firstName, gender };
       
-      try {
-        console.log('📊 Calling displayResults() directly after animation');
-        displayResults(response.data, firstName, gender);
-        console.log('✅ displayResults() completed successfully');
-        
-        // Smooth fade-in animation for results
-        if (resultsDiv) {
-          // Initial state: hidden, slightly below
-          resultsDiv.classList.remove('hidden');
-          resultsDiv.style.opacity = '0';
-          resultsDiv.style.transform = 'translateY(25px)';
-          
-          // Smooth scroll to results
-          setTimeout(() => {
-            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 50);
-          
-          // Fade-in animation
-          setTimeout(() => {
-            resultsDiv.style.transition = 'opacity 350ms ease-out, transform 350ms ease-out';
-            resultsDiv.style.opacity = '1';
-            resultsDiv.style.transform = 'translateY(0)';
-          }, 100);
-        }
-      } catch (displayError) {
-        console.error('❌ ERROR in displayResults():', displayError);
-        console.error('Stack trace:', displayError.stack);
-        alert('Fehler beim Anzeigen der Ergebnisse: ' + displayError.message);
-      }
+      console.log('💾 Stored lastAnalyzeAndReportsResult:', lastAnalyzeAndReportsResult);
+      console.log('💾 Stored lastAnalyzePersonalData:', lastAnalyzePersonalData);
+      
+      // Show "Plan fertig" completion state
+      console.log('DEBUG_MEDLESS: calling showPlanReadyState()');
+      console.log('🎬 About to call showPlanReadyState()');
+      showPlanReadyState(loadingEl);
+      console.log('✅ showPlanReadyState() returned');
+      
     } else {
+      console.error('❌ API returned success: false');
+      console.error('Error message:', response.data.error);
       throw new Error(response.data.error || 'Analyse fehlgeschlagen');
     }
   } catch (error) {
-    console.error('❌ Fehler bei der Analyse:', error);
+    console.error('❌ CRITICAL ERROR in analyzeMedications:', error);
+    console.error('Error type:', error.constructor.name);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    if (error.response) {
+      console.error('API error response:', error.response.data);
+      console.error('API status:', error.response.status);
+    }
     alert('Fehler bei der Analyse: ' + (error.response?.data?.error || error.message));
     // Hide loading on error
     document.getElementById('loading').classList.add('hidden');
   }
 }
+
+// Show "Plan fertig" completion state with action button
+function showPlanReadyState(loadingEl) {
+  console.log('DEBUG_MEDLESS: showPlanReadyState ENTERED');
+  console.log('🎊 Showing plan ready state');
+  console.log('📍 loadingEl:', loadingEl);
+  console.log('📍 loadingEl ID:', loadingEl?.id);
+  console.log('📍 loadingEl classList:', loadingEl?.classList);
+  console.log('📍 loadingEl visible?', !loadingEl?.classList.contains('hidden'));
+  console.log('📍 loadingEl innerHTML length:', loadingEl?.innerHTML?.length);
+  
+  // Ensure loading element is visible
+  if (loadingEl) {
+    loadingEl.classList.remove('hidden');
+    console.log('✅ Removed hidden class from loadingEl');
+  }
+  
+  // Clear loading animation content
+  console.log('🧹 Clearing loading animation content');
+  loadingEl.innerHTML = '';
+  console.log('✅ loadingEl cleared, innerHTML now:', loadingEl.innerHTML.length);
+  
+  // Create completion overlay with medical styling
+  const completionOverlay = document.createElement('div');
+  completionOverlay.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  `;
+  
+  // Success icon (animated checkmark)
+  const successIcon = document.createElement('div');
+  successIcon.style.cssText = `
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #10b981 0%, #0F5A46 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.5s ease-out;
+  `;
+  successIcon.innerHTML = `
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  `;
+  
+  // Title
+  const title = document.createElement('h2');
+  title.style.cssText = `
+    margin: 0 0 1rem 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0F5A46;
+    text-align: center;
+  `;
+  title.textContent = 'Ihr persönlicher MEDLESS-Plan ist fertig';
+  
+  // Description
+  const description = document.createElement('p');
+  description.style.cssText = `
+    margin: 0 0 2rem 0;
+    font-size: 1rem;
+    color: #4b5563;
+    text-align: center;
+    max-width: 500px;
+    line-height: 1.6;
+  `;
+  description.textContent = 'Ihr individueller Reduktionsplan mit CBD-Dosierung wurde berechnet. Sie können ihn jetzt ansehen und als PDF ausdrucken.';
+  
+  // REFACTORED: TWO SEPARATE PDF DOWNLOAD BUTTONS (Thomas's request)
+  // Instead of opening combined HTML in new tab, we now offer direct PDF downloads
+  
+  // Buttons wrapper
+  const buttonsWrapper = document.createElement('div');
+  buttonsWrapper.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 500px;
+  `;
+  
+  // Patient PDF Button
+  const patientButton = document.createElement('button');
+  patientButton.style.cssText = `
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #10b981 0%, #0F5A46 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(15, 90, 70, 0.3);
+  `;
+  patientButton.textContent = 'Patienten-Plan als PDF herunterladen';
+  
+  // Doctor PDF Button
+  const doctorButton = document.createElement('button');
+  doctorButton.style.cssText = `
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+  `;
+  doctorButton.textContent = 'Ärztebericht als PDF herunterladen';
+  
+  // Patient Button hover effects (only if not disabled)
+  patientButton.addEventListener('mouseenter', () => {
+    if (!patientButton.disabled) {
+      patientButton.style.transform = 'translateY(-2px)';
+      patientButton.style.boxShadow = '0 6px 20px rgba(15, 90, 70, 0.4)';
+      patientButton.style.background = 'linear-gradient(135deg, #0F5A46 0%, #0a4434 100%)';
+    }
+  });
+  
+  patientButton.addEventListener('mouseleave', () => {
+    if (!patientButton.disabled) {
+      patientButton.style.transform = 'translateY(0)';
+      patientButton.style.boxShadow = '0 4px 12px rgba(15, 90, 70, 0.3)';
+      patientButton.style.background = 'linear-gradient(135deg, #10b981 0%, #0F5A46 100%)';
+    }
+  });
+  
+  // Doctor Button hover effects (only if not disabled)
+  doctorButton.addEventListener('mouseenter', () => {
+    if (!doctorButton.disabled) {
+      doctorButton.style.transform = 'translateY(-2px)';
+      doctorButton.style.boxShadow = '0 6px 20px rgba(30, 64, 175, 0.4)';
+      doctorButton.style.background = 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)';
+    }
+  });
+  
+  doctorButton.addEventListener('mouseleave', () => {
+    if (!doctorButton.disabled) {
+      doctorButton.style.transform = 'translateY(0)';
+      doctorButton.style.boxShadow = '0 4px 12px rgba(30, 64, 175, 0.3)';
+      doctorButton.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)';
+    }
+  });
+  
+  // Hint text below buttons
+  const hintText = document.createElement('p');
+  hintText.style.cssText = `
+    margin: 1rem 0 0 0;
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-align: center;
+    line-height: 1.5;
+  `;
+  hintText.innerHTML = `
+    <strong>Patienten-Plan:</strong> Für den Patienten – enthält Wochenplan, CBD-Dosierung und Sicherheitshinweise.<br>
+    <strong>Ärztebericht:</strong> Für den behandelnden Arzt – enthält Risiko-Analyse, Wechselwirkungen und Monitoring-Empfehlungen.
+  `;
+  
+  // NOTE: ensureResultsShown() function removed - PDFs are downloaded directly
+  // without showing results in browser (as per Thomas's requirements)
+  
+  // Flags to ensure each PDF is downloaded only once
+  let patientPdfDownloaded = false;
+  let doctorPdfDownloaded = false;
+  
+  // Patient Button Click Handler
+  patientButton.addEventListener('click', async () => {
+    console.log('🖱️ Patient PDF button clicked');
+    
+    // Prevent multiple downloads
+    if (patientPdfDownloaded) {
+      console.log('⚠️ Patient PDF already downloaded');
+      return;
+    }
+    
+    if (!lastAnalyzeAndReportsResult) {
+      console.error('❌ No analysis result stored');
+      alert('Fehler: Keine Analysedaten vorhanden');
+      return;
+    }
+    
+    try {
+      // Get Patient HTML
+      const patientHtml = lastAnalyzeAndReportsResult.patient?.html;
+      if (!patientHtml) {
+        console.error('❌ No patient HTML available');
+        alert('Fehler: Kein Patienten-Bericht verfügbar');
+        return;
+      }
+      
+      console.log('DEBUG Patient HTML length before PDF:', patientHtml.length);
+      console.log('DEBUG Patient HTML preview (first 200 chars):', patientHtml.substring(0, 200));
+      
+      // Validate HTML length
+      if (patientHtml.length < 500) {
+        console.error('❌ Patient HTML too short:', patientHtml.length);
+        alert('Fehler: Patienten-Bericht ist leer oder unvollständig');
+        return;
+      }
+      
+      // Disable button immediately to prevent double-clicks
+      patientButton.disabled = true;
+      patientButton.style.cursor = 'not-allowed';
+      patientButton.style.opacity = '0.6';
+      patientButton.textContent = 'PDF wird erstellt...';
+      
+      console.log('📄 Downloading Patient PDF...');
+      await downloadHtmlAsPdf(patientHtml, 'MEDLESS_Plan_Patient.pdf');
+      console.log('✅ Patient PDF downloaded successfully');
+      
+      // Mark as downloaded and update button text
+      patientPdfDownloaded = true;
+      patientButton.textContent = '✅ Patienten-PDF wurde erstellt';
+      patientButton.style.background = 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)';
+      
+    } catch (error) {
+      console.error('❌ ERROR in Patient PDF download:', error);
+      alert('Fehler beim Herunterladen des Patienten-PDFs: ' + error.message);
+      
+      // Re-enable button on error
+      patientButton.disabled = false;
+      patientButton.style.cursor = 'pointer';
+      patientButton.style.opacity = '1';
+      patientButton.textContent = 'Patienten-Plan als PDF herunterladen';
+      patientButton.style.background = 'linear-gradient(135deg, #10b981 0%, #0F5A46 100%)';
+    }
+  });
+  
+  // Doctor Button Click Handler
+  doctorButton.addEventListener('click', async () => {
+    console.log('🖱️ Doctor PDF button clicked');
+    
+    // Prevent multiple downloads
+    if (doctorPdfDownloaded) {
+      console.log('⚠️ Doctor PDF already downloaded');
+      return;
+    }
+    
+    if (!lastAnalyzeAndReportsResult) {
+      console.error('❌ No analysis result stored');
+      alert('Fehler: Keine Analysedaten vorhanden');
+      return;
+    }
+    
+    try {
+      // Get Doctor HTML
+      const doctorHtml = lastAnalyzeAndReportsResult.doctor?.html;
+      if (!doctorHtml) {
+        console.error('❌ No doctor HTML available');
+        alert('Fehler: Kein Ärztebericht verfügbar');
+        return;
+      }
+      
+      console.log('DEBUG Doctor HTML length before PDF:', doctorHtml.length);
+      console.log('DEBUG Doctor HTML preview (first 200 chars):', doctorHtml.substring(0, 200));
+      
+      // Validate HTML length
+      if (doctorHtml.length < 500) {
+        console.error('❌ Doctor HTML too short:', doctorHtml.length);
+        alert('Fehler: Ärztebericht ist leer oder unvollständig');
+        return;
+      }
+      
+      // Disable button immediately to prevent double-clicks
+      doctorButton.disabled = true;
+      doctorButton.style.cursor = 'not-allowed';
+      doctorButton.style.opacity = '0.6';
+      doctorButton.textContent = 'PDF wird erstellt...';
+      
+      console.log('📄 Downloading Doctor PDF...');
+      await downloadHtmlAsPdf(doctorHtml, 'MEDLESS_Plan_Arztbericht.pdf');
+      console.log('✅ Doctor PDF downloaded successfully');
+      
+      // Mark as downloaded and update button text
+      doctorPdfDownloaded = true;
+      doctorButton.textContent = '✅ Ärztebericht-PDF wurde erstellt';
+      doctorButton.style.background = 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)';
+      
+    } catch (error) {
+      console.error('❌ ERROR in Doctor PDF download:', error);
+      alert('Fehler beim Herunterladen des Ärzteberichts: ' + error.message);
+      
+      // Re-enable button on error
+      doctorButton.disabled = false;
+      doctorButton.style.cursor = 'pointer';
+      doctorButton.style.opacity = '1';
+      doctorButton.textContent = 'Ärztebericht als PDF herunterladen';
+      doctorButton.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)';
+    }
+  });
+  
+  // Add keyframe animation for icon
+  if (!document.getElementById('plan-ready-animations')) {
+    const style = document.createElement('style');
+    style.id = 'plan-ready-animations';
+    style.textContent = `
+      @keyframes scaleIn {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  // Assemble completion overlay (NEW: Two separate PDF download buttons)
+  console.log('🔨 Assembling completion overlay with elements');
+  completionOverlay.appendChild(successIcon);
+  completionOverlay.appendChild(title);
+  completionOverlay.appendChild(description);
+  
+  // Add both buttons to wrapper
+  buttonsWrapper.appendChild(patientButton);
+  buttonsWrapper.appendChild(doctorButton);
+  completionOverlay.appendChild(buttonsWrapper);
+  completionOverlay.appendChild(hintText);
+  
+  console.log('✅ All elements added to completionOverlay (2 PDF buttons + hint)');
+  
+  // Add to loading element
+  console.log('📍 Adding completionOverlay to loadingEl');
+  loadingEl.appendChild(completionOverlay);
+  console.log('DEBUG_MEDLESS: completion overlay + TWO PDF buttons added to DOM');
+  console.log('✅ completionOverlay added to DOM');
+  
+  // Log button state
+  console.log('🔘 Patient Button:', patientButton);
+  console.log('🔘 Patient Button text:', patientButton.textContent);
+  console.log('🔘 Patient Button visible?', patientButton.offsetHeight > 0);
+  console.log('🔘 Doctor Button:', doctorButton);
+  console.log('🔘 Doctor Button text:', doctorButton.textContent);
+  console.log('🔘 Doctor Button visible?', doctorButton.offsetHeight > 0);
+  
+  // Scroll to completion overlay
+  setTimeout(() => {
+    console.log('📜 Scrolling to completion overlay');
+    completionOverlay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+  
+  console.log('🎊 showPlanReadyState() COMPLETED SUCCESSFULLY (2 PDF buttons)');
+  
+  // FALLBACK: If buttons are not visible after 500ms, force show them
+  setTimeout(() => {
+    if (patientButton.offsetHeight === 0 || doctorButton.offsetHeight === 0) {
+      console.error('⚠️ BUTTONS ARE HIDDEN! Forcing visibility...');
+      loadingEl.style.display = 'block';
+      loadingEl.style.visibility = 'visible';
+      loadingEl.style.opacity = '1';
+      completionOverlay.style.display = 'flex';
+      buttonsWrapper.style.display = 'flex';
+      patientButton.style.display = 'block';
+      doctorButton.style.display = 'block';
+    } else {
+      console.log('✅ Both PDF buttons are visible and clickable');
+    }
+  }, 500);
+}
+
+// ============================================================
+// TEST DATA / DEMO SECTION
+// ============================================================
+
+
 
 // Display results
 function displayResults(data, firstName = '', gender = '') {
@@ -1002,7 +1557,12 @@ function displayResults(data, firstName = '', gender = '') {
   console.log('✅ Results div found:', resultsDiv);
   console.log('🎨 Current resultsDiv classes:', resultsDiv.className);
   
-  const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization, costs } = data;
+  // NEU: Daten können jetzt aus zwei Quellen kommen:
+  // 1. Alte Route /api/analyze: data direkt mit analysis, maxSeverity, etc.
+  // 2. Neue Route /api/analyze-and-reports: data.analysis enthält die Analysedaten
+  // Wir prüfen, ob data.analysis existiert und nutzen dann diese Struktur
+  const analysisData = data.analysis || data; // Fallback für Kompatibilität
+  const { analysis, maxSeverity, guidelines, weeklyPlan, warnings, product, personalization, costs } = analysisData;
   
   let html = '';
   
@@ -1898,6 +2458,88 @@ function displayResults(data, firstName = '', gender = '') {
   console.log('👁️ Removed "hidden" class from results');
   console.log('🎨 Final resultsDiv classes:', resultsDiv.className);
   console.log('📏 Results div dimensions:', resultsDiv.offsetWidth, 'x', resultsDiv.offsetHeight);
+  
+  // ============================================================
+  // NEU: REPORT-VORSCHAUEN HINZUFÜGEN (Patient + Arzt)
+  // ============================================================
+  // Die neue API-Route /api/analyze-and-reports gibt uns:
+  // data.patient.html (HTML-String für Patientenbericht)
+  // data.doctor.html (HTML-String für Ärztebericht)
+  // Wir zeigen beide als iframe-Vorschau am Ende des Ergebnisbereichs an
+  
+  if (data.patient && data.patient.html) {
+    console.log('📄 Patientenbericht-HTML gefunden, füge Vorschau hinzu');
+    
+    // Erstelle Container für Patientenbericht-Vorschau
+    const patientPreviewSection = document.createElement('section');
+    patientPreviewSection.style.marginTop = '3rem';
+    patientPreviewSection.style.padding = '1.5rem';
+    patientPreviewSection.style.backgroundColor = '#f9fafb';
+    patientPreviewSection.style.borderRadius = '12px';
+    patientPreviewSection.style.border = '1px solid #e5e7eb';
+    
+    patientPreviewSection.innerHTML = `
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F5A46; margin-bottom: 1rem;">
+        📄 Patientenbericht (Vorschau)
+      </h2>
+      <p style="color: #6b7280; margin-bottom: 1rem;">
+        Hier sehen Sie eine Vorschau des generierten Patientenberichts, der später als PDF heruntergeladen werden kann.
+      </p>
+      <details style="cursor: pointer;">
+        <summary style="font-weight: 600; color: #374151; padding: 0.5rem; background: white; border-radius: 6px; list-style: none; user-select: none;">
+          <span style="display: inline-block; margin-right: 0.5rem;">▶</span>
+          HTML-Vorschau anzeigen/ausblenden
+        </summary>
+        <div style="margin-top: 12px; border: 1px solid #d1d5db; border-radius: 8px; overflow: hidden; background: white;">
+          <iframe 
+            srcdoc="${data.patient.html.replace(/"/g, '&quot;')}"
+            style="width: 100%; height: 600px; border: none; display: block;"
+            title="Patientenbericht Vorschau"
+          ></iframe>
+        </div>
+      </details>
+    `;
+    
+    resultsDiv.appendChild(patientPreviewSection);
+    console.log('✅ Patientenbericht-Vorschau hinzugefügt');
+  }
+  
+  if (data.doctor && data.doctor.html) {
+    console.log('📄 Ärztebericht-HTML gefunden, füge Vorschau hinzu');
+    
+    // Erstelle Container für Ärztebericht-Vorschau
+    const doctorPreviewSection = document.createElement('section');
+    doctorPreviewSection.style.marginTop = '2rem';
+    doctorPreviewSection.style.padding = '1.5rem';
+    doctorPreviewSection.style.backgroundColor = '#fef3c7';
+    doctorPreviewSection.style.borderRadius = '12px';
+    doctorPreviewSection.style.border = '1px solid #fbbf24';
+    
+    doctorPreviewSection.innerHTML = `
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: #92400e; margin-bottom: 1rem;">
+        🩺 Ärztebericht (Vorschau)
+      </h2>
+      <p style="color: #78350f; margin-bottom: 1rem;">
+        Dieser Bericht ist für medizinisches Fachpersonal gedacht und enthält detaillierte pharmakokinetische Daten.
+      </p>
+      <details style="cursor: pointer;">
+        <summary style="font-weight: 600; color: #78350f; padding: 0.5rem; background: white; border-radius: 6px; list-style: none; user-select: none;">
+          <span style="display: inline-block; margin-right: 0.5rem;">▶</span>
+          HTML-Vorschau anzeigen/ausblenden
+        </summary>
+        <div style="margin-top: 12px; border: 1px solid #f59e0b; border-radius: 8px; overflow: hidden; background: white;">
+          <iframe 
+            srcdoc="${data.doctor.html.replace(/"/g, '&quot;')}"
+            style="width: 100%; height: 600px; border: none; display: block;"
+            title="Ärztebericht Vorschau"
+          ></iframe>
+        </div>
+      </details>
+    `;
+    
+    resultsDiv.appendChild(doctorPreviewSection);
+    console.log('✅ Ärztebericht-Vorschau hinzugefügt');
+  }
   
   // Scroll to results
   setTimeout(() => {

@@ -1,0 +1,55 @@
+-- MEDLESS DATABASE PATCH 002: Updates for Original Medications (IDs 1-51)
+-- Execution Order: 2/7
+-- Purpose: Fill missing fields for seed.sql medications
+
+UPDATE medications SET half_life_hours = 12, withdrawal_risk_score = 8, max_weekly_reduction_pct = 10, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 1;
+UPDATE medications SET half_life_hours = 36, withdrawal_risk_score = 9, max_weekly_reduction_pct = 5, can_reduce_to_zero = 1, cbd_interaction_strength = 'critical' WHERE id = 2;
+UPDATE medications SET half_life_hours = 24, withdrawal_risk_score = 9, max_weekly_reduction_pct = 5, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 3;
+UPDATE medications SET half_life_hours = 12, withdrawal_risk_score = 7, max_weekly_reduction_pct = 10, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 4;
+UPDATE medications SET half_life_hours = 15, withdrawal_risk_score = 8, max_weekly_reduction_pct = 8, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 5;
+UPDATE medications SET half_life_hours = 24, withdrawal_risk_score = 8, max_weekly_reduction_pct = 10, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 6;
+UPDATE medications SET half_life_hours = 6, withdrawal_risk_score = 9, max_weekly_reduction_pct = 5, can_reduce_to_zero = 1, cbd_interaction_strength = 'critical' WHERE id = 7;
+UPDATE medications SET half_life_hours = 20, withdrawal_risk_score = 7, max_weekly_reduction_pct = 10, can_reduce_to_zero = 1, cbd_interaction_strength = 'medium' WHERE id = 8;
+UPDATE medications SET half_life_hours = 36, withdrawal_risk_score = 8, max_weekly_reduction_pct = 8, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 9;
+UPDATE medications SET half_life_hours = 30, withdrawal_risk_score = 8, max_weekly_reduction_pct = 8, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 10;
+UPDATE medications SET half_life_hours = 24, withdrawal_risk_score = 6, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 11;
+UPDATE medications SET half_life_hours = 16, withdrawal_risk_score = 5, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 12;
+UPDATE medications SET half_life_hours = 24, withdrawal_risk_score = 6, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 13;
+UPDATE medications SET half_life_hours = 21, withdrawal_risk_score = 6, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 14;
+UPDATE medications SET half_life_hours = 20, withdrawal_risk_score = 5, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'low' WHERE id = 15;
+UPDATE medications SET half_life_hours = 33, withdrawal_risk_score = 6, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 16;
+UPDATE medications SET half_life_hours = 12, withdrawal_risk_score = 5, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'low' WHERE id = 17;
+UPDATE medications SET half_life_hours = 36, withdrawal_risk_score = 6, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 18;
+UPDATE medications SET half_life_hours = 12, withdrawal_risk_score = 5, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'low' WHERE id = 19;
+UPDATE medications SET half_life_hours = 27, withdrawal_risk_score = 6, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 20;
+UPDATE medications SET half_life_hours = 4, withdrawal_risk_score = 3, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 21;
+UPDATE medications SET half_life_hours = 6, withdrawal_risk_score = 3, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 22;
+UPDATE medications SET half_life_hours = 5, withdrawal_risk_score = 2, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 23;
+UPDATE medications SET half_life_hours = 8, withdrawal_risk_score = 2, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 24;
+UPDATE medications SET half_life_hours = 12, withdrawal_risk_score = 8, max_weekly_reduction_pct = 10, can_reduce_to_zero = 1, cbd_interaction_strength = 'medium' WHERE id = 25;
+UPDATE medications SET half_life_hours = 10, withdrawal_risk_score = 7, max_weekly_reduction_pct = 10, can_reduce_to_zero = 1, cbd_interaction_strength = 'medium' WHERE id = 26;
+UPDATE medications SET half_life_hours = 7, withdrawal_risk_score = 6, max_weekly_reduction_pct = 15, can_reduce_to_zero = 1, cbd_interaction_strength = 'medium' WHERE id = 27;
+UPDATE medications SET half_life_hours = 9, withdrawal_risk_score = 7, max_weekly_reduction_pct = 10, can_reduce_to_zero = 1, cbd_interaction_strength = 'medium' WHERE id = 28;
+UPDATE medications SET half_life_hours = 24, withdrawal_risk_score = 5, max_weekly_reduction_pct = 15, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 29;
+UPDATE medications SET half_life_hours = 6, withdrawal_risk_score = 6, max_weekly_reduction_pct = 15, can_reduce_to_zero = 1, cbd_interaction_strength = 'medium' WHERE id = 30;
+UPDATE medications SET half_life_hours = 8, withdrawal_risk_score = 9, max_weekly_reduction_pct = 5, can_reduce_to_zero = 1, cbd_interaction_strength = 'critical' WHERE id = 31;
+UPDATE medications SET half_life_hours = 12, withdrawal_risk_score = 8, max_weekly_reduction_pct = 8, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 32;
+UPDATE medications SET half_life_hours = 20, withdrawal_risk_score = 7, max_weekly_reduction_pct = 10, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 33;
+UPDATE medications SET half_life_hours = 50, withdrawal_risk_score = 8, max_weekly_reduction_pct = 8, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 34;
+UPDATE medications SET half_life_hours = 30, withdrawal_risk_score = 8, max_weekly_reduction_pct = 8, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 35;
+UPDATE medications SET half_life_hours = 36, withdrawal_risk_score = 9, max_weekly_reduction_pct = 5, can_reduce_to_zero = 1, cbd_interaction_strength = 'critical' WHERE id = 36;
+UPDATE medications SET half_life_hours = 24, withdrawal_risk_score = 8, max_weekly_reduction_pct = 8, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 37;
+UPDATE medications SET half_life_hours = 96, withdrawal_risk_score = 8, max_weekly_reduction_pct = 8, can_reduce_to_zero = 1, cbd_interaction_strength = 'high' WHERE id = 38;
+UPDATE medications SET half_life_hours = 20, withdrawal_risk_score = 8, max_weekly_reduction_pct = 10, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 39;
+UPDATE medications SET half_life_hours = 18, withdrawal_risk_score = 7, max_weekly_reduction_pct = 10, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 40;
+UPDATE medications SET half_life_hours = 12, withdrawal_risk_score = 8, max_weekly_reduction_pct = 10, can_reduce_to_zero = 0, cbd_interaction_strength = 'high' WHERE id = 41;
+UPDATE medications SET half_life_hours = 14, withdrawal_risk_score = 7, max_weekly_reduction_pct = 10, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 42;
+UPDATE medications SET half_life_hours = 8, withdrawal_risk_score = 6, max_weekly_reduction_pct = 15, can_reduce_to_zero = 0, cbd_interaction_strength = 'medium' WHERE id = 43;
+UPDATE medications SET half_life_hours = 8, withdrawal_risk_score = 4, max_weekly_reduction_pct = 15, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 44;
+UPDATE medications SET half_life_hours = 24, withdrawal_risk_score = 3, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 45;
+UPDATE medications SET half_life_hours = 6, withdrawal_risk_score = 3, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 46;
+UPDATE medications SET half_life_hours = 1, withdrawal_risk_score = 2, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 47;
+UPDATE medications SET half_life_hours = 2, withdrawal_risk_score = 2, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 48;
+UPDATE medications SET half_life_hours = 6, withdrawal_risk_score = 3, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 49;
+UPDATE medications SET half_life_hours = 2, withdrawal_risk_score = 2, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 50;
+UPDATE medications SET half_life_hours = 3, withdrawal_risk_score = 2, max_weekly_reduction_pct = 20, can_reduce_to_zero = 1, cbd_interaction_strength = 'low' WHERE id = 51;

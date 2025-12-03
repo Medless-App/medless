@@ -1,6 +1,9 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { serveStatic } from 'hono/cloudflare-workers'
+import { buildPatientReportData, buildDoctorReportData } from './report_data'
+import { renderPatientReportHtml, renderDoctorReportHtml } from './report_templates'
+import type { AnalyzeResponse } from './types/analyzeResponse'
 
 type Bindings = {
   DB: D1Database;
@@ -404,6 +407,404 @@ function calculatePlanCosts(weeklyPlan: any[]) {
   };
 }
 
+// ============================================================
+// SHARED ANALYSIS FUNCTION: Single Source of Truth
+// ============================================================
+// This function contains the complete analysis logic used by both
+// /api/analyze and /api/analyze-and-reports routes.
+// DO NOT modify this function without understanding its medical implications.
+
+async function buildAnalyzeResponse(body: any, env: any) {
+  // Extract and normalize field names (support both API formats)
+  const { 
+    medications, 
+    durationWeeks, 
+    reductionGoal = 50, 
+    email, 
+    firstName, 
+    vorname,     // German field name
+    gender, 
+    geschlecht,  // German field name
+    age, 
+    alter,       // German field name
+    weight, 
+    gewicht,     // German field name
+    height,
+    groesse      // German field name
+  } = body;
+  
+  // Use German fields if provided, otherwise use English fields
+  const finalFirstName = vorname || firstName;
+  const finalGender = geschlecht || gender;
+  const finalAge = alter || age;
+  const finalWeight = gewicht || weight;
+  const finalHeight = groesse || height;
+  
+  // Validation
+  if (!medications || !Array.isArray(medications) || medications.length === 0) {
+    throw new Error('Bitte geben Sie mindestens ein Medikament an');
+  }
+  
+  if (!durationWeeks || durationWeeks < 1) {
+    throw new Error('Bitte geben Sie eine gültige Dauer in Wochen an');
+  }
+  
+  // Normalize medication field names (support both dailyDoseMg and mgPerDay)
+  for (const med of medications) {
+    const doseMg = med.dailyDoseMg || med.mgPerDay;
+    if (!doseMg || isNaN(doseMg) || doseMg <= 0) {
+      throw new Error(`Bitte geben Sie eine gültige Tagesdosis in mg für "${med.name}" ein`);
+    }
+    // Normalize to mgPerDay for internal use
+    med.mgPerDay = doseMg;
+  }
+  
+  // Save email to database if provided
+  if (email) {
+    try {
+      await env.DB.prepare(`
+        INSERT INTO customer_emails (email, first_name, created_at)
+        VALUES (?, ?, CURRENT_TIMESTAMP)
+      `).bind(email, finalFirstName || null).run();
+    } catch (emailError: any) {
+      console.log('Email already exists or error saving:', emailError.message);
+    }
+  }
+  
+  // Calculate BMI and BSA if data provided
+  let bmi = null;
+  let bsa = null;
+  let idealWeightKg = null;
+  
+  if (finalWeight && finalHeight) {
+    const heightInMeters = finalHeight / 100;
+    bmi = Math.round((finalWeight / (heightInMeters * heightInMeters)) * 10) / 10;
+    bsa = Math.round(Math.sqrt((finalHeight * finalWeight) / 3600) * 100) / 100;
+    
+    // Calculate ideal weight using Devine formula
+    if (finalGender === 'male' || finalGender === 'männlich') {
+      idealWeightKg = Math.round((50 + 0.9 * (finalHeight - 152)) * 10) / 10;
+    } else if (finalGender === 'female' || finalGender === 'weiblich') {
+      idealWeightKg = Math.round((45.5 + 0.9 * (finalHeight - 152)) * 10) / 10;
+    }
+  }
+  
+  // Analyze each medication for interactions
+  const analysisResults = [];
+  let maxSeverity = 'low';
+  
+  for (const med of medications) {
+    const medResult = await env.DB.prepare(`
+      SELECT m.*, 
+             mc.name as category_name,
+             mc.risk_level,
+             mc.can_reduce_to_zero,
+             mc.default_min_target_fraction,
+             mc.max_weekly_reduction_pct,
+             mc.requires_specialist,
+             mc.notes as category_notes,
+             m.half_life_hours,
+             m.therapeutic_min_ng_ml,
+             m.therapeutic_max_ng_ml,
+             m.withdrawal_risk_score,
+             m.cbd_interaction_strength
+      FROM medications m
+      LEFT JOIN medication_categories mc ON m.category_id = mc.id
+      WHERE m.name LIKE ? OR m.generic_name LIKE ?
+      LIMIT 1
+    `).bind(`%${med.name}%`, `%${med.name}%`).first() as MedicationWithCategory | null;
+    
+    if (medResult) {
+      const interactions = await env.DB.prepare(`
+        SELECT * FROM cbd_interactions WHERE medication_id = ?
+      `).bind(medResult.id).all();
+      
+      analysisResults.push({
+        medication: medResult,
+        interactions: interactions.results,
+        mgPerDay: med.mgPerDay
+      });
+      
+      if (interactions.results.length > 0) {
+        const severity = interactions.results[0].severity;
+        if (severity === 'critical') maxSeverity = 'critical';
+        else if (severity === 'high' && maxSeverity !== 'critical') maxSeverity = 'high';
+        else if (severity === 'medium' && maxSeverity === 'low') maxSeverity = 'medium';
+      }
+    } else {
+      analysisResults.push({
+        medication: { name: med.name, found: false },
+        interactions: [],
+        mgPerDay: med.mgPerDay,
+        warning: 'Medikament nicht in Datenbank gefunden'
+      });
+    }
+  }
+  
+  // Check for Benzos/Opioids
+  const adjustmentNotes: string[] = [];
+  const hasBenzoOrOpioid = analysisResults.some(result => {
+    const medName = result.medication.name.toLowerCase();
+    const isBenzo = medName.includes('diazepam') || medName.includes('lorazepam') || 
+                    medName.includes('alprazolam') || medName.includes('clonazepam') ||
+                    medName.includes('benzo');
+    const isOpioid = medName.includes('tramadol') || medName.includes('oxycodon') || 
+                     medName.includes('morphin') || medName.includes('fentanyl') ||
+                     medName.includes('opioid') || medName.includes('opiat');
+    return isBenzo || isOpioid;
+  });
+  
+  if (hasBenzoOrOpioid) {
+    adjustmentNotes.push('⚠️ Benzodiazepine oder Opioide erkannt: CBD-Startdosis wird halbiert (Sicherheitsregel)');
+  }
+  
+  // Count sensitive medications
+  const sensitiveMedCount = analysisResults.filter(result => {
+    const medName = result.medication.name?.toLowerCase() || '';
+    const categoryName = (result.medication as MedicationWithCategory)?.category_name?.toLowerCase() || '';
+    const riskLevel = (result.medication as MedicationWithCategory)?.risk_level?.toLowerCase() || '';
+    
+    return (
+      medName.includes('benzo') || medName.includes('diazepam') || medName.includes('lorazepam') ||
+      medName.includes('alprazolam') || medName.includes('clonazepam') ||
+      medName.includes('tramadol') || medName.includes('oxycodon') || medName.includes('morphin') ||
+      medName.includes('antidepress') || medName.includes('ssri') || medName.includes('snri') ||
+      medName.includes('epileps') || medName.includes('antikonvulsiv') ||
+      medName.includes('marcumar') || medName.includes('warfarin') || medName.includes('blutverdünn') ||
+      medName.includes('immunsuppress') || medName.includes('ciclosporin') ||
+      categoryName.includes('benzo') || categoryName.includes('antidepress') ||
+      categoryName.includes('epileps') || categoryName.includes('blutverdünn') ||
+      categoryName.includes('immunsuppress') || categoryName.includes('opioid') ||
+      riskLevel === 'very_high' || riskLevel === 'high'
+    );
+  }).length;
+  
+  // CBD Dosing: Body weight-based (0.5 mg/kg start → 1.0 mg/kg end)
+  const defaultWeight = 70;
+  const userWeight = finalWeight || defaultWeight;
+  
+  let cbdStartMg = userWeight * 0.5;
+  const cbdEndMg = userWeight * 1.0;
+  
+  // Safety Rule: Halve CBD start dose if Benzos/Opioids present
+  if (hasBenzoOrOpioid) {
+    cbdStartMg = cbdStartMg / 2;
+    adjustmentNotes.push(`🔒 CBD-Startdosis reduziert auf ${Math.round(cbdStartMg * 10) / 10} mg/Tag (Sicherheit)`);
+  }
+  
+  // Age-based CBD adjustments
+  if (finalAge && finalAge >= 65) {
+    cbdStartMg *= 0.8;
+    adjustmentNotes.push('👴 CBD-Dosis angepasst für Senioren (65+)');
+  }
+  
+  // BMI-based CBD adjustments
+  if (finalWeight && finalHeight && bmi) {
+    if (bmi < 18.5) {
+      cbdStartMg *= 0.85;
+      adjustmentNotes.push('⚖️ CBD-Dosis angepasst: Untergewicht (BMI < 18.5)');
+    } else if (bmi > 30) {
+      cbdStartMg *= 1.1;
+      adjustmentNotes.push('⚖️ CBD-Dosis angepasst: Übergewicht (BMI > 30)');
+    }
+  }
+  
+  // Calculate weekly CBD increase
+  const cbdWeeklyIncrease = (cbdEndMg - cbdStartMg) / durationWeeks;
+  
+  // Generate weekly plan with bottle tracking
+  const cbdPlan = generateWeeklyPlanWithBottleTracking(cbdStartMg, cbdEndMg, durationWeeks);
+  
+  // Merge CBD tracking with medication reduction data
+  const weeklyPlan = cbdPlan.map((cbdWeek: any) => {
+    const week = cbdWeek.week;
+    
+    const weekMedications = medications.map((med: any, index: number) => {
+      const startMg = med.mgPerDay;
+      const medAnalysis = analysisResults[index];
+      const medCategory = medAnalysis?.medication as MedicationWithCategory | null;
+      
+      const safetyResult = applyCategorySafetyRules({
+        startMg,
+        reductionGoal,
+        durationWeeks,
+        medicationName: med.name,
+        category: medCategory
+      });
+      
+      const targetMg = safetyResult.effectiveTargetMg;
+      const weeklyReduction = safetyResult.effectiveWeeklyReduction;
+      const currentMg = startMg - (weeklyReduction * (week - 1));
+      
+      const reductionSpeed = startMg > 0 ? weeklyReduction / startMg : 0;
+      const reductionSpeedPct = Math.round(reductionSpeed * 100 * 10) / 10;
+      
+      return {
+        name: med.name,
+        startMg: Math.round(startMg * 10) / 10,
+        currentMg: Math.round(currentMg * 10) / 10,
+        targetMg: Math.round(targetMg * 10) / 10,
+        reduction: Math.round(weeklyReduction * 10) / 10,
+        reductionPercent: Math.round(((startMg - currentMg) / startMg) * 100),
+        reductionSpeedPct,
+        safety: week === 1 ? {
+          appliedCategoryRules: safetyResult.appliedCategoryRules,
+          limitedByCategory: safetyResult.limitedByCategory,
+          notes: safetyResult.safetyNotes
+        } : undefined
+      };
+    });
+    
+    const totalMedicationLoad = weekMedications.reduce((sum: number, med: any) => sum + med.currentMg, 0);
+    const cannabinoidMgPerKg = userWeight > 0 ? Math.round((cbdWeek.actualCbdMg / userWeight) * 10) / 10 : null;
+    const cannabinoidToLoadRatio = totalMedicationLoad > 0 ? Math.round((cbdWeek.actualCbdMg / totalMedicationLoad) * 1000) / 10 : null;
+    const weeklyCannabinoidIntakeMg = Math.round(cbdWeek.actualCbdMg * 7 * 10) / 10;
+    
+    return {
+      week,
+      medications: weekMedications,
+      totalMedicationLoad: Math.round(totalMedicationLoad * 10) / 10,
+      cbdDose: cbdWeek.cbdDose,
+      kannasanProduct: cbdWeek.kannasanProduct,
+      morningSprays: cbdWeek.morningSprays,
+      eveningSprays: cbdWeek.eveningSprays,
+      totalSprays: cbdWeek.totalSprays,
+      actualCbdMg: cbdWeek.actualCbdMg,
+      bottleStatus: cbdWeek.bottleStatus,
+      cannabinoidMgPerKg,
+      cannabinoidToLoadRatio,
+      weeklyCannabinoidIntakeMg
+    };
+  });
+  
+  const firstWeekMedless = weeklyPlan[0];
+  const costAnalysis = calculatePlanCosts(weeklyPlan);
+  
+  // Calculate overall metrics
+  const overallStartLoad = medications.reduce((sum: number, med: any) => sum + med.mgPerDay, 0);
+  const overallEndLoad = weeklyPlan.length > 0 
+    ? weeklyPlan[weeklyPlan.length - 1].medications.reduce((sum: number, med: any) => sum + med.targetMg, 0)
+    : overallStartLoad;
+  const totalLoadReductionPct = overallStartLoad > 0 
+    ? Math.round(((overallStartLoad - overallEndLoad) / overallStartLoad) * 1000) / 10
+    : 0;
+  
+  const reductionSpeeds = medications.map((med: any, index: number) => {
+    const medAnalysis = analysisResults[index];
+    const medCategory = medAnalysis?.medication as MedicationWithCategory | null;
+    
+    const safetyResult = applyCategorySafetyRules({
+      startMg: med.mgPerDay,
+      reductionGoal,
+      durationWeeks,
+      medicationName: med.name,
+      category: medCategory
+    });
+    
+    const weeklyReduction = safetyResult.effectiveWeeklyReduction;
+    return med.mgPerDay > 0 ? (weeklyReduction / med.mgPerDay) * 100 : 0;
+  });
+  
+  const avgReductionSpeedPct = reductionSpeeds.length > 0
+    ? reductionSpeeds.reduce((sum: number, speed: number) => sum + speed, 0) / reductionSpeeds.length
+    : 0;
+  
+  let reductionSpeedCategory = 'moderat';
+  if (avgReductionSpeedPct < 2) {
+    reductionSpeedCategory = 'sehr langsam';
+  } else if (avgReductionSpeedPct > 5) {
+    reductionSpeedCategory = 'relativ schnell';
+  }
+  
+  const weeksToCbdTarget = cbdWeeklyIncrease > 0 
+    ? Math.round(((cbdEndMg - cbdStartMg) / cbdWeeklyIncrease) * 10) / 10
+    : null;
+  
+  const cannabinoidIncreasePctPerWeek = cbdStartMg > 0 
+    ? Math.round((cbdWeeklyIncrease / cbdStartMg) * 1000) / 10
+    : null;
+  
+  // Collect category safety notes
+  const categorySafetyNotes: string[] = [];
+  if (weeklyPlan.length > 0 && weeklyPlan[0].medications) {
+    weeklyPlan[0].medications.forEach((med: any) => {
+      if (med.safety && med.safety.notes && med.safety.notes.length > 0) {
+        categorySafetyNotes.push(...med.safety.notes);
+      }
+    });
+  }
+  
+  // Build warnings array
+  const warnings: string[] = [];
+  if (maxSeverity === 'critical' || maxSeverity === 'high') {
+    warnings.push('⚠️ Kritische Wechselwirkungen erkannt!');
+    warnings.push('Konsultieren Sie unbedingt einen Arzt vor der Cannabinoid-Einnahme.');
+  }
+  if (categorySafetyNotes.length > 0) {
+    warnings.push(...categorySafetyNotes);
+  }
+  
+  // Return complete analysis response
+  return {
+    analysis: analysisResults,
+    maxSeverity,
+    weeklyPlan,
+    reductionGoal,
+    costs: costAnalysis,
+    cbdProgression: {
+      startMg: Math.round(cbdStartMg * 10) / 10,
+      endMg: Math.round(cbdEndMg * 10) / 10,
+      weeklyIncrease: Math.round(cbdWeeklyIncrease * 10) / 10
+    },
+    product: {
+      name: firstWeekMedless.kannasanProduct.name,
+      nr: firstWeekMedless.kannasanProduct.nr,
+      type: 'CBD Dosier-Spray',
+      packaging: '10ml Flasche mit Pumpsprühaufsatz',
+      concentration: `${firstWeekMedless.kannasanProduct.cbdPerSpray} mg CBD pro Sprühstoß`,
+      cbdPerSpray: firstWeekMedless.kannasanProduct.cbdPerSpray,
+      twoSprays: `${firstWeekMedless.kannasanProduct.cbdPerSpray * 2} mg CBD bei 2 Sprühstößen`,
+      dosageUnit: 'Sprühstöße',
+      totalSpraysPerDay: firstWeekMedless.totalSprays,
+      morningSprays: firstWeekMedless.morningSprays,
+      eveningSprays: firstWeekMedless.eveningSprays,
+      actualDailyMg: firstWeekMedless.actualCbdMg,
+      application: 'Oral: Sprühstoß direkt in den Mund oder unter die Zunge. Produkt vor Gebrauch gut schütteln.',
+      note: 'Produkt kann sich wöchentlich ändern basierend auf CBD-Dosis'
+    },
+    personalization: {
+      firstName: finalFirstName,
+      gender: finalGender,
+      age: finalAge,
+      weight: finalWeight,
+      height: finalHeight,
+      bmi,
+      bsa,
+      idealWeightKg,
+      cbdStartMg: Math.round(cbdStartMg * 10) / 10,
+      cbdEndMg: Math.round(cbdEndMg * 10) / 10,
+      hasBenzoOrOpioid,
+      notes: adjustmentNotes
+    },
+    warnings,
+    categorySafety: {
+      appliedRules: categorySafetyNotes.length > 0,
+      notes: categorySafetyNotes
+    },
+    planIntelligence: {
+      overallStartLoad: Math.round(overallStartLoad * 10) / 10,
+      overallEndLoad: Math.round(overallEndLoad * 10) / 10,
+      totalLoadReductionPct,
+      avgReductionSpeedPct: Math.round(avgReductionSpeedPct * 10) / 10,
+      reductionSpeedCategory,
+      weeksToCbdTarget,
+      cannabinoidIncreasePctPerWeek,
+      totalMedicationCount: medications.length,
+      sensitiveMedCount
+    }
+  };
+}
+
 // Enable CORS
 app.use('/api/*', cors())
 
@@ -475,404 +876,111 @@ app.get('/api/medications/search/:query', async (c) => {
 })
 
 // Analyze medications and generate CANNABINOID DOSING PLAN
+// NOW USES SHARED buildAnalyzeResponse FUNCTION
 app.post('/api/analyze', async (c) => {
   const { env } = c;
   try {
     const body = await c.req.json();
-    const { medications, durationWeeks, reductionGoal = 50, email, firstName, gender, age, weight, height } = body;
-    
-    if (!medications || !Array.isArray(medications) || medications.length === 0) {
-      return c.json({ success: false, error: 'Bitte geben Sie mindestens ein Medikament an' }, 400);
-    }
-    
-    if (!durationWeeks || durationWeeks < 1) {
-      return c.json({ success: false, error: 'Bitte geben Sie eine gültige Dauer in Wochen an' }, 400);
-    }
-    
-    // Validate that all medications have mgPerDay values
-    for (const med of medications) {
-      if (!med.mgPerDay || isNaN(med.mgPerDay) || med.mgPerDay <= 0) {
-        return c.json({ 
-          success: false, 
-          error: `Bitte geben Sie eine gültige Tagesdosis in mg für "${med.name}" ein` 
-        }, 400);
-      }
-    }
-    
-    // Save email to database if provided
-    if (email) {
-      try {
-        await env.DB.prepare(`
-          INSERT INTO customer_emails (email, first_name, created_at)
-          VALUES (?, ?, CURRENT_TIMESTAMP)
-        `).bind(email, firstName || null).run();
-      } catch (emailError: any) {
-        console.log('Email already exists or error saving:', emailError.message);
-      }
-    }
-    
-    // Calculate BMI and BSA if data provided
-    let bmi = null;
-    let bsa = null;
-    let idealWeightKg = null; // PlanIntelligenz 2.0: Ideal weight (Devine formula)
-    
-    if (weight && height) {
-      const heightInMeters = height / 100;
-      bmi = Math.round((weight / (heightInMeters * heightInMeters)) * 10) / 10;
-      bsa = Math.round(Math.sqrt((height * weight) / 3600) * 100) / 100;
-      
-      // PlanIntelligenz 2.0: Calculate ideal weight using Devine formula
-      if (gender === 'male') {
-        idealWeightKg = Math.round((50 + 0.9 * (height - 152)) * 10) / 10;
-      } else if (gender === 'female') {
-        idealWeightKg = Math.round((45.5 + 0.9 * (height - 152)) * 10) / 10;
-      }
-      // For 'diverse' or undefined gender, idealWeightKg remains null
-    }
-    
-    // Analyze each medication for interactions
-    const analysisResults = [];
-    let maxSeverity = 'low';
-    
-    for (const med of medications) {
-      const medResult = await env.DB.prepare(`
-        SELECT m.*, 
-               mc.name as category_name,
-               mc.risk_level,
-               mc.can_reduce_to_zero,
-               mc.default_min_target_fraction,
-               mc.max_weekly_reduction_pct,
-               mc.requires_specialist,
-               mc.notes as category_notes,
-               m.half_life_hours,
-               m.therapeutic_min_ng_ml,
-               m.therapeutic_max_ng_ml,
-               m.withdrawal_risk_score,
-               m.cbd_interaction_strength
-        FROM medications m
-        LEFT JOIN medication_categories mc ON m.category_id = mc.id
-        WHERE m.name LIKE ? OR m.generic_name LIKE ?
-        LIMIT 1
-      `).bind(`%${med.name}%`, `%${med.name}%`).first() as MedicationWithCategory | null;
-      
-      if (medResult) {
-        const interactions = await env.DB.prepare(`
-          SELECT * FROM cbd_interactions WHERE medication_id = ?
-        `).bind(medResult.id).all();
-        
-        analysisResults.push({
-          medication: medResult,
-          interactions: interactions.results,
-          mgPerDay: med.mgPerDay
-        });
-        
-        if (interactions.results.length > 0) {
-          const severity = interactions.results[0].severity;
-          if (severity === 'critical') maxSeverity = 'critical';
-          else if (severity === 'high' && maxSeverity !== 'critical') maxSeverity = 'high';
-          else if (severity === 'medium' && maxSeverity === 'low') maxSeverity = 'medium';
-        }
-      } else {
-        analysisResults.push({
-          medication: { name: med.name, found: false },
-          interactions: [],
-          mgPerDay: med.mgPerDay,
-          warning: 'Medikament nicht in Datenbank gefunden'
-        });
-      }
-    }
-    
-    // ========== REDUMED-AI: MULTI-MEDICATION REDUCTION ALGORITHM ==========
-    
-    const adjustmentNotes: string[] = [];
-    
-    // Check if any medication is Benzodiazepine or Opioid (safety rule for CBD start dose)
-    const hasBenzoOrOpioid = analysisResults.some(result => {
-      const medName = result.medication.name.toLowerCase();
-      const isBenzo = medName.includes('diazepam') || medName.includes('lorazepam') || 
-                      medName.includes('alprazolam') || medName.includes('clonazepam') ||
-                      medName.includes('benzo');
-      const isOpioid = medName.includes('tramadol') || medName.includes('oxycodon') || 
-                       medName.includes('morphin') || medName.includes('fentanyl') ||
-                       medName.includes('opioid') || medName.includes('opiat');
-      return isBenzo || isOpioid;
-    });
-    
-    if (hasBenzoOrOpioid) {
-      adjustmentNotes.push('⚠️ Benzodiazepine oder Opioide erkannt: CBD-Startdosis wird halbiert (Sicherheitsregel)');
-    }
-    
-    // PlanIntelligenz 2.0: Count sensitive medications
-    const sensitiveMedCount = analysisResults.filter(result => {
-      const medName = result.medication.name?.toLowerCase() || '';
-      const categoryName = (result.medication as MedicationWithCategory)?.category_name?.toLowerCase() || '';
-      const riskLevel = (result.medication as MedicationWithCategory)?.risk_level?.toLowerCase() || '';
-      
-      return (
-        medName.includes('benzo') || medName.includes('diazepam') || medName.includes('lorazepam') ||
-        medName.includes('alprazolam') || medName.includes('clonazepam') ||
-        medName.includes('tramadol') || medName.includes('oxycodon') || medName.includes('morphin') ||
-        medName.includes('antidepress') || medName.includes('ssri') || medName.includes('snri') ||
-        medName.includes('epileps') || medName.includes('antikonvulsiv') ||
-        medName.includes('marcumar') || medName.includes('warfarin') || medName.includes('blutverdünn') ||
-        medName.includes('immunsuppress') || medName.includes('ciclosporin') ||
-        categoryName.includes('benzo') || categoryName.includes('antidepress') ||
-        categoryName.includes('epileps') || categoryName.includes('blutverdünn') ||
-        categoryName.includes('immunsuppress') || categoryName.includes('opioid') ||
-        riskLevel === 'very_high' || riskLevel === 'high'
-      );
-    }).length;
-    
-    // CBD Dosing: Body weight-based (0.5 mg/kg start → 1.0 mg/kg end)
-    const defaultWeight = 70; // Default if no weight provided
-    const userWeight = weight || defaultWeight;
-    
-    let cbdStartMg = userWeight * 0.5; // Start: 0.5 mg/kg
-    const cbdEndMg = userWeight * 1.0;   // End: 1.0 mg/kg
-    
-    // Safety Rule: Halve CBD start dose if Benzos/Opioids present
-    if (hasBenzoOrOpioid) {
-      cbdStartMg = cbdStartMg / 2;
-      adjustmentNotes.push(`🔒 CBD-Startdosis reduziert auf ${Math.round(cbdStartMg * 10) / 10} mg/Tag (Sicherheit)`);
-    }
-    
-    // Age-based CBD adjustments
-    if (age && age >= 65) {
-      cbdStartMg *= 0.8;
-      adjustmentNotes.push('👴 CBD-Dosis angepasst für Senioren (65+)');
-    }
-    
-    // BMI-based CBD adjustments
-    if (weight && height && bmi) {
-      if (bmi < 18.5) {
-        cbdStartMg *= 0.85;
-        adjustmentNotes.push('⚖️ CBD-Dosis angepasst: Untergewicht (BMI < 18.5)');
-      } else if (bmi > 30) {
-        cbdStartMg *= 1.1;
-        adjustmentNotes.push('⚖️ CBD-Dosis angepasst: Übergewicht (BMI > 30)');
-      }
-    }
-    
-    // Calculate weekly CBD increase (linear)
-    const cbdWeeklyIncrease = (cbdEndMg - cbdStartMg) / durationWeeks;
-    
-    // Generate weekly plan with bottle tracking
-    const cbdPlan = generateWeeklyPlanWithBottleTracking(cbdStartMg, cbdEndMg, durationWeeks);
-    
-    // Merge CBD tracking with medication reduction data
-    const weeklyPlan = cbdPlan.map((cbdWeek: any) => {
-      const week = cbdWeek.week;
-      
-      // Calculate medication doses for this week WITH CATEGORY SAFETY RULES
-      const weekMedications = medications.map((med: any, index: number) => {
-        const startMg = med.mgPerDay;
-        
-        // Find the medication's category data from analysisResults
-        const medAnalysis = analysisResults[index];
-        const medCategory = medAnalysis?.medication as MedicationWithCategory | null;
-        
-        // Apply category safety rules
-        const safetyResult = applyCategorySafetyRules({
-          startMg,
-          reductionGoal,
-          durationWeeks,
-          medicationName: med.name,
-          category: medCategory
-        });
-        
-        const targetMg = safetyResult.effectiveTargetMg;
-        const weeklyReduction = safetyResult.effectiveWeeklyReduction;
-        const currentMg = startMg - (weeklyReduction * (week - 1));
-        
-        // PlanIntelligenz 2.0: Calculate reduction speed per medication
-        const reductionSpeed = startMg > 0 ? weeklyReduction / startMg : 0;
-        const reductionSpeedPct = Math.round(reductionSpeed * 100 * 10) / 10;
-        
-        return {
-          name: med.name,
-          startMg: Math.round(startMg * 10) / 10,
-          currentMg: Math.round(currentMg * 10) / 10,
-          targetMg: Math.round(targetMg * 10) / 10,
-          reduction: Math.round(weeklyReduction * 10) / 10,
-          reductionPercent: Math.round(((startMg - currentMg) / startMg) * 100),
-          reductionSpeedPct, // PlanIntelligenz 2.0: New field
-          // NEW: Safety information
-          safety: week === 1 ? { // Only add safety info to first week
-            appliedCategoryRules: safetyResult.appliedCategoryRules,
-            limitedByCategory: safetyResult.limitedByCategory,
-            notes: safetyResult.safetyNotes
-          } : undefined
-        };
-      });
-      
-      // Calculate total medication load
-      const totalMedicationLoad = weekMedications.reduce((sum: number, med: any) => sum + med.currentMg, 0);
-      
-      // PlanIntelligenz 2.0: Calculate cannabinoid mg/kg body weight
-      const cannabinoidMgPerKg = userWeight > 0 
-        ? Math.round((cbdWeek.actualCbdMg / userWeight) * 10) / 10 
-        : null;
-      
-      // PlanIntelligenz 2.0: Calculate cannabinoid-to-medication ratio
-      const cannabinoidToLoadRatio = totalMedicationLoad > 0 
-        ? Math.round((cbdWeek.actualCbdMg / totalMedicationLoad) * 1000) / 10 // Percentage with 1 decimal
-        : null;
-      
-      // PlanIntelligenz 2.0: Weekly cannabinoid intake (mg/week)
-      const weeklyCannabinoidIntakeMg = Math.round(cbdWeek.actualCbdMg * 7 * 10) / 10;
-      
-      return {
-        week,
-        medications: weekMedications,
-        totalMedicationLoad: Math.round(totalMedicationLoad * 10) / 10,
-        cbdDose: cbdWeek.cbdDose,
-        kannasanProduct: cbdWeek.kannasanProduct,
-        morningSprays: cbdWeek.morningSprays,
-        eveningSprays: cbdWeek.eveningSprays,
-        totalSprays: cbdWeek.totalSprays,
-        actualCbdMg: cbdWeek.actualCbdMg,
-        bottleStatus: cbdWeek.bottleStatus,
-        // PlanIntelligenz 2.0: New weekly metrics
-        cannabinoidMgPerKg,
-        cannabinoidToLoadRatio,
-        weeklyCannabinoidIntakeMg
-      };
-    });
-    
-    // Get first week's MEDLESS product for product info box
-    const firstWeekMedless = weeklyPlan[0];
-    
-    // Calculate total costs for the plan
-    const costAnalysis = calculatePlanCosts(weeklyPlan);
-    
-    // PlanIntelligenz 2.0: Calculate overall medication load metrics
-    const overallStartLoad = medications.reduce((sum: number, med: any) => sum + med.mgPerDay, 0);
-    const overallEndLoad = weeklyPlan.length > 0 
-      ? weeklyPlan[weeklyPlan.length - 1].medications.reduce((sum: number, med: any) => sum + med.targetMg, 0)
-      : overallStartLoad;
-    const totalLoadReductionPct = overallStartLoad > 0 
-      ? Math.round(((overallStartLoad - overallEndLoad) / overallStartLoad) * 1000) / 10
-      : 0;
-    
-    // PlanIntelligenz 2.0: Calculate average reduction speed
-    const reductionSpeeds = medications.map((med: any, index: number) => {
-      const medAnalysis = analysisResults[index];
-      const medCategory = medAnalysis?.medication as MedicationWithCategory | null;
-      
-      const safetyResult = applyCategorySafetyRules({
-        startMg: med.mgPerDay,
-        reductionGoal,
-        durationWeeks,
-        medicationName: med.name,
-        category: medCategory
-      });
-      
-      const weeklyReduction = safetyResult.effectiveWeeklyReduction;
-      return med.mgPerDay > 0 ? (weeklyReduction / med.mgPerDay) * 100 : 0;
-    });
-    
-    const avgReductionSpeedPct = reductionSpeeds.length > 0
-      ? reductionSpeeds.reduce((sum: number, speed: number) => sum + speed, 0) / reductionSpeeds.length
-      : 0;
-    
-    // PlanIntelligenz 2.0: Categorize average reduction speed
-    let reductionSpeedCategory = 'moderat';
-    if (avgReductionSpeedPct < 2) {
-      reductionSpeedCategory = 'sehr langsam';
-    } else if (avgReductionSpeedPct > 5) {
-      reductionSpeedCategory = 'relativ schnell';
-    }
-    
-    // PlanIntelligenz 2.0: Calculate weeks to CBD target
-    const weeksToCbdTarget = cbdWeeklyIncrease > 0 
-      ? Math.round(((cbdEndMg - cbdStartMg) / cbdWeeklyIncrease) * 10) / 10
-      : null;
-    
-    // PlanIntelligenz 2.0: Calculate cannabinoid increase percentage per week
-    const cannabinoidIncreasePctPerWeek = cbdStartMg > 0 
-      ? Math.round((cbdWeeklyIncrease / cbdStartMg) * 1000) / 10
-      : null;
-    
-    // Collect all category safety notes from first week
-    const categorySafetyNotes: string[] = [];
-    if (weeklyPlan.length > 0 && weeklyPlan[0].medications) {
-      weeklyPlan[0].medications.forEach((med: any) => {
-        if (med.safety && med.safety.notes && med.safety.notes.length > 0) {
-          categorySafetyNotes.push(...med.safety.notes);
-        }
-      });
-    }
-    
-    // Build warnings array
-    const warnings: string[] = [];
-    if (maxSeverity === 'critical' || maxSeverity === 'high') {
-      warnings.push('⚠️ Kritische Wechselwirkungen erkannt!');
-      warnings.push('Konsultieren Sie unbedingt einen Arzt vor der Cannabinoid-Einnahme.');
-    }
-    // Add category safety notes to warnings
-    if (categorySafetyNotes.length > 0) {
-      warnings.push(...categorySafetyNotes);
-    }
+    const analysisResult = await buildAnalyzeResponse(body, env);
     
     return c.json({
       success: true,
-      analysis: analysisResults,
-      maxSeverity,
-      weeklyPlan,
-      reductionGoal,
-      costs: costAnalysis,
-      cbdProgression: {
-        startMg: Math.round(cbdStartMg * 10) / 10,
-        endMg: Math.round(cbdEndMg * 10) / 10,
-        weeklyIncrease: Math.round(cbdWeeklyIncrease * 10) / 10
+      ...analysisResult
+    });
+    
+  } catch (error: any) {
+    console.error('Error:', error);
+    return c.json({ success: false, error: error.message || 'Fehler bei der Analyse' }, 500);
+  }
+})
+
+// ============================================================
+// NEW ROUTE: /api/reports
+// Generates HTML reports from existing AnalyzeResponse data
+// ============================================================
+
+app.post('/api/reports', async (c) => {
+  try {
+    const body = await c.req.json();
+    const { analysis, includePatient = true, includeDoctor = true } = body;
+    
+    if (!analysis) {
+      return c.json({ 
+        success: false, 
+        error: 'Missing analysis data. Please provide an AnalyzeResponse object.' 
+      }, 400);
+    }
+    
+    const result: any = { success: true };
+    
+    // Build Patient Report
+    if (includePatient) {
+      const patientData = buildPatientReportData(analysis as AnalyzeResponse);
+      const patientHtml = renderPatientReportHtml(patientData);
+      result.patient = {
+        data: patientData,
+        html: patientHtml
+      };
+    }
+    
+    // Build Doctor Report
+    if (includeDoctor) {
+      const doctorData = buildDoctorReportData(analysis as AnalyzeResponse);
+      const doctorHtml = renderDoctorReportHtml(doctorData);
+      result.doctor = {
+        data: doctorData,
+        html: doctorHtml
+      };
+    }
+    
+    return c.json(result);
+    
+  } catch (error: any) {
+    console.error('Error generating reports:', error);
+    return c.json({ 
+      success: false, 
+      error: error.message || 'Fehler beim Erstellen der Berichte' 
+    }, 500);
+  }
+})
+
+// ============================================================
+// NEW ROUTE: /api/analyze-and-reports
+// Combines /api/analyze logic with report generation
+// IMPORTANT: Uses IDENTICAL calculation logic as /api/analyze
+// ============================================================
+
+// ============================================================
+// ROUTE: /api/analyze-and-reports
+// NOW USES SHARED buildAnalyzeResponse FUNCTION + GENERATES REPORTS
+// ============================================================
+
+app.post('/api/analyze-and-reports', async (c) => {
+  const { env } = c;
+  try {
+    const body = await c.req.json();
+    
+    // Use shared analysis function (Single Source of Truth)
+    const analysisResult = await buildAnalyzeResponse(body, env);
+    
+    // Generate reports from analysis result
+    const patientData = buildPatientReportData(analysisResult as any);
+    const patientHtml = renderPatientReportHtml(patientData);
+    
+    const doctorData = buildDoctorReportData(analysisResult as any);
+    const doctorHtml = renderDoctorReportHtml(doctorData);
+    
+    // Return combined response
+    return c.json({
+      success: true,
+      analysis: analysisResult,
+      patient: {
+        data: patientData,
+        html: patientHtml
       },
-      product: {
-        name: firstWeekMedless.kannasanProduct.name,
-        nr: firstWeekMedless.kannasanProduct.nr,
-        type: 'CBD Dosier-Spray',
-        packaging: '10ml Flasche mit Pumpsprühaufsatz',
-        concentration: `${firstWeekMedless.kannasanProduct.cbdPerSpray} mg CBD pro Sprühstoß`,
-        cbdPerSpray: firstWeekMedless.kannasanProduct.cbdPerSpray,
-        twoSprays: `${firstWeekMedless.kannasanProduct.cbdPerSpray * 2} mg CBD bei 2 Sprühstößen`,
-        dosageUnit: 'Sprühstöße',
-        totalSpraysPerDay: firstWeekMedless.totalSprays,
-        morningSprays: firstWeekMedless.morningSprays,
-        eveningSprays: firstWeekMedless.eveningSprays,
-        actualDailyMg: firstWeekMedless.actualCbdMg,
-        application: 'Oral: Sprühstoß direkt in den Mund oder unter die Zunge. Produkt vor Gebrauch gut schütteln.',
-        note: 'Produkt kann sich wöchentlich ändern basierend auf CBD-Dosis'
-      },
-      personalization: {
-        firstName,
-        gender,
-        age,
-        weight,
-        height,
-        bmi,
-        bsa,
-        idealWeightKg, // PlanIntelligenz 2.0: Ideal weight
-        cbdStartMg: Math.round(cbdStartMg * 10) / 10,
-        cbdEndMg: Math.round(cbdEndMg * 10) / 10,
-        hasBenzoOrOpioid,
-        notes: adjustmentNotes
-      },
-      warnings,
-      // NEW: Category safety summary
-      categorySafety: {
-        appliedRules: categorySafetyNotes.length > 0,
-        notes: categorySafetyNotes
-      },
-      // PlanIntelligenz 2.0: New overall metrics
-      planIntelligence: {
-        overallStartLoad: Math.round(overallStartLoad * 10) / 10,
-        overallEndLoad: Math.round(overallEndLoad * 10) / 10,
-        totalLoadReductionPct,
-        avgReductionSpeedPct: Math.round(avgReductionSpeedPct * 10) / 10,
-        reductionSpeedCategory,
-        weeksToCbdTarget,
-        cannabinoidIncreasePctPerWeek,
-        totalMedicationCount: medications.length,
-        sensitiveMedCount
+      doctor: {
+        data: doctorData,
+        html: doctorHtml
       }
     });
     
@@ -4131,6 +4239,9 @@ app.get('/', (c) => {
   
   <!-- html2canvas for PDF generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <!-- html2pdf.js for direct PDF download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 
   <style>
     /* ============================================================
@@ -5456,24 +5567,166 @@ app.get('/', (c) => {
       display: none;
     }
     
-    /* Mobile Header - HIDE */
-    @media (max-width: 768px) {
-      .site-header {
+    /* ============================================================
+       MOBILE NAVIGATION (NEW)
+       ============================================================ */
+    
+    /* Hamburger Button (Hidden on Desktop) */
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 44px;
+      height: 44px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 101;
+    }
+    
+    .hamburger-icon {
+      width: 24px;
+      height: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: stretch;
+    }
+    
+    .hamburger-icon span {
+      display: block;
+      height: 2px;
+      background: #0E5A45;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    
+    /* Mobile Menu Overlay (Hidden by Default) */
+    .mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 90, 70, 0.05);
+      backdrop-filter: blur(4px);
+      z-index: 102;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .mobile-menu-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .mobile-menu-container {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 85%;
+      max-width: 400px;
+      background: #FFFFFF;
+      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .mobile-menu-overlay.is-open .mobile-menu-container {
+      transform: translateX(0);
+    }
+    
+    /* Mobile Menu Header */
+    .mobile-menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid #F3F4F6;
+    }
+    
+    .mobile-menu-close {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      color: #4B5563;
+      transition: color 0.2s ease;
+    }
+    
+    .mobile-menu-close:hover {
+      color: #0E5A45;
+    }
+    
+    /* Mobile Navigation Links */
+    .mobile-menu-nav {
+      padding: 16px 0;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .mobile-menu-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      font-size: 18px;
+      font-weight: 500;
+      color: #1F2937;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    
+    .mobile-menu-link:hover {
+      background: #F9FAFB;
+      border-left-color: #0E5A45;
+      color: #0E5A45;
+    }
+    
+    .mobile-menu-link i {
+      font-size: 14px;
+      color: #9CA3AF;
+      transition: color 0.2s ease;
+    }
+    
+    .mobile-menu-link:hover i {
+      color: #0E5A45;
+    }
+    
+    /* Mobile Breakpoint */
+    @media (max-width: 1024px) {
+      /* Hide Desktop Nav, Show Mobile Button */
+      .header-nav {
         display: none;
       }
       
-      /* Show mobile logo in hero - centered on screen */
-      .hero-logo-mobile {
-        display: block;
-        width: 100%;
-        max-width: 530px;
-        height: auto;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: var(--space-4);
-        padding: 0 var(--space-2);
-        box-sizing: border-box;
+      .mobile-menu-toggle {
+        display: flex;
       }
+      
+      /* Header stays visible on mobile (for logo + hamburger) */
+      .site-header {
+        display: block;
+      }
+      
+      .hero-logo-mobile {
+        display: none !important;
+      }
+    }
+    
+    /* Prevent body scroll when menu is open */
+    body.mobile-menu-open {
+      overflow: hidden;
     }
     
     /* ============================================================
@@ -8847,15 +9100,32 @@ app.get('/', (c) => {
   <!-- ============================================================
        SITE HEADER (STICKY)
        ============================================================ -->
+  <!-- ============================================================
+       NAVIGATION DATA (Single Source of Truth for Desktop & Mobile)
+       ============================================================ -->
+  <script>
+    // NAVIGATION ITEMS - Shared between Desktop and Mobile
+    const NAV_ITEMS = [
+      { label: 'Über MEDLESS', href: '#ueber-medless' },
+      { label: 'Funktionsweise', href: '#funktionsweise' },
+      { label: 'Wissenschaft & ECS', href: '#wissenschaft-ecs' },
+      { label: 'FAQ', href: '#faq' },
+      { label: 'Magazin', href: '#magazin' },
+      { label: 'Kontakt', href: '#kontakt' }
+    ];
+  </script>
+  
   <header class="site-header">
     <div class="header-container">
+      <!-- Logo -->
       <div class="header-logo">
         <span class="logo-text">
           <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
         </span>
       </div>
       
-      <nav class="header-nav">
+      <!-- Desktop Navigation -->
+      <nav class="header-nav" aria-label="Hauptnavigation">
         <a href="#ueber-medless">Über MEDLESS</a>
         <a href="#funktionsweise">Funktionsweise</a>
         <a href="#wissenschaft-ecs">Wissenschaft & ECS</a>
@@ -8863,8 +9133,68 @@ app.get('/', (c) => {
         <a href="#magazin">Magazin</a>
         <a href="#kontakt" class="header-nav-contact">Kontakt</a>
       </nav>
+      
+      <!-- Mobile Hamburger Button -->
+      <button 
+        class="mobile-menu-toggle" 
+        aria-label="Navigation öffnen"
+        aria-expanded="false"
+        aria-controls="mobile-menu">
+        <span class="hamburger-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
     </div>
   </header>
+  
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-container">
+      <!-- Mobile Header -->
+      <div class="mobile-menu-header">
+        <div class="header-logo">
+          <span class="logo-text">
+            <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+          </span>
+        </div>
+        <button 
+          class="mobile-menu-close" 
+          aria-label="Navigation schließen">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <!-- Mobile Navigation -->
+      <nav class="mobile-menu-nav" aria-label="Mobile Navigation">
+        <a href="#ueber-medless" class="mobile-menu-link">
+          <span>Über MEDLESS</span>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="#funktionsweise" class="mobile-menu-link">
+          <span>Funktionsweise</span>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="#wissenschaft-ecs" class="mobile-menu-link">
+          <span>Wissenschaft & ECS</span>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="#faq" class="mobile-menu-link">
+          <span>FAQ</span>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="#magazin" class="mobile-menu-link">
+          <span>Magazin</span>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="#kontakt" class="mobile-menu-link">
+          <span>Kontakt</span>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </nav>
+    </div>
+  </div>
   
   <main>
     
@@ -10447,6 +10777,128 @@ app.get('/', (c) => {
       // DOM bereits geladen
       initScrollAnimations();
     }
+  </script>
+  
+  <!-- Mobile Menu Toggle Logic -->
+  <script>
+    (function() {
+      'use strict';
+      
+      // DOM Elements
+      const menuToggle = document.querySelector('.mobile-menu-toggle');
+      const menuClose = document.querySelector('.mobile-menu-close');
+      const menuOverlay = document.querySelector('.mobile-menu-overlay');
+      const menuLinks = document.querySelectorAll('.mobile-menu-link');
+      const body = document.body;
+      
+      if (!menuToggle || !menuOverlay) {
+        console.warn('Mobile menu elements not found');
+        return;
+      }
+      
+      // Open Menu
+      function openMenu() {
+        menuOverlay.classList.add('is-open');
+        menuOverlay.setAttribute('aria-hidden', 'false');
+        menuToggle.setAttribute('aria-expanded', 'true');
+        menuToggle.setAttribute('aria-label', 'Navigation schließen');
+        body.classList.add('mobile-menu-open');
+        
+        // Focus first link
+        const firstLink = document.querySelector('.mobile-menu-link');
+        if (firstLink) {
+          setTimeout(() => firstLink.focus(), 300);
+        }
+      }
+      
+      // Close Menu
+      function closeMenu() {
+        menuOverlay.classList.remove('is-open');
+        menuOverlay.setAttribute('aria-hidden', 'true');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Navigation öffnen');
+        body.classList.remove('mobile-menu-open');
+        
+        // Return focus to toggle button
+        menuToggle.focus();
+      }
+      
+      // Toggle Menu
+      menuToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (menuOverlay.classList.contains('is-open')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+      
+      // Close Button
+      if (menuClose) {
+        menuClose.addEventListener('click', function(e) {
+          e.preventDefault();
+          closeMenu();
+        });
+      }
+      
+      // Close on Overlay Click (outside menu)
+      menuOverlay.addEventListener('click', function(e) {
+        if (e.target === menuOverlay) {
+          closeMenu();
+        }
+      });
+      
+      // Close on Link Click & Scroll to Section
+      menuLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          closeMenu();
+          
+          // Let browser handle anchor scroll
+          const href = link.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            // Smooth scroll handled by CSS scroll-behavior
+          }
+        });
+      });
+      
+      // Close on Escape Key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && menuOverlay.classList.contains('is-open')) {
+          closeMenu();
+        }
+      });
+      
+      // Trap Focus in Menu
+      document.addEventListener('keydown', function(e) {
+        if (!menuOverlay.classList.contains('is-open')) return;
+        if (e.key !== 'Tab') return;
+        
+        const focusableElements = menuOverlay.querySelectorAll(
+          'button, a, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        if (focusableElements.length === 0) return;
+        
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            lastElement.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            firstElement.focus();
+            e.preventDefault();
+          }
+        }
+      });
+      
+      console.log('✅ Mobile menu initialized');
+    })();
   </script>
   
   <!-- Main Application Logic -->
