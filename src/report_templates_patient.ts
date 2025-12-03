@@ -45,9 +45,9 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 14px;
+      padding-bottom: 12px;
       border-bottom: 3px solid #00C39A;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
     }
     
     .header-logo img {
@@ -62,17 +62,17 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     h1 {
-      font-size: 22pt;
+      font-size: 18pt;
       color: #00584D;
-      margin: 24px 0 12px 0;
+      margin: 18px 0 10px 0;
       font-weight: 700;
       line-height: 1.2;
     }
     
     .subtitle {
-      font-size: 11pt;
+      font-size: 10pt;
       color: #666;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
       font-style: italic;
     }
     
@@ -80,11 +80,11 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       background: #F0F9F7;
       border: 2px solid #00C39A;
       border-radius: 8px;
-      padding: 16px;
-      margin: 20px 0;
+      padding: 12px;
+      margin: 16px 0;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      gap: 10px;
     }
     
     .patient-data-item {
@@ -101,46 +101,46 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .patient-data-value {
-      font-size: 13pt;
+      font-size: 12pt;
       font-weight: 700;
       color: #00584D;
     }
     
     h2 {
-      font-size: 16pt;
+      font-size: 14pt;
       color: #00584D;
-      margin-top: 28px;
-      margin-bottom: 14px;
+      margin-top: 20px;
+      margin-bottom: 12px;
       font-weight: 600;
       border-bottom: 2px solid #00C39A;
-      padding-bottom: 6px;
+      padding-bottom: 5px;
     }
     
     h3 {
-      font-size: 12pt;
+      font-size: 11pt;
       color: #00584D;
-      margin-top: 18px;
-      margin-bottom: 10px;
+      margin-top: 14px;
+      margin-bottom: 8px;
       font-weight: 600;
     }
     
     p {
-      margin-bottom: 14px;
-      line-height: 1.8;
+      margin-bottom: 12px;
+      line-height: 1.7;
     }
     
     .summary-box {
       background: #E6F7F4;
       border-left: 5px solid #00C39A;
-      padding: 18px;
-      margin: 20px 0;
+      padding: 14px;
+      margin: 16px 0;
       border-radius: 4px;
     }
     
     .summary-box p {
-      font-size: 11pt;
+      font-size: 10pt;
       color: #00584D;
-      line-height: 1.9;
+      line-height: 1.7;
       margin-bottom: 0;
     }
     
@@ -148,8 +148,8 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       background: #F0FDF4;
       border: 2px solid #10B981;
       border-radius: 8px;
-      padding: 18px;
-      margin: 24px 0;
+      padding: 14px;
+      margin: 18px 0;
     }
     
     .positive-box h3 {
@@ -161,36 +161,36 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .positive-box ul {
-      margin: 12px 0 0 24px;
+      margin: 10px 0 0 20px;
     }
     
     .positive-box li {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       color: #065F46;
-      line-height: 1.7;
+      line-height: 1.6;
     }
     
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 18px 0;
-      font-size: 10pt;
+      margin: 14px 0;
+      font-size: 9.5pt;
     }
     
     th {
       background: #00C39A;
       color: white;
       font-weight: 600;
-      padding: 12px 10px;
+      padding: 10px 8px;
       text-align: left;
       border: none;
       text-transform: uppercase;
-      font-size: 9pt;
+      font-size: 8.5pt;
       letter-spacing: 0.05em;
     }
     
     td {
-      padding: 12px 10px;
+      padding: 10px 8px;
       border: 1px solid #E5E7EB;
       vertical-align: top;
     }
@@ -211,15 +211,15 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     .cbd-dose-cell {
       font-weight: 700;
       color: #00584D;
-      font-size: 11pt;
+      font-size: 10pt;
     }
     
     .warning-box {
       background: #FFF5F5;
       border: 3px solid #F97316;
       border-radius: 8px;
-      padding: 20px;
-      margin: 28px 0;
+      padding: 16px;
+      margin: 20px 0;
     }
     
     .warning-box h3 {
@@ -227,14 +227,14 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       margin-top: 0;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 13pt;
+      gap: 6px;
+      font-size: 12pt;
     }
     
     .warning-box p {
       color: #7C2D12;
       font-weight: 500;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     
     .warning-box ul {
@@ -244,39 +244,39 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .warning-box li {
-      padding: 10px 14px;
-      margin-bottom: 8px;
+      padding: 8px 12px;
+      margin-bottom: 6px;
       background: white;
       border-left: 3px solid #F97316;
       border-radius: 4px;
       display: flex;
       align-items: flex-start;
-      gap: 10px;
+      gap: 8px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
     
     .emergency-note {
       background: #FEE2E2;
       border: 2px solid #DC2626;
-      padding: 14px;
-      margin-top: 16px;
+      padding: 12px;
+      margin-top: 12px;
       border-radius: 6px;
       text-align: center;
-      font-size: 10pt;
+      font-size: 9.5pt;
       color: #7F1D1D;
       font-weight: 600;
     }
     
     .emergency-note strong {
       color: #DC2626;
-      font-size: 12pt;
+      font-size: 11pt;
     }
     
     .monitoring-box {
       background: #F0F9F7;
       border-left: 5px solid #00C39A;
-      padding: 18px;
-      margin: 24px 0;
+      padding: 14px;
+      margin: 18px 0;
       border-radius: 4px;
     }
     
@@ -286,11 +286,11 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .monitoring-box ul {
-      margin: 12px 0 0 24px;
+      margin: 10px 0 0 20px;
     }
     
     .monitoring-box li {
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: #00584D;
     }
     
@@ -298,66 +298,66 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       background: #FEFCE8;
       border: 3px solid #EAB308;
       border-radius: 10px;
-      padding: 24px;
-      margin: 28px 0;
+      padding: 20px;
+      margin: 20px 0;
       text-align: center;
     }
     
     .cost-total {
-      font-size: 32pt;
+      font-size: 28pt;
       font-weight: 700;
       color: #00584D;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     
     .cost-label {
-      font-size: 12pt;
+      font-size: 11pt;
       color: #666;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       font-weight: 500;
     }
     
     .cost-breakdown {
       background: white;
       border-radius: 6px;
-      padding: 14px;
-      margin-top: 16px;
-      font-size: 10pt;
+      padding: 12px;
+      margin-top: 12px;
+      font-size: 9.5pt;
       color: #4B5563;
       border: 1px solid #E5E7EB;
     }
     
     .cost-note {
-      font-size: 9pt;
+      font-size: 8.5pt;
       color: #6B7280;
-      margin-top: 14px;
-      line-height: 1.6;
+      margin-top: 12px;
+      line-height: 1.5;
       font-style: italic;
     }
     
     .legal-box {
       background: #F9FAFB;
       border: 1px solid #E5E7EB;
-      padding: 16px;
-      margin: 28px 0;
-      font-size: 8pt;
-      line-height: 1.7;
+      padding: 12px;
+      margin: 20px 0;
+      font-size: 7.5pt;
+      line-height: 1.6;
       color: #666;
       border-radius: 4px;
     }
     
     .footer {
       text-align: center;
-      font-size: 8pt;
+      font-size: 7.5pt;
       color: #999;
-      margin-top: 32px;
-      padding-top: 16px;
+      margin-top: 24px;
+      padding-top: 12px;
       border-top: 2px solid #E5E7EB;
     }
     
     .section-divider {
       border-top: 1px solid #D1D5DB;
-      margin: 24px 0;
+      margin: 18px 0;
     }
     
     @media print {

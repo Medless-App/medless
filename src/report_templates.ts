@@ -70,36 +70,36 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .intro-text {
-      margin-bottom: 24px;
-      line-height: 1.7;
+      margin-bottom: 16px;
+      line-height: 1.6;
     }
     
     /* RISIKO-DASHBOARD */
     .risk-dashboard {
       background: #F9FAFB;
       border: 2px solid #E5E7EB;
-      border-radius: 8px;
-      padding: 16px;
-      margin: 24px 0;
+      border-radius: 6px;
+      padding: 12px;
+      margin: 16px 0;
     }
     
     .risk-dashboard-title {
-      font-size: 11pt;
+      font-size: 10pt;
       font-weight: 700;
       color: #00584D;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     
     .risk-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 8px;
     }
     
     .risk-item {
       background: white;
-      padding: 10px;
-      border-radius: 6px;
+      padding: 8px;
+      border-radius: 4px;
       border-left: 4px solid #00C39A;
     }
     
@@ -117,18 +117,18 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     
     /* TITEL */
     h1 {
-      font-size: 18pt;
+      font-size: 15pt;
       color: #00584D;
-      margin: 28px 0 8px 0;
+      margin: 20px 0 6px 0;
       font-weight: 700;
       border-bottom: 3px solid #00C39A;
-      padding-bottom: 8px;
+      padding-bottom: 6px;
     }
     
     .subtitle {
-      font-size: 10pt;
+      font-size: 9pt;
       color: #666;
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
     
     /* PHARMAKOLOGIE-BOX */
@@ -136,25 +136,25 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       background: #F0F9F7;
       border: 1px solid #00C39A;
       border-radius: 6px;
-      padding: 14px;
-      margin: 20px 0;
+      padding: 10px;
+      margin: 14px 0;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
     }
     
     .pharma-title {
       grid-column: 1 / -1;
-      font-size: 10pt;
+      font-size: 9pt;
       font-weight: 700;
       color: #00584D;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     
     .pharma-row {
       display: flex;
       justify-content: space-between;
-      padding: 4px 0;
+      padding: 3px 0;
       border-bottom: 1px solid #E5E7EB;
     }
     
@@ -171,18 +171,18 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     
     /* ÜBERSCHRIFTEN */
     h2 {
-      font-size: 13pt;
+      font-size: 12pt;
       color: #00584D;
-      margin-top: 24px;
-      margin-bottom: 12px;
+      margin-top: 18px;
+      margin-bottom: 10px;
       font-weight: 600;
     }
     
     h3 {
-      font-size: 10pt;
+      font-size: 9pt;
       color: #00584D;
-      margin-top: 16px;
-      margin-bottom: 8px;
+      margin-top: 12px;
+      margin-bottom: 6px;
       font-weight: 600;
     }
     
@@ -190,21 +190,21 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 14px 0;
-      font-size: 9pt;
+      margin: 10px 0;
+      font-size: 8.5pt;
     }
     
     th {
       background: #E6F7F4;
       color: #00584D;
       font-weight: 600;
-      padding: 8px;
+      padding: 6px;
       text-align: left;
       border: 1px solid #E5E7EB;
     }
     
     td {
-      padding: 7px 8px;
+      padding: 5px 6px;
       border: 1px solid #E5E7EB;
     }
     
@@ -220,8 +220,8 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     .monitoring-box {
       background: #F0F9F7;
       border-left: 4px solid #00C39A;
-      padding: 14px;
-      margin: 20px 0;
+      padding: 10px;
+      margin: 14px 0;
       border-radius: 4px;
     }
     
@@ -230,29 +230,29 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .monitoring-box ul {
-      margin: 10px 0 10px 20px;
+      margin: 8px 0 8px 18px;
     }
     
     .monitoring-box li {
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     
     /* BALKENDIAGRAMM */
     .chart-section {
-      margin: 24px 0;
+      margin: 16px 0;
     }
     
     .chart-title {
-      font-size: 10pt;
+      font-size: 9pt;
       font-weight: 600;
       color: #00584D;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     
     .chart-bar {
       display: flex;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     
     .chart-label {
@@ -265,7 +265,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       flex: 1;
       background: #E5E7EB;
       border-radius: 999px;
-      height: 10px;
+      height: 8px;
       overflow: hidden;
     }
     
@@ -288,19 +288,19 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     .legal-box {
       background: #F9FAFB;
       border: 1px solid #E5E7EB;
-      padding: 14px;
-      margin: 24px 0;
-      font-size: 8pt;
-      line-height: 1.6;
+      padding: 10px;
+      margin: 16px 0;
+      font-size: 7.5pt;
+      line-height: 1.5;
       color: #666;
     }
     
     .footer-version {
       text-align: center;
-      font-size: 7pt;
+      font-size: 6.5pt;
       color: #999;
-      margin-top: 24px;
-      padding-top: 12px;
+      margin-top: 16px;
+      padding-top: 8px;
       border-top: 1px solid #E5E7EB;
     }
     
