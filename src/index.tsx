@@ -1083,30 +1083,36 @@ app.post('/api/pdf/patient', async (c) => {
       });
     } else {
       const body = await c.req.json();
-      const { analysis } = body;
+      const { analysis, html, fileName } = body;
       
-      if (!analysis) {
+      let patientHtml: string;
+      
+      // Support both 'html' (from frontend) and 'analysis' (programmatic)
+      if (html) {
+        // Direct HTML provided by frontend
+        patientHtml = html;
+      } else if (analysis) {
+        // Analysis data provided - generate HTML
+        patientData = buildPatientReportData(analysis as AnalyzeResponse);
+        patientHtml = renderPatientReportHtmlFixed(patientData);
+      } else {
         return c.json({ 
           success: false, 
-          error: 'Missing analysis data' 
+          error: 'Missing html or analysis data' 
         }, 400);
       }
-      
-      // Build patient report data
-      patientData = buildPatientReportData(analysis as AnalyzeResponse);
-      const patientHtml = renderPatientReportHtmlFixed(patientData);
       
       // PRODUCTION VERSION: Generate PDF with PDFShift
       const pdfBuffer = await generatePdfWithService(
         patientHtml,
-        'Dein_persoenlicher_MEDLESS-Plan.pdf',
+        fileName || 'Dein_persoenlicher_MEDLESS-Plan.pdf',
         env.PDFSHIFT_API_KEY
       );
       
       return new Response(pdfBuffer, {
         headers: {
           'Content-Type': 'application/pdf',
-          'Content-Disposition': 'attachment; filename="Dein_persoenlicher_MEDLESS-Plan.pdf"',
+          'Content-Disposition': `attachment; filename="${fileName || 'Dein_persoenlicher_MEDLESS-Plan.pdf'}"`,
           'Cache-Control': 'no-store, no-cache, must-revalidate'
         }
       });
@@ -1224,30 +1230,36 @@ app.post('/api/pdf/doctor', async (c) => {
       });
     } else {
       const body = await c.req.json();
-      const { analysis } = body;
+      const { analysis, html, fileName } = body;
       
-      if (!analysis) {
+      let doctorHtml: string;
+      
+      // Support both 'html' (from frontend) and 'analysis' (programmatic)
+      if (html) {
+        // Direct HTML provided by frontend
+        doctorHtml = html;
+      } else if (analysis) {
+        // Analysis data provided - generate HTML
+        doctorData = buildDoctorReportData(analysis as AnalyzeResponse);
+        doctorHtml = renderDoctorReportHtmlFixed(doctorData);
+      } else {
         return c.json({ 
           success: false, 
-          error: 'Missing analysis data' 
+          error: 'Missing html or analysis data' 
         }, 400);
       }
-      
-      // Build doctor report data
-      doctorData = buildDoctorReportData(analysis as AnalyzeResponse);
-      const doctorHtml = renderDoctorReportHtmlFixed(doctorData);
       
       // PRODUCTION VERSION: Generate PDF with PDFShift
       const pdfBuffer = await generatePdfWithService(
         doctorHtml,
-        'MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf',
+        fileName || 'MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf',
         env.PDFSHIFT_API_KEY
       );
       
       return new Response(pdfBuffer, {
         headers: {
           'Content-Type': 'application/pdf',
-          'Content-Disposition': 'attachment; filename="MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf"',
+          'Content-Disposition': `attachment; filename="${fileName || 'MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf'}"`,
           'Cache-Control': 'no-store, no-cache, must-revalidate'
         }
       });

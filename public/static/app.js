@@ -1391,10 +1391,15 @@ function showPlanReadyState(loadingEl) {
       
       if (!res.ok) {
         const errorText = await res.text();
-        console.error('❌ PDF API error:', res.status, errorText);
+        console.error('❌ PDF API error:');
+        console.error('  Status:', res.status);
+        console.error('  Headers:', Object.fromEntries(res.headers.entries()));
+        console.error('  Body:', errorText);
         alert('PDF-Funktion nicht verfügbar. Bitte laden Sie die Seite neu (Strg+Shift+R) und versuchen Sie es erneut.');
         throw new Error('PDF API returned ' + res.status);
       }
+      
+      console.log('✅ PDF API response OK, downloading blob...');
       
       // Download PDF
       const blob = await res.blob();
@@ -1483,10 +1488,15 @@ function showPlanReadyState(loadingEl) {
       
       if (!res.ok) {
         const errorText = await res.text();
-        console.error('❌ PDF API error:', res.status, errorText);
+        console.error('❌ PDF API error:');
+        console.error('  Status:', res.status);
+        console.error('  Headers:', Object.fromEntries(res.headers.entries()));
+        console.error('  Body:', errorText);
         alert('PDF-Funktion nicht verfügbar. Bitte laden Sie die Seite neu (Strg+Shift+R) und versuchen Sie es erneut.');
         throw new Error('PDF API returned ' + res.status);
       }
+      
+      console.log('✅ PDF API response OK, downloading blob...');
       
       // Download PDF
       const blob = await res.blob();
