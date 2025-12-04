@@ -2,7 +2,8 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { buildPatientReportData, buildDoctorReportData } from './report_data'
-import { renderPatientReportHtml, renderDoctorReportHtml } from './report_templates'
+import { renderPatientReportHtml, renderDoctorReportHtml, renderDoctorReportExample } from './report_templates'
+import { renderPatientReportExample } from './report_templates_patient'
 import type { AnalyzeResponse } from './types/analyzeResponse'
 
 type Bindings = {
@@ -11362,13 +11363,11 @@ function getSharedStyles() {
 // NO PDF generation - just HTML for visual testing
 
 app.get('/test/doctor-report', (c) => {
-  const { renderDoctorReportExample } = require('./report_templates')
   const html = renderDoctorReportExample()
   return c.html(html)
 })
 
 app.get('/test/patient-report', (c) => {
-  const { renderPatientReportExample } = require('./report_templates_patient')
   const html = renderPatientReportExample()
   return c.html(html)
 })
