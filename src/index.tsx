@@ -9,6 +9,7 @@ import type { AnalyzeResponse } from './types/analyzeResponse'
 type Bindings = {
   DB: D1Database;
   OPENAI_API_KEY?: string;
+  PDFSHIFT_API_KEY?: string;
 }
 
 // ============================================================
@@ -1005,13 +1006,8 @@ app.post('/api/analyze-and-reports', async (c) => {
  * @returns PDF binary as ArrayBuffer
  */
 async function generatePdfWithService(html: string, filename: string, apiKey?: string): Promise<ArrayBuffer> {
-  // For now, we'll use a mock implementation that returns the HTML
-  // In production, this should call PDFShift or similar service
-  
-  // PRODUCTION: Uncomment this when API key is available
-  /*
   if (!apiKey) {
-    throw new Error('PDF_API_KEY not configured');
+    throw new Error('PDFSHIFT_API_KEY not configured. Please set it with: npx wrangler secret put PDFSHIFT_API_KEY');
   }
   
   const pdfshiftResponse = await fetch('https://api.pdfshift.io/v3/convert/pdf', {
@@ -1035,16 +1031,11 @@ async function generatePdfWithService(html: string, filename: string, apiKey?: s
   });
   
   if (!pdfshiftResponse.ok) {
-    throw new Error(`PDF generation failed: ${pdfshiftResponse.statusText}`);
+    const errorText = await pdfshiftResponse.text();
+    throw new Error(`PDF generation failed (${pdfshiftResponse.status}): ${errorText}`);
   }
   
   return await pdfshiftResponse.arrayBuffer();
-  */
-  
-  // TEMPORARY: Return HTML as text for testing
-  // This will be replaced with actual PDF generation
-  const encoder = new TextEncoder();
-  return encoder.encode(html).buffer;
 }
 
 /**
@@ -1070,21 +1061,11 @@ app.post('/api/pdf/patient', async (c) => {
       const { renderPatientReportExample } = await import('./report_templates_patient');
       const exampleHtml = renderPatientReportExample();
       
-      // TEMPORARY: Return HTML for testing
-      // TODO: Replace with actual PDF generation when API key is configured
-      return new Response(exampleHtml, {
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8',
-          'Content-Disposition': 'inline; filename="PREVIEW_Dein_persoenlicher_MEDLESS-Plan.html"',
-          'Cache-Control': 'no-store, no-cache, must-revalidate'
-        }
-      });
-      
-      /* PRODUCTION VERSION (uncomment when PDF service is ready):
+      // PRODUCTION VERSION: Generate PDF with PDFShift
       const pdfBuffer = await generatePdfWithService(
         exampleHtml, 
         'Dein_persoenlicher_MEDLESS-Plan.pdf',
-        env.PDF_API_KEY
+        env.PDFSHIFT_API_KEY
       );
       
       return new Response(pdfBuffer, {
@@ -1094,7 +1075,6 @@ app.post('/api/pdf/patient', async (c) => {
           'Cache-Control': 'no-store, no-cache, must-revalidate'
         }
       });
-      */
     } else {
       const body = await c.req.json();
       const { analysis } = body;
@@ -1110,20 +1090,11 @@ app.post('/api/pdf/patient', async (c) => {
       patientData = buildPatientReportData(analysis as AnalyzeResponse);
       const patientHtml = renderPatientReportHtmlFixed(patientData);
       
-      // TEMPORARY: Return HTML for testing
-      return new Response(patientHtml, {
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8',
-          'Content-Disposition': 'inline; filename="PREVIEW_Dein_persoenlicher_MEDLESS-Plan.html"',
-          'Cache-Control': 'no-store, no-cache, must-revalidate'
-        }
-      });
-      
-      /* PRODUCTION VERSION:
+      // PRODUCTION VERSION: Generate PDF with PDFShift
       const pdfBuffer = await generatePdfWithService(
         patientHtml,
         'Dein_persoenlicher_MEDLESS-Plan.pdf',
-        env.PDF_API_KEY
+        env.PDFSHIFT_API_KEY
       );
       
       return new Response(pdfBuffer, {
@@ -1133,7 +1104,6 @@ app.post('/api/pdf/patient', async (c) => {
           'Cache-Control': 'no-store, no-cache, must-revalidate'
         }
       });
-      */
     }
     
   } catch (error: any) {
@@ -1168,20 +1138,11 @@ app.post('/api/pdf/doctor', async (c) => {
       const { renderDoctorReportExample } = await import('./report_templates');
       const exampleHtml = renderDoctorReportExample();
       
-      // TEMPORARY: Return HTML for testing
-      return new Response(exampleHtml, {
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8',
-          'Content-Disposition': 'inline; filename="PREVIEW_MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.html"',
-          'Cache-Control': 'no-store, no-cache, must-revalidate'
-        }
-      });
-      
-      /* PRODUCTION VERSION:
+      // PRODUCTION VERSION: Generate PDF with PDFShift
       const pdfBuffer = await generatePdfWithService(
         exampleHtml,
         'MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf',
-        env.PDF_API_KEY
+        env.PDFSHIFT_API_KEY
       );
       
       return new Response(pdfBuffer, {
@@ -1191,7 +1152,6 @@ app.post('/api/pdf/doctor', async (c) => {
           'Cache-Control': 'no-store, no-cache, must-revalidate'
         }
       });
-      */
     } else {
       const body = await c.req.json();
       const { analysis } = body;
@@ -1207,20 +1167,11 @@ app.post('/api/pdf/doctor', async (c) => {
       doctorData = buildDoctorReportData(analysis as AnalyzeResponse);
       const doctorHtml = renderDoctorReportHtmlFixed(doctorData);
       
-      // TEMPORARY: Return HTML for testing
-      return new Response(doctorHtml, {
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8',
-          'Content-Disposition': 'inline; filename="PREVIEW_MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.html"',
-          'Cache-Control': 'no-store, no-cache, must-revalidate'
-        }
-      });
-      
-      /* PRODUCTION VERSION:
+      // PRODUCTION VERSION: Generate PDF with PDFShift
       const pdfBuffer = await generatePdfWithService(
         doctorHtml,
         'MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf',
-        env.PDF_API_KEY
+        env.PDFSHIFT_API_KEY
       );
       
       return new Response(pdfBuffer, {
@@ -1230,7 +1181,6 @@ app.post('/api/pdf/doctor', async (c) => {
           'Cache-Control': 'no-store, no-cache, must-revalidate'
         }
       });
-      */
     }
     
   } catch (error: any) {
