@@ -1051,6 +1051,16 @@ async function generatePdfWithService(html: string, filename: string, apiKey?: s
 app.post('/api/pdf/patient', async (c) => {
   try {
     const { env } = c;
+    
+    // CRITICAL: Check if PDFSHIFT_API_KEY is configured
+    if (!env.PDFSHIFT_API_KEY) {
+      console.error('PDFSHIFT_API_KEY not configured');
+      return c.json({ 
+        success: false, 
+        error: 'PDFSHIFT_API_KEY missing. Please configure it in Cloudflare Dashboard.' 
+      }, 500);
+    }
+    
     const url = new URL(c.req.url);
     const isExample = url.searchParams.get('example') === 'true';
     
@@ -1116,6 +1126,60 @@ app.post('/api/pdf/patient', async (c) => {
 })
 
 /**
+ * GET /api/pdf/patient?example=true
+ * Convenience endpoint for browser testing (GET instead of POST)
+ */
+app.get('/api/pdf/patient', async (c) => {
+  try {
+    const { env } = c;
+    const url = new URL(c.req.url);
+    const isExample = url.searchParams.get('example') === 'true';
+    
+    if (!isExample) {
+      return c.json({ 
+        success: false, 
+        error: 'GET requests only support ?example=true parameter. Use POST for real data.' 
+      }, 400);
+    }
+    
+    // CRITICAL: Check if PDFSHIFT_API_KEY is configured
+    if (!env.PDFSHIFT_API_KEY) {
+      console.error('PDFSHIFT_API_KEY not configured');
+      return c.json({ 
+        success: false, 
+        error: 'PDFSHIFT_API_KEY missing. Please configure it in Cloudflare Dashboard.' 
+      }, 500);
+    }
+    
+    // Use example data
+    const { renderPatientReportExample } = await import('./report_templates_patient');
+    const exampleHtml = renderPatientReportExample();
+    
+    // Generate PDF with PDFShift
+    const pdfBuffer = await generatePdfWithService(
+      exampleHtml, 
+      'Dein_persoenlicher_MEDLESS-Plan.pdf',
+      env.PDFSHIFT_API_KEY
+    );
+    
+    return new Response(pdfBuffer, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename="Dein_persoenlicher_MEDLESS-Plan.pdf"',
+        'Cache-Control': 'no-store, no-cache, must-revalidate'
+      }
+    });
+    
+  } catch (error: any) {
+    console.error('Error generating patient PDF (GET):', error);
+    return c.json({ 
+      success: false, 
+      error: error.message || 'Fehler beim Erstellen des Patienten-PDFs' 
+    }, 500);
+  }
+})
+
+/**
  * POST /api/pdf/doctor
  * Generates doctor report PDF from analysis data
  * 
@@ -1128,6 +1192,16 @@ app.post('/api/pdf/patient', async (c) => {
 app.post('/api/pdf/doctor', async (c) => {
   try {
     const { env } = c;
+    
+    // CRITICAL: Check if PDFSHIFT_API_KEY is configured
+    if (!env.PDFSHIFT_API_KEY) {
+      console.error('PDFSHIFT_API_KEY not configured');
+      return c.json({ 
+        success: false, 
+        error: 'PDFSHIFT_API_KEY missing. Please configure it in Cloudflare Dashboard.' 
+      }, 500);
+    }
+    
     const url = new URL(c.req.url);
     const isExample = url.searchParams.get('example') === 'true';
     
@@ -1185,6 +1259,60 @@ app.post('/api/pdf/doctor', async (c) => {
     
   } catch (error: any) {
     console.error('Error generating doctor PDF:', error);
+    return c.json({ 
+      success: false, 
+      error: error.message || 'Fehler beim Erstellen des Arzt-PDFs' 
+    }, 500);
+  }
+})
+
+/**
+ * GET /api/pdf/doctor?example=true
+ * Convenience endpoint for browser testing (GET instead of POST)
+ */
+app.get('/api/pdf/doctor', async (c) => {
+  try {
+    const { env } = c;
+    const url = new URL(c.req.url);
+    const isExample = url.searchParams.get('example') === 'true';
+    
+    if (!isExample) {
+      return c.json({ 
+        success: false, 
+        error: 'GET requests only support ?example=true parameter. Use POST for real data.' 
+      }, 400);
+    }
+    
+    // CRITICAL: Check if PDFSHIFT_API_KEY is configured
+    if (!env.PDFSHIFT_API_KEY) {
+      console.error('PDFSHIFT_API_KEY not configured');
+      return c.json({ 
+        success: false, 
+        error: 'PDFSHIFT_API_KEY missing. Please configure it in Cloudflare Dashboard.' 
+      }, 500);
+    }
+    
+    // Use example data
+    const { renderDoctorReportExample } = await import('./report_templates');
+    const exampleHtml = renderDoctorReportExample();
+    
+    // Generate PDF with PDFShift
+    const pdfBuffer = await generatePdfWithService(
+      exampleHtml,
+      'MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf',
+      env.PDFSHIFT_API_KEY
+    );
+    
+    return new Response(pdfBuffer, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename="MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf"',
+        'Cache-Control': 'no-store, no-cache, must-revalidate'
+      }
+    });
+    
+  } catch (error: any) {
+    console.error('Error generating doctor PDF (GET):', error);
     return c.json({ 
       success: false, 
       error: error.message || 'Fehler beim Erstellen des Arzt-PDFs' 
