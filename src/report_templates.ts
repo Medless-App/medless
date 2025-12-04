@@ -4,6 +4,7 @@
 
 import type { PatientReportData, DoctorReportData } from './report_data'
 import { fillTemplate } from './utils/template_engine'
+import { MEDLESS_LOGO_BASE64 } from './logo_base64'
 
 // ============================================================
 // DOCTOR REPORT TEMPLATE (EMOJI-FREE, A4-OPTIMIZED)
@@ -52,7 +53,48 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       padding: 20px;
     }
     
-    /* HEADER */
+    /* PROFESSIONAL REPORT HEADER */
+    .report-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8mm;
+    }
+    
+    .report-header-left {
+      flex: 0 0 auto;
+    }
+    
+    .report-logo {
+      width: 140px;
+      height: auto;
+    }
+    
+    .report-header-right {
+      flex: 1;
+      text-align: right;
+      padding-left: 20px;
+    }
+    
+    .report-header-title {
+      font-size: 14pt;
+      font-weight: 600;
+      color: #00584D;
+      margin-bottom: 4px;
+    }
+    
+    .report-header-subtitle {
+      font-size: 10pt;
+      color: #4b5563;
+    }
+    
+    .report-header-separator {
+      border: none;
+      border-top: 2px solid #00C39A;
+      margin: 0 0 6mm 0;
+    }
+    
+    /* OLD HEADER (deprecated, keep for backwards compat) */
     .header {
       display: flex;
       justify-content: space-between;
@@ -334,15 +376,17 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 <body class="pdf-report">
 <div class="container">
 
-<!-- 1) HEADER -->
-<div class="header">
-  <div class="header-logo">
-    <img src="{{logo_url}}" alt="MEDLESS Logo" style="height:22px;">
+<!-- 1) PROFESSIONAL HEADER -->
+<header class="report-header">
+  <div class="report-header-left">
+    <img src="${MEDLESS_LOGO_BASE64}" alt="MEDLESS" class="report-logo">
   </div>
-  <div class="header-text">
-    MEDLESS – KI-unterstützte Reduktionsplanung
+  <div class="report-header-right">
+    <div class="report-header-title">MEDLESS – Ärztebericht</div>
+    <div class="report-header-subtitle">Medizinische Dokumentation zur Reduktionsplanung</div>
   </div>
-</div>
+</header>
+<hr class="report-header-separator">
 
 <!-- 2) ANREDE UND EINLEITUNG -->
 <p class="salutation">Lieber Arzt, liebe Ärztin,</p>
@@ -641,7 +685,6 @@ export function renderDoctorReportHtmlFixed(data: DoctorReportData): string {
   const maxCbd = Math.max(...data.reductionPlanDetails.map(w => w.cbdDose), 1);
 
   const templateData = {
-    logo_url: 'https://medless.de/assets/logo.svg',
     patient_name: data.patientMeta.firstName || 'N/A',
     geschlecht: data.patientMeta.gender || 'Nicht angegeben',
     alter: data.patientMeta.age || 'N/A',

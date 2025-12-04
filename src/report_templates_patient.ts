@@ -4,6 +4,7 @@
 
 import type { PatientReportData } from './report_data'
 import { fillTemplate } from './utils/template_engine'
+import { MEDLESS_LOGO_BASE64 } from './logo_base64'
 
 // ============================================================
 // PATIENT REPORT TEMPLATE (WITH EMOJIS, PATIENT-FRIENDLY)
@@ -52,6 +53,48 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       padding: 20px;
     }
     
+    /* PROFESSIONAL REPORT HEADER */
+    .report-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8mm;
+    }
+    
+    .report-header-left {
+      flex: 0 0 auto;
+    }
+    
+    .report-logo {
+      width: 140px;
+      height: auto;
+    }
+    
+    .report-header-right {
+      flex: 1;
+      text-align: right;
+      padding-left: 20px;
+    }
+    
+    .report-header-title {
+      font-size: 14pt;
+      font-weight: 600;
+      color: #00584D;
+      margin-bottom: 4px;
+    }
+    
+    .report-header-subtitle {
+      font-size: 10pt;
+      color: #4b5563;
+    }
+    
+    .report-header-separator {
+      border: none;
+      border-top: 2px solid #00C39A;
+      margin: 0 0 6mm 0;
+    }
+    
+    /* OLD HEADER (deprecated, keep for backwards compat) */
     .header {
       display: flex;
       justify-content: space-between;
@@ -388,15 +431,17 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 <body class="pdf-report">
 <div class="container">
 
-<!-- 1. HEADER -->
-<div class="header">
-  <div class="header-logo">
-    <img src="{{logo_url}}" alt="MEDLESS Logo" style="height:22px;">
+<!-- 1. PROFESSIONAL HEADER -->
+<header class="report-header">
+  <div class="report-header-left">
+    <img src="${MEDLESS_LOGO_BASE64}" alt="MEDLESS" class="report-logo">
   </div>
-  <div class="header-text">
-    Dein Weg zu weniger Medikamenten – natürlich begleitet
+  <div class="report-header-right">
+    <div class="report-header-title">MEDLESS – Patienten-Plan</div>
+    <div class="report-header-subtitle">Erstellt für: {{patient_name}}</div>
   </div>
-</div>
+</header>
+<hr class="report-header-separator">
 
 <!-- 2. TITLE -->
 <h1>🌿 Dein persönlicher MEDLESS-Plan</h1>
@@ -545,7 +590,6 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 
 export function renderPatientReportHtmlFixed(data: PatientReportData): string {
   const templateData = {
-    logo_url: 'https://medless.de/assets/logo.svg',
     patient_name: data.patientFacts.firstName || 'N/A',
     alter: data.patientFacts.age || 'N/A',
     gewicht: data.patientFacts.weight || 'N/A',
@@ -585,7 +629,6 @@ export function renderPatientReportHtmlFixed(data: PatientReportData): string {
 
 export function renderPatientReportExample(): string {
   const exampleData = {
-    logo_url: 'https://medless.de/assets/logo.svg',
     patient_name: 'Maria',
     alter: 62,
     gewicht: 68,
