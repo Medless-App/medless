@@ -18,7 +18,7 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   <style>
     @page {
       size: A4;
-      margin: 20mm;
+      margin: 15mm 20mm;
     }
     
     * {
@@ -29,16 +29,27 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 10pt;
-      line-height: 1.5;
+      font-size: 11pt;
+      line-height: 1.4;
       color: #222222;
       background: white;
-      padding: 20mm;
+      padding: 0;
+      margin: 0;
     }
     
+    /* PDF-optimized full-width layout */
+    body.pdf-report .container {
+      max-width: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Screen-optimized centered layout (for /test/ pages) */
     .container {
-      max-width: 170mm;
+      max-width: 800px;
       margin: 0 auto;
+      padding: 20px;
     }
     
     .header {
@@ -62,9 +73,9 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     h1 {
-      font-size: 16pt;
+      font-size: 18pt;
       color: #00584D;
-      margin: 8px 0 6px 0;
+      margin: 14px 0 8px 0;
       font-weight: 700;
       line-height: 1.2;
     }
@@ -80,11 +91,12 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       background: #F9FAFB;
       border: 1.5px solid #D1D5DB;
       border-radius: 6px;
-      padding: 10px;
-      margin: 12px 0;
+      padding: 12px;
+      margin: 14px 0;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 12px;
+      width: 100%;
     }
     
     .patient-data-item {
@@ -107,9 +119,9 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     h2 {
-      font-size: 13pt;
+      font-size: 14pt;
       color: #00584D;
-      margin-top: 14px;
+      margin-top: 16px;
       margin-bottom: 8px;
       font-weight: 600;
       border-bottom: 2px solid #00C39A;
@@ -373,7 +385,7 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
   </style>
 </head>
-<body>
+<body class="pdf-report">
 <div class="container">
 
 <!-- 1. HEADER -->

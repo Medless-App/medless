@@ -18,7 +18,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   <style>
     @page {
       size: A4;
-      margin: 20mm;
+      margin: 15mm 20mm;
     }
     
     * {
@@ -29,16 +29,27 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 10pt;
-      line-height: 1.6;
+      font-size: 11pt;
+      line-height: 1.4;
       color: #222222;
       background: white;
-      padding: 20mm;
+      padding: 0;
+      margin: 0;
     }
     
+    /* PDF-optimized full-width layout */
+    body.pdf-report .container {
+      max-width: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Screen-optimized centered layout (for /test/ pages) */
     .container {
-      max-width: 170mm;
+      max-width: 800px;
       margin: 0 auto;
+      padding: 20px;
     }
     
     /* HEADER */
@@ -117,7 +128,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     
     /* TITEL */
     h1 {
-      font-size: 14pt;
+      font-size: 16pt;
       color: #00584D;
       margin: 12px 0 5px 0;
       font-weight: 700;
@@ -171,7 +182,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     
     /* ÜBERSCHRIFTEN */
     h2 {
-      font-size: 11pt;
+      font-size: 13pt;
       color: #00584D;
       margin-top: 14px;
       margin-bottom: 8px;
@@ -179,7 +190,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     h3 {
-      font-size: 8.5pt;
+      font-size: 10pt;
       color: #00584D;
       margin-top: 10px;
       margin-bottom: 5px;
@@ -320,7 +331,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
   </style>
 </head>
-<body>
+<body class="pdf-report">
 <div class="container">
 
 <!-- 1) HEADER -->
