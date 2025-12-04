@@ -19,7 +19,7 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   <style>
     @page {
       size: A4;
-      margin: 15mm 17mm;
+      margin: 12mm 14mm;
     }
     
     * {
@@ -53,9 +53,9 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     body.pdf-report .wrapper,
     body.pdf-report .content {
       width: 100%;
-      max-width: 100%;
-      margin: 0;
-      padding: 0 5mm;
+      max-width: 185mm;
+      margin: 0 auto;
+      padding: 0 3mm;
     }
     
     /* Screen-optimized centered layout (for /test/ pages only) */
@@ -359,21 +359,30 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       padding: 10px;
       margin: 12px 0;
       border-radius: 4px;
+      width: 100%;
+      text-align: left;
     }
     
     .monitoring-box h3 {
       color: #00584D;
       margin-top: 0;
+      text-align: left;
+    }
+    
+    .monitoring-box p {
+      text-align: left;
     }
     
     .monitoring-box ul {
       margin: 10px 0 0 20px;
+      text-align: left;
     }
     
     .monitoring-box li {
       margin-bottom: 4px;
       color: #00584D;
       font-size: 9.5pt;
+      text-align: left;
     }
     
     .cost-box {
@@ -484,6 +493,10 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     <div class="patient-data-value">{{gewicht}} kg</div>
   </div>
   <div class="patient-data-item">
+    <div class="patient-data-label">Geschlecht</div>
+    <div class="patient-data-value">{{geschlecht}}</div>
+  </div>
+  <div class="patient-data-item">
     <div class="patient-data-label">BMI</div>
     <div class="patient-data-value">{{bmi}}</div>
   </div>
@@ -515,8 +528,6 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     {{/positive_effekte}}
   </ul>
 </div>
-
-<div class="section-divider"></div>
 
 <!-- 6. WEEKLY PLAN -->
 <div class="wochenplan-block">
@@ -619,6 +630,7 @@ export function renderPatientReportHtmlFixed(data: PatientReportData): string {
     patient_name: data.patientFacts.firstName || 'N/A',
     alter: data.patientFacts.age || 'N/A',
     gewicht: data.patientFacts.weight || 'N/A',
+    geschlecht: data.patientFacts.gender || 'Nicht angegeben',
     bmi: data.patientFacts.bmi || 'N/A',
     anzahl_medikamente: data.patientFacts.medicationCount || 0,
     dauer_wochen: data.medlessProductNotes.durationWeeks || 0,
@@ -658,6 +670,7 @@ export function renderPatientReportExample(): string {
     patient_name: 'Maria',
     alter: 62,
     gewicht: 68,
+    geschlecht: 'weiblich',
     bmi: '24.9',
     anzahl_medikamente: 1,
     dauer_wochen: 8,

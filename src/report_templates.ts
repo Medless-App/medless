@@ -19,7 +19,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   <style>
     @page {
       size: A4;
-      margin: 15mm 17mm;
+      margin: 12mm 14mm;
     }
     
     * {
@@ -53,9 +53,9 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     body.pdf-report .wrapper,
     body.pdf-report .content {
       width: 100%;
-      max-width: 100%;
-      margin: 0;
-      padding: 0 5mm;
+      max-width: 185mm;
+      margin: 0 auto;
+      padding: 0 3mm;
     }
     
     /* Screen-optimized centered layout (for /test/ pages only) */
@@ -194,6 +194,13 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       font-size: 8pt;
       color: #666;
       margin-bottom: 10px;
+    }
+    
+    .subtitle-small {
+      font-size: 9pt;
+      color: #6B7280;
+      margin-top: 2mm;
+      margin-bottom: 8px;
     }
     
     /* PHARMAKOLOGIE-BOX */
@@ -443,7 +450,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 
 <!-- 4) TITELBLOCK -->
 <h1>MEDLESS-Reduktionsplan – Ärztliche Dokumentation</h1>
-<p class="subtitle">Zusammenfassung pharmakologischer Eckdaten</p>
+<p class="subtitle-small">Zusammenfassung pharmakologischer Eckdaten</p>
 
 <!-- PHARMAKOLOGIE-BOX -->
 <div class="pharma-box">
