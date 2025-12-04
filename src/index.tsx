@@ -11355,4 +11355,22 @@ function getSharedStyles() {
   `
 }
 
+// ============================================================
+// TEST ENDPOINTS: Display Example Reports (HTML only)
+// ============================================================
+// These endpoints render the example reports with test data
+// NO PDF generation - just HTML for visual testing
+
+app.get('/test/doctor-report', (c) => {
+  const { renderDoctorReportExample } = require('./report_templates')
+  const html = renderDoctorReportExample()
+  return c.html(html)
+})
+
+app.get('/test/patient-report', (c) => {
+  const { renderPatientReportExample } = require('./report_templates_patient')
+  const html = renderPatientReportExample()
+  return c.html(html)
+})
+
 export default app
