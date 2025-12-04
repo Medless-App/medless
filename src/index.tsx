@@ -1014,7 +1014,7 @@ async function generatePdfWithService(html: string, filename: string, apiKey?: s
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Basic ${btoa(apiKey + ':')}`
+      'X-API-Key': apiKey
     },
     body: JSON.stringify({
       source: html,
@@ -1032,6 +1032,7 @@ async function generatePdfWithService(html: string, filename: string, apiKey?: s
   
   if (!pdfshiftResponse.ok) {
     const errorText = await pdfshiftResponse.text();
+    console.error('PDFShift error:', pdfshiftResponse.status, errorText);
     throw new Error(`PDF generation failed (${pdfshiftResponse.status}): ${errorText}`);
   }
   
