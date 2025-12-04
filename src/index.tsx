@@ -2,8 +2,8 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { buildPatientReportData, buildDoctorReportData } from './report_data'
-import { renderPatientReportHtml, renderDoctorReportHtml, renderDoctorReportExample } from './report_templates'
-import { renderPatientReportExample } from './report_templates_patient'
+import { renderDoctorReportHtmlFixed, renderDoctorReportExample } from './report_templates'
+import { renderPatientReportHtmlFixed, renderPatientReportExample } from './report_templates_patient'
 import type { AnalyzeResponse } from './types/analyzeResponse'
 
 type Bindings = {
@@ -917,7 +917,7 @@ app.post('/api/reports', async (c) => {
     // Build Patient Report
     if (includePatient) {
       const patientData = buildPatientReportData(analysis as AnalyzeResponse);
-      const patientHtml = renderPatientReportHtml(patientData);
+      const patientHtml = renderPatientReportHtmlFixed(patientData);
       result.patient = {
         data: patientData,
         html: patientHtml
@@ -927,7 +927,7 @@ app.post('/api/reports', async (c) => {
     // Build Doctor Report
     if (includeDoctor) {
       const doctorData = buildDoctorReportData(analysis as AnalyzeResponse);
-      const doctorHtml = renderDoctorReportHtml(doctorData);
+      const doctorHtml = renderDoctorReportHtmlFixed(doctorData);
       result.doctor = {
         data: doctorData,
         html: doctorHtml
@@ -966,10 +966,10 @@ app.post('/api/analyze-and-reports', async (c) => {
     
     // Generate reports from analysis result
     const patientData = buildPatientReportData(analysisResult as any);
-    const patientHtml = renderPatientReportHtml(patientData);
+    const patientHtml = renderPatientReportHtmlFixed(patientData);
     
     const doctorData = buildDoctorReportData(analysisResult as any);
-    const doctorHtml = renderDoctorReportHtml(doctorData);
+    const doctorHtml = renderDoctorReportHtmlFixed(doctorData);
     
     // Return combined response
     return c.json({
