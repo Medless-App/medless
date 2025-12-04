@@ -1019,14 +1019,9 @@ async function generatePdfWithService(html: string, filename: string, apiKey?: s
     body: JSON.stringify({
       source: html,
       format: 'A4',
-      margin: '20mm 20mm 20mm 20mm',
-      print_background: true,
-      scale: 1.0,
-      prefer_css_page_size: false,
-      viewport: {
-        width: 794,  // A4 width in pixels at 96dpi (210mm)
-        height: 1123 // A4 height in pixels at 96dpi (297mm)
-      }
+      margin: '20mm',
+      use_print: true,
+      landscape: false
     })
   });
   
