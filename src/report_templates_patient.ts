@@ -46,8 +46,16 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       padding: 0;
     }
     
-    /* Screen-optimized centered layout (for /test/ pages) */
-    .container {
+    /* PDF-optimized full-width layout */
+    body.pdf-report .container {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 0 10mm;
+    }
+    
+    /* Screen-optimized centered layout (for /test/ pages only) */
+    body:not(.pdf-report) .container {
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
@@ -576,8 +584,8 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 
 <!-- 11. FOOTER -->
 <div class="footer">
-  {{version_note}}<br>
-  <span style="color:#00C39A;">●</span> Erstellt mit KI-gestützter Analyse <span style="color:#00C39A;">●</span>
+  <div style="font-weight:600; margin-bottom:4px;">{{version_note}}</div>
+  <div><span style="color:#00C39A;">●</span> Erstellt mit KI-gestützter Analyse <span style="color:#00C39A;">●</span></div>
 </div>
 
 </div>
@@ -721,7 +729,7 @@ export function renderPatientReportExample(): string {
     
     rechtlicher_hinweis: 'Dieser Plan ist eine persönliche Empfehlung und ersetzt keine ärztliche Beratung. Bitte sprich mit deinem Arzt oder deiner Ärztin, bevor du Medikamente reduzierst oder Cannabinoide einnimmst. Setze niemals eigenmächtig verschriebene Medikamente ab. Bei Notfällen rufe sofort die 112 an.',
     
-    version_note: 'MEDLESS Patientenplan v2.0 – Erstellt am ' + new Date().toLocaleDateString('de-DE')
+    version_note: 'MEDLESS Plan v2.0'
   };
 
   return fillTemplate(PATIENT_REPORT_TEMPLATE_FIXED, exampleData);

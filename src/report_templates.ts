@@ -46,8 +46,16 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       padding: 0;
     }
     
-    /* Screen-optimized centered layout (for /test/ pages) */
-    .container {
+    /* PDF-optimized full-width layout */
+    body.pdf-report .container {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 0 10mm;
+    }
+    
+    /* Screen-optimized centered layout (for /test/ pages only) */
+    body:not(.pdf-report) .container {
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
