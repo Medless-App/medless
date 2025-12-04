@@ -1335,7 +1335,7 @@ function showPlanReadyState(loadingEl) {
   let patientPdfDownloaded = false;
   let doctorPdfDownloaded = false;
   
-  // Patient Button Click Handler
+  // Patient Button Click Handler (SERVER-SIDE PDF via /api/pdf/patient)
   patientButton.addEventListener('click', async () => {
     console.log('🖱️ Patient PDF button clicked');
     
@@ -1361,7 +1361,6 @@ function showPlanReadyState(loadingEl) {
       }
       
       console.log('DEBUG Patient HTML length before PDF:', patientHtml.length);
-      console.log('DEBUG Patient HTML preview (first 200 chars):', patientHtml.substring(0, 200));
       
       // Validate HTML length
       if (patientHtml.length < 500) {
@@ -1376,8 +1375,38 @@ function showPlanReadyState(loadingEl) {
       patientButton.style.opacity = '0.6';
       patientButton.textContent = 'PDF wird erstellt...';
       
-      console.log('📄 Downloading Patient PDF...');
-      await downloadHtmlAsPdf(patientHtml, 'MEDLESS_Plan_Patient.pdf');
+      console.log('📄 Requesting server-side PDF generation via /api/pdf/patient');
+      
+      // Call server-side PDF API  
+      const res = await fetch('/api/pdf/patient', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          html: patientHtml,
+          fileName: 'medless-patient-plan.pdf'
+        })
+      });
+      
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error('❌ PDF API error:', res.status, errorText);
+        alert('PDF-Funktion nicht verfügbar. Bitte laden Sie die Seite neu (Strg+Shift+R) und versuchen Sie es erneut.');
+        throw new Error('PDF API returned ' + res.status);
+      }
+      
+      // Download PDF
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'medless-patient-plan.pdf';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      
       console.log('✅ Patient PDF downloaded successfully');
       
       // Mark as downloaded and update button text
@@ -1387,7 +1416,7 @@ function showPlanReadyState(loadingEl) {
       
     } catch (error) {
       console.error('❌ ERROR in Patient PDF download:', error);
-      alert('Fehler beim Herunterladen des Patienten-PDFs: ' + error.message);
+      alert('PDF-Funktion nicht verfügbar. Bitte laden Sie die Seite neu (Strg+Shift+R) und versuchen Sie es erneut.');
       
       // Re-enable button on error
       patientButton.disabled = false;
@@ -1398,7 +1427,7 @@ function showPlanReadyState(loadingEl) {
     }
   });
   
-  // Doctor Button Click Handler
+  // Doctor Button Click Handler (SERVER-SIDE PDF via /api/pdf/arztbericht)
   doctorButton.addEventListener('click', async () => {
     console.log('🖱️ Doctor PDF button clicked');
     
@@ -1424,7 +1453,6 @@ function showPlanReadyState(loadingEl) {
       }
       
       console.log('DEBUG Doctor HTML length before PDF:', doctorHtml.length);
-      console.log('DEBUG Doctor HTML preview (first 200 chars):', doctorHtml.substring(0, 200));
       
       // Validate HTML length
       if (doctorHtml.length < 500) {
@@ -1439,8 +1467,38 @@ function showPlanReadyState(loadingEl) {
       doctorButton.style.opacity = '0.6';
       doctorButton.textContent = 'PDF wird erstellt...';
       
-      console.log('📄 Downloading Doctor PDF...');
-      await downloadHtmlAsPdf(doctorHtml, 'MEDLESS_Plan_Arztbericht.pdf');
+      console.log('📄 Requesting server-side PDF generation via /api/pdf/arztbericht');
+      
+      // Call server-side PDF API
+      const res = await fetch('/api/pdf/arztbericht', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          html: doctorHtml,
+          fileName: 'medless-arztbericht.pdf'
+        })
+      });
+      
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error('❌ PDF API error:', res.status, errorText);
+        alert('PDF-Funktion nicht verfügbar. Bitte laden Sie die Seite neu (Strg+Shift+R) und versuchen Sie es erneut.');
+        throw new Error('PDF API returned ' + res.status);
+      }
+      
+      // Download PDF
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'medless-arztbericht.pdf';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      
       console.log('✅ Doctor PDF downloaded successfully');
       
       // Mark as downloaded and update button text
@@ -1450,7 +1508,7 @@ function showPlanReadyState(loadingEl) {
       
     } catch (error) {
       console.error('❌ ERROR in Doctor PDF download:', error);
-      alert('Fehler beim Herunterladen des Ärzteberichts: ' + error.message);
+      alert('PDF-Funktion nicht verfügbar. Bitte laden Sie die Seite neu (Strg+Shift+R) und versuchen Sie es erneut.');
       
       // Re-enable button on error
       doctorButton.disabled = false;

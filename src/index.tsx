@@ -1320,6 +1320,56 @@ app.get('/api/pdf/doctor', async (c) => {
   }
 })
 
+/**
+ * POST /api/pdf/arztbericht
+ * Server-side PDF generation for doctor reports (accepts direct HTML)
+ * Body: { html: string, fileName?: string }
+ */
+app.post('/api/pdf/arztbericht', async (c) => {
+  try {
+    const { env } = c;
+    
+    // CRITICAL: Check if PDFSHIFT_API_KEY is configured
+    if (!env.PDFSHIFT_API_KEY) {
+      console.error('PDFSHIFT_API_KEY not configured');
+      return c.json({ 
+        success: false, 
+        error: 'PDFSHIFT_API_KEY missing. Please configure it in Cloudflare Dashboard.' 
+      }, 500);
+    }
+    
+    const body = await c.req.json();
+    const html = body.html;
+    const fileName = body.fileName || 'medless-arztbericht.pdf';
+    
+    if (!html) {
+      return c.json({ 
+        success: false, 
+        error: 'Missing html in request body.' 
+      }, 400);
+    }
+    
+    // Use generatePdfWithService with correct PDF options (A4, margins, viewport)
+    const pdfArrayBuffer = await generatePdfWithService(html, fileName, env.PDFSHIFT_API_KEY);
+    
+    return new Response(pdfArrayBuffer, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${fileName}"`,
+        'Cache-Control': 'no-store, no-cache, must-revalidate'
+      }
+    });
+    
+  } catch (error: any) {
+    console.error('Error generating arztbericht PDF:', error);
+    return c.json({ 
+      success: false, 
+      error: error.message || 'Fehler beim Erstellen des Ärzteberichts' 
+    }, 500);
+  }
+})
+
 // Magazine Article Route: Endocannabinoid-System erklärt
 app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   return c.html(`
