@@ -991,6 +991,257 @@ app.post('/api/analyze-and-reports', async (c) => {
   }
 })
 
+// ============================================================
+// PDF GENERATION ENDPOINTS (SERVER-SIDE)
+// ============================================================
+
+/**
+ * PDF Service Helper Function
+ * Uses PDFShift API for consistent server-side PDF rendering
+ * 
+ * @param html - HTML string to convert to PDF
+ * @param filename - Filename for the PDF
+ * @param apiKey - PDFShift API key (from environment variable)
+ * @returns PDF binary as ArrayBuffer
+ */
+async function generatePdfWithService(html: string, filename: string, apiKey?: string): Promise<ArrayBuffer> {
+  // For now, we'll use a mock implementation that returns the HTML
+  // In production, this should call PDFShift or similar service
+  
+  // PRODUCTION: Uncomment this when API key is available
+  /*
+  if (!apiKey) {
+    throw new Error('PDF_API_KEY not configured');
+  }
+  
+  const pdfshiftResponse = await fetch('https://api.pdfshift.io/v3/convert/pdf', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Basic ${btoa(apiKey + ':')}`
+    },
+    body: JSON.stringify({
+      source: html,
+      format: 'A4',
+      margin: '20mm 20mm 20mm 20mm',
+      print_background: true,
+      scale: 1.0,
+      prefer_css_page_size: false,
+      viewport: {
+        width: 794,  // A4 width in pixels at 96dpi (210mm)
+        height: 1123 // A4 height in pixels at 96dpi (297mm)
+      }
+    })
+  });
+  
+  if (!pdfshiftResponse.ok) {
+    throw new Error(`PDF generation failed: ${pdfshiftResponse.statusText}`);
+  }
+  
+  return await pdfshiftResponse.arrayBuffer();
+  */
+  
+  // TEMPORARY: Return HTML as text for testing
+  // This will be replaced with actual PDF generation
+  const encoder = new TextEncoder();
+  return encoder.encode(html).buffer;
+}
+
+/**
+ * POST /api/pdf/patient
+ * Generates patient report PDF from analysis data
+ * 
+ * Query params:
+ *   - example=true: Use example data for testing
+ * 
+ * Body (if example not set):
+ *   - analysis: AnalyzeResponse object
+ */
+app.post('/api/pdf/patient', async (c) => {
+  try {
+    const { env } = c;
+    const url = new URL(c.req.url);
+    const isExample = url.searchParams.get('example') === 'true';
+    
+    let patientData;
+    
+    if (isExample) {
+      // Use example data from renderPatientReportExample
+      const { renderPatientReportExample } = await import('./report_templates_patient');
+      const exampleHtml = renderPatientReportExample();
+      
+      // TEMPORARY: Return HTML for testing
+      // TODO: Replace with actual PDF generation when API key is configured
+      return new Response(exampleHtml, {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Content-Disposition': 'inline; filename="PREVIEW_Dein_persoenlicher_MEDLESS-Plan.html"',
+          'Cache-Control': 'no-store, no-cache, must-revalidate'
+        }
+      });
+      
+      /* PRODUCTION VERSION (uncomment when PDF service is ready):
+      const pdfBuffer = await generatePdfWithService(
+        exampleHtml, 
+        'Dein_persoenlicher_MEDLESS-Plan.pdf',
+        env.PDF_API_KEY
+      );
+      
+      return new Response(pdfBuffer, {
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment; filename="Dein_persoenlicher_MEDLESS-Plan.pdf"',
+          'Cache-Control': 'no-store, no-cache, must-revalidate'
+        }
+      });
+      */
+    } else {
+      const body = await c.req.json();
+      const { analysis } = body;
+      
+      if (!analysis) {
+        return c.json({ 
+          success: false, 
+          error: 'Missing analysis data' 
+        }, 400);
+      }
+      
+      // Build patient report data
+      patientData = buildPatientReportData(analysis as AnalyzeResponse);
+      const patientHtml = renderPatientReportHtmlFixed(patientData);
+      
+      // TEMPORARY: Return HTML for testing
+      return new Response(patientHtml, {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Content-Disposition': 'inline; filename="PREVIEW_Dein_persoenlicher_MEDLESS-Plan.html"',
+          'Cache-Control': 'no-store, no-cache, must-revalidate'
+        }
+      });
+      
+      /* PRODUCTION VERSION:
+      const pdfBuffer = await generatePdfWithService(
+        patientHtml,
+        'Dein_persoenlicher_MEDLESS-Plan.pdf',
+        env.PDF_API_KEY
+      );
+      
+      return new Response(pdfBuffer, {
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment; filename="Dein_persoenlicher_MEDLESS-Plan.pdf"',
+          'Cache-Control': 'no-store, no-cache, must-revalidate'
+        }
+      });
+      */
+    }
+    
+  } catch (error: any) {
+    console.error('Error generating patient PDF:', error);
+    return c.json({ 
+      success: false, 
+      error: error.message || 'Fehler beim Erstellen des Patienten-PDFs' 
+    }, 500);
+  }
+})
+
+/**
+ * POST /api/pdf/doctor
+ * Generates doctor report PDF from analysis data
+ * 
+ * Query params:
+ *   - example=true: Use example data for testing
+ * 
+ * Body (if example not set):
+ *   - analysis: AnalyzeResponse object
+ */
+app.post('/api/pdf/doctor', async (c) => {
+  try {
+    const { env } = c;
+    const url = new URL(c.req.url);
+    const isExample = url.searchParams.get('example') === 'true';
+    
+    let doctorData;
+    
+    if (isExample) {
+      // Use example data from renderDoctorReportExample
+      const { renderDoctorReportExample } = await import('./report_templates');
+      const exampleHtml = renderDoctorReportExample();
+      
+      // TEMPORARY: Return HTML for testing
+      return new Response(exampleHtml, {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Content-Disposition': 'inline; filename="PREVIEW_MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.html"',
+          'Cache-Control': 'no-store, no-cache, must-revalidate'
+        }
+      });
+      
+      /* PRODUCTION VERSION:
+      const pdfBuffer = await generatePdfWithService(
+        exampleHtml,
+        'MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf',
+        env.PDF_API_KEY
+      );
+      
+      return new Response(pdfBuffer, {
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment; filename="MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf"',
+          'Cache-Control': 'no-store, no-cache, must-revalidate'
+        }
+      });
+      */
+    } else {
+      const body = await c.req.json();
+      const { analysis } = body;
+      
+      if (!analysis) {
+        return c.json({ 
+          success: false, 
+          error: 'Missing analysis data' 
+        }, 400);
+      }
+      
+      // Build doctor report data
+      doctorData = buildDoctorReportData(analysis as AnalyzeResponse);
+      const doctorHtml = renderDoctorReportHtmlFixed(doctorData);
+      
+      // TEMPORARY: Return HTML for testing
+      return new Response(doctorHtml, {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Content-Disposition': 'inline; filename="PREVIEW_MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.html"',
+          'Cache-Control': 'no-store, no-cache, must-revalidate'
+        }
+      });
+      
+      /* PRODUCTION VERSION:
+      const pdfBuffer = await generatePdfWithService(
+        doctorHtml,
+        'MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf',
+        env.PDF_API_KEY
+      );
+      
+      return new Response(pdfBuffer, {
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment; filename="MEDLESS-Reduktionsplan_Aerztliche_Dokumentation.pdf"',
+          'Cache-Control': 'no-store, no-cache, must-revalidate'
+        }
+      });
+      */
+    }
+    
+  } catch (error: any) {
+    console.error('Error generating doctor PDF:', error);
+    return c.json({ 
+      success: false, 
+      error: error.message || 'Fehler beim Erstellen des Arzt-PDFs' 
+    }, 500);
+  }
+})
+
 // Magazine Article Route: Endocannabinoid-System erklärt
 app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   return c.html(`
@@ -4232,17 +4483,8 @@ app.get('/', (c) => {
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <!-- jsPDF for PDF Generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  
   <!-- Axios for API calls -->
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  
-  <!-- html2canvas for PDF generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  
-  <!-- html2pdf.js for direct PDF download -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 
   <style>
     /* ============================================================
