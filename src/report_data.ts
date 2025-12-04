@@ -253,8 +253,8 @@ export function buildPatientReportData(response: AnalyzeResponse): PatientReport
   // --- Patient Facts ---
   const patientFacts = {
     firstName: personalization.firstName || 'Unbekannt',
-    age: personalization.age ? `${personalization.age} Jahre` : 'Keine Angabe',
-    weight: personalization.weight ? `${personalization.weight} kg` : 'Keine Angabe',
+    age: personalization.age ? `${personalization.age}` : 'Keine Angabe',
+    weight: personalization.weight ? `${personalization.weight}` : 'Keine Angabe',
     bmi: personalization.bmi ? `${personalization.bmi}` : 'Keine Angabe',
     medicationCount: planIntelligence.totalMedicationCount,
     sensitiveMedCount: planIntelligence.sensitiveMedCount,
@@ -425,12 +425,12 @@ export function buildDoctorReportData(response: AnalyzeResponse): DoctorReportDa
   // --- Patient Metadata ---
   const patientMeta = {
     firstName: personalization.firstName || 'Patient',
-    age: personalization.age ? `${personalization.age} Jahre` : 'N/A',
-    weight: personalization.weight ? `${personalization.weight} kg` : 'N/A',
-    height: personalization.height ? `${personalization.height} cm` : 'N/A',
+    age: personalization.age ? `${personalization.age}` : 'N/A',
+    weight: personalization.weight ? `${personalization.weight}` : 'N/A',
+    height: personalization.height ? `${personalization.height}` : 'N/A',
     bmi: personalization.bmi ? `${personalization.bmi}` : 'N/A',
-    bsa: personalization.bsa ? `${personalization.bsa} m²` : 'N/A',
-    idealWeight: personalization.idealWeightKg ? `${personalization.idealWeightKg} kg` : 'N/A'
+    bsa: personalization.bsa ? `${personalization.bsa}` : 'N/A',
+    idealWeight: personalization.idealWeightKg ? `${personalization.idealWeightKg}` : 'N/A'
   };
   
   // --- Risk Overview ---

@@ -29,8 +29,8 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 11pt;
-      line-height: 1.7;
+      font-size: 10pt;
+      line-height: 1.5;
       color: #222222;
       background: white;
       padding: 20mm;
@@ -51,40 +51,40 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .header-logo img {
-      height: 32px;
+      height: 22px;
     }
     
     .header-text {
-      font-size: 9pt;
+      font-size: 8pt;
       color: #00584D;
       text-align: right;
-      font-weight: 500;
+      font-weight: 400;
     }
     
     h1 {
-      font-size: 18pt;
+      font-size: 16pt;
       color: #00584D;
-      margin: 18px 0 10px 0;
+      margin: 8px 0 6px 0;
       font-weight: 700;
       line-height: 1.2;
     }
     
     .subtitle {
-      font-size: 10pt;
+      font-size: 9pt;
       color: #666;
-      margin-bottom: 18px;
+      margin-bottom: 10px;
       font-style: italic;
     }
     
     .patient-data-box {
-      background: #F0F9F7;
-      border: 2px solid #00C39A;
-      border-radius: 8px;
-      padding: 12px;
-      margin: 16px 0;
+      background: #F9FAFB;
+      border: 1.5px solid #D1D5DB;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 12px 0;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 8px;
     }
     
     .patient-data-item {
@@ -101,55 +101,55 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .patient-data-value {
-      font-size: 12pt;
-      font-weight: 700;
-      color: #00584D;
+      font-size: 11pt;
+      font-weight: 600;
+      color: #111827;
     }
     
     h2 {
-      font-size: 14pt;
-      color: #00584D;
-      margin-top: 20px;
-      margin-bottom: 12px;
-      font-weight: 600;
-      border-bottom: 2px solid #00C39A;
-      padding-bottom: 5px;
-    }
-    
-    h3 {
-      font-size: 11pt;
+      font-size: 13pt;
       color: #00584D;
       margin-top: 14px;
       margin-bottom: 8px;
       font-weight: 600;
+      border-bottom: 2px solid #00C39A;
+      padding-bottom: 4px;
+    }
+    
+    h3 {
+      font-size: 10.5pt;
+      color: #00584D;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      font-weight: 600;
     }
     
     p {
-      margin-bottom: 12px;
-      line-height: 1.7;
+      margin-bottom: 8px;
+      line-height: 1.5;
     }
     
     .summary-box {
       background: #E6F7F4;
-      border-left: 5px solid #00C39A;
-      padding: 14px;
-      margin: 16px 0;
+      border-left: 4px solid #00C39A;
+      padding: 10px;
+      margin: 12px 0;
       border-radius: 4px;
     }
     
     .summary-box p {
-      font-size: 10pt;
+      font-size: 9.5pt;
       color: #00584D;
-      line-height: 1.7;
+      line-height: 1.5;
       margin-bottom: 0;
     }
     
     .positive-box {
       background: #F0FDF4;
       border: 2px solid #10B981;
-      border-radius: 8px;
-      padding: 14px;
-      margin: 18px 0;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 12px 0;
     }
     
     .positive-box h3 {
@@ -165,32 +165,34 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .positive-box li {
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       color: #065F46;
-      line-height: 1.6;
+      line-height: 1.4;
+      font-size: 9.5pt;
     }
     
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 14px 0;
-      font-size: 9.5pt;
+      margin: 10px 0;
+      font-size: 9pt;
+      page-break-inside: avoid;
     }
     
     th {
       background: #00C39A;
       color: white;
       font-weight: 600;
-      padding: 10px 8px;
+      padding: 7px 6px;
       text-align: left;
       border: none;
       text-transform: uppercase;
-      font-size: 8.5pt;
+      font-size: 8pt;
       letter-spacing: 0.05em;
     }
     
     td {
-      padding: 10px 8px;
+      padding: 7px 6px;
       border: 1px solid #E5E7EB;
       vertical-align: top;
     }
@@ -211,15 +213,15 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     .cbd-dose-cell {
       font-weight: 700;
       color: #00584D;
-      font-size: 10pt;
+      font-size: 9.5pt;
     }
     
     .warning-box {
       background: #FFF5F5;
-      border: 3px solid #F97316;
-      border-radius: 8px;
-      padding: 16px;
-      margin: 20px 0;
+      border: 2.5px solid #F97316;
+      border-radius: 6px;
+      padding: 12px;
+      margin: 14px 0;
     }
     
     .warning-box h3 {
@@ -228,13 +230,14 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 12pt;
+      font-size: 10.5pt;
     }
     
     .warning-box p {
       color: #7C2D12;
       font-weight: 500;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
+      font-size: 9.5pt;
     }
     
     .warning-box ul {
@@ -244,15 +247,16 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .warning-box li {
-      padding: 8px 12px;
-      margin-bottom: 6px;
+      padding: 6px 10px;
+      margin-bottom: 5px;
       background: white;
-      border-left: 3px solid #F97316;
+      border-left: 2.5px solid #F97316;
       border-radius: 4px;
       display: flex;
       align-items: flex-start;
-      gap: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      gap: 6px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      font-size: 9.5pt;
     }
     
     .emergency-note {
@@ -274,9 +278,9 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     
     .monitoring-box {
       background: #F0F9F7;
-      border-left: 5px solid #00C39A;
-      padding: 14px;
-      margin: 18px 0;
+      border-left: 4px solid #00C39A;
+      padding: 10px;
+      margin: 12px 0;
       border-radius: 4px;
     }
     
@@ -290,58 +294,59 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .monitoring-box li {
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       color: #00584D;
+      font-size: 9.5pt;
     }
     
     .cost-box {
       background: #FEFCE8;
-      border: 3px solid #EAB308;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 20px 0;
+      border: 2.5px solid #EAB308;
+      border-radius: 8px;
+      padding: 14px;
+      margin: 14px 0;
       text-align: center;
     }
     
     .cost-total {
-      font-size: 28pt;
+      font-size: 24pt;
       font-weight: 700;
       color: #00584D;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     
     .cost-label {
-      font-size: 11pt;
+      font-size: 10pt;
       color: #666;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       font-weight: 500;
     }
     
     .cost-breakdown {
       background: white;
-      border-radius: 6px;
-      padding: 12px;
-      margin-top: 12px;
-      font-size: 9.5pt;
+      border-radius: 5px;
+      padding: 8px;
+      margin-top: 8px;
+      font-size: 9pt;
       color: #4B5563;
       border: 1px solid #E5E7EB;
     }
     
     .cost-note {
-      font-size: 8.5pt;
+      font-size: 8pt;
       color: #6B7280;
-      margin-top: 12px;
-      line-height: 1.5;
+      margin-top: 8px;
+      line-height: 1.4;
       font-style: italic;
     }
     
     .legal-box {
       background: #F9FAFB;
       border: 1px solid #E5E7EB;
-      padding: 12px;
-      margin: 20px 0;
+      padding: 10px;
+      margin: 14px 0;
       font-size: 7.5pt;
-      line-height: 1.6;
+      line-height: 1.5;
       color: #666;
       border-radius: 4px;
     }
@@ -350,14 +355,14 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       text-align: center;
       font-size: 7.5pt;
       color: #999;
-      margin-top: 24px;
-      padding-top: 12px;
-      border-top: 2px solid #E5E7EB;
+      margin-top: 16px;
+      padding-top: 8px;
+      border-top: 1.5px solid #E5E7EB;
     }
     
     .section-divider {
       border-top: 1px solid #D1D5DB;
-      margin: 18px 0;
+      margin: 12px 0;
     }
     
     @media print {
@@ -374,7 +379,7 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 <!-- 1. HEADER -->
 <div class="header">
   <div class="header-logo">
-    <img src="{{logo_url}}" alt="MEDLESS Logo" style="height:32px;">
+    <img src="{{logo_url}}" alt="MEDLESS Logo" style="height:22px;">
   </div>
   <div class="header-text">
     Dein Weg zu weniger Medikamenten – natürlich begleitet

@@ -52,7 +52,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .header-logo img {
-      height: 28px;
+      height: 22px;
     }
     
     .header-text {
@@ -77,112 +77,112 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     /* RISIKO-DASHBOARD */
     .risk-dashboard {
       background: #F9FAFB;
-      border: 2px solid #E5E7EB;
-      border-radius: 6px;
-      padding: 12px;
-      margin: 16px 0;
+      border: 1.5px solid #E5E7EB;
+      border-radius: 5px;
+      padding: 9px;
+      margin: 12px 0;
     }
     
     .risk-dashboard-title {
-      font-size: 10pt;
+      font-size: 9.5pt;
       font-weight: 700;
       color: #00584D;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     
     .risk-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 6px;
     }
     
     .risk-item {
       background: white;
-      padding: 8px;
+      padding: 6px;
       border-radius: 4px;
-      border-left: 4px solid #00C39A;
+      border-left: 3px solid #00C39A;
     }
     
     .risk-label {
-      font-size: 8pt;
+      font-size: 7.5pt;
       color: #666;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     
     .risk-value {
-      font-size: 10pt;
+      font-size: 9.5pt;
       font-weight: 700;
       color: #00584D;
     }
     
     /* TITEL */
     h1 {
-      font-size: 15pt;
+      font-size: 14pt;
       color: #00584D;
-      margin: 20px 0 6px 0;
+      margin: 12px 0 5px 0;
       font-weight: 700;
-      border-bottom: 3px solid #00C39A;
-      padding-bottom: 6px;
+      border-bottom: 2.5px solid #00C39A;
+      padding-bottom: 5px;
     }
     
     .subtitle {
-      font-size: 9pt;
+      font-size: 8pt;
       color: #666;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
     
     /* PHARMAKOLOGIE-BOX */
     .pharma-box {
       background: #F0F9F7;
       border: 1px solid #00C39A;
-      border-radius: 6px;
-      padding: 10px;
-      margin: 14px 0;
+      border-radius: 5px;
+      padding: 8px;
+      margin: 10px 0;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 6px;
     }
     
     .pharma-title {
       grid-column: 1 / -1;
-      font-size: 9pt;
+      font-size: 8.5pt;
       font-weight: 700;
       color: #00584D;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     
     .pharma-row {
       display: flex;
       justify-content: space-between;
-      padding: 3px 0;
+      padding: 2px 0;
       border-bottom: 1px solid #E5E7EB;
     }
     
     .pharma-label {
-      font-size: 8pt;
+      font-size: 7.5pt;
       color: #666;
     }
     
     .pharma-value {
-      font-size: 8pt;
+      font-size: 7.5pt;
       font-weight: 600;
       color: #222;
     }
     
     /* ÜBERSCHRIFTEN */
     h2 {
-      font-size: 12pt;
+      font-size: 11pt;
       color: #00584D;
-      margin-top: 18px;
-      margin-bottom: 10px;
+      margin-top: 14px;
+      margin-bottom: 8px;
       font-weight: 600;
     }
     
     h3 {
-      font-size: 9pt;
+      font-size: 8.5pt;
       color: #00584D;
-      margin-top: 12px;
-      margin-bottom: 6px;
+      margin-top: 10px;
+      margin-bottom: 5px;
       font-weight: 600;
     }
     
@@ -190,21 +190,22 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 10px 0;
-      font-size: 8.5pt;
+      margin: 8px 0;
+      font-size: 8pt;
+      page-break-inside: avoid;
     }
     
     th {
       background: #E6F7F4;
       color: #00584D;
       font-weight: 600;
-      padding: 6px;
+      padding: 5px;
       text-align: left;
       border: 1px solid #E5E7EB;
     }
     
     td {
-      padding: 5px 6px;
+      padding: 4px 5px;
       border: 1px solid #E5E7EB;
     }
     
@@ -219,9 +220,9 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     /* MONITORING BOX */
     .monitoring-box {
       background: #F0F9F7;
-      border-left: 4px solid #00C39A;
-      padding: 10px;
-      margin: 14px 0;
+      border-left: 3px solid #00C39A;
+      padding: 8px;
+      margin: 10px 0;
       border-radius: 4px;
     }
     
@@ -234,30 +235,31 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .monitoring-box li {
-      margin-bottom: 4px;
+      margin-bottom: 3px;
+      font-size: 8.5pt;
     }
     
     /* BALKENDIAGRAMM */
     .chart-section {
-      margin: 16px 0;
+      margin: 12px 0;
     }
     
     .chart-title {
-      font-size: 9pt;
+      font-size: 8.5pt;
       font-weight: 600;
       color: #00584D;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     
     .chart-bar {
       display: flex;
       align-items: center;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     
     .chart-label {
-      width: 60px;
-      font-size: 8pt;
+      width: 55px;
+      font-size: 7.5pt;
       color: #666;
     }
     
@@ -265,7 +267,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       flex: 1;
       background: #E5E7EB;
       border-radius: 999px;
-      height: 8px;
+      height: 7px;
       overflow: hidden;
     }
     
@@ -277,21 +279,21 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .chart-value {
-      width: 60px;
+      width: 55px;
       text-align: right;
-      font-size: 8pt;
+      font-size: 7.5pt;
       color: #666;
-      margin-left: 8px;
+      margin-left: 6px;
     }
     
     /* RECHTLICHE HINWEISE */
     .legal-box {
       background: #F9FAFB;
       border: 1px solid #E5E7EB;
-      padding: 10px;
-      margin: 16px 0;
-      font-size: 7.5pt;
-      line-height: 1.5;
+      padding: 8px;
+      margin: 12px 0;
+      font-size: 7pt;
+      line-height: 1.4;
       color: #666;
     }
     
@@ -299,8 +301,8 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       text-align: center;
       font-size: 6.5pt;
       color: #999;
-      margin-top: 16px;
-      padding-top: 8px;
+      margin-top: 12px;
+      padding-top: 6px;
       border-top: 1px solid #E5E7EB;
     }
     
@@ -324,7 +326,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 <!-- 1) HEADER -->
 <div class="header">
   <div class="header-logo">
-    <img src="{{logo_url}}" alt="MEDLESS Logo" style="height:28px;">
+    <img src="{{logo_url}}" alt="MEDLESS Logo" style="height:22px;">
   </div>
   <div class="header-text">
     MEDLESS – KI-unterstützte Reduktionsplanung
