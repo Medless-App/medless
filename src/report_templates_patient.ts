@@ -237,6 +237,17 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       font-size: 9.5pt;
     }
     
+    .wochenplan-block {
+      page-break-inside: avoid;
+      margin-bottom: 10mm;
+    }
+    
+    .section-break {
+      height: 18px;
+      width: 100%;
+      display: block;
+    }
+    
     table {
       width: 100%;
       border-collapse: collapse;
@@ -508,31 +519,31 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 <div class="section-divider"></div>
 
 <!-- 6. WEEKLY PLAN -->
-<div style="page-break-inside:avoid;">
-<h2>📅 Dein Wochenplan</h2>
-<p style="margin-bottom:16px;color:#666;">So sieht deine persönliche Reduktion Woche für Woche aus:</p>
-</div>
+<div class="wochenplan-block">
+  <h2>📅 Dein Wochenplan</h2>
+  <p style="margin-bottom:16px;color:#666;">So sieht deine persönliche Reduktion Woche für Woche aus:</p>
 
-<table class="weekly-plan-table">
-  <thead>
-    <tr>
-      <th style="width:10%;">Woche</th>
-      <th style="width:20%;">CBD-Dosis (täglich)</th>
-      <th style="width:30%;">Einnahme-Schema</th>
-      <th style="width:40%;">Medikamenten-Anpassung</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#wochenplan}}
-    <tr>
-      <td style="font-weight:600;text-align:center;color:#00584D;">{{woche}}</td>
-      <td class="cbd-dose-cell">{{cbd_dosis}}</td>
-      <td style="font-size:9.5pt;">{{einnahme_schema}}</td>
-      <td style="font-size:9.5pt;color:#374151;">{{medikament_anpassung}}</td>
-    </tr>
-    {{/wochenplan}}
-  </tbody>
-</table>
+  <table class="weekly-plan-table">
+    <thead>
+      <tr>
+        <th style="width:10%;">Woche</th>
+        <th style="width:20%;">CBD-Dosis (täglich)</th>
+        <th style="width:30%;">Einnahme-Schema</th>
+        <th style="width:40%;">Medikamenten-Anpassung</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#wochenplan}}
+      <tr>
+        <td style="font-weight:600;text-align:center;color:#00584D;">{{woche}}</td>
+        <td class="cbd-dose-cell">{{cbd_dosis}}</td>
+        <td style="font-size:9.5pt;">{{einnahme_schema}}</td>
+        <td style="font-size:9.5pt;color:#374151;">{{medikament_anpassung}}</td>
+      </tr>
+      {{/wochenplan}}
+    </tbody>
+  </table>
+</div>
 
 <!-- 7. WARNING SIGNS -->
 <div class="warning-box">
@@ -580,6 +591,8 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     und werden wie gewohnt über deinen Arzt oder deine Krankenkasse abgerechnet.
   </div>
 </div>
+
+<div class="section-break"></div>
 
 <!-- 10. LEGAL NOTICE -->
 <div class="legal-box">

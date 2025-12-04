@@ -206,6 +206,14 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 6px;
+      page-break-inside: avoid;
+      min-height: 120px;
+    }
+    
+    .section-break {
+      height: 18px;
+      width: 100%;
+      display: block;
     }
     
     .pharma-title {
@@ -431,6 +439,8 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   </div>
 </div>
 
+<div class="section-break"></div>
+
 <!-- 4) TITELBLOCK -->
 <h1>MEDLESS-Reduktionsplan – Ärztliche Dokumentation</h1>
 <p class="subtitle">Zusammenfassung pharmakologischer Eckdaten</p>
@@ -469,6 +479,8 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     </div>
   </div>
 </div>
+
+<div class="section-break"></div>
 
 <!-- 5) PATIENTENDATEN -->
 <h2>Patientendaten</h2>
@@ -524,7 +536,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   </tr>
 </table>
 
-<div style="margin-top:20px;margin-bottom:16px;"></div>
+<div class="section-break"></div>
 
 <!-- 7) MEDIKATIONS-ÜBERSICHT -->
 <h2 style="margin-top:20px;">Medikations-Übersicht</h2>
