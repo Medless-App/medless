@@ -581,8 +581,6 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   </div>
 </div>
 
-<div class="section-break"></div>
-
 <!-- 10. LEGAL NOTICE -->
 <div class="legal-box">
   <strong>Wichtiger rechtlicher Hinweis:</strong><br><br>
