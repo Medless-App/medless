@@ -19,7 +19,7 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   <style>
     @page {
       size: A4;
-      margin: 15mm 20mm;
+      margin: 15mm 17mm;
     }
     
     * {
@@ -39,19 +39,23 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     /* PDF-optimized full-width layout */
-    body.pdf-report .container {
-      max-width: 100%;
+    html, body,
+    .report-page,
+    .report-container {
       width: 100%;
+      max-width: 100%;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
     
-    /* PDF-optimized full-width layout */
-    body.pdf-report .container {
+    body.pdf-report .container,
+    body.pdf-report .wrapper,
+    body.pdf-report .content {
       width: 100%;
       max-width: 100%;
       margin: 0;
-      padding: 0 10mm;
+      padding: 0 5mm;
     }
     
     /* Screen-optimized centered layout (for /test/ pages only) */
@@ -218,13 +222,12 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     .positive-box h3 {
       color: #047857;
       margin-top: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-bottom: 8px;
+      text-align: left;
     }
     
     .positive-box ul {
-      margin: 10px 0 0 20px;
+      margin: 6px 0 0 20px;
     }
     
     .positive-box li {
@@ -363,18 +366,18 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     .cost-box {
-      background: #FEFCE8;
-      border: 2.5px solid #EAB308;
-      border-radius: 8px;
-      padding: 14px;
+      background: #F9FAFB;
+      border: 1px solid #D1D5DB;
+      border-radius: 6px;
+      padding: 12px;
       margin: 14px 0;
-      text-align: center;
+      text-align: left;
     }
     
     .cost-total {
-      font-size: 24pt;
-      font-weight: 700;
-      color: #00584D;
+      font-size: 12pt;
+      font-weight: 600;
+      color: #374151;
       margin-bottom: 4px;
     }
     
@@ -505,8 +508,10 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 <div class="section-divider"></div>
 
 <!-- 6. WEEKLY PLAN -->
+<div style="page-break-inside:avoid;">
 <h2>📅 Dein Wochenplan</h2>
 <p style="margin-bottom:16px;color:#666;">So sieht deine persönliche Reduktion Woche für Woche aus:</p>
+</div>
 
 <table class="weekly-plan-table">
   <thead>
@@ -558,7 +563,7 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 <div class="section-divider"></div>
 
 <!-- 9. COST OVERVIEW (MEDLESS PRODUCTS ONLY) -->
-<h2>💰 Deine Investition in deine Gesundheit</h2>
+<h3 style="font-size:10pt;color:#4B5563;font-weight:500;margin-bottom:8px;">💰 Deine Investition in deine Gesundheit</h3>
 
 <div class="cost-box">
   <div class="cost-total">{{kosten_gesamt}} €</div>

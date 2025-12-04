@@ -19,7 +19,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   <style>
     @page {
       size: A4;
-      margin: 15mm 20mm;
+      margin: 15mm 17mm;
     }
     
     * {
@@ -39,19 +39,23 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     }
     
     /* PDF-optimized full-width layout */
-    body.pdf-report .container {
-      max-width: 100%;
+    html, body,
+    .report-page,
+    .report-container {
       width: 100%;
+      max-width: 100%;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
     
-    /* PDF-optimized full-width layout */
-    body.pdf-report .container {
+    body.pdf-report .container,
+    body.pdf-report .wrapper,
+    body.pdf-report .content {
       width: 100%;
       max-width: 100%;
       margin: 0;
-      padding: 0 10mm;
+      padding: 0 5mm;
     }
     
     /* Screen-optimized centered layout (for /test/ pages only) */
@@ -429,7 +433,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 
 <!-- 4) TITELBLOCK -->
 <h1>MEDLESS-Reduktionsplan – Ärztliche Dokumentation</h1>
-<p class="subtitle">Medizinische Dokumentation zur Reduktionsplanung</p>
+<p class="subtitle">Zusammenfassung pharmakologischer Eckdaten</p>
 
 <!-- PHARMAKOLOGIE-BOX -->
 <div class="pharma-box">
@@ -520,8 +524,10 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   </tr>
 </table>
 
+<div style="margin-top:20px;margin-bottom:16px;"></div>
+
 <!-- 7) MEDIKATIONS-ÜBERSICHT -->
-<h2>Medikations-Übersicht</h2>
+<h2 style="margin-top:20px;">Medikations-Übersicht</h2>
 <table>
   <thead>
     <tr>
@@ -585,7 +591,6 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       <th class="text-right">Med-Last (mg)</th>
       <th class="text-right">CBD (mg)</th>
       <th class="text-right">CBD/kg</th>
-      <th>Notizen</th>
     </tr>
   </thead>
   <tbody>
@@ -595,7 +600,6 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       <td class="text-right">{{med_last_mg}}</td>
       <td class="text-right font-bold">{{cbd_mg}}</td>
       <td class="text-right">{{cbd_pro_kg}}</td>
-      <td style="font-size:8pt;">{{notizen}}</td>
     </tr>
     {{/wochenplan}}
   </tbody>
@@ -706,8 +710,8 @@ export function renderDoctorReportHtmlFixed(data: DoctorReportData): string {
     kategorie: data.riskOverview.hasBenzoOrOpioid ? 'ERHÖHT' : 'STANDARD',
     
     med_name: firstMed.name,
-    startdosis: firstMed.currentDose || 'N/A',
-    zieldosis: firstMed.targetDose || 'N/A',
+    startdosis: data.reductionPlanDetails.length > 0 ? `${data.reductionPlanDetails[0].totalMedicationLoad.toFixed(1)} mg/Tag` : 'N/A',
+    zieldosis: data.reductionPlanDetails.length > 0 ? `${data.reductionPlanDetails[data.reductionPlanDetails.length - 1].totalMedicationLoad.toFixed(1)} mg/Tag` : 'N/A',
     halbwertszeit: firstMed.halfLife || 'N/A',
     absetzrisiko: firstMed.withdrawalRisk || 'N/A',
     med_kategorie: data.riskOverview.hasBenzoOrOpioid ? 'Benzodiazepine/Opioide' : 'Standard',
