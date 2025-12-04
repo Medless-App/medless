@@ -19,7 +19,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   <style>
     @page {
       size: A4;
-      margin: 12mm 14mm;
+      margin: 10mm 10mm;
     }
     
     * {
@@ -28,34 +28,30 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       box-sizing: border-box;
     }
     
-    body {
+    html, body {
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 11pt;
       line-height: 1.4;
       color: #222222;
       background: white;
-      padding: 0;
-      margin: 0;
-    }
-    
-    /* PDF-optimized full-width layout */
-    html, body,
-    .report-page,
-    .report-container {
-      width: 100%;
-      max-width: 100%;
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
     }
     
+    /* PDF-optimized full-width layout - PDFShift compatible */
+    .report-wrapper,
+    .report-page,
+    .report-container,
     body.pdf-report .container,
     body.pdf-report .wrapper,
     body.pdf-report .content {
-      width: 100%;
-      max-width: 185mm;
-      margin: 0 auto;
-      padding: 0 3mm;
+      width: 100% !important;
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
     }
     
     /* Screen-optimized centered layout (for /test/ pages only) */
@@ -215,12 +211,6 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       gap: 6px;
       page-break-inside: avoid;
       min-height: 120px;
-    }
-    
-    .section-break {
-      height: 18px;
-      width: 100%;
-      display: block;
     }
     
     .pharma-title {
@@ -446,8 +436,6 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   </div>
 </div>
 
-<div class="section-break"></div>
-
 <!-- 4) TITELBLOCK -->
 <h1>MEDLESS-Reduktionsplan – Ärztliche Dokumentation</h1>
 <p class="subtitle-small">Zusammenfassung pharmakologischer Eckdaten</p>
@@ -486,8 +474,6 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     </div>
   </div>
 </div>
-
-<div class="section-break"></div>
 
 <!-- 5) PATIENTENDATEN -->
 <h2>Patientendaten</h2>
@@ -542,8 +528,6 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     <td>{{gesamt_lastreduktion_prozent}} %</td>
   </tr>
 </table>
-
-<div class="section-break"></div>
 
 <!-- 7) MEDIKATIONS-ÜBERSICHT -->
 <h2 style="margin-top:20px;">Medikations-Übersicht</h2>

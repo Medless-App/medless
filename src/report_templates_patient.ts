@@ -19,7 +19,7 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   <style>
     @page {
       size: A4;
-      margin: 12mm 14mm;
+      margin: 10mm 10mm;
     }
     
     * {
@@ -28,34 +28,30 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       box-sizing: border-box;
     }
     
-    body {
+    html, body {
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 11pt;
       line-height: 1.4;
       color: #222222;
       background: white;
-      padding: 0;
-      margin: 0;
-    }
-    
-    /* PDF-optimized full-width layout */
-    html, body,
-    .report-page,
-    .report-container {
-      width: 100%;
-      max-width: 100%;
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
     }
     
+    /* PDF-optimized full-width layout - PDFShift compatible */
+    .report-wrapper,
+    .report-page,
+    .report-container,
     body.pdf-report .container,
     body.pdf-report .wrapper,
     body.pdf-report .content {
-      width: 100%;
-      max-width: 185mm;
-      margin: 0 auto;
-      padding: 0 3mm;
+      width: 100% !important;
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
     }
     
     /* Screen-optimized centered layout (for /test/ pages only) */
@@ -242,12 +238,6 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       margin-bottom: 10mm;
     }
     
-    .section-break {
-      height: 18px;
-      width: 100%;
-      display: block;
-    }
-    
     table {
       width: 100%;
       border-collapse: collapse;
@@ -353,6 +343,11 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       font-size: 11pt;
     }
     
+    .monitoring-box,
+    .monitoring-box * {
+      text-align: left !important;
+    }
+    
     .monitoring-box {
       background: #F0F9F7;
       border-left: 4px solid #00C39A;
@@ -360,29 +355,21 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       margin: 12px 0;
       border-radius: 4px;
       width: 100%;
-      text-align: left;
     }
     
     .monitoring-box h3 {
       color: #00584D;
       margin-top: 0;
-      text-align: left;
-    }
-    
-    .monitoring-box p {
-      text-align: left;
     }
     
     .monitoring-box ul {
       margin: 10px 0 0 20px;
-      text-align: left;
     }
     
     .monitoring-box li {
       margin-bottom: 4px;
       color: #00584D;
       font-size: 9.5pt;
-      text-align: left;
     }
     
     .cost-box {
@@ -446,11 +433,6 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
       border-top: 1.5px solid #E5E7EB;
     }
     
-    .section-divider {
-      border-top: 1px solid #D1D5DB;
-      margin: 12px 0;
-    }
-    
     @media print {
       body {
         print-color-adjust: exact;
@@ -509,8 +491,6 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     <div class="patient-data-value">{{dauer_wochen}} Wochen</div>
   </div>
 </div>
-
-<div class="section-divider"></div>
 
 <!-- 4. SUMMARY -->
 <h2>📋 Zusammenfassung deines Plans</h2>
@@ -581,8 +561,6 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     {{/kontrollen_parameter}}
   </ul>
 </div>
-
-<div class="section-divider"></div>
 
 <!-- 9. COST OVERVIEW (MEDLESS PRODUCTS ONLY) -->
 <h3 style="font-size:10pt;color:#4B5563;font-weight:500;margin-bottom:8px;">💰 Deine Investition in deine Gesundheit</h3>

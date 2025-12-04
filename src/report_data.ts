@@ -39,6 +39,7 @@ export interface PatientReportData {
     firstName: string;
     age: string;
     weight: string;
+    gender?: string;
     bmi: string;
     medicationCount: number;
     sensitiveMedCount: number;
@@ -255,6 +256,7 @@ export function buildPatientReportData(response: AnalyzeResponse): PatientReport
     firstName: personalization.firstName || 'Unbekannt',
     age: personalization.age ? `${personalization.age}` : 'Keine Angabe',
     weight: personalization.weight ? `${personalization.weight}` : 'Keine Angabe',
+    gender: personalization.gender || 'Nicht angegeben',
     bmi: personalization.bmi ? `${personalization.bmi}` : 'Keine Angabe',
     medicationCount: planIntelligence.totalMedicationCount,
     sensitiveMedCount: planIntelligence.sensitiveMedCount,
