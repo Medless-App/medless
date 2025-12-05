@@ -347,7 +347,7 @@ function setupAutocomplete(input) {
         ${med.generic_name ? `<div class="text-sm text-gray-600">${med.generic_name}</div>` : ''}
         <div class="text-xs text-gray-500 mt-1">
           <span class="inline-block px-2 py-1 ${riskColor} rounded">
-            ${med.category_name}
+            ${med.category_name || 'Allgemeine Medikation'}
           </span>
         </div>
       `;
