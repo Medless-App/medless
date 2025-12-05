@@ -636,7 +636,25 @@ async function buildAnalyzeResponse(body: any, env: any) {
       
       const targetMg = safetyResult.effectiveTargetMg;
       const weeklyReduction = safetyResult.effectiveWeeklyReduction;
-      const currentMg = startMg - (weeklyReduction * (week - 1));
+      
+      // BUGFIX: Ensure last week always reaches exact target dose
+      // Example: Ibuprofen 400 mg, 50% reduction, 8 weeks
+      //   targetMg = 200 mg, weeklyReduction = 25 mg
+      //   Week 1: 400 - (25 * 0) = 400 mg
+      //   Week 2: 400 - (25 * 1) = 375 mg
+      //   ...
+      //   Week 7: 400 - (25 * 6) = 250 mg
+      //   Week 8 (OLD): 400 - (25 * 7) = 225 mg ❌
+      //   Week 8 (NEW): targetMg = 200 mg ✅
+      let currentMg = startMg - (weeklyReduction * (week - 1));
+      
+      // Never fall below target dose
+      currentMg = Math.max(currentMg, targetMg);
+      
+      // In the last week, ALWAYS use exact target dose
+      if (week === durationWeeks) {
+        currentMg = targetMg;
+      }
       
       const reductionSpeed = startMg > 0 ? weeklyReduction / startMg : 0;
       const reductionSpeedPct = Math.round(reductionSpeed * 100 * 10) / 10;
