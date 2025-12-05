@@ -7,6 +7,31 @@ import { fillTemplate } from './utils/template_engine'
 import { MEDLESS_LOGO_BASE64 } from './logo_base64'
 
 // ============================================================
+// UTILITY FUNCTIONS FOR FORMATTING
+// ============================================================
+
+/**
+ * Format milligram values consistently
+ * - Remove .0 decimals: "400.0" → "400"
+ * - Always add space before unit: "400mg" → "400 mg"
+ */
+function formatMg(value: number | string | undefined | null, unit: 'mg' | 'mg/Tag' = 'mg'): string {
+  if (value === undefined || value === null) return 'N/A';
+  
+  const numValue = typeof value === 'string' ? parseFloat(value) : value;
+  const formatted = numValue % 1 === 0 ? numValue.toFixed(0) : numValue.toFixed(1);
+  
+  return `${formatted} ${unit}`;
+}
+
+/**
+ * Format medication change (e.g., "400 mg → 375 mg")
+ */
+function formatMedicationChange(from: number, to: number): string {
+  return `${formatMg(from)} → ${formatMg(to)}`;
+}
+
+// ============================================================
 // PATIENT REPORT TEMPLATE (WITH EMOJIS, PATIENT-FRIENDLY)
 // ============================================================
 

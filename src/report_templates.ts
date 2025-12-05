@@ -7,6 +7,31 @@ import { fillTemplate } from './utils/template_engine'
 import { MEDLESS_LOGO_BASE64 } from './logo_base64'
 
 // ============================================================
+// UTILITY FUNCTIONS FOR FORMATTING
+// ============================================================
+
+/**
+ * Format milligram values consistently
+ * - Remove .0 decimals: "400.0" → "400"
+ * - Always add space before unit: "400mg" → "400 mg"
+ */
+function formatMg(value: number | string | undefined | null, unit: 'mg' | 'mg/Tag' = 'mg'): string {
+  if (value === undefined || value === null) return 'N/A';
+  
+  const numValue = typeof value === 'string' ? parseFloat(value) : value;
+  const formatted = numValue % 1 === 0 ? numValue.toFixed(0) : numValue.toFixed(1);
+  
+  return `${formatted} ${unit}`;
+}
+
+/**
+ * Format medication change (e.g., "400 mg → 375 mg")
+ */
+function formatMedicationChange(from: number, to: number): string {
+  return `${formatMg(from)} → ${formatMg(to)}`;
+}
+
+// ============================================================
 // DOCTOR REPORT TEMPLATE (EMOJI-FREE, A4-OPTIMIZED)
 // ============================================================
 
@@ -521,7 +546,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   </tr>
   <tr>
     <th>CBD-Dosis (Start → Ende)</th>
-    <td>{{cbd_start}} mg → {{cbd_ende}} mg täglich</td>
+    <td>{{cbd_start}} → {{cbd_ende}} täglich</td>
   </tr>
   <tr>
     <th>Gesamte Lastreduktion</th>
@@ -617,7 +642,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     <div class="chart-track">
       <div class="chart-fill" style="width:{{med_bar_width}}%;"></div>
     </div>
-    <div class="chart-value">{{med_last_mg}} mg</div>
+    <div class="chart-value">{{med_last_mg}}</div>
   </div>
   {{/wochenplan}}
 </div>
@@ -630,7 +655,7 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     <div class="chart-track">
       <div class="chart-fill" style="width:{{cbd_bar_width}}%;"></div>
     </div>
-    <div class="chart-value">{{cbd_mg}} mg</div>
+    <div class="chart-value">{{cbd_mg}}</div>
   </div>
   {{/wochenplan}}
 </div>
@@ -713,8 +738,8 @@ export function renderDoctorReportHtmlFixed(data: DoctorReportData): string {
     kategorie: data.riskOverview.hasBenzoOrOpioid ? 'ERHÖHT' : 'STANDARD',
     
     med_name: firstMed.name,
-    startdosis: data.reductionPlanDetails.length > 0 ? `${data.reductionPlanDetails[0].totalMedicationLoad.toFixed(1)} mg/Tag` : 'N/A',
-    zieldosis: data.reductionPlanDetails.length > 0 ? `${data.reductionPlanDetails[data.reductionPlanDetails.length - 1].totalMedicationLoad.toFixed(1)} mg/Tag` : 'N/A',
+    startdosis: data.reductionPlanDetails.length > 0 ? formatMg(data.reductionPlanDetails[0].totalMedicationLoad, 'mg/Tag') : 'N/A',
+    zieldosis: data.reductionPlanDetails.length > 0 ? formatMg(data.reductionPlanDetails[data.reductionPlanDetails.length - 1].totalMedicationLoad, 'mg/Tag') : 'N/A',
     halbwertszeit: firstMed.halfLife || 'N/A',
     absetzrisiko: firstMed.withdrawalRisk || 'N/A',
     med_kategorie: data.riskOverview.hasBenzoOrOpioid ? 'Benzodiazepine/Opioide' : 'Standard',
@@ -723,8 +748,8 @@ export function renderDoctorReportHtmlFixed(data: DoctorReportData): string {
     
     reduktionsdauer_wochen: data.strategySummary.durationWeeks || 0,
     reduktionsziel_prozent: data.strategySummary.reductionGoal || 0,
-    cbd_start: data.strategySummary.cbdStartMg?.toFixed(1) || '0',
-    cbd_ende: data.strategySummary.cbdEndMg?.toFixed(1) || '0',
+    cbd_start: formatMg(data.strategySummary.cbdStartMg || 0),
+    cbd_ende: formatMg(data.strategySummary.cbdEndMg || 0),
     gesamt_lastreduktion_prozent: data.strategySummary.overallLoadReduction?.toFixed(1) || '0',
     
     monitoring_intervall_text: data.monitoringRecommendations.frequency || 'N/A',
@@ -734,9 +759,9 @@ export function renderDoctorReportHtmlFixed(data: DoctorReportData): string {
     
     wochenplan: data.reductionPlanDetails.map(week => ({
       woche: week.week,
-      med_last_mg: week.totalMedicationLoad.toFixed(1),
-      cbd_mg: week.cbdDose.toFixed(1),
-      cbd_pro_kg: week.cannabinoidPerKg !== null ? week.cannabinoidPerKg.toFixed(2) : 'N/A',
+      med_last_mg: formatMg(week.totalMedicationLoad),
+      cbd_mg: formatMg(week.cbdDose),
+      cbd_pro_kg: week.cannabinoidPerKg !== null ? `${week.cannabinoidPerKg.toFixed(2)} mg/kg` : 'N/A',
       notizen: stripEmojis(week.notes || '–'),
       med_bar_width: Math.round((week.totalMedicationLoad / maxMedLast) * 100),
       cbd_bar_width: Math.round((week.cbdDose / maxCbd) * 100)

@@ -19,6 +19,48 @@ import type {
 } from './types/analyzeResponse'
 
 // ============================================================
+// UTILITY FUNCTIONS
+// ============================================================
+
+/**
+ * Format gender value to German
+ */
+function formatGenderDE(gender: string | undefined | null): string {
+  if (!gender) return 'nicht angegeben';
+  const normalized = gender.toLowerCase().trim();
+  
+  if (normalized === 'male' || normalized === 'männlich' || normalized === 'm') {
+    return 'männlich';
+  }
+  if (normalized === 'female' || normalized === 'weiblich' || normalized === 'w' || normalized === 'f') {
+    return 'weiblich';
+  }
+  if (normalized === 'diverse' || normalized === 'divers' || normalized === 'd') {
+    return 'divers';
+  }
+  
+  return 'nicht angegeben';
+}
+
+/**
+ * Format milligram values consistently
+ * - Remove .0 decimals: "400.0" → "400"
+ * - Always add space before unit: "400mg" → "400 mg"
+ */
+function formatMg(value: number | string | undefined | null, unit: 'mg' | 'mg/Tag' = 'mg'): string {
+  if (value === undefined || value === null) return 'N/A';
+  
+  // Convert to number if string
+  const numValue = typeof value === 'string' ? parseFloat(value) : value;
+  
+  // Remove .0 decimals, keep others (e.g., 35.5 mg)
+  const formatted = numValue % 1 === 0 ? numValue.toFixed(0) : numValue.toFixed(1);
+  
+  // Return with space before unit
+  return `${formatted} ${unit}`;
+}
+
+// ============================================================
 // PATIENT REPORT DATA TYPE
 // ============================================================
 
@@ -97,6 +139,7 @@ export interface DoctorReportData {
     firstName: string;
     age: string;
     weight: string;
+    gender: string;
     height: string;
     bmi: string;
     bsa: string;
@@ -256,7 +299,7 @@ export function buildPatientReportData(response: AnalyzeResponse): PatientReport
     firstName: personalization.firstName || 'Unbekannt',
     age: personalization.age ? `${personalization.age}` : 'Keine Angabe',
     weight: personalization.weight ? `${personalization.weight}` : 'Keine Angabe',
-    gender: personalization.gender || 'Nicht angegeben',
+    gender: formatGenderDE(personalization.gender),
     bmi: personalization.bmi ? `${personalization.bmi}` : 'Keine Angabe',
     medicationCount: planIntelligence.totalMedicationCount,
     sensitiveMedCount: planIntelligence.sensitiveMedCount,
@@ -278,14 +321,14 @@ export function buildPatientReportData(response: AnalyzeResponse): PatientReport
   const weeklyPlanSimplified = weeklyPlan.map(week => {
     const spraySchedule = `${week.morningSprays}x morgens, ${week.eveningSprays}x abends`;
     
-    // Summarize medications: e.g., "Metoprolol: 100mg → 90mg, Ramipril: 10mg → 9mg"
+    // Summarize medications with proper formatting: e.g., "Metoprolol: 100 mg → 90 mg"
     const medicationsDisplay = week.medications
-      .map(med => `${med.name}: ${med.startMg}mg → ${med.currentMg}mg`)
+      .map(med => `${med.name}: ${formatMg(med.startMg)} → ${formatMg(med.currentMg)}`)
       .join(', ');
     
     return {
       week: week.week,
-      cbdDoseDisplay: `${week.actualCbdMg} mg/Tag`,
+      cbdDoseDisplay: formatMg(week.actualCbdMg, 'mg/Tag'),
       productName: week.kannasanProduct.name,
       spraySchedule,
       medicationsDisplay
@@ -429,6 +472,7 @@ export function buildDoctorReportData(response: AnalyzeResponse): DoctorReportDa
     firstName: personalization.firstName || 'Patient',
     age: personalization.age ? `${personalization.age}` : 'N/A',
     weight: personalization.weight ? `${personalization.weight}` : 'N/A',
+    gender: formatGenderDE(personalization.gender),
     height: personalization.height ? `${personalization.height}` : 'N/A',
     bmi: personalization.bmi ? `${personalization.bmi}` : 'N/A',
     bsa: personalization.bsa ? `${personalization.bsa}` : 'N/A',
