@@ -309,9 +309,14 @@ export function buildPatientReportData(response: AnalyzeResponse): PatientReport
   // --- Short Summary ---
   const reductionPct = planIntelligence.totalLoadReductionPct;
   const speedCategory = planIntelligence.reductionSpeedCategory;
+  
+  // Use actual CBD values from weekly plan (consistent with table display)
+  const cbdStartText = formatMg(personalization.cbdStartMg);
+  const cbdEndText = formatMg(personalization.cbdEndMg);
+  
   const shortSummary = `Dein Plan reduziert ${patientFacts.medicationCount} Medikament${patientFacts.medicationCount > 1 ? 'e' : ''} ` +
     `über ${weeklyPlan.length} Wochen um insgesamt ${reductionPct.toFixed(1)}% (${speedCategory}). ` +
-    `Deine CBD-Dosis steigt von ${personalization.cbdStartMg.toFixed(1)} mg auf ${personalization.cbdEndMg.toFixed(1)} mg täglich. ` +
+    `Deine CBD-Dosis steigt von ${cbdStartText} auf ${cbdEndText} täglich. ` +
     `${patientFacts.sensitiveMedCount > 0 
       ? `Da du ${patientFacts.sensitiveMedCount} kritische${patientFacts.sensitiveMedCount > 1 ? '' : 's'} Medikament${patientFacts.sensitiveMedCount > 1 ? 'e' : ''} nimmst, erfolgt die Reduktion besonders vorsichtig.`
       : 'Die Reduktion erfolgt schrittweise und sicher.'
@@ -650,8 +655,19 @@ export function buildDoctorReportData(response: AnalyzeResponse): DoctorReportDa
   };
   
   // --- Methodology Notes ---
+  // Calculate actual mg/kg values from real CBD doses and patient weight
+  // Example: 70 kg patient → Start: 35 mg (0.50 mg/kg), End: 70 mg (1.00 mg/kg)
+  // Example: 70 kg + Benzos → Start: 17.5 mg (0.25 mg/kg), End: 70 mg (1.00 mg/kg)
+  const patientWeight = personalization.weight || 70; // Fallback to 70 kg if not provided
+  const cbdStartMgPerKg = cbdProgression.startMg / patientWeight;
+  const cbdEndMgPerKg = cbdProgression.endMg / patientWeight;
+  
+  // Format mg/kg values to 2 decimal places for medical precision
+  const cbdStartMgPerKgFormatted = cbdStartMgPerKg.toFixed(2);
+  const cbdEndMgPerKgFormatted = cbdEndMgPerKg.toFixed(2);
+  
   const methodologyNotes = {
-    cbdDosingMethod: `Gewichtsbasiert: ${cbdProgression.startMg} mg Start (0,5 mg/kg) → ${cbdProgression.endMg} mg Ziel (1,0 mg/kg)`,
+    cbdDosingMethod: `Gewichtsbasiert: Start bei ${formatMg(cbdProgression.startMg)} (~${cbdStartMgPerKgFormatted} mg/kg) mit schrittweiser Steigerung auf ${formatMg(cbdProgression.endMg)} (~${cbdEndMgPerKgFormatted} mg/kg) täglich. Basis: ca. 0,5 mg/kg Startdosis, Zielbereich abhängig von Alter, BMI und Begleitmedikation (z.B. Benzos/Opioide reduzieren Startdosis um 50%).`,
     reductionMethod: 'Schrittweise Reduktion mit kategoriespezifischen Sicherheitsregeln (Halbwertszeit, Entzugsrisiko, CBD-Wechselwirkungen)',
     safetyRulesApplied: categorySafety.appliedRules,
     adjustmentsApplied: personalization.notes

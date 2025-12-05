@@ -676,7 +676,7 @@ export function renderPatientReportExample(): string {
     anzahl_medikamente: 1,
     dauer_wochen: 8,
     
-    zusammenfassung: 'Dein Plan reduziert 1 Medikament über 8 Wochen um insgesamt 44%. Deine CBD-Dosis steigt schrittweise von 35 mg auf 70 mg täglich. Die Reduktion erfolgt langsam und sicher, damit dein Körper sich gut anpassen kann.',
+    zusammenfassung: 'Dein Plan reduziert 1 Medikament über 8 Wochen um insgesamt 44%. Deine CBD-Dosis steigt schrittweise von 34 mg auf 68 mg täglich. Die Reduktion erfolgt langsam und sicher, damit dein Körper sich gut anpassen kann.',
     
     positive_effekte: [
       '✨ Weniger Nebenwirkungen durch niedrigere Medikamentendosis',
