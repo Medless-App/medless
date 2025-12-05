@@ -152,6 +152,7 @@ export interface DoctorReportData {
     sensitiveMedCount: number;
     totalMedCount: number;
     hasBenzoOrOpioid: boolean;
+    maxWithdrawalRiskScore: number; // 0-10, NEW: for enhanced risk detection
     criticalInteractions: string[]; // Medication names with critical interactions
   };
   
@@ -494,6 +495,7 @@ export function buildDoctorReportData(response: AnalyzeResponse): DoctorReportDa
     sensitiveMedCount: planIntelligence.sensitiveMedCount,
     totalMedCount: planIntelligence.totalMedicationCount,
     hasBenzoOrOpioid: personalization.hasBenzoOrOpioid,
+    maxWithdrawalRiskScore: personalization.maxWithdrawalRiskScore || 0,
     criticalInteractions
   };
   

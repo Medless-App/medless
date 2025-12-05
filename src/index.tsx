@@ -560,6 +560,12 @@ async function buildAnalyzeResponse(body: any, env: any) {
     adjustmentNotes.push('⚠️ Benzodiazepine oder Opioide erkannt: CBD-Startdosis wird halbiert (Sicherheitsregel)');
   }
   
+  // Calculate maximum withdrawal risk score (for risk level determination)
+  const maxWithdrawalRiskScore = analysisResults.reduce((max, result) => {
+    const score = (result.medication as MedicationWithCategory).withdrawal_risk_score || 0;
+    return Math.max(max, score);
+  }, 0);
+  
   // Count sensitive medications
   const sensitiveMedCount = analysisResults.filter(result => {
     const medName = result.medication.name?.toLowerCase() || '';
@@ -804,6 +810,7 @@ async function buildAnalyzeResponse(body: any, env: any) {
       cbdStartMg: Math.round(cbdStartMg * 10) / 10,
       cbdEndMg: Math.round(cbdEndMg * 10) / 10,
       hasBenzoOrOpioid,
+      maxWithdrawalRiskScore,
       notes: adjustmentNotes
     },
     warnings,

@@ -735,7 +735,7 @@ export function renderDoctorReportHtmlFixed(data: DoctorReportData): string {
     
     wechselwirkung_level: getSeverityDisplayDE(data.riskOverview.maxSeverity).toUpperCase(),
     reduktionsgeschwindigkeit: data.strategySummary.reductionSpeedCategory.toUpperCase(),
-    kategorie: data.riskOverview.hasBenzoOrOpioid ? 'ERHÖHT' : 'STANDARD',
+    kategorie: (data.riskOverview.hasBenzoOrOpioid || data.riskOverview.maxWithdrawalRiskScore >= 7) ? 'ERHÖHT' : 'STANDARD',
     
     med_name: firstMed.name,
     startdosis: data.reductionPlanDetails.length > 0 ? formatMg(data.reductionPlanDetails[0].totalMedicationLoad, 'mg/Tag') : 'N/A',
