@@ -1097,12 +1097,13 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     // Make API call - NEUE ROUTE: /api/analyze-and-reports
     // Diese Route gibt zurück: { analysis, patient: { data, html }, doctor: { data, html } }
     console.log('📡 Making API call to /api/analyze-and-reports');
+    // ✅ FIX 2: Send firstName only (no vorname)
     const apiPromise = axios.post('/api/analyze-and-reports', {
-      vorname: firstName,
-      geschlecht: gender,
-      alter: age,
-      gewicht: weight,
-      groesse: height,
+      firstName: firstName,
+      gender: gender,
+      age: age,
+      weight: weight,
+      height: height,
       medications: medications.map(med => ({
         name: med.name,
         dailyDoseMg: med.dailyDoseMg
@@ -1139,9 +1140,13 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
       console.log('✅ showPlanReadyState() returned');
       
     } else {
+      // ✅ FIX 3: Improved Error-Handling für API success:false
       console.error('❌ API returned success: false');
       console.error('Error message:', response.data.error);
-      throw new Error(response.data.error || 'Analyse fehlgeschlagen');
+      const errorMessage = response.data.error || 'Analyse fehlgeschlagen';
+      alert(errorMessage);
+      document.getElementById('loading').classList.add('hidden');
+      return; // Early return, kein throw
     }
   } catch (error) {
     console.error('❌ CRITICAL ERROR in analyzeMedications:', error);

@@ -435,16 +435,16 @@ async function buildAnalyzeResponse(body: any, env: any) {
     groesse      // German field name
   } = body;
   
-  // Use German fields if provided, otherwise use English fields
-  const finalFirstName = vorname || firstName;
+  // ✅ FIX 2: Field Mapping Standardization (firstName takes priority)
+  const finalFirstName = firstName || vorname || '';
   const finalGender = geschlecht || gender;
   const finalAge = alter || age;
   const finalWeight = gewicht || weight;
   const finalHeight = groesse || height;
   
-  // Validation
+  // ✅ FIX 3: Error-Handling für leere Medikamentenliste
   if (!medications || !Array.isArray(medications) || medications.length === 0) {
-    throw new Error('Bitte geben Sie mindestens ein Medikament an');
+    throw new Error('Bitte fügen Sie mindestens ein Medikament hinzu.');
   }
   
   if (!durationWeeks || durationWeeks < 1) {
@@ -863,7 +863,14 @@ app.get('/api/medications', async (c) => {
       ORDER BY m.name
     `).all();
     
-    return c.json({ success: true, medications: result.results });
+    // ✅ FIX 1: Category-Fallback & Risk-Fallback
+    const medicationsWithFallbacks = result.results.map((med: any) => ({
+      ...med,
+      category_name: med.category_name || 'Allgemeine Medikation',
+      risk_level: med.risk_level || 'low'
+    }));
+    
+    return c.json({ success: true, medications: medicationsWithFallbacks });
   } catch (error) {
     return c.json({ success: false, error: 'Fehler beim Abrufen der Medikamente' }, 500);
   }
@@ -1013,7 +1020,9 @@ app.post('/api/analyze-and-reports', async (c) => {
     
   } catch (error: any) {
     console.error('Error:', error);
-    return c.json({ success: false, error: error.message || 'Fehler bei der Analyse' }, 500);
+    // ✅ FIX 3: Return HTTP 400 for validation errors
+    const statusCode = error.message?.includes('Bitte') ? 400 : 500;
+    return c.json({ success: false, error: error.message || 'Fehler bei der Analyse' }, statusCode);
   }
 })
 
