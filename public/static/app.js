@@ -1,4 +1,45 @@
 // ============================================================
+// UX HELPER FUNCTIONS - Professional Error Display
+// ============================================================
+
+/**
+ * Display error message in dedicated error box (replaces alert())
+ * @param {string} message - Error message to display
+ */
+function showError(message) {
+  const errorBox = document.getElementById('error-box');
+  const errorMessage = document.getElementById('error-message');
+  
+  if (!errorBox || !errorMessage) {
+    // Fallback to alert if HTML structure is not available
+    console.warn('Error box not found in DOM, using alert() fallback');
+    alert(message);
+    return;
+  }
+  
+  errorMessage.textContent = message;
+  errorBox.classList.remove('hidden');
+  
+  // Scroll to error box smoothly
+  setTimeout(() => {
+    errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+}
+
+/**
+ * Clear error message box
+ */
+function clearError() {
+  const errorBox = document.getElementById('error-box');
+  const errorMessage = document.getElementById('error-message');
+  
+  if (!errorBox || !errorMessage) return;
+  
+  errorMessage.textContent = '';
+  errorBox.classList.add('hidden');
+}
+
+// ============================================================
 // MEDICATION SAFETY CLASSIFICATIONS
 // Zentrale Konfiguration für Medikamenten-Hinweise
 // ============================================================
@@ -1079,6 +1120,9 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
   console.log('DEBUG_MEDLESS: analyzeMedications STARTED');
   console.log('🚀 analyzeMedications started');
   
+  // Clear any previous errors
+  clearError();
+  
   // Show loading and scroll to it
   const loadingEl = document.getElementById('loading');
   loadingEl.classList.remove('hidden');
@@ -1144,7 +1188,7 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
       console.error('❌ API returned success: false');
       console.error('Error message:', response.data.error);
       const errorMessage = response.data.error || 'Analyse fehlgeschlagen';
-      alert(errorMessage);
+      showError(errorMessage); // Professional error display (replaces alert)
       document.getElementById('loading').classList.add('hidden');
       return; // Early return, kein throw
     }
@@ -1157,7 +1201,7 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
       console.error('API error response:', error.response.data);
       console.error('API status:', error.response.status);
     }
-    alert('Fehler bei der Analyse: ' + (error.response?.data?.error || error.message));
+    showError('Fehler bei der Analyse: ' + (error.response?.data?.error || error.message)); // Professional error display
     // Hide loading on error
     document.getElementById('loading').classList.add('hidden');
   }

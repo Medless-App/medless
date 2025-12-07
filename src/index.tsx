@@ -10392,6 +10392,20 @@ app.get('/', (c) => {
           
         </form>
         
+        <!-- Error Message Box (UX Improvement) -->
+        <div id="error-box" class="hidden" style="margin: 1.5rem auto; max-width: 800px; padding: 1rem 1.25rem; border-radius: 8px; border: 1.5px solid #d32f2f; background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); box-shadow: 0 2px 8px rgba(211, 47, 47, 0.15);">
+          <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+            <i class="fas fa-exclamation-circle" style="color: #d32f2f; font-size: 1.25rem; margin-top: 0.125rem; flex-shrink: 0;"></i>
+            <div style="flex: 1;">
+              <div style="font-weight: 600; color: #b71c1c; margin-bottom: 0.25rem; font-size: 0.95rem;">Fehler</div>
+              <div id="error-message" style="color: #c62828; font-size: 0.9rem; line-height: 1.5;"></div>
+            </div>
+            <button onclick="document.getElementById('error-box').classList.add('hidden')" style="background: none; border: none; color: #d32f2f; font-size: 1.25rem; cursor: pointer; padding: 0; margin-left: 0.5rem; line-height: 1; flex-shrink: 0;" title="Schließen">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        
         <!-- Loading Animation -->
         <div id="loading" class="hidden">
           <div class="loading-card">
