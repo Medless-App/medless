@@ -127,12 +127,98 @@ export interface PatientReportData {
 }
 
 // ============================================================
-// DOCTOR REPORT DATA TYPE
+// DOCTOR REPORT DATA TYPE (3-LEVEL STRUCTURE)
 // ============================================================
 
+/**
+ * LEVEL 1: Overview - Single medication entry for overview table
+ */
+export interface DoctorReportOverviewMedication {
+  name: string;
+  category: string;
+  startDoseMg: number;
+  targetDoseMg: number;
+  riskLevel: 'niedrig' | 'mittel' | 'hoch' | 'kritisch';
+  shortComment: string; // 1-sentence summary of key risks
+}
+
+/**
+ * LEVEL 1: Global Risk Summary (MDI, overall risk)
+ */
+export interface DoctorReportGlobalRisk {
+  mdiLevel: 'none' | 'mild' | 'moderate' | 'severe';
+  inhibitorCount: number;
+  inducerCount: number;
+  adjustmentFactor: number;
+  comment: string; // Medical recommendation based on MDI level
+}
+
+/**
+ * LEVEL 2: Per-Medication Detailed Profile
+ */
+export interface DoctorReportMedicationDetail {
+  name: string;
+  genericName: string;
+  category: string;
+  startDoseMg: number;
+  targetDoseMg: number;
+  minimumDoseMg: number; // From category rules
+  
+  // Withdrawal Risk
+  withdrawalScore: number; // 0-10
+  withdrawalLevel: 'niedrig' | 'mittel' | 'hoch';
+  withdrawalSlowdownPct: number; // e.g. 25 for score=10
+  
+  // CYP Data
+  hasCypData: boolean;
+  cypSummary: string; // Human-readable summary
+  cypEffect: 'slower' | 'faster' | 'neutral';
+  
+  // Therapeutic Range
+  hasTherapeuticRange: boolean;
+  isNarrowWindow: boolean;
+  therapeuticRangeSummary: string;
+  
+  // MDI Impact
+  mdiImpact: string; // e.g. "Trägt mit 3 Hemm-Profilen zur MDI bei"
+  
+  // Combined safety assessment
+  totalSlowdownPct: number; // Combined effect of all factors
+  safetyNotes: string[]; // Top 3-5 most important notes
+  
+  // Monitoring recommendations
+  monitoringRecommendations: string[]; // 2-3 specific monitoring actions
+}
+
+/**
+ * LEVEL 3: Model Info (Technical Details)
+ */
+export interface DoctorReportModelInfo {
+  summaryText: string; // What the model does
+  limitationsText: string; // What the model does NOT do
+  factorsConsidered: string[]; // List of all factors
+}
+
+/**
+ * LEVEL 3: Detailed CYP Profile (for appendix)
+ */
+export interface DoctorReportCypDetail {
+  medicationName: string;
+  profiles: Array<{
+    enzyme: string;
+    role: string;
+    cbdEffect: string;
+    note: string;
+  }>;
+}
+
+/**
+ * Main Doctor Report Data Structure
+ */
 export interface DoctorReportData {
   // Header section
   headerTitle: string;
+  generatedDate: string;
   
   // Patient metadata
   patientMeta: {
@@ -145,6 +231,26 @@ export interface DoctorReportData {
     bsa: string;
     idealWeight: string;
   };
+  
+  // LEVEL 1: Overview Data
+  overviewMedications: DoctorReportOverviewMedication[];
+  globalRisk: DoctorReportGlobalRisk;
+  strategySummary: {
+    durationWeeks: number;
+    reductionGoal: number;
+    cbdStartMg: number;
+    cbdEndMg: number;
+    overallLoadReduction: number;
+    reductionSpeedCategory: string;
+  };
+  
+  // LEVEL 2: Per-Medication Details
+  medicationDetails: DoctorReportMedicationDetail[];
+  
+  // LEVEL 3: Appendix Data
+  modelInfo: DoctorReportModelInfo;
+  cypDetails: DoctorReportCypDetail[];
+  allSafetyNotes: Record<string, string[]>; // Complete safety notes per medication
   
   // NEW: Advanced Safety Data (P0/P1)
   safetyData: {

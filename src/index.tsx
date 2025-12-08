@@ -1690,9 +1690,11 @@ app.post('/api/pdf/doctor', async (c) => {
         // Direct HTML provided by frontend
         doctorHtml = html;
       } else if (analysis) {
-        // Analysis data provided - generate HTML
-        doctorData = buildDoctorReportData(analysis as AnalyzeResponse);
-        doctorHtml = renderDoctorReportHtmlFixed(doctorData);
+        // Analysis data provided - generate HTML with V3 builder
+        const { buildDoctorReportDataV3 } = await import('./report_data_v3');
+        const { renderDoctorReportHtmlV3 } = await import('./report_templates_doctor_v3');
+        const doctorDataV3 = buildDoctorReportDataV3(analysis as AnalyzeResponse);
+        doctorHtml = renderDoctorReportHtmlV3(doctorDataV3);
       } else {
         return c.json({ 
           success: false, 
@@ -7349,8 +7351,10 @@ function getSharedStyles() {
 // These endpoints render the example reports with test data
 // NO PDF generation - just HTML for visual testing
 
-app.get('/test/doctor-report', (c) => {
-  const html = renderDoctorReportExample()
+app.get('/test/doctor-report', async (c) => {
+  // Use V3 template with 3-level structure
+  const { renderDoctorReportV3Example } = await import('./report_templates_doctor_v3');
+  const html = await renderDoctorReportV3Example()
   return c.html(html)
 })
 
