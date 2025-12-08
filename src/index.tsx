@@ -1103,14 +1103,14 @@ app.post('/api/pdf/patient', async (c) => {
       // PRODUCTION VERSION: Generate PDF with PDFShift
       const pdfBuffer = await generatePdfWithService(
         exampleHtml, 
-        'Dein_persoenlicher_MEDLESS-Plan.pdf',
+        'MEDLESS-Orientierungsplan.pdf',
         env.PDFSHIFT_API_KEY
       );
       
       return new Response(pdfBuffer, {
         headers: {
           'Content-Type': 'application/pdf',
-          'Content-Disposition': 'attachment; filename="Dein_persoenlicher_MEDLESS-Plan.pdf"',
+          'Content-Disposition': 'attachment; filename="MEDLESS-Orientierungsplan.pdf"',
           'Cache-Control': 'no-store, no-cache, must-revalidate'
         }
       });
@@ -5405,9 +5405,9 @@ app.get('/app', (c) => {
   <main>
     <!-- FORMULAR MIT MULTISTEP -->
     <section id="tool">
-      <h2>Erstellen Sie Ihren persönlichen CBD-Paste-Dosierungsplan</h2>
+      <h2>Erstellen Sie Ihren persönlichen MEDLESS-Orientierungsplan</h2>
       <p class="muted">
-        Folgen Sie den Schritten, um einen individuellen Dosierungsplan zu erhalten.
+        Folgen Sie den Schritten, um Ihre aktuelle Medikation strukturiert zu erfassen und einen persönlichen MEDLESS-Orientierungsplan als Gesprächsgrundlage für Ihren Arzt zu erhalten. Keine Therapie, keine Diagnose – sondern eine klare Übersicht.
       </p>
 
       <!-- Progress Stepper - NEW STRUCTURED LAYOUT -->
@@ -5451,10 +5451,10 @@ app.get('/app', (c) => {
           <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Körperdaten</span>
           <span></span>
           <!-- Label 3 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Medikamente</span>
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Medikation</span>
           <span></span>
           <!-- Label 4 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Plan</span>
+          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Orientierungsplan</span>
           <span></span>
           <!-- Label 5 -->
           <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Zusammenfassung</span>
@@ -5541,8 +5541,8 @@ app.get('/app', (c) => {
         <!-- STEP 3: Medications -->
         <div id="step-3" class="form-step" style="display: none;">
           <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikamente</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Geben Sie alle Medikamente ein, die Sie derzeit einnehmen.</p>
+            <h3 style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikation</h3>
+            <p class="muted" style="margin-bottom: 1.5rem;">Geben Sie hier Ihre aktuellen Medikamente ein. Diese Daten werden genutzt, um einen strukturierten Überblick und einen MEDLESS-Orientierungsplan für Ihr Arztgespräch zu erstellen. Es werden keine Therapieempfehlungen berechnet.</p>
             
             <div id="medication-inputs" style="margin-bottom: 1rem;">
               <!-- Wird durch JavaScript befüllt -->
@@ -5566,8 +5566,8 @@ app.get('/app', (c) => {
         <!-- STEP 4: Plan Settings -->
         <div id="step-4" class="form-step" style="display: none;">
           <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 4: Plan-Einstellungen</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Wählen Sie die Dauer und Ihr Reduktionsziel.</p>
+            <h3 style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
+            <p class="muted" style="margin-bottom: 1.5rem;">Auf Basis Ihrer Angaben wurde ein Orientierungsplan erstellt, der Ihnen hilft, Ihr nächstes Gespräch mit Ihrem Arzt strukturiert vorzubereiten. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.</p>
             
             <div class="form-row" style="margin-bottom: 1.5rem;">
               <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
@@ -5577,7 +5577,7 @@ app.get('/app', (c) => {
                   </div>
                   <div>
                     <label for="duration-weeks" style="font-size: 1rem; font-weight: 600; color: #0b7b6c; margin: 0;">Plan-Dauer (Wochen) *</label>
-                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie lange soll Ihr Reduktionsplan dauern?</p>
+                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie lange soll Ihr Orientierungsplan dauern?</p>
                   </div>
                 </div>
                 <select id="duration-weeks" name="duration_weeks" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #14b8a6; border-radius: 8px; background: white;">
@@ -5721,7 +5721,7 @@ app.get('/app', (c) => {
                 ← Zurück
               </button>
               <button type="submit" class="btn-primary">
-                Dosierungsplan erstellen <span>✓</span>
+                Orientierungsplan erstellen <span>✓</span>
               </button>
             </div>
           </div>
@@ -5838,10 +5838,10 @@ app.get('/app', (c) => {
             <div id="plan-ready-card" style="background: linear-gradient(135deg, #0b7b6c 0%, #059669 100%); padding: 1.5rem; border-radius: 14px; box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3); text-align: center; animation: gentle-pulse 2s ease-in-out infinite;">
               <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
                 <i class="fas fa-file-medical" style="color: white; font-size: 2rem;"></i>
-                <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Ihr Dosierplan ist fertig!</h3>
+                <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Ihr persönlicher MEDLESS-Orientierungsplan ist fertig!</h3>
               </div>
               <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 0.85rem; font-weight: 500; margin-bottom: 1rem;">
-                Ihre persönliche Medikamenten-Reduktionsstrategie wurde erfolgreich erstellt.
+                Ihr persönlicher Orientierungsplan wurde erstellt. Er fasst Ihre Angaben zu Medikamenten und Einnahmezeiten übersichtlich zusammen und dient als Grundlage für das Gespräch mit Ihrem Arzt. MEDLESS ersetzt keine ärztliche Beratung und ist kein Medizinprodukt.
               </p>
               <button id="show-plan-button" style="
                 background: white;
@@ -5943,7 +5943,7 @@ app.get('/app', (c) => {
                 <i id="icon-5" class="fas fa-file-medical" style="color: #9ca3af; font-size: 1.25rem;"></i>
               </div>
               <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Dosierungsplan erstellen</h4>
+                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Orientierungsplan erstellen</h4>
                 <p id="detail-5" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
                 <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
                   <div id="mini-progress-5" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
@@ -5998,15 +5998,14 @@ app.get('/app', (c) => {
 
         <!-- Dosierungsplan -->
         <details>
-          <summary>Warum verwende ich einen Dosierungsplan?</summary>
+          <summary>Warum brauche ich einen Orientierungsplan?</summary>
           <p>
-            Ein strukturierter Plan steigert die Dosis langsam, erhöht die Verträglichkeit und ermöglicht eine 
-            bessere Bewertung der Wirkung.
+            Ein strukturierter Plan hilft Ihnen, Ihre Medikation mit Ihrem Arzt Schritt für Schritt zu besprechen und anzupassen.
           </p>
         </details>
 
         <details>
-          <summary>Warum wird die Dosis wöchentlich gesteigert?</summary>
+          <summary>Warum sollten Anpassungen schrittweise erfolgen?</summary>
           <p>
             Um Überreaktionen zu vermeiden und die individuelle Verträglichkeit zu optimieren.
           </p>
@@ -6014,7 +6013,7 @@ app.get('/app', (c) => {
 
         <!-- Medikamentenreduktion -->
         <details>
-          <summary>Kann ich durch Cannabinoide Medikamente reduzieren?</summary>
+          <summary>Kann ich durch natürliche Unterstützung Medikamente reduzieren?</summary>
           <p>
             Eine Reduktion ist möglich, aber nur unter ärztlicher Begleitung. Der Plan dient lediglich als 
             Vorbereitung für das Arztgespräch.
@@ -6022,16 +6021,16 @@ app.get('/app', (c) => {
         </details>
 
         <details>
-          <summary>Warum sind kleine Schritte bei der Medikamentenreduktion wichtig?</summary>
+          <summary>Warum sind kleine Schritte wichtig?</summary>
           <p>
-            Um Rebound-Effekte und Überlastungen zu vermeiden. Darum setzt der Plan auf kleine Prozent-Reduktionen 
+            Um Rebound-Effekte und Überlastungen zu vermeiden. Darum setzt der Plan auf kleine, schrittweise Anpassungen 
             mit Stabilisierungswochen.
           </p>
         </details>
 
         <!-- Wirkung & Zeitrahmen -->
         <details>
-          <summary>Wie lange dauert es, bis Cannabinoide wirken?</summary>
+          <summary>Wie lange dauert eine erfolgreiche Anpassung?</summary>
           <p>
             Erste Effekte können nach wenigen Tagen auftreten, eine stabile Anpassung dauert 6–12 Wochen.
           </p>
@@ -6040,29 +6039,29 @@ app.get('/app', (c) => {
         <details>
           <summary>Ich spüre in den ersten Wochen wenig – ist das normal?</summary>
           <p>
-            Ja, das ECS benötigt oft mehrere Wochen für eine stabile Anpassung.
+            Ja, der Körper benötigt oft mehrere Wochen für eine stabile Anpassung.
           </p>
         </details>
 
         <!-- Sicherheit -->
         <details>
-          <summary>Sind Cannabinoide abhängig machend oder berauschend?</summary>
+          <summary>Ist natürliche Unterstützung sicher?</summary>
           <p>
-            Nicht-psychoaktive Cannabinoide haben kein Suchtpotenzial und verursachen keinen Rausch.
+            Natürliche Wirkstoffe sollten immer ärztlich abgeklärt werden, um Wechselwirkungen und Nebenwirkungen zu vermeiden.
           </p>
         </details>
 
         <details>
-          <summary>Welche Nebenwirkungen können Cannabinoide haben?</summary>
+          <summary>Welche Nebenwirkungen können auftreten?</summary>
           <p>
-            Mögliche leichte Nebenwirkungen: Müdigkeit, Schwindel, trockener Mund, veränderter Appetit.
+            Mögliche leichte Nebenwirkungen: Müdigkeit, Schwindel, veränderter Appetit. Immer ärztlich abklären.
           </p>
         </details>
 
         <details>
-          <summary>Können Cannabinoide mit anderen Medikamenten interagieren?</summary>
+          <summary>Kann es Wechselwirkungen mit meinen Medikamenten geben?</summary>
           <p>
-            Ja, Cannabinoide beeinflussen bestimmte Leberenzyme (z. B. CYP450). Darum jede Änderung ärztlich abklären.
+            Ja, viele Wirkstoffe beeinflussen Leberenzyme (z. B. CYP450). Darum jede Änderung ärztlich abklären.
           </p>
         </details>
 
@@ -6075,17 +6074,17 @@ app.get('/app', (c) => {
 
         <!-- Praktische Anwendung -->
         <details>
-          <summary>Was mache ich mit dem fertigen Dosierungsplan?</summary>
+          <summary>Was mache ich mit dem fertigen Orientierungsplan?</summary>
           <p>
-            Ausdrucken oder digital speichern und mit dem Arzt oder der Apotheke besprechen.
+            Ausdrucken oder digital speichern und mit Ihrem Arzt oder Apotheker besprechen.
           </p>
         </details>
 
         <!-- Produkte & Dosierung -->
         <details>
-          <summary>Warum unterschiedliche Cannabinoid-Konzentrationen?</summary>
+          <summary>Warum unterschiedliche Dosierungen?</summary>
           <p>
-            Damit die mg-Dosis möglichst genau dem Ziel entspricht.
+            Damit die Anpassung möglichst genau Ihrem Ziel entspricht.
           </p>
         </details>
 

@@ -40,7 +40,7 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dein persönlicher MEDLESS-Plan</title>
+  <title>MEDLESS – Orientierungsplan für Ihr Arztgespräch</title>
   <style>
     @page {
       size: A4;
@@ -475,14 +475,14 @@ export const PATIENT_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
     <img src="${MEDLESS_LOGO_BASE64}" alt="MEDLESS" class="report-logo">
   </div>
   <div class="report-header-right">
-    <div class="report-header-title">MEDLESS – Patienten-Plan</div>
+    <div class="report-header-title">MEDLESS – Orientierungsplan</div>
     <div class="report-header-subtitle">Erstellt für: {{patient_name}}</div>
   </div>
 </header>
 <hr class="report-header-separator">
 
 <!-- 2. TITLE -->
-<h1>🌿 Dein persönlicher MEDLESS-Plan</h1>
+<h1>Ihr persönlicher MEDLESS-Orientierungsplan</h1>
 <p class="subtitle">Individuell für dich erstellt – Schritt für Schritt zu mehr Wohlbefinden</p>
 
 <!-- 3. PATIENT DATA -->
@@ -759,9 +759,9 @@ export function renderPatientReportExample(): string {
     kosten_gesamt: '184.70',
     produkt_details: '1x MEDLESS Nr. 5 (2.5%, 74.70€) + 2x MEDLESS Nr. 25 (5%, 2x 55.00€)',
     
-    rechtlicher_hinweis: 'Dieser Plan ist eine persönliche Empfehlung und ersetzt keine ärztliche Beratung. Bitte sprich mit deinem Arzt oder deiner Ärztin, bevor du Medikamente reduzierst oder Cannabinoide einnimmst. Setze niemals eigenmächtig verschriebene Medikamente ab. Bei Notfällen rufe sofort die 112 an.',
+    rechtlicher_hinweis: 'Dieses Dokument ist ein Orientierungsplan auf Basis Ihrer Eingaben zu Medikation und Einnahme. Es dient als Gesprächsgrundlage mit Ihrem Arzt und ersetzt keine ärztliche Diagnose oder Therapieempfehlung. MEDLESS ist kein Medizinprodukt. Alle Änderungen Ihrer Medikation dürfen nur in Absprache mit Ihrem Arzt erfolgen.',
     
-    version_note: 'MEDLESS Plan v2.0'
+    version_note: 'MEDLESS Orientierungsplan v2.0'
   };
 
   return fillTemplate(PATIENT_REPORT_TEMPLATE_FIXED, exampleData);
