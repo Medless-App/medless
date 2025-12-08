@@ -5540,38 +5540,38 @@ app.get('/app', (c) => {
 
       <!-- Progress Stepper - NEW STRUCTURED LAYOUT -->
       <div style="margin-bottom: 1.5rem; margin-top: 0;">
-        <!-- Circles and Progress Bars Container -->
-        <div style="display: grid; grid-template-columns: 40px 1fr 40px 1fr 40px 1fr 40px 1fr 40px; align-items: center; max-width: 800px; margin: 0 auto 0.75rem; gap: 0;">
-          <!-- Step 1 Circle -->
-          <div id="step-indicator-1" style="width: 40px; height: 40px; border-radius: 50%; background: #0b7b6c; color: white; font-weight: 600; display: flex; align-items: center; justify-content: center;">1</div>
+        <!-- Circles and Progress Bars Container - Fixed 48px containers -->
+        <div style="display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px 1fr 48px 1fr 48px; align-items: center; max-width: 800px; margin: 0 auto 0.75rem; gap: 0;">
+          <!-- Step 1 Circle - Fixed 48px container -->
+          <div id="step-indicator-1" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #0b7b6c; color: white; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">1</div>
           <!-- Progress Bar 1 -->
           <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
             <div id="progress-bar-1" style="height: 100%; background: #0b7b6c; width: 100%; transition: width 0.3s;"></div>
           </div>
-          <!-- Step 2 Circle -->
-          <div id="step-indicator-2" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">2</div>
+          <!-- Step 2 Circle - Fixed 48px container -->
+          <div id="step-indicator-2" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">2</div>
           <!-- Progress Bar 2 -->
           <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
             <div id="progress-bar-2" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
           </div>
-          <!-- Step 3 Circle -->
-          <div id="step-indicator-3" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">3</div>
+          <!-- Step 3 Circle - Fixed 48px container -->
+          <div id="step-indicator-3" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">3</div>
           <!-- Progress Bar 3 -->
           <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
             <div id="progress-bar-3" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
           </div>
-          <!-- Step 4 Circle -->
-          <div id="step-indicator-4" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">4</div>
+          <!-- Step 4 Circle - Fixed 48px container -->
+          <div id="step-indicator-4" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">4</div>
           <!-- Progress Bar 4 -->
           <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
             <div id="progress-bar-4" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
           </div>
-          <!-- Step 5 Circle -->
-          <div id="step-indicator-5" style="width: 40px; height: 40px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center;">5</div>
+          <!-- Step 5 Circle - Fixed 48px container -->
+          <div id="step-indicator-5" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">5</div>
         </div>
         
-        <!-- Labels Container - EXACTLY ALIGNED with circles above -->
-        <div style="display: grid; grid-template-columns: 40px 1fr 40px 1fr 40px 1fr 40px 1fr 40px; max-width: 800px; margin: 0 auto; gap: 0;">
+        <!-- Labels Container - EXACTLY ALIGNED with 48px circles above -->
+        <div style="display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px 1fr 48px 1fr 48px; max-width: 800px; margin: 8px auto 0 auto; gap: 0;">
           <!-- Label 1 -->
           <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Name</span>
           <span></span>
@@ -6111,51 +6111,45 @@ app.get('/app', (c) => {
         const progressBar = document.getElementById(\`progress-bar-\${i}\`);
         
         if (i < stepNumber) {
-          // Completed steps
+          // Completed steps - fixed size container, scaled down
           if (indicator) {
             indicator.style.background = '#059669';
             indicator.style.color = 'white';
-            indicator.style.width = '40px';
-            indicator.style.height = '40px';
             indicator.style.fontSize = '1rem';
-            indicator.style.transform = 'scale(1)';
+            indicator.style.transform = 'scale(0.83)';  // 40px visual size
             indicator.style.boxShadow = 'none';
             indicator.innerHTML = '<i class="fas fa-check" style="font-size: 0.9rem;"></i>';
           }
           if (progressBar) progressBar.style.width = '100%';
         } else if (i === stepNumber) {
-          // Current step - larger and highlighted
+          // Current step - fixed size container, full scale
           if (indicator) {
             indicator.style.background = 'linear-gradient(135deg, #1A9C7F, #14b8a6)';
             indicator.style.color = 'white';
-            indicator.style.width = '48px';
-            indicator.style.height = '48px';
             indicator.style.fontSize = '1.1rem';
             indicator.style.fontWeight = '700';
-            indicator.style.transform = 'scale(1)';
+            indicator.style.transform = 'scale(1.0)';  // 48px visual size
             indicator.style.boxShadow = '0 0 0 4px rgba(26, 156, 127, 0.2)';
             indicator.innerHTML = i;
           }
           if (progressBar) progressBar.style.width = '0%';
         } else {
-          // Future steps - with icon
+          // Future steps - fixed size container, scaled down
           if (indicator) {
             indicator.style.background = '#e5e7eb';
             indicator.style.color = '#9ca3af';
-            indicator.style.width = '40px';
-            indicator.style.height = '40px';
             indicator.style.fontSize = '0.875rem';
             indicator.style.fontWeight = '500';
-            indicator.style.transform = 'scale(1)';
+            indicator.style.transform = 'scale(0.83)';  // 40px visual size
             indicator.style.boxShadow = 'none';
             indicator.innerHTML = '<i class="fas fa-circle" style="font-size: 0.5rem;"></i>';
           }
           if (progressBar) progressBar.style.width = '0%';
         }
         
-        // Add smooth transition
+        // Smooth transition only on transform, background, box-shadow
         if (indicator) {
-          indicator.style.transition = 'all 0.3s ease';
+          indicator.style.transition = 'transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease';
         }
       }
     }
