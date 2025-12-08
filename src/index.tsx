@@ -4635,8 +4635,12 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
   `)
 })
 
-// Main Route: Homepage
-app.get('/', (c) => {
+// Main Route: New Marketing Homepage (served as static file via serveStatic)
+// The static index.html and styles.css are in the public folder and copied to dist during build
+// They will be served automatically by Cloudflare Pages
+
+// Old Application Route: Redirect /app or /refactored to the old inline HTML app
+app.get('/app', (c) => {
   return c.html(`
 <!DOCTYPE html>
 <html lang="de">
