@@ -6033,25 +6033,60 @@ app.get('/app', (c) => {
     const totalSteps = 5;
     
     function showStep(stepNumber) {
-      // Hide all steps
-      for (let i = 1; i <= totalSteps; i++) {
-        const step = document.getElementById(\`step-\${i}\`);
-        if (step) step.style.display = 'none';
+      // Fade-Out current step (150ms)
+      const currentStepEl = document.getElementById(\`step-\${currentStep}\`);
+      if (currentStepEl && currentStepEl.style.display !== 'none') {
+        currentStepEl.style.opacity = '0';
+        currentStepEl.style.transform = 'translateY(-10px)';
+        
+        setTimeout(() => {
+          // Hide all steps after fade-out
+          for (let i = 1; i <= totalSteps; i++) {
+            const step = document.getElementById(\`step-\${i}\`);
+            if (step) step.style.display = 'none';
+          }
+          
+          // Show new step
+          const newStepEl = document.getElementById(\`step-\${stepNumber}\`);
+          if (newStepEl) {
+            newStepEl.style.display = 'block';
+            newStepEl.style.opacity = '0';
+            newStepEl.style.transform = 'translateY(10px)';
+            
+            // Fade-In new step (150ms)
+            setTimeout(() => {
+              newStepEl.style.opacity = '1';
+              newStepEl.style.transform = 'translateY(0)';
+            }, 10);
+          }
+          
+          // Update progress indicators
+          updateProgressBar(stepNumber);
+          
+          // Update summary if on step 5
+          if (stepNumber === 5) {
+            updateSummary();
+          }
+          
+          currentStep = stepNumber;
+        }, 150);
+      } else {
+        // Initial load - no animation
+        for (let i = 1; i <= totalSteps; i++) {
+          const step = document.getElementById(\`step-\${i}\`);
+          if (step) step.style.display = 'none';
+        }
+        
+        const newStepEl = document.getElementById(\`step-\${stepNumber}\`);
+        if (newStepEl) {
+          newStepEl.style.display = 'block';
+          newStepEl.style.opacity = '1';
+          newStepEl.style.transform = 'translateY(0)';
+        }
+        
+        updateProgressBar(stepNumber);
+        currentStep = stepNumber;
       }
-      
-      // Show current step
-      const currentStepEl = document.getElementById(\`step-\${stepNumber}\`);
-      if (currentStepEl) currentStepEl.style.display = 'block';
-      
-      // Update progress indicators
-      updateProgressBar(stepNumber);
-      
-      // Update summary if on step 5
-      if (stepNumber === 5) {
-        updateSummary();
-      }
-      
-      currentStep = stepNumber;
     }
     
     function updateProgressBar(stepNumber) {
@@ -6064,22 +6099,47 @@ app.get('/app', (c) => {
           if (indicator) {
             indicator.style.background = '#059669';
             indicator.style.color = 'white';
+            indicator.style.width = '40px';
+            indicator.style.height = '40px';
+            indicator.style.fontSize = '1rem';
+            indicator.style.transform = 'scale(1)';
+            indicator.style.boxShadow = 'none';
+            indicator.innerHTML = '<i class="fas fa-check" style="font-size: 0.9rem;"></i>';
           }
           if (progressBar) progressBar.style.width = '100%';
         } else if (i === stepNumber) {
-          // Current step
+          // Current step - larger and highlighted
           if (indicator) {
-            indicator.style.background = '#0b7b6c';
+            indicator.style.background = 'linear-gradient(135deg, #1A9C7F, #14b8a6)';
             indicator.style.color = 'white';
+            indicator.style.width = '48px';
+            indicator.style.height = '48px';
+            indicator.style.fontSize = '1.1rem';
+            indicator.style.fontWeight = '700';
+            indicator.style.transform = 'scale(1)';
+            indicator.style.boxShadow = '0 0 0 4px rgba(26, 156, 127, 0.2)';
+            indicator.innerHTML = i;
           }
           if (progressBar) progressBar.style.width = '0%';
         } else {
-          // Future steps
+          // Future steps - with icon
           if (indicator) {
-            indicator.style.background = '#cbd5e1';
-            indicator.style.color = '#6b7280';
+            indicator.style.background = '#e5e7eb';
+            indicator.style.color = '#9ca3af';
+            indicator.style.width = '40px';
+            indicator.style.height = '40px';
+            indicator.style.fontSize = '0.875rem';
+            indicator.style.fontWeight = '500';
+            indicator.style.transform = 'scale(1)';
+            indicator.style.boxShadow = 'none';
+            indicator.innerHTML = '<i class="fas fa-circle" style="font-size: 0.5rem;"></i>';
           }
           if (progressBar) progressBar.style.width = '0%';
+        }
+        
+        // Add smooth transition
+        if (indicator) {
+          indicator.style.transition = 'all 0.3s ease';
         }
       }
     }
