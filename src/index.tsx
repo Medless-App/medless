@@ -5539,7 +5539,7 @@ app.get('/app', (c) => {
       </p>
 
       <!-- Progress Stepper - NEW STRUCTURED LAYOUT -->
-      <div style="margin-bottom: 2rem; margin-top: 1.5rem;">
+      <div style="margin-bottom: 1.5rem; margin-top: 0;">
         <!-- Circles and Progress Bars Container -->
         <div style="display: grid; grid-template-columns: 40px 1fr 40px 1fr 40px 1fr 40px 1fr 40px; align-items: center; max-width: 800px; margin: 0 auto 0.75rem; gap: 0;">
           <!-- Step 1 Circle -->
@@ -6308,14 +6308,6 @@ app.get('/app', (c) => {
       
       // Initialize: Show step 1
       showStep(1);
-      
-      // Auto-scroll to Step 1 on page load (smooth scroll with offset for header)
-      setTimeout(() => {
-        const step1 = document.getElementById('step-1');
-        if (step1) {
-          step1.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 100);
       
       // NOTE: Medication input fields are now managed by /static/app.js
       // All medication form logic (autocomplete, validation, dynamic fields) moved to frontend
