@@ -79,6 +79,8 @@ interface SafetyResult {
   appliedCategoryRules: boolean;
   cypAdjustmentApplied?: boolean; // NEW: Indicates if CYP logic was applied
   cypAdjustmentFactor?: number; // NEW: CYP adjustment multiplier (e.g., 0.7, 1.15)
+  withdrawalRiskAdjustmentApplied?: boolean; // NEW P1: Indicates if withdrawal risk quantification was applied
+  withdrawalRiskFactor?: number; // NEW P1: Withdrawal risk factor (0.75-1.0)
 }
 
 // ============================================================
@@ -371,6 +373,34 @@ function applyCategorySafetyRules(params: {
     }
   }
   
+  // ===== NEW P1 TASK #4: WITHDRAWAL RISK QUANTIFICATION =====
+  // Apply withdrawal risk as a quantitative factor, not just a warning
+  // Formula: withdrawal_factor = 1 - (withdrawal_risk_score / 10 * 0.25)
+  // Examples:
+  //   Score 4 → factor 0.9 → -10% reduction speed
+  //   Score 8 → factor 0.8 → -20% reduction speed
+  //   Score 10 → factor 0.75 → -25% reduction speed
+  //
+  // This runs AFTER Therapeutic Range adjustment but BEFORE final max_weekly_reduction_pct
+  
+  let withdrawalRiskAdjustmentApplied = false;
+  let withdrawalRiskFactor = 1.0;
+  
+  if (category.withdrawal_risk_score && category.withdrawal_risk_score > 0) {
+    // Calculate withdrawal factor based on risk score (score is 0-10)
+    withdrawalRiskFactor = 1 - (category.withdrawal_risk_score / 10 * 0.25);
+    
+    // Apply withdrawal risk factor to reduction speed
+    effectiveWeeklyReduction *= withdrawalRiskFactor;
+    withdrawalRiskAdjustmentApplied = true;
+    limitedByCategory = true;
+    
+    const slowdownPct = Math.round((1 - withdrawalRiskFactor) * 100);
+    safetyNotes.push(
+      `⚠️ ${medicationName}: Hoher Absetzrisiko-Score (${category.withdrawal_risk_score}/10) - Reduktion wird um ${slowdownPct}% verlangsamt`
+    );
+  }
+  
   // Calculate effective target based on weekly reduction limit
   const effectiveTargetMg = Math.max(0, startMg - (effectiveWeeklyReduction * durationWeeks));
   
@@ -396,7 +426,9 @@ function applyCategorySafetyRules(params: {
     limitedByCategory,
     appliedCategoryRules,
     cypAdjustmentApplied, // NEW: Indicates if CYP-based adjustment was applied
-    cypAdjustmentFactor // NEW: CYP adjustment multiplier (0.7 = 30% slower, 1.15 = 15% faster)
+    cypAdjustmentFactor, // NEW: CYP adjustment multiplier (0.7 = 30% slower, 1.15 = 15% faster)
+    withdrawalRiskAdjustmentApplied, // NEW P1: Indicates if withdrawal risk quantification was applied
+    withdrawalRiskFactor // NEW P1: Withdrawal risk factor (0.75-1.0)
   };
 }
 
@@ -724,6 +756,65 @@ async function buildAnalyzeResponse(body: any, env: any) {
     }
   }
   
+  // ===== NEW P1 TASK #3: MULTI-DRUG INTERACTION (MDI) SYSTEM =====
+  // Calculate cumulative CYP burden across all medications
+  // MDI-Logic:
+  //   - sum_inhibition_score = count of all 'slower' CYP profiles across all medications
+  //   - sum_induction_score = count of all 'faster' CYP profiles across all medications
+  //
+  // MDI-Levels:
+  //   - Mild (2-3 inhibitors): -10% reduction
+  //   - Moderate (4-6 inhibitors): -20% reduction
+  //   - Severe (≥7 inhibitors): -30% reduction + Warning
+  //
+  // Induction (only if ≥2 'faster' profiles):
+  //   - Mild Faster (≥2): +5% reduction
+  //   - Strong Faster (≥4): +10% reduction
+  
+  const allCypProfiles = analysisResults.flatMap(r => r.cypProfiles || []);
+  const inhibitors = allCypProfiles.filter(p => p.cbd_effect_on_reduction === 'slower').length;
+  const inducers = allCypProfiles.filter(p => p.cbd_effect_on_reduction === 'faster').length;
+  
+  let mdiLevel: 'none' | 'mild' | 'moderate' | 'severe' = 'none';
+  let mdiAdjustmentFactor = 1.0;
+  const mdiWarnings: string[] = [];
+  
+  // Determine MDI level based on inhibition score
+  if (inhibitors >= 7) {
+    mdiLevel = 'severe';
+    mdiAdjustmentFactor = 0.7; // 30% slower
+    mdiWarnings.push(
+      `🚨 SEVERE Multi-Drug Interaction: ${inhibitors} CYP-Hemm-Profile erkannt - Reduktion wird um 30% verlangsamt. Engmaschige ärztliche Kontrolle erforderlich!`
+    );
+  } else if (inhibitors >= 4) {
+    mdiLevel = 'moderate';
+    mdiAdjustmentFactor = 0.8; // 20% slower
+    mdiWarnings.push(
+      `⚠️ MODERATE Multi-Drug Interaction: ${inhibitors} CYP-Hemm-Profile - Reduktion um 20% verlangsamt`
+    );
+  } else if (inhibitors >= 2) {
+    mdiLevel = 'mild';
+    mdiAdjustmentFactor = 0.9; // 10% slower
+    mdiWarnings.push(
+      `ℹ️ MILD Multi-Drug Interaction: ${inhibitors} CYP-Hemm-Profile - Reduktion um 10% verlangsamt`
+    );
+  }
+  
+  // Override with induction if applicable (only if NO inhibitors present)
+  if (inhibitors === 0 && inducers >= 4) {
+    mdiLevel = 'mild'; // Use 'mild' to indicate induction
+    mdiAdjustmentFactor = 1.1; // 10% faster (strong induction)
+    mdiWarnings.push(
+      `ℹ️ Strong CYP-Induktion: ${inducers} 'faster'-Profile - Reduktion um 10% beschleunigt (konservativ)`
+    );
+  } else if (inhibitors === 0 && inducers >= 2) {
+    mdiLevel = 'mild';
+    mdiAdjustmentFactor = 1.05; // 5% faster (mild induction)
+    mdiWarnings.push(
+      `ℹ️ Mild CYP-Induktion: ${inducers} 'faster'-Profile - Reduktion um 5% beschleunigt`
+    );
+  }
+  
   // Check for Benzos/Opioids
   const adjustmentNotes: string[] = [];
   const hasBenzoOrOpioid = analysisResults.some(result => {
@@ -823,8 +914,13 @@ async function buildAnalyzeResponse(body: any, env: any) {
         cypProfiles // NEW: Pass CYP profiles to safety function
       });
       
+      // ===== NEW P1 TASK #3: Apply MDI adjustment AFTER applyCategorySafetyRules =====
+      // MDI adjustment is GLOBAL (affects all medications based on cumulative CYP burden)
+      // This runs AFTER withdrawal risk quantification (which is per-medication)
+      let weeklyReduction = safetyResult.effectiveWeeklyReduction;
+      weeklyReduction *= mdiAdjustmentFactor; // Apply MDI adjustment (0.7-1.1)
+      
       const targetMg = safetyResult.effectiveTargetMg;
-      const weeklyReduction = safetyResult.effectiveWeeklyReduction;
       
       // BUGFIX: Ensure last week always reaches exact target dose
       // Example: Ibuprofen 400 mg, 50% reduction, 8 weeks
@@ -914,6 +1010,21 @@ async function buildAnalyzeResponse(body: any, env: any) {
           medicationSafetyNotes[weekMed.name] = notes;
         }
       });
+      
+      // ===== NEW P1 TASK #3: Add MDI warnings to safety notes =====
+      // MDI warnings are global (not per-medication), so add them to all medications
+      if (mdiWarnings.length > 0 && Object.keys(medicationSafetyNotes).length > 0) {
+        // Add MDI warning to the first medication's notes (as a global warning)
+        const firstMedName = Object.keys(medicationSafetyNotes)[0];
+        if (!medicationSafetyNotes[firstMedName]) {
+          medicationSafetyNotes[firstMedName] = [];
+        }
+        mdiWarnings.forEach(warning => {
+          if (!medicationSafetyNotes[firstMedName].includes(warning)) {
+            medicationSafetyNotes[firstMedName].push(warning);
+          }
+        });
+      }
     }
     
     return {
@@ -1110,6 +1221,31 @@ async function buildAnalyzeResponse(body: any, env: any) {
         const windowWidth = med.therapeutic_max_ng_ml - med.therapeutic_min_ng_ml;
         return windowWidth <= 50; // HEURISTIC: ≤50 ng/ml
       }).map(r => r.medication?.name || 'Unknown')
+    },
+    // ===== NEW P1 TASK #3: MULTI-DRUG INTERACTION STATISTICS =====
+    multi_drug_interaction: {
+      inhibitors: inhibitors,
+      inducers: inducers,
+      level: mdiLevel, // 'none' | 'mild' | 'moderate' | 'severe'
+      adjustment_factor: mdiAdjustmentFactor, // 0.7, 0.8, 0.9, 1.05, 1.1
+      warnings: mdiWarnings
+    },
+    // ===== NEW P1 TASK #4: WITHDRAWAL RISK QUANTIFICATION STATISTICS =====
+    withdrawal_risk_adjustment: {
+      medications: analysisResults.map(r => {
+        const med = r.medication as MedicationWithCategory | null;
+        if (!med || !med.withdrawal_risk_score) return null;
+        
+        const score = med.withdrawal_risk_score;
+        const factor = 1 - (score / 10 * 0.25); // Corrected formula
+        
+        return {
+          name: med.name,
+          score: score,
+          factor: Math.round(factor * 100) / 100,
+          reduction_slowdown_pct: Math.round((1 - factor) * 100)
+        };
+      }).filter(m => m !== null)
     }
   };
 }
