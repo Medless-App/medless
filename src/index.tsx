@@ -4786,7 +4786,13 @@ app.get('/app', (c) => {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   
   <!-- Axios for API calls -->
-  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/styles.css">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     :root {
@@ -5402,6 +5408,24 @@ app.get('/app', (c) => {
   </style>
 </head>
 <body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <a href="/" class="logo">
+          <span class="logo-text">Medless</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="/#how-it-works">So funktioniert's</a></li>
+          <li><a href="/#benefits">Vorteile</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/magazin">Magazin</a></li>
+        </ul>
+        <button class="btn-primary-sm" onclick="window.location.href='/app'">Analyse starten</button>
+      </nav>
+    </div>
+  </header>
+
   <main>
     <!-- FORMULAR MIT MULTISTEP -->
     <section id="tool">
@@ -5982,150 +6006,7 @@ app.get('/app', (c) => {
       <!-- Results -->
       <div id="results" class="hidden" style="margin-top: 2rem;"></div>
     </section>
-    <!-- FAQ -->
-    <section>
-      <h2>Häufig gestellte Fragen (FAQ)</h2>
-      <div class="faq">
-        
-        <!-- ECS & Cannabinoide -->
-        <details>
-          <summary>Wie unterstützen Cannabinoide mein Endocannabinoid-System (ECS)?</summary>
-          <p>
-            Cannabinoide stabilisieren körpereigene Endocannabinoide, modulieren Entzündungen und beeinflussen 
-            Rezeptoren im Nervensystem. Dadurch unterstützen sie die natürliche Balance des Körpers.
-          </p>
-        </details>
 
-        <!-- Dosierungsplan -->
-        <details>
-          <summary>Warum brauche ich einen Orientierungsplan?</summary>
-          <p>
-            Ein strukturierter Plan hilft Ihnen, Ihre Medikation mit Ihrem Arzt Schritt für Schritt zu besprechen und anzupassen.
-          </p>
-        </details>
-
-        <details>
-          <summary>Warum sollten Anpassungen schrittweise erfolgen?</summary>
-          <p>
-            Um Überreaktionen zu vermeiden und die individuelle Verträglichkeit zu optimieren.
-          </p>
-        </details>
-
-        <!-- Medikamentenreduktion -->
-        <details>
-          <summary>Kann ich durch natürliche Unterstützung Medikamente reduzieren?</summary>
-          <p>
-            Eine Reduktion ist möglich, aber nur unter ärztlicher Begleitung. Der Plan dient lediglich als 
-            Vorbereitung für das Arztgespräch.
-          </p>
-        </details>
-
-        <details>
-          <summary>Warum sind kleine Schritte wichtig?</summary>
-          <p>
-            Um Rebound-Effekte und Überlastungen zu vermeiden. Darum setzt der Plan auf kleine, schrittweise Anpassungen 
-            mit Stabilisierungswochen.
-          </p>
-        </details>
-
-        <!-- Wirkung & Zeitrahmen -->
-        <details>
-          <summary>Wie lange dauert eine erfolgreiche Anpassung?</summary>
-          <p>
-            Erste Effekte können nach wenigen Tagen auftreten, eine stabile Anpassung dauert 6–12 Wochen.
-          </p>
-        </details>
-
-        <details>
-          <summary>Ich spüre in den ersten Wochen wenig – ist das normal?</summary>
-          <p>
-            Ja, der Körper benötigt oft mehrere Wochen für eine stabile Anpassung.
-          </p>
-        </details>
-
-        <!-- Sicherheit -->
-        <details>
-          <summary>Ist natürliche Unterstützung sicher?</summary>
-          <p>
-            Natürliche Wirkstoffe sollten immer ärztlich abgeklärt werden, um Wechselwirkungen und Nebenwirkungen zu vermeiden.
-          </p>
-        </details>
-
-        <details>
-          <summary>Welche Nebenwirkungen können auftreten?</summary>
-          <p>
-            Mögliche leichte Nebenwirkungen: Müdigkeit, Schwindel, veränderter Appetit. Immer ärztlich abklären.
-          </p>
-        </details>
-
-        <details>
-          <summary>Kann es Wechselwirkungen mit meinen Medikamenten geben?</summary>
-          <p>
-            Ja, viele Wirkstoffe beeinflussen Leberenzyme (z. B. CYP450). Darum jede Änderung ärztlich abklären.
-          </p>
-        </details>
-
-        <details>
-          <summary>Was mache ich bei Beschwerden während des Plans?</summary>
-          <p>
-            Nichts eigenständig ändern – sofort ärztlichen Rat einholen.
-          </p>
-        </details>
-
-        <!-- Praktische Anwendung -->
-        <details>
-          <summary>Was mache ich mit dem fertigen Orientierungsplan?</summary>
-          <p>
-            Ausdrucken oder digital speichern und mit Ihrem Arzt oder Apotheker besprechen.
-          </p>
-        </details>
-
-        <!-- Produkte & Dosierung -->
-        <details>
-          <summary>Warum unterschiedliche Dosierungen?</summary>
-          <p>
-            Damit die Anpassung möglichst genau Ihrem Ziel entspricht.
-          </p>
-        </details>
-
-        <details>
-          <summary>Warum bleibt der Plan bei einem Produkt, bis die Flasche leer ist?</summary>
-          <p>
-            Für Klarheit und Anwenderfreundlichkeit – kein Mischen verschiedener Produkte.
-          </p>
-        </details>
-
-        <details>
-          <summary>Was bedeutet die Abweichung in Prozent?</summary>
-          <p>
-            Sie zeigt, wie nah die reale Dosis an der Zieldosis liegt (Toleranz: ±10%).
-          </p>
-        </details>
-
-      </div>
-      
-      <!-- Nach oben Button -->
-      <div style="text-align: center; margin-top: 2rem; padding: 1.5rem;">
-        <button id="scroll-to-top-btn" style="
-          padding: 0.75rem 2rem;
-          background: linear-gradient(135deg, #0b7b6c, #14b8a6);
-          color: white;
-          font-weight: 600;
-          font-size: 0.95rem;
-          border: none;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: all 0.3s;
-          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px -1px rgba(0,0,0,0.1)'">
-          <i class="fas fa-arrow-up"></i>
-          Zurück nach oben
-        </button>
-      </div>
-    </section>
 
     <footer>
       &copy; 2025 ECS Aktivierung · Hinweis: Kein Ersatz für ärztliche Beratung oder Therapie.
