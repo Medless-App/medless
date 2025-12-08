@@ -1,0 +1,386 @@
+{
+  "medication_count": 51,
+  "category_count": 20,
+  "medications_without_valid_category": 0,
+  "medications_in_fallback_categories": 0,
+  "tables": [
+    {
+      "name": "medications",
+      "row_count": 51,
+      "columns": [
+        {"name": "id", "type": "INTEGER"},
+        {"name": "name", "type": "TEXT"},
+        {"name": "generic_name", "type": "TEXT"},
+        {"name": "category_id", "type": "INTEGER"},
+        {"name": "cyp450_enzyme", "type": "TEXT"},
+        {"name": "description", "type": "TEXT"},
+        {"name": "common_dosage", "type": "TEXT"},
+        {"name": "created_at", "type": "DATETIME"},
+        {"name": "half_life_hours", "type": "REAL"},
+        {"name": "therapeutic_min_ng_ml", "type": "REAL"},
+        {"name": "therapeutic_max_ng_ml", "type": "REAL"},
+        {"name": "withdrawal_risk_score", "type": "INTEGER"},
+        {"name": "max_weekly_reduction_pct", "type": "REAL"},
+        {"name": "can_reduce_to_zero", "type": "INTEGER"},
+        {"name": "cbd_interaction_strength", "type": "TEXT"}
+      ],
+      "pharmacokinetic_fields_status": "ALL NULL - Datei final_patch_medications_to_200.sql wurde nicht ausgeführt"
+    },
+    {
+      "name": "medication_categories",
+      "row_count": 20,
+      "columns": [
+        {"name": "id", "type": "INTEGER"},
+        {"name": "name", "type": "TEXT"},
+        {"name": "description", "type": "TEXT"},
+        {"name": "risk_level", "type": "TEXT"},
+        {"name": "created_at", "type": "DATETIME"},
+        {"name": "can_reduce_to_zero", "type": "INTEGER"},
+        {"name": "default_min_target_fraction", "type": "REAL"},
+        {"name": "max_weekly_reduction_pct", "type": "REAL"},
+        {"name": "requires_specialist", "type": "INTEGER"},
+        {"name": "notes", "type": "TEXT"}
+      ],
+      "safety_fields_status": "ALL NULL - Migration 0004 wurde angewendet, aber Daten fehlen"
+    },
+    {
+      "name": "cbd_interactions",
+      "row_count": 51,
+      "columns": [
+        {"name": "id", "type": "INTEGER"},
+        {"name": "medication_id", "type": "INTEGER"},
+        {"name": "interaction_type", "type": "TEXT"},
+        {"name": "severity", "type": "TEXT"},
+        {"name": "description", "type": "TEXT"},
+        {"name": "mechanism", "type": "TEXT"},
+        {"name": "recommendation", "type": "TEXT"},
+        {"name": "source_url", "type": "TEXT"},
+        {"name": "created_at", "type": "DATETIME"}
+      ]
+    },
+    {
+      "name": "cbd_dosage_guidelines",
+      "row_count": 0,
+      "columns": [
+        {"name": "id", "type": "INTEGER"},
+        {"name": "condition_type", "type": "TEXT"},
+        {"name": "min_dosage_mg", "type": "INTEGER"},
+        {"name": "max_dosage_mg", "type": "INTEGER"},
+        {"name": "recommended_start_mg", "type": "INTEGER"},
+        {"name": "adjustment_period_days", "type": "INTEGER"},
+        {"name": "notes", "type": "TEXT"},
+        {"name": "created_at", "type": "DATETIME"}
+      ]
+    },
+    {
+      "name": "user_plans",
+      "row_count": 0,
+      "columns": [
+        {"name": "id", "type": "INTEGER"},
+        {"name": "email", "type": "TEXT"},
+        {"name": "medications_input", "type": "TEXT"},
+        {"name": "duration_weeks", "type": "INTEGER"},
+        {"name": "recommended_cbd_dosage", "type": "TEXT"},
+        {"name": "generated_at", "type": "DATETIME"}
+      ]
+    },
+    {
+      "name": "customer_emails",
+      "row_count": 0,
+      "columns": [
+        {"name": "id", "type": "INTEGER"},
+        {"name": "email", "type": "TEXT"},
+        {"name": "first_name", "type": "TEXT"},
+        {"name": "created_at", "type": "DATETIME"}
+      ]
+    },
+    {
+      "name": "d1_migrations",
+      "row_count": 7,
+      "columns": [
+        {"name": "id", "type": "INTEGER"},
+        {"name": "name", "type": "TEXT"},
+        {"name": "applied_at", "type": "TIMESTAMP"}
+      ]
+    }
+  ],
+  "risk_model": {
+    "tables": [
+      {
+        "name": "medication_categories",
+        "row_count": 20,
+        "columns": [
+          {"name": "risk_level", "type": "TEXT", "values": ["low", "medium", "high", "very_high"]}
+        ],
+        "link_to_medications": "medications.category_id → medication_categories.id",
+        "status": "ACTIVE - Alle 20 Kategorien haben risk_level ausgefüllt"
+      },
+      {
+        "name": "medications",
+        "row_count": 51,
+        "columns": [
+          {"name": "withdrawal_risk_score", "type": "INTEGER", "scale": "0-10"},
+          {"name": "half_life_hours", "type": "REAL"},
+          {"name": "cbd_interaction_strength", "type": "TEXT", "values": ["low", "medium", "high", "critical"]}
+        ],
+        "link_to_medications": "Self (medication-specific risk fields)",
+        "status": "INACTIVE - Alle Felder sind NULL (Code implementiert, Daten fehlen)"
+      }
+    ],
+    "levels": [
+      {
+        "name": "very_high",
+        "category_count": 2,
+        "medication_count": "unbekannt (medication-level data fehlt)",
+        "examples": ["Immunsuppressiva", "Opioide"]
+      },
+      {
+        "name": "high",
+        "category_count": 5,
+        "medication_count": "unbekannt",
+        "examples": ["Blutverdünner", "Antiepileptika", "Psychopharmaka", "Antikoagulantien", "Kortikosteroide"]
+      },
+      {
+        "name": "medium",
+        "category_count": 8,
+        "medication_count": "unbekannt",
+        "examples": ["Antidepressiva", "Schilddrüse", "Blutdrucksenker", "Diabetes", "Asthma", "ADHS", "Beta-Blocker", "Diuretika"]
+      },
+      {
+        "name": "low",
+        "category_count": 5,
+        "medication_count": "unbekannt",
+        "examples": ["Allgemeine Medikation", "Schmerzmittel", "Statine", "Antibiotika", "PPI"]
+      }
+    ],
+    "score_fields": [
+      {
+        "table": "medications",
+        "field": "withdrawal_risk_score",
+        "description": "Absetzrisiko 0-10, >= 7 triggert Warnung. Aktuell: ALLE NULL"
+      },
+      {
+        "table": "medications",
+        "field": "half_life_hours",
+        "description": "Halbwertszeit in Stunden. > 168h (7 Tage Steady State) → 50% Reduktionsverlangsamung. Aktuell: ALLE NULL"
+      },
+      {
+        "table": "medications",
+        "field": "cbd_interaction_strength",
+        "description": "CBD-Wechselwirkungsstärke. 'critical' → Engmaschige Kontrolle. Aktuell: ALLE NULL"
+      },
+      {
+        "table": "medication_categories",
+        "field": "max_weekly_reduction_pct",
+        "description": "Maximale wöchentliche Reduktion in %. Begrenzt Reduktionsgeschwindigkeit. Aktuell: ALLE NULL"
+      },
+      {
+        "table": "medication_categories",
+        "field": "can_reduce_to_zero",
+        "description": "Vollreduktion erlaubt (0/1). 0 → Minimum 50% Erhaltungsdosis. Aktuell: ALLE NULL"
+      }
+    ]
+  },
+  "calculation_pipeline": [
+    {
+      "step": 1,
+      "description": "Eingabe-Validierung: Medikamentenliste, Dauer, Dosierungen prüfen",
+      "tables_used": [],
+      "fields_used": []
+    },
+    {
+      "step": 2,
+      "description": "Medikamentendaten laden: JOIN medications + medication_categories für jedes Medikament",
+      "tables_used": ["medications", "medication_categories"],
+      "fields_used": ["name", "generic_name", "category_id", "risk_level", "can_reduce_to_zero", "max_weekly_reduction_pct", "half_life_hours", "withdrawal_risk_score", "cbd_interaction_strength"]
+    },
+    {
+      "step": 3,
+      "description": "CBD-Wechselwirkungen laden: Pro Medikament alle Interaktionen abrufen",
+      "tables_used": ["cbd_interactions"],
+      "fields_used": ["medication_id", "interaction_type", "severity", "description", "recommendation"]
+    },
+    {
+      "step": 4,
+      "description": "Benutzerdaten verarbeiten: BMI, BSA, Idealgewicht berechnen (falls Daten vorhanden)",
+      "tables_used": [],
+      "fields_used": []
+    },
+    {
+      "step": 5,
+      "description": "Sicherheitsregeln anwenden: Funktion applyCategorySafetyRules() für jedes Medikament",
+      "tables_used": ["medication_categories", "medications"],
+      "fields_used": ["can_reduce_to_zero", "default_min_target_fraction", "max_weekly_reduction_pct", "half_life_hours", "withdrawal_risk_score", "cbd_interaction_strength", "requires_specialist"],
+      "sub_steps": [
+        {
+          "rule": "Vollreduktions-Check",
+          "formula": "if (can_reduce_to_zero === 0) { targetFraction = max(targetFraction, default_min_target_fraction) }",
+          "status": "INAKTIV (Felder NULL)"
+        },
+        {
+          "rule": "Geschwindigkeitslimit",
+          "formula": "maxWeeklyMg = startMg × (max_weekly_reduction_pct / 100)",
+          "status": "INAKTIV (Felder NULL)"
+        },
+        {
+          "rule": "Halbwertszeit-Anpassung",
+          "formula": "if (steadyStateDays > 7) { effectiveWeeklyReduction *= 0.5 }",
+          "status": "INAKTIV (Felder NULL)"
+        },
+        {
+          "rule": "Absetzrisiko-Warnung",
+          "formula": "if (withdrawal_risk_score >= 7) { add warning }",
+          "status": "INAKTIV (Felder NULL)"
+        },
+        {
+          "rule": "CBD-Interaktion-Warnung",
+          "formula": "if (cbd_interaction_strength === 'critical') { add warning }",
+          "status": "INAKTIV (Felder NULL)"
+        },
+        {
+          "rule": "Fachärztliche Begleitung",
+          "formula": "if (requires_specialist === 1) { add note }",
+          "status": "INAKTIV (Felder NULL)"
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "description": "CBD-Dosierung berechnen: Gewichtsbasiert (0.5 → 1.0 mg/kg) mit Anpassungen (Alter, BMI, Benzos/Opioide)",
+      "tables_used": [],
+      "fields_used": [],
+      "formulas": [
+        "cbdStartMg = userWeight × 0.5",
+        "cbdEndMg = userWeight × 1.0",
+        "if (hasBenzoOrOpioid) { cbdStartMg /= 2 }",
+        "if (age >= 65) { cbdStartMg *= 0.8 }",
+        "if (bmi < 18.5) { cbdStartMg *= 0.85 }",
+        "if (bmi > 30) { cbdStartMg *= 1.1 }"
+      ]
+    },
+    {
+      "step": 7,
+      "description": "Produkt-Matching: Optimales MEDLESS-Produkt (Nr. 5/10/15/20/25) basierend auf CBD-Bedarf auswählen",
+      "tables_used": [],
+      "fields_used": [],
+      "products": [
+        {"nr": 5, "cbdPerSpray": 5.8, "price": 24.90},
+        {"nr": 10, "cbdPerSpray": 11.5, "price": 39.90},
+        {"nr": 15, "cbdPerSpray": 17.5, "price": 59.90},
+        {"nr": 20, "cbdPerSpray": 23.2, "price": 79.90},
+        {"nr": 25, "cbdPerSpray": 29.0, "price": 99.90}
+      ]
+    },
+    {
+      "step": 8,
+      "description": "Wochenplan generieren: Pro Woche (1-durationWeeks) Medikamenten-Dosen und CBD-Dosen berechnen",
+      "tables_used": [],
+      "fields_used": [],
+      "formulas": [
+        "weekCbdMg = cbdStartMg + (cbdWeeklyIncrease × (week - 1))",
+        "currentMg = startMg - (weeklyReduction × (week - 1))",
+        "if (week === durationWeeks) { currentMg = targetMg }",
+        "totalMedicationLoad = Σ(currentMg)",
+        "cannabinoidMgPerKg = actualCbdMg / userWeight",
+        "cannabinoidToLoadRatio = (actualCbdMg / totalMedicationLoad) × 100"
+      ]
+    },
+    {
+      "step": 9,
+      "description": "Kostenanalyse: Gesamtkosten basierend auf benötigten MEDLESS-Flaschen",
+      "tables_used": [],
+      "fields_used": []
+    },
+    {
+      "step": 10,
+      "description": "Gesamt-Metriken: Startlast, Endlast, Reduktionsprozent, maximale Reduktionsgeschwindigkeit",
+      "tables_used": [],
+      "fields_used": [],
+      "formulas": [
+        "overallStartLoad = Σ(mgPerDay)",
+        "overallEndLoad = Σ(targetMg)",
+        "totalLoadReductionPct = ((start - end) / start) × 100"
+      ]
+    },
+    {
+      "step": 11,
+      "description": "Response zusammenstellen: AnalyzeResponse-Objekt mit allen Berechnungen und Sicherheitshinweisen",
+      "tables_used": [],
+      "fields_used": []
+    }
+  ],
+  "interaction_tables": [
+    {
+      "name": "cbd_interactions",
+      "row_count": 51,
+      "columns": [
+        {"name": "medication_id", "type": "INTEGER"},
+        {"name": "interaction_type", "type": "TEXT"},
+        {"name": "severity", "type": "TEXT"},
+        {"name": "description", "type": "TEXT"},
+        {"name": "mechanism", "type": "TEXT"},
+        {"name": "recommendation", "type": "TEXT"},
+        {"name": "source_url", "type": "TEXT"}
+      ],
+      "link_to_medications": "cbd_interactions.medication_id → medications.id (1:1 Relation)",
+      "status": "ACTIVE - Alle 51 Medikamente haben einen Eintrag",
+      "severity_distribution": [
+        {"severity": "critical", "count": 5},
+        {"severity": "high", "count": 20},
+        {"severity": "medium", "count": 16},
+        {"severity": "low": 14}
+      ]
+    },
+    {
+      "name": "cbd_dosage_guidelines",
+      "row_count": 0,
+      "columns": [
+        {"name": "condition_type", "type": "TEXT"},
+        {"name": "min_dosage_mg", "type": "INTEGER"},
+        {"name": "max_dosage_mg", "type": "INTEGER"},
+        {"name": "recommended_start_mg", "type": "INTEGER"}
+      ],
+      "link_to_medications": "Keine direkte Verknüpfung (condition-based)",
+      "status": "INACTIVE - Tabelle leer"
+    }
+  ],
+  "total_interaction_rows": 51,
+  "data_quality_summary": {
+    "complete_fields": [
+      "medications.name",
+      "medications.generic_name",
+      "medications.category_id",
+      "medication_categories.name",
+      "medication_categories.risk_level",
+      "cbd_interactions (alle Felder)"
+    ],
+    "incomplete_fields": [
+      "medications.half_life_hours (51/51 NULL)",
+      "medications.withdrawal_risk_score (51/51 NULL)",
+      "medications.cbd_interaction_strength (51/51 NULL)",
+      "medications.max_weekly_reduction_pct (51/51 NULL)",
+      "medications.can_reduce_to_zero (51/51 NULL)",
+      "medication_categories.can_reduce_to_zero (20/20 NULL)",
+      "medication_categories.max_weekly_reduction_pct (20/20 NULL)",
+      "medication_categories.requires_specialist (20/20 NULL)"
+    ],
+    "empty_tables": [
+      "cbd_dosage_guidelines",
+      "user_plans",
+      "customer_emails"
+    ]
+  },
+  "code_vs_data_gap": {
+    "implemented_features": 8,
+    "active_features": 2,
+    "inactive_features": 6,
+    "reason": "Code vollständig implementiert, aber Datenbankfelder leer. Datei final_patch_medications_to_200.sql enthält Daten, wurde aber nie ausgeführt."
+  },
+  "next_steps_recommendation": [
+    "1. Datei final_patch_medications_to_200.sql ausführen (füllt half_life_hours, withdrawal_risk_score, cbd_interaction_strength)",
+    "2. Kategorie-Sicherheitsregeln ergänzen (can_reduce_to_zero, max_weekly_reduction_pct, requires_specialist)",
+    "3. Medikamentenliste erweitern (von 51 auf ~341 laut MASTER_ALL_MEDICATIONS_IDEMPOTENT.sql)",
+    "4. Medikamentenkategorien validieren und korrigieren (falls nötig)",
+    "5. ATC-Codes hinzufügen (Spalte fehlt aktuell in medications-Tabelle)"
+  ]
+}

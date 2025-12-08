@@ -58,12 +58,27 @@ interface MedicationWithCategory {
   cbd_interaction_strength?: 'low' | 'medium' | 'high' | 'critical' | null;
 }
 
+// ============================================================
+// TYPE DEFINITION: CYP450 Enzyme Profile
+// ============================================================
+
+interface MedicationCypProfile {
+  id: number;
+  medication_id: number;
+  cyp_enzyme: string; // e.g., 'CYP2D6', 'CYP3A4', 'UGT'
+  role: string; // 'substrate', 'inhibitor', 'inducer', 'mixed'
+  cbd_effect_on_reduction: 'faster' | 'neutral' | 'slower' | null;
+  note: string | null;
+}
+
 interface SafetyResult {
   effectiveTargetMg: number;
   effectiveWeeklyReduction: number;
   safetyNotes: string[];
   limitedByCategory: boolean;
   appliedCategoryRules: boolean;
+  cypAdjustmentApplied?: boolean; // NEW: Indicates if CYP logic was applied
+  cypAdjustmentFactor?: number; // NEW: CYP adjustment multiplier (e.g., 0.7, 1.15)
 }
 
 // ============================================================
@@ -76,8 +91,9 @@ function applyCategorySafetyRules(params: {
   durationWeeks: number;
   medicationName: string;
   category?: MedicationWithCategory | null;
+  cypProfiles?: MedicationCypProfile[]; // NEW: CYP profiles from medication_cyp_profile table
 }): SafetyResult {
-  const { startMg, reductionGoal, durationWeeks, medicationName, category } = params;
+  const { startMg, reductionGoal, durationWeeks, medicationName, category, cypProfiles = [] } = params;
   
   const safetyNotes: string[] = [];
   let appliedCategoryRules = false;
@@ -201,6 +217,62 @@ function applyCategorySafetyRules(params: {
     }
   }
   
+  // ===== NEW P0: CYP450-BASED DOSAGE ADJUSTMENT (CRITICAL FEATURE) =====
+  // CYP enzymes determine how drugs are metabolized. CBD can inhibit certain CYP enzymes,
+  // affecting medication clearance and requiring dosage adjustments.
+  // 
+  // Logic:
+  // - 'slower' effect: CBD inhibits CYP enzyme → medication stays longer in body → reduce faster (SLOWER reduction)
+  // - 'faster' effect: No CYP inhibition → medication clears normally → standard reduction
+  // - 'neutral': No significant CYP interaction
+  //
+  // Priority: If ANY profile shows 'slower', apply cautious approach (30% reduction)
+  // Only if ALL profiles are 'faster' (and none 'slower'), allow slightly faster reduction
+  
+  let cypAdjustmentApplied = false;
+  let cypAdjustmentFactor = 1.0;
+  
+  if (cypProfiles && cypProfiles.length > 0) {
+    const hasSlowerEffect = cypProfiles.some(p => p.cbd_effect_on_reduction === 'slower');
+    const hasFasterEffect = cypProfiles.some(p => p.cbd_effect_on_reduction === 'faster');
+    const allNeutral = cypProfiles.every(p => p.cbd_effect_on_reduction === 'neutral' || p.cbd_effect_on_reduction === null);
+    
+    if (hasSlowerEffect) {
+      // CRITICAL: CBD inhibits CYP enzyme → medication accumulates → SLOWER tapering required
+      // Example: Warfarin (CYP2C9 substrate) + CBD (CYP2C9 inhibitor) → higher warfarin levels
+      cypAdjustmentFactor = 0.7; // 30% slower reduction
+      effectiveWeeklyReduction *= cypAdjustmentFactor;
+      cypAdjustmentApplied = true;
+      limitedByCategory = true;
+      
+      const affectedEnzymes = cypProfiles
+        .filter(p => p.cbd_effect_on_reduction === 'slower')
+        .map(p => p.cyp_enzyme)
+        .join(', ');
+      
+      safetyNotes.push(
+        `🧬 ${medicationName}: CYP-Hemmung unter CBD erkannt (${affectedEnzymes}) - Reduktion wird automatisch um 30% verlangsamt für mehr Sicherheit`
+      );
+      
+    } else if (hasFasterEffect && !hasSlowerEffect && !allNeutral) {
+      // RARE CASE: CBD does NOT inhibit clearance (e.g., UGT-metabolized drugs like Lorazepam)
+      // Slightly faster reduction MAY be safe, but still conservative (15% faster only)
+      cypAdjustmentFactor = 1.15; // 15% faster reduction (conservative)
+      effectiveWeeklyReduction *= cypAdjustmentFactor;
+      cypAdjustmentApplied = true;
+      
+      const affectedEnzymes = cypProfiles
+        .filter(p => p.cbd_effect_on_reduction === 'faster')
+        .map(p => p.cyp_enzyme)
+        .join(', ');
+      
+      safetyNotes.push(
+        `🧬 ${medicationName}: CYP-Konstellation unter CBD erlaubt leicht schnellere Reduktion (${affectedEnzymes}) - Anpassung: +15%, weiterhin mit ärztlicher Kontrolle`
+      );
+    }
+    // If allNeutral: no adjustment needed, effectiveWeeklyReduction stays unchanged
+  }
+  
   // Calculate effective target based on weekly reduction limit
   const effectiveTargetMg = Math.max(0, startMg - (effectiveWeeklyReduction * durationWeeks));
   
@@ -224,7 +296,9 @@ function applyCategorySafetyRules(params: {
     effectiveWeeklyReduction,
     safetyNotes,
     limitedByCategory,
-    appliedCategoryRules
+    appliedCategoryRules,
+    cypAdjustmentApplied, // NEW: Indicates if CYP-based adjustment was applied
+    cypAdjustmentFactor // NEW: CYP adjustment multiplier (0.7 = 30% slower, 1.15 = 15% faster)
   };
 }
 
@@ -521,9 +595,18 @@ async function buildAnalyzeResponse(body: any, env: any) {
         SELECT * FROM cbd_interactions WHERE medication_id = ?
       `).bind(medResult.id).all();
       
+      // ===== NEW P0: Load CYP450 profiles for this medication =====
+      const cypProfiles = await env.DB.prepare(`
+        SELECT id, medication_id, cyp_enzyme, role, cbd_effect_on_reduction, note
+        FROM medication_cyp_profile
+        WHERE medication_id = ?
+        ORDER BY cyp_enzyme
+      `).bind(medResult.id).all();
+      
       analysisResults.push({
         medication: medResult,
         interactions: interactions.results,
+        cypProfiles: (cypProfiles.results || []) as MedicationCypProfile[], // NEW: CYP profiles
         mgPerDay: med.mgPerDay
       });
       
@@ -631,13 +714,15 @@ async function buildAnalyzeResponse(body: any, env: any) {
       const startMg = med.mgPerDay;
       const medAnalysis = analysisResults[index];
       const medCategory = medAnalysis?.medication as MedicationWithCategory | null;
+      const cypProfiles = medAnalysis?.cypProfiles || []; // NEW: CYP profiles from DB
       
       const safetyResult = applyCategorySafetyRules({
         startMg,
         reductionGoal,
         durationWeeks,
         medicationName: med.name,
-        category: medCategory
+        category: medCategory,
+        cypProfiles // NEW: Pass CYP profiles to safety function
       });
       
       const targetMg = safetyResult.effectiveTargetMg;
@@ -686,6 +771,16 @@ async function buildAnalyzeResponse(body: any, env: any) {
     const cannabinoidToLoadRatio = totalMedicationLoad > 0 ? Math.round((cbdWeek.actualCbdMg / totalMedicationLoad) * 1000) / 10 : null;
     const weeklyCannabinoidIntakeMg = Math.round(cbdWeek.actualCbdMg * 7 * 10) / 10;
     
+    // ===== NEW P0: Collect medication safety notes per medication for week 1 =====
+    const medicationSafetyNotes: { [medName: string]: string[] } = {};
+    if (week === 1) {
+      weekMedications.forEach((weekMed: any) => {
+        if (weekMed.safety && weekMed.safety.notes && weekMed.safety.notes.length > 0) {
+          medicationSafetyNotes[weekMed.name] = weekMed.safety.notes;
+        }
+      });
+    }
+    
     return {
       week,
       medications: weekMedications,
@@ -699,7 +794,8 @@ async function buildAnalyzeResponse(body: any, env: any) {
       bottleStatus: cbdWeek.bottleStatus,
       cannabinoidMgPerKg,
       cannabinoidToLoadRatio,
-      weeklyCannabinoidIntakeMg
+      weeklyCannabinoidIntakeMg,
+      ...(week === 1 ? { medicationSafetyNotes } : {}) // Only include for week 1
     };
   });
   
@@ -718,13 +814,15 @@ async function buildAnalyzeResponse(body: any, env: any) {
   const reductionSpeeds = medications.map((med: any, index: number) => {
     const medAnalysis = analysisResults[index];
     const medCategory = medAnalysis?.medication as MedicationWithCategory | null;
+    const cypProfiles = medAnalysis?.cypProfiles || []; // NEW: CYP profiles from DB
     
     const safetyResult = applyCategorySafetyRules({
       startMg: med.mgPerDay,
       reductionGoal,
       durationWeeks,
       medicationName: med.name,
-      category: medCategory
+      category: medCategory,
+      cypProfiles // NEW: Pass CYP profiles to safety function
     });
     
     const weeklyReduction = safetyResult.effectiveWeeklyReduction;
@@ -828,6 +926,22 @@ async function buildAnalyzeResponse(body: any, env: any) {
       cannabinoidIncreasePctPerWeek,
       totalMedicationCount: medications.length,
       sensitiveMedCount
+    },
+    // ===== NEW P0: CYP450 Profile Statistics =====
+    cyp_profile: {
+      totalMedicationsWithCypData: analysisResults.filter(r => r.cypProfiles && r.cypProfiles.length > 0).length,
+      totalCypProfiles: analysisResults.reduce((sum, r) => sum + (r.cypProfiles?.length || 0), 0),
+      medicationsWithSlowerEffect: analysisResults.filter(r => 
+        r.cypProfiles?.some(p => p.cbd_effect_on_reduction === 'slower')
+      ).map(r => r.medication?.name || 'Unknown'),
+      medicationsWithFasterEffect: analysisResults.filter(r => 
+        r.cypProfiles?.some(p => p.cbd_effect_on_reduction === 'faster')
+      ).map(r => r.medication?.name || 'Unknown'),
+      affectedEnzymes: Array.from(new Set(
+        analysisResults.flatMap(r => 
+          (r.cypProfiles || []).map(p => p.cyp_enzyme)
+        )
+      ))
     }
   };
 }

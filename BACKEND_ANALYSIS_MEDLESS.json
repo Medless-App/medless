@@ -1,0 +1,463 @@
+{
+  "analysis_date": "2025-12-08",
+  "source_files_analyzed": [
+    "src/index.tsx (lines 1-2000+)",
+    "migrations/0001_initial_schema.sql",
+    "migrations/0005_medication_pharma_fields.sql",
+    "migrations/0008_create_cyp_table.sql"
+  ],
+  
+  "==== 1. TABELLEN & FELDER: TATSÄCHLICH VERWENDET ====": {
+    "medications": {
+      "description": "Haupttabelle für Medikamente",
+      "used_fields": {
+        "id": {
+          "usage": "Primary Key, Referenz für cbd_interactions",
+          "code_location": "Lines 499-517, 520-522"
+        },
+        "name": {
+          "usage": "Medikamentensuche (LIKE-Queries)",
+          "code_location": "Lines 515-517"
+        },
+        "generic_name": {
+          "usage": "Alternative Suche nach Wirkstoff",
+          "code_location": "Lines 515-517"
+        },
+        "category_id": {
+          "usage": "JOIN zu medication_categories für Sicherheitsregeln",
+          "code_location": "Lines 514 (LEFT JOIN)"
+        },
+        "half_life_hours": {
+          "usage": "Berechnung der Reduktionsgeschwindigkeit basierend auf Halbwertszeit",
+          "code_location": "Lines 184-202 (applyCategorySafetyRules)",
+          "calculation": "Steady-State = (half_life * 5) / 24 Tage, Reduktion verlangsamt bei langer HWZ"
+        },
+        "therapeutic_min_ng_ml": {
+          "usage": "Aktuell NICHT in Berechnungen verwendet (nur geladen)",
+          "code_location": "Line 509 (SELECT nur)"
+        },
+        "therapeutic_max_ng_ml": {
+          "usage": "Aktuell NICHT in Berechnungen verwendet (nur geladen)",
+          "code_location": "Line 510 (SELECT nur)"
+        },
+        "withdrawal_risk_score": {
+          "usage": "Warnung bei hohem Absetzrisiko (Score >= 7)",
+          "code_location": "Lines 87-91, 564-567 (maxWithdrawalRiskScore)",
+          "calculation": "Zeigt Warnungen an, beeinflusst aber NICHT die Berechnung direkt"
+        },
+        "max_weekly_reduction_pct": {
+          "usage": "Begrenzung der wöchentlichen Reduktion (medication-specific, überschreibt Category)",
+          "code_location": "Lines 169-181",
+          "calculation": "maxWeeklyReductionMg = startMg * (max_weekly_reduction_pct / 100)"
+        },
+        "can_reduce_to_zero": {
+          "usage": "Prüft ob Medikament vollständig abgesetzt werden kann",
+          "code_location": "Lines 127-147",
+          "calculation": "0 = Minimum 50% Erhaltungsdosis, 1 = Vollständige Reduktion möglich"
+        },
+        "cbd_interaction_strength": {
+          "usage": "Warnung bei kritischen CBD-Wechselwirkungen",
+          "code_location": "Lines 94-102",
+          "calculation": "'critical' / 'high' = Warnmeldung, beeinflusst NICHT die Dosisberechnung"
+        }
+      },
+      "unused_fields": {
+        "cyp450_enzyme": {
+          "status": "NICHT verwendet",
+          "reason": "Feld existiert in Schema, aber CYP-Logik ist NICHT implementiert",
+          "code_location": "Line 35 (nur SELECT, keine Verwendung)"
+        },
+        "description": "NICHT verwendet (Line 36, nur SELECT)",
+        "common_dosage": "NICHT verwendet (Line 37, nur SELECT)",
+        "created_at": "NICHT verwendet in Berechnungen"
+      }
+    },
+    
+    "medication_categories": {
+      "description": "Kategorien mit Default-Sicherheitsregeln",
+      "used_fields": {
+        "id": {
+          "usage": "Foreign Key aus medications.category_id",
+          "code_location": "Line 514 (LEFT JOIN)"
+        },
+        "name": {
+          "usage": "Anzeige der Kategorie (category_name)",
+          "code_location": "Line 501, 848"
+        },
+        "risk_level": {
+          "usage": "Prüft ob 'very_high' oder 'lifelong' -> eingeschränkte Reduktion",
+          "code_location": "Lines 129, 502, 586",
+          "calculation": "risk_level IN ('very_high', 'lifelong') -> max. 50% Reduktion"
+        },
+        "can_reduce_to_zero": {
+          "usage": "Category-Default für Reduktion auf 0 (falls medication-specific nicht gesetzt)",
+          "code_location": "Lines 128, 503"
+        },
+        "default_min_target_fraction": {
+          "usage": "Minimale Zieldosis als Anteil (z.B. 0.5 = min. 50%)",
+          "code_location": "Lines 130-158, 504"
+        },
+        "max_weekly_reduction_pct": {
+          "usage": "Category-Default für wöchentliche Reduktion (falls medication-specific nicht gesetzt)",
+          "code_location": "Lines 169, 505"
+        },
+        "requires_specialist": {
+          "usage": "Warnung: Fachärztliche Begleitung erforderlich",
+          "code_location": "Lines 216-220, 506"
+        },
+        "notes": {
+          "usage": "Kategorie-spezifische Hinweise (category_notes)",
+          "code_location": "Line 507, 49"
+        }
+      },
+      "unused_fields": {
+        "description": "NICHT verwendet (existiert in Schema, nicht geladen)",
+        "created_at": "NICHT verwendet in Berechnungen"
+      }
+    },
+    
+    "cbd_interactions": {
+      "description": "Wechselwirkungen zwischen Medikament und CBD",
+      "used_fields": {
+        "id": "Primary Key",
+        "medication_id": {
+          "usage": "Foreign Key zu medications.id",
+          "code_location": "Line 521 (WHERE clause)"
+        },
+        "severity": {
+          "usage": "Bestimmung des maximalen Schweregrads (maxSeverity)",
+          "code_location": "Lines 531-534",
+          "calculation": "critical > high > medium > low -> Warnung im UI"
+        }
+      },
+      "unused_fields": {
+        "interaction_type": "NICHT verwendet (inhibition, enhancement, reduction, neutral)",
+        "description": "NICHT verwendet (Textbeschreibung der Wechselwirkung)",
+        "mechanism": "NICHT verwendet (z.B. 'CBD hemmt CYP3A4')",
+        "recommendation": "NICHT verwendet (Empfehlung für Patienten)",
+        "source_url": "NICHT verwendet (Quellenangabe)",
+        "created_at": "NICHT verwendet in Berechnungen"
+      }
+    }
+  },
+  
+  "==== 2. SQL-ABFRAGEN ====": {
+    "query_1_medication_search": {
+      "purpose": "Suche Medikament mit allen Sicherheitsfeldern",
+      "code_location": "Lines 499-517",
+      "sql": "SELECT m.*, mc.name as category_name, mc.risk_level, mc.can_reduce_to_zero, mc.default_min_target_fraction, mc.max_weekly_reduction_pct, mc.requires_specialist, mc.notes as category_notes, m.half_life_hours, m.therapeutic_min_ng_ml, m.therapeutic_max_ng_ml, m.withdrawal_risk_score, m.cbd_interaction_strength FROM medications m LEFT JOIN medication_categories mc ON m.category_id = mc.id WHERE m.name LIKE ? OR m.generic_name LIKE ? LIMIT 1",
+      "parameters": ["med.name", "med.name"],
+      "returns": "MedicationWithCategory | null"
+    },
+    "query_2_cbd_interactions": {
+      "purpose": "Lade alle CBD-Interaktionen für ein Medikament",
+      "code_location": "Lines 520-522",
+      "sql": "SELECT * FROM cbd_interactions WHERE medication_id = ?",
+      "parameters": ["medResult.id"],
+      "returns": "Array von cbd_interactions"
+    },
+    "query_3_all_medications": {
+      "purpose": "API-Endpunkt: Alle Medikamente listen",
+      "code_location": "Lines 846-863",
+      "sql": "SELECT m.*, mc.name as category_name, mc.risk_level, mc.can_reduce_to_zero, mc.default_min_target_fraction, mc.max_weekly_reduction_pct, mc.requires_specialist, mc.notes as category_notes, m.half_life_hours, m.therapeutic_min_ng_ml, m.therapeutic_max_ng_ml, m.withdrawal_risk_score, m.cbd_interaction_strength FROM medications m LEFT JOIN medication_categories mc ON m.category_id = mc.id ORDER BY m.name",
+      "returns": "Array von MedicationWithCategory"
+    },
+    "query_4_medication_search_api": {
+      "purpose": "API-Endpunkt: Medikamentensuche mit LIKE",
+      "code_location": "Lines 884-903",
+      "sql": "SELECT m.*, mc.name as category_name, mc.risk_level, mc.can_reduce_to_zero, mc.default_min_target_fraction, mc.max_weekly_reduction_pct, mc.requires_specialist, mc.notes as category_notes, m.half_life_hours, m.therapeutic_min_ng_ml, m.therapeutic_max_ng_ml, m.withdrawal_risk_score, m.cbd_interaction_strength FROM medications m LEFT JOIN medication_categories mc ON m.category_id = mc.id WHERE m.name LIKE ? OR m.generic_name LIKE ? ORDER BY m.name LIMIT 20",
+      "parameters": ["query", "query"],
+      "returns": "Array von MedicationWithCategory"
+    }
+  },
+  
+  "==== 3. FELDER IN BERECHNUNGEN ====": {
+    "TATSÄCHLICH_VERWENDET": {
+      "half_life_hours": {
+        "function": "applyCategorySafetyRules()",
+        "lines": "184-202",
+        "logic": "IF steady_state_days > 7 THEN effectiveWeeklyReduction *= 0.5 ELSE IF > 3 THEN *= 0.75",
+        "impact": "Verlangsamt Reduktionsgeschwindigkeit bei langen Halbwertszeiten"
+      },
+      "withdrawal_risk_score": {
+        "function": "applyCategorySafetyRules() + buildAnalyzeResponse()",
+        "lines": "87-91, 564-567",
+        "logic": "IF withdrawal_risk_score >= 7 THEN show warning",
+        "impact": "Nur Warnung, KEINE Dosisanpassung"
+      },
+      "cbd_interaction_strength": {
+        "function": "applyCategorySafetyRules()",
+        "lines": "94-102",
+        "logic": "IF 'critical' OR 'high' THEN show warning",
+        "impact": "Nur Warnung, KEINE Dosisanpassung"
+      },
+      "max_weekly_reduction_pct": {
+        "function": "applyCategorySafetyRules()",
+        "lines": "169-181",
+        "logic": "maxWeeklyReductionMg = startMg * (max_weekly_reduction_pct / 100), IF weeklyReductionBase > max THEN limit to max",
+        "impact": "DIREKT: Begrenzt wöchentliche Reduktion"
+      },
+      "can_reduce_to_zero": {
+        "function": "applyCategorySafetyRules()",
+        "lines": "127-147",
+        "logic": "IF 0 THEN targetFraction = Math.max(0.5, user_target), ELSE IF default_min_target_fraction > 0 THEN use it",
+        "impact": "DIREKT: Begrenzt Zieldosis"
+      },
+      "risk_level": {
+        "function": "applyCategorySafetyRules()",
+        "lines": "129, 586",
+        "logic": "IF 'very_high' OR 'lifelong' THEN limit reduction",
+        "impact": "DIREKT: Begrenzt Reduktion auf max. 50%"
+      },
+      "default_min_target_fraction": {
+        "function": "applyCategorySafetyRules()",
+        "lines": "130-158",
+        "logic": "targetFraction = Math.max(targetFraction, default_min_target_fraction)",
+        "impact": "DIREKT: Setzt Mindestzieldosis"
+      },
+      "requires_specialist": {
+        "function": "applyCategorySafetyRules()",
+        "lines": "216-220",
+        "logic": "IF 1 THEN add note '👨‍⚕️ Fachärztliche Begleitung erforderlich'",
+        "impact": "Nur Warnung, KEINE Dosisanpassung"
+      }
+    },
+    "NUR_GELADEN_ABER_NICHT_VERWENDET": {
+      "therapeutic_min_ng_ml": {
+        "status": "Geladen in Query (Line 509), aber KEINE Verwendung in Berechnungen",
+        "potential_use": "Könnte für Unterdosierungs-Warnung verwendet werden"
+      },
+      "therapeutic_max_ng_ml": {
+        "status": "Geladen in Query (Line 510), aber KEINE Verwendung in Berechnungen",
+        "potential_use": "Könnte für Überdosierungs-Warnung + CBD-Interaktions-Effekt verwendet werden"
+      },
+      "cyp450_enzyme": {
+        "status": "Geladen in Query (Line 35), aber KOMPLETT ignoriert",
+        "potential_use": "Sollte mit medication_cyp_profile verknüpft werden"
+      },
+      "description": "Geladen, aber nicht verwendet",
+      "common_dosage": "Geladen, aber nicht verwendet"
+    }
+  },
+  
+  "==== 4. NICHT VERWENDETE TABELLEN ====": {
+    "medication_cyp_profile": {
+      "status": "❌ EXISTIERT IN DB, ABER KOMPLETT IGNORIERT IM CODE",
+      "location": "Migration 0008 (migrations/0008_create_cyp_table.sql)",
+      "fields": {
+        "id": "PRIMARY KEY",
+        "medication_id": "Foreign Key zu medications.id",
+        "cyp_enzyme": "CYP-Enzym (z.B. CYP2D6, CYP3A4)",
+        "role": "substrate, inhibitor, inducer",
+        "cbd_effect_on_reduction": "faster, neutral, slower",
+        "note": "Notizen zur Interaktion"
+      },
+      "grep_result": "KEINE Verwendung in src/",
+      "medical_relevance": "KRITISCH: CYP-Profile sind essentiell für CBD-Interaktions-Vorhersagen"
+    },
+    "cbd_dosage_guidelines": {
+      "status": "❌ EXISTIERT IN SCHEMA, ABER NICHT VERWENDET",
+      "location": "Migration 0001 (Lines 37-47)",
+      "fields": [
+        "condition_type",
+        "min_dosage_mg",
+        "max_dosage_mg",
+        "recommended_start_mg",
+        "adjustment_period_days",
+        "notes"
+      ],
+      "current_implementation": "CBD-Dosis wird NUR über Körpergewicht berechnet (0.5 mg/kg Start, 1.0 mg/kg Ziel)",
+      "code_location": "Lines 594-621 (hardcoded)",
+      "missing_logic": "Condition-spezifische Dosierung wird NICHT geprüft"
+    },
+    "user_plans": {
+      "status": "❌ EXISTIERT IN SCHEMA, ABER NICHT VERWENDET",
+      "location": "Migration 0001 (Lines 49-57)",
+      "purpose": "Speichern von generierten Plänen",
+      "code_reality": "Nur customer_emails wird geschrieben (Line 467-473), keine Plan-Speicherung"
+    },
+    "customer_emails": {
+      "status": "✅ VERWENDET (Lines 467-473)",
+      "purpose": "Speichert E-Mail + Vorname für Marketing",
+      "scope": "Nur Speicherung, keine Verwendung in Berechnungen"
+    }
+  },
+  
+  "==== 5. FEHLENDE LOGIK (CRITICAL GAPS) ====": {
+    "cyp_profile_integration": {
+      "priority": "🔴 CRITICAL",
+      "current_state": "medication_cyp_profile Tabelle existiert (37 Profile für 14 Medikamente), aber KEINE Code-Integration",
+      "missing_logic": [
+        "1. CYP-Enzym-basierte CBD-Interaktions-Vorhersage",
+        "2. cbd_effect_on_reduction ('faster', 'neutral', 'slower') wird NICHT berücksichtigt",
+        "3. Multi-Medikament CYP-Interaktionen werden NICHT geprüft",
+        "4. CYP-inhibierende Medikamente (z.B. Fluoxetin) beeinflussen andere Medikamente NICHT"
+      ],
+      "impact": "Medizinisch ungenaue Dosisempfehlungen bei komplexen CYP-Interaktionen",
+      "recommendation": "Implementiere CYP-basierte Dosisanpassung:\n- Query medication_cyp_profile für jedes Medikament\n- IF cbd_effect_on_reduction = 'slower' THEN effectiveWeeklyReduction *= 0.7\n- IF cbd_effect_on_reduction = 'faster' THEN effectiveWeeklyReduction *= 1.3\n- Prüfe Cross-Medikations-CYP-Interaktionen"
+    },
+    "therapeutic_range_monitoring": {
+      "priority": "🟠 HIGH",
+      "current_state": "therapeutic_min_ng_ml & therapeutic_max_ng_ml werden geladen, aber NICHT verwendet",
+      "missing_logic": [
+        "1. Warnung bei Unterdosierung (currentMg * bioavailability < therapeutic_min)",
+        "2. Warnung bei Überdosierung durch CBD-Interaktion (currentMg * cbd_multiplier > therapeutic_max)",
+        "3. Empfehlung für Blutspiegel-Monitoring bei kritischen Medikamenten"
+      ],
+      "impact": "Keine Warnung vor sub-therapeutischen oder toxischen Dosen",
+      "recommendation": "Implementiere therapeutic_range_checks():\n- calculateEstimatedPlasmaLevel(currentMg, half_life_hours)\n- IF estimated_level < therapeutic_min THEN warn('Unterdosierung möglich')\n- IF cbd_interaction = 'critical' AND estimated_level * 1.5 > therapeutic_max THEN warn('Blutspiegel-Monitoring empfohlen')"
+    },
+    "interaction_combination_logic": {
+      "priority": "🟠 HIGH",
+      "current_state": "Nur einzelne Medikament-CBD-Interaktionen werden geprüft",
+      "missing_logic": [
+        "1. Multi-Medikament-Interaktionen (Medikament A + B + CBD)",
+        "2. Kumulativer CYP-Inhibitions-Effekt bei mehreren Medikamenten",
+        "3. Synergistische Effekte (z.B. 2x SSRIs + CBD = höhere Serotonin-Überfluss-Risiko)",
+        "4. cbd_interactions.mechanism Feld wird NICHT genutzt"
+      ],
+      "impact": "Gefährliche Kombinationen werden nicht erkannt",
+      "recommendation": "Implementiere checkMultiDrugInteractions():\n- FOR EACH medication_pair IN user_medications:\n  - checkPairwiseInteraction(med_a, med_b)\n  - IF both_inhibit_same_cyp THEN cumulative_effect += inhibition_strength\n- IF cumulative_cyp_inhibition > threshold THEN recommend_dose_reduction()"
+    },
+    "risk_level_category_logic": {
+      "priority": "🟡 MEDIUM",
+      "current_state": "risk_level wird nur für 'very_high' / 'lifelong' geprüft",
+      "missing_logic": [
+        "1. Granulare risk_level Abstufungen (low, medium, high) werden NICHT differenziert",
+        "2. sensitivemedCount (Lines 570-588) nutzt String-Matching statt risk_level",
+        "3. Keine risk_level-basierte Anpassung der Reduktionsgeschwindigkeit"
+      ],
+      "impact": "Risiko-basierte Dosisanpassung ist suboptimal",
+      "recommendation": "Implementiere risk_level-basierte Reduktionsraten:\n- IF risk_level = 'high' THEN max_weekly_reduction *= 0.8\n- IF risk_level = 'medium' THEN max_weekly_reduction *= 0.9\n- IF risk_level = 'low' THEN max_weekly_reduction *= 1.0"
+    },
+    "withdrawal_risk_quantification": {
+      "priority": "🟡 MEDIUM",
+      "current_state": "withdrawal_risk_score zeigt nur Warnung (>= 7), keine Dosisanpassung",
+      "missing_logic": [
+        "1. withdrawal_risk_score 0-10 wird NICHT quantitativ in Reduktionsgeschwindigkeit übersetzt",
+        "2. Keine Empfehlung für Tapering-Protokolle basierend auf Score",
+        "3. Keine Warnung vor 'Rebound-Effekt' bei hohem Score"
+      ],
+      "impact": "Absetzprobleme werden nicht adäquat berücksichtigt",
+      "recommendation": "Implementiere withdrawal_risk-basierte Dosisanpassung:\n- reduction_factor = 1.0 - (withdrawal_risk_score / 20)\n- effectiveWeeklyReduction *= reduction_factor\n- IF withdrawal_risk_score >= 8 THEN recommend_micro_tapering_protocol()"
+    },
+    "cbd_dosage_condition_specific": {
+      "priority": "🟡 MEDIUM",
+      "current_state": "CBD-Dosis basiert NUR auf Körpergewicht (0.5-1.0 mg/kg)",
+      "missing_logic": [
+        "1. cbd_dosage_guidelines Tabelle wird NICHT verwendet",
+        "2. Keine Anpassung an medication_count (5+ Medikamente = höhere CBD-Dosis?)",
+        "3. Keine Anpassung an interaction_severity (critical = niedrigere Start-Dosis?)",
+        "4. Keine condition_type-spezifische Dosierung (anxiety vs pain vs sleep)"
+      ],
+      "impact": "CBD-Dosierung ist zu generisch",
+      "recommendation": "Nutze cbd_dosage_guidelines:\n- SELECT * FROM cbd_dosage_guidelines WHERE condition_type = user_condition\n- Passe cbdStartMg an maxSeverity an:\n  - IF maxSeverity = 'critical' THEN cbdStartMg *= 0.5\n  - IF maxSeverity = 'high' THEN cbdStartMg *= 0.75"
+    }
+  },
+  
+  "==== 6. EMPFEHLUNGEN (PRIORISIERT) ====": {
+    "CRITICAL_FIXES": [
+      {
+        "priority": "P0 - CRITICAL",
+        "task": "Integriere medication_cyp_profile in Berechnungen",
+        "steps": [
+          "1. Erweitere buildAnalyzeResponse() um CYP-Query: SELECT * FROM medication_cyp_profile WHERE medication_id = ?",
+          "2. Füge CYP-Logik zu applyCategorySafetyRules() hinzu:",
+          "   - IF cbd_effect_on_reduction = 'slower' THEN effectiveWeeklyReduction *= 0.7",
+          "   - IF cbd_effect_on_reduction = 'faster' THEN effectiveWeeklyReduction *= 1.3",
+          "3. Implementiere checkCYPInteractions(medications[]) für Multi-Drug-Checks",
+          "4. Zeige CYP-basierte Warnungen in UI: 'CYP3A4-Hemmung erkannt: Reduktion verlangsamt'"
+        ],
+        "estimated_impact": "30-50% genauere Dosisempfehlungen bei CYP-relevanten Medikamenten"
+      },
+      {
+        "priority": "P0 - CRITICAL",
+        "task": "Implementiere therapeutic_range_checks()",
+        "steps": [
+          "1. Nutze therapeutic_min_ng_ml & therapeutic_max_ng_ml in Berechnungen",
+          "2. Berechne geschätzte Plasmaspiegel: estimatedLevel = (currentMg / volume_of_distribution) * bioavailability",
+          "3. IF estimatedLevel < therapeutic_min THEN warn('Unterdosierungs-Risiko')",
+          "4. IF cbd_interaction = 'critical' AND estimatedLevel * cbd_multiplier > therapeutic_max THEN warn('Überdosierungs-Risiko')",
+          "5. Empfehle TDM (Therapeutic Drug Monitoring) bei kritischen Fällen"
+        ],
+        "estimated_impact": "Verhindert sub-therapeutische und toxische Dosen"
+      }
+    ],
+    "HIGH_PRIORITY": [
+      {
+        "priority": "P1 - HIGH",
+        "task": "Implementiere Multi-Drug-Interaction-Checks",
+        "steps": [
+          "1. Erstelle checkPairwiseInteractions(med_a, med_b)",
+          "2. Prüfe kumulativen CYP-Inhibitions-Effekt",
+          "3. Nutze cbd_interactions.mechanism für mechanismus-basierte Warnungen",
+          "4. Zeige kombinierte Risiko-Scores im UI"
+        ],
+        "estimated_impact": "Erkennt gefährliche Medikamentenkombinationen"
+      },
+      {
+        "priority": "P1 - HIGH",
+        "task": "Quantifiziere withdrawal_risk_score in Dosisanpassung",
+        "steps": [
+          "1. Erweitere applyCategorySafetyRules() um:",
+          "   - reduction_factor = 1.0 - (withdrawal_risk_score / 20)",
+          "   - effectiveWeeklyReduction *= reduction_factor",
+          "2. IF withdrawal_risk_score >= 8 THEN empfehle Mikro-Tapering (z.B. 2% statt 5%/Woche)",
+          "3. Zeige Warnung vor Rebound-Effekten"
+        ],
+        "estimated_impact": "Reduziert Absetzprobleme signifikant"
+      }
+    ],
+    "MEDIUM_PRIORITY": [
+      {
+        "priority": "P2 - MEDIUM",
+        "task": "Nutze cbd_dosage_guidelines für condition-spezifische Dosierung",
+        "steps": [
+          "1. Füge condition_type zu User-Input hinzu (z.B. 'anxiety', 'pain', 'sleep')",
+          "2. Query: SELECT * FROM cbd_dosage_guidelines WHERE condition_type = ?",
+          "3. Ersetze hardcoded cbdStartMg/cbdEndMg durch guideline-basierte Werte",
+          "4. Passe an maxSeverity an (critical -> niedrigere Start-Dosis)"
+        ],
+        "estimated_impact": "Optimiert CBD-Dosierung für spezifische Bedürfnisse"
+      },
+      {
+        "priority": "P2 - MEDIUM",
+        "task": "Verbessere risk_level-basierte Logik",
+        "steps": [
+          "1. Ersetze String-Matching (Lines 570-588) durch risk_level-Query",
+          "2. Implementiere granulare Risiko-Abstufungen:",
+          "   - 'low' -> max_weekly_reduction *= 1.0",
+          "   - 'medium' -> max_weekly_reduction *= 0.9",
+          "   - 'high' -> max_weekly_reduction *= 0.8",
+          "   - 'very_high' -> max_weekly_reduction *= 0.6",
+          "3. Dokumentiere risk_level-Einfluss im UI"
+        ],
+        "estimated_impact": "Präzisere Risiko-angepasste Dosierung"
+      }
+    ],
+    "LOW_PRIORITY": [
+      {
+        "priority": "P3 - LOW",
+        "task": "Implementiere user_plans Speicherung",
+        "steps": [
+          "1. Speichere generierte Pläne in user_plans Tabelle (aktuell nicht genutzt)",
+          "2. Ermögliche Plan-Tracking über Zeitverlauf",
+          "3. Implementiere /api/my-plans Endpunkt für User-Zugriff"
+        ],
+        "estimated_impact": "Besseres User-Tracking, aber keine medizinische Verbesserung"
+      }
+    ]
+  },
+  
+  "==== 7. ZUSAMMENFASSUNG ====": {
+    "database_completeness": "70%",
+    "calculation_accuracy": "60%",
+    "critical_gaps": 2,
+    "high_priority_gaps": 2,
+    "medium_priority_gaps": 2,
+    "total_unused_fields": 9,
+    "total_unused_tables": 3,
+    "medical_risk_level": "MEDIUM (fehlende CYP-Logik & therapeutische Bereiche)",
+    "next_action": "Implementiere P0-Tasks (CYP-Integration + therapeutic_range_checks) SOFORT"
+  }
+}
