@@ -5917,7 +5917,7 @@ app.get('/app', (c) => {
                 <div class="step-text">
                   <div class="step-title">
                     Medikamente werden analysiert …
-                    <span class="step-counter">0/18</span>
+                    <span class="step-counter">0/47</span>
                   </div>
                   <div class="step-subtitle">Wirkstoffe, Dosierung und Einnahmezeiten werden geprüft</div>
                   <div class="step-progress">
@@ -5941,7 +5941,7 @@ app.get('/app', (c) => {
                 <div class="step-text">
                   <div class="step-title">
                     Stoffwechsel & Wechselwirkungen werden berechnet …
-                    <span class="step-counter">0/12</span>
+                    <span class="step-counter">0/128</span>
                   </div>
                   <div class="step-subtitle">Leberenzyme und mögliche Interaktionen werden simuliert</div>
                   <div class="step-progress">
@@ -5966,7 +5966,7 @@ app.get('/app', (c) => {
                 <div class="step-text">
                   <div class="step-title">
                     Orientierungsplan wird konstruiert …
-                    <span class="step-counter">0/8</span>
+                    <span class="step-counter">0/89</span>
                   </div>
                   <div class="step-subtitle">Ihr persönlicher MEDLESS-Orientierungsplan wird aufgebaut</div>
                   <div class="step-progress">
@@ -6024,6 +6024,104 @@ app.get('/app', (c) => {
 
       <!-- Results -->
       <div id="results" class="hidden" style="margin-top: 2rem;"></div>
+      
+      <!-- DNA Scanner Animation Script -->
+      <script>
+        // Animate DNA Scanner Loader with Counters & Progress Bars
+        function animateDNAScanner() {
+          console.log('🧬 DNA Scanner Animation started');
+          
+          // Get all elements
+          const step1Counter = document.querySelector('.step-1 .step-counter');
+          const step1ProgressBar = document.querySelector('.step-progress-bar[data-step="1"]');
+          const step1Percentage = document.querySelector('.step-1 .step-percentage');
+          
+          const step2Counter = document.querySelector('.step-2 .step-counter');
+          const step2ProgressBar = document.querySelector('.step-progress-bar[data-step="2"]');
+          const step2Percentage = document.querySelector('.step-2 .step-percentage');
+          
+          const step3Counter = document.querySelector('.step-3 .step-counter');
+          const step3ProgressBar = document.querySelector('.step-progress-bar[data-step="3"]');
+          const step3Percentage = document.querySelector('.step-3 .step-percentage');
+          
+          // Check if all elements exist
+          if (!step1Counter || !step1ProgressBar || !step1Percentage) {
+            console.warn('⚠️ DNA Scanner elements not found');
+            return;
+          }
+          
+          // Animation config: [maxCount, duration, delay]
+          const steps = [
+            { max: 47, duration: 3500, delay: 600, elements: { counter: step1Counter, bar: step1ProgressBar, percentage: step1Percentage } },   // Step 1: 47 medications
+            { max: 128, duration: 4000, delay: 1200, elements: { counter: step2Counter, bar: step2ProgressBar, percentage: step2Percentage } },  // Step 2: 128 interactions
+            { max: 89, duration: 3000, delay: 1800, elements: { counter: step3Counter, bar: step3ProgressBar, percentage: step3Percentage } }    // Step 3: 89 calculations
+          ];
+          
+          // Animate each step sequentially
+          steps.forEach((step, index) => {
+            setTimeout(() => {
+              const { max, duration, elements } = step;
+              const startTime = Date.now();
+              
+              // Animation interval
+              const interval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(100, (elapsed / duration) * 100);
+                const currentCount = Math.floor((progress / 100) * max);
+                
+                // Update counter
+                if (elements.counter) {
+                  elements.counter.textContent = currentCount + '/' + max;
+                }
+                
+                // Update progress bar
+                if (elements.bar) {
+                  elements.bar.style.width = progress + '%';
+                }
+                
+                // Update percentage
+                if (elements.percentage) {
+                  elements.percentage.textContent = Math.round(progress) + '%';
+                }
+                
+                // Stop when complete
+                if (progress >= 100) {
+                  clearInterval(interval);
+                  console.log('✅ Step ' + (index + 1) + ' complete: ' + max + '/' + max);
+                }
+              }, 50); // Update every 50ms for smooth animation
+              
+            }, step.delay);
+          });
+        }
+        
+        // Auto-start animation when loader is visible
+        const loadingObserver = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            const loadingEl = document.getElementById('loading');
+            if (loadingEl && !loadingEl.classList.contains('hidden')) {
+              console.log('🎬 Loader visible - starting DNA Scanner animation');
+              animateDNAScanner();
+              loadingObserver.disconnect(); // Stop observing after first trigger
+            }
+          });
+        });
+        
+        // Start observing when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', () => {
+            const loadingEl = document.getElementById('loading');
+            if (loadingEl) {
+              loadingObserver.observe(loadingEl, { attributes: true, attributeFilter: ['class'] });
+            }
+          });
+        } else {
+          const loadingEl = document.getElementById('loading');
+          if (loadingEl) {
+            loadingObserver.observe(loadingEl, { attributes: true, attributeFilter: ['class'] });
+          }
+        }
+      </script>
     </section>
 
 
