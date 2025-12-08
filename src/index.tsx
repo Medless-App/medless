@@ -1442,7 +1442,7 @@ app.get('/magazin', (c) => {
       transform: translateY(-2px);
     }
     .article-card h3 {
-      font-size: 1.25rem;
+      
       margin-bottom: var(--space-3);
       color: var(--primary-dark-green);
     }
@@ -1471,7 +1471,7 @@ app.get('/magazin', (c) => {
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
       <nav class="nav" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 0;">
         <a href="/" class="logo" style="text-decoration: none;">
-          <span class="logo-text" style="font-size: 24px; font-weight: 700; color: #0b7b6c;">Medless</span>
+          <span class="logo-text" style=" font-weight: 700; color: #0b7b6c;">Medless</span>
         </a>
         <ul class="nav-links" style="display: flex; gap: 32px; list-style: none; margin: 0;">
           <li><a href="/#how-it-works" style="text-decoration: none; color: #4B5563; font-weight: 500;">So funktioniert's</a></li>
@@ -1487,8 +1487,8 @@ app.get('/magazin', (c) => {
 
   <!-- HERO SECTION -->
   <div style="background: linear-gradient(135deg, #0E5A45, #10B981); padding: 80px 32px; text-align: center; color: white;">
-    <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin: 0 0 24px 0; line-height: 1.1;">MEDLESS Magazin</h1>
-    <p style="font-size: 1.25rem; max-width: 700px; margin: 0 auto; opacity: 0.95; line-height: 1.6;">Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.</p>
+    <h1 style="font-weight: 800; margin: 0 0 24px 0;">MEDLESS Magazin</h1>
+    <p class="lead" style="max-width: 700px; margin: 0 auto; opacity: 0.95;">Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.</p>
   </div>
 
   <!-- ARTICLES GRID -->
@@ -1501,13 +1501,13 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&h=400&fit=crop" alt="Das Endocannabinoid-System erklärt" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #ECFDF3; color: #15803D; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Wissen & Grundlagen</span>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
+          <span class="caption" style="display: inline-flex; align-items: center; padding: 4px 10px; background: #ECFDF3; color: #15803D; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Wissen & Grundlagen</span>
+          <h3 style="font-weight: 700; color: #0F5A46; margin: 0;">
             <a href="/magazin/endocannabinoid-system-erklaert" style="text-decoration: none; color: inherit;">Das Endocannabinoid-System erklärt</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0; font-size: 0.95rem; flex: 1;">Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
-          <a href="/magazin/endocannabinoid-system-erklaert" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-top: 4px;">
-            Artikel lesen <i class="fas fa-arrow-right" style="font-size: 0.85rem;"></i>
+          <p style="color: #64748B; margin: 0; flex: 1;">Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
+          <a href="/magazin/endocannabinoid-system-erklaert" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;">
+            Artikel lesen <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </article>
@@ -1518,13 +1518,13 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop" alt="7 Fehler beim Medikamente absetzen" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #FEF2F2; color: #DC2626; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Praxis-Tipps</span>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
+          <span class="caption" style="display: inline-flex; align-items: center; padding: 4px 10px; background: #FEF2F2; color: #DC2626; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Praxis-Tipps</span>
+          <h3 style="font-weight: 700; color: #0F5A46; margin: 0;">
             <a href="/magazin/medikamente-absetzen-7-fehler" style="text-decoration: none; color: inherit;">7 Fehler beim Medikamente absetzen</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0; font-size: 0.95rem; flex: 1;">Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
-          <a href="/magazin/medikamente-absetzen-7-fehler" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-top: 4px;">
-            Artikel lesen <i class="fas fa-arrow-right" style="font-size: 0.85rem;"></i>
+          <p style="color: #64748B; margin: 0; flex: 1;">Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
+          <a href="/magazin/medikamente-absetzen-7-fehler" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;">
+            Artikel lesen <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </article>
@@ -1535,13 +1535,13 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop" alt="Antidepressiva absetzen ohne Entzug" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #EEF2FF; color: #4F46E5; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Medikamente</span>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
+          <span class="caption" style="display: inline-flex; align-items: center; padding: 4px 10px; background: #EEF2FF; color: #4F46E5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Medikamente</span>
+          <h3 style="font-weight: 700; color: #0F5A46; margin: 0;">
             <a href="/magazin/antidepressiva-absetzen-ohne-entzug" style="text-decoration: none; color: inherit;">Antidepressiva absetzen ohne Entzug</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0; font-size: 0.95rem; flex: 1;">Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
-          <a href="/magazin/antidepressiva-absetzen-ohne-entzug" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-top: 4px;">
-            Artikel lesen <i class="fas fa-arrow-right" style="font-size: 0.85rem;"></i>
+          <p style="color: #64748B; margin: 0; flex: 1;">Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
+          <a href="/magazin/antidepressiva-absetzen-ohne-entzug" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;">
+            Artikel lesen <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </article>
@@ -1552,13 +1552,13 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop" alt="Schlaftabletten loswerden" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #EFF6FF; color: #2563EB; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Schlaf</span>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
+          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #EFF6FF; color: #2563EB;  font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Schlaf</span>
+          <h3 style=" font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
             <a href="/magazin/schlaftabletten-loswerden" style="text-decoration: none; color: inherit;">Schlaftabletten loswerden</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0; font-size: 0.95rem; flex: 1;">Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
-          <a href="/magazin/schlaftabletten-loswerden" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-top: 4px;">
-            Artikel lesen <i class="fas fa-arrow-right" style="font-size: 0.85rem;"></i>
+          <p style="color: #64748B; line-height: 1.6; margin: 0;  flex: 1;">Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
+          <a href="/magazin/schlaftabletten-loswerden" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;  margin-top: 4px;">
+            Artikel lesen <i class="fas fa-arrow-right" style=""></i>
           </a>
         </div>
       </article>
@@ -1569,13 +1569,13 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop" alt="CBD: Studien und Fakten" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #D1FAE5; color: #059669; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Forschung</span>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
+          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #D1FAE5; color: #059669;  font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Forschung</span>
+          <h3 style=" font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
             <a href="/magazin/cbd-studien-und-fakten" style="text-decoration: none; color: inherit;">CBD: Studien und Fakten</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0; font-size: 0.95rem; flex: 1;">Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
-          <a href="/magazin/cbd-studien-und-fakten" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-top: 4px;">
-            Artikel lesen <i class="fas fa-arrow-right" style="font-size: 0.85rem;"></i>
+          <p style="color: #64748B; line-height: 1.6; margin: 0;  flex: 1;">Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
+          <a href="/magazin/cbd-studien-und-fakten" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;  margin-top: 4px;">
+            Artikel lesen <i class="fas fa-arrow-right" style=""></i>
           </a>
         </div>
       </article>
@@ -1586,13 +1586,13 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop" alt="Magenschutz (PPI) absetzen" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #FEF3C7; color: #D97706; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Medikamente</span>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
+          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #FEF3C7; color: #D97706;  font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Medikamente</span>
+          <h3 style=" font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
             <a href="/magazin/magenschutz-absetzen-ppi" style="text-decoration: none; color: inherit;">Magenschutz (PPI) absetzen</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0; font-size: 0.95rem; flex: 1;">Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
-          <a href="/magazin/magenschutz-absetzen-ppi" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-top: 4px;">
-            Artikel lesen <i class="fas fa-arrow-right" style="font-size: 0.85rem;"></i>
+          <p style="color: #64748B; line-height: 1.6; margin: 0;  flex: 1;">Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
+          <a href="/magazin/magenschutz-absetzen-ppi" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;  margin-top: 4px;">
+            Artikel lesen <i class="fas fa-arrow-right" style=""></i>
           </a>
         </div>
       </article>
@@ -1603,13 +1603,13 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop" alt="Täglich 5 Tabletten – ist das normal?" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #F3E8FF; color: #7C3AED; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Polypharmazie</span>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
+          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #F3E8FF; color: #7C3AED;  font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Polypharmazie</span>
+          <h3 style=" font-weight: 700; color: #0F5A46; margin: 0; line-height: 1.3;">
             <a href="/magazin/taeglich-5-tabletten" style="text-decoration: none; color: inherit;">Täglich 5 Tabletten – ist das normal?</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0; font-size: 0.95rem; flex: 1;">Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
-          <a href="/magazin/taeglich-5-tabletten" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-top: 4px;">
-            Artikel lesen <i class="fas fa-arrow-right" style="font-size: 0.85rem;"></i>
+          <p style="color: #64748B; line-height: 1.6; margin: 0;  flex: 1;">Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
+          <a href="/magazin/taeglich-5-tabletten" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;  margin-top: 4px;">
+            Artikel lesen <i class="fas fa-arrow-right" style=""></i>
           </a>
         </div>
       </article>
@@ -1618,12 +1618,12 @@ app.get('/magazin', (c) => {
   
   <!-- FOOTER -->
   <footer style="background: linear-gradient(135deg, #0E5A45, #10B981); padding: 60px 32px 40px; color: white; text-align: center; margin-top: 80px;">
-    <p style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p style="font-size: 14px; opacity: 0.85;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    <p style=" font-weight: 600; margin-bottom: 12px;">MEDLESS – Dein Weg zu weniger Medikamenten</p>
+    <p style=" opacity: 0.85;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     <div style="margin-top: 24px; display: flex; gap: 24px; justify-content: center;">
-      <a href="/impressum" style="color: white; opacity: 0.8; text-decoration: none; font-size: 14px;">Impressum</a>
-      <a href="/datenschutz" style="color: white; opacity: 0.8; text-decoration: none; font-size: 14px;">Datenschutz</a>
-      <a href="/agb" style="color: white; opacity: 0.8; text-decoration: none; font-size: 14px;">AGB</a>
+      <a href="/impressum" style="color: white; opacity: 0.8; text-decoration: none; ">Impressum</a>
+      <a href="/datenschutz" style="color: white; opacity: 0.8; text-decoration: none; ">Datenschutz</a>
+      <a href="/agb" style="color: white; opacity: 0.8; text-decoration: none; ">AGB</a>
     </div>
   </footer>
   
@@ -1692,7 +1692,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
-      font-size: 28px;
+      
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -1718,7 +1718,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .header-nav a {
-      font-size: 16px;
+      
       font-weight: 500;
       color: #4B5563;
       text-decoration: none;
@@ -1740,7 +1740,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       padding: 6px 16px;
       background: #F3E8FF;
       color: #7C3AED;
-      font-size: 14px;
+      
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -1749,7 +1749,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .article-title {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       font-weight: 700;
       color: #0F5A46;
       line-height: 1.2;
@@ -1759,7 +1759,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .article-meta {
       display: flex;
       gap: 24px;
-      font-size: 14px;
+      
       color: #6B7280;
       padding-bottom: 32px;
       border-bottom: 1px solid #E5E7EB;
@@ -1767,13 +1767,13 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .article-content {
-      font-size: 18px;
+      
       line-height: 1.7;
       color: #374151;
     }
     
     .article-content .intro {
-      font-size: 19px;
+      
       font-weight: 500;
       color: #1F2937;
       margin-bottom: 32px;
@@ -1784,7 +1784,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .article-content h2 {
-      font-size: 1.75rem;
+      
       font-weight: 700;
       color: #0F5A46;
       margin-top: 56px;
@@ -1792,7 +1792,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .article-content h3 {
-      font-size: 1.4rem;
+      
       font-weight: 600;
       color: #0F5A46;
       margin-top: 40px;
@@ -1839,14 +1839,14 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .cta-box h3 {
-      font-size: 1.75rem;
+      
       font-weight: 700;
       color: #0F5A46;
       margin: 0 0 16px 0;
     }
     
     .cta-box p {
-      font-size: 17px;
+      
       color: #374151;
       margin-bottom: 24px;
     }
@@ -1857,7 +1857,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       justify-content: center;
       gap: 12px;
       padding: 16px 32px;
-      font-size: 17px;
+      
       font-weight: 700;
       color: white;
       background: linear-gradient(135deg, #0E5A45, #10B981);
@@ -1889,7 +1889,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .footer-content p {
-      font-size: 14px;
+      
       line-height: 1.6;
       color: rgba(255, 255, 255, 0.85);
     }
@@ -1904,7 +1904,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       }
       
       .article-content {
-        font-size: 17px;
+        
       }
       
       .cta-box {
@@ -1920,7 +1920,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
       <nav class="nav" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 0;">
         <a href="/" class="logo" style="text-decoration: none;">
-          <span class="logo-text" style="font-size: 24px; font-weight: 700; color: #0b7b6c;">Medless</span>
+          <span class="logo-text" style=" font-weight: 700; color: #0b7b6c;">Medless</span>
         </a>
         <ul class="nav-links" style="display: flex; gap: 32px; list-style: none; margin: 0;">
           <li><a href="/#how-it-works" style="text-decoration: none; color: #4B5563; font-weight: 500;">So funktioniert's</a></li>
@@ -1936,8 +1936,8 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   <!-- Hero Image (full width) -->
   <div style="width: 100%; height: 400px; background: linear-gradient(135deg, rgba(14, 90, 69, 0.9), rgba(16, 185, 129, 0.8)), url('https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1600&h=600&fit=crop') center/cover; display: flex; align-items: center; justify-content: center; margin-bottom: 60px;">
     <div style="text-align: center; color: white; max-width: 800px; padding: 0 24px;">
-      <span style="display: inline-block; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border-radius: 20px; font-size: 14px; font-weight: 600; text-transform: uppercase; margin-bottom: 16px; backdrop-filter: blur(10px);">Wissen & Grundlagen</span>
-      <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.2; margin: 0;">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
+      <span style="display: inline-block; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border-radius: 20px;  font-weight: 600; text-transform: uppercase; margin-bottom: 16px; backdrop-filter: blur(10px);">Wissen & Grundlagen</span>
+      <h1 style=" font-weight: 800; line-height: 1.2; margin: 0;">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
     </div>
   </div>
   
@@ -1945,9 +1945,9 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   <article class="article-detail">
     
     <div class="article-meta" style="margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid #E5E7EB;">
-      <span style="color: #6B7280; font-size: 15px;"><i class="far fa-calendar"></i> Januar 2025</span>
-      <span style="color: #6B7280; font-size: 15px; margin-left: 24px;"><i class="far fa-clock"></i> 10 Min. Lesezeit</span>
-      <span style="color: #6B7280; font-size: 15px; margin-left: 24px;"><i class="far fa-user"></i> MEDLESS Redaktion</span>
+      <span style="color: #6B7280; "><i class="far fa-calendar"></i> Januar 2025</span>
+      <span style="color: #6B7280;  margin-left: 24px;"><i class="far fa-clock"></i> 10 Min. Lesezeit</span>
+      <span style="color: #6B7280;  margin-left: 24px;"><i class="far fa-user"></i> MEDLESS Redaktion</span>
     </div>
     
     <div class="article-content">
@@ -2015,13 +2015,13 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       <hr>
 
       <h3>Quellen & Referenzen</h3>
-      <ul style="font-size: 0.9rem; color: #666;">
+      <ul style=" color: #666;">
           <li><strong>Biological Psychiatry (2016):</strong> "An Introduction to the Endogenous Cannabinoid System".</li>
           <li><strong>Pharmacological Reviews (2006):</strong> "The Endocannabinoid System as an Emerging Target".</li>
           <li><strong>PNAS (2015):</strong> "A runner's high depends on cannabinoid receptors".</li>
           <li><strong>Drugcom (BZgA):</strong> "Endocannabinoid-System".</li>
       </ul>
-      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information. Er ersetzt keine ärztliche Beratung.</em></p>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information. Er ersetzt keine ärztliche Beratung.</em></p>
     </div>
   </article>
   
@@ -2029,7 +2029,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   <footer>
     <div class="footer-content">
       <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
-      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
@@ -2095,7 +2095,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
-      font-size: 28px;
+      
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -2121,7 +2121,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     }
     
     .header-nav a {
-      font-size: 16px;
+      
       font-weight: 500;
       color: #4B5563;
       text-decoration: none;
@@ -2143,7 +2143,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
       padding: 6px 16px;
       background: #DBEAFE;
       color: #1E40AF;
-      font-size: 14px;
+      
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -2152,7 +2152,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     }
     
     .article-title {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       font-weight: 700;
       color: #0F5A46;
       line-height: 1.2;
@@ -2162,7 +2162,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     .article-meta {
       display: flex;
       gap: 24px;
-      font-size: 14px;
+      
       color: #6B7280;
       padding-bottom: 32px;
       border-bottom: 1px solid #E5E7EB;
@@ -2170,13 +2170,13 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     }
     
     .article-content {
-      font-size: 18px;
+      
       line-height: 1.7;
       color: #374151;
     }
     
     .article-content .intro {
-      font-size: 19px;
+      
       font-weight: 500;
       color: #1F2937;
       margin-bottom: 32px;
@@ -2187,7 +2187,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     }
     
     .article-content h2 {
-      font-size: 1.75rem;
+      
       font-weight: 700;
       color: #0F5A46;
       margin-top: 56px;
@@ -2195,7 +2195,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     }
     
     .article-content h3 {
-      font-size: 1.4rem;
+      
       font-weight: 600;
       color: #0F5A46;
       margin-top: 40px;
@@ -2241,14 +2241,14 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     }
     
     .cta-box h3 {
-      font-size: 1.75rem;
+      
       font-weight: 700;
       color: #0F5A46;
       margin: 0 0 16px 0;
     }
     
     .cta-box p {
-      font-size: 17px;
+      
       color: #374151;
       margin-bottom: 24px;
     }
@@ -2259,7 +2259,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
       justify-content: center;
       gap: 12px;
       padding: 16px 32px;
-      font-size: 17px;
+      
       font-weight: 700;
       color: white;
       background: linear-gradient(135deg, #0E5A45, #10B981);
@@ -2291,7 +2291,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     }
     
     .footer-content p {
-      font-size: 14px;
+      
       line-height: 1.6;
       color: rgba(255, 255, 255, 0.85);
     }
@@ -2306,7 +2306,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
       }
       
       .article-content {
-        font-size: 17px;
+        
       }
       
       .cta-box {
@@ -2422,13 +2422,13 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
       <hr>
 
       <h3>Quellen & Referenzen</h3>
-      <ul style="font-size: 0.9rem; color: #666;">
+      <ul style=" color: #666;">
           <li><strong>Apotheken Umschau (2024):</strong> "Medikamente einschleichen und ausschleichen".</li>
           <li><strong>Deutsches Ärzteblatt:</strong> "Absetz- und Rebound-Phänomene bei Antidepressiva".</li>
           <li><strong>SWR (2025):</strong> "Antidepressiva absetzen ohne Symptome".</li>
           <li><strong>CHIP (2025):</strong> "Rebound-Effekt: Diese Medikamente niemals abrupt absetzen".</li>
       </ul>
-      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information und ersetzt keine ärztliche Beratung. Bei Notfällen wählen Sie 112.</em></p>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information und ersetzt keine ärztliche Beratung. Bei Notfällen wählen Sie 112.</em></p>
     </div>
   </article>
   
@@ -2436,7 +2436,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
   <footer>
     <div class="footer-content">
       <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
-      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
@@ -2502,7 +2502,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
-      font-size: 28px;
+      
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -2528,7 +2528,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .header-nav a {
-      font-size: 16px;
+      
       font-weight: 500;
       color: #4B5563;
       text-decoration: none;
@@ -2550,7 +2550,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       padding: 6px 16px;
       background: #FEF3C7;
       color: #92400E;
-      font-size: 14px;
+      
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -2559,7 +2559,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .article-title {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       font-weight: 700;
       color: #0F5A46;
       line-height: 1.2;
@@ -2569,7 +2569,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .article-meta {
       display: flex;
       gap: 24px;
-      font-size: 14px;
+      
       color: #6B7280;
       padding-bottom: 32px;
       border-bottom: 1px solid #E5E7EB;
@@ -2577,13 +2577,13 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .article-content {
-      font-size: 18px;
+      
       line-height: 1.7;
       color: #374151;
     }
     
     .article-content .intro {
-      font-size: 19px;
+      
       font-weight: 500;
       color: #1F2937;
       margin-bottom: 32px;
@@ -2594,7 +2594,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .article-content h2 {
-      font-size: 1.75rem;
+      
       font-weight: 700;
       color: #0F5A46;
       margin-top: 48px;
@@ -2603,7 +2603,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .article-content h3 {
-      font-size: 1.35rem;
+      
       font-weight: 600;
       color: #1F2937;
       margin-top: 32px;
@@ -2643,13 +2643,13 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .cta-box h3 {
-      font-size: 1.5rem;
+      
       margin-bottom: 16px;
       color: white;
     }
     
     .cta-box p {
-      font-size: 1.1rem;
+      
       margin-bottom: 24px;
       opacity: 0.95;
     }
@@ -2662,7 +2662,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
-      font-size: 16px;
+      
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     
@@ -2683,7 +2683,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       margin: 0 auto;
       text-align: center;
       color: #6B7280;
-      font-size: 14px;
+      
     }
     
     @media (max-width: 768px) {
@@ -2699,7 +2699,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       
       .header-nav {
         gap: 16px;
-        font-size: 14px;
+        
       }
     }
   </style>
@@ -2856,14 +2856,14 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       
       <hr style="border: none; border-top: 1px solid #E5E7EB; margin: 48px 0;" />
       
-      <h3 style="font-size: 1rem; font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Weiterführende Literatur</h3>
-      <ul style="font-size: 0.9rem; color: #6B7280;">
+      <h3 style=" font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Weiterführende Literatur</h3>
+      <ul style=" color: #6B7280;">
           <li><strong>Russo, E.B. (2016):</strong> "Clinical Endocannabinoid Deficiency Reconsidered" – Cannabis and Cannabinoid Research.</li>
           <li><strong>Lu, H.C. & Mackie, K. (2016):</strong> "An Introduction to the Endogenous Cannabinoid System" – Biological Psychiatry.</li>
           <li><strong>Pacher, P. et al. (2006):</strong> "The Endocannabinoid System as an Emerging Target of Pharmacotherapy" – Pharmacological Reviews.</li>
           <li><strong>Blessing, E.M. et al. (2015):</strong> "Cannabidiol as a Potential Treatment for Anxiety Disorders" – Neurotherapeutics.</li>
       </ul>
-      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information und ersetzt keine ärztliche Beratung. Jede Medikamentenänderung muss ärztlich begleitet werden.</em></p>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information und ersetzt keine ärztliche Beratung. Jede Medikamentenänderung muss ärztlich begleitet werden.</em></p>
     </div>
   </article>
   
@@ -2871,7 +2871,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   <footer>
     <div class="footer-content">
       <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
-      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
@@ -2937,7 +2937,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
-      font-size: 28px;
+      
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -2963,7 +2963,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     }
     
     .header-nav a {
-      font-size: 16px;
+      
       font-weight: 500;
       color: #4B5563;
       text-decoration: none;
@@ -2985,7 +2985,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
       padding: 6px 16px;
       background: #FCE7F3;
       color: #BE185D;
-      font-size: 14px;
+      
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -2994,7 +2994,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     }
     
     .article-title {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       font-weight: 700;
       color: #0F5A46;
       line-height: 1.2;
@@ -3004,7 +3004,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     .article-meta {
       display: flex;
       gap: 24px;
-      font-size: 14px;
+      
       color: #6B7280;
       padding-bottom: 32px;
       border-bottom: 1px solid #E5E7EB;
@@ -3012,13 +3012,13 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     }
     
     .article-content {
-      font-size: 18px;
+      
       line-height: 1.7;
       color: #374151;
     }
     
     .article-content .intro {
-      font-size: 19px;
+      
       font-weight: 500;
       color: #1F2937;
       margin-bottom: 32px;
@@ -3029,7 +3029,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     }
     
     .article-content h2 {
-      font-size: 1.75rem;
+      
       font-weight: 700;
       color: #0F5A46;
       margin-top: 48px;
@@ -3038,7 +3038,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     }
     
     .article-content h3 {
-      font-size: 1.35rem;
+      
       font-weight: 600;
       color: #1F2937;
       margin-top: 32px;
@@ -3096,13 +3096,13 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     }
     
     .cta-box h3 {
-      font-size: 1.5rem;
+      
       margin-bottom: 16px;
       color: #0F5A46;
     }
     
     .cta-box p {
-      font-size: 1.1rem;
+      
       margin-bottom: 24px;
       color: #374151;
     }
@@ -3135,7 +3135,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
       margin: 0 auto;
       text-align: center;
       color: #6B7280;
-      font-size: 14px;
+      
     }
     
     @media (max-width: 768px) {
@@ -3151,7 +3151,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
       
       .header-nav {
         gap: 16px;
-        font-size: 14px;
+        
       }
     }
   </style>
@@ -3275,13 +3275,13 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
       
       <hr>
       
-      <h3 style="font-size: 1rem; font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
-      <ul style="font-size: 0.9rem; color: #6B7280;">
+      <h3 style=" font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <ul style=" color: #6B7280;">
           <li><strong>Charité Berlin (2024):</strong> "Neue Daten zur Häufigkeit von Absetzsymptomen".</li>
           <li><strong>Ärzteblatt (2025):</strong> "Absetzsymptome meist mild".</li>
           <li><strong>Royal College of Psychiatrists:</strong> "Stopping Antidepressants".</li>
       </ul>
-      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Behandlung. Setzen Sie Antidepressiva niemals eigenständig ab. Bei psychischen Notfällen wenden Sie sich an die Telefonseelsorge (0800 1110111).</em></p>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Behandlung. Setzen Sie Antidepressiva niemals eigenständig ab. Bei psychischen Notfällen wenden Sie sich an die Telefonseelsorge (0800 1110111).</em></p>
     </div>
   </article>
   
@@ -3289,7 +3289,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
   <footer>
     <div class="footer-content">
       <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
-      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
@@ -3355,7 +3355,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
-      font-size: 28px;
+      
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -3381,7 +3381,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     }
     
     .header-nav a {
-      font-size: 16px;
+      
       font-weight: 500;
       color: #4B5563;
       text-decoration: none;
@@ -3403,7 +3403,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
       padding: 6px 16px;
       background: #E0E7FF;
       color: #3730A3;
-      font-size: 14px;
+      
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -3412,7 +3412,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     }
     
     .article-title {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       font-weight: 700;
       color: #0F5A46;
       line-height: 1.2;
@@ -3422,7 +3422,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     .article-meta {
       display: flex;
       gap: 24px;
-      font-size: 14px;
+      
       color: #6B7280;
       padding-bottom: 32px;
       border-bottom: 1px solid #E5E7EB;
@@ -3430,13 +3430,13 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     }
     
     .article-content {
-      font-size: 18px;
+      
       line-height: 1.7;
       color: #374151;
     }
     
     .article-content .intro {
-      font-size: 19px;
+      
       font-weight: 500;
       color: #1F2937;
       margin-bottom: 32px;
@@ -3447,7 +3447,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     }
     
     .article-content h2 {
-      font-size: 1.75rem;
+      
       font-weight: 700;
       color: #0F5A46;
       margin-top: 48px;
@@ -3456,7 +3456,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     }
     
     .article-content h3 {
-      font-size: 1.35rem;
+      
       font-weight: 600;
       color: #1F2937;
       margin-top: 32px;
@@ -3514,13 +3514,13 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     }
     
     .cta-box h3 {
-      font-size: 1.5rem;
+      
       margin-bottom: 16px;
       color: #0F5A46;
     }
     
     .cta-box p {
-      font-size: 1.1rem;
+      
       margin-bottom: 24px;
       color: #374151;
     }
@@ -3553,7 +3553,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
       margin: 0 auto;
       text-align: center;
       color: #6B7280;
-      font-size: 14px;
+      
     }
     
     @media (max-width: 768px) {
@@ -3569,7 +3569,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
       
       .header-nav {
         gap: 16px;
-        font-size: 14px;
+        
       }
     }
   </style>
@@ -3680,14 +3680,14 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
       
       <hr>
       
-      <h3 style="font-size: 1rem; font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
-      <ul style="font-size: 0.9rem; color: #6B7280;">
+      <h3 style=" font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <ul style=" color: #6B7280;">
           <li><strong>Deutsche Hauptstelle für Suchtfragen (DHS):</strong> "Die Sucht und ihre Stoffe: Benzodiazepine".</li>
           <li><strong>Bundesärztekammer (2022):</strong> "Leitfaden Medikamentenabhängigkeit".</li>
           <li><strong>Stiftung Gesundheitswissen:</strong> "Schlafmittel-Abhängigkeit behandeln".</li>
           <li><strong>PMC (2023):</strong> "Cannabinoids: Emerging sleep modulator".</li>
       </ul>
-      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Behandlung. Setzen Sie Schlafmittel niemals eigenständig ab. Bei schweren Schlafstörungen konsultieren Sie einen Arzt.</em></p>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Behandlung. Setzen Sie Schlafmittel niemals eigenständig ab. Bei schweren Schlafstörungen konsultieren Sie einen Arzt.</em></p>
     </div>
   </article>
   
@@ -3695,7 +3695,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
   <footer>
     <div class="footer-content">
       <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
-      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
@@ -3761,7 +3761,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
-      font-size: 28px;
+      
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -3787,7 +3787,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     }
     
     .header-nav a {
-      font-size: 16px;
+      
       font-weight: 500;
       color: #4B5563;
       text-decoration: none;
@@ -3809,7 +3809,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
       padding: 6px 16px;
       background: #D1FAE5;
       color: #065F46;
-      font-size: 14px;
+      
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -3818,7 +3818,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     }
     
     .article-title {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       font-weight: 700;
       color: #0F5A46;
       line-height: 1.2;
@@ -3828,7 +3828,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     .article-meta {
       display: flex;
       gap: 24px;
-      font-size: 14px;
+      
       color: #6B7280;
       padding-bottom: 32px;
       border-bottom: 1px solid #E5E7EB;
@@ -3836,13 +3836,13 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     }
     
     .article-content {
-      font-size: 18px;
+      
       line-height: 1.7;
       color: #374151;
     }
     
     .article-content .intro {
-      font-size: 19px;
+      
       font-weight: 500;
       color: #1F2937;
       margin-bottom: 32px;
@@ -3853,7 +3853,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     }
     
     .article-content h2 {
-      font-size: 1.75rem;
+      
       font-weight: 700;
       color: #0F5A46;
       margin-top: 48px;
@@ -3862,7 +3862,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     }
     
     .article-content h3 {
-      font-size: 1.35rem;
+      
       font-weight: 600;
       color: #1F2937;
       margin-top: 32px;
@@ -3920,13 +3920,13 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     }
     
     .cta-box h3 {
-      font-size: 1.5rem;
+      
       margin-bottom: 16px;
       color: #0F5A46;
     }
     
     .cta-box p {
-      font-size: 1.1rem;
+      
       margin-bottom: 24px;
       color: #374151;
     }
@@ -3959,7 +3959,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
       margin: 0 auto;
       text-align: center;
       color: #6B7280;
-      font-size: 14px;
+      
     }
     
     @media (max-width: 768px) {
@@ -3975,7 +3975,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
       
       .header-nav {
         gap: 16px;
-        font-size: 14px;
+        
       }
     }
   </style>
@@ -4068,14 +4068,14 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
       
       <hr>
       
-      <h3 style="font-size: 1rem; font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
-      <ul style="font-size: 0.9rem; color: #6B7280;">
+      <h3 style=" font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <ul style=" color: #6B7280;">
           <li><strong>Deutsche Gesellschaft für Schmerzmedizin (2024):</strong> "Reduzierter Opioid-Verbrauch durch Cannabinoide".</li>
           <li><strong>Springer Medizin (2022):</strong> "Cannabinoide reduzieren Opioidverbrauch".</li>
           <li><strong>Ärzteblatt:</strong> "Interaktionspotenzial der Cannabinoide".</li>
           <li><strong>WHO:</strong> "Cannabidiol (CBD) Critical Review Report".</li>
       </ul>
-      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Beratung. CBD kann Wechselwirkungen mit Medikamenten haben. Sprechen Sie immer mit Ihrem Arzt.</em></p>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Beratung. CBD kann Wechselwirkungen mit Medikamenten haben. Sprechen Sie immer mit Ihrem Arzt.</em></p>
     </div>
   </article>
   
@@ -4083,7 +4083,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
   <footer>
     <div class="footer-content">
       <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
-      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
@@ -4149,7 +4149,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
-      font-size: 28px;
+      
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -4175,7 +4175,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     }
     
     .header-nav a {
-      font-size: 16px;
+      
       font-weight: 500;
       color: #4B5563;
       text-decoration: none;
@@ -4197,7 +4197,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       padding: 6px 16px;
       background: #FED7AA;
       color: #9A3412;
-      font-size: 14px;
+      
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -4206,7 +4206,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     }
     
     .article-title {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       font-weight: 700;
       color: #0F5A46;
       line-height: 1.2;
@@ -4216,7 +4216,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     .article-meta {
       display: flex;
       gap: 24px;
-      font-size: 14px;
+      
       color: #6B7280;
       padding-bottom: 32px;
       border-bottom: 1px solid #E5E7EB;
@@ -4224,13 +4224,13 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     }
     
     .article-content {
-      font-size: 18px;
+      
       line-height: 1.7;
       color: #374151;
     }
     
     .article-content .intro {
-      font-size: 19px;
+      
       font-weight: 500;
       color: #1F2937;
       margin-bottom: 32px;
@@ -4241,7 +4241,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     }
     
     .article-content h2 {
-      font-size: 1.75rem;
+      
       font-weight: 700;
       color: #0F5A46;
       margin-top: 48px;
@@ -4250,7 +4250,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     }
     
     .article-content h3 {
-      font-size: 1.35rem;
+      
       font-weight: 600;
       color: #1F2937;
       margin-top: 32px;
@@ -4308,13 +4308,13 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     }
     
     .cta-box h3 {
-      font-size: 1.5rem;
+      
       margin-bottom: 16px;
       color: #0F5A46;
     }
     
     .cta-box p {
-      font-size: 1.1rem;
+      
       margin-bottom: 24px;
       color: #374151;
     }
@@ -4347,7 +4347,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       margin: 0 auto;
       text-align: center;
       color: #6B7280;
-      font-size: 14px;
+      
     }
     
     @media (max-width: 768px) {
@@ -4363,7 +4363,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       
       .header-nav {
         gap: 16px;
-        font-size: 14px;
+        
       }
     }
   </style>
@@ -4464,13 +4464,13 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       
       <hr>
       
-      <h3 style="font-size: 1rem; font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Fakten</h3>
-      <ul style="font-size: 0.9rem; color: #6B7280;">
+      <h3 style=" font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Fakten</h3>
+      <ul style=" color: #6B7280;">
           <li><strong>Deutsche Gesellschaft für Gastroenterologie:</strong> Leitlinie zu PPI.</li>
           <li><strong>Ärzteblatt:</strong> "Langzeitrisiken von Protonenpumpeninhibitoren".</li>
           <li><strong>Apotheken Umschau:</strong> "Magenschutz richtig absetzen".</li>
       </ul>
-      <p style="font-size: 0.8rem; color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel ersetzt keine ärztliche Beratung. Bei starken Magenschmerzen, Blut im Stuhl oder Vorerkrankungen (z.B. Barrett-Ösophagus) niemals ohne Arzt absetzen.</em></p>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel ersetzt keine ärztliche Beratung. Bei starken Magenschmerzen, Blut im Stuhl oder Vorerkrankungen (z.B. Barrett-Ösophagus) niemals ohne Arzt absetzen.</em></p>
     </div>
   </article>
   
@@ -4478,7 +4478,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
   <footer>
     <div class="footer-content">
       <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
-      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
@@ -4544,7 +4544,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
-      font-size: 28px;
+      
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -4570,7 +4570,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     }
     
     .header-nav a {
-      font-size: 16px;
+      
       font-weight: 500;
       color: #4B5563;
       text-decoration: none;
@@ -4592,7 +4592,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
       padding: 6px 16px;
       background: #D1FAE5;
       color: #0E5A45;
-      font-size: 14px;
+      
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -4601,7 +4601,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     }
     
     .article-title {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       font-weight: 700;
       color: #0F5A46;
       line-height: 1.2;
@@ -4611,7 +4611,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     .article-meta {
       display: flex;
       gap: 24px;
-      font-size: 14px;
+      
       color: #6B7280;
       padding-bottom: 32px;
       border-bottom: 1px solid #E5E7EB;
@@ -4619,13 +4619,13 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     }
     
     .article-content {
-      font-size: 18px;
+      
       line-height: 1.7;
       color: #374151;
     }
     
     .article-content h2 {
-      font-size: 1.75rem;
+      
       font-weight: 700;
       color: #0F5A46;
       margin-top: 56px;
@@ -4660,7 +4660,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     }
     
     .article-cta h3 {
-      font-size: 1.5rem;
+      
       font-weight: 600;
       color: #0F5A46;
       margin-bottom: 24px;
@@ -4672,7 +4672,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
       justify-content: center;
       gap: 12px;
       padding: 16px 32px;
-      font-size: 17px;
+      
       font-weight: 700;
       color: white;
       background: linear-gradient(135deg, #0E5A45, #10B981);
@@ -4704,7 +4704,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     }
     
     .footer-content p {
-      font-size: 14px;
+      
       line-height: 1.6;
       color: rgba(255, 255, 255, 0.85);
     }
@@ -4719,7 +4719,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
       }
       
       .article-content {
-        font-size: 17px;
+        
       }
       
       .article-cta {
@@ -4827,7 +4827,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
       <!-- CTA Section -->
       <div class="article-cta">
         <h3>Möchtest du deine Medikamente prüfen?</h3>
-        <p style="margin-bottom: 24px; font-size: 17px; color: #374151;">
+        <p style="margin-bottom: 24px;  color: #374151;">
           MEDLESS hilft dir, einen individuellen Ausschleichplan zu erstellen – KI-berechnet, wissenschaftlich fundiert und für die ärztliche Begleitung entwickelt.
         </p>
         <a href="/#planner-section" class="cta-button-primary">
@@ -4852,7 +4852,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
   <footer>
     <div class="footer-content">
       <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
-      <p style="margin-top: 16px; font-size: 13px;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
@@ -4954,7 +4954,7 @@ app.get('/app', (c) => {
       border-radius: 999px;
       background: rgba(11, 123, 108, 0.12);
       color: var(--primary-dark);
-      font-size: 0.75rem;
+      
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -4963,13 +4963,13 @@ app.get('/app', (c) => {
 
     .hero h1 {
       margin: 0 0 0.6rem;
-      font-size: 1.6rem;
+      
       line-height: 1.2;
     }
 
     .hero-sub {
       margin: 0 0 1rem;
-      font-size: 0.98rem;
+      
       color: #4b5563;
     }
 
@@ -4982,7 +4982,7 @@ app.get('/app', (c) => {
     .hero-list {
       margin: 0;
       padding-left: 1.1rem;
-      font-size: 0.9rem;
+      
       color: #374151;
     }
 
@@ -5006,7 +5006,7 @@ app.get('/app', (c) => {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: #fff;
       font-weight: 600;
-      font-size: 0.95rem;
+      
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
@@ -5024,14 +5024,14 @@ app.get('/app', (c) => {
       border: 1px solid rgba(148, 163, 184, 0.8);
       padding: 0.6rem 1rem;
       background: rgba(255, 255, 255, 0.7);
-      font-size: 0.85rem;
+      
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
     }
 
     .note {
-      font-size: 0.78rem;
+      
       color: #6b7280;
     }
 
@@ -5041,7 +5041,7 @@ app.get('/app', (c) => {
     }
 
     section h2 {
-      font-size: 1.2rem;
+      
       margin-bottom: 0.5rem;
     }
 
@@ -5051,7 +5051,7 @@ app.get('/app', (c) => {
 
     .muted {
       color: #6b7280;
-      font-size: 0.9rem;
+      
     }
 
     .grid-3 {
@@ -5069,7 +5069,7 @@ app.get('/app', (c) => {
     .card h3 {
       margin-top: 0;
       margin-bottom: 0.25rem;
-      font-size: 1rem;
+      
     }
 
     .tag-small {
@@ -5077,7 +5077,7 @@ app.get('/app', (c) => {
       padding: 0.15rem 0.55rem;
       border-radius: 999px;
       background: rgba(15, 23, 42, 0.05);
-      font-size: 0.7rem;
+      
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-bottom: 0.3rem;
@@ -5102,7 +5102,7 @@ app.get('/app', (c) => {
       border-radius: 999px;
       background: rgba(11, 123, 108, 0.1);
       color: var(--primary-dark);
-      font-size: 0.8rem;
+      
       display: flex;
       align-items: center;
       justify-content: center;
@@ -5112,11 +5112,11 @@ app.get('/app', (c) => {
 
     .step-title {
       font-weight: 600;
-      font-size: 0.95rem;
+      
     }
 
     .step-text {
-      font-size: 0.9rem;
+      
       color: #4b5563;
     }
 
@@ -5147,7 +5147,7 @@ app.get('/app', (c) => {
       border-radius: 999px;
       background: rgba(185, 28, 28, 0.08);
       color: var(--danger);
-      font-size: 0.78rem;
+      
       margin-bottom: 0.6rem;
     }
 
@@ -5158,7 +5158,7 @@ app.get('/app', (c) => {
     }
 
     label {
-      font-size: 0.85rem;
+      
       font-weight: 500;
       display: block;
       margin-bottom: 0.2rem;
@@ -5172,7 +5172,7 @@ app.get('/app', (c) => {
       border-radius: var(--radius-md);
       border: 1px solid #cbd5e1;
       padding: 0.55rem 0.6rem;
-      font-size: 0.9rem;
+      
       outline: none;
       background: #f9fafb;
     }
@@ -5185,7 +5185,7 @@ app.get('/app', (c) => {
     }
 
     .helper {
-      font-size: 0.78rem;
+      
       color: #6b7280;
       margin-top: 0.1rem;
     }
@@ -5203,7 +5203,7 @@ app.get('/app', (c) => {
       border-radius: 999px;
       border: 1px solid #cbd5e1;
       padding: 0.25rem 0.7rem;
-      font-size: 0.8rem;
+      
       cursor: pointer;
       background: #f9fafb;
     }
@@ -5225,7 +5225,7 @@ app.get('/app', (c) => {
       border-radius: 999px;
       border: 1px solid #cbd5e1;
       padding: 0.3rem 0.7rem;
-      font-size: 0.78rem;
+      
       background: #fff;
       cursor: pointer;
     }
@@ -5247,7 +5247,7 @@ app.get('/app', (c) => {
       background: transparent;
       padding: 0.4rem 0.9rem;
       border-radius: 999px;
-      font-size: 0.8rem;
+      
       cursor: pointer;
       color: #4b5563;
       display: inline-flex;
@@ -5275,7 +5275,7 @@ app.get('/app', (c) => {
       padding: 0.9rem;
       text-align: center;
       background: #f9fafb;
-      font-size: 0.85rem;
+      
     }
 
     .upload-box input {
@@ -5299,7 +5299,7 @@ app.get('/app', (c) => {
     summary {
       cursor: pointer;
       list-style: none;
-      font-size: 0.9rem;
+      
       font-weight: 500;
     }
 
@@ -5312,7 +5312,7 @@ app.get('/app', (c) => {
     }
 
     details p {
-      font-size: 0.85rem;
+      
       color: #4b5563;
       margin-top: 0.4rem;
     }
@@ -5357,7 +5357,7 @@ app.get('/app', (c) => {
 
     footer {
       margin-top: 2.5rem;
-      font-size: 0.75rem;
+      
       color: #9ca3af;
       text-align: center;
     }
@@ -5373,7 +5373,7 @@ app.get('/app', (c) => {
       }
 
       .hero h1 {
-        font-size: 2rem;
+        
       }
 
       .hero-grid {
@@ -5577,19 +5577,19 @@ app.get('/app', (c) => {
         <!-- Labels Container - EXACTLY ALIGNED with 48px circles, stable position -->
         <div style="display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px 1fr 48px 1fr 48px; max-width: 800px; margin: 0 auto; gap: 0;">
           <!-- Label 1 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Name</span>
+          <span style=" color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Name</span>
           <span></span>
           <!-- Label 2 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Körperdaten</span>
+          <span style=" color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Körperdaten</span>
           <span></span>
           <!-- Label 3 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Medikation</span>
+          <span style=" color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Medikation</span>
           <span></span>
           <!-- Label 4 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Orientierungsplan</span>
+          <span style=" color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Orientierungsplan</span>
           <span></span>
           <!-- Label 5 -->
-          <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Zusammenfassung</span>
+          <span style=" color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Zusammenfassung</span>
         </div>
       </div>
 
@@ -5705,14 +5705,14 @@ app.get('/app', (c) => {
               <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
                 <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
                   <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0b7b6c, #14b8a6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-calendar-alt" style="color: white; font-size: 1.1rem;"></i>
+                    <i class="fas fa-calendar-alt" style="color: white; "></i>
                   </div>
                   <div>
-                    <label for="duration-weeks" style="font-size: 1rem; font-weight: 600; color: #0b7b6c; margin: 0;">Plan-Dauer (Wochen) *</label>
-                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie lange soll Ihr Orientierungsplan dauern?</p>
+                    <label for="duration-weeks" style=" font-weight: 600; color: #0b7b6c; margin: 0;">Plan-Dauer (Wochen) *</label>
+                    <p style=" color: #6b7280; margin: 0.25rem 0 0 0;">Wie lange soll Ihr Orientierungsplan dauern?</p>
                   </div>
                 </div>
-                <select id="duration-weeks" name="duration_weeks" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #14b8a6; border-radius: 8px; background: white;">
+                <select id="duration-weeks" name="duration_weeks" required style="width: 100%; padding: 0.875rem;  border: 2px solid #14b8a6; border-radius: 8px; background: white;">
                   <option value="">-- Bitte wählen --</option>
                   <option value="4">4 Wochen – Schneller Einstieg</option>
                   <option value="6">6 Wochen – Zügig</option>
@@ -5722,7 +5722,7 @@ app.get('/app', (c) => {
                 </select>
                 <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #059669;">
                   <i class="fas fa-info-circle" style="color: #059669; margin-right: 0.5rem;"></i>
-                  <span style="font-size: 0.85rem; color: #374151;">Empfohlen: 8–12 Wochen für eine sanfte und stabile Reduktion.</span>
+                  <span style=" color: #374151;">Empfohlen: 8–12 Wochen für eine sanfte und stabile Reduktion.</span>
                 </div>
               </div>
             </div>
@@ -5731,14 +5731,14 @@ app.get('/app', (c) => {
               <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
                 <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
                   <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0b7b6c, #14b8a6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-chart-line" style="color: white; font-size: 1.1rem;"></i>
+                    <i class="fas fa-chart-line" style="color: white; "></i>
                   </div>
                   <div>
-                    <label for="reduction-goal" style="font-size: 1rem; font-weight: 600; color: #0b7b6c; margin: 0;">Reduktionsziel *</label>
-                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel möchten Sie reduzieren?</p>
+                    <label for="reduction-goal" style=" font-weight: 600; color: #0b7b6c; margin: 0;">Reduktionsziel *</label>
+                    <p style=" color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel möchten Sie reduzieren?</p>
                   </div>
                 </div>
-                <select id="reduction-goal" name="reduction_goal" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #14b8a6; border-radius: 8px; background: white;">
+                <select id="reduction-goal" name="reduction_goal" required style="width: 100%; padding: 0.875rem;  border: 2px solid #14b8a6; border-radius: 8px; background: white;">
                   <option value="">-- Bitte wählen --</option>
                   <option value="10">10% Reduktion</option>
                   <option value="20">20% Reduktion</option>
@@ -5753,7 +5753,7 @@ app.get('/app', (c) => {
                 </select>
                 <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #059669;">
                   <i class="fas fa-lightbulb" style="color: #059669; margin-right: 0.5rem;"></i>
-                  <span style="font-size: 0.85rem; color: #374151;">Tipp: Beginnen Sie mit 30–50 % für einen sicheren und gut verträglichen Start.</span>
+                  <span style=" color: #374151;">Tipp: Beginnen Sie mit 30–50 % für einen sicheren und gut verträglichen Start.</span>
                 </div>
               </div>
             </div>
@@ -5762,14 +5762,14 @@ app.get('/app', (c) => {
               <div style="background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #f59e0b; display: none;">
                 <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
                   <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #fbbf24); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-chart-line" style="color: white; font-size: 1.1rem;"></i>
+                    <i class="fas fa-chart-line" style="color: white; "></i>
                   </div>
                   <div>
-                    <label for="reduction-goal-hidden" style="font-size: 1rem; font-weight: 600; color: #b45309; margin: 0;">Reduktionsziel (%) *</label>
-                    <p style="font-size: 0.85rem; color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel Prozent Ihrer Medikamente möchten Sie reduzieren?</p>
+                    <label for="reduction-goal-hidden" style=" font-weight: 600; color: #b45309; margin: 0;">Reduktionsziel (%) *</label>
+                    <p style=" color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel Prozent Ihrer Medikamente möchten Sie reduzieren?</p>
                   </div>
                 </div>
-                <select id="reduction-goal-hidden" name="reduction_goal" required style="width: 100%; padding: 0.875rem; font-size: 0.95rem; border: 2px solid #f59e0b; border-radius: 8px; background: white;">
+                <select id="reduction-goal-hidden" name="reduction_goal" required style="width: 100%; padding: 0.875rem;  border: 2px solid #f59e0b; border-radius: 8px; background: white;">
                   <option value="">-- Bitte wählen --</option>
                   <option value="10">10% – Minimale Reduktion</option>
                   <option value="20">20% – Leichte Reduktion</option>
@@ -5784,7 +5784,7 @@ app.get('/app', (c) => {
                 </select>
                 <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #f59e0b;">
                   <i class="fas fa-exclamation-triangle" style="color: #f59e0b; margin-right: 0.5rem;"></i>
-                  <span style="font-size: 0.85rem; color: #374151;">Wichtig: Medikamentenreduktion nur in Absprache mit Ihrem Arzt!</span>
+                  <span style=" color: #374151;">Wichtig: Medikamentenreduktion nur in Absprache mit Ihrem Arzt!</span>
                 </div>
               </div>
             </div>
@@ -5815,8 +5815,8 @@ app.get('/app', (c) => {
             </div>
 
             <div class="card" style="background: #f9fafb; margin-top: 1.5rem; padding: 1rem;">
-              <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 0.8rem;">Ihre Angaben im Überblick</h4>
-              <div style="font-size: 0.85rem;">
+              <h4 style=" font-weight: 600; margin-bottom: 0.8rem;">Ihre Angaben im Überblick</h4>
+              <div style="">
                 <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
                   <span class="muted">Name:</span>
                   <span id="summary-name" style="font-weight: 500;">-</span>
@@ -5987,10 +5987,10 @@ app.get('/app', (c) => {
           <div id="plan-ready-message" style="display: none; margin-top: 1rem;">
             <div id="plan-ready-card" style="background: linear-gradient(135deg, #0b7b6c 0%, #059669 100%); padding: 1.5rem; border-radius: 14px; box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3); text-align: center; animation: gentle-pulse 2s ease-in-out infinite;">
               <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <i class="fas fa-file-medical" style="color: white; font-size: 2rem;"></i>
-                <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Ihr persönlicher MEDLESS-Orientierungsplan ist fertig!</h3>
+                <i class="fas fa-file-medical" style="color: white; "></i>
+                <h3 style="margin: 0;  font-weight: 800; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Ihr persönlicher MEDLESS-Orientierungsplan ist fertig!</h3>
               </div>
-              <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 0.85rem; font-weight: 500; margin-bottom: 1rem;">
+              <p style="margin: 0; color: rgba(255,255,255,0.95);  font-weight: 500; margin-bottom: 1rem;">
                 Ihr persönlicher Orientierungsplan wurde erstellt. Er fasst Ihre Angaben zu Medikamenten und Einnahmezeiten übersichtlich zusammen und dient als Grundlage für das Gespräch mit Ihrem Arzt. MEDLESS ersetzt keine ärztliche Beratung und ist kein Medizinprodukt.
               </p>
               <button id="show-plan-button" style="
@@ -5999,7 +5999,7 @@ app.get('/app', (c) => {
                 border: none;
                 padding: 0.75rem 1.75rem;
                 border-radius: 24px;
-                font-size: 0.95rem;
+                
                 font-weight: 700;
                 cursor: pointer;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -6008,10 +6008,10 @@ app.get('/app', (c) => {
                 align-items: center;
                 gap: 0.6rem;
               " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
-                <i class="fas fa-eye" style="font-size: 1rem;"></i>
+                <i class="fas fa-eye" style=""></i>
                 <span>Plan jetzt anzeigen</span>
               </button>
-              <p style="margin: 0.75rem 0 0 0; color: rgba(255,255,255,0.8); font-size: 0.75rem;">
+              <p style="margin: 0.75rem 0 0 0; color: rgba(255,255,255,0.8); ">
                 <i class="fas fa-info-circle" style="margin-right: 0.3rem;"></i>
                 Klicken Sie auf den Button wenn Sie bereit sind
               </p>
@@ -6283,7 +6283,7 @@ app.get('/app', (c) => {
             indicator.style.fontSize = '1rem';
             indicator.style.transform = 'scale(0.83)';  // 40px visual size
             indicator.style.boxShadow = 'none';
-            indicator.innerHTML = '<i class="fas fa-check" style="font-size: 0.9rem;"></i>';
+            indicator.innerHTML = '<i class="fas fa-check" style=""></i>';
           }
           if (progressBar) progressBar.style.width = '100%';
         } else if (i === stepNumber) {
@@ -6307,7 +6307,7 @@ app.get('/app', (c) => {
             indicator.style.fontWeight = '500';
             indicator.style.transform = 'scale(0.83)';  // 40px visual size
             indicator.style.boxShadow = 'none';
-            indicator.innerHTML = '<i class="fas fa-circle" style="font-size: 0.5rem;"></i>';
+            indicator.innerHTML = '<i class="fas fa-circle" style=""></i>';
           }
           if (progressBar) progressBar.style.width = '0%';
         }
@@ -6549,11 +6549,11 @@ app.get('/impressum', (c) => {
       padding: var(--space-8) var(--space-4);
     }
     .legal-page h1 {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       margin-bottom: var(--space-6);
     }
     .legal-page h2 {
-      font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.75rem);
+      
       margin-top: var(--space-6);
       margin-bottom: var(--space-4);
     }
@@ -6637,16 +6637,16 @@ app.get('/datenschutz', (c) => {
       padding: var(--space-8) var(--space-4);
     }
     .legal-page h1 {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       margin-bottom: var(--space-6);
     }
     .legal-page h2 {
-      font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.75rem);
+      
       margin-top: var(--space-6);
       margin-bottom: var(--space-4);
     }
     .legal-page h3 {
-      font-size: clamp(1.25rem, 1rem + 0.5vw, 1.4rem);
+      
       margin-top: var(--space-5);
       margin-bottom: var(--space-3);
     }
@@ -6773,11 +6773,11 @@ app.get('/agb', (c) => {
       padding: var(--space-8) var(--space-4);
     }
     .legal-page h1 {
-      font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+      
       margin-bottom: var(--space-6);
     }
     .legal-page h2 {
-      font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.75rem);
+      
       margin-top: var(--space-6);
       margin-bottom: var(--space-4);
     }
@@ -6852,7 +6852,7 @@ app.get('/agb', (c) => {
       Der Kunde erteilt seine Zustimmung, dass auch die im Kaufvertrag mit enthaltenen personenbezogenen Daten in Erfüllung dieses Vertrages von uns automationsunterstützt gespeichert und verarbeitet werden.
     </p>
     
-    <p style="margin-top: var(--space-6); padding-top: var(--space-6); border-top: 1px solid var(--border-light); font-size: 14px; color: var(--text-muted);">
+    <p style="margin-top: var(--space-6); padding-top: var(--space-6); border-top: 1px solid var(--border-light);  color: var(--text-muted);">
       Stand: Januar 2025<br>
       CBD-Vertriebskompetenz GmbH<br>
       Asperngasse 4, 8020 Graz
@@ -6904,7 +6904,7 @@ function getSharedStyles() {
     }
     body {
       font-family: var(--font-family);
-      font-size: 16px;
+      
       line-height: 1.6;
       color: var(--text-body-color);
       background: var(--background-white);

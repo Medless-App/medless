@@ -6,8 +6,49 @@
 /* ROOT VARIABLES */
 :root {
   /* Fonts */
-  --font-display: 'Plus Jakarta Sans', sans-serif;
-  --font-primary: 'Inter', sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-primary: 'Plus Jakarta Sans', 'Inter', sans-serif;
+
+  /* Typography - Desktop */
+  --h1-size: 2.6rem;
+  --h1-line: 1.2;
+  --h1-weight: 700;
+
+  --h2-size: 2.0rem;
+  --h2-line: 1.3;
+  --h2-weight: 700;
+
+  --h3-size: 1.5rem;
+  --h3-line: 1.35;
+  --h3-weight: 600;
+
+  --h4-size: 1.25rem;
+  --h4-line: 1.4;
+  --h4-weight: 600;
+
+  --h5-size: 1.125rem;
+  --h5-line: 1.4;
+  --h5-weight: 600;
+
+  --h6-size: 1rem;
+  --h6-line: 1.4;
+  --h6-weight: 600;
+
+  --body-size: 1rem;
+  --body-line: 1.55;
+  --body-weight: 400;
+
+  --lead-size: 1.25rem;
+  --lead-line: 1.5;
+  --lead-weight: 400;
+
+  --btn-size: 1rem;
+  --btn-line: 1.5;
+  --btn-weight: 600;
+
+  --caption-size: 0.875rem;
+  --caption-line: 1.4;
+  --caption-weight: 400;
 
   /* Colors - Primary */
   --primary-green: #2D7A5F;
@@ -50,6 +91,20 @@
   --container-padding-mobile: 24px;
 }
 
+/* Mobile Typography Breakpoints */
+@media (max-width: 768px) {
+  :root {
+    --h1-size: 2.0rem;
+    --h2-size: 1.6rem;
+    --h3-size: 1.3rem;
+    --h4-size: 1.15rem;
+    --h5-size: 1.05rem;
+    --lead-size: 1.1rem;
+    --body-size: 0.95rem;
+    --caption-size: 0.8rem;
+  }
+}
+
 /* GLOBAL RESET */
 * {
   margin: 0;
@@ -65,9 +120,85 @@ body {
   font-family: var(--font-primary);
   color: var(--text-primary);
   background: var(--background-white);
-  line-height: 1.6;
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  font-weight: var(--body-weight);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* GLOBAL TYPOGRAPHY */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: var(--h1-size);
+  line-height: var(--h1-line);
+  font-weight: var(--h1-weight);
+}
+
+h2 {
+  font-size: var(--h2-size);
+  line-height: var(--h2-line);
+  font-weight: var(--h2-weight);
+}
+
+h3 {
+  font-size: var(--h3-size);
+  line-height: var(--h3-line);
+  font-weight: var(--h3-weight);
+}
+
+h4 {
+  font-size: var(--h4-size);
+  line-height: var(--h4-line);
+  font-weight: var(--h4-weight);
+}
+
+h5 {
+  font-size: var(--h5-size);
+  line-height: var(--h5-line);
+  font-weight: var(--h5-weight);
+}
+
+h6 {
+  font-size: var(--h6-size);
+  line-height: var(--h6-line);
+  font-weight: var(--h6-weight);
+}
+
+p, li {
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  font-weight: var(--body-weight);
+  color: var(--text-secondary);
+}
+
+.lead {
+  font-size: var(--lead-size);
+  line-height: var(--lead-line);
+  font-weight: var(--lead-weight);
+  color: var(--text-secondary);
+}
+
+.caption {
+  font-size: var(--caption-size);
+  line-height: var(--caption-line);
+  font-weight: var(--caption-weight);
+  color: var(--text-muted);
+}
+
+.btn-primary,
+.btn-secondary,
+button {
+  font-size: var(--btn-size);
+  line-height: var(--btn-line);
+  font-weight: var(--btn-weight);
+  font-family: var(--font-primary);
 }
 
 /* CONTAINER */
@@ -100,27 +231,21 @@ body {
   }
 }
 
-/* TYPOGRAPHY */
+/* LEGACY TYPOGRAPHY CLASSES (now use CSS variables) */
 .hero-title {
-  font-family: var(--font-display);
-  font-size: 56px;
-  font-weight: 700;
-  line-height: 1.15;
+  font-family: var(--font-primary);
+  font-size: var(--h1-size);
+  font-weight: var(--h1-weight);
+  line-height: var(--h1-line);
   color: var(--text-primary);
   margin-bottom: var(--spacing-sm);
 }
 
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 36px;
-  }
-}
-
 .section-title {
-  font-family: var(--font-display);
-  font-size: 36px;
-  font-weight: 600;
-  line-height: 1.3;
+  font-family: var(--font-primary);
+  font-size: var(--h2-size);
+  font-weight: var(--h2-weight);
+  line-height: var(--h2-line);
   color: var(--text-primary);
   text-align: center;
   margin-bottom: var(--spacing-xl);
@@ -128,69 +253,44 @@ body {
 
 @media (max-width: 768px) {
   .section-title {
-    font-size: 28px;
     margin-bottom: var(--spacing-lg);
   }
 }
 
 .card-title {
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.4;
+  font-family: var(--font-primary);
+  font-size: var(--h3-size);
+  font-weight: var(--h3-weight);
+  line-height: var(--h3-line);
   color: var(--text-primary);
   margin-bottom: 12px;
 }
 
-@media (max-width: 768px) {
-  .card-title {
-    font-size: 20px;
-  }
-}
-
 .hero-subtitle {
   font-family: var(--font-primary);
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 1.6;
+  font-size: var(--lead-size);
+  font-weight: var(--lead-weight);
+  line-height: var(--lead-line);
   color: var(--text-secondary);
   margin-bottom: var(--spacing-lg);
 }
 
-@media (max-width: 768px) {
-  .hero-subtitle {
-    font-size: 18px;
-  }
-}
-
 .body-text {
   font-family: var(--font-primary);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.7;
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  line-height: var(--body-line);
   color: var(--text-secondary);
   max-width: 700px;
   margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-  .body-text {
-    font-size: 15px;
-  }
-}
-
 .card-text {
   font-family: var(--font-primary);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.7;
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  line-height: var(--body-line);
   color: var(--text-secondary);
-}
-
-@media (max-width: 768px) {
-  .card-text {
-    font-size: 15px;
-  }
 }
 
 /* ICONS */
@@ -228,8 +328,9 @@ body {
 /* BUTTONS */
 .btn-primary {
   font-family: var(--font-primary);
-  font-size: 18px;
-  font-weight: 600;
+  font-size: var(--btn-size);
+  font-weight: var(--btn-weight);
+  line-height: var(--btn-line);
   color: white;
   background: var(--primary-green);
   border: none;
@@ -248,15 +349,15 @@ body {
 
 @media (max-width: 768px) {
   .btn-primary {
-    font-size: 16px;
     padding: 14px 28px;
   }
 }
 
 .btn-secondary {
   font-family: var(--font-primary);
-  font-size: 18px;
-  font-weight: 600;
+  font-size: var(--btn-size);
+  font-weight: var(--btn-weight);
+  line-height: var(--btn-line);
   color: var(--primary-green);
   background: transparent;
   border: 1.5px solid var(--primary-green);
@@ -273,15 +374,15 @@ body {
 
 @media (max-width: 768px) {
   .btn-secondary {
-    font-size: 16px;
     padding: 13px 27px;
   }
 }
 
 .btn-primary-sm {
   font-family: var(--font-primary);
-  font-size: 15px;
-  font-weight: 600;
+  font-size: var(--caption-size);
+  font-weight: var(--btn-weight);
+  line-height: var(--btn-line);
   color: white;
   background: var(--primary-green);
   border: none;
@@ -372,8 +473,8 @@ body {
 }
 
 .logo-text {
-  font-family: var(--font-display);
-  font-size: 24px;
+  font-family: var(--font-primary);
+  font-size: var(--h3-size);
   font-weight: 700;
   color: var(--primary-green);
   text-decoration: none;
@@ -387,7 +488,7 @@ body {
 
 .nav-links a {
   font-family: var(--font-primary);
-  font-size: 16px;
+  font-size: var(--body-size);
   font-weight: 500;
   color: var(--text-primary);
   text-decoration: none;
@@ -421,7 +522,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 14px;
+  font-size: var(--caption-size);
   color: var(--text-secondary);
   margin-top: 12px;
 }
@@ -440,9 +541,9 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;
-  font-size: 0.9rem;
+  font-size: var(--body-size);
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: var(--body-line);
 }
 
 .hero-usps li {
@@ -501,9 +602,9 @@ body {
 }
 
 .mockup-header {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
+  font-family: var(--font-primary);
+  font-size: var(--h5-size);
+  font-weight: var(--h5-weight);
   color: var(--primary-green);
   margin-bottom: 20px;
   text-align: center;
@@ -547,7 +648,7 @@ body {
 }
 
 .mockup-disclaimer {
-  font-size: 11px;
+  font-size: var(--caption-size);
   color: var(--text-muted);
   text-align: center;
   display: block;
@@ -582,8 +683,8 @@ body {
 }
 
 .callout-box p {
-  font-size: 16px;
-  line-height: 1.7;
+  font-size: var(--body-size);
+  line-height: var(--body-line);
   color: var(--text-secondary);
 }
 
@@ -651,8 +752,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-size: 24px;
+  font-family: var(--font-primary);
+  font-size: var(--h3-size);
   font-weight: 700;
 }
 
@@ -660,7 +761,6 @@ body {
   .step-badge {
     width: 40px;
     height: 40px;
-    font-size: 20px;
   }
 }
 
@@ -754,31 +854,19 @@ body {
 }
 
 .cta-title {
-  font-family: var(--font-display);
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 1.3;
+  font-family: var(--font-primary);
+  font-size: var(--h2-size);
+  font-weight: var(--h2-weight);
+  line-height: var(--h2-line);
   color: var(--text-primary);
 }
 
-@media (max-width: 768px) {
-  .cta-title {
-    font-size: 24px;
-  }
-}
-
 .cta-text {
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: var(--lead-size);
+  line-height: var(--lead-line);
   color: var(--text-secondary);
   max-width: 640px;
   margin-bottom: 16px;
-}
-
-@media (max-width: 768px) {
-  .cta-text {
-    font-size: 16px;
-  }
 }
 
 .cta-buttons {
@@ -846,17 +934,11 @@ body {
 
 .faq-question-text {
   font-family: var(--font-primary);
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: var(--h5-size);
+  font-weight: var(--h5-weight);
+  line-height: var(--h5-line);
   color: var(--text-primary);
   flex: 1;
-}
-
-@media (max-width: 768px) {
-  .faq-question-text {
-    font-size: 16px;
-  }
 }
 
 .faq-icon {
@@ -894,16 +976,10 @@ body {
 }
 
 .faq-answer p {
-  font-size: 16px;
-  line-height: 1.7;
+  font-size: var(--body-size);
+  line-height: var(--body-line);
   color: var(--text-secondary);
   margin: 0;
-}
-
-@media (max-width: 768px) {
-  .faq-answer p {
-    font-size: 15px;
-  }
 }
 
 /* ===================================
@@ -937,22 +1013,22 @@ body {
 }
 
 .footer-title {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
+  font-family: var(--font-primary);
+  font-size: var(--h5-size);
+  font-weight: var(--h5-weight);
   margin-bottom: 16px;
 }
 
 .footer-subtitle {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 600;
+  font-family: var(--font-primary);
+  font-size: var(--h6-size);
+  font-weight: var(--h6-weight);
   margin-bottom: 12px;
 }
 
 .footer-text {
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: var(--caption-size);
+  line-height: var(--caption-line);
   color: rgba(255, 255, 255, 0.8);
 }
 
@@ -965,7 +1041,7 @@ body {
 }
 
 .footer-links a {
-  font-size: 14px;
+  font-size: var(--caption-size);
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   transition: color 0.2s ease;
@@ -992,18 +1068,18 @@ body {
 }
 
 .footer-copyright {
-  font-size: 14px;
+  font-size: var(--caption-size);
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 12px;
 }
 
 .footer-disclaimer {
-  font-size: 13px;
+  font-size: var(--caption-size);
   color: rgba(255, 255, 255, 0.6);
   font-style: italic;
   max-width: 800px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: var(--caption-line);
 }
 
 /* ===================================
@@ -1287,15 +1363,15 @@ body {
 
 /* ===== LOADER TITLES ===== */
 .plan-loader-title {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: var(--h4-size);
+  font-weight: var(--h4-weight);
   color: #1F2937;
   margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .plan-loader-subtitle {
-  font-size: 0.95rem;
+  font-size: var(--body-size);
   color: #6B7280;
   max-width: 420px;
   margin: 0 auto 2rem;
@@ -1387,10 +1463,10 @@ body {
 }
 
 .step-title {
-  font-weight: 600;
-  font-size: 0.9375rem;
+  font-weight: var(--h6-weight);
+  font-size: var(--h6-size);
   color: #0f172a;
-  line-height: 1.4;
+  line-height: var(--h6-line);
   margin-bottom: 2px;
   display: flex;
   align-items: center;
@@ -1399,8 +1475,8 @@ body {
 }
 
 .step-counter {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--caption-size);
+  font-weight: var(--caption-weight);
   color: #15927a;
   background: rgba(21, 146, 122, 0.08);
   padding: 2px 8px;
@@ -1409,9 +1485,9 @@ body {
 }
 
 .step-subtitle {
-  font-size: 0.8125rem;
+  font-size: var(--caption-size);
   color: #64748b;
-  line-height: 1.4;
+  line-height: var(--caption-line);
   margin-bottom: 6px;
 }
 
@@ -1433,8 +1509,8 @@ body {
 }
 
 .step-percentage {
-  font-size: 0.6875rem;
-  font-weight: 600;
+  font-size: var(--caption-size);
+  font-weight: var(--caption-weight);
   color: #15927a;
   text-align: right;
 }
@@ -1466,23 +1542,23 @@ body {
 
 /* Wizard Hero/Title Section - ultra-compact for 1366x768 */
 #tool > h2 {
-  font-family: var(--font-display);
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 700;
+  font-family: var(--font-primary);
+  font-size: clamp(1.75rem, 4vw, var(--h1-size));
+  font-weight: var(--h1-weight);
   color: var(--text-primary);
   text-align: center;
   margin-bottom: 0.375rem;
-  line-height: 1.2;
+  line-height: var(--h1-line);
 }
 
 #tool > .muted {
   font-family: var(--font-primary);
-  font-size: 1rem;
+  font-size: var(--lead-size);
   color: var(--text-secondary);
   text-align: center;
   max-width: 720px;
   margin: 0 auto 1rem;
-  line-height: 1.4;
+  line-height: var(--lead-line);
 }
 
 /* Wizard Form Card - optimized padding for button visibility */
@@ -1505,16 +1581,16 @@ body {
 
 /* Wizard Card Title */
 #tool .card h3 {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: var(--font-primary);
+  font-size: var(--h3-size);
+  font-weight: var(--h3-weight);
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
 }
 
 /* Wizard Card Subtitle */
 #tool .card .muted {
-  font-size: 1rem;
+  font-size: var(--body-size);
   color: var(--text-secondary);
   margin-bottom: var(--spacing-lg);
 }
@@ -1525,7 +1601,7 @@ body {
 #tool input[type="email"],
 #tool select {
   font-family: var(--font-primary);
-  font-size: 1rem;
+  font-size: var(--body-size);
   padding: 0.75rem 1rem;
   border: 2px solid var(--border-light);
   border-radius: 10px;
@@ -1545,8 +1621,8 @@ body {
 /* Buttons in wizard */
 #tool .btn-primary {
   font-family: var(--font-primary);
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--btn-size);
+  font-weight: var(--btn-weight);
   padding: 0.875rem 1.75rem;
   background: linear-gradient(135deg, var(--primary-green), var(--primary-green-hover));
   color: white;
@@ -1573,7 +1649,7 @@ body {
 
 #tool label {
   font-family: var(--font-primary);
-  font-size: 0.95rem;
+  font-size: var(--body-size);
   font-weight: 500;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
@@ -1581,7 +1657,7 @@ body {
 }
 
 #tool .helper {
-  font-size: 0.875rem;
+  font-size: var(--caption-size);
   color: var(--text-muted);
   margin-top: var(--spacing-xs);
 }
@@ -1647,17 +1723,17 @@ body {
 }
 
 .plan-loader-title {
-  font-family: var(--font-display);
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-family: var(--font-primary);
+  font-size: var(--h2-size);
+  font-weight: var(--h2-weight);
   color: var(--text-primary);
   margin-bottom: var(--spacing-sm);
-  line-height: 1.3;
+  line-height: var(--h2-line);
 }
 
 .plan-loader-subtitle {
   font-family: var(--font-primary);
-  font-size: 1.125rem;
+  font-size: var(--h5-size);
   color: var(--text-secondary);
   max-width: 480px;
   margin: 0 auto;
