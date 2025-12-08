@@ -5862,10 +5862,11 @@ app.get('/app', (c) => {
           
           <!-- Medical AI Loader -->
           <div class="medical-loader">
-            <!-- Premium Dual-Ring Spinner -->
+            <!-- Spektakulärer 3-Ring Spinner -->
             <div class="plan-loader-spinner">
               <div class="plan-loader-ring plan-loader-ring-outer"></div>
               <div class="plan-loader-ring plan-loader-ring-inner"></div>
+              <div class="plan-loader-ring plan-loader-ring-core"></div>
             </div>
             
             <h2 class="plan-loader-title">Ihr MEDLESS-Orientierungsplan wird erstellt …</h2>

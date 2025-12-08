@@ -60,10 +60,11 @@
       
       <!-- LOADER ANIMATION -->
       <div class="medical-loader">
-        <!-- Premium Dual-Ring Spinner -->
+        <!-- Spektakulärer 3-Ring Spinner -->
         <div class="plan-loader-spinner">
           <div class="plan-loader-ring plan-loader-ring-outer"></div>
           <div class="plan-loader-ring plan-loader-ring-inner"></div>
+          <div class="plan-loader-ring plan-loader-ring-core"></div>
         </div>
         
         <h2 class="plan-loader-title">Ihr MEDLESS-Orientierungsplan wird erstellt …</h2>
@@ -149,14 +150,17 @@
   </div>
   
   <script>
-    // Simulate progress animation
+    // Perfekt synchronisierte Animation - alles endet bei 100%
     function animateProgress() {
+      const TOTAL_DURATION = 7000; // 7 Sekunden für komplette Animation
+      
       const steps = [
-        { counter: 18, duration: 3000, delay: 600 },   // Step 1: 18 medications
-        { counter: 12, duration: 2500, delay: 1200 },  // Step 2: 12 interactions
-        { counter: 8, duration: 2000, delay: 1800 }    // Step 3: 8 sections
+        { counter: 18, startDelay: 0,    animDuration: 3500 },  // Step 1: startet sofort
+        { counter: 12, startDelay: 1200, animDuration: 3200 },  // Step 2: startet bei 1.2s
+        { counter: 8,  startDelay: 2400, animDuration: 2900 }   // Step 3: startet bei 2.4s
       ];
       
+      // Berechne, wann jeder Step fertig sein muss (alle bei 7s)
       steps.forEach((step, index) => {
         const stepNum = index + 1;
         const counterEl = document.querySelector(`.step-${stepNum} .step-counter`);
@@ -165,24 +169,44 @@
         
         setTimeout(() => {
           let current = 0;
-          const increment = step.counter / (step.duration / 50);
+          const startTime = Date.now();
           
           const counterInterval = setInterval(() => {
-            current += increment;
-            if (current >= step.counter) {
-              current = step.counter;
-              clearInterval(counterInterval);
-            }
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(1, elapsed / step.animDuration);
             
+            // Smooth easing
+            const eased = progress < 0.5 
+              ? 2 * progress * progress 
+              : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+            
+            current = eased * step.counter;
             const rounded = Math.floor(current);
             const percentage = Math.floor((current / step.counter) * 100);
             
             counterEl.textContent = `${rounded}/${step.counter}`;
             percentageEl.textContent = `${percentage}%`;
             progressBar.style.width = `${percentage}%`;
-          }, 50);
-        }, step.delay);
+            
+            if (progress >= 1) {
+              // Finale Werte
+              counterEl.textContent = `${step.counter}/${step.counter}`;
+              percentageEl.textContent = `100%`;
+              progressBar.style.width = `100%`;
+              clearInterval(counterInterval);
+            }
+          }, 30);
+        }, step.startDelay);
       });
+      
+      // Nach TOTAL_DURATION: Success-State
+      setTimeout(() => {
+        const title = document.querySelector('.plan-loader-title');
+        if (title) {
+          title.innerHTML = '✓ Ihr MEDLESS-Orientierungsplan ist fertig!';
+          title.style.color = '#059669';
+        }
+      }, TOTAL_DURATION);
     }
     
     // Start animation when page loads
