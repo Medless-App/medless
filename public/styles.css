@@ -1010,6 +1010,63 @@ body {
   max-width: 400px;
 }
 
+/* Loader Status Animation */
+.plan-loader-status {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.plan-loader-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+}
+
+.plan-loader-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: plan-loader-pulse 2s ease-in-out infinite;
+}
+
+/* Stagger animation delays for each dot */
+.plan-loader-step:nth-child(1) .plan-loader-dot {
+  animation-delay: 0s;
+}
+
+.plan-loader-step:nth-child(2) .plan-loader-dot {
+  animation-delay: 0.4s;
+}
+
+.plan-loader-step:nth-child(3) .plan-loader-dot {
+  animation-delay: 0.8s;
+}
+
+.plan-loader-label {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-align: left;
+}
+
+@keyframes plan-loader-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+}
+
 /* ===================================
    WIZARD-SPECIFIC STYLES (/app)
    =================================== */

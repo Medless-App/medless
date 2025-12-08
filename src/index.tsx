@@ -5695,7 +5695,7 @@ app.get('/app', (c) => {
         <div id="step-4" class="form-step" style="display: none;">
           <div class="card" style="max-width: 700px; margin: 0 auto;">
             <h3 style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Auf Basis Ihrer Angaben wurde ein Orientierungsplan erstellt, der Ihnen hilft, Ihr nächstes Gespräch mit Ihrem Arzt strukturiert vorzubereiten. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.</p>
+            <p class="muted" style="margin-bottom: 1.5rem;">Legen Sie hier die Einstellungen für Ihren MEDLESS-Orientierungsplan fest. Auf dieser Basis wird Ihr persönlicher Orientierungsplan für das Gespräch mit Ihrem Arzt berechnet. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.</p>
             
             <div class="form-row" style="margin-bottom: 1.5rem;">
               <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
@@ -5800,7 +5800,7 @@ app.get('/app', (c) => {
         <div id="step-5" class="form-step" style="display: none;">
           <div class="card" style="max-width: 700px; margin: 0 auto;">
             <h3 style="margin-bottom: 0.5rem;">Schritt 5: E-Mail & Zusammenfassung</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Überprüfen Sie Ihre Angaben und geben Sie Ihre E-Mail ein.</p>
+            <p class="muted" style="margin-bottom: 1.5rem;">Überprüfen Sie Ihre Angaben in Ruhe und geben Sie Ihre E-Mail-Adresse ein. Dorthin senden wir den Download-Link zu Ihrem MEDLESS-Orientierungsplan.</p>
             
             <div class="form-row">
               <div>
@@ -5866,8 +5866,24 @@ app.get('/app', (c) => {
               <div class="plan-loader-spinner"></div>
               <h2 class="plan-loader-title">Ihr MEDLESS-Orientierungsplan wird erstellt …</h2>
               <p class="plan-loader-subtitle">
-                Bitte haben Sie einen Moment Geduld. Ihr Plan wird anhand Ihrer Angaben berechnet.
+                Bitte haben Sie einen Moment Geduld. Ihr Orientierungsplan wird anhand Ihrer Angaben berechnet und als PDF vorbereitet.
               </p>
+              
+              <!-- Analysis Status Steps -->
+              <div class="plan-loader-status">
+                <div class="plan-loader-step">
+                  <span class="plan-loader-dot"></span>
+                  <span class="plan-loader-label">Medikamente werden geprüft …</span>
+                </div>
+                <div class="plan-loader-step">
+                  <span class="plan-loader-dot"></span>
+                  <span class="plan-loader-label">Wechselwirkungen werden analysiert …</span>
+                </div>
+                <div class="plan-loader-step">
+                  <span class="plan-loader-dot"></span>
+                  <span class="plan-loader-label">Orientierungsplan wird berechnet …</span>
+                </div>
+              </div>
             </div>
           </div>
           
