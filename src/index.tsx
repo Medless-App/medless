@@ -1464,76 +1464,135 @@ app.get('/magazin', (c) => {
     }
   </style>
 </head>
-<body>
-  <div class="legal-page">
-    <a href="/" class="back-link">
-      <i class="fas fa-arrow-left"></i>
-      Zurück zur Startseite
-    </a>
-    
-    <h1>MEDLESS Magazin</h1>
-    <p style="font-size: 1.125rem; color: var(--gray-600); margin-bottom: var(--space-8);">
-      Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.
-    </p>
-    
-    <div class="magazine-grid">
-      <article class="article-card">
-        <h3>Das Endocannabinoid-System erklärt</h3>
-        <p>Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
-        <a href="/magazin/endocannabinoid-system-erklaert" class="article-link">
-          Artikel lesen <i class="fas fa-arrow-right"></i>
+<body style="margin: 0; font-family: 'Inter', sans-serif; background: #F9FAFB;">
+  
+  <!-- HEADER -->
+  <header class="header" style="background: white; border-bottom: 1px solid #E5E7EB; position: sticky; top: 0; z-index: 100;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+      <nav class="nav" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 0;">
+        <a href="/" class="logo" style="text-decoration: none;">
+          <span class="logo-text" style="font-size: 24px; font-weight: 700; color: #0b7b6c;">Medless</span>
         </a>
+        <ul class="nav-links" style="display: flex; gap: 32px; list-style: none; margin: 0;">
+          <li><a href="/#how-it-works" style="text-decoration: none; color: #4B5563; font-weight: 500;">So funktioniert's</a></li>
+          <li><a href="/#benefits" style="text-decoration: none; color: #4B5563; font-weight: 500;">Vorteile</a></li>
+          <li><a href="/#faq" style="text-decoration: none; color: #4B5563; font-weight: 500;">FAQ</a></li>
+          <li><a href="/magazin" style="text-decoration: none; color: #0b7b6c; font-weight: 600;">Magazin</a></li>
+        </ul>
+        <button onclick="window.location.href='/app'" style="padding: 12px 24px; background: linear-gradient(135deg, #0E5A45, #10B981); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Analyse starten</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <div style="background: linear-gradient(135deg, #0E5A45, #10B981); padding: 80px 32px; text-align: center; color: white;">
+    <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin: 0 0 24px 0; line-height: 1.1;">MEDLESS Magazin</h1>
+    <p style="font-size: 1.25rem; max-width: 700px; margin: 0 auto; opacity: 0.95; line-height: 1.6;">Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.</p>
+  </div>
+
+  <!-- ARTICLES GRID -->
+  <div style="max-width: 1200px; margin: 60px auto; padding: 0 32px;">
+    <div class="magazine-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px;">
+      <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.12)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)';" onclick="window.location.href='/magazin/endocannabinoid-system-erklaert'">
+        <div style="height: 200px; background: linear-gradient(135deg, rgba(14, 90, 69, 0.9), rgba(16, 185, 129, 0.8)), url('https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&h=400&fit=crop') center/cover;"></div>
+        <div style="padding: 24px;">
+          <span style="display: inline-block; padding: 4px 12px; background: #F3E8FF; color: #7C3AED; font-size: 12px; font-weight: 600; text-transform: uppercase; border-radius: 12px; margin-bottom: 12px;">Wissen & Grundlagen</span>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #0F5A46; margin-bottom: 12px; line-height: 1.3;">Das Endocannabinoid-System erklärt</h3>
+          <p style="color: #6B7280; line-height: 1.6; margin-bottom: 16px;">Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
+          <a href="/magazin/endocannabinoid-system-erklaert" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+            Artikel lesen <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
       </article>
       
-      <article class="article-card">
-        <h3>7 Fehler beim Medikamente absetzen</h3>
-        <p>Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
-        <a href="/magazin/medikamente-absetzen-7-fehler" class="article-link">
-          Artikel lesen <i class="fas fa-arrow-right"></i>
-        </a>
+      <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.12)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)';" onclick="window.location.href='/magazin/medikamente-absetzen-7-fehler'">
+        <div style="height: 200px; background: linear-gradient(135deg, rgba(220, 38, 38, 0.9), rgba(239, 68, 68, 0.8)), url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop') center/cover;"></div>
+        <div style="padding: 24px;">
+          <span style="display: inline-block; padding: 4px 12px; background: #FEE2E2; color: #DC2626; font-size: 12px; font-weight: 600; text-transform: uppercase; border-radius: 12px; margin-bottom: 12px;">Praxis-Tipps</span>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #0F5A46; margin-bottom: 12px; line-height: 1.3;">7 Fehler beim Medikamente absetzen</h3>
+          <p style="color: #6B7280; line-height: 1.6; margin-bottom: 16px;">Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
+          <a href="/magazin/medikamente-absetzen-7-fehler" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+            Artikel lesen <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
       </article>
       
-      <article class="article-card">
-        <h3>Antidepressiva absetzen ohne Entzug</h3>
-        <p>Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
-        <a href="/magazin/antidepressiva-absetzen-ohne-entzug" class="article-link">
-          Artikel lesen <i class="fas fa-arrow-right"></i>
-        </a>
+      <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.12)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)';" onclick="window.location.href='/magazin/antidepressiva-absetzen-ohne-entzug'">
+        <div style="height: 200px; background: linear-gradient(135deg, rgba(79, 70, 229, 0.9), rgba(99, 102, 241, 0.8)), url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop') center/cover;"></div>
+        <div style="padding: 24px;">
+          <span style="display: inline-block; padding: 4px 12px; background: #EDE9FE; color: #6366F1; font-size: 12px; font-weight: 600; text-transform: uppercase; border-radius: 12px; margin-bottom: 12px;">Medikamente</span>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #0F5A46; margin-bottom: 12px; line-height: 1.3;">Antidepressiva absetzen ohne Entzug</h3>
+          <p style="color: #6B7280; line-height: 1.6; margin-bottom: 16px;">Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
+          <a href="/magazin/antidepressiva-absetzen-ohne-entzug" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+            Artikel lesen <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
       </article>
       
-      <article class="article-card">
-        <h3>Schlaftabletten loswerden</h3>
-        <p>Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
-        <a href="/magazin/schlaftabletten-loswerden" class="article-link">
-          Artikel lesen <i class="fas fa-arrow-right"></i>
-        </a>
+      <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.12)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)';" onclick="window.location.href='/magazin/schlaftabletten-loswerden'">
+        <div style="height: 200px; background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(37, 99, 235, 0.8)), url('https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop') center/cover;"></div>
+        <div style="padding: 24px;">
+          <span style="display: inline-block; padding: 4px 12px; background: #DBEAFE; color: #2563EB; font-size: 12px; font-weight: 600; text-transform: uppercase; border-radius: 12px; margin-bottom: 12px;">Schlaf</span>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #0F5A46; margin-bottom: 12px; line-height: 1.3;">Schlaftabletten loswerden</h3>
+          <p style="color: #6B7280; line-height: 1.6; margin-bottom: 16px;">Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
+          <a href="/magazin/schlaftabletten-loswerden" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+            Artikel lesen <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
       </article>
       
-      <article class="article-card">
-        <h3>CBD: Studien und Fakten</h3>
-        <p>Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
-        <a href="/magazin/cbd-studien-und-fakten" class="article-link">
-          Artikel lesen <i class="fas fa-arrow-right"></i>
-        </a>
+      <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.12)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)';" onclick="window.location.href='/magazin/cbd-studien-und-fakten'">
+        <div style="height: 200px; background: linear-gradient(135deg, rgba(5, 150, 105, 0.9), rgba(16, 185, 129, 0.8)), url('https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop') center/cover;"></div>
+        <div style="padding: 24px;">
+          <span style="display: inline-block; padding: 4px 12px; background: #D1FAE5; color: #059669; font-size: 12px; font-weight: 600; text-transform: uppercase; border-radius: 12px; margin-bottom: 12px;">Forschung</span>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #0F5A46; margin-bottom: 12px; line-height: 1.3;">CBD: Studien und Fakten</h3>
+          <p style="color: #6B7280; line-height: 1.6; margin-bottom: 16px;">Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
+          <a href="/magazin/cbd-studien-und-fakten" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+            Artikel lesen <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
       </article>
       
-      <article class="article-card">
-        <h3>Magenschutz (PPI) absetzen</h3>
-        <p>Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
-        <a href="/magazin/magenschutz-absetzen-ppi" class="article-link">
-          Artikel lesen <i class="fas fa-arrow-right"></i>
-        </a>
+      <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.12)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)';" onclick="window.location.href='/magazin/magenschutz-absetzen-ppi'">
+        <div style="height: 200px; background: linear-gradient(135deg, rgba(217, 119, 6, 0.9), rgba(245, 158, 11, 0.8)), url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop') center/cover;"></div>
+        <div style="padding: 24px;">
+          <span style="display: inline-block; padding: 4px 12px; background: #FEF3C7; color: #D97706; font-size: 12px; font-weight: 600; text-transform: uppercase; border-radius: 12px; margin-bottom: 12px;">Medikamente</span>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #0F5A46; margin-bottom: 12px; line-height: 1.3;">Magenschutz (PPI) absetzen</h3>
+          <p style="color: #6B7280; line-height: 1.6; margin-bottom: 16px;">Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
+          <a href="/magazin/magenschutz-absetzen-ppi" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+            Artikel lesen <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
       </article>
       
-      <article class="article-card">
-        <h3>Täglich 5 Tabletten – ist das normal?</h3>
-        <p>Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
-        <a href="/magazin/taeglich-5-tabletten" class="article-link">
-          Artikel lesen <i class="fas fa-arrow-right"></i>
-        </a>
+      <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.12)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)';" onclick="window.location.href='/magazin/taeglich-5-tabletten'">
+        <div style="height: 200px; background: linear-gradient(135deg, rgba(124, 58, 237, 0.9), rgba(139, 92, 246, 0.8)), url('https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop') center/cover;"></div>
+        <div style="padding: 24px;">
+          <span style="display: inline-block; padding: 4px 12px; background: #F3E8FF; color: #7C3AED; font-size: 12px; font-weight: 600; text-transform: uppercase; border-radius: 12px; margin-bottom: 12px;">Polypharmazie</span>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #0F5A46; margin-bottom: 12px; line-height: 1.3;">Täglich 5 Tabletten – ist das normal?</h3>
+          <p style="color: #6B7280; line-height: 1.6; margin-bottom: 16px;">Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
+          <a href="/magazin/taeglich-5-tabletten" style="color: #0F5A46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+            Artikel lesen <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
       </article>
     </div>
   </div>
+  
+  <!-- FOOTER -->
+  <footer style="background: linear-gradient(135deg, #0E5A45, #10B981); padding: 60px 32px 40px; color: white; text-align: center; margin-top: 80px;">
+    <p style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">MEDLESS – Dein Weg zu weniger Medikamenten</p>
+    <p style="font-size: 14px; opacity: 0.85;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    <div style="margin-top: 24px; display: flex; gap: 24px; justify-content: center;">
+      <a href="/impressum" style="color: white; opacity: 0.8; text-decoration: none; font-size: 14px;">Impressum</a>
+      <a href="/datenschutz" style="color: white; opacity: 0.8; text-decoration: none; font-size: 14px;">Datenschutz</a>
+      <a href="/agb" style="color: white; opacity: 0.8; text-decoration: none; font-size: 14px;">AGB</a>
+    </div>
+  </footer>
+  
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>
   `)
@@ -1819,38 +1878,39 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
 </head>
 <body>
   
-  <!-- Header -->
-  <header class="site-header">
-    <div class="header-container">
-      <a href="/" class="header-logo">
-        <span class="logo-text">
-          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
-        </span>
-      </a>
-      
-      <nav class="header-nav">
-        <a href="/#ueber-medless">Über MEDLESS</a>
-        <a href="/#funktionsweise">Funktionsweise</a>
-        <a href="/#faq">FAQ</a>
-        <a href="/#magazin">Magazin</a>
-        <a href="/#kontakt">Kontakt</a>
+  <!-- HEADER (identical to landing page) -->
+  <header class="header">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+      <nav class="nav" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 0;">
+        <a href="/" class="logo" style="text-decoration: none;">
+          <span class="logo-text" style="font-size: 24px; font-weight: 700; color: #0b7b6c;">Medless</span>
+        </a>
+        <ul class="nav-links" style="display: flex; gap: 32px; list-style: none; margin: 0;">
+          <li><a href="/#how-it-works" style="text-decoration: none; color: #4B5563; font-weight: 500;">So funktioniert's</a></li>
+          <li><a href="/#benefits" style="text-decoration: none; color: #4B5563; font-weight: 500;">Vorteile</a></li>
+          <li><a href="/#faq" style="text-decoration: none; color: #4B5563; font-weight: 500;">FAQ</a></li>
+          <li><a href="/magazin" style="text-decoration: none; color: #4B5563; font-weight: 500;">Magazin</a></li>
+        </ul>
+        <button class="btn-primary-sm" onclick="window.location.href='/app'" style="padding: 12px 24px; background: linear-gradient(135deg, #0E5A45, #10B981); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Analyse starten</button>
       </nav>
     </div>
   </header>
   
+  <!-- Hero Image (full width) -->
+  <div style="width: 100%; height: 400px; background: linear-gradient(135deg, rgba(14, 90, 69, 0.9), rgba(16, 185, 129, 0.8)), url('https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1600&h=600&fit=crop') center/cover; display: flex; align-items: center; justify-content: center; margin-bottom: 60px;">
+    <div style="text-align: center; color: white; max-width: 800px; padding: 0 24px;">
+      <span style="display: inline-block; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border-radius: 20px; font-size: 14px; font-weight: 600; text-transform: uppercase; margin-bottom: 16px; backdrop-filter: blur(10px);">Wissen & Grundlagen</span>
+      <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.2; margin: 0;">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
+    </div>
+  </div>
+  
   <!-- Article Content -->
   <article class="article-detail">
-    <!-- Header Image -->
-    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <img src="/static/artikel3-endocannabinoid-system.jpg" alt="Menschlicher Körper mit Endocannabinoid-System und neuronalen Verbindungen" style="width: 100%; height: auto; display: block;" />
-    </div>
     
-    <span class="article-category">Wissen & Grundlagen</span>
-    <h1 class="article-title">Das Endocannabinoid-System: Dein körpereigenes Schutzschild (und warum kaum ein Arzt darüber spricht)</h1>
-    
-    <div class="article-meta">
-      <span><i class="far fa-calendar"></i> Januar 2025</span>
-      <span><i class="far fa-clock"></i> 10 Min. Lesezeit</span>
+    <div class="article-meta" style="margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid #E5E7EB;">
+      <span style="color: #6B7280; font-size: 15px;"><i class="far fa-calendar"></i> Januar 2025</span>
+      <span style="color: #6B7280; font-size: 15px; margin-left: 24px;"><i class="far fa-clock"></i> 10 Min. Lesezeit</span>
+      <span style="color: #6B7280; font-size: 15px; margin-left: 24px;"><i class="far fa-user"></i> MEDLESS Redaktion</span>
     </div>
     
     <div class="article-content">
@@ -1910,7 +1970,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       <div class="cta-box">
           <h3>Nutze deine innere Apotheke</h3>
           <p>Dein Körper ist keine defekte Maschine. Er besitzt ein mächtiges System zur Selbstregulation. Willst du wissen, wie stark dein ECS ist und wie es dir beim Reduzieren helfen kann?</p>
-          <a href="/#planner-section" class="btn-primary">
+          <a href="/app" class="btn-primary">
             Jetzt kostenlose Analyse starten ➔
           </a>
       </div>
