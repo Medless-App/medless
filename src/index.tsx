@@ -1412,6 +1412,134 @@ app.post('/api/pdf/arztbericht', async (c) => {
   }
 })
 
+// Magazine Overview Route
+app.get('/magazin', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magazin – MEDLESS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    ${getSharedStyles()}
+    .magazine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--space-6);
+      margin: var(--space-8) 0;
+    }
+    .article-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: var(--space-6);
+      transition: all 0.2s;
+    }
+    .article-card:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    .article-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: var(--space-3);
+      color: var(--primary-dark-green);
+    }
+    .article-card p {
+      color: var(--gray-600);
+      line-height: 1.6;
+      margin-bottom: var(--space-4);
+    }
+    .article-link {
+      color: var(--primary-dark-green);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .article-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="legal-page">
+    <a href="/" class="back-link">
+      <i class="fas fa-arrow-left"></i>
+      Zurück zur Startseite
+    </a>
+    
+    <h1>MEDLESS Magazin</h1>
+    <p style="font-size: 1.125rem; color: var(--gray-600); margin-bottom: var(--space-8);">
+      Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.
+    </p>
+    
+    <div class="magazine-grid">
+      <article class="article-card">
+        <h3>Das Endocannabinoid-System erklärt</h3>
+        <p>Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
+        <a href="/magazin/endocannabinoid-system-erklaert" class="article-link">
+          Artikel lesen <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+      
+      <article class="article-card">
+        <h3>7 Fehler beim Medikamente absetzen</h3>
+        <p>Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
+        <a href="/magazin/medikamente-absetzen-7-fehler" class="article-link">
+          Artikel lesen <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+      
+      <article class="article-card">
+        <h3>Antidepressiva absetzen ohne Entzug</h3>
+        <p>Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
+        <a href="/magazin/antidepressiva-absetzen-ohne-entzug" class="article-link">
+          Artikel lesen <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+      
+      <article class="article-card">
+        <h3>Schlaftabletten loswerden</h3>
+        <p>Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
+        <a href="/magazin/schlaftabletten-loswerden" class="article-link">
+          Artikel lesen <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+      
+      <article class="article-card">
+        <h3>CBD: Studien und Fakten</h3>
+        <p>Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
+        <a href="/magazin/cbd-studien-und-fakten" class="article-link">
+          Artikel lesen <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+      
+      <article class="article-card">
+        <h3>Magenschutz (PPI) absetzen</h3>
+        <p>Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
+        <a href="/magazin/magenschutz-absetzen-ppi" class="article-link">
+          Artikel lesen <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+      
+      <article class="article-card">
+        <h3>Täglich 5 Tabletten – ist das normal?</h3>
+        <p>Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
+        <a href="/magazin/taeglich-5-tabletten" class="article-link">
+          Artikel lesen <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+    </div>
+  </div>
+</body>
+</html>
+  `)
+})
+
 // Magazine Article Route: Endocannabinoid-System erklärt
 app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   return c.html(`
