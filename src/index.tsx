@@ -82,6 +82,80 @@ interface SafetyResult {
 }
 
 // ============================================================
+// P0 TASK #2: THERAPEUTIC RANGE MONITORING
+// ============================================================
+
+interface TherapeuticRangeWarning {
+  underdoseWarning?: string;
+  overdoseWarning?: string;
+  narrowWindowWarning?: string;
+}
+
+/**
+ * Evaluates therapeutic range for a medication at a given dose.
+ * 
+ * HEURISTIC APPROACH (since mg vs. ng/ml cannot be directly converted):
+ * - Uses therapeutic_min/max_ng_ml primarily to detect PRESENCE of a therapeutic window
+ * - Evaluates dose fraction (currentDoseMg / startingDoseMg) for underdose/overdose risk
+ * - Flags narrow therapeutic windows based on range width
+ * 
+ * @param medication - Medication data including therapeutic_min/max_ng_ml, withdrawal_risk_score
+ * @param currentDoseMg - Current dose in mg
+ * @param startingDoseMg - Starting dose in mg
+ * @returns Object with warnings (if any)
+ */
+function evaluateTherapeuticRange(
+  medication: MedicationWithCategory,
+  currentDoseMg: number,
+  startingDoseMg: number
+): TherapeuticRangeWarning {
+  const warnings: TherapeuticRangeWarning = {};
+  
+  const hasTherapeuticRange = 
+    medication.therapeutic_min_ng_ml != null && 
+    medication.therapeutic_max_ng_ml != null;
+  
+  // If no therapeutic range defined, return empty warnings
+  if (!hasTherapeuticRange) {
+    return warnings;
+  }
+  
+  const doseFraction = startingDoseMg > 0 ? currentDoseMg / startingDoseMg : 0;
+  const windowWidth = (medication.therapeutic_max_ng_ml || 0) - (medication.therapeutic_min_ng_ml || 0);
+  const hasHighWithdrawalRisk = (medication.withdrawal_risk_score || 0) >= 7;
+  
+  // HEURISTIC 1: Underdose risk
+  // If dose drops below 20% of starting dose AND medication has high withdrawal risk
+  // → Risk of falling below therapeutic minimum
+  if (medication.therapeutic_min_ng_ml != null && doseFraction < 0.2 && hasHighWithdrawalRisk) {
+    warnings.underdoseWarning = 
+      `⚠️ ${medication.name}: Mögliche Unterdosierungsgefahr bei sehr niedriger Dosis – ` +
+      `enges therapeutisches Fenster, ärztliche Kontrolle empfohlen.`;
+  }
+  
+  // HEURISTIC 2: Overdose risk
+  // If dose exceeds starting dose (e.g., user input error)
+  // → Risk of exceeding therapeutic maximum
+  if (medication.therapeutic_max_ng_ml != null && doseFraction > 1.0) {
+    warnings.overdoseWarning = 
+      `⚠️ ${medication.name}: Mögliche Überdosierungsgefahr – ` +
+      `Dosis liegt über der Ausgangsdosis, bitte ärztlich prüfen.`;
+  }
+  
+  // HEURISTIC 3: Narrow therapeutic window
+  // If therapeutic range is defined AND window width is small (≤ 50 units)
+  // → Requires extra caution during tapering
+  // Note: 50 is a conservative threshold for ng/ml range
+  if (hasTherapeuticRange && windowWidth <= 50) {
+    warnings.narrowWindowWarning = 
+      `🧪 ${medication.name}: Enges therapeutisches Fenster (${medication.therapeutic_min_ng_ml}-${medication.therapeutic_max_ng_ml} ng/ml) – ` +
+      `langsamer Ausschleich-Verlauf und engmaschige Kontrolle empfohlen.`;
+  }
+  
+  return warnings;
+}
+
+// ============================================================
 // SAFETY FUNCTION: Apply Category-Based Reduction Limits
 // ============================================================
 
@@ -271,6 +345,30 @@ function applyCategorySafetyRules(params: {
       );
     }
     // If allNeutral: no adjustment needed, effectiveWeeklyReduction stays unchanged
+  }
+  
+  // ===== NEW P0 TASK #2: THERAPEUTIC RANGE ADJUSTMENT =====
+  // If medication has a narrow therapeutic window AND high withdrawal risk,
+  // apply additional safety brake (20% slower reduction)
+  // This runs AFTER CYP adjustment but BEFORE final max_weekly_reduction_pct enforcement
+  
+  let therapeuticRangeAdjustmentApplied = false;
+  
+  if (category.therapeutic_min_ng_ml != null && category.therapeutic_max_ng_ml != null) {
+    const windowWidth = category.therapeutic_max_ng_ml - category.therapeutic_min_ng_ml;
+    const hasNarrowWindow = windowWidth <= 50; // HEURISTIC: ≤50 ng/ml range is considered narrow
+    const hasHighWithdrawalRisk = (category.withdrawal_risk_score || 0) >= 7;
+    
+    if (hasNarrowWindow && hasHighWithdrawalRisk) {
+      // Apply additional 20% reduction to weekly speed for extra safety
+      effectiveWeeklyReduction *= 0.8; // 20% slower
+      therapeuticRangeAdjustmentApplied = true;
+      limitedByCategory = true;
+      
+      safetyNotes.push(
+        `🧪 ${medicationName}: Enges therapeutisches Fenster (${category.therapeutic_min_ng_ml}-${category.therapeutic_max_ng_ml} ng/ml) + hohes Absetzrisiko (${category.withdrawal_risk_score}/10) - Reduktion wird vorsichtshalber zusätzlich um 20% verlangsamt.`
+      );
+    }
   }
   
   // Calculate effective target based on weekly reduction limit
@@ -774,9 +872,46 @@ async function buildAnalyzeResponse(body: any, env: any) {
     // ===== NEW P0: Collect medication safety notes per medication for week 1 =====
     const medicationSafetyNotes: { [medName: string]: string[] } = {};
     if (week === 1) {
-      weekMedications.forEach((weekMed: any) => {
+      weekMedications.forEach((weekMed: any, medIndex: number) => {
+        const notes: string[] = [];
+        
+        // Add existing safety notes from applyCategorySafetyRules
         if (weekMed.safety && weekMed.safety.notes && weekMed.safety.notes.length > 0) {
-          medicationSafetyNotes[weekMed.name] = weekMed.safety.notes;
+          notes.push(...weekMed.safety.notes);
+        }
+        
+        // ===== NEW P0 TASK #2: Add therapeutic range warnings =====
+        const medAnalysis = analysisResults[medIndex];
+        const medCategory = medAnalysis?.medication as MedicationWithCategory | null;
+        
+        if (medCategory) {
+          const therapeuticWarnings = evaluateTherapeuticRange(
+            medCategory,
+            weekMed.currentMg, // Current dose in this week
+            weekMed.startMg     // Starting dose
+          );
+          
+          // Add warnings if they exist (avoid duplicates)
+          if (therapeuticWarnings.underdoseWarning && !notes.some(n => n.includes('Unterdosierungsgefahr'))) {
+            notes.push(therapeuticWarnings.underdoseWarning);
+          }
+          if (therapeuticWarnings.overdoseWarning && !notes.some(n => n.includes('Überdosierungsgefahr'))) {
+            notes.push(therapeuticWarnings.overdoseWarning);
+          }
+          if (therapeuticWarnings.narrowWindowWarning && !notes.some(n => n.includes('Enges therapeutisches Fenster'))) {
+            // Only add if NOT already added by applyCategorySafetyRules
+            // (which adds a similar but longer message)
+            const alreadyHasNarrowWindowNote = notes.some(n => 
+              n.includes('Enges therapeutisches Fenster') && n.includes('vorsichtshalber zusätzlich')
+            );
+            if (!alreadyHasNarrowWindowNote) {
+              notes.push(therapeuticWarnings.narrowWindowWarning);
+            }
+          }
+        }
+        
+        if (notes.length > 0) {
+          medicationSafetyNotes[weekMed.name] = notes;
         }
       });
     }
@@ -942,6 +1077,39 @@ async function buildAnalyzeResponse(body: any, env: any) {
           (r.cypProfiles || []).map(p => p.cyp_enzyme)
         )
       ))
+    },
+    // ===== NEW P0 TASK #2: THERAPEUTIC RANGE STATISTICS =====
+    therapeutic_range: {
+      medications: analysisResults.map(r => {
+        const med = r.medication as MedicationWithCategory | null;
+        if (!med) return null;
+        
+        const hasRange = med.therapeutic_min_ng_ml != null && med.therapeutic_max_ng_ml != null;
+        const windowWidth = hasRange 
+          ? (med.therapeutic_max_ng_ml || 0) - (med.therapeutic_min_ng_ml || 0) 
+          : null;
+        const isNarrowWindow = windowWidth !== null && windowWidth <= 50; // HEURISTIC: ≤50 ng/ml
+        
+        return {
+          name: med.name,
+          has_range: hasRange,
+          min_ng_ml: med.therapeutic_min_ng_ml,
+          max_ng_ml: med.therapeutic_max_ng_ml,
+          window_width: windowWidth,
+          is_narrow_window: isNarrowWindow,
+          withdrawal_risk_score: med.withdrawal_risk_score
+        };
+      }).filter(m => m !== null),
+      totalMedicationsWithRange: analysisResults.filter(r => {
+        const med = r.medication as MedicationWithCategory | null;
+        return med && med.therapeutic_min_ng_ml != null && med.therapeutic_max_ng_ml != null;
+      }).length,
+      medicationsWithNarrowWindow: analysisResults.filter(r => {
+        const med = r.medication as MedicationWithCategory | null;
+        if (!med || med.therapeutic_min_ng_ml == null || med.therapeutic_max_ng_ml == null) return false;
+        const windowWidth = med.therapeutic_max_ng_ml - med.therapeutic_min_ng_ml;
+        return windowWidth <= 50; // HEURISTIC: ≤50 ng/ml
+      }).map(r => r.medication?.name || 'Unknown')
     }
   };
 }
