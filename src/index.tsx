@@ -6561,68 +6561,15 @@ app.get('/app', (c) => {
 </html>  `)
 })
 
-// Explicitly return 404 for removed /refactored/* routes
+// Explicitly return 404 for removed demo/showcase routes
 app.get('/refactored/*', (c) => {
   return c.notFound()
 })
 
-// Refactored design demo route
 app.get('/demo', (c) => {
-  return c.html(`<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MEDLESS – Refactored Design Demo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
-  <style>
-:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--space-8:64px;--space-9:96px;--primary-dark-green:#0C5C4C;--primary-green:#0F7A67;--accent-mint:#CFF1E7;--accent-mint-light:#E8F8F4;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-300:#D1D5DB;--gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--gray-700:#374151;--gray-800:#1F2937;--gray-900:#111827;--background:#FFFFFF;--background-subtle:var(--gray-50);--text-primary:var(--gray-900);--text-secondary:var(--gray-600);--text-muted:var(--gray-500);--border:var(--gray-200);--border-subtle:var(--gray-100);--brand-500:var(--primary-green);--brand-600:var(--primary-dark-green);--font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto',sans-serif;--radius-md:12px;--shadow-md:0 1px 2px rgba(0,0,0,0.05),0 8px 24px rgba(0,0,0,0.06)}*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--font-family);font-size:16px;line-height:1.6;color:var(--text-primary);background:var(--background);-webkit-font-smoothing:antialiased}h1{font-size:clamp(2rem,1.2rem + 2.5vw,3rem);font-weight:700;line-height:1.15;letter-spacing:-0.01em;color:var(--brand-600);margin-bottom:var(--space-5)}h2{font-size:clamp(1.75rem,1.1rem + 1.6vw,2.25rem);font-weight:700;line-height:1.2;color:var(--brand-600);margin-bottom:var(--space-4)}h3{font-size:clamp(1.375rem,1.05rem + 0.6vw,1.5rem);font-weight:600;line-height:1.3;color:var(--gray-900);margin-bottom:var(--space-3)}.container{max-width:1200px;margin:0 auto;padding:0 var(--space-4)}section{padding:var(--space-8) 0}.hero{background:linear-gradient(180deg,var(--gray-50) 0%,var(--background) 100%);padding:var(--space-9) 0 var(--space-8)}.lead{font-size:18px;line-height:1.7;color:var(--text-secondary);max-width:60ch;margin-bottom:var(--space-6)}.check-list{list-style:none;display:flex;flex-direction:column;gap:var(--space-3);margin-bottom:var(--space-6)}.check-list li{display:flex;align-items:flex-start;gap:var(--space-3);font-size:16px;line-height:1.6;color:var(--text-secondary)}.check-list li i{color:var(--brand-500);font-size:20px;min-width:20px;margin-top:2px}.cta-primary{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-6);height:48px;font-size:16px;font-weight:600;color:white;background:linear-gradient(135deg,var(--brand-600),var(--brand-500));border:none;border-radius:var(--radius-md);cursor:pointer;text-decoration:none;transition:all .2s ease;box-shadow:var(--shadow-md)}.cta-primary:hover{transform:translateY(-1px)}.section-header{text-align:center;margin-bottom:var(--space-7)}.card{background:var(--background);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:var(--space-6);box-shadow:var(--shadow-md)}.card-icon-badge{width:48px;height:48px;background:var(--gray-100);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4)}.card-icon-badge i{font-size:24px;color:var(--brand-600)}.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-5)}@media (min-width:768px){.card-grid{grid-template-columns:repeat(3,1fr)}}.bg-subtle{background:var(--background-subtle)}
-  </style>
-</head>
-<body>
-  <section class="hero">
-    <div class="container">
-      <h1>Dein Weg zu weniger Medikamenten – mit CBD-Unterstützung</h1>
-      <p class="lead">MEDLESS berechnet dir einen individualisierten Plan zur schrittweisen Medikamenten-Reduktion mit personalisierter CBD-Kompensation – wissenschaftsbasiert und unter ärztlicher Aufsicht.</p>
-      <ul class="check-list">
-        <li><i class="fas fa-check-circle"></i><span>Algorithmusbasierte Dosierungsberechnung</span></li>
-        <li><i class="fas fa-check-circle"></i><span>52 Medikamente mit CBD-Interaktionsdaten</span></li>
-        <li><i class="fas fa-check-circle"></i><span>Wochenplan mit MEDLESS-Produktempfehlung</span></li>
-      </ul>
-      <a href="/" class="cta-primary"><span>Zur Haupt-App</span><i class="fas fa-arrow-right"></i></a>
-    </div>
-  </section>
-  <section class="bg-subtle">
-    <div class="container">
-      <div class="section-header">
-        <h2>Refactored Design Demo</h2>
-        <p class="lead">Medizinisch-professionelles Design gemäß Design-System-Guidelines</p>
-      </div>
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-icon-badge"><i class="fas fa-palette"></i></div>
-          <h3>Inter Typography</h3>
-          <p>Responsive Typo-Skala mit clamp() – H1 skaliert von 32-48px</p>
-        </div>
-        <div class="card">
-          <div class="card-icon-badge"><i class="fas fa-ruler"></i></div>
-          <h3>8px Grid</h3>
-          <p>Konsistente Abstände mit CSS Custom Properties (--space-1 bis --space-9)</p>
-        </div>
-        <div class="card">
-          <div class="card-icon-badge"><i class="fas fa-shield-alt"></i></div>
-          <h3>A11y Ready</h3>
-          <p>4.5:1 Kontrast, focus-visible Outlines, semantisches HTML</p>
-        </div>
-      </div>
-    </div>
-  </section>
-</body>
-</html>`)
+  return c.notFound()
 })
 
-// Impressum page
 app.get('/impressum', (c) => {
   return c.html(`
 <!DOCTYPE html>
