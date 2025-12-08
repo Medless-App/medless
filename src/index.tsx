@@ -5885,8 +5885,15 @@ app.get('/app', (c) => {
                   </svg>
                 </div>
                 <div class="step-text">
-                  <div class="step-title">Medikamente werden analysiert …</div>
+                  <div class="step-title">
+                    Medikamente werden analysiert …
+                    <span class="step-counter">0/18</span>
+                  </div>
                   <div class="step-subtitle">Wirkstoffe, Dosierung und Einnahmezeiten werden geprüft</div>
+                  <div class="step-progress">
+                    <div class="step-progress-bar" data-step="1"></div>
+                  </div>
+                  <div class="step-percentage">0%</div>
                 </div>
               </div>
               
@@ -5902,8 +5909,15 @@ app.get('/app', (c) => {
                   </svg>
                 </div>
                 <div class="step-text">
-                  <div class="step-title">Stoffwechsel & Wechselwirkungen werden berechnet …</div>
+                  <div class="step-title">
+                    Stoffwechsel & Wechselwirkungen werden berechnet …
+                    <span class="step-counter">0/12</span>
+                  </div>
                   <div class="step-subtitle">Leberenzyme und mögliche Interaktionen werden simuliert</div>
+                  <div class="step-progress">
+                    <div class="step-progress-bar" data-step="2"></div>
+                  </div>
+                  <div class="step-percentage">0%</div>
                 </div>
               </div>
               
@@ -5920,8 +5934,15 @@ app.get('/app', (c) => {
                   </svg>
                 </div>
                 <div class="step-text">
-                  <div class="step-title">Orientierungsplan wird konstruiert …</div>
+                  <div class="step-title">
+                    Orientierungsplan wird konstruiert …
+                    <span class="step-counter">0/8</span>
+                  </div>
                   <div class="step-subtitle">Ihr persönlicher MEDLESS-Orientierungsplan wird aufgebaut</div>
+                  <div class="step-progress">
+                    <div class="step-progress-bar" data-step="3"></div>
+                  </div>
+                  <div class="step-percentage">0%</div>
                 </div>
               </div>
             </div>

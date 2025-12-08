@@ -970,28 +970,29 @@ function createParticles() {
 // SIMPLIFIED Animate loading steps - works with new design HTML structure
 function animateLoadingSteps() {
   return new Promise((resolve) => {
-    console.log('🎬 Animation started');
+    console.log('🎬 Premium Loader Animation started');
     
-    // Get DOM elements (only those that exist in new design)
-    const statusText = document.getElementById('analysis-status');
-    const statusDots = document.getElementById('status-dots');
-    const progressCircle = document.getElementById('progress-circle');
-    const centerPercentage = document.getElementById('center-percentage');
-    const centerIcon = document.getElementById('center-icon');
-    const counterMeds = document.getElementById('counter-medications');
-    const counterInteractions = document.getElementById('counter-interactions');
-    const counterCalculations = document.getElementById('counter-calculations');
+    // Get new premium loader elements
+    const step1Counter = document.querySelector('.step-1 .step-counter');
+    const step1ProgressBar = document.querySelector('.step-progress-bar[data-step="1"]');
+    const step1Percentage = document.querySelector('.step-1 .step-percentage');
     
-    // Animation steps
+    const step2Counter = document.querySelector('.step-2 .step-counter');
+    const step2ProgressBar = document.querySelector('.step-progress-bar[data-step="2"]');
+    const step2Percentage = document.querySelector('.step-2 .step-percentage');
+    
+    const step3Counter = document.querySelector('.step-3 .step-counter');
+    const step3ProgressBar = document.querySelector('.step-progress-bar[data-step="3"]');
+    const step3Percentage = document.querySelector('.step-3 .step-percentage');
+    
+    // Animation config: [maxCount, duration, delay]
     const steps = [
-      { duration: 1800, title: 'Medikamenten-Datenbank durchsuchen', progress: 20 },
-      { duration: 1600, title: 'Wechselwirkungen analysieren', progress: 40 },
-      { duration: 1400, title: 'Körperdaten verarbeiten', progress: 60 },
-      { duration: 1800, title: 'Dosierung berechnen', progress: 80 },
-      { duration: 1600, title: 'Reduktionsplan erstellen', progress: 100 }
+      { counter: 18, duration: 3000, delay: 600 },   // Step 1: 18 medications
+      { counter: 12, duration: 2500, delay: 1200 },  // Step 2: 12 interactions
+      { counter: 8, duration: 2000, delay: 1800 }    // Step 3: 8 sections
     ];
     
-    const totalDuration = steps.reduce((sum, s) => sum + s.duration, 0);
+    const totalDuration = steps.reduce((sum, s) => sum.duration + sum.delay, 0) + 1000;
     let currentTime = 0;
     
     // Animated dots
