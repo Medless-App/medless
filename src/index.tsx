@@ -5862,11 +5862,40 @@ app.get('/app', (c) => {
           
           <!-- Medical AI Loader -->
           <div class="medical-loader">
-            <!-- Spektakulärer 3-Ring Spinner -->
-            <div class="plan-loader-spinner">
-              <div class="plan-loader-ring plan-loader-ring-outer"></div>
-              <div class="plan-loader-ring plan-loader-ring-inner"></div>
-              <div class="plan-loader-ring plan-loader-ring-core"></div>
+            <!-- Spektakuläre Medical AI DNA-Helix Scanner Animation (150px) -->
+            <div class="medical-dna-scanner">
+              <!-- Hexagon Container (pulsating medical grid) -->
+              <div class="medical-hexagon-container">
+                <!-- Outer Hexagon -->
+                <svg class="hexagon hexagon-outer" viewBox="0 0 120 120" width="150" height="150">
+                  <polygon points="60,10 100,30 100,70 60,90 20,70 20,30" fill="none" stroke="#15927a" stroke-width="2.5" opacity="0.3"/>
+                </svg>
+                <!-- Middle Hexagon -->
+                <svg class="hexagon hexagon-middle" viewBox="0 0 120 120" width="150" height="150">
+                  <polygon points="60,20 90,35 90,65 60,80 30,65 30,35" fill="none" stroke="#14b8a6" stroke-width="2.5" opacity="0.5"/>
+                </svg>
+                <!-- Inner Hexagon (brightest) -->
+                <svg class="hexagon hexagon-inner" viewBox="0 0 120 120" width="150" height="150">
+                  <polygon points="60,30 80,40 80,60 60,70 40,60 40,40" fill="rgba(20, 184, 166, 0.1)" stroke="#14b8a6" stroke-width="3" opacity="0.8"/>
+                </svg>
+              </div>
+              
+              <!-- DNA Helix (rotating double-helix with particles) -->
+              <div class="medical-helix-container">
+                <!-- Left Helix Strand -->
+                <div class="helix-strand helix-left"></div>
+                <!-- Right Helix Strand -->
+                <div class="helix-strand helix-right"></div>
+                
+                <!-- Floating Medical Particles -->
+                <div class="medical-particle particle-1"></div>
+                <div class="medical-particle particle-2"></div>
+                <div class="medical-particle particle-3"></div>
+                <div class="medical-particle particle-4"></div>
+              </div>
+              
+              <!-- Center Glow Pulse -->
+              <div class="medical-center-glow"></div>
             </div>
             
             <h2 class="plan-loader-title">Ihr MEDLESS-Orientierungsplan wird erstellt …</h2>
