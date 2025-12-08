@@ -1087,12 +1087,13 @@ function animateLoadingSteps() {
                 loadingEl.style.opacity = '0';
                 loadingEl.style.transform = 'scale(0.98)';
                 
-                // Hide loading after fade-out and resolve promise
+                // Don't hide loading here - showPlanReadyState will handle visibility
+                // loadingEl.classList.add('hidden'); ← REMOVED: causes buttons to be hidden
                 setTimeout(() => {
-                  loadingEl.classList.add('hidden');
+                  // Reset transition styles only
                   loadingEl.style.opacity = '1';
                   loadingEl.style.transform = 'scale(1)';
-                  console.log('✅ Loading hidden, resolving animation promise - ready for results');
+                  console.log('✅ Loading animation complete, resolving promise - ready for completion state');
                   resolve();
                 }, 800);
               } else {
@@ -1218,10 +1219,13 @@ function showPlanReadyState(loadingEl) {
   console.log('📍 loadingEl visible?', !loadingEl?.classList.contains('hidden'));
   console.log('📍 loadingEl innerHTML length:', loadingEl?.innerHTML?.length);
   
-  // Ensure loading element is visible
+  // Ensure loading element is visible - force show with !important override
   if (loadingEl) {
     loadingEl.classList.remove('hidden');
-    console.log('✅ Removed hidden class from loadingEl');
+    // Force display with inline style to override CSS !important
+    loadingEl.style.display = 'block';
+    loadingEl.style.visibility = 'visible';
+    console.log('✅ Removed hidden class from loadingEl and forced display');
   }
   
   // Clear loading animation content
