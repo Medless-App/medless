@@ -9,14 +9,115 @@ import type {
   AnalysisEntry
 } from './types/analyzeResponse'
 
-import type {
-  DoctorReportData,
-  DoctorReportOverviewMedication,
-  DoctorReportGlobalRisk,
-  DoctorReportMedicationDetail,
-  DoctorReportModelInfo,
-  DoctorReportCypDetail
-} from './report_data'
+// ============================================================
+// V3 TYPE DEFINITIONS (3-LEVEL STRUCTURE)
+// ============================================================
+
+export interface DoctorReportDataV3 {
+  // Patient metadata
+  patientName: string;
+  patientAge: number;
+  patientWeight: number;
+  patientGender?: string;
+  durationWeeks: number;
+  
+  // Level 1: Overview
+  overviewMedications: OverviewMedication[];
+  globalRisk: GlobalRisk;
+  
+  // Level 2: Per-medication details
+  medicationDetails: MedicationDetail[];
+  
+  // Level 3: Appendix
+  cypDetails: CypDetail[];
+  fullSafetyNotes: SafetyNotes[];
+  modelInfo: ModelInfo;
+}
+
+export interface OverviewMedication {
+  name: string;
+  genericName: string;
+  category: string;
+  startDose: string;
+  targetDose: string;
+  riskLevel: 'critical' | 'high' | 'medium' | 'low';
+  comment: string;
+}
+
+export interface GlobalRisk {
+  multiDrugInteraction: {
+    level: string;
+    inhibitorsCount: number;
+    inducersCount: number;
+    adjustmentFactor: number;
+    warning?: string;
+  };
+  additionalHints?: string;
+}
+
+export interface MedicationDetail {
+  name: string;
+  genericName: string;
+  category: string;
+  startDose: string;
+  targetDose: string;
+  maxWeeklyReductionPct: number; // ← CRITICAL: Must come from analysis data
+  
+  withdrawalRisk: {
+    score: number;
+    factor: number;
+    slowdownPct: number;
+  };
+  
+  cypData: {
+    hasCypData: boolean;
+    affectedEnzymes: string[];
+    effectType: 'slower' | 'faster' | 'neutral';
+    adjustmentFactor: number;
+    slowdownPct: number;
+    clinicalConsequence?: string; // ← NEW: Clinical impact description
+  };
+  
+  therapeuticRange: {
+    hasRange: boolean;
+    minValue: string;
+    maxValue: string;
+    unit: string;
+    isNarrow: boolean;
+    adjustmentFactor: number;
+    slowdownPct: number;
+  };
+  
+  mdiImpact: {
+    contributesToMdi: boolean;
+    role: string;
+    score: number;
+  };
+  
+  monitoring: string;
+}
+
+export interface CypDetail {
+  medicationName: string;
+  profiles: {
+    enzyme: string;
+    role: string;
+    cbdEffect: string;
+    reductionImpact: string;
+  }[];
+}
+
+export interface SafetyNotes {
+  medicationName: string;
+  notes: string[];
+}
+
+export interface ModelInfo {
+  version: string;
+  factorsIncluded: string[];
+  factorsNotIncluded: string[];
+  technicalNote: string;
+}
 
 // ============================================================
 // HELPER FUNCTIONS
@@ -36,19 +137,49 @@ function determineRiskLevel(
   med: MedicationWithCategory,
   interactionSeverity: string | undefined,
   withdrawalScore: number
-): 'niedrig' | 'mittel' | 'hoch' | 'kritisch' {
+): 'critical' | 'high' | 'medium' | 'low' {
   const cbdStrength = med.cbd_interaction_strength;
   
   if (cbdStrength === 'critical' || interactionSeverity === 'critical' || withdrawalScore >= 9) {
-    return 'kritisch';
+    return 'critical';
   }
   if (cbdStrength === 'high' || interactionSeverity === 'high' || withdrawalScore >= 7) {
-    return 'hoch';
+    return 'high';
   }
   if (cbdStrength === 'medium' || interactionSeverity === 'medium' || withdrawalScore >= 4) {
-    return 'mittel';
+    return 'medium';
   }
-  return 'niedrig';
+  return 'low';
+}
+
+/**
+ * Get clinical consequence description based on medication category
+ * Used for CYP interaction explanations
+ */
+function getClinicalConsequence(category: string, medicationName: string): string {
+  const lowerCategory = category.toLowerCase();
+  
+  if (lowerCategory.includes('antikoagul') || lowerCategory.includes('blut')) {
+    return `${medicationName}-Spiegel↑ → Blutungsrisiko↑`;
+  }
+  if (lowerCategory.includes('antidepress') || lowerCategory.includes('ssri')) {
+    return `${medicationName}-Spiegel↑ → Nebenwirkungsrisiko↑ (z.B. Sedierung)`;
+  }
+  if (lowerCategory.includes('immunsuppress') || lowerCategory.includes('immun')) {
+    return `${medicationName}-Spiegel↑ → Toxizitätsrisiko↑`;
+  }
+  if (lowerCategory.includes('benzodiaz') || lowerCategory.includes('benzo')) {
+    return `${medicationName}-Spiegel↑ → Sedierung↑, Sturzrisiko↑`;
+  }
+  if (lowerCategory.includes('opioid') || lowerCategory.includes('schmerz')) {
+    return `${medicationName}-Spiegel↑ → Atemdepression-Risiko↑`;
+  }
+  if (lowerCategory.includes('antiepilep') || lowerCategory.includes('epilep')) {
+    return `${medicationName}-Spiegel↑ → Toxizität↑ (Schwindel, Ataxie)`;
+  }
+  
+  // Default fallback
+  return `${medicationName}-Spiegel↑ → Nebenwirkungsrisiko↑`;
 }
 
 function determineWithdrawalLevel(score: number): 'niedrig' | 'mittel' | 'hoch' {
@@ -61,33 +192,42 @@ function determineWithdrawalLevel(score: number): 'niedrig' | 'mittel' | 'hoch' 
 // MAIN BUILDER FUNCTION (3-LEVEL STRUCTURE)
 // ============================================================
 
-export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReportData {
+/**
+ * Build Doctor Report V3 data from AnalyzeResponse
+ * 
+ * CRITICAL DATA MAPPINGS:
+ * - maxWeeklyReductionPct: entry.max_weekly_reduction_pct (from backend calculation)
+ * - Patient data: personalization object
+ * - CYP data: cyp_profile + entry.cypProfiles
+ * - Withdrawal: withdrawal_risk_adjustment
+ * - MDI: multi_drug_interaction
+ */
+export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReportDataV3 {
   const {
     analysis,
     weeklyPlan,
     personalization,
-    planIntelligence,
     cyp_profile,
     therapeutic_range,
     multi_drug_interaction,
     withdrawal_risk_adjustment
   } = response;
 
-  // Current date
-  const now = new Date();
-  const generatedDate = now.toLocaleDateString('de-DE', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
+  // Extract patient metadata
+  const patientName = personalization?.firstName || 'Patient';
+  const patientAge = personalization?.age || 0;
+  const patientWeight = personalization?.weight || 0;
+  const patientGender = personalization?.gender || 'unknown';
+  const durationWeeks = weeklyPlan.length || 0;
 
   // ============================================================
-  // LEVEL 1: OVERVIEW DATA
+  // LEVEL 1: OVERVIEW
   // ============================================================
 
-  const overviewMedications: DoctorReportOverviewMedication[] = analysis.map(entry => {
+  const overviewMedications: OverviewMedication[] = analysis.map(entry => {
     const med = entry.medication as MedicationWithCategory;
     const name = getMedicationName(entry);
+    const genericName = med.generic_name || '–';
     const category = med.category_name || 'Allgemeine Medikation';
     const startDoseMg = entry.mgPerDay || 0;
     
@@ -100,57 +240,63 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
     const interactionSeverity = entry.interactions[0]?.severity;
     const riskLevel = determineRiskLevel(med, interactionSeverity, withdrawalScore);
     
-    // Generate short comment (1 sentence)
+    // Generate short comment
     const hasCyp = cyp_profile?.medicationsWithSlowerEffect?.includes(name) || 
                    cyp_profile?.medicationsWithFasterEffect?.includes(name);
     const hasNarrowTR = therapeutic_range?.medicationsWithNarrowWindow?.includes(name);
     
-    let shortComment = '';
-    if (riskLevel === 'kritisch') {
-      shortComment = 'Kritische Interaktion und/oder hohes Absetzrisiko - engmaschige Überwachung erforderlich';
+    let comment = '';
+    if (riskLevel === 'critical') {
+      comment = 'Kritische Interaktion und/oder hohes Absetzrisiko - engmaschige Überwachung erforderlich';
     } else if (hasCyp && withdrawalScore >= 7) {
-      shortComment = 'Langsames Ausschleichen wegen CYP-Hemmung & hohem Absetzrisiko';
+      comment = 'Langsames Ausschleichen wegen CYP-Hemmung & hohem Absetzrisiko';
     } else if (hasNarrowTR) {
-      shortComment = 'Enges therapeutisches Fenster - vorsichtige Dosisanpassung';
+      comment = 'Enges therapeutisches Fenster - vorsichtige Dosisanpassung';
     } else if (withdrawalScore >= 7) {
-      shortComment = 'Hohes Absetzrisiko - langsame Reduktion empfohlen';
+      comment = 'Hohes Absetzrisiko - langsame Reduktion empfohlen';
     } else if (hasCyp) {
-      shortComment = 'CYP-Interaktion berücksichtigt - Reduktion angepasst';
+      comment = 'CYP-Interaktion berücksichtigt - Reduktion angepasst';
     } else {
-      shortComment = 'Standard-Risiko, keine kritischen Interaktionen bekannt';
+      comment = 'Standard-Risiko, keine kritischen Interaktionen bekannt';
     }
 
     return {
       name,
+      genericName,
       category,
-      startDoseMg,
-      targetDoseMg,
+      startDose: `${formatMg(startDoseMg)} täglich`,
+      targetDose: `${formatMg(targetDoseMg)} täglich`,
       riskLevel,
-      shortComment
+      comment
     };
   });
 
   // Global Risk (MDI)
   const mdi = multi_drug_interaction;
-  const globalRisk: DoctorReportGlobalRisk = {
-    mdiLevel: (mdi?.level as any) || 'none',
-    inhibitorCount: mdi?.inhibitors || 0,
-    inducerCount: mdi?.inducers || 0,
-    adjustmentFactor: mdi?.adjustment_factor || 1.0,
-    comment: mdi?.level === 'severe' 
-      ? 'Schwere Multi-Drug-Interaktion: Engmaschige ärztliche Begleitung dringend empfohlen'
-      : mdi?.level === 'moderate'
-      ? 'Mittlere Multi-Drug-Interaktion: Regelmäßige ärztliche Kontrollen empfohlen'
-      : mdi?.level === 'mild'
-      ? 'Leichte Multi-Drug-Interaktion: Monitoring empfohlen'
-      : 'Keine relevante Multi-Drug-Interaktion'
+  const globalRisk: GlobalRisk = {
+    multiDrugInteraction: {
+      level: mdi?.level || 'none',
+      inhibitorsCount: mdi?.inhibitors || 0,
+      inducersCount: mdi?.inducers || 0,
+      adjustmentFactor: mdi?.adjustment_factor || 1.0,
+      warning: mdi?.level === 'severe' 
+        ? 'Schwere Multi-Drug-Interaktion: Engmaschige ärztliche Begleitung dringend empfohlen'
+        : mdi?.level === 'moderate'
+        ? 'Mittlere Multi-Drug-Interaktion: Regelmäßige ärztliche Kontrollen empfohlen'
+        : mdi?.level === 'mild'
+        ? 'Leichte Multi-Drug-Interaktion: Monitoring empfohlen'
+        : undefined
+    },
+    additionalHints: analysis.length > 1 
+      ? 'Mehrere Medikamente erfordern koordinierte Reduktion und regelmäßige ärztliche Überwachung.'
+      : undefined
   };
 
   // ============================================================
-  // LEVEL 2: PER-MEDICATION DETAILS
+  // LEVEL 2: MEDICATION DETAILS
   // ============================================================
 
-  const medicationDetails: DoctorReportMedicationDetail[] = analysis.map(entry => {
+  const medicationDetails: MedicationDetail[] = analysis.map(entry => {
     const med = entry.medication as MedicationWithCategory;
     const name = getMedicationName(entry);
     const genericName = med.generic_name || '–';
@@ -161,14 +307,14 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
     const targetMed = lastWeek?.medications.find((m: any) => m.name === name);
     const targetDoseMg = targetMed?.targetMg || startDoseMg;
     
-    const minimumDoseMg = med.can_reduce_to_zero === 0 
-      ? startDoseMg * (med.default_min_target_fraction || 1.0)
-      : 0;
+    // CRITICAL: Extract max_weekly_reduction_pct from entry
+    // This comes from the backend calculation (after all safety adjustments)
+    const maxWeeklyReductionPct = entry.max_weekly_reduction_pct || 0;
 
     // Withdrawal Risk
     const withdrawalScore = med.withdrawal_risk_score || 0;
-    const withdrawalLevel = determineWithdrawalLevel(withdrawalScore);
     const wrAdjustment = withdrawal_risk_adjustment?.medications?.find(m => m.name === name);
+    const withdrawalFactor = wrAdjustment?.factor || 1.0;
     const withdrawalSlowdownPct = wrAdjustment?.reduction_slowdown_pct || 0;
 
     // CYP Data
@@ -178,189 +324,173 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
     const isFaster = cyp_profile?.medicationsWithFasterEffect?.includes(name) || false;
     const cypEffect = isSlower ? 'slower' : isFaster ? 'faster' : 'neutral';
     
-    let cypSummary = 'Keine CYP-Daten vorhanden';
-    if (isSlower) {
-      const enzymes = cypProfiles.map(p => p.cyp_enzyme).join(', ');
-      cypSummary = `CYP-Substrat (${enzymes}): CBD hemmt Abbau → Spiegelanstieg möglich → Reduktion um 30% verlangsamt`;
-    } else if (isFaster) {
-      const enzymes = cypProfiles.map(p => p.cyp_enzyme).join(', ');
-      cypSummary = `CYP-Konstellation (${enzymes}): Schnellere Elimination unter CBD möglich → Reduktion um 15% beschleunigt`;
-    }
+    const affectedEnzymes = cypProfiles.map(p => p.cyp_enzyme);
+    const cypAdjustmentFactor = isSlower ? 0.7 : isFaster ? 1.15 : 1.0;
+    const cypSlowdownPct = isSlower ? 30 : isFaster ? -15 : 0;
+    
+    // NEW: Clinical consequence for CYP interaction
+    const clinicalConsequence = hasCypData 
+      ? getClinicalConsequence(category, name)
+      : undefined;
 
     // Therapeutic Range
     const trData = therapeutic_range?.medications?.find(m => m.name === name);
     const hasTherapeuticRange = trData?.has_range || false;
     const isNarrowWindow = trData?.is_narrow_window || false;
-    let therapeuticRangeSummary = 'Kein definierter therapeutischer Bereich';
-    if (hasTherapeuticRange && trData) {
-      const width = trData.window_width || 0;
-      therapeuticRangeSummary = `Therapeutischer Bereich: ${trData.min_ng_ml}-${trData.max_ng_ml} ng/ml (Breite: ${width} ng/ml)`;
-      if (isNarrowWindow) {
-        therapeuticRangeSummary += ' – ENGES FENSTER: Zusätzliche 20% Reduktionsverlangsamung aktiv';
-      }
-    }
+    const trAdjustmentFactor = isNarrowWindow ? 0.8 : 1.0;
+    const trSlowdownPct = isNarrowWindow ? 20 : 0;
 
     // MDI Impact
-    let mdiImpact = 'Keine relevante MDI-Beteiligung';
+    let mdiImpact: MedicationDetail['mdiImpact'];
     if (isSlower && mdi) {
       const profileCount = cypProfiles.filter(p => p.cbd_effect_on_reduction === 'slower').length;
-      mdiImpact = `Trägt mit ${profileCount} Hemm-Profil(en) zur ${mdi.level} MDI bei`;
+      mdiImpact = {
+        contributesToMdi: true,
+        role: 'Inhibitor',
+        score: profileCount
+      };
     } else if (isFaster && mdi) {
       const profileCount = cypProfiles.filter(p => p.cbd_effect_on_reduction === 'faster').length;
-      mdiImpact = `Trägt mit ${profileCount} Induktions-Profil(en) zur MDI bei`;
-    }
-
-    // Total Slowdown
-    let totalSlowdownPct = 0;
-    if (med.half_life_hours && med.half_life_hours * 5 > 168) totalSlowdownPct += 50; // Long half-life
-    if (isSlower) totalSlowdownPct += 30; // CYP slowdown
-    if (isNarrowWindow) totalSlowdownPct += 20; // TR slowdown
-    totalSlowdownPct += withdrawalSlowdownPct; // Withdrawal slowdown
-
-    // Safety Notes (top 3-5)
-    const safetyNotes: string[] = [];
-    if (withdrawalScore >= 7) {
-      safetyNotes.push(`Hohes Absetzrisiko (Score ${withdrawalScore}/10): Reduktion um ${withdrawalSlowdownPct}% verlangsamt`);
-    }
-    if (isSlower) {
-      safetyNotes.push(`CYP-Hemmung durch CBD: Medikamentenspiegel können steigen → Reduktion um 30% verlangsamt`);
-    }
-    if (isNarrowWindow) {
-      safetyNotes.push(`Enges therapeutisches Fenster: Erhöhtes Risiko für Über-/Unterdosierung → Reduktion um 20% verlangsamt`);
-    }
-    if (med.half_life_hours && med.half_life_hours > 40) {
-      safetyNotes.push(`Lange Halbwertszeit (${med.half_life_hours}h): Steady-State nach ${Math.round(med.half_life_hours * 5 / 24)} Tagen`);
-    }
-    if (med.cbd_interaction_strength === 'critical') {
-      safetyNotes.push(`Kritische CBD-Interaktion: Engmaschige Kontrollen erforderlich`);
+      mdiImpact = {
+        contributesToMdi: true,
+        role: 'Inducer',
+        score: profileCount
+      };
+    } else {
+      mdiImpact = {
+        contributesToMdi: false,
+        role: 'Keine',
+        score: 0
+      };
     }
 
     // Monitoring Recommendations
-    const monitoringRecommendations: string[] = [];
+    let monitoring = '';
     if (withdrawalScore >= 7) {
-      monitoringRecommendations.push('Auf Entzugssymptome achten (Unruhe, Schlafstörungen, Rebound)');
+      monitoring += 'Auf Entzugssymptome achten (Unruhe, Schlafstörungen, Rebound). ';
     }
     if (med.cbd_interaction_strength === 'critical' || med.cbd_interaction_strength === 'high') {
-      monitoringRecommendations.push('Wöchentliche Kontrollen in den ersten 4 Wochen');
+      monitoring += 'Wöchentliche Kontrollen in den ersten 4 Wochen empfohlen. ';
     }
     if (isNarrowWindow || med.therapeutic_min_ng_ml) {
-      monitoringRecommendations.push('Regelmäßige Spiegelkontrollen erwägen (falls verfügbar)');
+      monitoring += 'Regelmäßige Spiegelkontrollen erwägen (falls verfügbar). ';
     }
-    if (!monitoringRecommendations.length) {
-      monitoringRecommendations.push('Alle 2-4 Wochen Kontrolltermin');
-      monitoringRecommendations.push('Bei Symptomen: Frühere Wiedervorstellung');
+    if (!monitoring) {
+      monitoring = 'Alle 2-4 Wochen Kontrolltermin. Bei Symptomen: Frühere Wiedervorstellung.';
     }
 
     return {
       name,
       genericName,
       category,
-      startDoseMg,
-      targetDoseMg,
-      minimumDoseMg,
-      withdrawalScore,
-      withdrawalLevel,
-      withdrawalSlowdownPct,
-      hasCypData,
-      cypSummary,
-      cypEffect,
-      hasTherapeuticRange,
-      isNarrowWindow,
-      therapeuticRangeSummary,
+      startDose: `${formatMg(startDoseMg)} täglich`,
+      targetDose: `${formatMg(targetDoseMg)} täglich`,
+      maxWeeklyReductionPct, // ← FROM entry.max_weekly_reduction_pct
+      
+      withdrawalRisk: {
+        score: withdrawalScore,
+        factor: withdrawalFactor,
+        slowdownPct: withdrawalSlowdownPct
+      },
+      
+      cypData: {
+        hasCypData,
+        affectedEnzymes,
+        effectType: cypEffect,
+        adjustmentFactor: cypAdjustmentFactor,
+        slowdownPct: cypSlowdownPct,
+        clinicalConsequence // ← NEW
+      },
+      
+      therapeuticRange: {
+        hasRange: hasTherapeuticRange,
+        minValue: trData?.min_ng_ml?.toString() || '',
+        maxValue: trData?.max_ng_ml?.toString() || '',
+        unit: trData?.unit || 'ng/ml',
+        isNarrow: isNarrowWindow,
+        adjustmentFactor: trAdjustmentFactor,
+        slowdownPct: trSlowdownPct
+      },
+      
       mdiImpact,
-      totalSlowdownPct,
-      safetyNotes,
-      monitoringRecommendations
+      monitoring
     };
   });
 
   // ============================================================
-  // LEVEL 3: APPENDIX DATA
+  // LEVEL 3: APPENDIX
   // ============================================================
+
+  // CYP Details (tables)
+  const cypDetails: CypDetail[] = analysis
+    .filter(entry => entry.cypProfiles && entry.cypProfiles.length > 0)
+    .map(entry => {
+      const name = getMedicationName(entry);
+      const profiles = (entry.cypProfiles || []).map(prof => ({
+        enzyme: prof.cyp_enzyme,
+        role: prof.role,
+        cbdEffect: prof.cbd_effect_on_reduction === 'slower' ? 'Inhibition' : 'Induktion',
+        reductionImpact: prof.cbd_effect_on_reduction === 'slower' 
+          ? 'Langsamer (-30%)' 
+          : 'Schneller (+15%)'
+      }));
+      
+      return {
+        medicationName: name,
+        profiles
+      };
+    });
+
+  // Full Safety Notes (from week 1)
+  const fullSafetyNotes: SafetyNotes[] = analysis.map(entry => {
+    const name = getMedicationName(entry);
+    const firstWeek = weeklyPlan[0];
+    const medInWeek = firstWeek?.medications.find((m: any) => m.name === name);
+    const notes = medInWeek?.safety?.notes || [];
+    
+    return {
+      medicationName: name,
+      notes
+    };
+  });
 
   // Model Info
-  const modelInfo: DoctorReportModelInfo = {
-    summaryText: 
-      'Das MEDLESS-Modell kombiniert pharmakokinetische Faktoren (Halbwertszeit, CYP450-Enzyme, therapeutischer Bereich) ' +
-      'mit klinischen Sicherheitsparametern (Absetzrisiko, Kategorie-Regeln, Multi-Drug-Interaktionen) zu einem ' +
-      'individualisierten Reduktionsplan. Die Berechnung erfolgt heuristisch mit Sicherheitsbremsen.',
-    limitationsText:
-      'Das Modell berechnet KEINE echten Plasmaspiegel. Es ersetzt keine ärztliche Beurteilung und berücksichtigt ' +
-      'keine individuellen Faktoren wie Leber-/Nierenfunktion, genetische Polymorphismen oder Komedikation außerhalb ' +
-      'der CBD-Interaktion. Die Reduktionsgeschwindigkeit ist ein Vorschlag, keine Therapieempfehlung.',
-    factorsConsidered: [
-      'Medikamenten-Kategorie (z.B. Antikoagulantien, Benzodiazepine)',
-      'Halbwertszeit (Steady-State-Berechnung)',
-      'CYP450-Profile (CBD-Hemmung/-Induktion)',
-      'Therapeutischer Bereich (enges Fenster)',
-      'Absetzrisiko-Score (0-10)',
-      'Multi-Drug-Interaktionen (kumulative CYP-Belastung)',
-      'Kategorie-spezifische Sicherheitsregeln (max. Reduktion%)',
-      'CBD-Dosierung (gewichtsbasiert 0,5-1,0 mg/kg)'
-    ]
+  const modelInfo: ModelInfo = {
+    version: 'PlanIntelligenz 3.0',
+    factorsIncluded: [
+      'CYP450-Enzyme: Berücksichtigung der Inhibition/Induktion von CYP1A2, CYP2C9, CYP2C19, CYP2D6, CYP3A4 durch CBD',
+      'Therapeutische Bereiche: Sonderregel für Medikamente mit enger therapeutischer Breite',
+      'Multi-Drug-Interaktion: Kumulative Effekte von Inhibitoren und Induktoren',
+      'Absetzrisiko: Withdrawal-Risk-Score (0–10) mit bis zu 25% Reduktionsverlangsamung',
+      'Medikamenten-Kategorien: Benzodiazepine, Antidepressiva, Antikoagulantien, Immunsuppressiva, Opioide, Antiepileptika',
+      'Halbwertszeiten: Längere Halbwertszeit → langsamere Reduktion',
+      'Patientendaten: Gewicht (kg), Alter, Geschlecht für individuelle Dosierung'
+    ],
+    factorsNotIncluded: [
+      'Individuelle genetische Variationen (z.B. CYP2C9-Polymorphismen)',
+      'Ko-Morbiditäten und Organfunktionen (Leber-/Nierenfunktion)',
+      'Individuelle Verträglichkeit und subjektive Symptome',
+      'Psychosoziale Faktoren und Compliance',
+      'Andere Medikamente außerhalb der Datenbank',
+      'Lebensgewohnheiten (Ernährung, Rauchen, Alkohol)'
+    ],
+    technicalNote: 'Das Modell basiert auf pharmakokinetischen Daten und allgemeinen klinischen Richtlinien. Es ist ein theoretisches Planungswerkzeug und ersetzt keine individuelle ärztliche Beurteilung. Alle Dosierungsänderungen müssen durch den behandelnden Arzt genehmigt und engmaschig überwacht werden.'
   };
-
-  // CYP Details
-  const cypDetails: DoctorReportCypDetail[] = analysis
-    .filter(entry => entry.cypProfiles && entry.cypProfiles.length > 0)
-    .map(entry => ({
-      medicationName: getMedicationName(entry),
-      profiles: (entry.cypProfiles || []).map(p => ({
-        enzyme: p.cyp_enzyme,
-        role: p.role,
-        cbdEffect: p.cbd_effect_on_reduction || 'neutral',
-        note: p.note || '–'
-      }))
-    }));
-
-  // All Safety Notes
-  const allSafetyNotes: Record<string, string[]> = {};
-  if (weeklyPlan.length > 0 && weeklyPlan[0].medications) {
-    weeklyPlan[0].medications.forEach((med: any) => {
-      if (med.safety && med.safety.notes && med.safety.notes.length > 0) {
-        allSafetyNotes[med.name] = med.safety.notes;
-      }
-    });
-  }
-
-  // ============================================================
-  // RETURN STRUCTURED DATA
-  // ============================================================
 
   return {
-    headerTitle: 'MEDLESS-Reduktionsplan – Ärztliche Dokumentation',
-    generatedDate,
-    patientMeta: {
-      firstName: personalization.firstName || 'Patient',
-      age: personalization.age ? `${personalization.age}` : 'N/A',
-      weight: personalization.weight ? `${personalization.weight}` : 'N/A',
-      gender: personalization.gender || 'N/A',
-      height: personalization.height ? `${personalization.height}` : 'N/A',
-      bmi: personalization.bmi ? `${personalization.bmi}` : 'N/A',
-      bsa: personalization.bsa ? `${personalization.bsa}` : 'N/A',
-      idealWeight: personalization.idealWeightKg ? `${personalization.idealWeightKg}` : 'N/A'
-    },
+    patientName,
+    patientAge,
+    patientWeight,
+    patientGender,
+    durationWeeks,
     overviewMedications,
     globalRisk,
-    strategySummary: {
-      durationWeeks: weeklyPlan.length,
-      reductionGoal: planIntelligence.totalLoadReductionPct,
-      cbdStartMg: personalization.cbdStartMg,
-      cbdEndMg: personalization.cbdEndMg,
-      overallLoadReduction: planIntelligence.totalLoadReductionPct,
-      reductionSpeedCategory: planIntelligence.reductionSpeedCategory
-    },
     medicationDetails,
-    modelInfo,
     cypDetails,
-    allSafetyNotes,
-    legalNotes:
-      'Dieser Bericht dient ausschließlich der ärztlichen Information und Dokumentation. ' +
-      'Die endgültige Therapieentscheidung liegt beim behandelnden Arzt.',
-    versionNote: 'MEDLESS Ärztebericht v3.0 – 3-Ebenen-Struktur (Übersicht/Details/Anhang)'
+    fullSafetyNotes,
+    modelInfo
   };
 }
-
 /**
  * Example/Test data for Doctor Report V3
  * For testing the 3-level structure without real analysis data
@@ -424,7 +554,8 @@ export function getDoctorReportV3Example(): DoctorReportDataV3 {
           affectedEnzymes: ['CYP2C9', 'CYP3A4'],
           effectType: 'slower',
           adjustmentFactor: 0.7,
-          slowdownPct: 30
+          slowdownPct: 30,
+          clinicalConsequence: 'Marcumar-Spiegel↑ → Blutungsrisiko↑'
         },
         
         therapeuticRange: {
@@ -464,7 +595,8 @@ export function getDoctorReportV3Example(): DoctorReportDataV3 {
           affectedEnzymes: ['CYP2D6'],
           effectType: 'slower',
           adjustmentFactor: 0.85,
-          slowdownPct: 15
+          slowdownPct: 15,
+          clinicalConsequence: 'Fluoxetin-Spiegel↑ → Nebenwirkungsrisiko↑ (z.B. Sedierung)'
         },
         
         therapeuticRange: {

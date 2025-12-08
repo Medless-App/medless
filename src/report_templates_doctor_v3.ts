@@ -445,7 +445,7 @@ function renderMedicationProfile(med: DoctorReportDataV3['medicationDetails'][0]
       
       <hr style="margin: 8px 0; border: none; border-top: 1px solid #e5e7eb;">
       
-      <h3 style="font-size: 10pt; margin-top: 8px; color: #00584D;">🔬 Modell-Faktoren</h3>
+      ${index === 0 ? '<h3 style="font-size: 10pt; margin-top: 8px; color: #00584D; margin-bottom: 10px;">🔬 Modell-Faktoren (gelten für alle Profile):</h3>' : ''}
       
       ${renderWithdrawalRiskSection(med.withdrawalRisk)}
       
@@ -492,9 +492,17 @@ function renderCypSection(cyp: DoctorReportDataV3['medicationDetails'][0]['cypDa
         <span style="color: #6b7280;">(${cyp.effectType === 'slower' ? 'Verlangsamung' : 'Beschleunigung'})</span>
       </div>
     </div>
+    ${cyp.clinicalConsequence ? `
+    <div class="med-profile-row">
+      <div class="med-profile-label">Klinische Konsequenz:</div>
+      <div class="med-profile-value" style="color: #DC2626; font-weight: 500;">
+        CBD hemmt ${cyp.affectedEnzymes.join('/')} → ${cyp.clinicalConsequence}
+      </div>
+    </div>
+    ` : ''}
     <div class="med-profile-row">
       <div class="med-profile-label">CYP-Anpassung:</div>
-      <div class="med-profile-value">Faktor ${cyp.adjustmentFactor.toFixed(2)} (${cyp.slowdownPct}% ${cyp.effectType === 'slower' ? 'langsamer' : 'schneller'})</div>
+      <div class="med-profile-value">Faktor ${cyp.adjustmentFactor.toFixed(2)} (${Math.abs(cyp.slowdownPct)}% ${cyp.effectType === 'slower' ? 'langsamer' : 'schneller'})</div>
     </div>
   `;
 }
