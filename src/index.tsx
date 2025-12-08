@@ -1114,9 +1114,40 @@ async function buildAnalyzeResponse(body: any, env: any) {
     warnings.push(...categorySafetyNotes);
   }
   
+  // ===== BUGFIX: Enrich analysisResults with calculated max_weekly_reduction_pct =====
+  // Calculate final weekly reduction percentage for each medication (AFTER all safety adjustments)
+  const enrichedAnalysis = medications.map((med: any, index: number) => {
+    const medAnalysis = analysisResults[index];
+    const medCategory = medAnalysis?.medication as MedicationWithCategory | null;
+    const cypProfiles = medAnalysis?.cypProfiles || [];
+    
+    // Calculate safety-adjusted reduction (same logic as weekly plan)
+    const safetyResult = applyCategorySafetyRules({
+      startMg: med.mgPerDay,
+      reductionGoal,
+      durationWeeks,
+      medicationName: med.name,
+      category: medCategory,
+      cypProfiles
+    });
+    
+    // Apply MDI adjustment (global factor affecting all medications)
+    let finalWeeklyReduction = safetyResult.effectiveWeeklyReduction * mdiAdjustmentFactor;
+    
+    // Calculate as percentage of starting dose
+    const finalWeeklyReductionPct = med.mgPerDay > 0 
+      ? Math.round((finalWeeklyReduction / med.mgPerDay) * 100 * 10) / 10
+      : null;
+    
+    return {
+      ...medAnalysis,
+      max_weekly_reduction_pct: finalWeeklyReductionPct
+    };
+  });
+  
   // Return complete analysis response
   return {
-    analysis: analysisResults,
+    analysis: enrichedAnalysis,
     maxSeverity,
     weeklyPlan,
     reductionGoal,
