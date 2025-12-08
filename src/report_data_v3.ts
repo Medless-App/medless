@@ -160,26 +160,26 @@ function getClinicalConsequence(category: string, medicationName: string): strin
   const lowerCategory = category.toLowerCase();
   
   if (lowerCategory.includes('antikoagul') || lowerCategory.includes('blut')) {
-    return `${medicationName}-Spiegel↑ → Blutungsrisiko↑`;
+    return `Erhöhter ${medicationName}-Wirkspiegel mit gesteigertem Blutungsrisiko. Engmaschige INR-Kontrollen sind empfohlen.`;
   }
   if (lowerCategory.includes('antidepress') || lowerCategory.includes('ssri')) {
-    return `${medicationName}-Spiegel↑ → Nebenwirkungsrisiko↑ (z.B. Sedierung)`;
+    return `Erhöhter ${medicationName}-Wirkspiegel. Es sollte auf zentralnervöse Nebenwirkungen (z.B. Sedierung, Schwindel) geachtet werden.`;
   }
   if (lowerCategory.includes('immunsuppress') || lowerCategory.includes('immun')) {
-    return `${medicationName}-Spiegel↑ → Toxizitätsrisiko↑`;
+    return `Erhöhter ${medicationName}-Wirkspiegel mit potenziellem Toxizitätsrisiko. Regelmäßige Spiegelkontrollen sind sinnvoll.`;
   }
   if (lowerCategory.includes('benzodiaz') || lowerCategory.includes('benzo')) {
-    return `${medicationName}-Spiegel↑ → Sedierung↑, Sturzrisiko↑`;
+    return `Erhöhter ${medicationName}-Wirkspiegel. Es besteht ein erhöhtes Risiko für Sedierung und Stürze, insbesondere bei älteren Patienten.`;
   }
   if (lowerCategory.includes('opioid') || lowerCategory.includes('schmerz')) {
-    return `${medicationName}-Spiegel↑ → Atemdepression-Risiko↑`;
+    return `Erhöhter ${medicationName}-Wirkspiegel. Es sollte auf Zeichen einer Atemdepression geachtet werden.`;
   }
   if (lowerCategory.includes('antiepilep') || lowerCategory.includes('epilep')) {
-    return `${medicationName}-Spiegel↑ → Toxizität↑ (Schwindel, Ataxie)`;
+    return `Erhöhter ${medicationName}-Wirkspiegel mit möglichen neurologischen Symptomen (Schwindel, Ataxie, Koordinationsstörungen).`;
   }
   
   // Default fallback
-  return `${medicationName}-Spiegel↑ → Nebenwirkungsrisiko↑`;
+  return `Erhöhter ${medicationName}-Wirkspiegel. Eine klinische Verlaufsbeobachtung ist empfohlen.`;
 }
 
 function determineWithdrawalLevel(score: number): 'niedrig' | 'mittel' | 'hoch' {
@@ -247,7 +247,7 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
     
     let comment = '';
     if (riskLevel === 'critical') {
-      comment = 'Kritische Interaktion und/oder hohes Absetzrisiko - engmaschige Überwachung erforderlich';
+      comment = 'Kritische Interaktion und/oder hohes Absetzrisiko. Engmaschige klinische Überwachung ist erforderlich.';
     } else if (hasCyp && withdrawalScore >= 7) {
       comment = 'Langsames Ausschleichen wegen CYP-Hemmung & hohem Absetzrisiko';
     } else if (hasNarrowTR) {
@@ -458,23 +458,23 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
   const modelInfo: ModelInfo = {
     version: 'PlanIntelligenz 3.0',
     factorsIncluded: [
-      'CYP450-Enzyme: Berücksichtigung der Inhibition/Induktion von CYP1A2, CYP2C9, CYP2C19, CYP2D6, CYP3A4 durch CBD',
-      'Therapeutische Bereiche: Sonderregel für Medikamente mit enger therapeutischer Breite',
-      'Multi-Drug-Interaktion: Kumulative Effekte von Inhibitoren und Induktoren',
-      'Absetzrisiko: Withdrawal-Risk-Score (0–10) mit bis zu 25% Reduktionsverlangsamung',
-      'Medikamenten-Kategorien: Benzodiazepine, Antidepressiva, Antikoagulantien, Immunsuppressiva, Opioide, Antiepileptika',
-      'Halbwertszeiten: Längere Halbwertszeit → langsamere Reduktion',
-      'Patientendaten: Gewicht (kg), Alter, Geschlecht für individuelle Dosierung'
+      'CYP450-Enzymsystem: Pharmakokinetische Berücksichtigung der Inhibition/Induktion von CYP1A2, CYP2C9, CYP2C19, CYP2D6, CYP3A4 durch Cannabidiol',
+      'Therapeutische Breite: Anpassung der Reduktionsgeschwindigkeit bei Medikamenten mit engem therapeutischem Fenster',
+      'Arzneimittelinteraktionen: Berücksichtigung kumulativer Effekte von Enzyminhibitoren und -induktoren',
+      'Absetzrisiko-Quantifizierung: Withdrawal-Risk-Score (0–10) mit bis zu 25% Verlangsamung der Dosisreduktion',
+      'Medikamentenklassen: Benzodiazepine, Antidepressiva, Antikoagulanzien, Immunsuppressiva, Opioide, Antiepileptika mit jeweils spezifischen Sicherheitsregeln',
+      'Pharmakokinetische Halbwertszeit: Längere Halbwertszeit resultiert in langsamerer Dosisreduktion',
+      'Patientenspezifische Parameter: Körpergewicht, Alter, Geschlecht zur individuellen Dosisanpassung'
     ],
     factorsNotIncluded: [
-      'Individuelle genetische Variationen (z.B. CYP2C9-Polymorphismen)',
-      'Ko-Morbiditäten und Organfunktionen (Leber-/Nierenfunktion)',
-      'Individuelle Verträglichkeit und subjektive Symptome',
-      'Psychosoziale Faktoren und Compliance',
-      'Andere Medikamente außerhalb der Datenbank',
-      'Lebensgewohnheiten (Ernährung, Rauchen, Alkohol)'
+      'Pharmakogenetische Variationen (z.B. CYP2C9/CYP2D6-Polymorphismen)',
+      'Komorbiditäten und Organfunktionsstörungen (hepatische/renale Insuffizienz)',
+      'Individuelle Medikamentenverträglichkeit und subjektive Symptomatik',
+      'Psychosoziale Faktoren und Therapieadhärenz',
+      'Begleitmedikation außerhalb der erfassten Datenbank',
+      'Lebensstilfaktoren (Ernährung, Nikotinkonsum, Alkoholkonsum)'
     ],
-    technicalNote: 'Das Modell basiert auf pharmakokinetischen Daten und allgemeinen klinischen Richtlinien. Es ist ein theoretisches Planungswerkzeug und ersetzt keine individuelle ärztliche Beurteilung. Alle Dosierungsänderungen müssen durch den behandelnden Arzt genehmigt und engmaschig überwacht werden.'
+    technicalNote: 'Dieses Modell basiert auf pharmakokinetischen Daten und aktuellen klinischen Leitlinien. Es stellt ein rechnergestütztes Planungsinstrument dar und ersetzt nicht die individuelle klinische Beurteilung. Alle Dosierungsanpassungen sollten unter Berücksichtigung der individuellen Patientensituation erfolgen und bedürfen der klinischen Überwachung.'
   };
 
   return {
@@ -510,7 +510,7 @@ export function getDoctorReportV3Example(): DoctorReportDataV3 {
         startDose: '5 mg täglich',
         targetDose: '2,5 mg täglich',
         riskLevel: 'critical',
-        comment: 'Enge therapeutische Breite, CYP-Interaktion, regelmäßige INR-Kontrollen erforderlich'
+        comment: 'Enge therapeutische Breite mit CYP-basierter Interaktion. Regelmäßige INR-Kontrollen sind erforderlich'
       },
       {
         name: 'Prozac',
@@ -531,7 +531,7 @@ export function getDoctorReportV3Example(): DoctorReportDataV3 {
         adjustmentFactor: 0.8,
         warning: 'Moderate Multi-Drug-Interaktion: 2 Inhibitoren → 20% langsamere Reduktion empfohlen'
       },
-      additionalHints: 'Beide Medikamente erfordern engmaschige ärztliche Überwachung. Regelmäßige Kontrollen der Blutgerinnung (INR) und psychischer Befindlichkeit sind notwendig.'
+      additionalHints: 'Die Kombination dieser Medikamente sollte eine engmaschige klinische Überwachung erfolgen, einschließlich regelmäßiger INR-Kontrollen und Evaluation der psychischen Befindlichkeit.'
     },
     
     medicationDetails: [
@@ -555,7 +555,7 @@ export function getDoctorReportV3Example(): DoctorReportDataV3 {
           effectType: 'slower',
           adjustmentFactor: 0.7,
           slowdownPct: 30,
-          clinicalConsequence: 'Marcumar-Spiegel↑ → Blutungsrisiko↑'
+          clinicalConsequence: 'Erhöhter Marcumar-Wirkspiegel mit gesteigertem Blutungsrisiko. Engmaschige INR-Kontrollen sind empfohlen.'
         },
         
         therapeuticRange: {
@@ -574,7 +574,7 @@ export function getDoctorReportV3Example(): DoctorReportDataV3 {
           score: 3
         },
         
-        monitoring: 'INR-Kontrollen mindestens wöchentlich während der Reduktionsphase. Bei INR-Werten außerhalb des Zielbereichs (2,0–3,0) sofortige Dosisanpassung und ärztliche Rücksprache. Auf Blutungszeichen achten (Hämatome, Zahnfleischbluten, ungewöhnlich starke Menstruation).'
+        monitoring: 'INR-Kontrollen mindestens wöchentlich während der Reduktionsphase. Bei INR-Werten außerhalb des therapeutischen Bereichs (2,0–3,0) sollte eine umgehende Dosisanpassung erfolgen. Es sollte auf klinische Blutungszeichen geachtet werden (Hämatome, Zahnfleischbluten, verstärkte Menstruationsblutung).'
       },
       {
         name: 'Prozac',
@@ -596,7 +596,7 @@ export function getDoctorReportV3Example(): DoctorReportDataV3 {
           effectType: 'slower',
           adjustmentFactor: 0.85,
           slowdownPct: 15,
-          clinicalConsequence: 'Fluoxetin-Spiegel↑ → Nebenwirkungsrisiko↑ (z.B. Sedierung)'
+          clinicalConsequence: 'Erhöhter Fluoxetin-Wirkspiegel. Es sollte auf zentralnervöse Nebenwirkungen (z.B. Sedierung, Schwindel) geachtet werden.'
         },
         
         therapeuticRange: {
@@ -615,7 +615,7 @@ export function getDoctorReportV3Example(): DoctorReportDataV3 {
           score: 2
         },
         
-        monitoring: 'Wöchentliche Evaluation der psychischen Befindlichkeit. Auf Absetzsymptome achten: Schwindel, Kopfschmerzen, Reizbarkeit, Schlafstörungen, „Brain Zaps". Bei schweren Symptomen Reduktion pausieren und ärztliche Rücksprache.'
+        monitoring: 'Wöchentliche Evaluation der psychischen Befindlichkeit. Es sollte auf Absetzsymptome geachtet werden (z.B. Schwindel, Kopfschmerzen, Reizbarkeit, Schlafstörungen, parästhesieähnliche Empfindungen). Bei ausgeprägter Symptomatik ist eine Pausierung der Dosisreduktion sinnvoll.'
       }
     ],
     
@@ -654,24 +654,24 @@ export function getDoctorReportV3Example(): DoctorReportDataV3 {
       {
         medicationName: 'Marcumar',
         notes: [
-          'KRITISCHE CBD-INTERAKTION: Marcumar wird über CYP2C9 und CYP3A4 verstoffwechselt, beide Enzyme werden durch CBD gehemmt → erhöhte Marcumar-Spiegel → erhöhtes Blutungsrisiko',
-          'Regelmäßige INR-Kontrollen zwingend erforderlich',
-          'Reduktion auf 0% limitiert durch Kategorie-Sicherheitsregeln (Antikoagulantien)',
-          'Lange Halbwertszeit (40h) ermöglicht nur langsame Anpassungen',
-          'CYP-Hemmung verlangsamt Reduktion um 30%',
-          'Hohes Absetzrisiko (10/10) verlangsamt Reduktion um 25%',
-          'Ausschleichen erfordert Facharzt-Begleitung'
+          'Kritische pharmakokinetische Interaktion: Marcumar wird über CYP2C9 und CYP3A4 metabolisiert. Beide Enzyme werden durch CBD gehemmt, was zu erhöhten Wirkspiegeln und gesteigertem Blutungsrisiko führen kann',
+          'Regelmäßige INR-Kontrollen sind zwingend erforderlich',
+          'Dosisreduktion auf 0% limitiert durch kategoriespezifische Sicherheitsregeln (Antikoagulanzien)',
+          'Lange Halbwertszeit (40h) bedingt langsame Anpassungskinetik',
+          'CYP-basierte Inhibition verlangsamt Reduktion um 30%',
+          'Hohes Absetzrisiko (Score 10/10) resultiert in 25% Verlangsamung der Dosisreduktion',
+          'Ausschleichen sollte unter fachärztlicher Begleitung erfolgen'
         ]
       },
       {
         medicationName: 'Prozac',
         notes: [
-          'HOHE CBD-INTERAKTION: Fluoxetin ist starker CYP2D6-Inhibitor, kann andere Medikamente beeinflussen',
-          'Hohes Absetzrisiko (8/10): Absetzsymptome möglich (Schwindel, Reizbarkeit, Schlafstörungen)',
-          'CYP2D6-Inhibition verlangsamt Reduktion um 15%',
-          'Absetzrisiko verlangsamt Reduktion um 20%',
-          'Wöchentliche Evaluation der psychischen Befindlichkeit erforderlich',
-          'Bei schweren Absetzsymptomen Reduktion pausieren'
+          'Hohe pharmakokinetische Interaktion: Fluoxetin ist ein potenter CYP2D6-Inhibitor und kann die Metabolisierung anderer Medikamente beeinflussen',
+          'Hohes Absetzrisiko (Score 8/10): Absetzsymptome sind möglich (z.B. Schwindel, Reizbarkeit, Schlafstörungen)',
+          'CYP2D6-basierte Inhibition verlangsamt Reduktion um 15%',
+          'Absetzrisiko resultiert in 20% Verlangsamung der Dosisreduktion',
+          'Wöchentliche Evaluation der psychischen Befindlichkeit ist erforderlich',
+          'Bei ausgeprägter Absetzsymptomatik sollte die Dosisreduktion pausiert werden'
         ]
       }
     ],
@@ -689,7 +689,7 @@ export function getDoctorReportV3Example(): DoctorReportDataV3 {
       ],
       factorsNotIncluded: [
         'Individuelle genetische Variationen (z.B. CYP2C9-Polymorphismen)',
-        'Ko-Morbiditäten und Organfunktionen (Leber-/Nierenfunktion)',
+        'Komorbiditäten und Organfunktionsstörungen (hepatische/renale Insuffizienz)',
         'Individuelle Verträglichkeit und subjektive Symptome',
         'Psychosoziale Faktoren und Compliance',
         'Andere Medikamente außerhalb der Datenbank',

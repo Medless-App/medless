@@ -67,13 +67,13 @@ const MEDICATION_CLASSIFICATIONS = {
     keywords: ['warfarin', 'phenprocoumon', 'apixaban', 'rivaroxaban', 'dabigatran', 
                'edoxaban', 'clopidogrel', 'marcumar', 'xarelto', 'eliquis'],
     badge: { text: 'kritische Dauertherapie', color: 'bg-orange-50 text-orange-800 border border-orange-200' },
-    hint: 'Hinweis: Blutverdünner sind in vielen Fällen langfristig oder lebenswichtig. MEDLESS macht hierzu nur sehr vorsichtige oder keine Reduktionsvorschläge. Eine Anpassung darf ausschließlich ärztlich erfolgen.'
+    hint: 'Hinweis: Antikoagulanzien sind häufig Bestandteil einer Langzeit- oder Dauertherapie. MEDLESS berechnet hierfür lediglich sehr konservative oder keine Dosisreduktionen. Jede Anpassung sollte ausschließlich in fachärztlicher Abstimmung erfolgen.'
   },
   immunosuppressants: {
     keywords: ['tacrolimus', 'ciclosporin', 'mycophenolat', 'azathioprin', 'sirolimus',
                'everolimus', 'certolizumab', 'infliximab'],
     badge: { text: 'kritische Dauertherapie', color: 'bg-orange-50 text-orange-800 border border-orange-200' },
-    hint: 'Hinweis: Medikamente zur Verhinderung einer Organabstoßung sind in der Regel unverzichtbar. MEDLESS berechnet hierfür keinen vollständigen Ausschleichplan, zeigt aber die Belastung im Überblick.'
+    hint: 'Hinweis: Immunsuppressiva zur Prophylaxe einer Organabstoßung sind in der Regel unverzichtbar. MEDLESS erstellt hierfür keinen vollständigen Reduktionsplan, stellt jedoch die medikamentöse Gesamtbelastung dar.'
   },
   opioids: {
     keywords: ['morphin', 'oxycodon', 'fentanyl', 'hydromorphon', 'tramadol', 
@@ -2034,10 +2034,10 @@ function displayResults(data, firstName = '', gender = '') {
     html += `
       <div style="margin-top: 1.5rem; padding: 1.5rem 1.3rem; border-radius: 16px; background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); border: 2px solid #0d9488; box-shadow: 0 2px 8px rgba(13,148,136,0.15);">
         <h2 style="margin: 0 0 1rem; font-size: 1.3rem; font-weight: 700; color: #0b7b6c;">
-          🧬 Erweiterte Sicherheits-Analyse
+          🧬 Erweiterte pharmakokinetische Analyse
         </h2>
         <p style="margin: 0 0 1.25rem; font-size: 0.9rem; line-height: 1.6; color: #4b5563;">
-          Diese Analyse berücksichtigt moderne pharmakologische Erkenntnisse zu CYP450-Enzymen, therapeutischen Bereichen und Multi-Drug-Interaktionen für eine präzisere Dosisanpassung.
+          Diese Analyse berücksichtigt pharmakokinetische Daten zu CYP450-Enzymen, therapeutischer Breite und Arzneimittelinteraktionen zur individualisierten Dosisanpassung.
         </p>
     `;
     
@@ -2051,10 +2051,10 @@ function displayResults(data, firstName = '', gender = '') {
         'unknown': { bg: '#f3f4f6', border: '#9ca3af', text: '#374151' }
       };
       const colors = mdiLevelColors[mdiLevel] || mdiLevelColors['unknown'];
-      const mdiTitle = mdiLevel === 'mild' ? 'Leichte Multi-Drug-Interaktion' :
-                       mdiLevel === 'moderate' ? '⚠️ Mittlere Multi-Drug-Interaktion' :
-                       mdiLevel === 'severe' ? '🚨 SCHWERE Multi-Drug-Interaktion' :
-                       'Multi-Drug-Interaktion';
+      const mdiTitle = mdiLevel === 'mild' ? 'Leichte Arzneimittelinteraktion' :
+                       mdiLevel === 'moderate' ? '⚠️ Moderate Arzneimittelinteraktion' :
+                       mdiLevel === 'severe' ? '🚨 Schwere Arzneimittelinteraktion' :
+                       'Arzneimittelinteraktion';
       
       html += `
         <div style="margin-bottom: 1.25rem; padding: 1.25rem; background: ${colors.bg}; border: 2px solid ${colors.border}; border-radius: 12px;">
@@ -2063,19 +2063,19 @@ function displayResults(data, firstName = '', gender = '') {
           </h3>
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 0.875rem;">
             <div style="padding: 0.75rem; background: white; border-radius: 8px; text-align: center;">
-              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; font-weight: 500;">Hemm-Profile</p>
+              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; font-weight: 500;">Enzyminhibitoren</p>
               <p style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #dc2626;">${mdi.inhibitors || 0}</p>
-              <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">(Langsamere Reduktion)</p>
+              <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">(Verlangsamter Metabolismus)</p>
             </div>
             <div style="padding: 0.75rem; background: white; border-radius: 8px; text-align: center;">
-              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; font-weight: 500;">Induktions-Profile</p>
+              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; font-weight: 500;">Enzyminduktoren</p>
               <p style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #059669;">${mdi.inducers || 0}</p>
-              <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">(Schnellere Reduktion)</p>
+              <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">(Beschleunigter Metabolismus)</p>
             </div>
           </div>
           <div style="padding: 0.875rem; background: white; border-radius: 8px;">
             <p style="margin: 0 0 0.5rem; font-size: 0.8rem; color: #6b7280;">
-              <strong style="color: ${colors.text};">Anpassungsfaktor:</strong> ${(mdi.adjustment_factor * 100).toFixed(0)}% der Basis-Reduktionsgeschwindigkeit
+              <strong style="color: ${colors.text};">Dosisanpassungsfaktor:</strong> ${(mdi.adjustment_factor * 100).toFixed(0)}% der Basis-Reduktionsgeschwindigkeit
             </p>
             ${mdi.warnings && mdi.warnings.length > 0 ? `
               <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #e5e7eb;">
@@ -2096,17 +2096,17 @@ function displayResults(data, firstName = '', gender = '') {
       html += `
         <div style="margin-bottom: 1.25rem; padding: 1rem; background: white; border: 1px solid #e5e7eb; border-radius: 12px;">
           <h3 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">
-            🧬 CYP450-Enzym-Profile
+            🧬 CYP450-Enzymsystem
           </h3>
           <p style="margin: 0 0 0.875rem; font-size: 0.85rem; line-height: 1.5; color: #6b7280;">
-            CYP450-Enzyme sind für den Medikamentenabbau verantwortlich. CBD kann diese Enzyme hemmen oder aktivieren, was die Reduktionsgeschwindigkeit beeinflusst.
+            CYP450-Enzyme metabolisieren viele Medikamente. Cannabidiol kann diese Enzyme hemmen oder induzieren, wodurch sich die Abbaugeschwindigkeit und damit die empfohlene Reduktionsrate verändert.
           </p>
           
           <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
             ${cypProfile.medicationsWithSlowerEffect && cypProfile.medicationsWithSlowerEffect.length > 0 ? `
               <div style="padding: 0.875rem; background: #fef2f2; border-left: 3px solid #ef4444; border-radius: 8px;">
                 <p style="margin: 0 0 0.375rem; font-size: 0.8rem; font-weight: 600; color: #991b1b;">
-                  Langsamere Reduktion (CYP-Hemmung unter CBD):
+                  Verlangsamte Reduktion (CYP-Inhibition durch CBD):
                 </p>
                 <p style="margin: 0; font-size: 0.85rem; color: #6b7280;">
                   ${cypProfile.medicationsWithSlowerEffect.join(', ')}
@@ -2117,7 +2117,7 @@ function displayResults(data, firstName = '', gender = '') {
             ${cypProfile.medicationsWithFasterEffect && cypProfile.medicationsWithFasterEffect.length > 0 ? `
               <div style="padding: 0.875rem; background: #f0fdf4; border-left: 3px solid #059669; border-radius: 8px;">
                 <p style="margin: 0 0 0.375rem; font-size: 0.8rem; font-weight: 600; color: #065f46;">
-                  Schnellere Reduktion möglich (CYP-Induktion):
+                  Beschleunigte Reduktion möglich (CYP-Induktion):
                 </p>
                 <p style="margin: 0; font-size: 0.85rem; color: #6b7280;">
                   ${cypProfile.medicationsWithFasterEffect.join(', ')}
@@ -2142,10 +2142,10 @@ function displayResults(data, firstName = '', gender = '') {
       html += `
         <div style="margin-bottom: 1.25rem; padding: 1rem; background: white; border: 1px solid #e5e7eb; border-radius: 12px;">
           <h3 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">
-            ⚠️ Absetzrisiko-Quantifizierung
+            ⚠️ Absetzrisiko und Entzugssymptomatik
           </h3>
           <p style="margin: 0 0 0.875rem; font-size: 0.85rem; line-height: 1.5; color: #6b7280;">
-            Medikamente mit hohem Absetzrisiko (Score ≥ 7) erfordern eine langsamere Reduktion zur Vermeidung von Entzugssymptomen.
+            Bei Medikamenten mit hohem Absetzrisiko (Score ≥ 7) ist eine langsamere Dosisreduktion empfohlen, um das Risiko für Entzugssymptome zu minimieren.
           </p>
           
           <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
@@ -2184,10 +2184,10 @@ function displayResults(data, firstName = '', gender = '') {
       html += `
         <div style="margin-bottom: 1.25rem; padding: 1rem; background: white; border: 1px solid #e5e7eb; border-radius: 12px;">
           <h3 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">
-            📊 Therapeutischer Bereich
+            📊 Therapeutische Breite
           </h3>
           <p style="margin: 0 0 0.875rem; font-size: 0.85rem; line-height: 1.5; color: #6b7280;">
-            Medikamente mit engem therapeutischem Fenster (≤ 50 ng/ml Breite) benötigen besonders vorsichtige Dosisanpassungen.
+            Bei Medikamenten mit engem therapeutischem Fenster (≤ 50 ng/ml Breite) sind besonders vorsichtige, schrittweise Dosisanpassungen empfohlen.
           </p>
           
           <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
@@ -2206,12 +2206,12 @@ function displayResults(data, firstName = '', gender = '') {
                     </p>
                     ${isNarrow ? `
                       <span style="padding: 0.25rem 0.5rem; background: white; border-radius: 6px; font-size: 0.7rem; font-weight: 600; color: #d97706;">
-                        ENGES FENSTER
+                        ENGE BREITE
                       </span>
                     ` : ''}
                   </div>
                   <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">
-                    Therapeutischer Bereich: <strong>${med.min_ng_ml} – ${med.max_ng_ml} ng/ml</strong>
+                    Therapeutisches Fenster: <strong>${med.min_ng_ml} – ${med.max_ng_ml} ng/ml</strong>
                     ${med.window_width ? ` (Breite: ${med.window_width} ng/ml)` : ''}
                   </p>
                 </div>
@@ -2252,10 +2252,10 @@ function displayResults(data, firstName = '', gender = '') {
   const CATEGORY_SPECIFIC_HINTS = {
     benzodiazepines: 'Bei Benzodiazepinen und Schlafmitteln ist ein langsames, stufenweises Ausschleichen wichtig. Der hier dargestellte Verlauf ist eine mögliche Orientierung – Tempo und Schritte sollten individuell durch Ihren Arzt angepasst werden.',
     antidepressants: 'Antidepressiva sollten nicht abrupt beendet werden. Ein zu schneller Wechsel kann zu Absetzsymptomen oder einem Wiederaufflammen der Beschwerden führen. Nutzen Sie diesen Plan nur als Grundlage für das Gespräch mit Ihrem Arzt.',
-    anticoagulants: 'Blutverdünner werden häufig langfristig oder dauerhaft eingesetzt, zum Beispiel zum Schutz vor Schlaganfall oder Thrombosen. MEDLESS macht hier nur sehr vorsichtige oder keine Reduktionsvorschläge. Eine mögliche Anpassung muss immer ärztlich entschieden werden.',
-    immunosuppressants: 'Medikamente zur Verhinderung einer Organabstoßung sind in der Regel unverzichtbar. In diesem Plan wird keine vollständige Reduktion bis 0 mg vorgeschlagen. Änderungen dürfen nur in spezialisierten Zentren erfolgen.',
-    opioids: 'Starke Schmerzmittel sollten immer unter engmaschiger ärztlicher Kontrolle reduziert werden. MEDLESS kann helfen, einen möglichen Verlauf zu strukturieren – ersetzt aber keine persönliche Betreuung.',
-    antiepileptics: 'Antiepileptika erfordern ein sehr vorsichtiges Ausschleichen. Ein abruptes Absetzen kann zu schweren Anfällen führen. Jede Dosisänderung sollte nur in enger Abstimmung mit Ihrem Neurologen erfolgen.'
+    anticoagulants: 'Antikoagulanzien werden häufig als Langzeit- oder Dauertherapie zur Prävention thromboembolischer Ereignisse eingesetzt. MEDLESS berechnet hierfür lediglich sehr konservative oder keine Dosisreduktionen. Jede Therapieanpassung sollte in fachärztlicher Abstimmung erfolgen.',
+    immunosuppressants: 'Immunsuppressiva zur Abstoßungsprophylaxe sind in der Regel essenziell für die Transplantatfunktion. Dieser Plan sieht keine vollständige Dosisreduktion vor. Therapieanpassungen sollten ausschließlich in spezialisierten Zentren erfolgen.',
+    opioids: 'Bei Opioiden ist eine schrittweise Dosisreduktion unter engmaschiger klinischer Begleitung empfohlen. MEDLESS kann einen strukturierten Reduktionsplan erstellen – dieser ersetzt jedoch nicht die individuelle ärztliche Betreuung.',
+    antiepileptics: 'Bei Antiepileptika ist eine vorsichtige Dosisreduktion unter fachärztlicher Kontrolle erforderlich. Ein abruptes Absetzen kann mit dem Risiko für Anfallsrezidive einhergehen. Jede Dosisanpassung sollte in enger neurologischer Abstimmung erfolgen.'
   };
   
   // Sammle relevante Hinweise

@@ -468,13 +468,13 @@ function renderMedicationProfile(med: DoctorReportDataV3['medicationDetails'][0]
 
 function renderWithdrawalRiskSection(wr: DoctorReportDataV3['medicationDetails'][0]['withdrawalRisk']): string {
   if (!wr || wr.score === 0) {
-    return '<p style="font-size: 9pt; color: #6b7280;">Kein erhöhtes Absetzrisiko dokumentiert.</p>';
+    return '<p style="font-size: 9pt; color: #6b7280;">Kein erhöhtes Absetzrisiko (Entzugssymptomatik) dokumentiert.</p>';
   }
   
   return `
     <div class="med-profile-row">
       <div class="med-profile-label">Absetzrisiko-Score:</div>
-      <div class="med-profile-value">${wr.score}/10 → Faktor ${wr.factor.toFixed(2)} (${wr.slowdownPct}% langsamer)</div>
+      <div class="med-profile-value">${wr.score}/10 → Anpassungsfaktor ${wr.factor.toFixed(2)} (Reduktion um ${wr.slowdownPct}% verlangsamt)</div>
     </div>
   `;
 }
