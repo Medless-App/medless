@@ -25,7 +25,13 @@
     
     .fachkreise-hero {
       background: linear-gradient(135deg, #F9FAFB 0%, #FFFFFF 100%);
-      padding: 6rem 2rem 5rem;
+      padding: 4.5rem 2rem 4rem;
+    }
+    
+    @media (max-width: 768px) {
+      .fachkreise-hero {
+        padding: 3rem 1.5rem 3rem;
+      }
     }
     
     .fachkreise-hero .container {
@@ -49,18 +55,57 @@
     
     .fachkreise-hero h1 {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      
+      font-size: 2.8rem;
       font-weight: 700;
       color: #0F5A46;
-      line-height: 1.2;
-      margin: 0 0 1.5rem 0;
+      line-height: 1.15;
+      margin: 0 0 1rem 0;
+    }
+    
+    @media (max-width: 768px) {
+      .fachkreise-hero h1 {
+        font-size: 1.95rem;
+        margin-bottom: 0.875rem;
+      }
     }
     
     .fachkreise-hero-subtitle {
-      
-      line-height: 1.7;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      color: #374151;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+      .fachkreise-hero-subtitle {
+        font-size: 1.1rem;
+      }
+    }
+    
+    .fachkreise-hero-intro {
+      font-size: 1rem;
+      line-height: 1.65;
       color: #4B5563;
-      margin-bottom: 2rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    @media (max-width: 768px) {
+      .fachkreise-hero-intro {
+        font-size: 0.95rem;
+      }
+    }
+    
+    .link-inline {
+      color: #1A9C7F;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: border-bottom 0.2s ease;
+    }
+    
+    .link-inline:hover {
+      border-bottom-color: #1A9C7F;
     }
     
     .fachkreise-buttons {
@@ -115,10 +160,18 @@
     .fachkreise-visual-card {
       background: white;
       border-radius: 16px;
-      padding: 2rem;
+      padding: 1.75rem;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
       transform: perspective(1000px) rotateY(-5deg);
       transition: transform 0.3s ease;
+      max-width: 420px;
+    }
+    
+    @media (max-width: 768px) {
+      .fachkreise-visual-card {
+        max-width: 100%;
+        margin-top: 2rem;
+      }
     }
     
     .fachkreise-visual-card:hover {
@@ -312,8 +365,8 @@
     }
     
     .fachkreise-warning-box {
-      background: #F3F4F6;
-      border-left: 4px solid #6B7280;
+      background: #FFFBEB;
+      border-left: 4px solid #F59E0B;
       border-radius: 8px;
       padding: 1.5rem;
       margin: 2rem 0;
@@ -441,20 +494,14 @@
     <div class="container">
       <div class="fachkreise-hero-grid">
         <div>
-          <h1>MEDLESS – Orientierung bei komplexer Medikation. Klar strukturiert und gemeinsam mit Ihren Patient:innen.</h1>
+          <h1>MEDLESS – Orientierung bei komplexer Medikation</h1>
           <p class="fachkreise-hero-subtitle">
-            MEDLESS verbindet das Endocannabinoid-System, pharmakokinetische Wechselwirkungen und einen algorithmisch berechneten Reduktionspfad zu einer nachvollziehbaren Grundlage für Therapiegespräche.
+            Für Ärzt:innen und Apotheker:innen, die Polypharmazie strukturierter begleiten wollen – mit einem klar nachvollziehbaren Orientierungsplan statt Bauchgefühl.
           </p>
-          <div class="fachkreise-buttons">
-            <a href="/medless_aerztebericht_beispiel.pdf" target="_blank" class="fachkreise-btn-primary">
-              <i data-lucide="file-text"></i>
-              Ärztebericht ansehen
-            </a>
-            <a href="mailto:info@medless.de" class="fachkreise-btn-secondary">
-              <i data-lucide="user-check"></i>
-              MEDLESS für die Praxis aktivieren
-            </a>
-          </div>
+          <p class="fachkreise-hero-intro">
+            MEDLESS verbindet das Endocannabinoid-System, pharmakokinetische Wechselwirkungen (CYP-Metabolismus, Halbwertszeiten) und einen algorithmisch berechneten Reduktionspfad. So entsteht eine nachvollziehbare Grundlage für Therapiegespräche, ohne Therapieempfehlung und ohne Heilsversprechen.
+          </p>
+          <a href="#wie-medless-funktioniert" class="link-inline">Mehr über den MEDLESS-Algorithmus erfahren</a>
         </div>
         <div>
           <div class="fachkreise-visual-card">
@@ -559,8 +606,45 @@
     </div>
   </section>
 
-  <!-- 4. WAS MEDLESS MACHT -->
-  <section class="fachkreise-section fade-in-section">
+  <!-- 4. WIE MEDLESS TECHNISCH ARBEITET -->
+  <section id="wie-medless-funktioniert" class="fachkreise-section fade-in-section">
+    <div class="container">
+      <h2 class="fachkreise-section-title">Wie MEDLESS technisch arbeitet</h2>
+      <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1rem; line-height: 1.7; color: #4B5563; margin-bottom: 2rem; text-align: center;">
+          Der MEDLESS-Algorithmus strukturiert Polypharmazie-Profile anhand einer nachvollziehbaren Logik – ohne therapeutische Vorgaben zu machen.
+        </p>
+        <div class="fachkreise-card">
+          <ul style="display: grid; grid-template-columns: 1fr; gap: 1.25rem;">
+            <li>
+              <strong style="color: #0F5A46;">Erfasst Medikation + Einnahmezeiten:</strong><br>
+              <span style="color: #6B7280;">Alle Wirkstoffe, Dosierungen und Zeitpunkte werden systematisch dokumentiert.</span>
+            </li>
+            <li>
+              <strong style="color: #0F5A46;">Nutzt Halbwertszeiten & CYP-Metabolismus:</strong><br>
+              <span style="color: #6B7280;">Der Algorithmus ordnet Medikamente nach pharmakokinetischen Eigenschaften (z.B. CYP-Profil, Steady-State, Interaktionspotenzial).</span>
+            </li>
+            <li>
+              <strong style="color: #0F5A46;">Berechnet stufenweisen Reduktionspfad:</strong><br>
+              <span style="color: #6B7280;">Ein biologisch plausibler Pfad entsteht – mit Berücksichtigung von Absetzrisiken, Erholungsphasen und Wechselwirkungen.</span>
+            </li>
+            <li>
+              <strong style="color: #0F5A46;">Liefert Arztbericht + Patientenplan als PDF:</strong><br>
+              <span style="color: #6B7280;">Ärzt:innen erhalten einen technischen Bericht, Patient:innen eine verständliche Übersicht – beide als PDF.</span>
+            </li>
+          </ul>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+          <p style="font-size: 0.95rem; color: #6B7280; font-style: italic;">
+            <strong>Wichtig:</strong> MEDLESS berechnet, aber entscheidet nicht. Alle medizinischen Entscheidungen trifft ausschließlich die behandelnde Ärztin oder der behandelnde Arzt.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. WAS MEDLESS MACHT -->
+  <section class="fachkreise-section gray fade-in-section">
     <div class="container">
       <h2 class="fachkreise-section-title">Was MEDLESS konkret macht</h2>
       <div class="fachkreise-four-col">
@@ -593,8 +677,8 @@
     </div>
   </section>
 
-  <!-- 5. WAS MEDLESS NICHT MACHT -->
-  <section class="fachkreise-section gray fade-in-section">
+  <!-- 6. WAS MEDLESS NICHT MACHT -->
+  <section class="fachkreise-section fade-in-section">
     <div class="container">
       <h2 class="fachkreise-section-title">Was MEDLESS nicht macht</h2>
       <div style="max-width: 900px; margin: 0 auto;">
@@ -616,8 +700,8 @@
     </div>
   </section>
 
-  <!-- 6. NUTZEN FÜR ÄRZT:INNEN -->
-  <section class="fachkreise-section fade-in-section">
+  <!-- 7. NUTZEN FÜR ÄRZT:INNEN -->
+  <section class="fachkreise-section gray fade-in-section">
     <div class="container">
       <h2 class="fachkreise-section-title">Nutzen für Ärzt:innen</h2>
       <div class="fachkreise-card" style="max-width: 900px; margin: 0 auto;">
@@ -633,8 +717,8 @@
     </div>
   </section>
 
-  <!-- 7. NUTZEN FÜR APOTHEKEN -->
-  <section class="fachkreise-section gray fade-in-section">
+  <!-- 8. NUTZEN FÜR APOTHEKEN -->
+  <section class="fachkreise-section fade-in-section">
     <div class="container">
       <h2 class="fachkreise-section-title">Nutzen für Apotheken</h2>
       <div class="fachkreise-card" style="max-width: 900px; margin: 0 auto;">
@@ -649,8 +733,8 @@
     </div>
   </section>
 
-  <!-- 8. NUTZEN FÜR PATIENT:INNEN -->
-  <section class="fachkreise-section fade-in-section">
+  <!-- 9. NUTZEN FÜR PATIENT:INNEN -->
+  <section class="fachkreise-section gray fade-in-section">
     <div class="container">
       <h2 class="fachkreise-section-title">Nutzen für Patient:innen</h2>
       <div class="fachkreise-card" style="max-width: 900px; margin: 0 auto;">
@@ -665,52 +749,26 @@
     </div>
   </section>
 
-  <!-- 9. DAS PRODUKT HINTER MEDLESS -->
-  <section class="fachkreise-section gray fade-in-section">
+  <!-- 10. CALL-TO-ACTION -->
+  <section class="fachkreise-section fade-in-section" style="padding: 5rem 2rem 6rem;">
     <div class="container">
-      <h2 class="fachkreise-section-title">Das Produkt hinter MEDLESS</h2>
-      <div style="max-width: 900px; margin: 0 auto;">
-        <p style=" line-height: 1.8; color: #4B5563; margin-bottom: 2rem; text-align: center;">
-          MEDLESS ist mehr als ein Planungstool – es bietet optional ein begleitendes ECS-orientiertes Produkt an.
+      <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 700; color: #0F5A46; margin: 0 0 1rem 0; line-height: 1.3;">
+          MEDLESS in Ihrer Praxis oder Apotheke einsetzen
+        </h2>
+        <p style="font-size: 1.05rem; line-height: 1.7; color: #4B5563; margin-bottom: 2.5rem;">
+          Sie möchten MEDLESS für strukturierte Therapiegespräche bei komplexer Medikation nutzen? Sehen Sie sich den Beispiel-Ärztebericht an oder kontaktieren Sie uns für weitere Informationen.
         </p>
-        <div class="fachkreise-card">
-          <h3 style="text-align: center; margin-bottom: 1.5rem;">Produktmerkmale</h3>
-          <ul style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
-            <li><strong>Keine reines CBD-Produkt:</strong> ECS-orientierte Formulierung statt Standard-CBD</li>
-            <li><strong>Biologische Stabilisierung:</strong> Ziel ist eine verbesserte Ausgangslage für Reduktionsschritte</li>
-            <li><strong>Erleichtert verträgliche Reduktion:</strong> Puffert biologische Instabilität ab</li>
-            <li><strong>Optional einsetzbar:</strong> Kein Zwang, MEDLESS funktioniert auch ohne Produkt</li>
-            <li><strong>Keine Heilversprechen:</strong> Das Produkt ist eine Unterstützung, keine Garantie</li>
-            <li><strong>Verfügbarkeit:</strong> Online, beim Arzt oder in der Apotheke</li>
-          </ul>
-          <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #E5E7EB;">
-            <p style="font-weight: 600; color: #1A9C7F; margin-bottom: 0.5rem;">Bonusmodelle für Praxen und Apotheken:</p>
-            <ul style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
-              <li><strong>50% Marge</strong> bei Direktabgabe in der Praxis/Apotheke</li>
-              <li><strong>30% Beteiligung</strong> wenn Patient:innen später über Praxis-QR-Code online nachbestellen</li>
-            </ul>
-          </div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+          <a href="/medless_aerztebericht_beispiel.pdf" target="_blank" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i data-lucide="file-text" style="width: 20px; height: 20px;"></i>
+            Beispiel-Ärztebericht (PDF) herunterladen
+          </a>
+          <a href="mailto:info@medless.de" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i data-lucide="mail" style="width: 20px; height: 20px;"></i>
+            Kontakt aufnehmen
+          </a>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10. ABSCHLUSS & CTA -->
-  <section class="fachkreise-cta">
-    <div class="container">
-      <h2>MEDLESS in Ihrer Praxis oder Apotheke nutzen</h2>
-      <p>
-        Sie möchten MEDLESS für strukturierte Therapiegespräche bei komplexer Medikation einsetzen? Wir freuen uns auf Ihre Kontaktaufnahme.
-      </p>
-      <div class="fachkreise-cta-buttons">
-        <a href="/medless_aerztebericht_beispiel.pdf" target="_blank" class="fachkreise-cta-btn">
-          <i data-lucide="file-text"></i>
-          Ärztebericht ansehen
-        </a>
-        <a href="mailto:info@medless.de" class="fachkreise-cta-btn">
-          <i data-lucide="mail"></i>
-          MEDLESS für die Praxis aktivieren
-        </a>
       </div>
     </div>
   </section>
