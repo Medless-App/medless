@@ -2008,6 +2008,222 @@ function displayResults(data, firstName = '', gender = '') {
   `;
   
   // ============================================================
+  // NEW: SICHERHEITS-ANALYSE (CYP, TR, MDI, Withdrawal Risk)
+  // ============================================================
+  
+  // Extract safety data from API response
+  const cypProfile = data.cyp_profile || {};
+  const therapeuticRange = data.therapeutic_range || {};
+  const mdi = data.multi_drug_interaction || {};
+  const withdrawalRisk = data.withdrawal_risk_adjustment || {};
+  
+  // Determine if we have any safety data to show
+  const hasCypData = cypProfile.totalMedicationsWithCypData > 0;
+  const hasTherapeuticRangeData = therapeuticRange.totalMedicationsWithRange > 0 || 
+                                   therapeuticRange.medicationsWithNarrowWindow?.length > 0;
+  const hasMdiData = mdi.inhibitors > 0 || mdi.inducers > 0;
+  const hasWithdrawalData = withdrawalRisk.medications && withdrawalRisk.medications.length > 0;
+  
+  const hasAnySafetyData = hasCypData || hasTherapeuticRangeData || hasMdiData || hasWithdrawalData;
+  
+  if (hasAnySafetyData) {
+    html += `
+      <div style="margin-top: 1.5rem; padding: 1.5rem 1.3rem; border-radius: 16px; background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); border: 2px solid #0d9488; box-shadow: 0 2px 8px rgba(13,148,136,0.15);">
+        <h2 style="margin: 0 0 1rem; font-size: 1.3rem; font-weight: 700; color: #0b7b6c;">
+          🧬 Erweiterte Sicherheits-Analyse
+        </h2>
+        <p style="margin: 0 0 1.25rem; font-size: 0.9rem; line-height: 1.6; color: #4b5563;">
+          Diese Analyse berücksichtigt moderne pharmakologische Erkenntnisse zu CYP450-Enzymen, therapeutischen Bereichen und Multi-Drug-Interaktionen für eine präzisere Dosisanpassung.
+        </p>
+    `;
+    
+    // ====== MULTI-DRUG INTERACTION (MDI) - Global Warning Box ======
+    if (hasMdiData) {
+      const mdiLevel = mdi.level || 'unknown';
+      const mdiLevelColors = {
+        'mild': { bg: '#fef3c7', border: '#fbbf24', text: '#92400e' },
+        'moderate': { bg: '#fed7aa', border: '#fb923c', text: '#9a3412' },
+        'severe': { bg: '#fecaca', border: '#ef4444', text: '#991b1b' },
+        'unknown': { bg: '#f3f4f6', border: '#9ca3af', text: '#374151' }
+      };
+      const colors = mdiLevelColors[mdiLevel] || mdiLevelColors['unknown'];
+      const mdiTitle = mdiLevel === 'mild' ? 'Leichte Multi-Drug-Interaktion' :
+                       mdiLevel === 'moderate' ? '⚠️ Mittlere Multi-Drug-Interaktion' :
+                       mdiLevel === 'severe' ? '🚨 SCHWERE Multi-Drug-Interaktion' :
+                       'Multi-Drug-Interaktion';
+      
+      html += `
+        <div style="margin-bottom: 1.25rem; padding: 1.25rem; background: ${colors.bg}; border: 2px solid ${colors.border}; border-radius: 12px;">
+          <h3 style="margin: 0 0 0.75rem; font-size: 1.05rem; font-weight: 600; color: ${colors.text};">
+            ${mdiTitle}
+          </h3>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 0.875rem;">
+            <div style="padding: 0.75rem; background: white; border-radius: 8px; text-align: center;">
+              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; font-weight: 500;">Hemm-Profile</p>
+              <p style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #dc2626;">${mdi.inhibitors || 0}</p>
+              <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">(Langsamere Reduktion)</p>
+            </div>
+            <div style="padding: 0.75rem; background: white; border-radius: 8px; text-align: center;">
+              <p style="margin: 0 0 0.25rem; font-size: 0.7rem; text-transform: uppercase; color: #9ca3af; font-weight: 500;">Induktions-Profile</p>
+              <p style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #059669;">${mdi.inducers || 0}</p>
+              <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: #6b7280;">(Schnellere Reduktion)</p>
+            </div>
+          </div>
+          <div style="padding: 0.875rem; background: white; border-radius: 8px;">
+            <p style="margin: 0 0 0.5rem; font-size: 0.8rem; color: #6b7280;">
+              <strong style="color: ${colors.text};">Anpassungsfaktor:</strong> ${(mdi.adjustment_factor * 100).toFixed(0)}% der Basis-Reduktionsgeschwindigkeit
+            </p>
+            ${mdi.warnings && mdi.warnings.length > 0 ? `
+              <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #e5e7eb;">
+                ${mdi.warnings.map(w => `
+                  <p style="margin: 0 0 0.375rem; font-size: 0.8rem; line-height: 1.5; color: ${colors.text};">
+                    ${w}
+                  </p>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+    
+    // ====== CYP450 PROFILE - Per Medication ======
+    if (hasCypData) {
+      html += `
+        <div style="margin-bottom: 1.25rem; padding: 1rem; background: white; border: 1px solid #e5e7eb; border-radius: 12px;">
+          <h3 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">
+            🧬 CYP450-Enzym-Profile
+          </h3>
+          <p style="margin: 0 0 0.875rem; font-size: 0.85rem; line-height: 1.5; color: #6b7280;">
+            CYP450-Enzyme sind für den Medikamentenabbau verantwortlich. CBD kann diese Enzyme hemmen oder aktivieren, was die Reduktionsgeschwindigkeit beeinflusst.
+          </p>
+          
+          <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
+            ${cypProfile.medicationsWithSlowerEffect && cypProfile.medicationsWithSlowerEffect.length > 0 ? `
+              <div style="padding: 0.875rem; background: #fef2f2; border-left: 3px solid #ef4444; border-radius: 8px;">
+                <p style="margin: 0 0 0.375rem; font-size: 0.8rem; font-weight: 600; color: #991b1b;">
+                  Langsamere Reduktion (CYP-Hemmung unter CBD):
+                </p>
+                <p style="margin: 0; font-size: 0.85rem; color: #6b7280;">
+                  ${cypProfile.medicationsWithSlowerEffect.join(', ')}
+                </p>
+              </div>
+            ` : ''}
+            
+            ${cypProfile.medicationsWithFasterEffect && cypProfile.medicationsWithFasterEffect.length > 0 ? `
+              <div style="padding: 0.875rem; background: #f0fdf4; border-left: 3px solid #059669; border-radius: 8px;">
+                <p style="margin: 0 0 0.375rem; font-size: 0.8rem; font-weight: 600; color: #065f46;">
+                  Schnellere Reduktion möglich (CYP-Induktion):
+                </p>
+                <p style="margin: 0; font-size: 0.85rem; color: #6b7280;">
+                  ${cypProfile.medicationsWithFasterEffect.join(', ')}
+                </p>
+              </div>
+            ` : ''}
+          </div>
+          
+          ${cypProfile.affectedEnzymes && cypProfile.affectedEnzymes.length > 0 ? `
+            <div style="margin-top: 0.75rem; padding: 0.75rem; background: #f9fafb; border-radius: 8px;">
+              <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">
+                <strong>Betroffene Enzyme:</strong> ${cypProfile.affectedEnzymes.join(', ')}
+              </p>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+    
+    // ====== WITHDRAWAL RISK QUANTIFICATION ======
+    if (hasWithdrawalData) {
+      html += `
+        <div style="margin-bottom: 1.25rem; padding: 1rem; background: white; border: 1px solid #e5e7eb; border-radius: 12px;">
+          <h3 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">
+            ⚠️ Absetzrisiko-Quantifizierung
+          </h3>
+          <p style="margin: 0 0 0.875rem; font-size: 0.85rem; line-height: 1.5; color: #6b7280;">
+            Medikamente mit hohem Absetzrisiko (Score ≥ 7) erfordern eine langsamere Reduktion zur Vermeidung von Entzugssymptomen.
+          </p>
+          
+          <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
+            ${withdrawalRisk.medications.map(med => {
+              const riskColor = med.score >= 8 ? '#dc2626' :
+                                med.score >= 5 ? '#f59e0b' :
+                                '#059669';
+              const riskBg = med.score >= 8 ? '#fef2f2' :
+                             med.score >= 5 ? '#fef3c7' :
+                             '#f0fdf4';
+              
+              return `
+                <div style="padding: 0.875rem; background: ${riskBg}; border-radius: 8px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.375rem;">
+                    <p style="margin: 0; font-size: 0.9rem; font-weight: 600; color: #1f2937;">
+                      ${med.name}
+                    </p>
+                    <span style="padding: 0.25rem 0.5rem; background: white; border-radius: 6px; font-size: 0.75rem; font-weight: 600; color: ${riskColor};">
+                      Score: ${med.score}/10
+                    </span>
+                  </div>
+                  <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">
+                    Reduktions-Verlangsamung: <strong style="color: ${riskColor};">${med.reduction_slowdown_pct}%</strong> 
+                    (Faktor: ${med.factor.toFixed(2)})
+                  </p>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+    
+    // ====== THERAPEUTIC RANGE MONITORING ======
+    if (hasTherapeuticRangeData) {
+      html += `
+        <div style="margin-bottom: 1.25rem; padding: 1rem; background: white; border: 1px solid #e5e7eb; border-radius: 12px;">
+          <h3 style="margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; color: #374151;">
+            📊 Therapeutischer Bereich
+          </h3>
+          <p style="margin: 0 0 0.875rem; font-size: 0.85rem; line-height: 1.5; color: #6b7280;">
+            Medikamente mit engem therapeutischem Fenster (≤ 50 ng/ml Breite) benötigen besonders vorsichtige Dosisanpassungen.
+          </p>
+          
+          <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
+            ${therapeuticRange.medications && therapeuticRange.medications.map(med => {
+              if (!med.has_range) return '';
+              
+              const isNarrow = med.is_narrow_window;
+              const borderColor = isNarrow ? '#f59e0b' : '#d1d5db';
+              const bgColor = isNarrow ? '#fef3c7' : '#f9fafb';
+              
+              return `
+                <div style="padding: 0.875rem; background: ${bgColor}; border-left: 3px solid ${borderColor}; border-radius: 8px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.375rem;">
+                    <p style="margin: 0; font-size: 0.9rem; font-weight: 600; color: #1f2937;">
+                      ${med.name}
+                    </p>
+                    ${isNarrow ? `
+                      <span style="padding: 0.25rem 0.5rem; background: white; border-radius: 6px; font-size: 0.7rem; font-weight: 600; color: #d97706;">
+                        ENGES FENSTER
+                      </span>
+                    ` : ''}
+                  </div>
+                  <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">
+                    Therapeutischer Bereich: <strong>${med.min_ng_ml} – ${med.max_ng_ml} ng/ml</strong>
+                    ${med.window_width ? ` (Breite: ${med.window_width} ng/ml)` : ''}
+                  </p>
+                </div>
+              `;
+            }).filter(html => html).join('')}
+          </div>
+        </div>
+      `;
+    }
+    
+    html += `
+      </div>
+    `;
+  }
+  
+  // ============================================================
   // MEDIKAMENTEN-SPEZIFISCHE KATEGORIE-HINWEISE
   // ============================================================
   
@@ -2298,6 +2514,51 @@ function displayResults(data, firstName = '', gender = '') {
           
           metricsHtml += '</div></div>';
           return metricsHtml;
+        })()}
+        
+        ${(() => {
+          // NEW: Display medication safety notes for Week 1 only
+          if (week.week !== 1) return '';
+          
+          // Collect all safety notes from week 1 medications
+          const allSafetyNotes = {};
+          week.medications.forEach(med => {
+            if (med.safety && med.safety.notes && med.safety.notes.length > 0) {
+              allSafetyNotes[med.name] = med.safety.notes;
+            }
+          });
+          
+          // If no safety notes, skip
+          if (Object.keys(allSafetyNotes).length === 0) return '';
+          
+          let notesHtml = `
+            <div style="margin-top: 1.5rem; padding: 1.25rem; background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); border: 2px solid #f59e0b; border-radius: 12px;">
+              <h4 style="margin: 0 0 1rem; font-size: 1rem; font-weight: 700; color: #92400e;">
+                ⚠️ Wichtige Sicherheitshinweise (Woche 1)
+              </h4>
+              <p style="margin: 0 0 1rem; font-size: 0.85rem; line-height: 1.5; color: #78350f;">
+                Diese Hinweise berücksichtigen CYP450-Enzyme, therapeutische Bereiche, Absetzrisiken und Multi-Drug-Interaktionen:
+              </p>
+          `;
+          
+          // Display notes per medication
+          Object.keys(allSafetyNotes).forEach(medName => {
+            const notes = allSafetyNotes[medName];
+            
+            notesHtml += `
+              <div style="margin-bottom: 1rem; padding: 1rem; background: white; border-left: 3px solid #f59e0b; border-radius: 8px;">
+                <p style="margin: 0 0 0.5rem; font-size: 0.9rem; font-weight: 600; color: #1f2937;">
+                  ${medName}
+                </p>
+                <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.8rem; line-height: 1.6; color: #6b7280;">
+                  ${notes.map(note => `<li style="margin-bottom: 0.375rem;">${note}</li>`).join('')}
+                </ul>
+              </div>
+            `;
+          });
+          
+          notesHtml += '</div>';
+          return notesHtml;
         })()}
         
         ${(() => {

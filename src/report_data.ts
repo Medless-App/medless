@@ -146,6 +146,46 @@ export interface DoctorReportData {
     idealWeight: string;
   };
   
+  // NEW: Advanced Safety Data (P0/P1)
+  safetyData: {
+    cypProfile: {
+      totalMedicationsWithCypData: number;
+      totalCypProfiles: number;
+      medicationsWithSlowerEffect: string[];
+      medicationsWithFasterEffect: string[];
+      affectedEnzymes: string[];
+    } | null;
+    therapeuticRange: {
+      medications: Array<{
+        name: string;
+        has_range: boolean;
+        min_ng_ml: number | null;
+        max_ng_ml: number | null;
+        window_width: number | null;
+        is_narrow_window: boolean;
+        withdrawal_risk_score: number;
+      }>;
+      totalMedicationsWithRange: number;
+      medicationsWithNarrowWindow: string[];
+    } | null;
+    multiDrugInteraction: {
+      inhibitors: number;
+      inducers: number;
+      level: string;
+      adjustment_factor: number;
+      warnings: string[];
+    } | null;
+    withdrawalRiskAdjustment: {
+      medications: Array<{
+        name: string;
+        score: number;
+        factor: number;
+        reduction_slowdown_pct: number;
+      }>;
+    } | null;
+    medicationSafetyNotes: Record<string, string[]>; // per medication
+  };
+  
   // Risk overview
   riskOverview: {
     maxSeverity: 'low' | 'medium' | 'high' | 'critical';
@@ -467,7 +507,11 @@ export function buildDoctorReportData(response: AnalyzeResponse): DoctorReportDa
     warnings,
     categorySafety,
     planIntelligence,
-    cbdProgression
+    cbdProgression,
+    cyp_profile,
+    therapeutic_range,
+    multi_drug_interaction,
+    withdrawal_risk_adjustment
   } = response;
   
   // --- Header ---
@@ -484,6 +528,24 @@ export function buildDoctorReportData(response: AnalyzeResponse): DoctorReportDa
     bsa: personalization.bsa ? `${personalization.bsa}` : 'N/A',
     idealWeight: personalization.idealWeightKg ? `${personalization.idealWeightKg}` : 'N/A'
   };
+  
+  // --- NEW: Advanced Safety Data (P0/P1) ---
+  const safetyData = {
+    cypProfile: cyp_profile || null,
+    therapeuticRange: therapeutic_range || null,
+    multiDrugInteraction: multi_drug_interaction || null,
+    withdrawalRiskAdjustment: withdrawal_risk_adjustment || null,
+    medicationSafetyNotes: {} as Record<string, string[]>
+  };
+  
+  // Collect medication safety notes from week 1
+  if (weeklyPlan.length > 0 && weeklyPlan[0].medications) {
+    weeklyPlan[0].medications.forEach((med: any) => {
+      if (med.safety && med.safety.notes && med.safety.notes.length > 0) {
+        safetyData.medicationSafetyNotes[med.name] = med.safety.notes;
+      }
+    });
+  }
   
   // --- Risk Overview ---
   const criticalInteractions = analysis
@@ -688,6 +750,7 @@ export function buildDoctorReportData(response: AnalyzeResponse): DoctorReportDa
   return {
     headerTitle,
     patientMeta,
+    safetyData,
     riskOverview,
     strategySummary,
     trafficLightMedications,

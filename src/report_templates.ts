@@ -11,6 +11,119 @@ import { MEDLESS_LOGO_BASE64 } from './logo_base64'
 // ============================================================
 
 /**
+ * Render Safety Data Section for Doctor Report (P0/P1)
+ */
+function renderSafetyDataSection(safetyData: DoctorReportData['safetyData']): string {
+  if (!safetyData) return '';
+  
+  let html = `
+    <div class="monitoring-box" style="background: #FEF3C7; border-left: 3px solid #F59E0B; margin-top: 12px;">
+      <h2 style="margin-top: 0; color: #92400E;">🧬 Erweiterte Sicherheits-Analyse (P0/P1)</h2>
+      <p style="font-size: 8.5pt; color: #78350F; margin-bottom: 10px;">
+        Diese Analyse berücksichtigt CYP450-Enzyme, therapeutische Bereiche, Absetzrisiken und Multi-Drug-Interaktionen.
+      </p>
+  `;
+  
+  // Multi-Drug Interaction
+  if (safetyData.multiDrugInteraction && (safetyData.multiDrugInteraction.inhibitors > 0 || safetyData.multiDrugInteraction.inducers > 0)) {
+    const mdi = safetyData.multiDrugInteraction;
+    const levelColor = mdi.level === 'severe' ? '#DC2626' : mdi.level === 'moderate' ? '#F59E0B' : '#6B7280';
+    html += `
+      <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
+        <h3 style="margin: 0 0 5px; color: ${levelColor};">Multi-Drug-Interaktion: ${mdi.level.toUpperCase()}</h3>
+        <p style="font-size: 8pt; margin: 3px 0;"><strong>Hemm-Profile:</strong> ${mdi.inhibitors} | <strong>Induktions-Profile:</strong> ${mdi.inducers}</p>
+        <p style="font-size: 8pt; margin: 3px 0;"><strong>Anpassungsfaktor:</strong> ${(mdi.adjustment_factor * 100).toFixed(0)}% der Basis-Reduktionsgeschwindigkeit</p>
+        ${mdi.warnings && mdi.warnings.length > 0 ? `
+          <ul style="margin: 5px 0 0 18px; font-size: 7.5pt;">
+            ${mdi.warnings.map(w => `<li>${w}</li>`).join('')}
+          </ul>
+        ` : ''}
+      </div>
+    `;
+  }
+  
+  // CYP450 Profile
+  if (safetyData.cypProfile && safetyData.cypProfile.totalMedicationsWithCypData > 0) {
+    const cyp = safetyData.cypProfile;
+    html += `
+      <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
+        <h3 style="margin: 0 0 5px;">CYP450-Enzym-Profile</h3>
+        <p style="font-size: 8pt; margin: 3px 0;"><strong>Medikamente mit CYP-Daten:</strong> ${cyp.totalMedicationsWithCypData} (${cyp.totalCypProfiles} Profile)</p>
+        ${cyp.medicationsWithSlowerEffect && cyp.medicationsWithSlowerEffect.length > 0 ? `
+          <p style="font-size: 7.5pt; margin: 3px 0; color: #DC2626;"><strong>Langsamere Reduktion:</strong> ${cyp.medicationsWithSlowerEffect.join(', ')}</p>
+        ` : ''}
+        ${cyp.medicationsWithFasterEffect && cyp.medicationsWithFasterEffect.length > 0 ? `
+          <p style="font-size: 7.5pt; margin: 3px 0; color: #059669;"><strong>Schnellere Reduktion:</strong> ${cyp.medicationsWithFasterEffect.join(', ')}</p>
+        ` : ''}
+        ${cyp.affectedEnzymes && cyp.affectedEnzymes.length > 0 ? `
+          <p style="font-size: 7.5pt; margin: 3px 0;"><strong>Betroffene Enzyme:</strong> ${cyp.affectedEnzymes.join(', ')}</p>
+        ` : ''}
+      </div>
+    `;
+  }
+  
+  // Withdrawal Risk
+  if (safetyData.withdrawalRiskAdjustment && safetyData.withdrawalRiskAdjustment.medications && safetyData.withdrawalRiskAdjustment.medications.length > 0) {
+    const wr = safetyData.withdrawalRiskAdjustment;
+    html += `
+      <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
+        <h3 style="margin: 0 0 5px;">Absetzrisiko-Quantifizierung</h3>
+        ${wr.medications.map(med => {
+          const riskColor = med.score >= 8 ? '#DC2626' : med.score >= 5 ? '#F59E0B' : '#6B7280';
+          return `
+            <p style="font-size: 7.5pt; margin: 3px 0;">
+              <strong style="color: ${riskColor};">${med.name}:</strong> Score ${med.score}/10, Verlangsamung ${med.reduction_slowdown_pct}% (Faktor ${med.factor.toFixed(2)})
+            </p>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+  
+  // Therapeutic Range
+  if (safetyData.therapeuticRange && safetyData.therapeuticRange.medications && safetyData.therapeuticRange.medications.length > 0) {
+    const tr = safetyData.therapeuticRange;
+    const medsWithRange = tr.medications.filter(m => m.has_range);
+    if (medsWithRange.length > 0) {
+      html += `
+        <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
+          <h3 style="margin: 0 0 5px;">Therapeutischer Bereich</h3>
+          ${medsWithRange.map(med => {
+            const isNarrow = med.is_narrow_window;
+            return `
+              <p style="font-size: 7.5pt; margin: 3px 0;">
+                <strong ${isNarrow ? 'style="color: #F59E0B;"' : ''}>${med.name}:</strong> 
+                ${med.min_ng_ml}-${med.max_ng_ml} ng/ml 
+                ${med.window_width ? `(Breite: ${med.window_width} ng/ml)` : ''}
+                ${isNarrow ? ' <strong style="color: #F59E0B;">[ENGES FENSTER]</strong>' : ''}
+              </p>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+  }
+  
+  // Medication Safety Notes
+  if (Object.keys(safetyData.medicationSafetyNotes).length > 0) {
+    html += `
+      <div style="background: white; padding: 8px; border-radius: 4px;">
+        <h3 style="margin: 0 0 5px;">Medikamenten-spezifische Sicherheitshinweise (Woche 1)</h3>
+        ${Object.entries(safetyData.medicationSafetyNotes).map(([medName, notes]) => `
+          <p style="font-size: 7.5pt; margin: 5px 0 2px; font-weight: 600;">${medName}:</p>
+          <ul style="margin: 2px 0 5px 18px; font-size: 7pt;">
+            ${notes.map(note => `<li>${note}</li>`).join('')}
+          </ul>
+        `).join('')}
+      </div>
+    `;
+  }
+  
+  html += `</div>`;
+  return html;
+}
+
+/**
  * Format milligram values consistently
  * - Remove .0 decimals: "400.0" → "400"
  * - Always add space before unit: "400mg" → "400 mg"
@@ -500,6 +613,9 @@ export const DOCTOR_REPORT_TEMPLATE_FIXED = `<!DOCTYPE html>
   </div>
 </div>
 
+<!-- NEW: ADVANCED SAFETY ANALYSIS (P0/P1) -->
+{{safety_data_html}}
+
 <!-- 5) PATIENTENDATEN -->
 <h2>Patientendaten</h2>
 <table>
@@ -732,6 +848,9 @@ export function renderDoctorReportHtmlFixed(data: DoctorReportData): string {
     bmi: data.patientMeta.bmi || 'N/A',
     anzahl_medikamente: data.riskOverview.totalMedCount || 0,
     anzahl_sensible_medikamente: data.riskOverview.sensitiveMedCount || 0,
+    
+    // NEW: Safety Data Section (P0/P1)
+    safety_data_html: renderSafetyDataSection(data.safetyData),
     
     wechselwirkung_level: getSeverityDisplayDE(data.riskOverview.maxSeverity).toUpperCase(),
     reduktionsgeschwindigkeit: data.strategySummary.reductionSpeedCategory.toUpperCase(),
