@@ -6221,6 +6221,14 @@ app.get('/app', (c) => {
       // Initialize: Show step 1
       showStep(1);
       
+      // Auto-scroll to Step 1 on page load (smooth scroll with offset for header)
+      setTimeout(() => {
+        const step1 = document.getElementById('step-1');
+        if (step1) {
+          step1.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+      
       // NOTE: Medication input fields are now managed by /static/app.js
       // All medication form logic (autocomplete, validation, dynamic fields) moved to frontend
       
