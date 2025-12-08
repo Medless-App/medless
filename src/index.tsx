@@ -5538,10 +5538,10 @@ app.get('/app', (c) => {
         Folgen Sie den Schritten, um Ihre aktuelle Medikation strukturiert zu erfassen und einen persönlichen MEDLESS-Orientierungsplan als Gesprächsgrundlage für Ihren Arzt zu erhalten. Keine Therapie, keine Diagnose – sondern eine klare Übersicht.
       </p>
 
-      <!-- Progress Stepper - NEW STRUCTURED LAYOUT -->
-      <div style="margin-bottom: 1.5rem; margin-top: 0;">
+      <!-- Progress Stepper - FIXED HEIGHT WRAPPER prevents vertical movement -->
+      <div style="min-height: 80px; margin-bottom: 1.5rem; margin-top: 0;">
         <!-- Circles and Progress Bars Container - Fixed 48px containers -->
-        <div style="display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px 1fr 48px 1fr 48px; align-items: center; max-width: 800px; margin: 0 auto 0.75rem; gap: 0;">
+        <div style="display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px 1fr 48px 1fr 48px; align-items: center; max-width: 800px; margin: 0 auto 8px; gap: 0;">
           <!-- Step 1 Circle - Fixed 48px container -->
           <div id="step-indicator-1" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #0b7b6c; color: white; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">1</div>
           <!-- Progress Bar 1 -->
@@ -5570,8 +5570,8 @@ app.get('/app', (c) => {
           <div id="step-indicator-5" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">5</div>
         </div>
         
-        <!-- Labels Container - EXACTLY ALIGNED with 48px circles above -->
-        <div style="display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px 1fr 48px 1fr 48px; max-width: 800px; margin: 8px auto 0 auto; gap: 0;">
+        <!-- Labels Container - EXACTLY ALIGNED with 48px circles, stable position -->
+        <div style="display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px 1fr 48px 1fr 48px; max-width: 800px; margin: 0 auto; gap: 0;">
           <!-- Label 1 -->
           <span style="font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Name</span>
           <span></span>

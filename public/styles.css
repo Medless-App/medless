@@ -1126,13 +1126,13 @@ body {
 #tool {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0.5rem var(--container-padding-mobile) var(--spacing-lg);
-  /* Minimal top padding: Full wizard visible in 1366x768 viewport */
+  padding: 2rem var(--container-padding-mobile) var(--spacing-lg);
+  /* Increased top padding: Ensure title+subtitle+steps visible on FHD */
 }
 
 @media (min-width: 768px) {
   #tool {
-    padding: 0.75rem var(--spacing-lg) var(--spacing-xl);
+    padding: 2.5rem var(--spacing-lg) var(--spacing-xl);
   }
 }
 
@@ -1164,11 +1164,12 @@ body {
   line-height: 1.4;
 }
 
-/* Wizard Form Card - compact for viewport */
+/* Wizard Form Card - optimized padding for button visibility */
 #tool .card {
   background: var(--background-white);
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 1.5rem 1.5rem 2.5rem 1.5rem;
+  /* Bottom padding 2.5rem (40px) ensures Weiter button always visible */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   border: 1px solid var(--border-light);
   margin-bottom: 1rem;
@@ -1176,7 +1177,8 @@ body {
 
 @media (max-width: 768px) {
   #tool .card {
-    padding: 1.25rem;
+    padding: 1.25rem 1.25rem 2rem 1.25rem;
+    /* Bottom padding 2rem (32px) on mobile */
   }
 }
 
