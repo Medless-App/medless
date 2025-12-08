@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEDLESS für Ärzt:innen & Apotheken</title>
+  <meta name="description" content="MEDLESS – Orientierung bei komplexer Medikation. Algorithmisch strukturiert für Therapiegespräche mit Ihren Patient:innen.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/styles.css">
+  
+  <style>
+    /* Fachkreise-specific additions to existing MEDLESS styles */
+    
+    .fachkreise-hero {
+      background: linear-gradient(135deg, #F9FAFB 0%, #FFFFFF 100%);
+      padding: 6rem 2rem 5rem;
+    }
+    
+    .fachkreise-hero .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .fachkreise-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    
+    @media (min-width: 768px) {
+      .fachkreise-hero-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+      }
+    }
+    
+    .fachkreise-hero h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      font-weight: 700;
+      color: #0F5A46;
+      line-height: 1.2;
+      margin: 0 0 1.5rem 0;
+    }
+    
+    .fachkreise-hero-subtitle {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #4B5563;
+      margin-bottom: 2rem;
+    }
+    
+    .fachkreise-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .fachkreise-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      background: linear-gradient(135deg, #1A9C7F 0%, #0F5A46 100%);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(26, 156, 127, 0.2);
+    }
+    
+    .fachkreise-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(26, 156, 127, 0.3);
+      text-decoration: none;
+    }
+    
+    .fachkreise-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      background: white;
+      color: #1A9C7F;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 2px solid #1A9C7F;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .fachkreise-btn-secondary:hover {
+      background: #F0FDF4;
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    
+    .fachkreise-visual-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      transform: perspective(1000px) rotateY(-5deg);
+      transition: transform 0.3s ease;
+    }
+    
+    .fachkreise-visual-card:hover {
+      transform: perspective(1000px) rotateY(0deg);
+    }
+    
+    .fachkreise-visual-header {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1A9C7F;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #E5E7EB;
+    }
+    
+    .fachkreise-visual-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .fachkreise-visual-line {
+      height: 8px;
+      background: linear-gradient(90deg, #E5E7EB 0%, #F3F4F6 100%);
+      border-radius: 4px;
+    }
+    
+    .fachkreise-visual-line.short {
+      width: 60%;
+    }
+    
+    .fachkreise-section {
+      padding: 5rem 2rem;
+    }
+    
+    .fachkreise-section.gray {
+      background: #F9FAFB;
+    }
+    
+    .fachkreise-section .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .fachkreise-section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 700;
+      color: #0F5A46;
+      text-align: center;
+      margin: 0 0 3rem 0;
+      line-height: 1.2;
+    }
+    
+    .fachkreise-two-col {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    
+    @media (min-width: 768px) {
+      .fachkreise-two-col {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+    }
+    
+    .fachkreise-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .fachkreise-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(15, 90, 70, 0.12);
+    }
+    
+    .fachkreise-card h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0F5A46;
+      margin: 0 0 1rem 0;
+    }
+    
+    .fachkreise-card-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #1A9C7F 0%, #0F5A46 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    .fachkreise-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0 0;
+    }
+    
+    .fachkreise-card ul li {
+      padding: 0.5rem 0 0.5rem 1.75rem;
+      position: relative;
+      line-height: 1.6;
+      color: #4B5563;
+    }
+    
+    .fachkreise-card ul li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #1A9C7F;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    
+    .fachkreise-three-col {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .fachkreise-three-col {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2.5rem;
+      }
+    }
+    
+    .fachkreise-four-col {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    @media (min-width: 768px) {
+      .fachkreise-four-col {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .fachkreise-four-col {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    .fachkreise-icon-card {
+      text-align: center;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #E5E7EB;
+      transition: all 0.3s ease;
+    }
+    
+    .fachkreise-icon-card:hover {
+      border-color: #1A9C7F;
+      box-shadow: 0 4px 16px rgba(26, 156, 127, 0.1);
+    }
+    
+    .fachkreise-icon-card-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 1rem;
+      color: #1A9C7F;
+    }
+    
+    .fachkreise-icon-card h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0F5A46;
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .fachkreise-icon-card p {
+      font-size: 0.875rem;
+      color: #6B7280;
+      margin: 0;
+      line-height: 1.5;
+    }
+    
+    .fachkreise-warning-box {
+      background: #F3F4F6;
+      border-left: 4px solid #6B7280;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .fachkreise-warning-box h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #374151;
+      margin: 0 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .fachkreise-warning-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .fachkreise-warning-box ul li {
+      padding: 0.5rem 0 0.5rem 1.75rem;
+      position: relative;
+      line-height: 1.6;
+      color: #4B5563;
+    }
+    
+    .fachkreise-warning-box ul li:before {
+      content: "✗";
+      position: absolute;
+      left: 0;
+      color: #6B7280;
+      font-weight: 700;
+    }
+    
+    .fachkreise-cta {
+      background: linear-gradient(135deg, #1A9C7F 0%, #0F5A46 100%);
+      padding: 5rem 2rem;
+      text-align: center;
+      color: white;
+    }
+    
+    .fachkreise-cta h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 700;
+      color: white;
+      margin: 0 0 1rem 0;
+    }
+    
+    .fachkreise-cta p {
+      font-size: 1.1rem;
+      margin: 0 auto 2rem;
+      max-width: 700px;
+      opacity: 0.95;
+      line-height: 1.7;
+    }
+    
+    .fachkreise-cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    
+    .fachkreise-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      background: white;
+      color: #0F5A46;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    .fachkreise-cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+      text-decoration: none;
+    }
+    
+    /* Fade-in animation on scroll */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER (same as landingpage) -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <a href="/" class="logo">
+          <span class="logo-text">Medless</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="/#how-it-works">So funktioniert's</a></li>
+          <li><a href="/#benefits">Vorteile</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/magazin">Magazin</a></li>
+          <li><a href="/fachkreise" style="color: #1A9C7F; font-weight: 600;">Für Ärzt:innen & Apotheken</a></li>
+        </ul>
+        <button class="btn-primary-sm" onclick="window.location.href='/app'">Orientierungsplan starten</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 1. HERO -->
+  <section class="fachkreise-hero">
+    <div class="container">
+      <div class="fachkreise-hero-grid">
+        <div>
+          <h1>MEDLESS – Orientierung bei komplexer Medikation. Klar strukturiert und gemeinsam mit Ihren Patient:innen.</h1>
+          <p class="fachkreise-hero-subtitle">
+            MEDLESS verbindet das Endocannabinoid-System, pharmakokinetische Wechselwirkungen und einen algorithmisch berechneten Reduktionspfad zu einer nachvollziehbaren Grundlage für Therapiegespräche.
+          </p>
+          <div class="fachkreise-buttons">
+            <a href="/medless_aerztebericht_beispiel.pdf" target="_blank" class="fachkreise-btn-primary">
+              <i data-lucide="file-text"></i>
+              Ärztebericht ansehen
+            </a>
+            <a href="mailto:info@medless.de" class="fachkreise-btn-secondary">
+              <i data-lucide="user-check"></i>
+              MEDLESS für die Praxis aktivieren
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="fachkreise-visual-card">
+            <div class="fachkreise-visual-header">MEDLESS – Ärztebericht</div>
+            <div class="fachkreise-visual-content">
+              <div class="fachkreise-visual-line"></div>
+              <div class="fachkreise-visual-line"></div>
+              <div class="fachkreise-visual-line short"></div>
+              <div style="height: 60px; background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%); border-radius: 8px; margin: 0.5rem 0;"></div>
+              <div class="fachkreise-visual-line"></div>
+              <div class="fachkreise-visual-line short"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. WARUM REDUKTION SCHEITERT -->
+  <section class="fachkreise-section fade-in-section">
+    <div class="container">
+      <h2 class="fachkreise-section-title">Warum Medikamentenreduktion heute oft scheitert</h2>
+      <div class="fachkreise-two-col">
+        <div class="fachkreise-card">
+          <div class="fachkreise-card-icon">
+            <i data-lucide="alert-triangle"></i>
+          </div>
+          <h3>Medizinische Realität</h3>
+          <ul>
+            <li>Überlappende Halbwertszeiten erschweren Dosierungsanpassungen</li>
+            <li>CYP-Metabolismus schwer überschaubar bei Polypharmazie</li>
+            <li>Instabile Dosierungsfenster und fehlende Planungssicherheit</li>
+            <li>Angst vor Absetzsymptomatik hemmt notwendige Schritte</li>
+            <li>Patient:innen verstehen kaum, warum welcher Schritt wann sinnvoll ist</li>
+          </ul>
+        </div>
+        <div class="fachkreise-card">
+          <div class="fachkreise-card-icon">
+            <i data-lucide="activity"></i>
+          </div>
+          <h3>Konsequenzen</h3>
+          <ul>
+            <li>Übertherapie mit vermeidbaren Nebenwirkungen</li>
+            <li>Therapieinstabilität bei nicht abgestimmten Reduktionen</li>
+            <li>Fehlender Überblick über kumulative Interaktionen</li>
+            <li>Patientenverunsicherung und reduzierte Adhärenz</li>
+            <li>Erhöhter Zeitaufwand für wiederholte Anpassungen</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. DREI SÄULEN VON MEDLESS -->
+  <section class="fachkreise-section gray fade-in-section">
+    <div class="container">
+      <h2 class="fachkreise-section-title">Die drei Säulen von MEDLESS</h2>
+      <div class="fachkreise-three-col">
+        <!-- Säule 1 -->
+        <div class="fachkreise-card">
+          <div class="fachkreise-card-icon">
+            <i data-lucide="shield"></i>
+          </div>
+          <h3>Säule 1: Stabilisierung des Endocannabinoid-Systems</h3>
+          <p>Das ECS fungiert als Grundregulationssystem für Schlaf, Stressantwort, Entzündungsbalance und neuronale Plastizität.</p>
+          <p style="margin-top: 1rem;">Eine ECS-Stabilisierung verbessert die biologische Grundlage für Reduktionsschritte – Patient:innen tolerieren Anpassungen besser, wenn das regulatorische Fundament stabil ist.</p>
+          <p style="margin-top: 1rem; font-weight: 600; color: #1A9C7F;">MEDLESS erklärt, warum ECS-Stabilisierung vor der Reduktion erfolgen sollte.</p>
+        </div>
+
+        <!-- Säule 2 -->
+        <div class="fachkreise-card">
+          <div class="fachkreise-card-icon">
+            <i data-lucide="flask-conical"></i>
+          </div>
+          <h3>Säule 2: Arbeiten MIT pharmakokinetischen Wechselwirkungen</h3>
+          <p>MEDLESS nutzt keine vollständige Interaktionsdatenbank, sondern ordnet Medikamente anhand:</p>
+          <ul style="margin-top: 0.75rem;">
+            <li>Halbwertszeit und Steady-State-Charakteristik</li>
+            <li>CYP-Profil (Substrat/Induktor/Inhibitor)</li>
+            <li>Verstärkungs-/Abschwächungscharakter</li>
+            <li>Individuelle Stabilitätsfenster</li>
+          </ul>
+          <p style="margin-top: 1rem;">So entsteht eine biologisch plausible Reihenfolge – rechnerisch fundiert, klinisch nachvollziehbar.</p>
+        </div>
+
+        <!-- Säule 3 -->
+        <div class="fachkreise-card">
+          <div class="fachkreise-card-icon">
+            <i data-lucide="calendar"></i>
+          </div>
+          <h3>Säule 3: Algorithmisch strukturierte Reduktionspfade</h3>
+          <p>Der MEDLESS-Algorithmus berücksichtigt:</p>
+          <ul style="margin-top: 0.75rem;">
+            <li>Schrittweiten und notwendige Erholungsphasen</li>
+            <li>Absetzrisikoabschätzung je Wirkstoffklasse</li>
+            <li>Kumulative Effekte bei parallelen Anpassungen</li>
+            <li>Individuelle Ausgangsdosierungen</li>
+          </ul>
+          <p style="margin-top: 1rem;">Patient:innen erhalten eine verständliche Struktur, Ärzt:innen eine klare Entscheidungsgrundlage – ohne therapeutische Vorgaben.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. WAS MEDLESS MACHT -->
+  <section class="fachkreise-section fade-in-section">
+    <div class="container">
+      <h2 class="fachkreise-section-title">Was MEDLESS konkret macht</h2>
+      <div class="fachkreise-four-col">
+        <div class="fachkreise-icon-card">
+          <i data-lucide="clipboard-list" class="fachkreise-icon-card-icon"></i>
+          <h4>Strukturierte Erfassung</h4>
+          <p>Medikamente, Dosierungen, Einnahmezeiten werden systematisch dokumentiert</p>
+        </div>
+        <div class="fachkreise-icon-card">
+          <i data-lucide="list-ordered" class="fachkreise-icon-card-icon"></i>
+          <h4>Plausible Reihenfolge</h4>
+          <p>Algorithmus ordnet eine biologisch nachvollziehbare Reduktionsreihenfolge zu</p>
+        </div>
+        <div class="fachkreise-icon-card">
+          <i data-lucide="network" class="fachkreise-icon-card-icon"></i>
+          <h4>Orientierung zu Überlappungen</h4>
+          <p>Zeigt mögliche pharmakokinetische Überlappungen – rein informativ, nicht verbindlich</p>
+        </div>
+        <div class="fachkreise-icon-card">
+          <i data-lucide="file-text" class="fachkreise-icon-card-icon"></i>
+          <h4>PDF-Reports</h4>
+          <p>Generiert Orientierungsplan für Patient:innen und separaten Ärztebericht</p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 2.5rem;">
+        <p style="font-size: 1.05rem; color: #4B5563; font-weight: 500; max-width: 800px; margin: 0 auto;">
+          <strong>Wichtig:</strong> MEDLESS erstellt keine Therapieempfehlung. Alle medizinischen Entscheidungen – Dosisanpassungen, Reihenfolge, Timing – trifft ausschließlich die behandelnde Ärztin oder der behandelnde Arzt.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. WAS MEDLESS NICHT MACHT -->
+  <section class="fachkreise-section gray fade-in-section">
+    <div class="container">
+      <h2 class="fachkreise-section-title">Was MEDLESS nicht macht</h2>
+      <div style="max-width: 900px; margin: 0 auto;">
+        <div class="fachkreise-warning-box">
+          <h3>
+            <i data-lucide="info"></i>
+            Wichtige Einschränkungen
+          </h3>
+          <ul>
+            <li>Keine Diagnosestellung oder Differentialdiagnostik</li>
+            <li>Kein Ersatz für Anamnese, Labor oder klinische Beurteilung</li>
+            <li>Keine vollständige Interaktionsdatenbank (nur orientierendes Modell)</li>
+            <li>Keine Absetzanleitung im Sinne einer therapeutischen Vorgabe</li>
+            <li>Keine Garantie für spezifische Ergebnisse oder Erfolgsversprechen</li>
+            <li>Kein medizinisch verbindlicher Rat – MEDLESS ist ein Strukturierungstool</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. NUTZEN FÜR ÄRZT:INNEN -->
+  <section class="fachkreise-section fade-in-section">
+    <div class="container">
+      <h2 class="fachkreise-section-title">Nutzen für Ärzt:innen</h2>
+      <div class="fachkreise-card" style="max-width: 900px; margin: 0 auto;">
+        <ul style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+          <li><strong>Erleichtert Gespräche bei Polypharmazie:</strong> Patient:innen kommen vorbereitet mit strukturierter Übersicht</li>
+          <li><strong>Spart Zeit in der Sprechstunde:</strong> Basis für Entscheidungen liegt vor, kein mühsames Zusammentragen</li>
+          <li><strong>Strukturiert komplexe Medikationsprofile:</strong> Algorithmus sortiert Medikamente nach Reduktionslogik</li>
+          <li><strong>Hilft Patient:innen zu verstehen:</strong> Nachvollziehbare Schritte statt abstrakter Anweisungen</li>
+          <li><strong>Verbessert Therapieadhärenz:</strong> Wenn Patient:innen die Logik verstehen, setzen sie eher um</li>
+          <li><strong>Liefert klaren Ärztebericht:</strong> PDF mit vollständiger Übersicht und medizinischen Hinweisen</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. NUTZEN FÜR APOTHEKEN -->
+  <section class="fachkreise-section gray fade-in-section">
+    <div class="container">
+      <h2 class="fachkreise-section-title">Nutzen für Apotheken</h2>
+      <div class="fachkreise-card" style="max-width: 900px; margin: 0 auto;">
+        <ul style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+          <li><strong>Unterstützung bei Cannabinoid-Fragen:</strong> MEDLESS bietet fachliches Fundament für Beratung</li>
+          <li><strong>Orientierung bei Polypharmazie-Kunden:</strong> Strukturierte Ansätze statt unklarer Ratschläge</li>
+          <li><strong>Möglichkeit zur Kooperation:</strong> Apotheken können MEDLESS als Mehrwertservice anbieten</li>
+          <li><strong>QR-Code-System für Umsatzbeteiligung:</strong> 50% Marge bei Direktabgabe, 30% bei Nachbestellungen über QR</li>
+          <li><strong>Gesteigerte Beratungsqualität:</strong> Positionierung als fachkompetente Anlaufstelle</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. NUTZEN FÜR PATIENT:INNEN -->
+  <section class="fachkreise-section fade-in-section">
+    <div class="container">
+      <h2 class="fachkreise-section-title">Nutzen für Patient:innen</h2>
+      <div class="fachkreise-card" style="max-width: 900px; margin: 0 auto;">
+        <ul style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+          <li><strong>Strukturiertes Verständnis:</strong> Endlich Überblick über eigene Medikation und mögliche Schritte</li>
+          <li><strong>Nachvollziehbare Reduktionsschritte:</strong> Keine Ratlosigkeit mehr, sondern klare Orientierung</li>
+          <li><strong>Weniger Angst vor Veränderungen:</strong> Wenn die Logik klar ist, sinkt die Hemmschwelle</li>
+          <li><strong>Bessere Vorbereitung auf Arztgespräche:</strong> Mit PDF-Orientierungsplan als Gesprächsgrundlage</li>
+          <li><strong>Zugang zu ECS-Begleitprodukten:</strong> Optional unterstützende Formulierung zur biologischen Stabilisierung</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. DAS PRODUKT HINTER MEDLESS -->
+  <section class="fachkreise-section gray fade-in-section">
+    <div class="container">
+      <h2 class="fachkreise-section-title">Das Produkt hinter MEDLESS</h2>
+      <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1.05rem; line-height: 1.8; color: #4B5563; margin-bottom: 2rem; text-align: center;">
+          MEDLESS ist mehr als ein Planungstool – es bietet optional ein begleitendes ECS-orientiertes Produkt an.
+        </p>
+        <div class="fachkreise-card">
+          <h3 style="text-align: center; margin-bottom: 1.5rem;">Produktmerkmale</h3>
+          <ul style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+            <li><strong>Keine reines CBD-Produkt:</strong> ECS-orientierte Formulierung statt Standard-CBD</li>
+            <li><strong>Biologische Stabilisierung:</strong> Ziel ist eine verbesserte Ausgangslage für Reduktionsschritte</li>
+            <li><strong>Erleichtert verträgliche Reduktion:</strong> Puffert biologische Instabilität ab</li>
+            <li><strong>Optional einsetzbar:</strong> Kein Zwang, MEDLESS funktioniert auch ohne Produkt</li>
+            <li><strong>Keine Heilversprechen:</strong> Das Produkt ist eine Unterstützung, keine Garantie</li>
+            <li><strong>Verfügbarkeit:</strong> Online, beim Arzt oder in der Apotheke</li>
+          </ul>
+          <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #E5E7EB;">
+            <p style="font-weight: 600; color: #1A9C7F; margin-bottom: 0.5rem;">Bonusmodelle für Praxen und Apotheken:</p>
+            <ul style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
+              <li><strong>50% Marge</strong> bei Direktabgabe in der Praxis/Apotheke</li>
+              <li><strong>30% Beteiligung</strong> wenn Patient:innen später über Praxis-QR-Code online nachbestellen</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. ABSCHLUSS & CTA -->
+  <section class="fachkreise-cta">
+    <div class="container">
+      <h2>MEDLESS in Ihrer Praxis oder Apotheke nutzen</h2>
+      <p>
+        Sie möchten MEDLESS für strukturierte Therapiegespräche bei komplexer Medikation einsetzen? Wir freuen uns auf Ihre Kontaktaufnahme.
+      </p>
+      <div class="fachkreise-cta-buttons">
+        <a href="/medless_aerztebericht_beispiel.pdf" target="_blank" class="fachkreise-cta-btn">
+          <i data-lucide="file-text"></i>
+          Ärztebericht ansehen
+        </a>
+        <a href="mailto:info@medless.de" class="fachkreise-cta-btn">
+          <i data-lucide="mail"></i>
+          MEDLESS für die Praxis aktivieren
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" style="background: #0F172A; color: white; padding: 3rem 2rem 2rem; text-align: center;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 1.5rem;">
+        <a href="/impressum" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem;">Impressum</a>
+        <a href="/datenschutz" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem;">Datenschutz</a>
+        <a href="/agb" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem;">AGB</a>
+        <a href="/#kontakt" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem;">Kontakt</a>
+      </div>
+      <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.6);">
+        © 2025 MEDLESS. Alle Rechte vorbehalten.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+    
+    // Fade-in animation on scroll
+    const faders = document.querySelectorAll('.fade-in-section');
+    
+    const appearOptions = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px"
+    };
+    
+    const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        } else {
+          entry.target.classList.add('is-visible');
+          appearOnScroll.unobserve(entry.target);
+        }
+      });
+    }, appearOptions);
+    
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+  </script>
+</body>
+</html>
