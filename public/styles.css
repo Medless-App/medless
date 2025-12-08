@@ -968,3 +968,44 @@ body {
   margin: 0 auto;
   line-height: 1.6;
 }
+
+/* ===================================
+   MODERN MINIMALISTIC LOADER (NEW)
+   =================================== */
+.plan-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.plan-loader-spinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid #E5E7EB;
+  border-top-color: #0B7B6C;
+  border-radius: 50%;
+  animation: plan-loader-spin 0.8s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes plan-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.plan-loader-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 0.5rem;
+}
+
+.plan-loader-subtitle {
+  font-size: 0.95rem;
+  color: #6B7280;
+  max-width: 400px;
+}

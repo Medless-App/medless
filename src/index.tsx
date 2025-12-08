@@ -5472,16 +5472,16 @@ app.get('/app', (c) => {
   <header class="header">
     <div class="container">
       <nav class="nav">
-        <a href="/" class="logo">
+        <span class="logo">
           <span class="logo-text">Medless</span>
-        </a>
+        </span>
         <ul class="nav-links">
           <li><a href="/#how-it-works">So funktioniert's</a></li>
           <li><a href="/#benefits">Vorteile</a></li>
           <li><a href="/#faq">FAQ</a></li>
           <li><a href="/magazin">Magazin</a></li>
         </ul>
-        <button class="btn-primary-sm" onclick="window.location.href='/app'">Analyse starten</button>
+        <button class="btn-primary-sm" onclick="window.location.href='/app'">Orientierungsplan starten</button>
       </nav>
     </div>
   </header>
@@ -5814,108 +5814,17 @@ app.get('/app', (c) => {
 
       <!-- Loading Animation -->
       <div id="loading" class="hidden" style="margin-top: 1.5rem;">
-        <div class="card" style="max-width: 550px; margin: 0 auto; padding: 1.5rem 1.25rem; text-align: center; position: relative; overflow: hidden;">
+        <div class="card" style="max-width: 550px; margin: 0 auto; padding: 3rem 1.5rem; text-align: center;">
           
-          <!-- Particles Background Effect -->
-          <div id="particles-container" style="position: absolute; inset: 0; pointer-events: none; opacity: 0.2;"></div>
-          
-          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: #0b7b6c;">
-            <i class="fas fa-sparkles" style="margin-right: 0.4rem;"></i>
-            KI analysiert Ihre Daten
-          </h3>
-          <p style="color: #6b7280; margin-bottom: 1.2rem; font-size: 0.85rem;">
-            <span id="analysis-status">Analyse wird gestartet</span>
-            <span id="status-dots" style="display: inline-block;">...</span>
-          </p>
-          
-          <!-- Main Circular Progress Ring (NOCH KLEINER: 100px) -->
-          <div style="position: relative; display: inline-block; margin-bottom: 1.2rem;">
-            <!-- Outer Glow Rings -->
-            <div style="position: absolute; inset: 0; margin: -1.5rem; background: radial-gradient(circle, rgba(11, 123, 108, 0.1), transparent 70%); border-radius: 50%; opacity: 0.5;" class="animate-ping"></div>
-            <div style="position: absolute; inset: 0; margin: -1rem; background: radial-gradient(circle, rgba(11, 123, 108, 0.12), transparent 70%); border-radius: 50%; opacity: 0.4; animation-delay: 0.5s;" class="animate-ping"></div>
-            
-            <!-- SVG Circular Progress (NOCH KLEINER: 100px) -->
-            <svg width="100" height="100" style="transform: rotate(-90deg);">
-              <!-- Background Circle -->
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#e5e7eb" stroke-width="6"></circle>
-              <!-- Progress Circle -->
-              <circle id="progress-circle" cx="50" cy="50" r="42" fill="none" stroke="url(#gradient)" stroke-width="6" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" style="transition: stroke-dashoffset 0.3s ease, filter 0.3s ease;">
-              </circle>
-              <!-- Gradient Definition -->
-              <defs>
-                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#0b7b6c;stop-opacity:1" />
-                  <stop offset="50%" style="stop-color:#14b8a6;stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
-                </linearGradient>
-              </defs>
-            </svg>
-            
-            <!-- Center Content -->
-            <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-              <i id="center-icon" class="fas fa-brain" style="color: #0b7b6c; font-size: 1.6rem; margin-bottom: 0.2rem; transition: all 0.3s;"></i>
-              <div id="center-percentage" style="font-size: 1.1rem; font-weight: 700; color: #0b7b6c; transition: all 0.3s;">0%</div>
-              <div id="center-time" style="font-size: 0.6rem; color: #6b7280; margin-top: 0.1rem;">ca. 8 Sek.</div>
-            </div>
-            
-            <!-- Completion Burst (hidden initially) -->
-            <div id="completion-burst" style="position: absolute; inset: 0; display: none;">
-              <div style="position: absolute; inset: -15px; background: radial-gradient(circle, rgba(16, 185, 129, 0.4), transparent 70%); animation: burst 0.6s ease-out;"></div>
-            </div>
+          <!-- Simple Loader -->
+          <div class="plan-loader">
+            <div class="plan-loader-spinner" style="width: 50px; height: 50px; border-radius: 50%; border: 4px solid #e2f3ec; border-top-color: #0b7b6c; animation: plan-loader-spin 0.8s linear infinite; margin: 0 auto 1.5rem;"></div>
+            <p class="plan-loader-title" style="font-weight: 600; font-size: 1.2rem; color: #0b7b6c; margin-bottom: 0.75rem;">Ihr MEDLESS-Orientierungsplan wird erstellt …</p>
+            <p class="plan-loader-subtitle" style="max-width: 420px; margin: 0 auto; font-size: 0.95rem; color: #64748b; line-height: 1.6;">
+              Bitte haben Sie einen Moment Geduld. Ihr Plan wird anhand Ihrer Angaben berechnet.
+            </p>
           </div>
           
-          <!-- Live Counter Stats (während Analyse) -->
-          <div id="live-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem;">
-            <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid #e5e7eb;">
-              <div style="font-size: 1.3rem; font-weight: 700; color: #0b7b6c;" id="counter-medications">0</div>
-              <div style="font-size: 0.65rem; color: #6b7280; margin-top: 0.1rem; line-height: 1.3;">Medikamente<br>analysiert</div>
-            </div>
-            <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid #e5e7eb;">
-              <div style="font-size: 1.3rem; font-weight: 700; color: #0b7b6c;" id="counter-interactions">0</div>
-              <div style="font-size: 0.65rem; color: #6b7280; margin-top: 0.1rem; line-height: 1.3;">Wechsel-<br>wirkungen</div>
-            </div>
-            <div style="background: white; padding: 0.6rem 0.4rem; border-radius: 10px; border: 1px solid #e5e7eb;">
-              <div style="font-size: 1.3rem; font-weight: 700; color: #0b7b6c;" id="counter-calculations">0</div>
-              <div style="font-size: 0.65rem; color: #6b7280; margin-top: 0.1rem; line-height: 1.3;">Berechnungen<br>durchgeführt</div>
-            </div>
-          </div>
-          
-          <!-- Completion Stats (hidden initially, shown at 100%) -->
-          <div id="completion-stats" style="display: none; margin-bottom: 1rem;">
-            <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); padding: 1.25rem; border-radius: 14px; border: 2px solid #10b981;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-bottom: 0.9rem;">
-                <i class="fas fa-check-circle" style="color: #10b981; font-size: 1.6rem;"></i>
-                <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #059669;">Analyse erfolgreich abgeschlossen!</h4>
-              </div>
-              
-              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem;">
-                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
-                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
-                    <span id="stat-calculations">0</span>
-                  </div>
-                  <div style="font-size: 0.7rem; color: #6b7280;">Berechnungen durchgeführt</div>
-                </div>
-                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
-                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
-                    <span id="stat-medications">0</span>
-                  </div>
-                  <div style="font-size: 0.7rem; color: #6b7280;">Medikamente in Datenbank</div>
-                </div>
-                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
-                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
-                    <span id="stat-interactions">0</span>
-                  </div>
-                  <div style="font-size: 0.7rem; color: #6b7280;">Wechselwirkungen geprüft</div>
-                </div>
-                <div style="background: white; padding: 0.65rem; border-radius: 9px; text-align: left;">
-                  <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
-                    <span id="stat-weeks">0</span>
-                  </div>
-                  <div style="font-size: 0.7rem; color: #6b7280;">Wochen Ø Plan-Dauer</div>
-                </div>
-              </div>
-            </div>
-          </div>
           
           <!-- Final "Plan ist fertig!" Message (hidden initially) -->
           <div id="plan-ready-message" style="display: none; margin-top: 1rem;">
@@ -5951,115 +5860,12 @@ app.get('/app', (c) => {
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Results -->
           
-          <!-- Progress Steps -->
-          <div style="max-width: 600px; margin: 0 auto 2rem; text-align: left;">
-            <div id="analysis-step-1" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
-              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
-                <i id="icon-1" class="fas fa-database" style="color: #9ca3af; font-size: 1.25rem;"></i>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Medikamenten-Datenbank durchsuchen</h4>
-                <p id="detail-1" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
-                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
-                  <div id="mini-progress-1" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
-                </div>
-              </div>
-              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i id="check-1" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
-                <i id="spinner-1" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
-              </div>
-            </div>
-            
-            <div id="analysis-step-2" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
-              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
-                <i id="icon-2" class="fas fa-exchange-alt" style="color: #9ca3af; font-size: 1.25rem;"></i>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Wechselwirkungen analysieren</h4>
-                <p id="detail-2" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
-                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
-                  <div id="mini-progress-2" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
-                </div>
-              </div>
-              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i id="check-2" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
-                <i id="spinner-2" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
-              </div>
-            </div>
-            
-            <div id="analysis-step-3" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
-              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
-                <i id="icon-3" class="fas fa-user-md" style="color: #9ca3af; font-size: 1.25rem;"></i>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Körperdaten verarbeiten</h4>
-                <p id="detail-3" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
-                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
-                  <div id="mini-progress-3" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
-                </div>
-              </div>
-              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i id="check-3" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
-                <i id="spinner-3" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
-              </div>
-            </div>
-            
-            <div id="analysis-step-4" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1rem; opacity: 0.4; transition: all 0.5s;">
-              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
-                <i id="icon-4" class="fas fa-calculator" style="color: #9ca3af; font-size: 1.25rem;"></i>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Dosierung berechnen</h4>
-                <p id="detail-4" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
-                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
-                  <div id="mini-progress-4" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
-                </div>
-              </div>
-              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i id="check-4" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
-                <i id="spinner-4" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
-              </div>
-            </div>
-            
-            <div id="analysis-step-5" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e5e7eb; opacity: 0.4; transition: all 0.5s;">
-              <div style="width: 48px; height: 48px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;">
-                <i id="icon-5" class="fas fa-file-medical" style="color: #9ca3af; font-size: 1.25rem;"></i>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="font-weight: 600; margin-bottom: 0.25rem;">Orientierungsplan erstellen</h4>
-                <p id="detail-5" style="font-size: 0.875rem; color: #6b7280;">Wartet auf Start...</p>
-                <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 6px; margin-top: 0.5rem; overflow: hidden;">
-                  <div id="mini-progress-5" style="background: #0b7b6c; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
-                </div>
-              </div>
-              <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i id="check-5" class="fas fa-check" style="color: #059669; font-size: 1.5rem; display: none;"></i>
-                <i id="spinner-5" class="fas fa-spinner fa-spin" style="color: #0b7b6c; font-size: 1.25rem; display: none;"></i>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Overall Progress -->
-          <div style="max-width: 600px; margin: 0 auto 1.5rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-              <span style="font-size: 0.875rem; font-weight: 600; color: #374151;">
-                <i class="fas fa-chart-line" style="margin-right: 0.5rem; color: #0b7b6c;"></i>
-                Gesamtfortschritt
-              </span>
-              <span id="progress-text" style="font-size: 1.125rem; font-weight: 700; color: #0b7b6c;">0%</span>
-            </div>
-            <div style="width: 100%; background: #cbd5e1; border-radius: 9999px; height: 16px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
-              <div id="progress-bar" style="background: linear-gradient(90deg, #0b7b6c, #059669, #10b981); height: 100%; border-radius: 9999px; width: 0%; transition: width 0.5s ease-out; position: relative;">
-                <div style="position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); opacity: 0.6; animation: shimmer 2s infinite linear;"></div>
-              </div>
-            </div>
-          </div>
-          
-          <p style="font-size: 0.875rem; color: #6b7280;">
-            <i class="fas fa-shield-alt" style="color: #059669; margin-right: 0.5rem;"></i>
-            Ihre Daten sind sicher: Alle Berechnungen erfolgen verschlüsselt
-          </p>
+
         </div>
       </div>
 
