@@ -1478,6 +1478,7 @@ app.get('/magazin', (c) => {
           <li><a href="/#benefits" style="text-decoration: none; color: #4B5563; font-weight: 500;">Vorteile</a></li>
           <li><a href="/#faq" style="text-decoration: none; color: #4B5563; font-weight: 500;">FAQ</a></li>
           <li><a href="/magazin" style="text-decoration: none; color: #0b7b6c; font-weight: 600;">Magazin</a></li>
+          <li><a href="/fachkreise" style="text-decoration: none; color: #4B5563; font-weight: 500;">Für Ärzt:innen & Apotheken</a></li>
         </ul>
         <button onclick="window.location.href='/app'" style="padding: 12px 24px; background: linear-gradient(135deg, #0E5A45, #10B981); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Orientierungsplan starten</button>
       </nav>
@@ -2330,6 +2331,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
         <a href="/#funktionsweise">Funktionsweise</a>
         <a href="/#faq">FAQ</a>
         <a href="/#magazin">Magazin</a>
+        <a href="/fachkreise">Für Ärzt:innen & Apotheken</a>
         <a href="/#kontakt">Kontakt</a>
       </nav>
     </div>
@@ -4742,6 +4744,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
         <a href="/#funktionsweise">Funktionsweise</a>
         <a href="/#faq">FAQ</a>
         <a href="/#magazin">Magazin</a>
+        <a href="/fachkreise">Für Ärzt:innen & Apotheken</a>
         <a href="/#kontakt">Kontakt</a>
       </nav>
     </div>
@@ -5524,6 +5527,7 @@ app.get('/app', (c) => {
           <li><a href="/#benefits">Vorteile</a></li>
           <li><a href="/#faq">FAQ</a></li>
           <li><a href="/magazin">Magazin</a></li>
+          <li><a href="/fachkreise">Für Ärzt:innen & Apotheken</a></li>
         </ul>
         <button class="btn-primary-sm" onclick="window.location.href='/app'">Orientierungsplan starten</button>
       </nav>
@@ -6915,6 +6919,647 @@ function getSharedStyles() {
     }
   `
 }
+
+// ============================================================
+// NEUE ROUTE: /fachkreise - Seite für Ärzt:innen & Apotheken
+// ============================================================
+
+app.get('/fachkreise', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEDLESS für Ärzt:innen & Apotheken</title>
+  <meta name="description" content="MEDLESS für medizinische Fachkreise: Ein digitales Unterstützungssystem zur Stabilisierung des Endocannabinoid-Systems und strukturierten Medikamentenreduktion.">
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Fachkreise-spezifische Styles */
+    :root {
+      --medless-green: #0F5A46;
+      --medless-green-light: #1A9C7F;
+      --gray-ultra-light: #F9FAFB;
+      --gray-light: #E5E7EB;
+      --gray-medium: #6B7280;
+      --gray-dark: #111827;
+      --max-width: 1120px;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      line-height: 1.6;
+      color: var(--gray-dark);
+      background: white;
+    }
+    
+    .fachkreise-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    
+    .fachkreise-hero {
+      background: var(--gray-ultra-light);
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+    }
+    
+    .fachkreise-hero h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      color: var(--medless-green);
+      margin: 0 0 1.5rem 0;
+      line-height: 1.2;
+    }
+    
+    .fachkreise-hero-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--gray-medium);
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.7;
+    }
+    
+    .fachkreise-hero-note {
+      font-size: 0.95rem;
+      color: var(--gray-medium);
+      font-style: italic;
+      margin-top: 1rem;
+    }
+    
+    .fachkreise-section {
+      padding: 4rem 1.5rem;
+    }
+    
+    .fachkreise-section:nth-child(even) {
+      background: var(--gray-ultra-light);
+    }
+    
+    .fachkreise-section h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 700;
+      color: var(--medless-green);
+      margin: 0 0 2rem 0;
+      text-align: center;
+    }
+    
+    .fachkreise-two-col {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+      .fachkreise-two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .fachkreise-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .fachkreise-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(15, 90, 70, 0.12);
+    }
+    
+    .fachkreise-card h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--medless-green);
+      margin: 0 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .fachkreise-card-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--medless-green), var(--medless-green-light));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .fachkreise-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0 0;
+    }
+    
+    .fachkreise-card ul li {
+      padding: 0.5rem 0 0.5rem 1.75rem;
+      position: relative;
+      line-height: 1.6;
+    }
+    
+    .fachkreise-card ul li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--medless-green-light);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .fachkreise-three-col {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+      .fachkreise-three-col {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    .fachkreise-timeline {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .fachkreise-timeline-step {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      position: relative;
+      padding-left: 4.5rem;
+    }
+    
+    .fachkreise-timeline-step:last-child {
+      margin-bottom: 0;
+    }
+    
+    .fachkreise-timeline-step-number {
+      position: absolute;
+      left: 1.5rem;
+      top: 2rem;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--medless-green), var(--medless-green-light));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .fachkreise-timeline-step h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--medless-green);
+      margin: 0 0 0.75rem 0;
+    }
+    
+    .fachkreise-infobox {
+      background: #FEF3C7;
+      border-left: 4px solid #F59E0B;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .fachkreise-infobox h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #92400E;
+      margin: 0 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .fachkreise-cta {
+      background: linear-gradient(135deg, var(--medless-green), var(--medless-green-light));
+      color: white;
+      text-align: center;
+      padding: 4rem 1.5rem;
+    }
+    
+    .fachkreise-cta h2 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+    
+    .fachkreise-cta p {
+      font-size: 1.1rem;
+      margin: 0 auto 2rem;
+      max-width: 700px;
+      opacity: 0.95;
+    }
+    
+    .fachkreise-btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: white;
+      color: var(--medless-green);
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .fachkreise-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      text-decoration: none;
+    }
+    
+    .fachkreise-download-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 700px;
+      margin: 0 auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+    
+    .fachkreise-download-card h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--medless-green);
+      margin: 0 0 1rem 0;
+    }
+    
+    .fachkreise-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--medless-green), var(--medless-green-light));
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      margin-top: 1.5rem;
+    }
+    
+    .fachkreise-download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(15, 90, 70, 0.3);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER (gleiche Struktur wie auf /app) -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <span class="logo">
+          <span class="logo-text">Medless</span>
+        </span>
+        <ul class="nav-links">
+          <li><a href="/#how-it-works">So funktioniert's</a></li>
+          <li><a href="/#benefits">Vorteile</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/magazin">Magazin</a></li>
+          <li><a href="/fachkreise" style="color: var(--medless-green); font-weight: 600;">Für Ärzt:innen & Apotheken</a></li>
+        </ul>
+        <button class="btn-primary-sm" onclick="window.location.href='/app'">Orientierungsplan starten</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 3.1 HERO-SEKTION -->
+  <section class="fachkreise-hero">
+    <div class="fachkreise-container">
+      <h1>MEDLESS für Ärzt:innen & Apotheken</h1>
+      <p class="fachkreise-hero-subtitle">
+        Ein digitales Unterstützungssystem zur Stabilisierung des Endocannabinoid-Systems (ECS) und zur strukturierten Begleitung von Patient:innen, die ihre Medikation reduzieren oder vollständig absetzen möchten – basierend auf Cannabinoiden, pharmakologischen Wechselwirkungen und einer nachvollziehbaren Wochenstruktur.
+      </p>
+      <p class="fachkreise-hero-note">
+        Diese Seite richtet sich ausschließlich an medizinische Fachkreise.
+      </p>
+    </div>
+  </section>
+
+  <!-- 3.2 WARUM MEDIKAMENTENREDUKTION SO OFT SCHEITERT -->
+  <section class="fachkreise-section">
+    <div class="fachkreise-container">
+      <h2>Warum Medikamentenreduktion so oft scheitert</h2>
+      <div class="fachkreise-two-col">
+        <div>
+          <p style="margin-bottom: 1rem;">
+            Viele Patient:innen nehmen über Jahre mehrere Medikamente gleichzeitig (Polypharmazie). Das Endocannabinoid-System (ECS) ist dadurch häufig unterreguliert oder dysfunktional.
+          </p>
+          <p style="margin-bottom: 1rem;">
+            Eine geschwächte ECS-Regulation führt zu Schlafproblemen, Stressintoleranz, erhöhtem Entzündungsgeschehen und verstärkten Nebenwirkungen anderer Medikamente.
+          </p>
+          <p style="margin-bottom: 1rem;">
+            Genau dadurch scheitern viele Reduktionsversuche – nicht wegen „fehlendem Willen", sondern wegen instabiler biologischer Grundlagen.
+          </p>
+          <p style="font-weight: 600; color: var(--medless-green); margin-top: 1.5rem;">
+            MEDLESS setzt genau hier an: zuerst Stabilisierung, dann Reduktion.
+          </p>
+        </div>
+        <div>
+          <div class="fachkreise-card">
+            <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--medless-green); margin: 0 0 1rem 0;">Typische Hürden bei Reduktionsversuchen:</h4>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              <li style="padding: 0.5rem 0 0.5rem 1.75rem; position: relative;">
+                <span style="position: absolute; left: 0; color: var(--medless-green-light); font-weight: 700;">•</span>
+                ECS-Dysregulation verstärkt Nebenwirkungen bestehender Therapien
+              </li>
+              <li style="padding: 0.5rem 0 0.5rem 1.75rem; position: relative;">
+                <span style="position: absolute; left: 0; color: var(--medless-green-light); font-weight: 700;">•</span>
+                Kleine Dosisänderungen können sich subjektiv wie „große Schritte" anfühlen
+              </li>
+              <li style="padding: 0.5rem 0 0.5rem 1.75rem; position: relative;">
+                <span style="position: absolute; left: 0; color: var(--medless-green-light); font-weight: 700;">•</span>
+                Klassische Reduktionspläne ignorieren häufig das ECS als Stabilitätsfaktor
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.3 DER MEDLESS-ANSATZ – DREI SÄULEN -->
+  <section class="fachkreise-section">
+    <div class="fachkreise-container">
+      <h2>Der MEDLESS-Ansatz – Drei Säulen</h2>
+      <div class="fachkreise-three-col">
+        <!-- Säule 1 -->
+        <div class="fachkreise-card">
+          <div class="fachkreise-card-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3 style="font-size: 1.2rem;">Säule 1: Stabilisierung des ECS</h3>
+          <p>
+            MEDLESS setzt in einem ersten Schritt auf ein standardisiertes Cannabinoid-Produkt, das darauf ausgelegt ist, das ECS der Patient:innen zu stabilisieren.
+          </p>
+          <p style="margin-top: 1rem;">
+            <strong>Ziel:</strong> bessere Schlafqualität, Stressregulation und generelle Belastbarkeit für nachfolgende Reduktionsschritte.
+          </p>
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-medium);">
+            Wirkmechanismen: CB1/CB2, 5-HT, GABA, TRPV1
+          </p>
+        </div>
+
+        <!-- Säule 2 -->
+        <div class="fachkreise-card">
+          <div class="fachkreise-card-icon">
+            <i class="fas fa-flask"></i>
+          </div>
+          <h3 style="font-size: 1.2rem;">Säule 2: Verantwortungsvolle Nutzung pharmakologischer Wechselwirkungen</h3>
+          <p>
+            Cannabinoide beeinflussen – wie viele andere Wirkstoffe – Leberenzyme (z.B. CYP450). Dadurch können sich Wirkspiegel bestimmter Medikamente verändern.
+          </p>
+          <p style="margin-top: 1rem;">
+            MEDLESS nutzt dieses Prinzip konservativ und transparent, um Dosisreduktionen in kleinen Schritten zu ermöglichen.
+          </p>
+          <p style="margin-top: 1rem; font-weight: 600; color: var(--medless-green);">
+            Wichtig: Alle medizinischen Entscheidungen trifft ausschließlich die behandelnde Ärztin / der behandelnde Arzt.
+          </p>
+        </div>
+
+        <!-- Säule 3 -->
+        <div class="fachkreise-card">
+          <div class="fachkreise-card-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <h3 style="font-size: 1.2rem;">Säule 3: Algorithmisch unterstützte Reduktionsplanung</h3>
+          <p>
+            MEDLESS erstellt einen Orientierungsplan in Wochenstruktur. Grundlage sind: aktuelle Medikation, Körperdaten, Patient:innenangaben, definierte Plan-Dauer und Reduktionsziel.
+          </p>
+          <p style="margin-top: 1rem;">
+            Der Algorithmus simuliert mögliche Reduktionsschritte und macht Vorschläge – <strong>ersetzt aber keine ärztliche Therapieentscheidung.</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.4 FÜR WELCHE PATIENT:INNEN MEDLESS GEEIGNET IST -->
+  <section class="fachkreise-section">
+    <div class="fachkreise-container">
+      <h2>Für welche Patient:innen MEDLESS entwickelt wurde</h2>
+      <div class="fachkreise-card" style="max-width: 900px; margin: 0 auto;">
+        <ul>
+          <li>Patient:innen mit Polypharmazie und komplexem Medikationsprofil</li>
+          <li>Menschen mit langjähriger Medikation, die unter Nebenwirkungen leiden</li>
+          <li>Patient:innen, bei denen frühere Reduktionsversuche gescheitert sind</li>
+          <li>Personen, die eine einzelne Medikation (z.B. Schlafmittel, Schmerzmittel, Antidepressiva) strukturiert reduzieren oder absetzen möchten</li>
+          <li>Patient:innen mit vermuteter ECS-Dysregulation (Schlaf, Schmerz, Stress, Stimmung)</li>
+        </ul>
+        <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--gray-medium); font-style: italic;">
+          MEDLESS ist kein Akut-Instrument, sondern für geplante, ärztlich begleitete Reduktionen gedacht.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.5 WAS MEDLESS BEWUSST NICHT IST -->
+  <section class="fachkreise-section">
+    <div class="fachkreise-container">
+      <h2>Wofür MEDLESS nicht gedacht ist</h2>
+      <div class="fachkreise-infobox" style="max-width: 900px; margin: 0 auto;">
+        <h3>
+          <i class="fas fa-info-circle"></i>
+          Wichtige Einschränkungen
+        </h3>
+        <ul style="list-style: none; padding: 0; margin: 1rem 0 0 0;">
+          <li style="padding: 0.5rem 0 0.5rem 1.75rem; position: relative;">
+            <span style="position: absolute; left: 0; color: #F59E0B; font-weight: 700;">✗</span>
+            Keine Diagnose-Plattform
+          </li>
+          <li style="padding: 0.5rem 0 0.5rem 1.75rem; position: relative;">
+            <span style="position: absolute; left: 0; color: #F59E0B; font-weight: 700;">✗</span>
+            Kein Ersatz für ärztliche Anamnese, Diagnostik oder Labor
+          </li>
+          <li style="padding: 0.5rem 0 0.5rem 1.75rem; position: relative;">
+            <span style="position: absolute; left: 0; color: #F59E0B; font-weight: 700;">✗</span>
+            Keine vollständige Interaktionsdatenbank
+          </li>
+          <li style="padding: 0.5rem 0 0.5rem 1.75rem; position: relative;">
+            <span style="position: absolute; left: 0; color: #F59E0B; font-weight: 700;">✗</span>
+            Kein „Entzugstool" im Sinne abrupten Absetzens
+          </li>
+          <li style="padding: 0.5rem 0 0.5rem 1.75rem; position: relative;">
+            <span style="position: absolute; left: 0; color: #F59E0B; font-weight: 700;">✗</span>
+            Kein Ersatz für individuelle Risiko-Nutzen-Abwägung
+          </li>
+          <li style="padding: 0.5rem 0 0.5rem 1.75rem; position: relative;">
+            <span style="position: absolute; left: 0; color: #F59E0B; font-weight: 700;">✗</span>
+            Keine Garantie für bestimmte Ergebnisse oder Heilversprechen
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.6 NUTZEN FÜR ÄRZT:INNEN UND APOTHEKEN -->
+  <section class="fachkreise-section">
+    <div class="fachkreise-container">
+      <h2>Nutzen für Ärzt:innen und Apotheken</h2>
+      <div class="fachkreise-two-col">
+        <!-- Für Ärzt:innen -->
+        <div class="fachkreise-card">
+          <div class="fachkreise-card-icon">
+            <i class="fas fa-user-md"></i>
+          </div>
+          <h3 style="font-size: 1.3rem;">Nutzen für Ärzt:innen</h3>
+          <ul>
+            <li>Strukturierter Gesprächseinstieg bei komplexer Medikation</li>
+            <li>Transparente, nachvollziehbare Wochenpläne statt „gefühlter" Reduktionsschritte</li>
+            <li>Standardisiertes Cannabinoid-Produkt statt uneinheitlicher CBD-Produkte</li>
+            <li>Schriftlicher Ärztebericht als Dokumentation und Grundlage für Verlaufskontrollen</li>
+            <li>Option, ECS-Stabilisierung und Reduktion methodisch zu verbinden</li>
+          </ul>
+        </div>
+
+        <!-- Für Apotheken -->
+        <div class="fachkreise-card">
+          <div class="fachkreise-card-icon">
+            <i class="fas fa-prescription-bottle"></i>
+          </div>
+          <h3 style="font-size: 1.3rem;">Nutzen für Apotheken</h3>
+          <ul>
+            <li>Hochwertiges, medizinisch eingebettetes Cannabinoid-Produkt</li>
+            <li>Möglichkeit, Patient:innen aktiv bei der Medikamentenreduktion zu unterstützen</li>
+            <li><strong>QR-Code-System:</strong> 50% Marge bei Direktabgabe in der Apotheke / Ordination</li>
+            <li>30% Beteiligung, wenn Patient:innen später online nachbestellen (Zuordnung über QR-Code)</li>
+            <li>Positionierung als beratungsstarke Fachapotheke im Bereich Cannabinoide und Medikamentenreduktion</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.7 WIE MEDLESS TECHNISCH ARBEITET (ALGORITHMUS-TRANSPARENZ) -->
+  <section class="fachkreise-section">
+    <div class="fachkreise-container">
+      <h2>Wie MEDLESS Ihre Planung technisch unterstützt</h2>
+      <div class="fachkreise-timeline">
+        <!-- Schritt 1 -->
+        <div class="fachkreise-timeline-step">
+          <div class="fachkreise-timeline-step-number">1</div>
+          <h4>Eingabe der Medikation</h4>
+          <p>Wirkstoff, Dosis, Einnahmezeit, besondere Hinweise werden vom Patienten / der Patientin erfasst.</p>
+        </div>
+
+        <!-- Schritt 2 -->
+        <div class="fachkreise-timeline-step">
+          <div class="fachkreise-timeline-step-number">2</div>
+          <h4>Erfassung von Körper- und Kontextdaten</h4>
+          <p>Alter, Gewicht, Größe und ggf. relevante Faktoren für die Planung.</p>
+        </div>
+
+        <!-- Schritt 3 -->
+        <div class="fachkreise-timeline-step">
+          <div class="fachkreise-timeline-step-number">3</div>
+          <h4>Festlegung von Plan-Dauer & Reduktionsziel</h4>
+          <p>Beispiel: 8 Wochen, 30–50% Reduktion der Ausgangsmedikation.</p>
+        </div>
+
+        <!-- Schritt 4 -->
+        <div class="fachkreise-timeline-step">
+          <div class="fachkreise-timeline-step-number">4</div>
+          <h4>Algorithmische Simulation</h4>
+          <p>
+            MEDLESS berechnet einen Orientierungsplan (keine Therapie!) mit Wochenstruktur und markiert Stellen, an denen besondere Vorsicht oder ärztliche Bewertung erforderlich ist.
+          </p>
+        </div>
+
+        <!-- Schritt 5 -->
+        <div class="fachkreise-timeline-step">
+          <div class="fachkreise-timeline-step-number">5</div>
+          <h4>Erstellung eines Patienten-PDFs und eines Ärzteberichts</h4>
+          <p>
+            <strong>Patienten-Orientierungsplan:</strong> In einfacher Sprache<br>
+            <strong>Ärztebericht:</strong> Vollständige Übersicht mit Hinweistexten
+          </p>
+        </div>
+      </div>
+      <p style="text-align: center; margin-top: 2rem; font-size: 1rem; color: var(--gray-medium); font-style: italic; max-width: 800px; margin-left: auto; margin-right: auto;">
+        Der MEDLESS-Algorithmus liefert Vorschläge – er ersetzt nicht Ihre klinische Entscheidung.
+      </p>
+    </div>
+  </section>
+
+  <!-- 3.8 ÄRZTEBERICHT – BEISPIEL-DOWNLOAD -->
+  <section class="fachkreise-section">
+    <div class="fachkreise-container">
+      <h2>Beispiel-Ärztebericht ansehen</h2>
+      <div class="fachkreise-download-card">
+        <h3>Ärztebericht (Beispiel)</h3>
+        <p style="color: var(--gray-medium); margin: 0 0 1rem 0;">
+          Der Ärztebericht dokumentiert die vollständige Medikation, die geplante Reduktionsstruktur und alle Hinweise klar und nachvollziehbar.
+        </p>
+        <a href="/medless_aerztebericht_beispiel.pdf" target="_blank" class="fachkreise-download-btn">
+          <i class="fas fa-file-pdf"></i>
+          Beispiel-Ärztebericht (PDF) herunterladen
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.9 ABSCHLUSS-CALL-TO-ACTION -->
+  <section class="fachkreise-cta">
+    <div class="fachkreise-container">
+      <h2>MEDLESS in Ihrer Praxis oder Apotheke einsetzen</h2>
+      <p>
+        Sie möchten MEDLESS in Ihrer Praxis oder Apotheke nutzen? Wir freuen uns auf Ihre Kontaktaufnahme.
+      </p>
+      <a href="/impressum" class="fachkreise-btn">
+        Kontakt aufnehmen
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER (wie auf Landingpage) -->
+  <footer class="site-footer" style="background: #0F172A; color: white; padding: 3rem 1.5rem 2rem; text-align: center;">
+    <div class="fachkreise-container">
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 1.5rem;">
+        <a href="/impressum" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem;">Impressum</a>
+        <a href="/datenschutz" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem;">Datenschutz</a>
+        <a href="/#kontakt" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem;">Kontakt</a>
+      </div>
+      <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.6);">
+        © 2025 MEDLESS. Alle Rechte vorbehalten.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
+  `)
+})
 
 // ============================================================
 // TEST ENDPOINTS: Display Example Reports (HTML only)
