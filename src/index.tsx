@@ -5408,37 +5408,45 @@ app.get('/app', (c) => {
       <div class="hero-tag">Zu viele Medikamente?</div>
       <div class="hero-grid">
         <div>
-          <h1>Ihr Weg zu weniger Medikamenten – durch ein starkes Endocannabinoid-System</h1>
+          <h1>Ihr Orientierungsplan für weniger Medikamente – gemeinsam mit Ihrem Arzt</h1>
           <p class="hero-sub">
-            Dieses Tool erstellt einen <strong>individualisierten Dosierungsplan mit Cannabinoiden</strong> –
-            als Grundlage für das Gespräch mit Ihrem Arzt.
+            MEDLESS hilft Ihnen, Ihre aktuelle Medikation strukturiert zu erfassen
+            und als übersichtlichen PDF-Orientierungsplan für Ihr nächstes Arztgespräch
+            aufzubereiten. Keine Therapie, keine Diagnose – sondern eine klare Grundlage
+            für das Gespräch mit Ihrem Arzt.
           </p>
           <ul class="hero-list">
-            <li>berücksichtigt Alter, Gewicht, Größe & aktuelle Medikation</li>
-            <li>zeigt eine vorsichtige Einschleich- & Erhaltungsphase</li>
-            <li>einfach als PDF zum Arzttermin mitnehmen</li>
+            <li>Erfasst Ihre Medikamente, Dosierungen und Einnahmezeiten in einer strukturierten Übersicht</li>
+            <li>Zeigt eine mögliche Reihenfolge für schrittweise Anpassungen, über die Sie mit Ihrem Arzt sprechen können</li>
+            <li>Export als PDF, das Sie ausdrucken und zum Arzttermin mitnehmen können</li>
           </ul>
 
           <div class="hero-cta-row">
-            <a href="#tool" class="btn-primary">
-              Dosierungsplan erstellen
+            <button class="btn-primary" onclick="document.getElementById('tool').scrollIntoView({ behavior: 'smooth' })">
+              Analyse starten
               <span>➜</span>
-            </a>
-            <span class="note">Dauer: ca. 2–3 Minuten · kostenlos</span>
+            </button>
+            <span class="note">Dauer: ca. 2–3 Minuten · kostenlos · nur zur Vorbereitung des Arztgesprächs</span>
           </div>
         </div>
 
         <div>
           <div class="card">
-            <span class="tag-small">Kurz erklärt</span>
-            <h3>Warum das ECS so wichtig ist</h3>
+            <span class="tag-small">Wichtig zu wissen</span>
+            <h3>Warum ein Überblick über Ihre Medikation hilft</h3>
             <p class="muted">
-              Das Endocannabinoid-System (ECS) reguliert Schmerz, Schlaf, Stimmung, Entzündungen
-              und Immunsystem. Ist es geschwächt, greifen viele Menschen zu immer mehr Medikamenten.
+              Viele Menschen nehmen über Jahre mehrere Medikamente ein – oft von
+              unterschiedlichen Ärzten verschrieben. Da kann leicht der Überblick verloren gehen.
             </p>
             <p class="muted">
-              Exogene Cannabinoide wie CBD können das ECS unterstützen – unter ärztlicher Begleitung
-              kann dies ein Baustein zur <strong>langfristigen Medikamenten-Reduktion</strong> sein.
+              Ein strukturierter Orientierungsplan hilft Ihnen und Ihrem Arzt, gemeinsam
+              zu entscheiden, welche Schritte sinnvoll sind – ohne Entscheidungen allein
+              treffen zu müssen.
+            </p>
+            <p class="muted" style="margin-top: 0.8rem; font-size: 0.88rem; color: #6b7280;">
+              <strong>Wichtiger Hinweis:</strong> MEDLESS ersetzt keine ärztliche Beratung
+              und ist kein Medizinprodukt. Alle medizinischen Entscheidungen trifft
+              ausschließlich Ihr Arzt.
             </p>
           </div>
         </div>
