@@ -5862,32 +5862,38 @@ app.get('/app', (c) => {
           
           <!-- Medical AI Loader -->
           <div class="medical-loader">
-            <!-- Pulsing Spinner (small) -->
-            <div class="medical-loader-spinner"></div>
+            <!-- Premium Dual-Ring Spinner -->
+            <div class="plan-loader-spinner">
+              <div class="plan-loader-ring plan-loader-ring-outer"></div>
+              <div class="plan-loader-ring plan-loader-ring-inner"></div>
+            </div>
             
-            <h2 class="medical-loader-title">Ihr MEDLESS-Orientierungsplan wird erstellt …</h2>
-            <p class="medical-loader-subtitle">
+            <h2 class="plan-loader-title">Ihr MEDLESS-Orientierungsplan wird erstellt …</h2>
+            <p class="plan-loader-subtitle">
               Bitte haben Sie einen Moment Geduld. Ihr Orientierungsplan wird anhand Ihrer Angaben berechnet und als PDF vorbereitet.
             </p>
             
-            <!-- AI Analysis Steps with SVG Icons -->
-            <div class="medical-loader-steps">
-              <!-- Step 1: Medication Scan -->
-              <div class="medical-step" data-step="1">
-                <div class="medical-icon">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Medical Analysis Pipeline with Premium Card Design -->
+            <div class="plan-loader-pipeline">
+              <!-- Step 1: Medication Analysis -->
+              <div class="plan-loader-step step-1">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
                     <path d="M9.5 2.5L14.5 7.5L9.5 12.5L4.5 7.5L9.5 2.5Z" fill="currentColor" opacity="0.3"/>
                     <path d="M14.5 11.5L19.5 16.5L14.5 21.5L9.5 16.5L14.5 11.5Z" fill="currentColor"/>
                     <path d="M9.5 2.5L14.5 7.5M14.5 7.5L9.5 12.5M14.5 7.5L19.5 16.5M9.5 12.5L4.5 7.5M9.5 12.5L14.5 11.5M4.5 7.5L9.5 2.5M14.5 11.5L9.5 16.5M14.5 11.5L19.5 16.5M9.5 16.5L14.5 21.5M19.5 16.5L14.5 21.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </div>
-                <span class="medical-label">Medikamente werden gescannt …</span>
+                <div class="step-text">
+                  <div class="step-title">Medikamente werden analysiert …</div>
+                  <div class="step-subtitle">Wirkstoffe, Dosierung und Einnahmezeiten werden geprüft</div>
+                </div>
               </div>
               
               <!-- Step 2: Metabolism & Interactions -->
-              <div class="medical-step" data-step="2">
-                <div class="medical-icon">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <div class="plan-loader-step step-2">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
                     <path d="M12 3C12 3 8 5.5 8 9C8 11.5 9.5 13 12 13C14.5 13 16 11.5 16 9C16 5.5 12 3 12 3Z" fill="currentColor" opacity="0.3"/>
                     <path d="M12 13C12 13 8 15.5 8 19C8 21.5 9.5 23 12 23C14.5 23 16 21.5 16 19C16 15.5 12 13 12 13Z" fill="currentColor" opacity="0.3"/>
                     <path d="M4 8C4 8 2 10.5 2 13C2 14.5 3 16 4.5 16C6 16 7.5 14.5 7.5 13C7.5 10.5 4 8 4 8Z" fill="currentColor"/>
@@ -5895,13 +5901,16 @@ app.get('/app', (c) => {
                     <path d="M12 3L12 23M8 9C8 9 4 8 4 8M16 9C16 9 20 8 20 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                   </svg>
                 </div>
-                <span class="medical-label">Stoffwechsel & Wechselwirkungen werden analysiert …</span>
+                <div class="step-text">
+                  <div class="step-title">Stoffwechsel & Wechselwirkungen werden berechnet …</div>
+                  <div class="step-subtitle">Leberenzyme und mögliche Interaktionen werden simuliert</div>
+                </div>
               </div>
               
               <!-- Step 3: Plan Construction -->
-              <div class="medical-step" data-step="3">
-                <div class="medical-icon">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <div class="plan-loader-step step-3">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
                     <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
                     <path d="M3 9H21M9 3V21" stroke="currentColor" stroke-width="1.5"/>
                     <path d="M12 12L17 17M12 17L17 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
@@ -5910,7 +5919,10 @@ app.get('/app', (c) => {
                     <circle cx="15" cy="6" r="1.5" fill="currentColor" opacity="0.7"/>
                   </svg>
                 </div>
-                <span class="medical-label">Reduktionsplan wird konstruiert …</span>
+                <div class="step-text">
+                  <div class="step-title">Orientierungsplan wird konstruiert …</div>
+                  <div class="step-subtitle">Ihr persönlicher MEDLESS-Orientierungsplan wird aufgebaut</div>
+                </div>
               </div>
             </div>
           </div>

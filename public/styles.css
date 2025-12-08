@@ -984,138 +984,166 @@ body {
 }
 
 /* Large Active Spinner - Medical Analysis */
-.medical-loader-spinner {
+/* ===== PREMIUM DUAL-RING SPINNER ===== */
+.plan-loader-spinner {
+  position: relative;
   width: 72px;
   height: 72px;
-  border: 5px solid #E5E7EB;
-  border-top-color: #1A9C7F;
-  border-right-color: #14b8a6;
-  border-radius: 50%;
-  animation: medical-spinner-spin 0.8s linear infinite, medical-spinner-pulse 1.5s ease-in-out infinite;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 0 20px rgba(26, 156, 127, 0.2);
+  margin: 0 auto 1.5rem;
 }
 
-@keyframes medical-spinner-spin {
-  to {
-    transform: rotate(360deg);
+.plan-loader-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 3px solid rgba(21, 146, 122, 0.12);
+  box-sizing: border-box;
+}
+
+.plan-loader-ring-outer {
+  border-top-color: #15927a;
+  border-right-color: #15927a;
+  animation: loader-rotate 1.2s linear infinite;
+}
+
+.plan-loader-ring-inner {
+  inset: 10px;
+  border-color: rgba(21, 146, 122, 0.15);
+  border-top-color: #1a9c7f;
+  border-right-color: #1a9c7f;
+  animation: loader-rotate 1.6s linear infinite reverse, loader-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes loader-rotate {
+  to { 
+    transform: rotate(360deg); 
   }
 }
 
-@keyframes medical-spinner-pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
+@keyframes loader-pulse {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    opacity: 0.8; 
   }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.8;
+  50% { 
+    transform: scale(1.08) rotate(180deg); 
+    opacity: 1; 
   }
 }
 
-.medical-loader-title {
+/* ===== LOADER TITLES ===== */
+.plan-loader-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: #1F2937;
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
-.medical-loader-subtitle {
+.plan-loader-subtitle {
   font-size: 0.95rem;
   color: #6B7280;
   max-width: 420px;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem;
+  text-align: center;
+  line-height: 1.5;
 }
 
-/* Medical AI Analysis Steps */
-.medical-loader-steps {
+/* ===== PREMIUM ANALYSIS PIPELINE ===== */
+.plan-loader-pipeline {
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  max-width: 480px;
-  margin: 0 auto;
+  gap: 0.75rem;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.medical-step {
+.plan-loader-step {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.25rem;
-  background: linear-gradient(135deg, rgba(26, 156, 127, 0.08) 0%, rgba(26, 156, 127, 0.03) 100%);
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 1rem 1.25rem;
   border-radius: 12px;
-  border: 1px solid rgba(26, 156, 127, 0.15);
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(15, 90, 70, 0.04);
   opacity: 0;
-  transform: translateX(-12px);
-  animation: medical-step-slide-in 0.4s ease-out forwards, medical-step-pulse 2s ease-in-out 0.5s infinite;
-  box-shadow: 0 2px 8px rgba(26, 156, 127, 0.1);
+  transform: translateY(8px);
+  animation: loader-step-in 0.5s ease-out forwards, loader-step-pulse 2.4s ease-in-out infinite;
 }
 
-/* Stagger animation for each step - faster cascade */
-.medical-step[data-step="1"] {
-  animation-delay: 0s, 0.5s;
+/* Staggered entrance animation */
+.plan-loader-step.step-1 { 
+  animation-delay: 0.1s, 0.6s; 
 }
 
-.medical-step[data-step="2"] {
-  animation-delay: 0.15s, 0.65s;
+.plan-loader-step.step-2 { 
+  animation-delay: 0.4s, 0.9s; 
 }
 
-.medical-step[data-step="3"] {
-  animation-delay: 0.3s, 0.8s;
+.plan-loader-step.step-3 { 
+  animation-delay: 0.7s, 1.2s; 
 }
 
-@keyframes medical-step-slide-in {
-  to {
-    opacity: 1;
-    transform: translateX(0);
+@keyframes loader-step-in {
+  from { 
+    opacity: 0; 
+    transform: translateY(8px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
   }
 }
 
-@keyframes medical-step-pulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 2px 8px rgba(26, 156, 127, 0.1);
+@keyframes loader-step-pulse {
+  0%, 100% { 
+    box-shadow: 0 1px 3px rgba(15, 90, 70, 0.04), 0 0 0 0 rgba(26, 156, 127, 0); 
   }
-  50% {
-    transform: scale(1.02);
-    box-shadow: 0 4px 16px rgba(26, 156, 127, 0.2);
+  50% { 
+    box-shadow: 0 2px 8px rgba(15, 90, 70, 0.08), 0 0 0 4px rgba(26, 156, 127, 0.06); 
   }
 }
 
-/* Medical Icon Container with Glow */
-.medical-icon {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
+/* Step Icon - Clean circular design */
+.step-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 9999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1A9C7F 0%, #14b8a6 100%);
-  border-radius: 12px;
-  color: white;
-  box-shadow: 0 0 20px rgba(26, 156, 127, 0.4), 0 0 40px rgba(26, 156, 127, 0.2);
-  animation: medical-icon-glow 2s ease-in-out infinite;
+  background: rgba(21, 146, 122, 0.08);
+  color: #15927a;
+  flex-shrink: 0;
 }
 
-.medical-icon svg {
-  width: 28px;
-  height: 28px;
+.step-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
-@keyframes medical-icon-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(26, 156, 127, 0.4), 0 0 40px rgba(26, 156, 127, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(26, 156, 127, 0.6), 0 0 60px rgba(26, 156, 127, 0.3);
-  }
-}
-
-.medical-label {
-  font-size: 0.9rem;
-  color: #374151;
-  font-weight: 500;
-  text-align: left;
+/* Step Text Container */
+.step-text {
   flex: 1;
+  min-width: 0;
+}
+
+.step-title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: #0f172a;
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+.step-subtitle {
+  font-size: 0.8125rem;
+  color: #64748b;
+  line-height: 1.4;
 }
 
 /* ===================================
