@@ -6089,6 +6089,22 @@ app.get('/app', (c) => {
       }
     }
     
+    // Focus current step with header offset
+    function focusCurrentStep(stepEl) {
+      if (!stepEl) return;
+      
+      setTimeout(() => {
+        const headerOffset = 80;
+        const rect = stepEl.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        window.scrollTo({
+          top: rect.top + scrollTop - headerOffset,
+          behavior: 'smooth'
+        });
+      }, 200); // Wait for fade-in to complete
+    }
+    
     function updateProgressBar(stepNumber) {
       for (let i = 1; i <= totalSteps; i++) {
         const indicator = document.getElementById(\`step-indicator-\${i}\`);
@@ -6308,6 +6324,20 @@ app.get('/app', (c) => {
       
       // Initialize: Show step 1
       showStep(1);
+      
+      // Initial scroll to wizard (only on first load)
+      setTimeout(() => {
+        const tool = document.getElementById('tool');
+        if (tool) {
+          const headerOffset = 80;
+          const rect = tool.getBoundingClientRect();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          window.scrollTo({
+            top: rect.top + scrollTop - headerOffset,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
       
       // NOTE: Medication input fields are now managed by /static/app.js
       // All medication form logic (autocomplete, validation, dynamic fields) moved to frontend
