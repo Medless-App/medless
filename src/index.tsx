@@ -4868,12 +4868,20 @@ app.get('/app', (c) => {
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <title>Medikamente strukturiert reduzieren</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Medless – Strukturierte Orientierungshilfe für dein Arztgespräch. Kostenlose Medikamentenanalyse als PDF-Orientierungsplan.">
+  <title>MEDLESS-Orientierungsplan erstellen</title>
   
-  <!-- TailwindCSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="shortcut icon" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  
+  <!-- Google Fonts (SAME AS LANDING PAGE) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   
   <!-- FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
@@ -4884,11 +4892,11 @@ app.get('/app', (c) => {
   <!-- Axios for API calls -->
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
   
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="/styles.css">
-  
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom CSS (UNIFIED) -->
+  <link rel="stylesheet" href="/styles.css">
 
   <style>
     :root {
@@ -5852,13 +5860,15 @@ app.get('/app', (c) => {
       <div id="loading" class="hidden" style="margin-top: 1.5rem;">
         <div class="card" style="max-width: 550px; margin: 0 auto; padding: 3rem 1.5rem; text-align: center;">
           
-          <!-- Simple Loader -->
+          <!-- Simple Loader (harmonized with landing page style) -->
           <div class="plan-loader">
-            <div class="plan-loader-spinner" style="width: 50px; height: 50px; border-radius: 50%; border: 4px solid #e2f3ec; border-top-color: #0b7b6c; animation: plan-loader-spin 0.8s linear infinite; margin: 0 auto 1.5rem;"></div>
-            <p class="plan-loader-title" style="font-weight: 600; font-size: 1.2rem; color: #0b7b6c; margin-bottom: 0.75rem;">Ihr MEDLESS-Orientierungsplan wird erstellt …</p>
-            <p class="plan-loader-subtitle" style="max-width: 420px; margin: 0 auto; font-size: 0.95rem; color: #64748b; line-height: 1.6;">
-              Bitte haben Sie einen Moment Geduld. Ihr Plan wird anhand Ihrer Angaben berechnet.
-            </p>
+            <div>
+              <div class="plan-loader-spinner"></div>
+              <h2 class="plan-loader-title">Ihr MEDLESS-Orientierungsplan wird erstellt …</h2>
+              <p class="plan-loader-subtitle">
+                Bitte haben Sie einen Moment Geduld. Ihr Plan wird anhand Ihrer Angaben berechnet.
+              </p>
+            </div>
           </div>
           
           
