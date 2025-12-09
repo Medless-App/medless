@@ -6578,11 +6578,6 @@ app.get('/app', (c) => {
         }
       </script>
     </section>
-
-
-    <footer>
-      &copy; 2025 ECS Aktivierung · Hinweis: Kein Ersatz für ärztliche Beratung oder Therapie.
-    </footer>
   </main>
 
   <script>

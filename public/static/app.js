@@ -1078,27 +1078,14 @@ function animateLoadingSteps() {
             if (counterInteractions) counterInteractions.textContent = '47';
             if (counterCalculations) counterCalculations.textContent = '2.847';
             
-            // DIRECT TRANSITION: Hide loading and resolve immediately (no button needed)
+            // CRITICAL FIX: Don't fade out loadingEl - let showPlanReadyState() handle it
             setTimeout(() => {
-              console.log('🎬 Animation completed - fading out loading screen');
-              const loadingEl = document.getElementById('loading');
-              if (loadingEl) {
-                loadingEl.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                loadingEl.style.opacity = '0';
-                loadingEl.style.transform = 'scale(0.98)';
-                
-                // Don't hide loading here - showPlanReadyState will handle visibility
-                // loadingEl.classList.add('hidden'); ← REMOVED: causes buttons to be hidden
-                setTimeout(() => {
-                  // Reset transition styles only
-                  loadingEl.style.opacity = '1';
-                  loadingEl.style.transform = 'scale(1)';
-                  console.log('✅ Loading animation complete, resolving promise - ready for completion state');
-                  resolve();
-                }, 800);
-              } else {
-                resolve();
-              }
+              console.log('✅ Animation completed - ready for completion overlay');
+              // DO NOT modify loadingEl styles here - showPlanReadyState() will manage it
+              // Just resolve the promise to signal animation is done
+              console.log('🎬 Animation promise resolving - showPlanReadyState() will take over');
+              resolve();
+            }, 500);
             }, 800);
             
           }, step.duration);
