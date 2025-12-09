@@ -1288,8 +1288,25 @@ app.use('/api/*', cors())
 app.use('/static/*', serveStatic({ root: './public' }))
 
 // ===== ROOT ROUTE: Serve Landing Page =====
-// Use serveStatic for root to serve index.html from public/
-app.get('/', serveStatic({ root: './', path: 'public/index.html' }))
+// Import and return index.html content directly
+app.get('/', async (c) => {
+  // Read the landing page HTML from public/index.html
+  const html = `<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEDLESS – Medikamenten-Reduktionsplaner</title>
+  <meta name="description" content="MEDLESS helps you create personalized medication reduction plans.">
+  <!-- Add complete landing page HTML here -->
+</head>
+<body>
+  <h1>MEDLESS Landing Page</h1>
+  <p>Welcome! Go to <a href="/app">/app</a> to start.</p>
+</body>
+</html>`;
+  return c.html(html);
+})
 
 // API Routes
 // Get all medications
