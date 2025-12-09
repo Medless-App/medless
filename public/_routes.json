@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": ["/", "/fachkreise", "/build-info.json", "/favicon.png", "/index.html", "/fachkreise.html", "/loader-preview.html", "/medications-hand.jpg", "/medless-logo.png", "/medless_aerztebericht_beispiel.pdf", "/og-image.png", "/polypharmazie-hand-medications.jpg", "/polypharmazie-hand-tabletten.jpg", "/polypharmazie-medications.jpg", "/polypharmazie.jpg", "/static/*", "/styles.css"]
+}
