@@ -1125,6 +1125,15 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
   console.log('🎬 Starting animation promise');
   const animationPromise = animateLoadingSteps();
 
+  // ===== CRITICAL: 30-SECOND EMERGENCY FALLBACK =====
+  // If API + animation don't complete within 30s, show error
+  let emergencyTimeoutId = setTimeout(() => {
+    console.error('🚨 EMERGENCY TIMEOUT: 30s exceeded without response!');
+    console.error('🚨 This should NEVER happen - showing error message');
+    showError('Die Analyse dauert ungewöhnlich lange. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.');
+    document.getElementById('loading').classList.add('hidden');
+  }, 30000); // 30 seconds
+
   try {
     // Make API call - NEUE ROUTE: /api/analyze-and-reports
     // Diese Route gibt zurück: { analysis, patient: { data, html }, doctor: { data, html } }
@@ -1150,6 +1159,10 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     console.log('⏳ Waiting for API and animation to complete...');
     const [response] = await Promise.all([apiPromise, animationPromise]);
 
+    // ===== CRITICAL: Clear emergency timeout - we got a response! =====
+    clearTimeout(emergencyTimeoutId);
+    console.log('✅ Emergency timeout cleared - normal flow continuing');
+
     console.log('✅ Both API and animation completed');
     console.log('📊 Full API response:', response.data);
     console.log('📊 API response success:', response.data.success);
@@ -1168,8 +1181,17 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
       // Show "Plan fertig" completion state
       console.log('DEBUG_MEDLESS: calling showPlanReadyState()');
       console.log('🎬 About to call showPlanReadyState()');
-      showPlanReadyState(loadingEl);
-      console.log('✅ showPlanReadyState() returned');
+      
+      // ===== CRITICAL: Defensive call with fallback =====
+      try {
+        showPlanReadyState(loadingEl);
+        console.log('✅ showPlanReadyState() returned successfully');
+      } catch (overlayError) {
+        console.error('🚨 CRITICAL: showPlanReadyState() threw error:', overlayError);
+        // Emergency fallback: hide loading and show results directly
+        document.getElementById('loading').classList.add('hidden');
+        alert('Plan wurde erstellt! Bitte laden Sie die Seite neu, um die Ergebnisse zu sehen.');
+      }
       
     } else {
       // ✅ FIX 3: Improved Error-Handling für API success:false
@@ -1181,6 +1203,10 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
       return; // Early return, kein throw
     }
   } catch (error) {
+    // ===== CRITICAL: Clear emergency timeout on error =====
+    clearTimeout(emergencyTimeoutId);
+    console.log('✅ Emergency timeout cleared (error path)');
+
     console.error('❌ CRITICAL ERROR in analyzeMedications:', error);
     console.error('Error type:', error.constructor.name);
     console.error('Error message:', error.message);
@@ -1205,6 +1231,27 @@ function showPlanReadyState(loadingEl) {
   console.log('📍 loadingEl visible?', !loadingEl?.classList.contains('hidden'));
   console.log('📍 loadingEl innerHTML length:', loadingEl?.innerHTML?.length);
   
+  // ===== CRITICAL VALIDATION: Check if analysis result exists =====
+  if (!lastAnalyzeAndReportsResult) {
+    console.error('🚨 CRITICAL: lastAnalyzeAndReportsResult is NULL or undefined!');
+    console.error('🚨 This should NEVER happen - cannot show overlay without data');
+    throw new Error('Analysis result missing - cannot display overlay');
+  }
+  
+  if (!lastAnalyzeAndReportsResult.patient || !lastAnalyzeAndReportsResult.patient.html) {
+    console.error('🚨 CRITICAL: patient HTML missing from analysis result!');
+    console.error('🚨 Analysis result structure:', Object.keys(lastAnalyzeAndReportsResult));
+    throw new Error('Patient report HTML missing - cannot generate PDF');
+  }
+  
+  if (!lastAnalyzeAndReportsResult.doctor || !lastAnalyzeAndReportsResult.doctor.html) {
+    console.error('🚨 CRITICAL: doctor HTML missing from analysis result!');
+    console.error('🚨 Analysis result structure:', Object.keys(lastAnalyzeAndReportsResult));
+    throw new Error('Doctor report HTML missing - cannot generate PDF');
+  }
+  
+  console.log('✅ All data validation passed - proceeding to show overlay');
+  
   // Ensure loading element is visible - force show with !important override
   if (loadingEl) {
     loadingEl.classList.remove('hidden');
@@ -1212,6 +1259,19 @@ function showPlanReadyState(loadingEl) {
     loadingEl.style.display = 'block';
     loadingEl.style.visibility = 'visible';
     console.log('✅ Removed hidden class from loadingEl and forced display');
+  } else {
+    console.error('🚨 WARNING: loadingEl is null or undefined!');
+    // Emergency fallback: try to find it again
+    loadingEl = document.getElementById('loading');
+    if (loadingEl) {
+      console.log('✅ Found loadingEl via getElementById fallback');
+      loadingEl.classList.remove('hidden');
+      loadingEl.style.display = 'block';
+      loadingEl.style.visibility = 'visible';
+    } else {
+      console.error('🚨 CRITICAL: Cannot find #loading element in DOM!');
+      throw new Error('Loading element not found in DOM');
+    }
   }
   
   // Clear loading animation content
