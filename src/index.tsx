@@ -6969,6 +6969,36 @@ app.get('/app', (c) => {
   
   <!-- Main Application Logic (API Integration, Loading Animation, PDF Generation) -->
   <script src="/static/app.js?v=${Date.now()}"></script>
+  
+  <!-- Footer with Build Info -->
+  <footer style="background: #F9FAFB; border-top: 1px solid #E5E7EB; padding: 48px 32px; margin-top: 80px; text-align: center; color: #6B7280; font-size: 0.875rem;">
+    <p style="margin: 0;">© 2025 Medless | <a href="/impressum" style="color: #0b7b6c; text-decoration: none;">Impressum</a> | <a href="/datenschutz" style="color: #0b7b6c; text-decoration: none;">Datenschutz</a></p>
+    <p id="build-info-tag" style="margin: 12px 0 0 0; opacity: 0.6;">Loading build info...</p>
+  </footer>
+  
+  <script>
+    // Fetch and display build info in footer
+    (async function loadBuildInfo() {
+      try {
+        const response = await fetch('/api/build-info');
+        if (!response.ok) throw new Error('Build info not available');
+        const buildInfo = await response.json();
+        const buildDate = new Date(buildInfo.buildTime).toLocaleString('de-DE', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        const shortHash = buildInfo.buildHash.substring(0, 8);
+        const shortCommit = buildInfo.commit.substring(0, 7);
+        document.getElementById('build-info-tag').textContent = \`Build: \${buildDate} | \${shortHash} (\${shortCommit})\`;
+      } catch (error) {
+        console.warn('Could not load build info:', error);
+        document.getElementById('build-info-tag').textContent = 'Build info unavailable';
+      }
+    })();
+  </script>
 </body>
 </html>  `)
 })
@@ -7392,6 +7422,15 @@ app.get('/test/doctor-report', async (c) => {
 app.get('/test/patient-report', (c) => {
   const html = renderPatientReportExample()
   return c.html(html)
+})
+
+// ============================================================
+// API ENDPOINT: Build Info
+// ============================================================
+import { BUILD_INFO } from './build-info.generated'
+
+app.get('/api/build-info', (c) => {
+  return c.json(BUILD_INFO)
 })
 
 export default app
