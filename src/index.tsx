@@ -1288,8 +1288,8 @@ app.use('/api/*', cors())
 app.use('/static/*', serveStatic({ root: './public' }))
 
 // ===== ROOT ROUTE: Serve Landing Page =====
-// Serve static index.html as landing page
-app.get('/', serveStatic({ path: './public/index.html' }))
+// Use serveStatic for root to serve index.html from public/
+app.get('/', serveStatic({ root: './', path: 'public/index.html' }))
 
 // API Routes
 // Get all medications
