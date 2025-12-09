@@ -1080,10 +1080,11 @@ function animateLoadingSteps() {
             
             // CRITICAL FIX: Don't fade out loadingEl - let showPlanReadyState() handle it
             setTimeout(() => {
-              console.log('✅ Animation completed - ready for completion overlay');
+              console.log('DEBUG_MEDLESS_FLOW: ✅ Animation COMPLETED at', new Date().toISOString());
+              console.log('DEBUG_MEDLESS_FLOW: All 3 bars at 100%, counters at final values');
               // DO NOT modify loadingEl styles here - showPlanReadyState() will manage it
               // Just resolve the promise to signal animation is done
-              console.log('🎬 Animation promise resolving - showPlanReadyState() will take over');
+              console.log('DEBUG_MEDLESS_FLOW: 🎬 Animation promise RESOLVING now');
               resolve();
             }, 500);
             
@@ -1132,13 +1133,13 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
 
   try {
     // Start animation promise
-    console.log('🎬 Starting animation promise');
+    console.log('DEBUG_MEDLESS_FLOW: 🎬 Starting animation promise');
     const animationPromise = animateLoadingSteps();
     
     // Make API call - NEUE ROUTE: /api/analyze-and-reports
     // Diese Route gibt zurück: { analysis, patient: { data, html }, doctor: { data, html } }
-    console.log('📡 Making API call to /api/analyze-and-reports');
-    console.log('MEDLESS_DEBUG: API request starting');
+    console.log('DEBUG_MEDLESS_FLOW: 📡 Making API call to /api/analyze-and-reports');
+    console.log('DEBUG_MEDLESS_FLOW: API request starting at', new Date().toISOString());
     
     const apiPromise = axios.post('/api/analyze-and-reports', {
       firstName: firstName,
@@ -1156,36 +1157,38 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     });
     
     // ===== WAIT FOR BOTH API AND ANIMATION TO COMPLETE =====
-    console.log('⏳ Waiting for both API response AND animation to complete...');
+    console.log('DEBUG_MEDLESS_FLOW: ⏳ Waiting for both API response AND animation to complete...');
     const [response] = await Promise.all([apiPromise, animationPromise]);
     
-    console.log('MEDLESS_DEBUG: API response received');
-    console.log('✅ Animation completed to 100%');
+    console.log('DEBUG_MEDLESS_FLOW: ✅ Promise.all() resolved at', new Date().toISOString());
+    console.log('DEBUG_MEDLESS_FLOW: API response received - success:', response.data.success);
+    console.log('DEBUG_MEDLESS_FLOW: Animation completed to 100%');
 
     // ===== CRITICAL: Clear emergency timeout - both completed successfully! =====
     clearTimeout(emergencyTimeoutId);
-    console.log('MEDLESS_DEBUG: Emergency timeout cleared - both API and animation succeeded');
+    console.log('DEBUG_MEDLESS_FLOW: ✅ Emergency timeout CLEARED - no false alarms!');
 
     console.log('MEDLESS_DEBUG: API response data:', response.data);
     console.log('MEDLESS_DEBUG: API success flag:', response.data.success);
 
     if (response.data.success) {
-      console.log('MEDLESS_DEBUG: SUCCESS - storing result');
+      console.log('DEBUG_MEDLESS_FLOW: ✅ API SUCCESS - storing result');
       
       // Store result for later use
       lastAnalyzeAndReportsResult = response.data;
       lastAnalyzePersonalData = { firstName, gender };
       
-      console.log('MEDLESS_DEBUG: Data stored successfully');
-      console.log('MEDLESS_DEBUG: Now calling showPlanReadyState()');
+      console.log('DEBUG_MEDLESS_FLOW: Data stored successfully');
+      console.log('DEBUG_MEDLESS_FLOW: 🎊 NOW CALLING showPlanReadyState() at', new Date().toISOString());
       
       // ===== SHOW COMPLETION OVERLAY (AFTER BOTH API + ANIMATION DONE) =====
       try {
         showPlanReadyState(loadingEl);
-        console.log('MEDLESS_DEBUG: showPlanReadyState() completed successfully');
+        console.log('DEBUG_MEDLESS_FLOW: ✅✅✅ showPlanReadyState() COMPLETED SUCCESSFULLY!');
       } catch (overlayError) {
-        console.error('MEDLESS_DEBUG: ERROR in showPlanReadyState():', overlayError);
-        console.error('MEDLESS_DEBUG: Error stack:', overlayError.stack);
+        console.error('DEBUG_MEDLESS_FLOW: ❌ CRITICAL ERROR in showPlanReadyState():', overlayError);
+        console.error('DEBUG_MEDLESS_FLOW: Error message:', overlayError.message);
+        console.error('DEBUG_MEDLESS_FLOW: Error stack:', overlayError.stack);
         // Emergency fallback: hide loading and show in-page error
         document.getElementById('loading').classList.add('hidden');
         showError('Plan wurde erstellt, aber das Overlay konnte nicht angezeigt werden. Bitte laden Sie die Seite neu (F5).');
@@ -1203,15 +1206,15 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
   } catch (error) {
     // ===== CRITICAL: Clear emergency timeout on error =====
     clearTimeout(emergencyTimeoutId);
-    console.log('✅ Emergency timeout cleared (error path)');
+    console.log('DEBUG_MEDLESS_FLOW: ✅ Emergency timeout CLEARED (error path)');
 
-    console.error('❌ CRITICAL ERROR in analyzeMedications:', error);
-    console.error('Error type:', error.constructor.name);
-    console.error('Error message:', error.message);
-    console.error('Error stack:', error.stack);
+    console.error('DEBUG_MEDLESS_FLOW: ❌ CRITICAL ERROR in analyzeMedications:', error);
+    console.error('DEBUG_MEDLESS_FLOW: Error type:', error.constructor.name);
+    console.error('DEBUG_MEDLESS_FLOW: Error message:', error.message);
+    console.error('DEBUG_MEDLESS_FLOW: Error stack:', error.stack);
     if (error.response) {
-      console.error('API error response:', error.response.data);
-      console.error('API status:', error.response.status);
+      console.error('DEBUG_MEDLESS_FLOW: API error response:', error.response.data);
+      console.error('DEBUG_MEDLESS_FLOW: API status:', error.response.status);
     }
     showError('Fehler bei der Analyse: ' + (error.response?.data?.error || error.message)); // Professional error display
     // Hide loading on error

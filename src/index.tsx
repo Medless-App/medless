@@ -1287,10 +1287,12 @@ app.use('/api/*', cors())
 // Serve static files
 app.use('/static/*', serveStatic({ root: './public' }))
 
-// ===== ROOT ROUTE: Serve Original Landing Page =====
-// Cloudflare Pages automatically serves index.html from public/ at root
-// We just need to make sure not to override it with a custom route
-// So we DON'T define app.get('/') - let Cloudflare Pages handle it
+// ===== ROOT ROUTE: Redirect to /app =====
+// Variante B: Root / redirects to /app where the main app lives
+// This ensures medless.pages.dev shows the app immediately
+app.get('/', (c) => {
+  return c.redirect('/app', 302)
+})
 
 // API Routes
 // Get all medications
