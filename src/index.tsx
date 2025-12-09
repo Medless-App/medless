@@ -1288,8 +1288,9 @@ app.use('/api/*', cors())
 app.use('/static/*', serveStatic({ root: './public' }))
 
 // ===== ROOT ROUTE: Serve Original Landing Page =====
-// Serve the full Medless landing page from public/index.html
-app.get('/', serveStatic({ root: './', path: 'public/index.html' }))
+// Cloudflare Pages automatically serves index.html from public/ at root
+// We just need to make sure not to override it with a custom route
+// So we DON'T define app.get('/') - let Cloudflare Pages handle it
 
 // API Routes
 // Get all medications
@@ -7403,7 +7404,8 @@ function getSharedStyles() {
 // ============================================================
 // NEUE ROUTE: /fachkreise - Seite für Ärzt:innen & Apotheken
 // ============================================================
-app.get('/fachkreise', serveStatic({ root: './', path: 'public/fachkreise.html' }))
+// Cloudflare Pages serves /fachkreise.html automatically from public/
+// No need to define custom route
 
 // ============================================================
 // TEST ENDPOINTS: Display Example Reports (HTML only)
