@@ -1086,7 +1086,6 @@ function animateLoadingSteps() {
               console.log('🎬 Animation promise resolving - showPlanReadyState() will take over');
               resolve();
             }, 500);
-            }, 800);
             
           }, step.duration);
         }
