@@ -1121,15 +1121,14 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     loadingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, 150);
 
-  // Start animation
-  console.log('🎬 Starting animation promise');
-  const animationPromise = animateLoadingSteps();
+  // Start animation (runs independently in background)
+  console.log('🎬 Starting animation (non-blocking)');
+  animateLoadingSteps(); // No await - let it run in background
 
-  // ===== CRITICAL: 30-SECOND EMERGENCY FALLBACK =====
-  // If API + animation don't complete within 30s, show error
+  // ===== CRITICAL: 30-SECOND EMERGENCY FALLBACK (FOR API ONLY) =====
   let emergencyTimeoutId = setTimeout(() => {
-    console.error('🚨 EMERGENCY TIMEOUT: 30s exceeded without response!');
-    console.error('🚨 This should NEVER happen - showing error message');
+    console.error('🚨 EMERGENCY TIMEOUT: 30s exceeded without API response!');
+    console.error('🚨 API is taking too long - showing error message');
     showError('Die Analyse dauert ungewöhnlich lange. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.');
     document.getElementById('loading').classList.add('hidden');
   }, 30000); // 30 seconds
@@ -1138,8 +1137,9 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
     // Make API call - NEUE ROUTE: /api/analyze-and-reports
     // Diese Route gibt zurück: { analysis, patient: { data, html }, doctor: { data, html } }
     console.log('📡 Making API call to /api/analyze-and-reports');
-    // ✅ FIX 2: Send firstName only (no vorname)
-    const apiPromise = axios.post('/api/analyze-and-reports', {
+    console.log('MEDLESS_DEBUG: API request starting');
+    
+    const response = await axios.post('/api/analyze-and-reports', {
       firstName: firstName,
       gender: gender,
       age: age,
@@ -1153,45 +1153,41 @@ async function analyzeMedications(medications, durationWeeks, firstName = '', ge
       reductionGoal: reductionGoal,
       email: email
     });
+    
+    console.log('MEDLESS_DEBUG: API response received');
 
-    // Wait for both animation and API call to complete
-    // IMPORTANT: Animation MUST complete to 100% even if API is fast
-    console.log('⏳ Waiting for API and animation to complete...');
-    const [response] = await Promise.all([apiPromise, animationPromise]);
-
-    // ===== CRITICAL: Clear emergency timeout - we got a response! =====
+    // ===== CRITICAL: Clear emergency timeout - we got API response! =====
     clearTimeout(emergencyTimeoutId);
-    console.log('✅ Emergency timeout cleared - normal flow continuing');
+    console.log('MEDLESS_DEBUG: Emergency timeout cleared - API succeeded');
 
-    console.log('✅ Both API and animation completed');
-    console.log('📊 Full API response:', response.data);
-    console.log('📊 API response success:', response.data.success);
+    console.log('MEDLESS_DEBUG: API response data:', response.data);
+    console.log('MEDLESS_DEBUG: API success flag:', response.data.success);
 
     if (response.data.success) {
-      console.log('DEBUG_MEDLESS: API /api/analyze-and-reports SUCCESS');
-      console.log('🎉 API successful - storing result and showing completion state');
+      console.log('MEDLESS_DEBUG: SUCCESS - storing result');
       
       // Store result for later use
       lastAnalyzeAndReportsResult = response.data;
       lastAnalyzePersonalData = { firstName, gender };
       
-      console.log('💾 Stored lastAnalyzeAndReportsResult:', lastAnalyzeAndReportsResult);
-      console.log('💾 Stored lastAnalyzePersonalData:', lastAnalyzePersonalData);
+      console.log('MEDLESS_DEBUG: Data stored successfully');
+      console.log('MEDLESS_DEBUG: Calling showPlanReadyState()');
       
-      // Show "Plan fertig" completion state
-      console.log('DEBUG_MEDLESS: calling showPlanReadyState()');
-      console.log('🎬 About to call showPlanReadyState()');
-      
-      // ===== CRITICAL: Defensive call with fallback =====
-      try {
-        showPlanReadyState(loadingEl);
-        console.log('✅ showPlanReadyState() returned successfully');
-      } catch (overlayError) {
-        console.error('🚨 CRITICAL: showPlanReadyState() threw error:', overlayError);
-        // Emergency fallback: hide loading and show results directly
-        document.getElementById('loading').classList.add('hidden');
-        alert('Plan wurde erstellt! Bitte laden Sie die Seite neu, um die Ergebnisse zu sehen.');
-      }
+      // ===== SHOW OVERLAY IMMEDIATELY (animation continues in background) =====
+      // Wait 2 seconds to ensure animation looks smooth
+      setTimeout(() => {
+        console.log('MEDLESS_DEBUG: showPlanReadyState() starting now');
+        try {
+          showPlanReadyState(loadingEl);
+          console.log('MEDLESS_DEBUG: showPlanReadyState() completed successfully');
+        } catch (overlayError) {
+          console.error('MEDLESS_DEBUG: ERROR in showPlanReadyState():', overlayError);
+          console.error('MEDLESS_DEBUG: Error stack:', overlayError.stack);
+          // Emergency fallback: hide loading and show alert
+          document.getElementById('loading').classList.add('hidden');
+          alert('Plan wurde erstellt! Bitte laden Sie die Seite neu (F5), um die Ergebnisse zu sehen.');
+        }
+      }, 2000); // 2 seconds delay to let animation run smoothly
       
     } else {
       // ✅ FIX 3: Improved Error-Handling für API success:false
