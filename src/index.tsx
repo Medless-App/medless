@@ -1287,26 +1287,9 @@ app.use('/api/*', cors())
 // Serve static files
 app.use('/static/*', serveStatic({ root: './public' }))
 
-// ===== ROOT ROUTE: Serve Landing Page =====
-// Import and return index.html content directly
-app.get('/', async (c) => {
-  // Read the landing page HTML from public/index.html
-  const html = `<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MEDLESS – Medikamenten-Reduktionsplaner</title>
-  <meta name="description" content="MEDLESS helps you create personalized medication reduction plans.">
-  <!-- Add complete landing page HTML here -->
-</head>
-<body>
-  <h1>MEDLESS Landing Page</h1>
-  <p>Welcome! Go to <a href="/app">/app</a> to start.</p>
-</body>
-</html>`;
-  return c.html(html);
-})
+// ===== ROOT ROUTE: Serve Original Landing Page =====
+// Serve the full Medless landing page from public/index.html
+app.get('/', serveStatic({ root: './', path: 'public/index.html' }))
 
 // API Routes
 // Get all medications
@@ -7420,7 +7403,7 @@ function getSharedStyles() {
 // ============================================================
 // NEUE ROUTE: /fachkreise - Seite für Ärzt:innen & Apotheken
 // ============================================================
-
+app.get('/fachkreise', serveStatic({ root: './', path: 'public/fachkreise.html' }))
 
 // ============================================================
 // TEST ENDPOINTS: Display Example Reports (HTML only)
