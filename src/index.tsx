@@ -1287,6 +1287,12 @@ app.use('/api/*', cors())
 // Serve static files
 app.use('/static/*', serveStatic({ root: './public' }))
 
+// ===== ROOT ROUTE: Redirect to /app =====
+// Fix for 404 on https://medless.pages.dev/
+app.get('/', (c) => {
+  return c.redirect('/app')
+})
+
 // API Routes
 // Get all medications
 app.get('/api/medications', async (c) => {
