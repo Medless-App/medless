@@ -967,12 +967,12 @@ function createParticles() {
 }
 
 
-// SIMPLIFIED Animate loading steps - works with new design HTML structure
+// MEDLESS FIX: Simplified animation with proper DOM element handling
 function animateLoadingSteps() {
   return new Promise((resolve) => {
-    console.log('🎬 Premium Loader Animation started');
+    console.log('DEBUG_MEDLESS_FLOW: 🎬 Animation started at', new Date().toISOString());
     
-    // Get new premium loader elements
+    // Get DOM elements (with null-safety checks)
     const step1Counter = document.querySelector('.step-1 .step-counter');
     const step1ProgressBar = document.querySelector('.step-progress-bar[data-step="1"]');
     const step1Percentage = document.querySelector('.step-1 .step-percentage');
@@ -985,114 +985,106 @@ function animateLoadingSteps() {
     const step3ProgressBar = document.querySelector('.step-progress-bar[data-step="3"]');
     const step3Percentage = document.querySelector('.step-3 .step-percentage');
     
-    // Animation config: [maxCount, duration, delay]
+    // MEDLESS FIX: Validate all DOM elements exist
+    if (!step1Counter || !step2Counter || !step3Counter) {
+      console.error('DEBUG_MEDLESS_FLOW: ❌ CRITICAL - Animation DOM elements not found!');
+      console.error('step1Counter:', step1Counter);
+      console.error('step2Counter:', step2Counter);
+      console.error('step3Counter:', step3Counter);
+      // Fallback: Resolve immediately to prevent blocking
+      setTimeout(() => resolve(), 1000);
+      return;
+    }
+    
+    console.log('DEBUG_MEDLESS_FLOW: ✅ All animation DOM elements found');
+    
+    // Animation config: 3 sequential steps
     const steps = [
-      { counter: 18, duration: 3000, delay: 600 },   // Step 1: 18 medications
-      { counter: 12, duration: 2500, delay: 1200 },  // Step 2: 12 interactions
-      { counter: 8, duration: 2000, delay: 1800 }    // Step 3: 8 sections
+      { 
+        title: 'Medikamente werden analysiert',
+        counter: step1Counter,
+        progressBar: step1ProgressBar,
+        percentage: step1Percentage,
+        maxCount: 47,
+        duration: 2000,
+        delay: 300
+      },
+      { 
+        title: 'Wechselwirkungen werden geprüft',
+        counter: step2Counter,
+        progressBar: step2ProgressBar,
+        percentage: step2Percentage,
+        maxCount: 128,
+        duration: 2500,
+        delay: 500
+      },
+      { 
+        title: 'Orientierungsplan wird erstellt',
+        counter: step3Counter,
+        progressBar: step3ProgressBar,
+        percentage: step3Percentage,
+        maxCount: 89,
+        duration: 2000,
+        delay: 500
+      }
     ];
     
-    const totalDuration = steps.reduce((sum, s) => sum.duration + sum.delay, 0) + 1000;
-    let currentTime = 0;
+    let totalDelay = 0;
     
-    // Animated dots
-    let dotCount = 0;
-    const dotsInterval = setInterval(() => {
-      dotCount = (dotCount + 1) % 4;
-      if (statusDots) statusDots.textContent = '.'.repeat(dotCount || 1);
-    }, 500);
-    
-    // SVG circle animation (circumference = 2 * PI * r = 2 * PI * 42 = 264)
-    const circumference = 264;
-    
-    // Execute steps sequentially
-    let delay = 0;
-    
+    // MEDLESS FIX: Execute animation steps sequentially
     steps.forEach((step, index) => {
+      totalDelay += step.delay;
+      
       setTimeout(() => {
-        console.log(`📍 Step ${index + 1}/${steps.length}: ${step.title}`);
+        console.log(`DEBUG_MEDLESS_FLOW: 📍 Step ${index + 1}/3: ${step.title}`);
         
-        // Update status text
-        if (statusText) {
-          statusText.textContent = step.title;
-        }
-        
-        // Animate progress over step duration
-        const startProgress = index === 0 ? 0 : steps[index - 1].progress;
-        const endProgress = step.progress;
         const startTime = Date.now();
-        
-        const progressInterval = setInterval(() => {
+        const animInterval = setInterval(() => {
           const elapsed = Date.now() - startTime;
-          const progress = Math.min(100, startProgress + ((endProgress - startProgress) * elapsed / step.duration));
+          const progress = Math.min(100, (elapsed / step.duration) * 100);
+          const currentCount = Math.floor((progress / 100) * step.maxCount);
           
-          // Update circle
-          if (progressCircle) {
-            const offset = circumference - (progress / 100) * circumference;
-            progressCircle.style.strokeDashoffset = offset;
+          // Update counter
+          if (step.counter) {
+            step.counter.textContent = `${currentCount}/${step.maxCount}`;
+          }
+          
+          // Update progress bar
+          if (step.progressBar) {
+            step.progressBar.style.width = `${progress}%`;
           }
           
           // Update percentage
-          if (centerPercentage) {
-            centerPercentage.textContent = Math.round(progress) + '%';
+          if (step.percentage) {
+            step.percentage.textContent = `${Math.round(progress)}%`;
           }
           
-          // Update counters (gradually increase)
-          if (counterMeds) {
-            counterMeds.textContent = Math.floor(progress * 2.63); // max 263
-          }
-          if (counterInteractions) {
-            counterInteractions.textContent = Math.floor(progress * 0.47); // max 47
-          }
-          if (counterCalculations) {
-            const calc = Math.floor(progress * 28.47); // max 2847
-            counterCalculations.textContent = calc.toLocaleString('de-DE');
-          }
-          
+          // Clear interval when done
           if (elapsed >= step.duration) {
-            clearInterval(progressInterval);
+            clearInterval(animInterval);
+            
+            // Set final values
+            if (step.counter) step.counter.textContent = `${step.maxCount}/${step.maxCount}`;
+            if (step.progressBar) step.progressBar.style.width = '100%';
+            if (step.percentage) step.percentage.textContent = '100%';
+            
+            console.log(`DEBUG_MEDLESS_FLOW: ✅ Step ${index + 1}/3 completed (100%)`);
+            
+            // MEDLESS FIX: When last step completes, resolve promise
+            if (index === steps.length - 1) {
+              setTimeout(() => {
+                console.log('DEBUG_MEDLESS_FLOW: ✅ ALL 3 STEPS COMPLETED at', new Date().toISOString());
+                console.log('DEBUG_MEDLESS_FLOW: Step 1: 47/47, Step 2: 128/128, Step 3: 89/89');
+                console.log('DEBUG_MEDLESS_FLOW: 🎬 Animation promise RESOLVING NOW');
+                resolve();
+              }, 800); // Small delay to ensure user sees 100%
+            }
           }
-        }, 30);
+        }, 30); // Update every 30ms for smooth animation
         
-        // When last step completes
-        if (index === steps.length - 1) {
-          setTimeout(() => {
-            console.log('✅ Animation completed - 100%');
-            clearInterval(dotsInterval);
-            
-            // Final values
-            if (centerPercentage) {
-              centerPercentage.textContent = '100%';
-              // Keep font-size consistent to prevent clipping
-              centerPercentage.style.fontSize = '1.75rem';
-            }
-            if (statusText) {
-              statusText.innerHTML = '<i class="fas fa-check-circle"></i> Analyse erfolgreich abgeschlossen';
-              statusText.style.color = '#059669';
-              statusText.style.fontWeight = '700';
-            }
-            if (statusDots) {
-              statusDots.style.display = 'none';
-            }
-            if (counterMeds) counterMeds.textContent = '263';
-            if (counterInteractions) counterInteractions.textContent = '47';
-            if (counterCalculations) counterCalculations.textContent = '2.847';
-            
-            // CRITICAL FIX: Don't fade out loadingEl - let showPlanReadyState() handle it
-            setTimeout(() => {
-              console.log('DEBUG_MEDLESS_FLOW: ✅ Animation COMPLETED at', new Date().toISOString());
-              console.log('DEBUG_MEDLESS_FLOW: All 3 bars at 100%, counters at final values');
-              // DO NOT modify loadingEl styles here - showPlanReadyState() will manage it
-              // Just resolve the promise to signal animation is done
-              console.log('DEBUG_MEDLESS_FLOW: 🎬 Animation promise RESOLVING now');
-              resolve();
-            }, 500);
-            
-          }, step.duration);
-        }
-      }, delay);
+      }, totalDelay);
       
-      delay += step.duration;
+      totalDelay += step.duration;
     });
   });
 }

@@ -1287,12 +1287,10 @@ app.use('/api/*', cors())
 // Serve static files
 app.use('/static/*', serveStatic({ root: './public' }))
 
-// ===== ROOT ROUTE: Redirect to /app =====
-// Variante B: Root / redirects to /app where the main app lives
-// This ensures medless.pages.dev shows the app immediately
-app.get('/', (c) => {
-  return c.redirect('/app', 302)
-})
+// ===== ROOT ROUTE: Serve Marketing Landing Page =====
+// MEDLESS FIX: Root / now serves the original marketing page (public/index.html)
+// This is handled by Cloudflare Pages automatically (excluded from Worker in _routes.json)
+// The /app route serves the actual wizard application
 
 // API Routes
 // Get all medications
