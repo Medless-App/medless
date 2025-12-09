@@ -42,3 +42,4 @@ temp_*
 # Development prototypes
 *_old.*
 *_test.*
+core
