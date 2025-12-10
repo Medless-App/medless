@@ -116,10 +116,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Body styles now controlled by Tailwind classes in HTML
+   See: <body class="bg-gradient-to-br from-[#f0fdf4] via-white to-emerald-50/30 font-sans text-slate-600 antialiased">
+*/
 body {
   font-family: var(--font-primary);
-  color: var(--text-primary);
-  background: var(--background-white);
   font-size: var(--body-size);
   line-height: var(--body-line);
   font-weight: var(--body-weight);
