@@ -1,367 +1,71 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Medless – Strukturierte Orientierungshilfe für dein Arztgespräch. Kostenlose Medikamentenanalyse als PDF-Orientierungsplan.">
-  <title>Medless – Weniger Medikamente. Mehr Lebensqualität.</title>
-  <!-- Fonts: Inter Light/Thin -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CDN (Sicherstellen, dass es geladen wird!) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            fresh: { primary: '#10b981', mint: '#f0fdf4' }
-          },
-          boxShadow: {
-            'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.05)',
-            'glow': '0 0 20px rgba(16, 185, 129, 0.15)',
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medless – Weniger Medikamente. Mehr Lebensqualität.</title>
+    <!-- Fonts: Inter Light/Thin -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CDN (Sicherstellen, dass es geladen wird!) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        fresh: { primary: '#10b981', mint: '#f0fdf4' }
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.05)',
+                        'glow': '0 0 20px rgba(16, 185, 129, 0.15)',
+                    }
+                }
+            }
         }
-      }
-    }
-  </script>
-  <!-- Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+    </script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="text-slate-600 antialiased bg-gradient-to-br from-[#f0fdf4] via-white to-emerald-50/30 min-h-screen">
-
-  <!-- Header (Glass) -->
-  <header class="fixed w-full bg-white/60 backdrop-blur-md z-50 border-b border-[#10b981]/10">
-    <div class="container mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <i data-lucide="leaf" class="w-6 h-6 text-[#10b981] stroke-[1.5]"></i>
-        <span class="text-xl font-light tracking-wide text-slate-800">MEDLESS</span>
-      </div>
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center space-x-10">
-        <a href="#how-it-works" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm">So funktioniert's</a>
-        <a href="#benefits" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm">Vorteile</a>
-        <a href="/app" class="border border-[#10b981] text-[#10b981] px-6 py-2 rounded-full text-sm font-medium hover:bg-[#10b981] hover:text-white transition-all">App starten</a>
-      </nav>
-    </div>
-  </header>
-  
-  <!-- Hero Section -->
-  <section class="min-h-screen flex items-center pt-24 relative overflow-hidden">
-    <!-- Background Blobs -->
-    <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-emerald-100/20 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+    <!-- Header (Glass) -->
+    <header class="fixed w-full bg-white/60 backdrop-blur-md z-50 border-b border-[#10b981]/10">
+        <div class="container mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="leaf" class="w-6 h-6 text-[#10b981] stroke-[1.5]"></i>
+                <span class="text-xl font-light tracking-wide text-slate-800">MEDLESS</span>
+            </div>
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-10">
+                <a href="#how-it-works" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm">So funktioniert's</a>
+                <a href="#benefits" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm">Vorteile</a>
+                <a href="/app" class="border border-[#10b981] text-[#10b981] px-6 py-2 rounded-full text-sm font-medium hover:bg-[#10b981] hover:text-white transition-all">App starten</a>
+            </nav>
+        </div>
+    </header>
     
-    <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
-      <h1 class="text-4xl md:text-6xl font-extralight text-slate-900 leading-[1.1] mb-8 tracking-tight">
-        Ihr Orientierungsplan für weniger Medikamente – <br />
-        <span class="font-normal text-[#10b981]">gemeinsam mit Ihrem Arzt</span>
-      </h1>
-      <p class="text-lg md:text-xl text-slate-500 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
-        MEDLESS hilft Ihnen, Ihre aktuelle Medikation übersichtlich zu erfassen und als verständlichen PDF-Orientierungsplan aufzubereiten.
-      </p>
-      <div class="flex justify-center">
-        <a href="/app" class="group border border-[#10b981] text-[#10b981] bg-transparent text-lg px-10 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#10b981] hover:text-white hover:shadow-glow flex items-center gap-3">
-          Jetzt starten <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-        </a>
-      </div>
-    </div>
-  </section>
-
-    <!-- OLD HERO CONTENT BELOW (keeping for reference structure)
-            <ul class="hero-usps">
-              <li><i data-lucide="check-circle" class="usp-icon"></i> Erfasst Ihre aktuellen Medikamente, Dosierungen und Einnahmezeiten</li>
-              <li><i data-lucide="list-ordered" class="usp-icon"></i> Zeigt mögliche Reihenfolgen für eine schrittweise Reduktion</li>
-              <li><i data-lucide="activity" class="usp-icon"></i> Macht Wechselwirkungen sichtbar, die Sie im Arztgespräch ansprechen können</li>
-              <li><i data-lucide="file-text" class="usp-icon"></i> Erstellt einen übersichtlichen PDF-Orientierungsplan und einen separaten Arztbericht</li>
-            </ul>
-          </div>
-          <div class="hero-visual">
-            <div class="mockup-container">
-              <div class="mockup-header">MEDLESS – Orientierungsplan</div>
-              <div class="mockup-content">
-                <div class="mockup-line"></div>
-                <div class="mockup-line"></div>
-                <div class="mockup-line short"></div>
-                <div class="mockup-table">
-                  <div class="mockup-table-row"></div>
-                  <div class="mockup-table-row"></div>
-                  <div class="mockup-table-row"></div>
-                </div>
-                <div class="mockup-line"></div>
-                <div class="mockup-line short"></div>
-              </div>
-              <div class="mockup-footer">
-                <span class="mockup-disclaimer">Keine Therapieempfehlung – Orientierungshilfe für Arztgespräch</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SEKTION 2: PROBLEM/EMPATHIE -->
-    <section id="problem" class="section problem-section">
-      <div class="container">
-        <div class="problem-content">
-          <div class="problem-icon">
-            <i data-lucide="scale" class="icon-xl"></i>
-          </div>
-          <h2 class="section-title">Du fragst dich, ob du so viele Medikamente wirklich brauchst?</h2>
-          <p class="body-text">Viele Menschen nehmen über Jahre Medikamente ein – manchmal ohne genauen Überblick. Das Gefühl, die Kontrolle verloren zu haben, ist völlig normal. Medless hilft dir, wieder Klarheit zu gewinnen – nicht als Ersatz für deinen Arzt, sondern als strukturierte Vorbereitung für dein nächstes Gespräch mit ihm.</p>
-          <div class="callout-box">
-            <p><strong>💚 Du bist nicht allein.</strong> Viele Menschen wünschen sich mehr Transparenz über ihre Medikation – und das ist völlig berechtigt.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SEKTION 3: HOW IT WORKS -->
-    <section id="how-it-works" class="section how-it-works-section">
-      <div class="container">
-        <h2 class="section-title">So funktioniert Medless – in 3 Schritten</h2>
-        <div class="steps-container">
-          <div class="step-card">
-            <div class="step-badge">1</div>
-            <i data-lucide="clipboard-list" class="icon-lg step-icon"></i>
-            <h3 class="card-title">Kurzfragebogen ausfüllen</h3>
-            <p class="card-text">In ca. 3 Minuten gibst du deine aktuellen Medikamente ein. Deine Daten bleiben privat und werden nicht medizinisch bewertet.</p>
-          </div>
-          <div class="step-arrow">
-            <i data-lucide="arrow-right" class="arrow-icon arrow-desktop"></i>
-            <i data-lucide="arrow-down" class="arrow-icon arrow-mobile"></i>
-          </div>
-          <div class="step-card">
-            <div class="step-badge">2</div>
-            <i data-lucide="file-text" class="icon-lg step-icon"></i>
-            <h3 class="card-title">Individuellen Orientierungsplan erhalten</h3>
-            <p class="card-text">Du erhältst sofort einen strukturierten PDF-Orientierungsplan – keine Therapieempfehlung, sondern eine Übersicht für dein Arztgespräch.</p>
-          </div>
-          <div class="step-arrow">
-            <i data-lucide="arrow-right" class="arrow-icon arrow-desktop"></i>
-            <i data-lucide="arrow-down" class="arrow-icon arrow-mobile"></i>
-          </div>
-          <div class="step-card">
-            <div class="step-badge">3</div>
-            <i data-lucide="stethoscope" class="icon-lg step-icon"></i>
-            <h3 class="card-title">Gemeinsam mit deinem Arzt besprechen</h3>
-            <p class="card-text">Dein Arzt entscheidet, welche Schritte für dich sinnvoll sind. Medless liefert nur die Struktur für euer Gespräch.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SEKTION 4: BENEFITS -->
-    <section id="benefits" class="section benefits-section">
-      <div class="container">
-        <h2 class="section-title">Was dir Medless bringt – konkret und klar</h2>
-        <div class="grid-4col">
-          <div class="benefit-card card">
-            <i data-lucide="layout-grid" class="icon-lg benefit-icon"></i>
-            <h3 class="card-title">Struktur & Überblick</h3>
-            <p class="card-text">Sieh alle deine Medikamente auf einen Blick – sortiert, übersichtlich, ohne medizinisches Fachwissen vorauszusetzen.</p>
-          </div>
-          <div class="benefit-card card">
-            <i data-lucide="message-square-text" class="icon-lg benefit-icon"></i>
-            <h3 class="card-title">Bessere Arztgespräche</h3>
-            <p class="card-text">Dein Arzt erhält eine strukturierte Gesprächsgrundlage – das spart Zeit und schafft Klarheit für beide Seiten.</p>
-          </div>
-          <div class="benefit-card card">
-            <i data-lucide="heart-handshake" class="icon-lg benefit-icon"></i>
-            <h3 class="card-title">Mentale Entlastung</h3>
-            <p class="card-text">Schluss mit dem Gefühl, die Kontrolle verloren zu haben. Du gehst vorbereitet ins Gespräch – das gibt dir Sicherheit.</p>
-          </div>
-          <div class="benefit-card card">
-            <i data-lucide="lightbulb" class="icon-lg benefit-icon"></i>
-            <h3 class="card-title">Transparenz & Verständnis</h3>
-            <p class="card-text">Verstehe, welche Medikamente du nimmst – ohne medizinische Vorkenntnisse, aber mit klaren Informationen.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SEKTION 5: ZWISCHEN-CTA -->
-    <section id="cta" class="section cta-section">
-      <div class="container">
-        <div class="cta-box">
-          <div class="cta-icon">
-            <i data-lucide="sparkles" class="icon-md"></i>
-          </div>
-          <h2 class="cta-title">Bereit, deinen nächsten Schritt vorzubereiten?</h2>
-          <p class="cta-text">Die kostenlose Analyse von Medless gibt dir einen strukturierten Überblick über deine Medikation – als Orientierungshilfe für dein nächstes Arztgespräch. In nur wenigen Minuten erhältst du einen PDF-Orientierungsplan, den du gemeinsam mit deinem Arzt besprechen kannst. Keine Diagnose, keine Therapieempfehlung – nur Klarheit und Struktur.</p>
-          <div class="cta-buttons">
-            <button class="btn-primary" onclick="window.location.href='/app'">Jetzt kostenlose Analyse starten</button>
-            <button class="btn-secondary" onclick="document.getElementById('faq').scrollIntoView({behavior: 'smooth'})">Mehr über Medless erfahren</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SEKTION 6: FAQ -->
-    <section id="faq" class="section faq-section">
-      <div class="container">
-        <h2 class="section-title">Häufige Fragen zu Medless</h2>
-        <div class="faq-accordion">
-          
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Was ist Medless genau?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <p>Medless ist eine digitale Orientierungshilfe, die dir einen strukturierten Überblick über deine aktuelle Medikation gibt. Du erhältst einen PDF-Orientierungsplan, der dir hilft, dich auf ein Arztgespräch vorzubereiten. Medless ist kein Medizinprodukt, stellt keine Diagnosen und gibt keine Therapieempfehlungen – es bietet dir lediglich eine Übersicht und Struktur für dein Gespräch mit deinem Arzt.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Ist Medless ein Medizinprodukt oder ersetzt es meinen Arzt?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <p>Nein, auf keinen Fall. Medless ist weder ein Medizinprodukt noch ersetzt es ärztliche Beratung oder Behandlung. Alle medizinischen Entscheidungen – ob, wie und wann du Medikamente anpasst – trifft ausschließlich dein Arzt. Medless liefert dir nur eine strukturierte Gesprächsgrundlage, die dein Arzt nutzen kann, um gemeinsam mit dir die nächsten Schritte zu planen.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Muss ich den Orientierungsplan mit meinem Arzt besprechen?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <p>Ja, unbedingt. Der Orientierungsplan ist ausdrücklich dafür gedacht, dass du ihn gemeinsam mit deinem Arzt besprichst. Nur dein Arzt kennt deine vollständige Krankengeschichte und kann entscheiden, welche Anpassungen für dich sinnvoll und sicher sind. Medless ersetzt niemals ein Arztgespräch – es bereitet dich darauf vor.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Für welche Medikamente ist Medless geeignet?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <p>Medless richtet sich primär an Menschen, die über einen längeren Zeitraum Medikamente einnehmen und sich einen strukturierten Überblick wünschen. Die Analyse prüft, ob deine Medikamente grundsätzlich in den Orientierungsplan aufgenommen werden können – die endgültige Entscheidung, ob und wie eine Anpassung sinnvoll ist, liegt immer bei deinem Arzt. Medless macht keine medizinischen Versprechen oder Garantien.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Was bekomme ich kostenlos – und gibt es weitere Kosten?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <p>Die Medless-Analyse und dein persönlicher PDF-Orientierungsplan sind vollständig kostenlos. Du kannst den Plan direkt herunterladen, ausdrucken oder per E-Mail erhalten. Es gibt keine versteckten Kosten für die Analyse selbst. Falls du dich später für weitere Informationen, Produkte oder Services interessierst, findest du diese transparent auf unserer Website – aber das ist vollkommen optional.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Wie geht Medless mit meinen Daten um?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <p>Deine Daten werden vertraulich behandelt und nicht an Dritte weitergegeben. Medless speichert nur die Informationen, die für die Erstellung deines Orientierungsplans notwendig sind. Du kannst den Plan jederzeit ohne Angabe deiner E-Mail-Adresse direkt herunterladen. Weitere Details findest du in unserer Datenschutzerklärung.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Was passiert nach der Analyse?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <p>Nach der Analyse erhältst du sofort deinen PDF-Orientierungsplan. Du kannst ihn speichern, ausdrucken oder per E-Mail abrufen. Der nächste Schritt liegt bei dir: Vereinbare einen Termin mit deinem Arzt und besprich den Plan gemeinsam mit ihm. Medless startet keine automatische Therapie und gibt keine weiteren Anweisungen – du behältst die volle Kontrolle über deine nächsten Schritte.</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer id="footer" class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <h4 class="footer-title">Medless</h4>
-          <p class="footer-text">Strukturierte Orientierungshilfe für dein Arztgespräch.</p>
-        </div>
-        <div class="footer-col">
-          <h5 class="footer-subtitle">Navigation</h5>
-          <ul class="footer-links">
-            <li><a href="#how-it-works">So funktioniert's</a></li>
-            <li><a href="#benefits">Vorteile</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="/magazin">Magazin</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5 class="footer-subtitle">Rechtliches</h5>
-          <ul class="footer-links">
-            <li><a href="/impressum">Impressum</a></li>
-            <li><a href="/datenschutz">Datenschutz</a></li>
-            <li><a href="/agb">AGB</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5 class="footer-subtitle">Kontakt</h5>
-          <p class="footer-text">E-Mail: <a href="mailto:info@medless.de">info@medless.de</a></p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p class="footer-copyright">&copy; 2025 Medless. Alle Rechte vorbehalten.</p>
-        <p class="footer-disclaimer">
-          <strong>Wichtiger Hinweis:</strong> Medless ist kein Medizinprodukt und ersetzt keine ärztliche Beratung. Alle medizinischen Entscheidungen treffen Sie gemeinsam mit Ihrem Arzt.
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- JAVASCRIPT -->
-  <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
-
-    // FAQ Accordion Toggle
-    document.querySelectorAll('.faq-question').forEach(question => {
-      question.addEventListener('click', function() {
-        const faqItem = this.parentElement;
-        const isActive = faqItem.classList.contains('active');
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center pt-24 relative overflow-hidden">
+        <!-- Background Blobs -->
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-emerald-100/20 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
         
-        // Close all other FAQ items
-        document.querySelectorAll('.faq-item').forEach(item => {
-          item.classList.remove('active');
-          const icon = item.querySelector('.faq-icon');
-          icon.setAttribute('data-lucide', 'chevron-down');
-        });
-        
-        // Toggle current item
-        if (!isActive) {
-          faqItem.classList.add('active');
-          const icon = this.querySelector('.faq-icon');
-          icon.setAttribute('data-lucide', 'chevron-up');
-        }
-        
-        // Re-initialize Lucide icons after DOM change
-        lucide.createIcons();
-      });
-    });
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-  </script>
-
+        <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
+            <h1 class="text-4xl md:text-6xl font-extralight text-slate-900 leading-[1.1] mb-8 tracking-tight">
+                Ihr Orientierungsplan für weniger Medikamente – <br />
+                <span class="font-normal text-[#10b981]">gemeinsam mit Ihrem Arzt</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-500 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
+                MEDLESS hilft Ihnen, Ihre aktuelle Medikation übersichtlich zu erfassen und als verständlichen PDF-Orientierungsplan aufzubereiten.
+            </p>
+            <div class="flex justify-center">
+                <a href="/app" class="group border border-[#10b981] text-[#10b981] bg-transparent text-lg px-10 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#10b981] hover:text-white hover:shadow-glow flex items-center gap-3">
+                    Jetzt starten <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <script>lucide.createIcons();</script>
 </body>
 </html>
