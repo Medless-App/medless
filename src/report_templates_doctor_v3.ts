@@ -8,6 +8,19 @@
 
 import type { DoctorReportDataV3 } from './report_data_v3'
 import { MEDLESS_LOGO_BASE64 } from './logo_base64'
+import {
+  formatMgValue,
+  formatMgPerKg,
+  calculateReductionPercentage,
+  renderCBDMethodologyText,
+  renderReductionSummaryText,
+  buildCBDDoseInfo,
+  buildReductionSummary,
+  deduplicateSafetyWarnings,
+  renderMedicationSafetyWarnings,
+  type CBDDoseInfo,
+  type ReductionSummary
+} from './utils/report_formatting'
 
 /**
  * Render example Doctor Report V3 for testing
@@ -358,7 +371,7 @@ function renderLegalDisclaimer(): string {
 
 function renderLevel1Overview(data: DoctorReportDataV3): string {
   return `
-    <h1>📋 Übersicht – MedLess-Reduktionsplan</h1>
+    <h1>📋 Übersicht – MEDLESS-Reduktionsplan</h1>
     
     <div class="info-box">
       <strong>Patient:</strong> ${data.patientName} | 
@@ -366,6 +379,8 @@ function renderLevel1Overview(data: DoctorReportDataV3): string {
       <strong>Gewicht:</strong> ${data.patientWeight} kg | 
       <strong>Reduktionsdauer:</strong> ${data.durationWeeks} Wochen
     </div>
+    
+    ${renderCBDAndReductionSummary(data)}
 
     ${renderOverviewTable(data.overviewMedications)}
     
@@ -378,6 +393,58 @@ function renderLevel1Overview(data: DoctorReportDataV3): string {
     ${renderTaperTailWarning()}
     
     ${renderMonitoringRecommendations(data)}
+  `;
+}
+
+/**
+ * MEGAPROMPT REGEL 1-3: CBD & Reduction Summary (Consistent Values)
+ */
+function renderCBDAndReductionSummary(data: DoctorReportDataV3): string {
+  const cbd = data.cbdProgression;
+  const reduction = data.reductionSummary;
+  
+  return `
+    <h2>Zusammenfassung</h2>
+    
+    <div style="background: #F0FDFA; border-left: 4px solid #00C39A; padding: 12px 16px; margin: 12px 0; border-radius: 4px;">
+      <h3 style="color: #00584D; margin-bottom: 8px;">CBD-Dosis (Start → Ende)</h3>
+      <p style="font-size: 10pt; margin: 4px 0;">
+        <strong>Start:</strong> ${formatMgValue(cbd.startMg)} (entspricht ${formatMgPerKg(cbd.startMg, data.patientWeight)})<br>
+        <strong>Ende:</strong> ${formatMgValue(cbd.endMg)} (entspricht ${formatMgPerKg(cbd.endMg, data.patientWeight)})<br>
+        <strong>Wöchentliche Steigerung:</strong> ${formatMgValue(cbd.weeklyIncrease)}
+      </p>
+    </div>
+    
+    ${reduction ? `
+      <div style="background: #EFF6FF; border-left: 4px solid #0284C7; padding: 12px 16px; margin: 12px 0; border-radius: 4px;">
+        <h3 style="color: #1e40af; margin-bottom: 8px;">Reduktionsziel</h3>
+        <p style="font-size: 10pt; margin: 4px 0;">
+          <strong>Theoretisches Reduktionsziel:</strong> ${reduction.theoreticalTargetPercent}%
+        </p>
+        <p style="font-size: 10pt; margin: 4px 0;">
+          <strong>Tatsächliche Reduktion:</strong> ${Math.round(reduction.actualReductionPercent)}%
+        </p>
+        <p style="font-size: 9pt; color: #6b7280; margin-top: 6px; font-style: italic;">
+          Aufgrund pharmakologischer Sicherheitsfaktoren (Halbwertszeit, CYP450-Interaktionen, Entzugsrisiko, Multi-Drug-Interaktionen) wurde eine konservative Reduktion umgesetzt.
+        </p>
+        
+        <h4 style="font-size: 10pt; margin-top: 10px; color: #374151;">Medikamentenspezifische Reduktionen:</h4>
+        <ul style="margin: 6px 0 0 20px; font-size: 9pt; line-height: 1.6;">
+          ${reduction.medications.map(med => `
+            <li><strong>${med.name}:</strong> ${formatMgValue(med.startMg)} → ${formatMgValue(med.endMg)} (${med.reductionPercent}%)</li>
+          `).join('')}
+        </ul>
+      </div>
+    ` : ''}
+    
+    <div style="background: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; margin: 12px 0; border-radius: 4px;">
+      <h3 style="color: #92400E; margin-bottom: 8px;">MEDLESS-Empfehlung</h3>
+      <p style="font-size: 9pt; line-height: 1.6;">
+        Die berechneten Werte stellen <strong>konservative Obergrenzen</strong> dar. Die tatsächliche Dosisanpassung sollte 
+        durch die behandelnde Ärztin / den behandelnden Arzt <strong>individuell festgelegt</strong> werden, basierend auf 
+        klinischer Beobachtung, Patientenreaktion und Laborwerten.
+      </p>
+    </div>
   `;
 }
 
@@ -851,19 +918,40 @@ function renderCypDetailTables(cypDetails: DoctorReportDataV3['cypDetails']): st
   `;
 }
 
+/**
+ * MEGAPROMPT REGEL 2.1: Deduplicate medication safety warnings
+ */
 function renderFullSafetyNotes(notes: DoctorReportDataV3['fullSafetyNotes']): string {
   if (!notes || notes.length === 0) {
     return '';
   }
   
+  // MEGAPROMPT REGEL 2.1: Remove duplicates within each medication
+  const deduplicatedNotes = notes.map(medNotes => {
+    const uniqueNotes = Array.from(new Set(medNotes.notes));
+    return {
+      medicationName: medNotes.medicationName,
+      notes: uniqueNotes
+    };
+  });
+  
   return `
-    <h2>⚠️ Vollständige Sicherheitshinweise (Woche 1)</h2>
-    ${notes.map(medNotes => `
-      <h3>${medNotes.medicationName}</h3>
-      <ul>
-        ${medNotes.notes.map(note => `<li style="font-size: 9pt;">${note}</li>`).join('')}
-      </ul>
-    `).join('\n')}
+    <h2>⚠️ Medikamentenspezifische Sicherheitshinweise</h2>
+    <p style="font-size: 9pt; color: #6b7280; margin-bottom: 12px;">
+      Jedes Medikament wird nur einmal aufgeführt mit allen relevanten Hinweisen.
+    </p>
+    ${deduplicatedNotes.map(medNotes => {
+      if (medNotes.notes.length === 0) return '';
+      
+      return `
+        <div style="margin: 16px 0; padding: 12px; background: #FEF3C7; border-left: 4px solid #F59E0B; border-radius: 4px; page-break-inside: avoid;">
+          <h3 style="font-size: 11pt; font-weight: 700; color: #92400E; margin-bottom: 8px;">${medNotes.medicationName}:</h3>
+          <ul style="margin: 0; padding-left: 20px; font-size: 9pt; line-height: 1.7;">
+            ${medNotes.notes.map(note => `<li style="margin: 4px 0;">${note}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }).join('')}
   `;
 }
 

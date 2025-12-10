@@ -1,0 +1,134 @@
+================================================================================
+MEDLESS V1 - MEDICATION DATA QUALITY AUDIT
+================================================================================
+
+📊 OVERALL STATISTICS
+--------------------------------------------------------------------------------
+Total Medications:                343
+With half_life_hours:             339 (98.8%)
+With CYP data:                    303 (88.3%)
+With withdrawal_risk_score:       343 (100.0%)
+With category_id:                 343 (100.0%)
+With therapeutic_range:           1 (0.3%)
+
+🚨 DATA QUALITY ISSUES
+--------------------------------------------------------------------------------
+
+1. MISSING half_life_hours: 0 medications
+
+2. INVALID half_life_hours: 4 medications (0 or >1000h)
+   - ID 255: Hydroxychloroquin              half_life=1200h
+   - ID 269: Alendronat                     half_life=87600h
+   - ID 270: Risedronat                     half_life=43800h
+   - ID 352: Cholecalciferol                half_life=1200h
+
+3. MISSING/UNCLEAR CYP data: 40 medications
+   Sample (first 10):
+   - ID  19: Aspirin                        cyp='Schnelle Deacetylierung zu Salicylat, keine dominante CYP-Abhängigkeit'
+   - ID  24: Tavor                          cyp='Glucuronidierung (kaum CYP)'
+   - ID  44: Ventolin                       cyp='Geringe CYP-Beteiligung, v.a. Sulfatkonjugation'
+   - ID  56: Lorazepam (Tavor)              cyp='Glucuronidierung (kaum CYP)'
+   - ID  57: Temazepam (Remestan)           cyp='Glucuronidierung (nicht CYP)'
+   - ID  61: Lormetazepam (Noctamid)        cyp='Glucuronidierung (nicht CYP)'
+   - ID  98: Ramipril                       cyp='Lebermetabolismus (Esterhydrolyse zu Ramiprilat)'
+   - ID 105: Liothyronin                    cyp='Keine relevante CYP-Beteiligung'
+   - ID 106: Novothyral                     cyp='Keine relevante CYP-Beteiligung'
+   - ID 135: Dimetinden                     cyp='Lebermetabolismus (kein dominanter CYP-Typ)'
+   ... and 30 more
+
+4. MISSING withdrawal_risk_score: 0 medications
+
+5. MISSING category_id: 0 medications
+
+6. SUSPICIOUS: High-dependency meds with withdrawal_score=0: 0
+
+================================================================================
+📋 CATEGORY-SPECIFIC CRITICAL FIELDS ANALYSIS
+================================================================================
+
+Category 2: Antidepressiva (trizyklisch)
+  Total medications: 5
+  Critical fields: withdrawal, cyp, half_life
+
+Category 3: Antikonvulsiva
+  Total medications: 17
+  Critical fields: withdrawal, half_life
+
+Category 5: Antipsychotika
+  Total medications: 13
+  Critical fields: withdrawal, cyp, half_life
+
+Category 15: ADHS-Medikamente
+  Total medications: 3
+  Critical fields: withdrawal
+
+Category 16: Hypnotika (Schlafmittel)
+  Total medications: 18
+  Critical fields: withdrawal, half_life
+
+Category 17: Anxiolytika (Benzodiazepine)
+  Total medications: 10
+  Critical fields: withdrawal, half_life
+
+Category 18: Opioide
+  Total medications: 15
+  Critical fields: withdrawal, cyp, half_life
+
+Category 25: Antidepressiva (SSRI/SNRI)
+  Total medications: 22
+  Critical fields: withdrawal, cyp, half_life
+
+Category 6: Statine
+  Total medications: 6
+  Critical fields: cyp
+
+Category 19: Antihypertensiva
+  Total medications: 23
+  Critical fields: half_life
+
+Category 24: Antikoagulantien
+  Total medications: 6
+  Critical fields: cyp, half_life
+
+Category 8: Immunsuppressiva
+  Total medications: 9
+  Critical fields: cyp, half_life, withdrawal
+
+Category 21: Corticosteroide
+  Total medications: 5
+  Critical fields: withdrawal, half_life
+
+Category 26: Hormonpräparate
+  Total medications: 13
+  Critical fields: cyp, half_life
+
+================================================================================
+💡 RECOMMENDATIONS
+================================================================================
+
+PRIORITY 1 (CRITICAL - Affects calculation):
+  - Fix missing half_life_hours (used in Phase 3 reduction calculation)
+  - Complete withdrawal_risk_score (used in Phase 6 reduction calculation)
+  - Review CYP enzyme data (used in Phase 4 CYP adjustment)
+
+PRIORITY 2 (HIGH - Improves safety):
+  - Review zero withdrawal scores for high-dependency meds
+  - Verify invalid half-life values (0h or >1000h)
+
+PRIORITY 3 (MEDIUM - Future features):
+  - Add therapeutic_min/max ranges for narrow-window drugs
+  - Complete category_id for any uncategorized medications
+
+================================================================================
+✅ EXPORT LISTS FOR MANUAL REVIEW
+================================================================================
+
+Medications needing half_life_hours:
+
+
+Medications needing withdrawal_risk_score:
+
+
+Medications needing CYP clarification:
+19,24,44,56,57,61,98,105,106,135,136,151,159,195,211,266,279,282,284,285,286,295,296,298,314,323,333,339,343,346,347,348,352,355,359,362,363,365,368,369
+

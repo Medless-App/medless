@@ -1,0 +1,31 @@
+{
+  "medications": [
+    {
+      "name": "Prozac",
+      "mgPerDay": 20
+    },
+    {
+      "name": "Tavor",
+      "mgPerDay": 2
+    },
+    {
+      "name": "Tegretol",
+      "mgPerDay": 800
+    },
+    {
+      "name": "Cholecalciferol",
+      "mgPerDay": 1000
+    },
+    {
+      "name": "Digoxin",
+      "mgPerDay": 0.25
+    }
+  ],
+  "durationWeeks": 12,
+  "reductionGoal": 50,
+  "firstName": "Max",
+  "gender": "male",
+  "age": 45,
+  "weight": 70,
+  "height": 175
+}

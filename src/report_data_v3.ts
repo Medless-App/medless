@@ -10,6 +10,11 @@ import type {
 } from './types/analyzeResponse'
 
 // ============================================================
+// IMPORTS (MEGAPROMPT COMPLIANCE)
+// ============================================================
+import { formatMgValue } from './utils/report_formatting';
+
+// ============================================================
 // HELPER FUNCTIONS FOR CYP DATA (NEW - MIGRATION 017/018)
 // ============================================================
 
@@ -93,6 +98,27 @@ export interface DoctorReportDataV3 {
   patientWeight: number;
   patientGender?: string;
   durationWeeks: number;
+  
+  // CBD Progression (MEGAPROMPT REGEL 1: Must be consistent everywhere)
+  cbdProgression: {
+    startMg: number;
+    endMg: number;
+    weeklyIncrease: number;
+    startMgPerKg: number;
+    endMgPerKg: number;
+  };
+  
+  // Reduction Summary (MEGAPROMPT REGEL 2.2: Theoretical vs. Actual)
+  reductionSummary?: {
+    theoreticalTargetPercent: number;
+    actualReductionPercent: number;
+    medications: Array<{
+      name: string;
+      startMg: number;
+      endMg: number;
+      reductionPercent: number;
+    }>;
+  };
   
   // Level 1: Overview
   overviewMedications: OverviewMedication[];
@@ -231,10 +257,14 @@ function getMedicationName(entry: AnalysisEntry): string {
   return entry.medication?.name || 'Unbekannt';
 }
 
+/**
+ * MEGAPROMPT REGEL 4: Format mg values consistently
+ * Uses imported formatMgValue from utils/report_formatting
+ * Legacy wrapper for backwards compatibility
+ */
 function formatMg(value: number | undefined | null): string {
   if (value === undefined || value === null) return 'N/A';
-  const formatted = value % 1 === 0 ? value.toFixed(0) : value.toFixed(1);
-  return `${formatted} mg`;
+  return formatMgValue(value).replace(' täglich', ''); // Remove 'täglich' for table use
 }
 
 function determineRiskLevel(
@@ -314,7 +344,9 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
     cyp_profile,
     therapeutic_range,
     multi_drug_interaction,
-    withdrawal_risk_adjustment
+    withdrawal_risk_adjustment,
+    cbdProgression,
+    reductionGoal
   } = response;
 
   // Extract patient metadata
@@ -323,6 +355,13 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
   const patientWeight = personalization?.weight || 0;
   const patientGender = personalization?.gender || 'unknown';
   const durationWeeks = weeklyPlan.length || 0;
+  
+  // MEGAPROMPT REGEL 1: Extract CBD progression (must be consistent everywhere)
+  const cbdStart = cbdProgression?.startMg || personalization?.cbdStartMg || 0;
+  const cbdEnd = cbdProgression?.endMg || personalization?.cbdEndMg || 0;
+  const cbdWeeklyInc = cbdProgression?.weeklyIncrease || ((cbdEnd - cbdStart) / durationWeeks);
+  const cbdStartPerKg = patientWeight > 0 ? cbdStart / patientWeight : 0;
+  const cbdEndPerKg = patientWeight > 0 ? cbdEnd / patientWeight : 0;
 
   // ============================================================
   // LEVEL 1: OVERVIEW
@@ -614,12 +653,47 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
     technicalNote: 'Dieses Modell basiert auf pharmakokinetischen Daten und aktuellen klinischen Leitlinien. Es stellt ein rechnergestütztes Planungsinstrument dar und ersetzt nicht die individuelle klinische Beurteilung. Alle Dosierungsanpassungen sollten unter Berücksichtigung der individuellen Patientensituation erfolgen und bedürfen der klinischen Überwachung.'
   };
 
+  // MEGAPROMPT REGEL 2.2: Build reduction summary (theoretical vs. actual)
+  const reductionSummary = reductionGoal ? {
+    theoreticalTargetPercent: reductionGoal,
+    actualReductionPercent: analysis.map(entry => {
+      const startMg = entry.mgPerDay || 0;
+      const lastWeek = weeklyPlan[weeklyPlan.length - 1];
+      const targetMed = lastWeek?.medications.find((m: any) => m.name === getMedicationName(entry));
+      const endMg = targetMed?.targetMg || startMg;
+      return Math.round(((startMg - endMg) / startMg) * 100);
+    }).reduce((sum, pct) => sum + pct, 0) / analysis.length,
+    medications: analysis.map(entry => {
+      const name = getMedicationName(entry);
+      const startMg = entry.mgPerDay || 0;
+      const lastWeek = weeklyPlan[weeklyPlan.length - 1];
+      const targetMed = lastWeek?.medications.find((m: any) => m.name === name);
+      const endMg = targetMed?.targetMg || startMg;
+      return {
+        name,
+        startMg,
+        endMg,
+        reductionPercent: Math.round(((startMg - endMg) / startMg) * 100)
+      };
+    })
+  } : undefined;
+
   return {
     patientName,
     patientAge,
     patientWeight,
     patientGender,
     durationWeeks,
+    // MEGAPROMPT REGEL 1: CBD Progression
+    cbdProgression: {
+      startMg: Math.round(cbdStart * 10) / 10,
+      endMg: Math.round(cbdEnd * 10) / 10,
+      weeklyIncrease: Math.round(cbdWeeklyInc * 10) / 10,
+      startMgPerKg: Math.round(cbdStartPerKg * 100) / 100,
+      endMgPerKg: Math.round(cbdEndPerKg * 100) / 100
+    },
+    // MEGAPROMPT REGEL 2.2: Reduction Summary
+    reductionSummary,
     overviewMedications,
     globalRisk,
     medicationDetails,
