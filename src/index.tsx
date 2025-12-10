@@ -2278,14 +2278,14 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
       
-      font-weight: 800;
+      font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1;
       text-decoration: none;
     }
     
     .logo-med {
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .logo-less {
@@ -2336,7 +2336,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .article-title {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
     }
@@ -2364,14 +2364,14 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       margin-bottom: 32px;
       padding: 20px;
       background: #F9FAFB;
-      border-left: 4px solid #0F5A46;
+      border-left: 4px solid #10b981;
       border-radius: 4px;
     }
     
     .article-content h2 {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       margin-top: 56px;
       margin-bottom: 24px;
     }
@@ -2379,7 +2379,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .article-content h3 {
       
       font-weight: 600;
-      color: #0F5A46;
+      color: #10b981;
       margin-top: 40px;
       margin-bottom: 20px;
     }
@@ -2399,7 +2399,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .article-content strong {
-      color: #0F5A46;
+      color: #10b981;
       font-weight: 600;
     }
     
@@ -2418,7 +2418,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
       padding: 48px;
       border-radius: 16px;
-      border-left: 5px solid #0F5A46;
+      border-left: 5px solid #10b981;
       margin: 64px 0;
       text-align: center;
     }
@@ -2426,7 +2426,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .cta-box h3 {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       margin: 0 0 16px 0;
     }
     
@@ -2522,7 +2522,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   <div style="width: 100%; height: 400px; background: linear-gradient(135deg, rgba(14, 90, 69, 0.9), rgba(16, 185, 129, 0.8)), url('https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1600&h=600&fit=crop') center/cover; display: flex; align-items: center; justify-content: center; margin-bottom: 60px;">
     <div style="text-align: center; color: white; max-width: 800px; padding: 0 24px;">
       <span style="display: inline-block; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border-radius: 20px;  font-weight: 600; text-transform: uppercase; margin-bottom: 16px; backdrop-filter: blur(10px);">Wissen & Grundlagen</span>
-      <h1 style=" font-weight: 800; line-height: 1.2; margin: 0;">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
+      <h1 style=" font-weight: 300; line-height: 1.2; margin: 0;">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
     </div>
   </div>
   
@@ -2681,14 +2681,14 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
       
-      font-weight: 800;
+      font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1;
       text-decoration: none;
     }
     
     .logo-med {
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .logo-less {
@@ -2739,7 +2739,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     .article-title {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
     }
@@ -2767,14 +2767,14 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
       margin-bottom: 32px;
       padding: 20px;
       background: #F9FAFB;
-      border-left: 4px solid #0F5A46;
+      border-left: 4px solid #10b981;
       border-radius: 4px;
     }
     
     .article-content h2 {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       margin-top: 56px;
       margin-bottom: 24px;
     }
@@ -2782,7 +2782,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     .article-content h3 {
       
       font-weight: 600;
-      color: #0F5A46;
+      color: #10b981;
       margin-top: 40px;
       margin-bottom: 20px;
     }
@@ -2801,7 +2801,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     }
     
     .article-content strong {
-      color: #0F5A46;
+      color: #10b981;
       font-weight: 600;
     }
     
@@ -2820,7 +2820,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
       background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
       padding: 48px;
       border-radius: 16px;
-      border-left: 5px solid #0F5A46;
+      border-left: 5px solid #10b981;
       margin: 64px 0;
       text-align: center;
     }
@@ -2828,7 +2828,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     .cta-box h3 {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       margin: 0 0 16px 0;
     }
     
@@ -3088,14 +3088,14 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
       
-      font-weight: 800;
+      font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1;
       text-decoration: none;
     }
     
     .logo-med {
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .logo-less {
@@ -3146,7 +3146,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .article-title {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
     }
@@ -3174,14 +3174,14 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       margin-bottom: 32px;
       padding: 20px;
       background: #F9FAFB;
-      border-left: 4px solid #0F5A46;
+      border-left: 4px solid #10b981;
       border-radius: 4px;
     }
     
     .article-content h2 {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       margin-top: 48px;
       margin-bottom: 20px;
       line-height: 1.3;
@@ -3215,11 +3215,11 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .article-content strong {
       font-weight: 600;
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .cta-box {
-      background: linear-gradient(135deg, #0F5A46 0%, #1DB98D 100%);
+      background: linear-gradient(135deg, #10b981 0%, #1DB98D 100%);
       color: white;
       padding: 40px;
       border-radius: 12px;
@@ -3242,7 +3242,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .cta-button {
       display: inline-block;
       background: white;
-      color: #0F5A46;
+      color: #10b981;
       padding: 14px 32px;
       border-radius: 8px;
       text-decoration: none;
@@ -3523,14 +3523,14 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
       
-      font-weight: 800;
+      font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1;
       text-decoration: none;
     }
     
     .logo-med {
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .logo-less {
@@ -3581,7 +3581,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     .article-title {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
     }
@@ -3609,14 +3609,14 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
       margin-bottom: 32px;
       padding: 20px;
       background: #F9FAFB;
-      border-left: 4px solid #0F5A46;
+      border-left: 4px solid #10b981;
       border-radius: 4px;
     }
     
     .article-content h2 {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       margin-top: 48px;
       margin-bottom: 20px;
       line-height: 1.3;
@@ -3658,7 +3658,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     
     .article-content strong {
       font-weight: 600;
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .article-content em {
@@ -3677,13 +3677,13 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
       padding: 30px;
       border-radius: 12px;
       margin: 40px 0;
-      border-left: 5px solid #0F5A46;
+      border-left: 5px solid #10b981;
     }
     
     .cta-box h3 {
       
       margin-bottom: 16px;
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .cta-box p {
@@ -3694,7 +3694,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     
     .btn-primary {
       display: inline-block;
-      background-color: #0F5A46;
+      background-color: #10b981;
       color: white;
       padding: 12px 24px;
       text-decoration: none;
@@ -3941,14 +3941,14 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
       
-      font-weight: 800;
+      font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1;
       text-decoration: none;
     }
     
     .logo-med {
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .logo-less {
@@ -3999,7 +3999,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     .article-title {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
     }
@@ -4027,14 +4027,14 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
       margin-bottom: 32px;
       padding: 20px;
       background: #F9FAFB;
-      border-left: 4px solid #0F5A46;
+      border-left: 4px solid #10b981;
       border-radius: 4px;
     }
     
     .article-content h2 {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       margin-top: 48px;
       margin-bottom: 20px;
       line-height: 1.3;
@@ -4076,7 +4076,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     
     .article-content strong {
       font-weight: 600;
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .article-content em {
@@ -4095,13 +4095,13 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
       padding: 30px;
       border-radius: 12px;
       margin: 40px 0;
-      border-left: 5px solid #0F5A46;
+      border-left: 5px solid #10b981;
     }
     
     .cta-box h3 {
       
       margin-bottom: 16px;
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .cta-box p {
@@ -4112,7 +4112,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     
     .btn-primary {
       display: inline-block;
-      background-color: #0F5A46;
+      background-color: #10b981;
       color: white;
       padding: 12px 24px;
       text-decoration: none;
@@ -4347,14 +4347,14 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
       
-      font-weight: 800;
+      font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1;
       text-decoration: none;
     }
     
     .logo-med {
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .logo-less {
@@ -4405,7 +4405,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     .article-title {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
     }
@@ -4433,14 +4433,14 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
       margin-bottom: 32px;
       padding: 20px;
       background: #F9FAFB;
-      border-left: 4px solid #0F5A46;
+      border-left: 4px solid #10b981;
       border-radius: 4px;
     }
     
     .article-content h2 {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       margin-top: 48px;
       margin-bottom: 20px;
       line-height: 1.3;
@@ -4482,7 +4482,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     
     .article-content strong {
       font-weight: 600;
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .article-content em {
@@ -4501,13 +4501,13 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
       padding: 30px;
       border-radius: 12px;
       margin: 40px 0;
-      border-left: 5px solid #0F5A46;
+      border-left: 5px solid #10b981;
     }
     
     .cta-box h3 {
       
       margin-bottom: 16px;
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .cta-box p {
@@ -4518,7 +4518,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     
     .btn-primary {
       display: inline-block;
-      background-color: #0F5A46;
+      background-color: #10b981;
       color: white;
       padding: 12px 24px;
       text-decoration: none;
@@ -4735,14 +4735,14 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
       
-      font-weight: 800;
+      font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1;
       text-decoration: none;
     }
     
     .logo-med {
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .logo-less {
@@ -4793,7 +4793,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     .article-title {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
     }
@@ -4821,14 +4821,14 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       margin-bottom: 32px;
       padding: 20px;
       background: #F9FAFB;
-      border-left: 4px solid #0F5A46;
+      border-left: 4px solid #10b981;
       border-radius: 4px;
     }
     
     .article-content h2 {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       margin-top: 48px;
       margin-bottom: 20px;
       line-height: 1.3;
@@ -4870,7 +4870,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     
     .article-content strong {
       font-weight: 600;
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .article-content em {
@@ -4889,13 +4889,13 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       padding: 30px;
       border-radius: 12px;
       margin: 40px 0;
-      border-left: 5px solid #0F5A46;
+      border-left: 5px solid #10b981;
     }
     
     .cta-box h3 {
       
       margin-bottom: 16px;
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .cta-box p {
@@ -4906,7 +4906,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     
     .btn-primary {
       display: inline-block;
-      background-color: #0F5A46;
+      background-color: #10b981;
       color: white;
       padding: 12px 24px;
       text-decoration: none;
@@ -5130,14 +5130,14 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     .logo-text {
       font-family: 'Inter', 'Roboto', system-ui, sans-serif;
       
-      font-weight: 800;
+      font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1;
       text-decoration: none;
     }
     
     .logo-med {
-      color: #0F5A46;
+      color: #10b981;
     }
     
     .logo-less {
@@ -5188,7 +5188,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     .article-title {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
     }
@@ -5212,7 +5212,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     .article-content h2 {
       
       font-weight: 700;
-      color: #0F5A46;
+      color: #10b981;
       margin-top: 56px;
       margin-bottom: 24px;
     }
@@ -5231,7 +5231,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     }
     
     .article-content strong {
-      color: #0F5A46;
+      color: #10b981;
       font-weight: 600;
     }
     
@@ -5247,7 +5247,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     .article-cta h3 {
       
       font-weight: 600;
-      color: #0F5A46;
+      color: #10b981;
       margin-bottom: 24px;
     }
     
@@ -6663,7 +6663,7 @@ app.get('/app', (c) => {
             <div id="plan-ready-card" style="background: linear-gradient(135deg, #0b7b6c 0%, #059669 100%); padding: 1.5rem; border-radius: 14px; box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3); text-align: center; animation: gentle-pulse 2s ease-in-out infinite;">
               <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
                 <i class="fas fa-file-medical" style="color: white; "></i>
-                <h3 style="margin: 0;  font-weight: 800; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Ihr persönlicher MEDLESS-Orientierungsplan ist fertig!</h3>
+                <h3 style="margin: 0;  font-weight: 300; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Ihr persönlicher MEDLESS-Orientierungsplan ist fertig!</h3>
               </div>
               <p style="margin: 0; color: rgba(255,255,255,0.95);  font-weight: 500; margin-bottom: 1rem;">
                 Ihr persönlicher Orientierungsplan wurde erstellt. Er fasst Ihre Angaben zu Medikamenten und Einnahmezeiten übersichtlich zusammen und dient als Grundlage für das Gespräch mit Ihrem Arzt. MEDLESS ersetzt keine ärztliche Beratung und ist kein Medizinprodukt.
