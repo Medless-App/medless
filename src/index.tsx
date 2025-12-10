@@ -2071,9 +2071,9 @@ app.get('/magazin', (c) => {
   </header>
 
   <!-- HERO SECTION -->
-  <div style="background: linear-gradient(135deg, #0E5A45, #10B981); padding: 80px 32px; text-align: center; color: white;">
-    <h1 style="font-size: 3rem; font-weight: 300; margin: 0 0 24px 0; line-height: 1.2;">MEDLESS Magazin</h1>
-    <p class="lead" style="max-width: 700px; margin: 0 auto; opacity: 0.95; font-size: 1.125rem; color: rgba(255,255,255,0.95);">Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.</p>
+  <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.12)); padding: 80px 32px; text-align: center;">
+    <h1 style="font-size: 3rem; font-weight: 300; margin: 0 0 24px 0; line-height: 1.2; color: #0f172a;">MEDLESS Magazin</h1>
+    <p class="lead" style="max-width: 700px; margin: 0 auto; font-size: 1.125rem; color: #475569;">Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.</p>
   </div>
 
   <!-- ARTICLES GRID -->
@@ -2086,7 +2086,6 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&h=400&fit=crop" alt="Das Endocannabinoid-System erklärt" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span class="caption" style="display: inline-flex; align-items: center; padding: 4px 10px; background: #ECFDF3; color: #15803D; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Wissen & Grundlagen</span>
           <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
             <a href="/magazin/endocannabinoid-system-erklaert" style="text-decoration: none; color: inherit;">Das Endocannabinoid-System erklärt</a>
           </h3>
@@ -2103,7 +2102,6 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop" alt="7 Fehler beim Medikamente absetzen" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span class="caption" style="display: inline-flex; align-items: center; padding: 4px 10px; background: #FEF2F2; color: #DC2626; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Praxis-Tipps</span>
           <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
             <a href="/magazin/medikamente-absetzen-7-fehler" style="text-decoration: none; color: inherit;">7 Fehler beim Medikamente absetzen</a>
           </h3>
@@ -2120,7 +2118,6 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop" alt="Antidepressiva absetzen ohne Entzug" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span class="caption" style="display: inline-flex; align-items: center; padding: 4px 10px; background: #EEF2FF; color: #4F46E5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Medikamente</span>
           <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
             <a href="/magazin/antidepressiva-absetzen-ohne-entzug" style="text-decoration: none; color: inherit;">Antidepressiva absetzen ohne Entzug</a>
           </h3>
@@ -2137,7 +2134,6 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop" alt="Schlaftabletten loswerden" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #EFF6FF; color: #2563EB;  font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Schlaf</span>
           <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
             <a href="/magazin/schlaftabletten-loswerden" style="text-decoration: none; color: inherit;">Schlaftabletten loswerden</a>
           </h3>
@@ -2154,7 +2150,6 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop" alt="CBD: Studien und Fakten" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #D1FAE5; color: #059669;  font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Forschung</span>
           <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
             <a href="/magazin/cbd-studien-und-fakten" style="text-decoration: none; color: inherit;">CBD: Studien und Fakten</a>
           </h3>
@@ -2171,7 +2166,6 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop" alt="Magenschutz (PPI) absetzen" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #FEF3C7; color: #D97706;  font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Medikamente</span>
           <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
             <a href="/magazin/magenschutz-absetzen-ppi" style="text-decoration: none; color: inherit;">Magenschutz (PPI) absetzen</a>
           </h3>
@@ -2188,7 +2182,6 @@ app.get('/magazin', (c) => {
           <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop" alt="Täglich 5 Tabletten – ist das normal?" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
         </a>
         <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <span style="display: inline-flex; align-items: center; padding: 4px 10px; background: #F3E8FF; color: #7C3AED;  font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 999px; width: fit-content;">Polypharmazie</span>
           <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
             <a href="/magazin/taeglich-5-tabletten" style="text-decoration: none; color: inherit;">Täglich 5 Tabletten – ist das normal?</a>
           </h3>
@@ -2202,9 +2195,9 @@ app.get('/magazin', (c) => {
   </div>
   
   <!-- FOOTER -->
-  <footer style="background: linear-gradient(135deg, #0E5A45, #10B981); padding: 60px 32px 40px; color: white; text-align: center; margin-top: 80px;">
-    <p style=" font-weight: 600; margin-bottom: 12px;">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p style=" opacity: 0.85;">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+  <footer style="background: #0f172a; padding: 60px 32px 40px; color: white; text-align: center; margin-top: 80px;">
+    <p style="font-weight: 600; margin-bottom: 12px; color: white;">MEDLESS – Dein Weg zu weniger Medikamenten</p>
+    <p style="opacity: 0.85; color: rgba(255,255,255,0.8);">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     <div style="margin-top: 24px; display: flex; gap: 24px; justify-content: center;">
       <a href="/impressum" style="color: white; opacity: 0.8; text-decoration: none; ">Impressum</a>
       <a href="/datenschutz" style="color: white; opacity: 0.8; text-decoration: none; ">Datenschutz</a>
@@ -2326,7 +2319,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       background: #F3E8FF;
       color: #7C3AED;
       
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border-radius: 6px;
@@ -2335,7 +2328,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .article-title {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
@@ -2370,7 +2363,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .article-content h2 {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       margin-top: 56px;
       margin-bottom: 24px;
@@ -2378,7 +2371,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .article-content h3 {
       
-      font-weight: 600;
+      font-weight: 500;
       color: #10b981;
       margin-top: 40px;
       margin-bottom: 20px;
@@ -2400,7 +2393,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .article-content strong {
       color: #10b981;
-      font-weight: 600;
+      font-weight: 500;
     }
     
     .article-content em {
@@ -2425,7 +2418,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .cta-box h3 {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       margin: 0 0 16px 0;
     }
@@ -2443,9 +2436,9 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       gap: 12px;
       padding: 16px 32px;
       
-      font-weight: 700;
+      font-weight: 400;
       color: white;
-      background: linear-gradient(135deg, #0E5A45, #10B981);
+      background: #10b981;
       border: none;
       border-radius: 12px;
       cursor: pointer;
@@ -2460,7 +2453,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     footer {
-      background: linear-gradient(135deg, #0E5A45, #10B981);
+      background: #10b981;
       padding: 60px 0 20px;
       color: rgba(255, 255, 255, 0.9);
       margin-top: 80px;
@@ -2505,7 +2498,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
       <nav class="nav" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 0;">
         <a href="/" class="logo" style="text-decoration: none;">
-          <span class="logo-text" style=" font-weight: 700; color: #0b7b6c;">Medless</span>
+          <span class="logo-text" style=" font-weight: 400; color: #0b7b6c;">Medless</span>
         </a>
         <ul class="nav-links" style="display: flex; gap: 32px; list-style: none; margin: 0;">
           <li><a href="/#how-it-works" style="text-decoration: none; color: #4B5563; font-weight: 500;">So funktioniert's</a></li>
@@ -2513,7 +2506,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
           <li><a href="/#faq" style="text-decoration: none; color: #4B5563; font-weight: 500;">FAQ</a></li>
           <li><a href="/magazin" style="text-decoration: none; color: #4B5563; font-weight: 500;">Magazin</a></li>
         </ul>
-        <button class="btn-primary-sm" onclick="window.location.href='/app'" style="padding: 12px 24px; background: linear-gradient(135deg, #0E5A45, #10B981); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Analyse starten</button>
+        <button class="btn-primary-sm" onclick="window.location.href='/app'" style="padding: 12px 24px; background: #10b981; color: white; border: none; border-radius: 8px; font-weight: 500; cursor: pointer;">Analyse starten</button>
       </nav>
     </div>
   </header>
@@ -2521,7 +2514,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   <!-- Hero Image (full width) -->
   <div style="width: 100%; height: 400px; background: linear-gradient(135deg, rgba(14, 90, 69, 0.9), rgba(16, 185, 129, 0.8)), url('https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1600&h=600&fit=crop') center/cover; display: flex; align-items: center; justify-content: center; margin-bottom: 60px;">
     <div style="text-align: center; color: white; max-width: 800px; padding: 0 24px;">
-      <span style="display: inline-block; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border-radius: 20px;  font-weight: 600; text-transform: uppercase; margin-bottom: 16px; backdrop-filter: blur(10px);">Wissen & Grundlagen</span>
+      <span style="display: inline-block; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border-radius: 20px;  font-weight: 500; text-transform: uppercase; margin-bottom: 16px; backdrop-filter: blur(10px);">Wissen & Grundlagen</span>
       <h1 style=" font-weight: 300; line-height: 1.2; margin: 0;">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
     </div>
   </div>
@@ -2729,7 +2722,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
       background: #DBEAFE;
       color: #1E40AF;
       
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border-radius: 6px;
@@ -2738,7 +2731,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     
     .article-title {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
@@ -2773,7 +2766,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     
     .article-content h2 {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       margin-top: 56px;
       margin-bottom: 24px;
@@ -2781,7 +2774,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     
     .article-content h3 {
       
-      font-weight: 600;
+      font-weight: 500;
       color: #10b981;
       margin-top: 40px;
       margin-bottom: 20px;
@@ -2802,7 +2795,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     
     .article-content strong {
       color: #10b981;
-      font-weight: 600;
+      font-weight: 500;
     }
     
     .article-content em {
@@ -2827,7 +2820,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     
     .cta-box h3 {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       margin: 0 0 16px 0;
     }
@@ -2845,9 +2838,9 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
       gap: 12px;
       padding: 16px 32px;
       
-      font-weight: 700;
+      font-weight: 400;
       color: white;
-      background: linear-gradient(135deg, #0E5A45, #10B981);
+      background: #10b981;
       border: none;
       border-radius: 12px;
       cursor: pointer;
@@ -2862,7 +2855,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     }
     
     footer {
-      background: linear-gradient(135deg, #0E5A45, #10B981);
+      background: #10b981;
       padding: 60px 0 20px;
       color: rgba(255, 255, 255, 0.9);
       margin-top: 80px;
@@ -3136,7 +3129,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       background: #FEF3C7;
       color: #92400E;
       
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border-radius: 6px;
@@ -3145,7 +3138,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .article-title {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
@@ -3180,7 +3173,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .article-content h2 {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       margin-top: 48px;
       margin-bottom: 20px;
@@ -3189,7 +3182,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .article-content h3 {
       
-      font-weight: 600;
+      font-weight: 500;
       color: #1F2937;
       margin-top: 32px;
       margin-bottom: 16px;
@@ -3214,7 +3207,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .article-content strong {
-      font-weight: 600;
+      font-weight: 500;
       color: #10b981;
     }
     
@@ -3246,7 +3239,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       padding: 14px 32px;
       border-radius: 8px;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 500;
       
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -3441,7 +3434,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       
       <hr style="border: none; border-top: 1px solid #E5E7EB; margin: 48px 0;" />
       
-      <h3 style=" font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Weiterführende Literatur</h3>
+      <h3 style=" font-weight: 500; color: #6B7280; margin-bottom: 12px;">Quellen & Weiterführende Literatur</h3>
       <ul style=" color: #6B7280;">
           <li><strong>Russo, E.B. (2016):</strong> "Clinical Endocannabinoid Deficiency Reconsidered" – Cannabis and Cannabinoid Research.</li>
           <li><strong>Lu, H.C. & Mackie, K. (2016):</strong> "An Introduction to the Endogenous Cannabinoid System" – Biological Psychiatry.</li>
@@ -3571,7 +3564,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
       background: #FCE7F3;
       color: #BE185D;
       
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border-radius: 6px;
@@ -3580,7 +3573,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     
     .article-title {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
@@ -3615,7 +3608,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     
     .article-content h2 {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       margin-top: 48px;
       margin-bottom: 20px;
@@ -3624,7 +3617,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     
     .article-content h3 {
       
-      font-weight: 600;
+      font-weight: 500;
       color: #1F2937;
       margin-top: 32px;
       margin-bottom: 16px;
@@ -3657,7 +3650,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     }
     
     .article-content strong {
-      font-weight: 600;
+      font-weight: 500;
       color: #10b981;
     }
     
@@ -3860,7 +3853,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
       
       <hr>
       
-      <h3 style=" font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <h3 style=" font-weight: 500; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
       <ul style=" color: #6B7280;">
           <li><strong>Charité Berlin (2024):</strong> "Neue Daten zur Häufigkeit von Absetzsymptomen".</li>
           <li><strong>Ärzteblatt (2025):</strong> "Absetzsymptome meist mild".</li>
@@ -3989,7 +3982,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
       background: #E0E7FF;
       color: #3730A3;
       
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border-radius: 6px;
@@ -3998,7 +3991,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     
     .article-title {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
@@ -4033,7 +4026,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     
     .article-content h2 {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       margin-top: 48px;
       margin-bottom: 20px;
@@ -4042,7 +4035,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     
     .article-content h3 {
       
-      font-weight: 600;
+      font-weight: 500;
       color: #1F2937;
       margin-top: 32px;
       margin-bottom: 16px;
@@ -4075,7 +4068,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     }
     
     .article-content strong {
-      font-weight: 600;
+      font-weight: 500;
       color: #10b981;
     }
     
@@ -4265,7 +4258,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
       
       <hr>
       
-      <h3 style=" font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <h3 style=" font-weight: 500; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
       <ul style=" color: #6B7280;">
           <li><strong>Deutsche Hauptstelle für Suchtfragen (DHS):</strong> "Die Sucht und ihre Stoffe: Benzodiazepine".</li>
           <li><strong>Bundesärztekammer (2022):</strong> "Leitfaden Medikamentenabhängigkeit".</li>
@@ -4395,7 +4388,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
       background: #D1FAE5;
       color: #065F46;
       
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border-radius: 6px;
@@ -4404,7 +4397,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     
     .article-title {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
@@ -4439,7 +4432,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     
     .article-content h2 {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       margin-top: 48px;
       margin-bottom: 20px;
@@ -4448,7 +4441,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     
     .article-content h3 {
       
-      font-weight: 600;
+      font-weight: 500;
       color: #1F2937;
       margin-top: 32px;
       margin-bottom: 16px;
@@ -4481,7 +4474,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     }
     
     .article-content strong {
-      font-weight: 600;
+      font-weight: 500;
       color: #10b981;
     }
     
@@ -4653,7 +4646,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
       
       <hr>
       
-      <h3 style=" font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <h3 style=" font-weight: 500; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
       <ul style=" color: #6B7280;">
           <li><strong>Deutsche Gesellschaft für Schmerzmedizin (2024):</strong> "Reduzierter Opioid-Verbrauch durch Cannabinoide".</li>
           <li><strong>Springer Medizin (2022):</strong> "Cannabinoide reduzieren Opioidverbrauch".</li>
@@ -4783,7 +4776,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       background: #FED7AA;
       color: #9A3412;
       
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border-radius: 6px;
@@ -4792,7 +4785,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     
     .article-title {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
@@ -4827,7 +4820,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     
     .article-content h2 {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       margin-top: 48px;
       margin-bottom: 20px;
@@ -4836,7 +4829,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     
     .article-content h3 {
       
-      font-weight: 600;
+      font-weight: 500;
       color: #1F2937;
       margin-top: 32px;
       margin-bottom: 16px;
@@ -4869,7 +4862,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     }
     
     .article-content strong {
-      font-weight: 600;
+      font-weight: 500;
       color: #10b981;
     }
     
@@ -5049,7 +5042,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       
       <hr>
       
-      <h3 style=" font-weight: 600; color: #6B7280; margin-bottom: 12px;">Quellen & Fakten</h3>
+      <h3 style=" font-weight: 500; color: #6B7280; margin-bottom: 12px;">Quellen & Fakten</h3>
       <ul style=" color: #6B7280;">
           <li><strong>Deutsche Gesellschaft für Gastroenterologie:</strong> Leitlinie zu PPI.</li>
           <li><strong>Ärzteblatt:</strong> "Langzeitrisiken von Protonenpumpeninhibitoren".</li>
@@ -5178,7 +5171,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
       background: #D1FAE5;
       color: #0E5A45;
       
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border-radius: 6px;
@@ -5187,7 +5180,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     
     .article-title {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       line-height: 1.2;
       margin-bottom: 32px;
@@ -5211,7 +5204,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     
     .article-content h2 {
       
-      font-weight: 700;
+      font-weight: 400;
       color: #10b981;
       margin-top: 56px;
       margin-bottom: 24px;
@@ -5232,7 +5225,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     
     .article-content strong {
       color: #10b981;
-      font-weight: 600;
+      font-weight: 500;
     }
     
     .article-cta {
@@ -5246,7 +5239,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     
     .article-cta h3 {
       
-      font-weight: 600;
+      font-weight: 500;
       color: #10b981;
       margin-bottom: 24px;
     }
@@ -5258,9 +5251,9 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
       gap: 12px;
       padding: 16px 32px;
       
-      font-weight: 700;
+      font-weight: 400;
       color: white;
-      background: linear-gradient(135deg, #0E5A45, #10B981);
+      background: #10b981;
       border: none;
       border-radius: 12px;
       cursor: pointer;
@@ -5275,7 +5268,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     }
     
     footer {
-      background: linear-gradient(135deg, #0E5A45, #10B981);
+      background: #10b981;
       padding: 60px 0 20px;
       color: rgba(255, 255, 255, 0.9);
       margin-top: 80px;
@@ -5543,7 +5536,7 @@ app.get('/app', (c) => {
       background: rgba(11, 123, 108, 0.12);
       color: var(--primary-dark);
       
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 0.6rem;
@@ -5593,7 +5586,7 @@ app.get('/app', (c) => {
       border-radius: 0.75rem;
       background: linear-gradient(135deg, #10b981, #059669);
       color: #fff;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 1rem;
       display: inline-flex;
       align-items: center;
@@ -5702,12 +5695,12 @@ app.get('/app', (c) => {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 600;
+      font-weight: 500;
       flex-shrink: 0;
     }
 
     .step-title {
-      font-weight: 600;
+      font-weight: 500;
       
     }
 
@@ -5755,7 +5748,7 @@ app.get('/app', (c) => {
 
     label {
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: #94a3b8;
@@ -6163,31 +6156,31 @@ app.get('/app', (c) => {
         <!-- Circles and Progress Bars Container - Fixed 48px containers -->
         <div style="display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px 1fr 48px 1fr 48px; align-items: center; max-width: 800px; margin: 0 auto 8px; gap: 0;">
           <!-- Step 1 Circle - Fixed 48px container -->
-          <div id="step-indicator-1" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #0b7b6c; color: white; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">1</div>
+          <div id="step-indicator-1" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #0b7b6c; color: white; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">1</div>
           <!-- Progress Bar 1 -->
           <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
             <div id="progress-bar-1" style="height: 100%; background: #0b7b6c; width: 100%; transition: width 0.3s;"></div>
           </div>
           <!-- Step 2 Circle - Fixed 48px container -->
-          <div id="step-indicator-2" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">2</div>
+          <div id="step-indicator-2" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">2</div>
           <!-- Progress Bar 2 -->
           <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
             <div id="progress-bar-2" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
           </div>
           <!-- Step 3 Circle - Fixed 48px container -->
-          <div id="step-indicator-3" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">3</div>
+          <div id="step-indicator-3" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">3</div>
           <!-- Progress Bar 3 -->
           <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
             <div id="progress-bar-3" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
           </div>
           <!-- Step 4 Circle - Fixed 48px container -->
-          <div id="step-indicator-4" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">4</div>
+          <div id="step-indicator-4" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">4</div>
           <!-- Progress Bar 4 -->
           <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
             <div id="progress-bar-4" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
           </div>
           <!-- Step 5 Circle - Fixed 48px container -->
-          <div id="step-indicator-5" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">5</div>
+          <div id="step-indicator-5" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">5</div>
         </div>
         
         <!-- Labels Container - EXACTLY ALIGNED with 48px circles, stable position -->
@@ -6490,7 +6483,7 @@ app.get('/app', (c) => {
             </div>
 
             <div class="card" style="background: #f9fafb; margin-top: 1.5rem; padding: 1rem;">
-              <h4 style=" font-weight: 600; margin-bottom: 0.8rem;">Ihre Angaben im Überblick</h4>
+              <h4 style=" font-weight: 500; margin-bottom: 0.8rem;">Ihre Angaben im Überblick</h4>
               <div style="">
                 <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
                   <span class="muted">Name:</span>
@@ -6675,7 +6668,7 @@ app.get('/app', (c) => {
                 padding: 0.75rem 1.75rem;
                 border-radius: 24px;
                 
-                font-weight: 700;
+                font-weight: 400;
                 cursor: pointer;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.15);
                 transition: all 0.3s ease;
