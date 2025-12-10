@@ -2120,8 +2120,8 @@ app.get('/magazin', (c) => {
       <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
         <a href="/magazin/medikamente-absetzen-7-fehler" class="block">
           <div class="overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop" 
-                 alt="7 Fehler beim Medikamente absetzen" 
+            <img src="https://www.genspark.ai/api/files/s/KMI6cvDz" 
+                 alt="7 Fehler beim Medikamente absetzen - Kalter Entzug vs. Sicher ausschleichen" 
                  loading="lazy"
                  class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
           </div>
@@ -2387,8 +2387,8 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     
     <img
       class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop"
-      alt="7 Fehler beim Medikamente absetzen"
+      src="https://www.genspark.ai/api/files/s/KMI6cvDz"
+      alt="7 Fehler beim Medikamente absetzen - Kalter Entzug vs. Sicher ausschleichen"
       loading="eager"
     />
     
