@@ -2078,11 +2078,11 @@ app.get('/magazin', (c) => {
     </div>
   </header>
 
-  <!-- HERO SECTION (TAILWIND) -->
-  <section class="bg-gradient-to-br from-medless-bg-ultra-light to-medless-bg-light py-16 px-8 text-center">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-section-title text-medless-text-primary mb-4">MEDLESS Magazin</h1>
-      <p class="text-article-subtitle text-medless-text-secondary max-w-2xl mx-auto">
+  <!-- HERO SECTION (TAILWIND) - OPTIMIERT -->
+  <section class="bg-gradient-to-b from-[#F3FFF8] via-[#F7FFF9] to-[#FAFFFA] py-10 md:py-14 px-8 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-section-title text-medless-text-primary mt-0 mb-3">MEDLESS Magazin</h1>
+      <p class="text-article-subtitle text-medless-text-secondary">
         Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.
       </p>
     </div>
