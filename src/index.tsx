@@ -2048,6 +2048,7 @@ app.get('/magazin', (c) => {
       text-decoration: underline;
     }
   </style>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body style="margin: 0; font-family: 'Inter', sans-serif; background: #F9FAFB;">
   
