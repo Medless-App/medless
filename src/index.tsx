@@ -6225,21 +6225,38 @@ app.get('/app', (c) => {
               </div>
             </div>
 
-            <!-- Geschlecht (Neue Card-Auswahl) -->
+            <!-- Geschlecht (V4 - Fully Clickable Cards) -->
             <div class="mb-8">
-              <label class="block text-[10px] uppercase tracking-widest text-slate-400 mb-3 font-medium text-center">Geschlecht *</label>
+              <label class="block text-xs uppercase tracking-wider text-slate-400 mb-4 font-medium">Geschlecht *</label>
               <div class="grid grid-cols-3 gap-4">
-                <label>
-                  <input type="radio" name="gender" value="male" class="peer sr-only" required />
-                  <div class="select-card">Herr</div>
+                <!-- Option 1 -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="gender" value="herr" class="peer sr-only" required>
+                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] 
+                              border-2 border-slate-200 rounded-2xl p-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="font-medium">Herr</span>
+                  </div>
                 </label>
-                <label>
-                  <input type="radio" name="gender" value="female" class="peer sr-only" />
-                  <div class="select-card">Frau</div>
+                
+                <!-- Option 2 -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="gender" value="frau" class="peer sr-only" required>
+                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] 
+                              border-2 border-slate-200 rounded-2xl p-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="font-medium">Frau</span>
+                  </div>
                 </label>
-                <label>
-                  <input type="radio" name="gender" value="diverse" class="peer sr-only" />
-                  <div class="select-card">Divers</div>
+                
+                <!-- Option 3 -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="gender" value="divers" class="peer sr-only" required>
+                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] 
+                              border-2 border-slate-200 rounded-2xl p-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="font-medium">Divers</span>
+                  </div>
                 </label>
               </div>
             </div>
@@ -6258,21 +6275,33 @@ app.get('/app', (c) => {
             <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Diese Daten helfen uns, die Dosierung individuell zu berechnen.</p>
             
-            <div class="form-row">
+            <!-- Körperdaten V4 (Clean Design, No Icons) -->
+            <div class="grid grid-cols-3 gap-6">
+              <!-- Alter -->
               <div>
-                <label for="age">Alter (Jahre) *</label>
-                <input type="number" id="age" name="age" class="glass-input" placeholder="z.B. 45" min="18" max="120" required />
-                <div class="helper">Für altersgerechte Dosierung</div>
+                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-3 font-medium text-center">
+                  Alter (Jahre) *
+                </label>
+                <input type="number" name="age" class="wizard-input text-center text-lg" 
+                       placeholder="00" min="18" max="120" required>
               </div>
+              
+              <!-- Größe -->
               <div>
-                <label for="weight">Gewicht (kg) *</label>
-                <input type="number" id="weight" name="weight" class="glass-input" placeholder="z.B. 70" min="30" max="250" step="0.1" required />
-                <div class="helper">In Kilogramm</div>
+                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-3 font-medium text-center">
+                  Größe (cm) *
+                </label>
+                <input type="number" name="height" class="wizard-input text-center text-lg" 
+                       placeholder="000" min="100" max="250" required>
               </div>
+              
+              <!-- Gewicht -->
               <div>
-                <label for="height">Größe (cm) *</label>
-                <input type="number" id="height" name="height" class="glass-input" placeholder="z.B. 170" min="120" max="230" required />
-                <div class="helper">In Zentimetern</div>
+                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-3 font-medium text-center">
+                  Gewicht (kg) *
+                </label>
+                <input type="number" name="weight" class="wizard-input text-center text-lg" 
+                       placeholder="00" min="30" max="300" required>
               </div>
             </div>
 
@@ -6328,57 +6357,119 @@ app.get('/app', (c) => {
             <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Legen Sie hier die Einstellungen für Ihren MEDLESS-Orientierungsplan fest. Auf dieser Basis wird Ihr persönlicher Orientierungsplan für das Gespräch mit Ihrem Arzt berechnet. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.</p>
             
-            <!-- Dauer (5er-Grid) -->
-            <div class="mb-8">
-              <label class="block text-[10px] uppercase tracking-widest text-slate-400 mb-3 font-medium text-center">Dauer des Plans (Wochen) *</label>
-              <div class="grid grid-cols-5 gap-2">
-                <label>
-                  <input type="radio" name="duration_weeks" value="2" class="peer sr-only" />
-                  <div class="select-card">2</div>
+            <!-- Dauer V4 (Fully Clickable Cards) -->
+            <div class="mb-10">
+              <label class="block text-xs uppercase tracking-wider text-slate-400 mb-4 font-medium text-center">
+                Dauer des Plans (Wochen) *
+              </label>
+              <div class="grid grid-cols-5 gap-3">
+                <!-- 2 Wochen -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="duration" value="2" class="peer sr-only" required>
+                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] peer-checked:font-semibold 
+                              border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="text-2xl">2</span>
+                  </div>
                 </label>
-                <label>
-                  <input type="radio" name="duration_weeks" value="4" class="peer sr-only" />
-                  <div class="select-card">4</div>
+                
+                <!-- 4 Wochen -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="duration" value="4" class="peer sr-only">
+                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] peer-checked:font-semibold 
+                              border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="text-2xl">4</span>
+                  </div>
                 </label>
-                <label>
-                  <input type="radio" name="duration_weeks" value="6" class="peer sr-only" />
-                  <div class="select-card">6</div>
+                
+                <!-- 6 Wochen -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="duration" value="6" class="peer sr-only">
+                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] peer-checked:font-semibold 
+                              border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="text-2xl">6</span>
+                  </div>
                 </label>
-                <label>
-                  <input type="radio" name="duration_weeks" value="8" class="peer sr-only" checked required />
-                  <div class="select-card">8</div>
+                
+                <!-- 8 Wochen (Default) -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="duration" value="8" class="peer sr-only" checked>
+                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] peer-checked:font-semibold 
+                              border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="text-2xl">8</span>
+                  </div>
                 </label>
-                <label>
-                  <input type="radio" name="duration_weeks" value="12" class="peer sr-only" />
-                  <div class="select-card">12</div>
+                
+                <!-- 12 Wochen -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="duration" value="12" class="peer sr-only">
+                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] peer-checked:font-semibold 
+                              border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="text-2xl">12</span>
+                  </div>
                 </label>
               </div>
             </div>
 
-            <!-- REDUCTION SLIDER -->
-            <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm mb-10">
-              <div class="flex justify-between items-center mb-6">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center text-[#10b981]">
-                    <i class="fas fa-chart-line"></i>
-                  </div>
-                  <div>
-                    <p class="font-medium text-slate-700">Reduktionsziel</p>
-                    <p class="text-xs text-slate-400">Ziel-Dosis in Prozent</p>
-                  </div>
+            <!-- REDUCTION SLIDER V4 (Clear Labels + Info Box) -->
+            <div class="bg-white border-2 border-slate-200 rounded-3xl p-8 shadow-sm">
+              <div class="flex items-center gap-4 mb-6">
+                <div class="w-14 h-14 bg-[#f0fdf4] rounded-2xl flex items-center justify-center flex-shrink-0">
+                  <svg class="w-7 h-7 text-[#10b981]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                  </svg>
+                </div>
+                <div class="flex-grow">
+                  <h4 class="font-semibold text-slate-800 text-lg mb-1">Reduktionsziel</h4>
+                  <p class="text-sm text-slate-500">Wie stark möchten Sie Ihre Medikation reduzieren?</p>
                 </div>
                 <div class="text-right">
-                  <span id="reductionVal" class="text-2xl font-light text-[#10b981]">100%</span>
+                  <div class="text-4xl font-light text-[#10b981]" id="reductionValue">100%</div>
+                  <p class="text-xs text-slate-400 uppercase tracking-wide mt-1">Ziel-Dosis</p>
                 </div>
               </div>
               
-              <div class="relative px-2 py-2">
-                <input type="range" name="reduction_goal" min="10" max="100" value="100" step="10" class="w-full" oninput="document.getElementById('reductionVal').innerText = this.value + '%'" />
-                <div class="flex justify-between mt-3 text-[10px] text-slate-400 font-medium px-1">
-                  <span>10%</span>
-                  <span>50%</span>
-                  <span>100% (Keine)</span>
+              <!-- Slider -->
+              <div class="relative px-2 mb-6">
+                <input type="range" name="reduction" min="10" max="100" value="100" step="10" 
+                       class="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer
+                              [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6
+                              [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#10b981] 
+                              [&::-webkit-slider-thumb]:border-4 [&::-webkit-slider-thumb]:border-white
+                              [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:cursor-pointer"
+                       oninput="document.getElementById('reductionValue').innerText = this.value + '%'">
+              </div>
+              
+              <!-- Labels mit Klarstellung -->
+              <div class="flex justify-between text-xs text-slate-400 font-medium px-1">
+                <div class="text-center">
+                  <div class="font-semibold text-slate-600">10%</div>
+                  <div class="text-[10px] mt-1">Minimale Reduktion</div>
                 </div>
+                <div class="text-center">
+                  <div class="font-semibold text-slate-600">50%</div>
+                  <div class="text-[10px] mt-1">Halbe Dosis</div>
+                </div>
+                <div class="text-center">
+                  <div class="font-semibold text-[#10b981]">100%</div>
+                  <div class="text-[10px] mt-1">Komplette Reduktion</div>
+                </div>
+              </div>
+              
+              <!-- Info-Box -->
+              <div class="mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-start gap-3">
+                <svg class="w-5 h-5 text-[#10b981] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <p class="text-xs text-slate-600">
+                  <strong>Hinweis:</strong> 100% bedeutet <strong>komplette Reduktion</strong> der Medikation. 
+                  10% bedeutet minimale Reduktion. Bitte besprechen Sie Ihr Ziel mit Ihrem Arzt.
+                </p>
               </div>
             </div>
 

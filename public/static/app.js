@@ -615,48 +615,52 @@ function createMedicationInput() {
   
   const inputGroup = document.createElement('div');
   inputGroup.className = 'medication-input-group';
-  inputGroup.style.cssText = 'margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); border-radius: 12px; border: 2px solid #14b8a6; position: relative;';
+  inputGroup.style.cssText = 'margin-bottom: 1.5rem;';
   
   inputGroup.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-      <h4 style="margin: 0; color: #0b7b6c; font-size: 1rem;">
-        <i class="fas fa-pills" style="margin-right: 0.5rem;"></i>
-        Medikament ${medicationCount}
-      </h4>
-      ${medicationCount > 1 ? `
-        <button type="button" class="remove-medication" style="background: #fee2e2; color: #dc2626; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem;">
-          <i class="fas fa-times"></i> Entfernen
-        </button>
-      ` : ''}
-    </div>
-    
-    <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
-      <!-- Medication Name with Autocomplete -->
-      <div style="position: relative;">
-        <label class="block text-[10px] uppercase tracking-widest text-slate-400 mb-2 font-medium">
-          Medikamenten-Name
-        </label>
-        <input type="text" 
-               name="medication_display[]" 
-               class="medication-display-input glass-input" 
-               placeholder="z.B. Ibuprofen" 
-               required>
-        <input type="hidden" name="medication_name[]" class="medication-name-hidden">
+    <div class="bg-white border-2 border-[#10b981] rounded-3xl p-6 shadow-sm">
+      <div class="flex items-start gap-4 mb-4">
+        <div class="w-12 h-12 bg-[#f0fdf4] rounded-xl flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-[#10b981]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+        </div>
+        <div class="flex-grow">
+          <h4 class="font-medium text-slate-800 text-lg mb-1">Medikament ${medicationCount}</h4>
+          <p class="text-xs text-slate-400 uppercase tracking-wide">Aktuell eingenommen</p>
+        </div>
+        ${medicationCount > 1 ? `
+          <button type="button" class="remove-medication text-slate-300 hover:text-red-400 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        ` : ''}
       </div>
       
-
-      <!-- Tagesdosis (in mg) - Neues Design -->
-      <div>
-        <label class="block text-[10px] uppercase tracking-widest text-slate-400 mb-2 font-medium">
-          Tagesdosis (in mg)
-        </label>
-        <input type="number" 
-               name="medication_mg_per_day[]" 
-               class="glass-input"
-               placeholder="z.B. 400" 
-               min="0"
-               step="0.1"
-               required>
+      <div class="space-y-4">
+        <!-- Name Input -->
+        <div>
+          <label class="block text-xs text-slate-500 mb-2 font-medium">Medikamenten-Name</label>
+          <input type="text" 
+                 name="med_name[]" 
+                 class="medication-display-input wizard-input" 
+                 placeholder="z.B. Ibuprofen" 
+                 required>
+          <input type="hidden" name="medication_name[]" class="medication-name-hidden">
+        </div>
+        
+        <!-- Dosierung Input -->
+        <div>
+          <label class="block text-xs text-slate-500 mb-2 font-medium">Tagesdosis (in mg)</label>
+          <input type="number" 
+                 name="med_dosage[]" 
+                 class="wizard-input" 
+                 placeholder="z.B. 400" 
+                 min="1" 
+                 required>
+        </div>
       </div>
     </div>
   `;

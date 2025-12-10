@@ -346,14 +346,14 @@ section {
 
 /* ===== APP WIZARD FORM INPUTS (Glass Effect) ===== */
 
-/* HIDE NUMBER INPUT SPINNERS */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+/* HIDE NUMBER INPUT SPINNERS (V4) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
-input[type=number] {
-  -moz-appearance: textfield;
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 /* GLASS INPUTS */
@@ -373,6 +373,24 @@ input[type=number] {
   border-color: #10b981;
   box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
   outline: none;
+}
+
+/* WIZARD INPUT (V4 - Clean Design) */
+.wizard-input {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 300;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+.wizard-input:focus {
+    background: white;
+    border-color: #10b981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+    outline: none;
 }
 
 /* SELECTION CARDS (für Gender, Dauer, usw.) */
