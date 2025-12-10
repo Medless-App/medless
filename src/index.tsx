@@ -5981,6 +5981,27 @@ app.get('/app', (c) => {
   
   <!-- TailwindCSS & FontAwesome für Loading-Animation -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            emerald: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              800: '#065f46',
+              900: '#064e3b',
+            },
+          },
+        },
+      },
+    }
+  </script>
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
   
   <style>
@@ -6101,7 +6122,7 @@ app.get('/app', (c) => {
     }
   </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-[#f0fdf4] via-white to-emerald-50/30 font-sans text-slate-600 antialiased">
   <!-- HEADER -->
   <header class="header">
     <div class="container">
@@ -6121,8 +6142,10 @@ app.get('/app', (c) => {
     </div>
   </header>
 
-  <main>
-    <!-- FORMULAR MIT MULTISTEP -->
+  <!-- MAIN WRAPPER WITH MAX-WIDTH CONTAINER -->
+  <div class="max-w-7xl mx-auto">
+    <main>
+      <!-- FORMULAR MIT MULTISTEP -->
     <section id="tool">
       <h2>Erstellen Sie Ihren persönlichen MEDLESS-Orientierungsplan</h2>
       <p class="muted">
@@ -6714,7 +6737,9 @@ app.get('/app', (c) => {
         }
       </script>
     </section>
-  </main>
+    </main>
+  </div>
+  <!-- END MAX-W-7XL WRAPPER -->
 
   <script>
     // Tabs umschalten
