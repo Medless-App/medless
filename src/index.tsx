@@ -5468,10 +5468,22 @@ app.get('/app', (c) => {
   <link rel="shortcut icon" href="/favicon.png">
   <link rel="apple-touch-icon" href="/favicon.png">
   
-  <!-- Google Fonts (SAME AS LANDING PAGE) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Google Fonts - Inter (Fresh & Fine Design) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { fresh: { primary: '#10b981', mint: '#f0fdf4' } },
+          boxShadow: { 'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.05)' }
+        }
+      }
+    }
+  </script>
   
   <!-- FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
@@ -5484,9 +5496,6 @@ app.get('/app', (c) => {
   
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <!-- Custom CSS (UNIFIED) -->
-  <link rel="stylesheet" href="/styles.css">
 
   <style>
     :root {
@@ -5766,15 +5775,15 @@ app.get('/app', (c) => {
       padding: 0.75rem 1rem;
       font-size: 1rem;
       outline: none;
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.6);
       transition: all 0.2s ease;
     }
 
     input:focus,
     select:focus {
       border-color: #10b981;
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+      background: rgba(255, 255, 255, 1);
       outline: none;
     }
 
@@ -6129,35 +6138,27 @@ app.get('/app', (c) => {
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-[#f0fdf4] via-white to-emerald-50/30 font-sans text-slate-600 antialiased">
-  <!-- HEADER -->
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <span class="logo">
-          <span class="logo-text">Medless</span>
-        </span>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works">So funktioniert's</a></li>
-          <li><a href="/#benefits">Vorteile</a></li>
-          <li><a href="/#faq">FAQ</a></li>
-          <li><a href="/magazin">Magazin</a></li>
-          <li><a href="/fachkreise">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary-sm" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-      </nav>
+<body class="text-slate-600 antialiased bg-gradient-to-br from-[#f0fdf4] via-white to-emerald-50/30 min-h-screen flex flex-col">
+  <!-- HEADER - Fresh & Fine Style -->
+  <header class="w-full bg-white/60 backdrop-blur-md z-50 border-b border-[#10b981]/10 h-16 flex-none">
+    <div class="container mx-auto px-4 md:px-6 h-full flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-lg font-light tracking-wide text-slate-800">MEDLESS</span>
+      </div>
     </div>
   </header>
 
-  <!-- MAIN WRAPPER WITH MAX-WIDTH CONTAINER -->
-  <div class="max-w-7xl mx-auto">
-    <main>
-      <!-- FORMULAR MIT MULTISTEP -->
+  <!-- MAIN CONTENT - Fresh & Fine Layout -->
+  <main class="flex-grow container mx-auto px-4 md:px-6 py-8 flex flex-col items-center justify-start">
+    <div class="max-w-4xl w-full">
+      <div class="text-center mb-10">
+        <h1 class="text-2xl md:text-3xl font-extralight text-slate-900 mb-2">Ihr persönlicher Orientierungsplan</h1>
+        <p class="text-slate-500 font-light">
+          Folgen Sie den Schritten, um Ihre aktuelle Medikation strukturiert zu erfassen und einen persönlichen MEDLESS-Orientierungsplan als Gesprächsgrundlage für Ihren Arzt zu erhalten.
+        </p>
+      </div>
+    
     <section id="tool">
-      <h2 class="text-4xl font-light text-slate-900">Erstellen Sie Ihren persönlichen MEDLESS-Orientierungsplan</h2>
-      <p class="muted">
-        Folgen Sie den Schritten, um Ihre aktuelle Medikation strukturiert zu erfassen und einen persönlichen MEDLESS-Orientierungsplan als Gesprächsgrundlage für Ihren Arzt zu erhalten. Keine Therapie, keine Diagnose – sondern eine klare Übersicht.
-      </p>
 
       <!-- Progress Stepper - FIXED HEIGHT WRAPPER prevents vertical movement -->
       <div style="min-height: 80px; margin-bottom: 1.5rem; margin-top: 0;">
@@ -6213,9 +6214,9 @@ app.get('/app', (c) => {
       <form id="medication-form">
         <!-- STEP 1: Name & Gender -->
         <div id="step-1" class="form-step">
-          <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 class="text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 1: Persönliche Angaben</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Damit wir Sie persönlich ansprechen können.</p>
+          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
+            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 1: Persönliche Angaben</h3>
+            <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Damit wir Sie persönlich ansprechen können.</p>
             
             <div class="form-row">
               <div>
@@ -6254,9 +6255,9 @@ app.get('/app', (c) => {
 
         <!-- STEP 2: Body Data -->
         <div id="step-2" class="form-step" style="display: none;">
-          <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 class="text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Diese Daten helfen uns, die Dosierung individuell zu berechnen.</p>
+          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
+            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
+            <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Diese Daten helfen uns, die Dosierung individuell zu berechnen.</p>
             
             <div class="form-row">
               <div>
@@ -6289,9 +6290,9 @@ app.get('/app', (c) => {
 
         <!-- STEP 3: Medications -->
         <div id="step-3" class="form-step" style="display: none;">
-          <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 class="text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikation</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Geben Sie hier Ihre aktuellen Medikamente ein. Diese Daten werden genutzt, um einen strukturierten Überblick und einen MEDLESS-Orientierungsplan für Ihr Arztgespräch zu erstellen. Es werden keine Therapieempfehlungen berechnet.</p>
+          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
+            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikation</h3>
+            <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Geben Sie hier Ihre aktuellen Medikamente ein. Diese Daten werden genutzt, um einen strukturierten Überblick und einen MEDLESS-Orientierungsplan für Ihr Arztgespräch zu erstellen. Es werden keine Therapieempfehlungen berechnet.</p>
             
             <div id="medication-inputs" style="margin-bottom: 1rem;">
               <!-- Wird durch JavaScript befüllt -->
@@ -6314,9 +6315,9 @@ app.get('/app', (c) => {
 
         <!-- STEP 4: Plan Settings -->
         <div id="step-4" class="form-step" style="display: none;">
-          <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 class="text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Legen Sie hier die Einstellungen für Ihren MEDLESS-Orientierungsplan fest. Auf dieser Basis wird Ihr persönlicher Orientierungsplan für das Gespräch mit Ihrem Arzt berechnet. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.</p>
+          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
+            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
+            <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Legen Sie hier die Einstellungen für Ihren MEDLESS-Orientierungsplan fest. Auf dieser Basis wird Ihr persönlicher Orientierungsplan für das Gespräch mit Ihrem Arzt berechnet. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.</p>
             
             <div class="form-row" style="margin-bottom: 1.5rem;">
               <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
@@ -6419,9 +6420,9 @@ app.get('/app', (c) => {
 
         <!-- STEP 5: Email & Summary -->
         <div id="step-5" class="form-step" style="display: none;">
-          <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 class="text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 5: E-Mail & Zusammenfassung</h3>
-            <p class="muted" style="margin-bottom: 1.5rem;">Überprüfen Sie Ihre Angaben in Ruhe und geben Sie Ihre E-Mail-Adresse ein. Dorthin senden wir den Download-Link zu Ihrem MEDLESS-Orientierungsplan.</p>
+          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
+            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 5: E-Mail & Zusammenfassung</h3>
+            <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Überprüfen Sie Ihre Angaben in Ruhe und geben Sie Ihre E-Mail-Adresse ein. Dorthin senden wir den Download-Link zu Ihrem MEDLESS-Orientierungsplan.</p>
             
             <div class="form-row">
               <div>
