@@ -688,21 +688,25 @@ async function buildAnalyzeResponse(body: any, env: any) {
     email, 
     firstName, 
     vorname,     // German field name
+    patientName,
     gender, 
     geschlecht,  // German field name
+    patientGender,
     age, 
     alter,       // German field name
+    patientAge,
     weight, 
     gewicht,     // German field name
+    patientWeight,
     height,
     groesse      // German field name
   } = body;
   
   // ✅ FIX 2: Field Mapping Standardization (firstName takes priority)
-  const finalFirstName = firstName || vorname || '';
-  const finalGender = geschlecht || gender;
-  const finalAge = alter || age;
-  const finalWeight = gewicht || weight;
+  const finalFirstName = firstName || vorname || patientName || '';
+  const finalGender = geschlecht || gender || patientGender;
+  const finalAge = alter || age || patientAge;
+  const finalWeight = gewicht || weight || patientWeight;
   const finalHeight = groesse || height;
   
   // ✅ FIX 3: Error-Handling für leere Medikamentenliste
@@ -716,6 +720,9 @@ async function buildAnalyzeResponse(body: any, env: any) {
   
   // Normalize medication field names (support both dailyDoseMg and mgPerDay)
   for (const med of medications) {
+    // Normalize medication name (support both name and generic_name)
+    med.name = med.name || med.generic_name || 'Unbekanntes Medikament';
+    
     const doseMg = med.dailyDoseMg || med.mgPerDay;
     if (!doseMg || isNaN(doseMg) || doseMg <= 0) {
       throw new Error(`Bitte geben Sie eine gültige Tagesdosis in mg für "${med.name}" ein`);
@@ -907,7 +914,7 @@ async function buildAnalyzeResponse(body: any, env: any) {
   // Check for Benzos/Opioids
   const adjustmentNotes: string[] = [];
   const hasBenzoOrOpioid = analysisResults.some(result => {
-    const medName = result.medication.name.toLowerCase();
+    const medName = result.medication.name?.toLowerCase() || result.medication.generic_name?.toLowerCase() || '';
     const isBenzo = medName.includes('diazepam') || medName.includes('lorazepam') || 
                     medName.includes('alprazolam') || medName.includes('clonazepam') ||
                     medName.includes('benzo');
