@@ -1,9 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap');
 :root {
   --primary: #10b981;
+  --medless-green: #2FB585;
+  --medless-light-bg: #F4FBF7;
+  --medless-ultra-light: #FAFEFB;
   --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #ecfdf5 100%);
-  --text-main: #475569; /* Slate 600 - Weicher als Schwarz */
-  --text-dark: #1e293b; /* Slate 800 */
+  --text-main: #475569;
+  --text-dark: #1e293b;
+  --text-secondary: #64748b;
 }
 body {
   font-family: 'Inter', sans-serif;
@@ -600,4 +604,296 @@ footer a {
 }
 footer a:hover {
   color: var(--primary);
+}
+
+/* ===================================
+   NEUER HERO-BEREICH (MEDIZINISCH & PROFESSIONELL)
+   =================================== */
+
+.hero-section-new {
+  background: var(--medless-ultra-light);
+  padding: 80px 24px;
+  margin-top: 80px; /* Header-Höhe */
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* LINKE SPALTE: Content */
+.hero-content-new {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* Header Block (Titel + CTA) */
+.hero-header-block {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hero-title-new {
+  font-size: 2.75rem;
+  font-weight: 400;
+  color: var(--text-dark);
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle-new {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.hero-cta-new {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: var(--medless-green);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(47, 181, 133, 0.25);
+  width: fit-content;
+}
+
+.hero-cta-new:hover {
+  background: #26a074;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(47, 181, 133, 0.35);
+}
+
+.cta-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Feature Blocks (Icon links, Text rechts) */
+.hero-features-new {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feature-block-new {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--medless-light-bg);
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(47, 181, 133, 0.12);
+  transition: all 0.3s ease;
+}
+
+.feature-block-new:hover {
+  background: white;
+  border-color: rgba(47, 181, 133, 0.25);
+  box-shadow: 0 4px 12px rgba(47, 181, 133, 0.08);
+  transform: translateX(4px);
+}
+
+.feature-icon-new {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--medless-green);
+  box-shadow: 0 2px 8px rgba(47, 181, 133, 0.12);
+}
+
+.feature-icon-new i {
+  width: 24px;
+  height: 24px;
+}
+
+.feature-text-new h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+}
+
+.feature-text-new p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* RECHTE SPALTE: PDF-Mockup */
+.hero-visual-new {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: sticky;
+  top: 100px;
+}
+
+.pdf-mockup-new {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 480px;
+}
+
+.pdf-header-new {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--medless-light-bg);
+}
+
+.pdf-icon-large {
+  width: 48px;
+  height: 48px;
+  color: var(--medless-green);
+}
+
+.pdf-header-new h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.pdf-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.pdf-content-new {
+  padding: 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pdf-line {
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.pdf-line.short {
+  width: 65%;
+}
+
+.pdf-divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 20px 0;
+}
+
+.pdf-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pdf-section-title {
+  height: 14px;
+  background: var(--medless-green);
+  opacity: 0.2;
+  border-radius: 4px;
+  width: 45%;
+}
+
+.pdf-table-row {
+  height: 32px;
+  background: var(--medless-light-bg);
+  border-radius: 6px;
+  border: 1px solid rgba(47, 181, 133, 0.1);
+}
+
+.pdf-footer-new {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+  justify-content: center;
+}
+
+.pdf-footer-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-secondary);
+}
+
+.pdf-footer-new span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  
+  .hero-visual-new {
+    position: static;
+  }
+  
+  .pdf-mockup-new {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-section-new {
+    padding: 60px 20px;
+  }
+  
+  .hero-title-new {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle-new {
+    font-size: 1rem;
+  }
+  
+  .feature-block-new {
+    padding: 16px;
+  }
+  
+  .feature-icon-new {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .pdf-mockup-new {
+    padding: 24px;
+  }
 }

@@ -65,51 +65,91 @@
   <!-- MAIN CONTENT -->
   <main>
 
-    <!-- SEKTION 1: HERO -->
-    <section id="hero" class="py-24 md:py-24">
-      <div class="container mx-auto px-6 max-w-6xl">
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-          <div class="hero-content">
-            <h1 class="text-4xl md:text-5xl font-light text-slate-900 leading-tight mb-6">Ihr Orientierungsplan für weniger Medikamente – gemeinsam mit Ihrem Arzt</h1>
-            <p class="text-base text-slate-600 leading-relaxed mb-8">MEDLESS hilft Ihnen, Ihre aktuelle Medikation übersichtlich zu erfassen und als verständlichen PDF-Orientierungsplan für Ihr nächstes Arztgespräch aufzubereiten. Keine Therapie, keine Diagnose – sondern eine klare Grundlage, um gemeinsam über mögliche Veränderungen zu sprechen.</p>
-            <button class="bg-[#10b981] text-white px-6 py-3 rounded-full text-base font-medium hover:bg-emerald-600 transition-colors duration-200 inline-flex items-center gap-2 mb-8" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-            <div class="hero-usps-grid">
-              <div class="usp-card">
-                <i data-lucide="check-circle" class="usp-icon-large"></i>
-                <p>Erfasst Ihre aktuellen Medikamente, Dosierungen und Einnahmezeiten</p>
+    <!-- SEKTION 1: HERO (KOMPLETT NEU) -->
+    <section id="hero" class="hero-section-new">
+      <div class="hero-container">
+        <!-- LINKE SPALTE: Content -->
+        <div class="hero-content-new">
+          <!-- Haupttitel + Untertitel + CTA -->
+          <div class="hero-header-block">
+            <h1 class="hero-title-new">Ihr persönlicher MEDLESS-Orientierungsplan</h1>
+            <p class="hero-subtitle-new">Erfasst Medikamente, zeigt Wechselwirkungen, erstellt einen ärztetauglichen PDF-Bericht.</p>
+            <button class="hero-cta-new" onclick="window.location.href='/app'">
+              <i data-lucide="file-plus" class="cta-icon"></i>
+              Orientierungsplan starten
+            </button>
+          </div>
+
+          <!-- Die 4 Info-Blöcke (Icon links, Text rechts) -->
+          <div class="hero-features-new">
+            <div class="feature-block-new">
+              <div class="feature-icon-new">
+                <i data-lucide="check-circle"></i>
               </div>
-              <div class="usp-card">
-                <i data-lucide="list-ordered" class="usp-icon-large"></i>
-                <p>Zeigt mögliche Reihenfolgen für eine schrittweise Reduktion</p>
+              <div class="feature-text-new">
+                <h3>Erfasst Ihre aktuellen Medikamente</h3>
+                <p>Dosierungen und Einnahmezeiten werden automatisch strukturiert</p>
               </div>
-              <div class="usp-card">
-                <i data-lucide="activity" class="usp-icon-large"></i>
-                <p>Macht Wechselwirkungen sichtbar, die Sie im Arztgespräch ansprechen können</p>
+            </div>
+
+            <div class="feature-block-new">
+              <div class="feature-icon-new">
+                <i data-lucide="list-ordered"></i>
               </div>
-              <div class="usp-card">
-                <i data-lucide="file-text" class="usp-icon-large"></i>
-                <p>Erstellt einen übersichtlichen PDF-Orientierungsplan und einen separaten Arztbericht</p>
+              <div class="feature-text-new">
+                <h3>Zeigt mögliche Reihenfolgen</h3>
+                <p>Für eine schrittweise und sichere Reduktion</p>
+              </div>
+            </div>
+
+            <div class="feature-block-new">
+              <div class="feature-icon-new">
+                <i data-lucide="activity"></i>
+              </div>
+              <div class="feature-text-new">
+                <h3>Macht Wechselwirkungen sichtbar</h3>
+                <p>Unterstützt Sie im Arztgespräch</p>
+              </div>
+            </div>
+
+            <div class="feature-block-new">
+              <div class="feature-icon-new">
+                <i data-lucide="file-text"></i>
+              </div>
+              <div class="feature-text-new">
+                <h3>Erstellt einen PDF-Plan</h3>
+                <p>Orientierung für Sie und Ihren Arzt</p>
               </div>
             </div>
           </div>
-          <div class="hero-visual">
-            <div class="mockup-container">
-              <div class="mockup-header">MEDLESS – Orientierungsplan</div>
-              <div class="mockup-content">
-                <div class="mockup-line"></div>
-                <div class="mockup-line"></div>
-                <div class="mockup-line short"></div>
-                <div class="mockup-table">
-                  <div class="mockup-table-row"></div>
-                  <div class="mockup-table-row"></div>
-                  <div class="mockup-table-row"></div>
-                </div>
-                <div class="mockup-line"></div>
-                <div class="mockup-line short"></div>
+        </div>
+
+        <!-- RECHTE SPALTE: PDF-Mockup-Vorschau -->
+        <div class="hero-visual-new">
+          <div class="pdf-mockup-new">
+            <div class="pdf-header-new">
+              <i data-lucide="file-text" class="pdf-icon-large"></i>
+              <h3>MEDLESS – Orientierungsplan</h3>
+              <span class="pdf-subtitle">(PDF-Vorschau)</span>
+            </div>
+            <div class="pdf-content-new">
+              <div class="pdf-line"></div>
+              <div class="pdf-line"></div>
+              <div class="pdf-line short"></div>
+              <div class="pdf-divider"></div>
+              <div class="pdf-section">
+                <div class="pdf-section-title"></div>
+                <div class="pdf-table-row"></div>
+                <div class="pdf-table-row"></div>
+                <div class="pdf-table-row"></div>
               </div>
-              <div class="mockup-footer">
-                <span class="mockup-disclaimer">Keine Therapieempfehlung – Orientierungshilfe für Arztgespräch</span>
-              </div>
+              <div class="pdf-divider"></div>
+              <div class="pdf-line"></div>
+              <div class="pdf-line short"></div>
+            </div>
+            <div class="pdf-footer-new">
+              <i data-lucide="info" class="pdf-footer-icon"></i>
+              <span>Keine Therapieempfehlung – Orientierungshilfe für Arztgespräch</span>
             </div>
           </div>
         </div>
