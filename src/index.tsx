@@ -6282,8 +6282,8 @@ app.get('/app', (c) => {
                 <label class="block text-xs uppercase tracking-wider text-slate-400 mb-3 font-medium text-center">
                   Alter (Jahre) *
                 </label>
-                <input type="number" name="age" class="wizard-input text-center text-lg" 
-                       placeholder="z.B. 45" min="18" max="120" required>
+                <input type="text" inputmode="numeric" pattern="[0-9]*" name="age" class="wizard-input text-center text-lg" 
+                       placeholder="z.B. 45" required>
               </div>
               
               <!-- Größe -->
@@ -6291,8 +6291,8 @@ app.get('/app', (c) => {
                 <label class="block text-xs uppercase tracking-wider text-slate-400 mb-3 font-medium text-center">
                   Größe (cm) *
                 </label>
-                <input type="number" name="height" class="wizard-input text-center text-lg" 
-                       placeholder="z.B. 170" min="100" max="250" required>
+                <input type="text" inputmode="numeric" pattern="[0-9]*" name="height" class="wizard-input text-center text-lg" 
+                       placeholder="z.B. 170" required>
               </div>
               
               <!-- Gewicht -->
@@ -6300,8 +6300,8 @@ app.get('/app', (c) => {
                 <label class="block text-xs uppercase tracking-wider text-slate-400 mb-3 font-medium text-center">
                   Gewicht (kg) *
                 </label>
-                <input type="number" name="weight" class="wizard-input text-center text-lg" 
-                       placeholder="z.B. 70" min="30" max="300" required>
+                <input type="text" inputmode="numeric" pattern="[0-9]*" name="weight" class="wizard-input text-center text-lg" 
+                       placeholder="z.B. 70" required>
               </div>
             </div>
 
@@ -6323,20 +6323,13 @@ app.get('/app', (c) => {
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Geben Sie hier Ihre aktuellen Medikamente ein. Diese Daten werden genutzt, um einen strukturierten Überblick und einen MEDLESS-Orientierungsplan für Ihr Arztgespräch zu erstellen. Es werden keine Therapieempfehlungen berechnet.</p>
             
             <div class="space-y-4 mb-8">
-              <!-- LEERER ZUSTAND (Standard) -->
-              <div id="empty-state" class="text-center py-12 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
-                <i class="fas fa-pills text-4xl text-slate-300 mb-4"></i>
-                <p class="text-sm text-slate-400 font-light">Noch keine Medikamente hinzugefügt.</p>
-                <p class="text-xs text-slate-300 mt-2">Klicken Sie auf "+ Medikament hinzufügen", um zu starten.</p>
-              </div>
-              
-              <!-- LISTE (Wird per JS gefüllt, beginnt leer) -->
+              <!-- LISTE (Wird per JS gefüllt, erste Card wird automatisch erstellt) -->
               <div id="medication-inputs" style="margin-bottom: 1rem;">
                 <!-- Wird durch JavaScript befüllt -->
               </div>
 
               <button type="button" id="add-medication" class="w-full py-4 rounded-2xl border-2 border-dashed border-slate-300 text-slate-400 text-sm font-medium hover:border-[#10b981] hover:text-[#10b981] hover:bg-emerald-50/30 transition-all duration-300">
-                <i class="fas fa-plus mr-2"></i> Medikament hinzufügen
+                <i class="fas fa-plus mr-2"></i> Weiteres Medikament hinzufügen
               </button>
             </div>
 
@@ -7040,9 +7033,10 @@ app.get('/app', (c) => {
         const medicationInputs = document.querySelectorAll('.medication-display-input');
         const dosageInputs = document.querySelectorAll('input[name="med_dosage[]"]');
         
-        // ALLOW empty medication list - user can skip this step
+        // REQUIRE at least 1 medication - no skipping allowed
         if (medicationInputs.length === 0) {
-          return true;
+          alert('Bitte geben Sie mindestens ein Medikament mit Tagesdosis ein.');
+          return false;
         }
         
         let hasValidMedication = false;
@@ -7065,9 +7059,9 @@ app.get('/app', (c) => {
           }
         });
         
-        // If there are medication cards, at least one must be valid
-        if (medicationInputs.length > 0 && !hasValidMedication) {
-          alert('Bitte geben Sie mindestens ein Medikament mit Tagesdosis ein oder entfernen Sie leere Felder.');
+        // At least one medication must be valid
+        if (!hasValidMedication) {
+          alert('Bitte geben Sie mindestens ein Medikament mit Tagesdosis ein.');
           return false;
         }
         

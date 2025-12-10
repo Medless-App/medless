@@ -319,29 +319,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const observer = new MutationObserver(() => {
     const step3 = document.getElementById('step-3');
     const medicationContainer = document.getElementById('medication-inputs');
-    const emptyState = document.getElementById('empty-state');
     
     if (step3 && !step3.classList.contains('hidden') && medicationContainer) {
-      console.log('🔄 Step 3 became visible - checking empty state');
+      console.log('🔄 Step 3 became visible - checking medications');
       
-      // Show empty state if no medications exist
-      if (emptyState && medicationCount === 0) {
-        emptyState.style.display = 'block';
-        console.log('✅ Empty state shown (medicationCount = 0)');
+      // Auto-create first medication if none exist
+      if (medicationCount === 0) {
+        console.log('🎬 Auto-creating first medication input (Observer)');
+        createMedicationInput();
       }
       
-      // Only ensure add-medication button is set up (no auto-creation)
+      // Only ensure add-medication button is set up
       const addBtn = document.getElementById('add-medication');
       if (addBtn && !addBtn.hasAttribute('data-listener-attached')) {
         addBtn.setAttribute('data-listener-attached', 'true');
         addBtn.addEventListener('click', () => {
           console.log('🖱️ Add medication button clicked (fallback handler)');
-          
-          // Hide empty state when first medication is added
-          if (emptyState && medicationCount === 0) {
-            emptyState.style.display = 'none';
-          }
-          
           createMedicationInput();
         });
       }
