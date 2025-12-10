@@ -33,308 +33,495 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="/styles.css">
+  <!-- Tailwind CSS (CDN für Testing - später über Build-System) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'medless-primary': '#2FB585',
+            'medless-primary-dark': '#1B9C6E',
+            'medless-bg-ultra-light': '#FAFEFB',
+            'medless-bg-light': '#F4FBF7',
+            'medless-bg-card': '#E7F8EF',
+            'medless-bg-card-hover': '#D4F1E3',
+            'medless-text-primary': '#1B2A36',
+            'medless-text-secondary': '#5E6A71',
+            'medless-text-tertiary': '#94A3B8',
+            'medless-border-light': '#E9ECEF',
+          },
+          fontSize: {
+            'hero-title': ['42px', { lineHeight: '1.2', fontWeight: '300' }],
+            'section-title': ['40px', { lineHeight: '1.2', fontWeight: '300' }],
+            'card-title': ['21px', { lineHeight: '1.4', fontWeight: '500' }],
+            'card-description': ['15px', { lineHeight: '1.6', fontWeight: '400' }],
+            'button-text': ['16px', { lineHeight: '1.5', fontWeight: '500' }],
+          },
+          borderRadius: {
+            'medless-sm': '12px',
+            'medless-md': '14px',
+            'medless-lg': '16px',
+            'medless-xl': '20px',
+            'medless-button': '24px',
+          },
+          boxShadow: {
+            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.04)',
+            'medless-card-hover': '0 8px 20px rgba(47, 181, 133, 0.12)',
+            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.1)',
+            'medless-button-hover': '0 4px 16px rgba(47, 181, 133, 0.25)',
+            'medless-header': '0 1px 3px rgba(0, 0, 0, 0.03)',
+          },
+          maxWidth: {
+            'container': '1200px',
+          },
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 </head>
-<body class="pt-safe">
+<body class="bg-white">
 
   <!-- HEADER -->
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-      </nav>
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-medless-header">
+    <div class="max-w-container mx-auto px-7 py-5 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="/" class="text-2xl font-semibold text-medless-text-primary tracking-tight">
+        Medless
+      </a>
+      
+      <!-- Navigation -->
+      <ul class="hidden md:flex items-center gap-7">
+        <li><a href="#how-it-works" class="text-[15px] text-gray-600 hover:text-medless-primary transition-colors duration-200">So funktioniert's</a></li>
+        <li><a href="#benefits" class="text-[15px] text-gray-600 hover:text-medless-primary transition-colors duration-200">Vorteile</a></li>
+        <li><a href="#faq" class="text-[15px] text-gray-600 hover:text-medless-primary transition-colors duration-200">FAQ</a></li>
+        <li><a href="/magazin" class="text-[15px] text-gray-600 hover:text-medless-primary transition-colors duration-200">Magazin</a></li>
+        <li><a href="/fachkreise" class="text-[15px] text-gray-600 hover:text-medless-primary transition-colors duration-200">Für Ärzt:innen & Apotheken</a></li>
+      </ul>
+      
+      <!-- CTA Button -->
+      <button 
+        onclick="window.location.href='/app'" 
+        class="inline-flex items-center justify-center gap-3 px-8 py-4 text-button-text text-medless-primary bg-white border-2 border-medless-primary rounded-medless-button transition-all duration-[250ms] hover:bg-medless-primary hover:text-white hover:-translate-y-0.5 shadow-medless-button hover:shadow-medless-button-hover"
+      >
+        Orientierungsplan starten
+      </button>
     </div>
   </header>
 
   <!-- MAIN CONTENT -->
   <main>
 
-    <!-- SEKTION 1: HERO (KOMPLETT NEU) -->
-    <section id="hero" class="hero-section-new">
-      <div class="hero-container">
-        <!-- LINKE SPALTE: Content -->
-        <div class="hero-content-new">
-          <!-- Haupttitel + Untertitel + CTA -->
-          <div class="hero-header-block">
-            <h1 class="hero-title-new">Ihr persönlicher MEDLESS-Orientierungsplan</h1>
-            <p class="hero-subtitle-new">Erfasst Medikamente, zeigt Wechselwirkungen, erstellt einen ärztetauglichen PDF-Bericht.</p>
-            <button class="hero-cta-new" onclick="window.location.href='/app'">
-              <i data-lucide="file-plus" class="cta-icon"></i>
-              Orientierungsplan starten
-            </button>
-          </div>
-
-          <!-- Die 4 Info-Blöcke (Icon links, Text rechts) -->
-          <div class="hero-features-new">
-            <div class="feature-block-new">
-              <div class="feature-icon-new">
-                <i data-lucide="check-circle"></i>
-              </div>
-              <div class="feature-text-new">
-                <h3>Erfasst Ihre aktuellen Medikamente</h3>
-                <p>Dosierungen und Einnahmezeiten werden automatisch strukturiert</p>
-              </div>
+    <!-- HERO SECTION -->
+    <section id="hero" class="bg-gradient-to-br from-medless-bg-ultra-light to-medless-bg-light py-20 px-8">
+      <div class="max-w-container mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          
+          <!-- Left Column: Content -->
+          <div class="space-y-8">
+            
+            <!-- Title + Subtitle + CTA -->
+            <div class="space-y-6">
+              <h1 class="text-hero-title text-medless-text-primary">
+                Ihr persönlicher MEDLESS-Orientierungsplan
+              </h1>
+              
+              <p class="text-xl text-medless-text-secondary leading-relaxed">
+                Erfasst Medikamente, zeigt Wechselwirkungen, erstellt einen ärztetauglichen PDF-Bericht.
+              </p>
+              
+              <button 
+                onclick="window.location.href='/app'" 
+                class="inline-flex items-center justify-center gap-3 px-8 py-4 text-button-text text-white bg-medless-primary border-2 border-medless-primary rounded-medless-button transition-all duration-[250ms] hover:bg-medless-primary-dark hover:-translate-y-0.5 shadow-medless-button hover:shadow-medless-button-hover"
+              >
+                <i data-lucide="file-plus" class="w-5 h-5"></i>
+                Orientierungsplan starten
+              </button>
             </div>
-
-            <div class="feature-block-new">
-              <div class="feature-icon-new">
-                <i data-lucide="list-ordered"></i>
+            
+            <!-- 4 Feature Blocks (horizontal) -->
+            <div class="space-y-4 mt-8">
+              
+              <div class="flex items-start gap-4 bg-medless-primary/5 border border-medless-primary/15 rounded-medless-sm p-5 transition-all duration-300 hover:bg-medless-primary/8 hover:border-medless-primary/30 hover:-translate-y-1 hover:shadow-sm">
+                <div class="flex-shrink-0 w-12 h-12 bg-medless-bg-card rounded-full flex items-center justify-center">
+                  <i data-lucide="check-circle" class="w-6 h-6 text-medless-primary"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-medium text-medless-text-primary mb-1">Erfasst Ihre aktuellen Medikamente</h3>
+                  <p class="text-sm text-medless-text-secondary">Dosierungen und Einnahmezeiten werden automatisch strukturiert</p>
+                </div>
               </div>
-              <div class="feature-text-new">
-                <h3>Zeigt mögliche Reihenfolgen</h3>
-                <p>Für eine schrittweise und sichere Reduktion</p>
+              
+              <div class="flex items-start gap-4 bg-medless-primary/5 border border-medless-primary/15 rounded-medless-sm p-5 transition-all duration-300 hover:bg-medless-primary/8 hover:border-medless-primary/30 hover:-translate-y-1 hover:shadow-sm">
+                <div class="flex-shrink-0 w-12 h-12 bg-medless-bg-card rounded-full flex items-center justify-center">
+                  <i data-lucide="list-ordered" class="w-6 h-6 text-medless-primary"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-medium text-medless-text-primary mb-1">Zeigt mögliche Reihenfolgen</h3>
+                  <p class="text-sm text-medless-text-secondary">Für eine schrittweise und sichere Reduktion</p>
+                </div>
               </div>
-            </div>
-
-            <div class="feature-block-new">
-              <div class="feature-icon-new">
-                <i data-lucide="activity"></i>
+              
+              <div class="flex items-start gap-4 bg-medless-primary/5 border border-medless-primary/15 rounded-medless-sm p-5 transition-all duration-300 hover:bg-medless-primary/8 hover:border-medless-primary/30 hover:-translate-y-1 hover:shadow-sm">
+                <div class="flex-shrink-0 w-12 h-12 bg-medless-bg-card rounded-full flex items-center justify-center">
+                  <i data-lucide="activity" class="w-6 h-6 text-medless-primary"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-medium text-medless-text-primary mb-1">Macht Wechselwirkungen sichtbar</h3>
+                  <p class="text-sm text-medless-text-secondary">Unterstützt Sie im Arztgespräch</p>
+                </div>
               </div>
-              <div class="feature-text-new">
-                <h3>Macht Wechselwirkungen sichtbar</h3>
-                <p>Unterstützt Sie im Arztgespräch</p>
+              
+              <div class="flex items-start gap-4 bg-medless-primary/5 border border-medless-primary/15 rounded-medless-sm p-5 transition-all duration-300 hover:bg-medless-primary/8 hover:border-medless-primary/30 hover:-translate-y-1 hover:shadow-sm">
+                <div class="flex-shrink-0 w-12 h-12 bg-medless-bg-card rounded-full flex items-center justify-center">
+                  <i data-lucide="file-text" class="w-6 h-6 text-medless-primary"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-medium text-medless-text-primary mb-1">Erstellt einen PDF-Plan</h3>
+                  <p class="text-sm text-medless-text-secondary">Orientierung für Sie und Ihren Arzt</p>
+                </div>
               </div>
-            </div>
-
-            <div class="feature-block-new">
-              <div class="feature-icon-new">
-                <i data-lucide="file-text"></i>
-              </div>
-              <div class="feature-text-new">
-                <h3>Erstellt einen PDF-Plan</h3>
-                <p>Orientierung für Sie und Ihren Arzt</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- RECHTE SPALTE: PDF-Mockup-Vorschau -->
-        <div class="hero-visual-new">
-          <div class="pdf-mockup-new">
-            <div class="pdf-header-new">
-              <i data-lucide="file-text" class="pdf-icon-large"></i>
-              <h3>MEDLESS – Orientierungsplan</h3>
-              <span class="pdf-subtitle">(PDF-Vorschau)</span>
-            </div>
-            <div class="pdf-content-new">
-              <div class="pdf-line"></div>
-              <div class="pdf-line"></div>
-              <div class="pdf-line short"></div>
-              <div class="pdf-divider"></div>
-              <div class="pdf-section">
-                <div class="pdf-section-title"></div>
-                <div class="pdf-table-row"></div>
-                <div class="pdf-table-row"></div>
-                <div class="pdf-table-row"></div>
-              </div>
-              <div class="pdf-divider"></div>
-              <div class="pdf-line"></div>
-              <div class="pdf-line short"></div>
-            </div>
-            <div class="pdf-footer-new">
-              <i data-lucide="info" class="pdf-footer-icon"></i>
-              <span>Keine Therapieempfehlung – Orientierungshilfe für Arztgespräch</span>
+              
             </div>
           </div>
+          
+          <!-- Right Column: PDF Mockup -->
+          <div class="flex items-center justify-center">
+            <div class="bg-white border border-medless-border-light rounded-medless-lg p-8 shadow-medless-card max-w-md w-full">
+              <div class="text-center space-y-6">
+                
+                <!-- Header -->
+                <div class="flex flex-col items-center gap-3">
+                  <div class="w-16 h-16 bg-medless-bg-card rounded-medless-md flex items-center justify-center">
+                    <i data-lucide="file-text" class="w-10 h-10 text-medless-primary"></i>
+                  </div>
+                  <h3 class="text-card-title text-medless-text-primary">
+                    MEDLESS – Orientierungsplan
+                  </h3>
+                  <span class="text-sm text-medless-text-tertiary">(PDF-Vorschau)</span>
+                </div>
+                
+                <!-- Dummy Content Lines -->
+                <div class="space-y-3 py-6">
+                  <div class="h-3 bg-gray-200 rounded w-3/4 mx-auto"></div>
+                  <div class="h-3 bg-gray-200 rounded w-full"></div>
+                  <div class="h-3 bg-gray-200 rounded w-5/6 mx-auto"></div>
+                  <div class="h-px bg-gray-300 my-4"></div>
+                  <div class="space-y-2">
+                    <div class="h-2 bg-gray-100 rounded w-1/2 mx-auto"></div>
+                    <div class="h-6 bg-gray-200 rounded"></div>
+                    <div class="h-6 bg-gray-200 rounded"></div>
+                    <div class="h-6 bg-gray-200 rounded"></div>
+                  </div>
+                  <div class="h-px bg-gray-300 my-4"></div>
+                  <div class="h-3 bg-gray-200 rounded w-3/4 mx-auto"></div>
+                  <div class="h-3 bg-gray-200 rounded w-2/3 mx-auto"></div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="pt-4 border-t border-gray-200 flex items-center justify-center gap-2 text-xs text-medless-text-tertiary">
+                  <i data-lucide="info" class="w-4 h-4"></i>
+                  <span>Keine Therapieempfehlung – Orientierungshilfe für Arztgespräch</span>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
         </div>
       </div>
     </section>
 
-    <!-- SEKTION 2: PROBLEM/EMPATHIE -->
-    <section id="problem" class="py-20 md:py-20 bg-slate-50">
-      <div class="container mx-auto px-6 max-w-6xl">
+    <!-- PROBLEM/EMPATHIE SECTION -->
+    <section id="problem" class="py-20 bg-slate-50">
+      <div class="max-w-6xl mx-auto px-8">
         <div class="text-center max-w-4xl mx-auto">
+          
           <div class="inline-flex items-center justify-center w-16 h-16 bg-slate-200 rounded-full mb-6">
             <i data-lucide="scale" class="w-8 h-8 text-slate-600"></i>
           </div>
-          <h2 class="text-3xl md:text-4xl font-light text-slate-900 leading-tight mb-4">Du fragst dich, ob du so viele Medikamente wirklich brauchst?</h2>
-          <p class="text-base text-slate-600 leading-relaxed mb-6">Viele Menschen nehmen über Jahre Medikamente ein – manchmal ohne genauen Überblick. Das Gefühl, die Kontrolle verloren zu haben, ist völlig normal. Medless hilft dir, wieder Klarheit zu gewinnen – nicht als Ersatz für deinen Arzt, sondern als strukturierte Vorbereitung für dein nächstes Gespräch mit ihm.</p>
-          <div class="callout-box">
-            <p><strong>💚 Du bist nicht allein.</strong> Viele Menschen wünschen sich mehr Transparenz über ihre Medikation – und das ist völlig berechtigt.</p>
+          
+          <h2 class="text-4xl font-light text-slate-900 leading-tight mb-6">
+            Du fragst dich, ob du so viele Medikamente wirklich brauchst?
+          </h2>
+          
+          <p class="text-base text-slate-600 leading-relaxed mb-6">
+            Viele Menschen nehmen über Jahre Medikamente ein – manchmal ohne genauen Überblick. Das Gefühl, die Kontrolle verloren zu haben, ist völlig normal. Medless hilft dir, wieder Klarheit zu gewinnen – nicht als Ersatz für deinen Arzt, sondern als strukturierte Vorbereitung für dein nächstes Gespräch mit ihm.
+          </p>
+          
+          <div class="bg-medless-bg-card border border-medless-primary/20 rounded-medless-md p-6 text-left">
+            <p class="text-base text-medless-text-primary">
+              <strong>💚 Du bist nicht allein.</strong> Viele Menschen wünschen sich mehr Transparenz über ihre Medikation – und das ist völlig berechtigt.
+            </p>
           </div>
+          
         </div>
       </div>
     </section>
 
-    <!-- SEKTION 3: SO FUNKTIONIERT'S (NEU) -->
-    <section id="how-it-works" class="how-it-works-section-new">
-        <div class="how-it-works-container">
-            <h2 class="how-it-works-title">So funktioniert Medless</h2>
-            
-            <div class="steps-grid-new">
-                <!-- SCHRITT 01 -->
-                <div class="step-card-new">
-                    <div class="step-icon-wrapper">
-                        <i data-lucide="clipboard-list" class="step-icon"></i>
-                    </div>
-                    <div class="step-label">SCHRITT 01</div>
-                    <h3 class="step-title">Erfassen</h3>
-                    <p class="step-description">In 3 Minuten Medikamente eingeben.</p>
-                </div>
-
-                <!-- SCHRITT 02 -->
-                <div class="step-card-new">
-                    <div class="step-icon-wrapper">
-                        <i data-lucide="file-check" class="step-icon"></i>
-                    </div>
-                    <div class="step-label">SCHRITT 02</div>
-                    <h3 class="step-title">Plan erhalten</h3>
-                    <p class="step-description">Sofortiger PDF-Orientierungsplan.</p>
-                </div>
-
-                <!-- SCHRITT 03 -->
-                <div class="step-card-new">
-                    <div class="step-icon-wrapper">
-                        <i data-lucide="users" class="step-icon"></i>
-                    </div>
-                    <div class="step-label">SCHRITT 03</div>
-                    <h3 class="step-title">Besprechen</h3>
-                    <p class="step-description">Bessere Gespräche mit Ihrem Arzt.</p>
-                </div>
+    <!-- SO FUNKTIONIERT'S SECTION -->
+    <section id="how-it-works" class="bg-white py-20 px-8">
+      <div class="max-w-container mx-auto">
+        
+        <!-- Section Title -->
+        <h2 class="text-section-title text-medless-text-primary text-center mb-16">
+          So funktioniert Medless
+        </h2>
+        
+        <!-- 3-Column Grid -->
+        <div class="grid md:grid-cols-3 gap-8">
+          
+          <!-- Step 1 -->
+          <div class="group">
+            <div class="bg-white border border-black/[0.06] rounded-medless-lg p-10 text-center transition-all duration-[250ms] hover:-translate-y-1 hover:shadow-medless-card-hover hover:border-medless-primary/25">
+              
+              <!-- Icon -->
+              <div class="w-20 h-20 mx-auto mb-6 bg-medless-bg-card rounded-medless-xl flex items-center justify-center transition-all duration-300 group-hover:bg-medless-bg-card-hover group-hover:scale-105">
+                <i data-lucide="clipboard-list" class="w-10 h-10 text-medless-primary"></i>
+              </div>
+              
+              <!-- Step Label -->
+              <p class="text-xs font-semibold uppercase tracking-wider text-medless-text-tertiary mb-3">
+                SCHRITT 01
+              </p>
+              
+              <!-- Title -->
+              <h3 class="text-card-title text-medless-text-primary mb-3">
+                Erfassen
+              </h3>
+              
+              <!-- Description -->
+              <p class="text-card-description text-medless-text-secondary">
+                In 3 Minuten Medikamente eingeben.
+              </p>
             </div>
+          </div>
+          
+          <!-- Step 2 -->
+          <div class="group">
+            <div class="bg-white border border-black/[0.06] rounded-medless-lg p-10 text-center transition-all duration-[250ms] hover:-translate-y-1 hover:shadow-medless-card-hover hover:border-medless-primary/25">
+              
+              <div class="w-20 h-20 mx-auto mb-6 bg-medless-bg-card rounded-medless-xl flex items-center justify-center transition-all duration-300 group-hover:bg-medless-bg-card-hover group-hover:scale-105">
+                <i data-lucide="file-check" class="w-10 h-10 text-medless-primary"></i>
+              </div>
+              
+              <p class="text-xs font-semibold uppercase tracking-wider text-medless-text-tertiary mb-3">
+                SCHRITT 02
+              </p>
+              
+              <h3 class="text-card-title text-medless-text-primary mb-3">
+                Plan erhalten
+              </h3>
+              
+              <p class="text-card-description text-medless-text-secondary">
+                Sofortiger PDF-Orientierungsplan.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Step 3 -->
+          <div class="group">
+            <div class="bg-white border border-black/[0.06] rounded-medless-lg p-10 text-center transition-all duration-[250ms] hover:-translate-y-1 hover:shadow-medless-card-hover hover:border-medless-primary/25">
+              
+              <div class="w-20 h-20 mx-auto mb-6 bg-medless-bg-card rounded-medless-xl flex items-center justify-center transition-all duration-300 group-hover:bg-medless-bg-card-hover group-hover:scale-105">
+                <i data-lucide="users" class="w-10 h-10 text-medless-primary"></i>
+              </div>
+              
+              <p class="text-xs font-semibold uppercase tracking-wider text-medless-text-tertiary mb-3">
+                SCHRITT 03
+              </p>
+              
+              <h3 class="text-card-title text-medless-text-primary mb-3">
+                Besprechen
+              </h3>
+              
+              <p class="text-card-description text-medless-text-secondary">
+                Bessere Gespräche mit Ihrem Arzt.
+              </p>
+            </div>
+          </div>
+          
         </div>
+      </div>
     </section>
 
-
-
-    <!-- SEKTION 4: BENEFITS -->
-    <section id="benefits" class="py-20 md:py-20 bg-slate-50">
-      <div class="container mx-auto px-6 max-w-6xl">
-        <h2 class="text-3xl md:text-4xl font-light text-slate-900 leading-tight mb-12 text-center">Was dir Medless bringt – konkret und klar</h2>
+    <!-- BENEFITS SECTION -->
+    <section id="benefits" class="py-20 bg-slate-50">
+      <div class="max-w-6xl mx-auto px-8">
+        
+        <h2 class="text-4xl font-light text-slate-900 leading-tight mb-12 text-center">
+          Was dir Medless bringt – konkret und klar
+        </h2>
+        
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          
+          <!-- Benefit 1 -->
           <div class="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm transition-transform hover:scale-105 hover:shadow-md">
-            <i data-lucide="layout-grid" class="w-8 h-8 text-[#10b981] mb-6"></i>
-            <h3 class="text-xl md:text-2xl font-medium text-slate-800 leading-snug mb-3">Struktur & Überblick</h3>
+            <i data-lucide="layout-grid" class="w-8 h-8 text-medless-primary mb-6"></i>
+            <h3 class="text-xl font-medium text-slate-800 leading-snug mb-3">Struktur & Überblick</h3>
             <p class="text-base text-slate-600 leading-relaxed">Sieh alle deine Medikamente auf einen Blick – sortiert, übersichtlich, ohne medizinisches Fachwissen vorauszusetzen.</p>
           </div>
+          
+          <!-- Benefit 2 -->
           <div class="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm transition-transform hover:scale-105 hover:shadow-md">
-            <i data-lucide="message-square-text" class="w-8 h-8 text-[#10b981] mb-6"></i>
-            <h3 class="text-xl md:text-2xl font-medium text-slate-800 leading-snug mb-3">Bessere Arztgespräche</h3>
+            <i data-lucide="message-square-text" class="w-8 h-8 text-medless-primary mb-6"></i>
+            <h3 class="text-xl font-medium text-slate-800 leading-snug mb-3">Bessere Arztgespräche</h3>
             <p class="text-base text-slate-600 leading-relaxed">Dein Arzt erhält eine strukturierte Gesprächsgrundlage – das spart Zeit und schafft Klarheit für beide Seiten.</p>
           </div>
+          
+          <!-- Benefit 3 -->
           <div class="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm transition-transform hover:scale-105 hover:shadow-md">
-            <i data-lucide="heart-handshake" class="w-8 h-8 text-[#10b981] mb-6"></i>
-            <h3 class="text-xl md:text-2xl font-medium text-slate-800 leading-snug mb-3">Mentale Entlastung</h3>
+            <i data-lucide="heart-handshake" class="w-8 h-8 text-medless-primary mb-6"></i>
+            <h3 class="text-xl font-medium text-slate-800 leading-snug mb-3">Mentale Entlastung</h3>
             <p class="text-base text-slate-600 leading-relaxed">Schluss mit dem Gefühl, die Kontrolle verloren zu haben. Du gehst vorbereitet ins Gespräch – das gibt dir Sicherheit.</p>
           </div>
+          
+          <!-- Benefit 4 -->
           <div class="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm transition-transform hover:scale-105 hover:shadow-md">
-            <i data-lucide="lightbulb" class="w-8 h-8 text-[#10b981] mb-6"></i>
-            <h3 class="text-xl md:text-2xl font-medium text-slate-800 leading-snug mb-3">Transparenz & Verständnis</h3>
+            <i data-lucide="lightbulb" class="w-8 h-8 text-medless-primary mb-6"></i>
+            <h3 class="text-xl font-medium text-slate-800 leading-snug mb-3">Transparenz & Verständnis</h3>
             <p class="text-base text-slate-600 leading-relaxed">Verstehe, welche Medikamente du nimmst – ohne medizinische Vorkenntnisse, aber mit klaren Informationen.</p>
           </div>
+          
         </div>
       </div>
     </section>
 
-    <!-- SEKTION 5: ZWISCHEN-CTA -->
-    <section id="cta" class="py-20 md:py-20">
-      <div class="container mx-auto px-6 max-w-6xl">
+    <!-- CTA SECTION -->
+    <section id="cta" class="py-20">
+      <div class="max-w-6xl mx-auto px-8">
         <div class="bg-gradient-to-br from-emerald-50 to-white rounded-3xl p-12 text-center border border-emerald-100">
-          <div class="inline-flex items-center justify-center w-16 h-16 bg-[#10b981] rounded-full mb-6">
+          
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-medless-primary rounded-full mb-6">
             <i data-lucide="sparkles" class="w-8 h-8 text-white"></i>
           </div>
-          <h2 class="text-3xl md:text-4xl font-light text-slate-900 leading-tight mb-4">Bereit, deinen nächsten Schritt vorzubereiten?</h2>
-          <p class="text-base text-slate-600 leading-relaxed max-w-3xl mx-auto mb-8">Die kostenlose Analyse von Medless gibt dir einen strukturierten Überblick über deine Medikation – als Orientierungshilfe für dein nächstes Arztgespräch. In nur wenigen Minuten erhältst du einen PDF-Orientierungsplan, den du gemeinsam mit deinem Arzt besprechen kannst. Keine Diagnose, keine Therapieempfehlung – nur Klarheit und Struktur.</p>
+          
+          <h2 class="text-4xl font-light text-slate-900 leading-tight mb-4">
+            Bereit, deinen nächsten Schritt vorzubereiten?
+          </h2>
+          
+          <p class="text-base text-slate-600 leading-relaxed max-w-3xl mx-auto mb-8">
+            Die kostenlose Analyse von Medless gibt dir einen strukturierten Überblick über deine Medikation – als Orientierungshilfe für dein nächstes Arztgespräch. In nur wenigen Minuten erhältst du einen PDF-Orientierungsplan, den du gemeinsam mit deinem Arzt besprechen kannst. Keine Diagnose, keine Therapieempfehlung – nur Klarheit und Struktur.
+          </p>
+          
           <div class="flex flex-wrap items-center justify-center gap-4">
-            <button class="bg-[#10b981] text-white px-6 py-3 rounded-full text-base font-medium hover:bg-emerald-600 transition-colors duration-200 inline-flex items-center gap-2" onclick="window.location.href='/app'">Jetzt kostenlose Analyse starten</button>
-            <button class="border border-slate-300 text-slate-700 px-6 py-3 rounded-full text-base font-medium hover:border-[#10b981] hover:text-[#10b981] transition-colors duration-200" onclick="document.getElementById('faq').scrollIntoView({behavior: 'smooth'})">Mehr über Medless erfahren</button>
+            <button 
+              class="bg-medless-primary text-white px-6 py-3 rounded-full text-base font-medium hover:bg-emerald-600 transition-colors duration-200 inline-flex items-center gap-2" 
+              onclick="window.location.href='/app'"
+            >
+              Jetzt kostenlose Analyse starten
+            </button>
+            <button 
+              class="border border-slate-300 text-slate-700 px-6 py-3 rounded-full text-base font-medium hover:border-medless-primary hover:text-medless-primary transition-colors duration-200" 
+              onclick="document.getElementById('faq').scrollIntoView({behavior: 'smooth'})"
+            >
+              Mehr über Medless erfahren
+            </button>
           </div>
+          
         </div>
       </div>
     </section>
 
-    <!-- SEKTION 6: FAQ -->
-    <section id="faq" class="py-20 md:py-20 bg-slate-50">
-      <div class="container mx-auto px-6 max-w-4xl">
-        <h2 class="text-3xl md:text-4xl font-light text-slate-900 leading-tight mb-12 text-center">Häufige Fragen zu Medless</h2>
-        <div class="faq-accordion space-y-4">
+    <!-- FAQ SECTION -->
+    <section id="faq" class="py-20 bg-slate-50">
+      <div class="max-w-4xl mx-auto px-8">
+        
+        <h2 class="text-4xl font-light text-slate-900 leading-tight mb-12 text-center">
+          Häufige Fragen zu Medless
+        </h2>
+        
+        <div class="space-y-4">
           
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Was ist Medless genau?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
+          <!-- FAQ Item 1 -->
+          <div class="faq-item bg-white rounded-medless-md border border-slate-200 overflow-hidden">
+            <div class="faq-question flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors">
+              <span class="font-medium text-medless-text-primary">Was ist Medless genau?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
             </div>
-            <div class="faq-answer">
+            <div class="faq-answer hidden p-6 pt-0 text-slate-600 leading-relaxed">
               <p>Medless ist eine digitale Orientierungshilfe, die dir einen strukturierten Überblick über deine aktuelle Medikation gibt. Du erhältst einen PDF-Orientierungsplan, der dir hilft, dich auf ein Arztgespräch vorzubereiten. Medless ist kein Medizinprodukt, stellt keine Diagnosen und gibt keine Therapieempfehlungen – es bietet dir lediglich eine Übersicht und Struktur für dein Gespräch mit deinem Arzt.</p>
             </div>
           </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Ist Medless ein Medizinprodukt oder ersetzt es meinen Arzt?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
+          
+          <!-- FAQ Item 2 -->
+          <div class="faq-item bg-white rounded-medless-md border border-slate-200 overflow-hidden">
+            <div class="faq-question flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors">
+              <span class="font-medium text-medless-text-primary">Ist Medless ein Medizinprodukt oder ersetzt es meinen Arzt?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
             </div>
-            <div class="faq-answer">
+            <div class="faq-answer hidden p-6 pt-0 text-slate-600 leading-relaxed">
               <p>Nein, auf keinen Fall. Medless ist weder ein Medizinprodukt noch ersetzt es ärztliche Beratung oder Behandlung. Alle medizinischen Entscheidungen – ob, wie und wann du Medikamente anpasst – trifft ausschließlich dein Arzt. Medless liefert dir nur eine strukturierte Gesprächsgrundlage, die dein Arzt nutzen kann, um gemeinsam mit dir die nächsten Schritte zu planen.</p>
             </div>
           </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Muss ich den Orientierungsplan mit meinem Arzt besprechen?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
+          
+          <!-- FAQ Item 3 -->
+          <div class="faq-item bg-white rounded-medless-md border border-slate-200 overflow-hidden">
+            <div class="faq-question flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors">
+              <span class="font-medium text-medless-text-primary">Muss ich den Orientierungsplan mit meinem Arzt besprechen?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
             </div>
-            <div class="faq-answer">
+            <div class="faq-answer hidden p-6 pt-0 text-slate-600 leading-relaxed">
               <p>Ja, unbedingt. Der Orientierungsplan ist ausdrücklich dafür gedacht, dass du ihn gemeinsam mit deinem Arzt besprichst. Nur dein Arzt kennt deine vollständige Krankengeschichte und kann entscheiden, welche Anpassungen für dich sinnvoll und sicher sind. Medless ersetzt niemals ein Arztgespräch – es bereitet dich darauf vor.</p>
             </div>
           </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Für welche Medikamente ist Medless geeignet?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
+          
+          <!-- FAQ Item 4 -->
+          <div class="faq-item bg-white rounded-medless-md border border-slate-200 overflow-hidden">
+            <div class="faq-question flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors">
+              <span class="font-medium text-medless-text-primary">Kann ich mit Medless meine Medikamente wirklich reduzieren?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
             </div>
-            <div class="faq-answer">
+            <div class="faq-answer hidden p-6 pt-0 text-slate-600 leading-relaxed">
               <p>Medless richtet sich primär an Menschen, die über einen längeren Zeitraum Medikamente einnehmen und sich einen strukturierten Überblick wünschen. Die Analyse prüft, ob deine Medikamente grundsätzlich in den Orientierungsplan aufgenommen werden können – die endgültige Entscheidung, ob und wie eine Anpassung sinnvoll ist, liegt immer bei deinem Arzt. Medless macht keine medizinischen Versprechen oder Garantien.</p>
             </div>
           </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Was bekomme ich kostenlos – und gibt es weitere Kosten?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
+          
+          <!-- FAQ Item 5 -->
+          <div class="faq-item bg-white rounded-medless-md border border-slate-200 overflow-hidden">
+            <div class="faq-question flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors">
+              <span class="font-medium text-medless-text-primary">Was bekomme ich kostenlos – und gibt es weitere Kosten?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
             </div>
-            <div class="faq-answer">
+            <div class="faq-answer hidden p-6 pt-0 text-slate-600 leading-relaxed">
               <p>Die Medless-Analyse und dein persönlicher PDF-Orientierungsplan sind vollständig kostenlos. Du kannst den Plan direkt herunterladen, ausdrucken oder per E-Mail erhalten. Es gibt keine versteckten Kosten für die Analyse selbst. Falls du dich später für weitere Informationen, Produkte oder Services interessierst, findest du diese transparent auf unserer Website – aber das ist vollkommen optional.</p>
             </div>
           </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Wie geht Medless mit meinen Daten um?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
+          
+          <!-- FAQ Item 6 -->
+          <div class="faq-item bg-white rounded-medless-md border border-slate-200 overflow-hidden">
+            <div class="faq-question flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors">
+              <span class="font-medium text-medless-text-primary">Wie geht Medless mit meinen Daten um?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
             </div>
-            <div class="faq-answer">
+            <div class="faq-answer hidden p-6 pt-0 text-slate-600 leading-relaxed">
               <p>Deine Daten werden vertraulich behandelt und nicht an Dritte weitergegeben. Medless speichert nur die Informationen, die für die Erstellung deines Orientierungsplans notwendig sind. Du kannst den Plan jederzeit ohne Angabe deiner E-Mail-Adresse direkt herunterladen. Weitere Details findest du in unserer Datenschutzerklärung.</p>
             </div>
           </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <span class="faq-question-text">Was passiert nach der Analyse?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
+          
+          <!-- FAQ Item 7 -->
+          <div class="faq-item bg-white rounded-medless-md border border-slate-200 overflow-hidden">
+            <div class="faq-question flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors">
+              <span class="font-medium text-medless-text-primary">Was passiert nach der Analyse?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
             </div>
-            <div class="faq-answer">
+            <div class="faq-answer hidden p-6 pt-0 text-slate-600 leading-relaxed">
               <p>Nach der Analyse erhältst du sofort deinen PDF-Orientierungsplan. Du kannst ihn speichern, ausdrucken oder per E-Mail abrufen. Der nächste Schritt liegt bei dir: Vereinbare einen Termin mit deinem Arzt und besprich den Plan gemeinsam mit ihm. Medless startet keine automatische Therapie und gibt keine weiteren Anweisungen – du behältst die volle Kontrolle über deine nächsten Schritte.</p>
             </div>
           </div>
-
+          
         </div>
       </div>
     </section>
@@ -342,29 +529,36 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-slate-900 text-slate-300 py-24 md:py-24 px-6">
-      <div class="container mx-auto px-6 max-w-6xl">
-        <div class="grid md:grid-cols-4 gap-12 mb-12">
-          <div>
-              <strong class="text-white font-medium mb-4 text-sm block">MEDLESS</strong>
-              <p class="text-sm leading-relaxed text-slate-400">Weniger ist mehr.</p>
-          </div>
-          <div>
-              <strong class="text-white font-medium mb-4 text-sm block">Rechtliches</strong>
-              <ul class="space-y-2 text-sm">
-                  <li><a href="/impressum" class="hover:text-[#10b981] transition-colors">Impressum</a></li>
-                  <li><a href="/datenschutz" class="hover:text-[#10b981] transition-colors">Datenschutz</a></li>
-              </ul>
-          </div>
-          <div>
-              <strong class="text-white font-medium mb-4 text-sm block">Kontakt</strong>
-              <a href="mailto:info@medless.de" class="text-[#10b981] text-sm hover:text-emerald-400 transition-colors">info@medless.de</a>
-          </div>
+  <footer class="bg-slate-900 text-slate-300 py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        
+        <div>
+          <strong class="text-white font-medium mb-4 text-sm block">MEDLESS</strong>
+          <p class="text-sm leading-relaxed text-slate-400">Weniger ist mehr.</p>
         </div>
-        <div class="border-t border-slate-800 pt-8 text-sm text-center">
-          <p>© 2025 Medless. Alle Rechte vorbehalten.</p>
+        
+        <div>
+          <strong class="text-white font-medium mb-4 text-sm block">Rechtliches</strong>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/impressum" class="hover:text-medless-primary transition-colors">Impressum</a></li>
+            <li><a href="/datenschutz" class="hover:text-medless-primary transition-colors">Datenschutz</a></li>
+          </ul>
         </div>
+        
+        <div>
+          <strong class="text-white font-medium mb-4 text-sm block">Kontakt</strong>
+          <a href="mailto:info@medless.de" class="text-medless-primary text-sm hover:text-emerald-400 transition-colors">info@medless.de</a>
+        </div>
+        
       </div>
+      
+      <div class="border-t border-slate-800 pt-8 text-sm text-center">
+        <p>© 2025 Medless. Alle Rechte vorbehalten.</p>
+      </div>
+      
+    </div>
   </footer>
 
   <!-- JAVASCRIPT -->
@@ -376,19 +570,19 @@
     document.querySelectorAll('.faq-question').forEach(question => {
       question.addEventListener('click', function() {
         const faqItem = this.parentElement;
-        const isActive = faqItem.classList.contains('active');
-        
-        // Close all other FAQ items
-        document.querySelectorAll('.faq-item').forEach(item => {
-          item.classList.remove('active');
-          const icon = item.querySelector('.faq-icon');
-          icon.setAttribute('data-lucide', 'chevron-down');
-        });
+        const answer = faqItem.querySelector('.faq-answer');
+        const icon = this.querySelector('[data-lucide]');
         
         // Toggle current item
+        const isActive = !answer.classList.contains('hidden');
+        
+        // Close all FAQ items
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-question [data-lucide]').forEach(i => i.setAttribute('data-lucide', 'chevron-down'));
+        
+        // Open clicked item if it wasn't active
         if (!isActive) {
-          faqItem.classList.add('active');
-          const icon = this.querySelector('.faq-icon');
+          answer.classList.remove('hidden');
           icon.setAttribute('data-lucide', 'chevron-up');
         }
         
