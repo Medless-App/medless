@@ -5,6 +5,16 @@ import crypto from 'crypto';
 
 console.log('🔧 Generating build info...');
 
+// Read version from package.json
+let version = '1.0.0';
+try {
+  const packageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
+  version = packageJson.version || '1.0.0';
+  console.log(`✅ Version: ${version} (from package.json)`);
+} catch (error) {
+  console.warn('⚠️ Could not read version from package.json, using default');
+}
+
 // Get git commit hash
 let commit = 'unknown';
 let branch = 'main';
@@ -39,7 +49,7 @@ export const BUILD_INFO = {
   commit: '${commit}',
   branch: '${branch}',
   asset: 'static/app.js',
-  version: '1.0.0'
+  version: '${version}'
 };
 `;
 
@@ -53,7 +63,7 @@ const buildInfoJSON = JSON.stringify({
   commit,
   branch,
   asset: 'static/app.js',
-  version: '1.0.0'
+  version
 }, null, 2);
 
 writeFileSync('./dist/build-info.json', buildInfoJSON);
