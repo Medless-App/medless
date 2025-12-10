@@ -897,3 +897,146 @@ footer a:hover {
     padding: 24px;
   }
 }
+
+/* ===================================
+   SO FUNKTIONIERT'S SECTION (NEU)
+   Medizinisch, minimalistisch, mit Hover-Effekten
+   =================================== */
+
+.how-it-works-section-new {
+  background: white;
+  padding: 80px 24px;
+}
+
+.how-it-works-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.how-it-works-title {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--text-dark);
+  text-align: center;
+  margin: 0 0 64px 0;
+  letter-spacing: -0.02em;
+}
+
+/* 3-Spalten-Grid */
+.steps-grid-new {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* Step Cards */
+.step-card-new {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 40px 32px;
+  text-align: center;
+  transition: all 0.25s ease-out;
+  cursor: pointer;
+}
+
+.step-card-new:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(47, 181, 133, 0.12);
+  border-color: rgba(47, 181, 133, 0.25);
+  background: #F8FDFC;
+}
+
+/* Icon Wrapper */
+.step-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  background: #E9F7F0;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  transition: all 0.25s ease-out;
+}
+
+.step-card-new:hover .step-icon-wrapper {
+  background: #D4F1E3;
+  transform: scale(1.05);
+}
+
+.step-icon {
+  width: 44px;
+  height: 44px;
+  color: #2FB585;
+}
+
+/* Step Label (SCHRITT 01) */
+.step-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+/* Step Title */
+.step-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1B2A36;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+/* Step Description */
+.step-description {
+  font-size: 16px;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .steps-grid-new {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .step-card-new {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .how-it-works-section-new {
+    padding: 60px 20px;
+  }
+  
+  .how-it-works-title {
+    font-size: 2rem;
+    margin-bottom: 48px;
+  }
+  
+  .step-icon-wrapper {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .step-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .step-title {
+    font-size: 20px;
+  }
+  
+  .step-description {
+    font-size: 15px;
+  }
+}
