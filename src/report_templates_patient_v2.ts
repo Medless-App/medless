@@ -361,7 +361,7 @@ function renderPatientSummary(data: PatientPlanData): string {
     <div class="success-box">
       <p style="font-size: 11pt; margin: 4px 0;">
         <strong>Start:</strong> ${formatMgValue(cbd.startDose)}<br>
-        <strong>Ende:</strong> ${formatMgValue(cbd.endDose)} (das entspricht ${formatMgPerKg(cbd.endMg, data.patientWeight)})<br>
+        <strong>Ende:</strong> ${formatMgValue(cbd.endDose)} (das entspricht ${formatMgPerKg(cbd.endDose, data.patientWeight)})<br>
         <strong>Deine CBD-Dosis steigt stufenweise von ${formatMgValue(cbd.startDose)} auf ${formatMgValue(cbd.endDose)}.</strong>
       </p>
     </div>
