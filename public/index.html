@@ -4,70 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medless – Orientierung</title>
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind Standard CDN Only (No Config Script needed) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+    <style> body { font-family: 'Inter', sans-serif; } </style>
 </head>
 <body class="text-slate-600 antialiased bg-[#f8fafc]">
-    <!-- Fixed Header -->
-    <header class="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-emerald-500/10">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
+    <!-- Header (Repariert & Sichtbar) -->
+    <header class="fixed top-0 left-0 w-full bg-white/85 backdrop-blur-md z-50 border-b border-emerald-500/10 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
             <!-- Logo -->
             <div class="flex items-center gap-2">
-                <i data-lucide="leaf" class="w-6 h-6 text-[#10b981] stroke-[1.5]"></i>
-                <span class="text-xl font-light tracking-wide text-slate-800">MEDLESS</span>
+                <i data-lucide="leaf" class="w-5 h-5 text-[#10b981] stroke-[1.5]"></i>
+                <span class="text-lg font-light tracking-wide text-slate-800">MEDLESS</span>
             </div>
-            <!-- Nav -->
+            <!-- Navigation (Explizit sichtbar ab MD) -->
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#how-it-works" class="text-slate-500 hover:text-[#10b981] font-light text-sm">So funktioniert's</a>
-                <a href="/app" class="border border-[#10b981] text-[#10b981] px-6 py-2 rounded-full text-sm font-medium hover:bg-[#10b981] hover:text-white transition-all">App starten</a>
+                <a href="#how-it-works" class="text-slate-500 hover:text-[#10b981] font-light text-xs uppercase tracking-widest transition-colors">So funktioniert's</a>
+                <a href="#benefits" class="text-slate-500 hover:text-[#10b981] font-light text-xs uppercase tracking-widest transition-colors">Vorteile</a>
+                <a href="/app" class="border border-[#10b981] text-[#10b981] px-5 py-2 rounded-full text-xs font-medium hover:bg-[#10b981] hover:text-white transition-all">App starten</a>
             </nav>
+            <!-- Mobile Menu Fallback (Simple Button) -->
+            <button class="md:hidden text-slate-400"><i data-lucide="menu" class="w-6 h-6"></i></button>
         </div>
     </header>
-    <!-- Hero Section with Gradient Background -->
-    <section class="relative pt-32 pb-20 overflow-hidden min-h-[80vh] flex items-center">
-        <!-- Direct Background Gradient -->
+    <!-- Hero Section (Kompakter & Feinere Schriften) -->
+    <section class="relative pt-32 pb-16 overflow-hidden min-h-[70vh] flex items-center">
+        <!-- Background -->
         <div class="absolute inset-0 bg-gradient-to-br from-[#f0fdf4] via-white to-[#ecfdf5] -z-10"></div>
-        <!-- Ornamental Blobs -->
-        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#10b981]/10 rounded-full blur-[100px] pointer-events-none"></div>
+        
         <div class="max-w-4xl mx-auto px-4 text-center z-10">
-            <h1 class="text-4xl md:text-6xl font-extralight text-slate-900 leading-tight mb-8">
-                Ihr Orientierungsplan für weniger Medikamente – <br/>
-                <span class="font-normal text-[#10b981]">gemeinsam mit Ihrem Arzt</span>
+            <!-- H1: KORRIGIERT (Kleiner & Feiner) -->
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-extralight text-slate-900 leading-tight mb-6 tracking-tight">
+                Ihr Orientierungsplan für weniger Medikamente <br class="hidden md:block"/>
+                <span class="font-normal text-[#10b981] block mt-2">gemeinsam mit Ihrem Arzt</span>
             </h1>
             
-            <p class="text-lg text-slate-500 font-light mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p class="text-base md:text-lg text-slate-500 font-light mb-10 max-w-2xl mx-auto leading-relaxed">
                 MEDLESS hilft Ihnen, Ihre aktuelle Medikation übersichtlich zu erfassen und als verständlichen PDF-Orientierungsplan aufzubereiten.
             </p>
-            <a href="/app" class="inline-flex items-center gap-2 bg-transparent border border-[#10b981] text-[#10b981] px-8 py-4 rounded-full text-lg font-medium hover:bg-[#10b981] hover:text-white hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all duration-300">
-                Jetzt kostenlos starten <i data-lucide="arrow-right" class="w-5 h-5"></i>
-            </a>
-            <div class="mt-12 flex justify-center gap-8 text-sm text-slate-400 font-light">
-                <span class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#10b981]"></i> Kostenlos</span>
-                <span class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#10b981]"></i> Datensicher</span>
+            <div class="flex justify-center gap-4">
+                <a href="/app" class="inline-flex items-center gap-2 bg-transparent border border-[#10b981] text-[#10b981] px-8 py-3 rounded-full text-base font-medium hover:bg-[#10b981] hover:text-white hover:shadow-lg transition-all duration-300">
+                    Jetzt starten <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+            <div class="mt-12 flex justify-center gap-8 text-xs text-slate-400 font-light uppercase tracking-wider">
+                <span class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-[#10b981]"></i> Kostenlos</span>
+                <span class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-[#10b981]"></i> Datensicher</span>
             </div>
         </div>
     </section>
-    <!-- Problem Section -->
-    <section class="py-24 bg-white">
+    <!-- Problem Section (Kompakter) -->
+    <section class="py-20 bg-white">
         <div class="max-w-3xl mx-auto px-4 text-center">
-             <h2 class="text-3xl font-light text-slate-800 mb-6">Du fragst dich, ob du so viele Medikamente wirklich brauchst?</h2>
-             <p class="text-lg text-slate-500 font-light leading-relaxed">
+             <!-- H2: KORRIGIERT (Kleiner) -->
+             <h2 class="text-2xl md:text-3xl font-light text-slate-800 mb-6">Du fragst dich, ob du so viele Medikamente wirklich brauchst?</h2>
+             <p class="text-base text-slate-500 font-light leading-relaxed">
                 Viele Menschen nehmen über Jahre Medikamente ein – manchmal ohne genauen Überblick. Medless hilft dir, wieder Klarheit zu gewinnen.
              </p>
         </div>
     </section>
-    <!-- Script to render icons -->
-    <script>
-        lucide.createIcons();
-    </script>
+    <!-- Script -->
+    <script> lucide.createIcons(); </script>
 </body>
 </html>
