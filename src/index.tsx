@@ -2007,50 +2007,57 @@ app.get('/magazin', (c) => {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Magazin – MEDLESS</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'medless': {
+              primary: '#2FB585',
+              'primary-hover': '#28A376',
+              'primary-light': '#E7F8EF',
+              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
+              'bg-light': 'rgba(47, 181, 133, 0.05)',
+              'bg-card': '#FBFCFD',
+              'text-primary': '#1B2A36',
+              'text-secondary': '#5E6A71',
+              'text-tertiary': '#94A3B8',
+              'border-primary': 'rgba(0, 0, 0, 0.06)',
+              'border-subtle': '#E9ECEF'
+            }
+          },
+          fontSize: {
+            'section-title': ['2.5rem', { lineHeight: '1.2', fontWeight: '300' }],
+            'article-subtitle': ['1.125rem', { lineHeight: '1.6' }],
+            'card-title': ['1.3125rem', { lineHeight: '1.4', fontWeight: '600' }],
+            'card-description': ['0.9375rem', { lineHeight: '1.6' }]
+          },
+          borderRadius: {
+            'medless-lg': '16px',
+            'medless-md': '12px'
+          },
+          boxShadow: {
+            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
+            'medless-card-hover': '0 12px 32px rgba(47, 181, 133, 0.15)'
+          },
+          spacing: {
+            'section': '5rem'
+          },
+          transitionDuration: {
+            'medless': '280ms'
+          }
+        }
+      }
+    }
+  </script>
   <style>
     ${getSharedStyles()}
-    .magazine-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: var(--space-6);
-      margin: var(--space-8) 0;
-    }
-    .article-card {
-      background: white;
-      border: 1px solid var(--gray-200);
-      border-radius: 12px;
-      padding: var(--space-6);
-      transition: all 0.2s;
-    }
-    .article-card:hover {
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      transform: translateY(-2px);
-    }
-    .article-card h3 {
-      margin-bottom: 12px;
-    }
-    .article-card p {
-      color: var(--gray-600);
-      line-height: 1.6;
-      margin-bottom: var(--space-4);
-    }
-    .article-link {
-      color: var(--primary-dark-green);
-      text-decoration: none;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .article-link:hover {
-      text-decoration: underline;
-    }
   </style>
-  <link rel="stylesheet" href="/styles.css">
 </head>
-<body style="margin: 0; font-family: 'Inter', sans-serif; background: #F9FAFB;">
+<body class="m-0 font-['Inter'] bg-gray-50">
   
   <!-- HEADER (wie Homepage) -->
   <header class="header">
@@ -2071,152 +2078,198 @@ app.get('/magazin', (c) => {
     </div>
   </header>
 
-  <!-- HERO SECTION -->
-  <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.12)); padding: 80px 32px; text-align: center;">
-    <h1 style="font-size: 3rem; font-weight: 300; margin: 0 0 24px 0; line-height: 1.2; color: #0f172a;">MEDLESS Magazin</h1>
-    <p class="lead" style="max-width: 700px; margin: 0 auto; font-size: 1.125rem; color: #475569;">Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.</p>
-  </div>
+  <!-- HERO SECTION (TAILWIND) -->
+  <section class="bg-gradient-to-br from-medless-bg-ultra-light to-medless-bg-light py-16 px-8 text-center">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-section-title text-medless-text-primary mb-4">MEDLESS Magazin</h1>
+      <p class="text-article-subtitle text-medless-text-secondary max-w-2xl mx-auto">
+        Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.
+      </p>
+    </div>
+  </section>
 
-  <!-- ARTICLES GRID (NEU - MEDIZINISCH) -->
-  <div class="magazine-articles-section">
-    <div class="magazine-articles-grid">
+  <!-- ARTICLES GRID (TAILWIND) -->
+  <section class="max-w-7xl mx-auto px-8 py-section">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       
       <!-- Artikel: ECS erklärt -->
-      <article class="article-card-new">
-        <div class="article-image-wrapper">
-          <a href="/magazin/endocannabinoid-system-erklaert">
-            <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&h=400&fit=crop" alt="Das Endocannabinoid-System erklärt" loading="lazy" />
-          </a>
-        </div>
-        <div class="article-content-new">
-          <h3 class="article-title-new">
+      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+        <a href="/magazin/endocannabinoid-system-erklaert" class="block">
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&h=400&fit=crop" 
+                 alt="Das Endocannabinoid-System erklärt" 
+                 loading="lazy"
+                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+          </div>
+        </a>
+        <div class="p-6">
+          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
             <a href="/magazin/endocannabinoid-system-erklaert">Das Endocannabinoid-System erklärt</a>
           </h3>
-          <p class="article-description-new">Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
-          <a href="/magazin/endocannabinoid-system-erklaert" class="article-link-new">
-            Artikel lesen <i class="fas fa-arrow-right"></i>
+          <p class="text-card-description text-medless-text-secondary mb-4">
+            Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.
+          </p>
+          <a href="/magazin/endocannabinoid-system-erklaert" 
+             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+            Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: 7 Fehler -->
-      <article class="article-card-new">
-        <div class="article-image-wrapper">
-          <a href="/magazin/medikamente-absetzen-7-fehler">
-            <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop" alt="7 Fehler beim Medikamente absetzen" loading="lazy" />
-          </a>
-        </div>
-        <div class="article-content-new">
-          <h3 class="article-title-new">
+      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+        <a href="/magazin/medikamente-absetzen-7-fehler" class="block">
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop" 
+                 alt="7 Fehler beim Medikamente absetzen" 
+                 loading="lazy"
+                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+          </div>
+        </a>
+        <div class="p-6">
+          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
             <a href="/magazin/medikamente-absetzen-7-fehler">7 Fehler beim Medikamente absetzen</a>
           </h3>
-          <p class="article-description-new">Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
-          <a href="/magazin/medikamente-absetzen-7-fehler" class="article-link-new">
-            Artikel lesen <i class="fas fa-arrow-right"></i>
+          <p class="text-card-description text-medless-text-secondary mb-4">
+            Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.
+          </p>
+          <a href="/magazin/medikamente-absetzen-7-fehler" 
+             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+            Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: Antidepressiva -->
-      <article class="article-card-new">
-        <div class="article-image-wrapper">
-          <a href="/magazin/antidepressiva-absetzen-ohne-entzug">
-            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop" alt="Antidepressiva absetzen ohne Entzug" loading="lazy" />
-          </a>
-        </div>
-        <div class="article-content-new">
-          <h3 class="article-title-new">
+      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+        <a href="/magazin/antidepressiva-absetzen-ohne-entzug" class="block">
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop" 
+                 alt="Antidepressiva absetzen ohne Entzug" 
+                 loading="lazy"
+                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+          </div>
+        </a>
+        <div class="p-6">
+          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
             <a href="/magazin/antidepressiva-absetzen-ohne-entzug">Antidepressiva absetzen ohne Entzug</a>
           </h3>
-          <p class="article-description-new">Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
-          <a href="/magazin/antidepressiva-absetzen-ohne-entzug" class="article-link-new">
-            Artikel lesen <i class="fas fa-arrow-right"></i>
+          <p class="text-card-description text-medless-text-secondary mb-4">
+            Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.
+          </p>
+          <a href="/magazin/antidepressiva-absetzen-ohne-entzug" 
+             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+            Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: Schlaftabletten -->
-      <article class="article-card-new">
-        <div class="article-image-wrapper">
-          <a href="/magazin/schlaftabletten-loswerden">
-            <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop" alt="Schlaftabletten loswerden" loading="lazy" />
-          </a>
-        </div>
-        <div class="article-content-new">
-          <h3 class="article-title-new">
+      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+        <a href="/magazin/schlaftabletten-loswerden" class="block">
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop" 
+                 alt="Schlaftabletten loswerden" 
+                 loading="lazy"
+                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+          </div>
+        </a>
+        <div class="p-6">
+          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
             <a href="/magazin/schlaftabletten-loswerden">Schlaftabletten loswerden</a>
           </h3>
-          <p class="article-description-new">Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
-          <a href="/magazin/schlaftabletten-loswerden" class="article-link-new">
-            Artikel lesen <i class="fas fa-arrow-right"></i>
+          <p class="text-card-description text-medless-text-secondary mb-4">
+            Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.
+          </p>
+          <a href="/magazin/schlaftabletten-loswerden" 
+             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+            Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: CBD Studien -->
-      <article class="article-card-new">
-        <div class="article-image-wrapper">
-          <a href="/magazin/cbd-studien-und-fakten">
-            <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop" alt="CBD: Studien und Fakten" loading="lazy" />
-          </a>
-        </div>
-        <div class="article-content-new">
-          <h3 class="article-title-new">
+      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+        <a href="/magazin/cbd-studien-und-fakten" class="block">
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop" 
+                 alt="CBD: Studien und Fakten" 
+                 loading="lazy"
+                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+          </div>
+        </a>
+        <div class="p-6">
+          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
             <a href="/magazin/cbd-studien-und-fakten">CBD: Studien und Fakten</a>
           </h3>
-          <p class="article-description-new">Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
-          <a href="/magazin/cbd-studien-und-fakten" class="article-link-new">
-            Artikel lesen <i class="fas fa-arrow-right"></i>
+          <p class="text-card-description text-medless-text-secondary mb-4">
+            Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.
+          </p>
+          <a href="/magazin/cbd-studien-und-fakten" 
+             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+            Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: Magenschutz -->
-      <article class="article-card-new">
-        <div class="article-image-wrapper">
-          <a href="/magazin/magenschutz-absetzen-ppi">
-            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop" alt="Magenschutz (PPI) absetzen" loading="lazy" />
-          </a>
-        </div>
-        <div class="article-content-new">
-          <h3 class="article-title-new">
+      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+        <a href="/magazin/magenschutz-absetzen-ppi" class="block">
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop" 
+                 alt="Magenschutz (PPI) absetzen" 
+                 loading="lazy"
+                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+          </div>
+        </a>
+        <div class="p-6">
+          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
             <a href="/magazin/magenschutz-absetzen-ppi">Magenschutz (PPI) absetzen</a>
           </h3>
-          <p class="article-description-new">Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
-          <a href="/magazin/magenschutz-absetzen-ppi" class="article-link-new">
-            Artikel lesen <i class="fas fa-arrow-right"></i>
+          <p class="text-card-description text-medless-text-secondary mb-4">
+            Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.
+          </p>
+          <a href="/magazin/magenschutz-absetzen-ppi" 
+             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+            Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: 5 Tabletten -->
-      <article class="article-card-new">
-        <div class="article-image-wrapper">
-          <a href="/magazin/taeglich-5-tabletten">
-            <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop" alt="Täglich 5 Tabletten – ist das normal?" loading="lazy" />
-          </a>
-        </div>
-        <div class="article-content-new">
-          <h3 class="article-title-new">
+      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+        <a href="/magazin/taeglich-5-tabletten" class="block">
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop" 
+                 alt="Täglich 5 Tabletten – ist das normal?" 
+                 loading="lazy"
+                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+          </div>
+        </a>
+        <div class="p-6">
+          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
             <a href="/magazin/taeglich-5-tabletten">Täglich 5 Tabletten – ist das normal?</a>
           </h3>
-          <p class="article-description-new">Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
-          <a href="/magazin/taeglich-5-tabletten" class="article-link-new">
-            Artikel lesen <i class="fas fa-arrow-right"></i>
+          <p class="text-card-description text-medless-text-secondary mb-4">
+            Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?
+          </p>
+          <a href="/magazin/taeglich-5-tabletten" 
+             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+            Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
       </article>
     </div>
-  </div>
+  </section>
   
   <!-- FOOTER -->
-  <footer style="background: #0f172a; padding: 60px 32px 40px; color: white; text-align: center; margin-top: 80px;">
-    <p style="font-weight: 600; margin-bottom: 12px; color: white;">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p style="opacity: 0.85; color: rgba(255,255,255,0.8);">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div style="margin-top: 24px; display: flex; gap: 24px; justify-content: center;">
-      <a href="/impressum" style="color: white; opacity: 0.8; text-decoration: none; ">Impressum</a>
-      <a href="/datenschutz" style="color: white; opacity: 0.8; text-decoration: none; ">Datenschutz</a>
-      <a href="/agb" style="color: white; opacity: 0.8; text-decoration: none; ">AGB</a>
+  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
+    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
+    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    <div class="mt-6 flex gap-6 justify-center">
+      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
+      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
+      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
     </div>
   </footer>
   
