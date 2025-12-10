@@ -2282,15 +2282,14 @@ app.get('/magazin', (c) => {
 })
 
 // Magazine Article Route: Endocannabinoid-System erklärt
-
-app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
+app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   return c.html(`
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>7 Fehler beim Medikamente absetzen – MEDLESS</title>
+  <title>Das Endocannabinoid-System: Dein körpereigenes Schutzschild – MEDLESS</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2372,50 +2371,95 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
   <main class="max-w-article mx-auto px-4 md:px-8 py-16">
     
     <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">7 Fehler beim Medikamente absetzen</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
+      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
+      <p class="text-article-subtitle text-medless-text-secondary mb-6">Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
       
       <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
         <span class="inline-flex items-center gap-2">
           <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
         </span>
         <span class="inline-flex items-center gap-2">
-          <i data-lucide="clock" class="w-4 h-4"></i> 8 Min. Lesezeit
+          <i data-lucide="clock" class="w-4 h-4"></i> 7 Min. Lesezeit
         </span>
       </div>
     </article>
     
     <img
       class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop"
-      alt="7 Fehler beim Medikamente absetzen"
+      src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&h=400&fit=crop"
+      alt="Das Endocannabinoid-System: Dein körpereigenes Schutzschild"
       loading="eager"
     />
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
       <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Du willst Medikamente reduzieren? Großartig. Aber Vorsicht: Der falsche Weg kann gefährlich werden. Erfahre hier, warum der "kalte Entzug" scheitert und wie du sicher ausschleichst.</p>
+        <p><strong>Kurz erklärt:</strong> Das Endocannabinoid-System (ECS) ist ein komplexes Netzwerk im Körper, das zahlreiche wichtige Funktionen reguliert – von Schmerzempfinden über Stimmung bis hin zu Immunreaktionen. Es besteht aus Rezeptoren, Enzymen und körpereigenen Cannabinoiden und sorgt dafür, dass dein Körper im Gleichgewicht bleibt.</p>
       </div>
       
-            <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">"Ich setze einfach ab" – warum das fast schiefging</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Fehler 1: Der kalte Entzug ("Cold Turkey")</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Fehler 2: Alles gleichzeitig reduzieren</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Fehler 3: Alleingang ohne Arzt</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Fehler 4: Warnsignale ignorieren</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Fehler 5: Keine Vorbereitung des Körpers</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Fehler 6: Zu schnell reduzieren</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Fehler 7: Die Ursache ignorieren</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Dein Geheimtipp: Das Endocannabinoid-System (ECS)</h2>
-      <p><strong>Du willst Medikamente reduzieren? Großartig. Aber Vorsicht: Der falsche Weg kann gefährlich werden. Erfahre hier, warum der "kalte Entzug" scheitert und wie du sicher ausschleichst.</strong></p>
-      <p>Sarah, 58, hatte genug. Seit Jahren nahm sie acht verschiedene Tabletten. Die Nebenwirkungen waren schlimmer als ihre ursprünglichen Beschwerden. An einem Sonntagmorgen entschied sie: <em>"Das war's. Ich höre auf."</em></p>
-      <p>Sie nahm keine ihrer Tabletten mehr. Drei Tage später saß sie in der Notaufnahme: Blutdruck 190/110, Herzrasen, Panik.</p>
-      <p><strong>Die Diagnose:</strong> Rebound-Effekt durch abruptes Absetzen eines Betablockers.</p>
-      <p>Sarah hatte einen klassischen Fehler gemacht. Der Wunsch nach weniger Medikamenten ist richtig (50% der Deutschen wollen reduzieren!), aber die Methode entscheidet über Erfolg oder Gefahr.</p>
-      <p><strong>Was passiert:</strong> Du hörst von heute auf morgen auf. Von 100 auf 0.</p>
-      <p><strong>Warum es gefährlich ist:</strong> Dein Körper hat sich an den Wirkstoff angepasst (Adaptation). Fehlt dieser plötzlich, reagiert der Körper mit einer massiven Gegenregulation.</p>
-      <p>✅ <strong>Die Lösung:</strong> Ausschleichen. Reduziere die Dosis schrittweise über Wochen.</p>
-
+      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Was ist das Endocannabinoid-System?</h2>
+      <p>Das Endocannabinoid-System (ECS) ist eines der faszinierendsten Regulationssysteme unseres Körpers. Obwohl es erst in den 1990er Jahren entdeckt wurde, spielt es eine zentrale Rolle für unsere Gesundheit und unser Wohlbefinden.</p>
+      
+      <p>Das ECS besteht aus drei Hauptkomponenten:</p>
+      <ul class="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Endocannabinoide:</strong> Körpereigene Botenstoffe wie Anandamid und 2-AG</li>
+        <li><strong>Rezeptoren:</strong> CB1 (hauptsächlich im Nervensystem) und CB2 (vor allem im Immunsystem)</li>
+        <li><strong>Enzyme:</strong> FAAH und MAGL, die Endocannabinoide abbauen</li>
+      </ul>
+      
+      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Welche Funktionen reguliert das ECS?</h2>
+      <p>Das Endocannabinoid-System wirkt wie ein körpereigener Regulator, der zahlreiche Prozesse steuert:</p>
+      
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Schmerzwahrnehmung</h3>
+      <p>Das ECS moduliert die Schmerzempfindung und kann sowohl akute als auch chronische Schmerzen beeinflussen. Dies erklärt, warum Cannabinoide in der Schmerztherapie eine wichtige Rolle spielen können.</p>
+      
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Stimmung und Emotionen</h3>
+      <p>Anandamid, oft als "Glücksmolekül" bezeichnet, beeinflusst unsere Stimmung positiv. Ein gut funktionierendes ECS trägt zur emotionalen Balance bei.</p>
+      
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Immunsystem</h3>
+      <p>Die CB2-Rezeptoren im Immunsystem helfen, Entzündungsprozesse zu regulieren und das Immunsystem im Gleichgewicht zu halten.</p>
+      
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Appetit und Stoffwechsel</h3>
+      <p>Das ECS beeinflusst Hunger, Sättigung und den Energiestoffwechsel. Es spielt eine Rolle bei der Regulation des Körpergewichts.</p>
+      
+      <div class="bg-medless-primary-light border-l-4 border-medless-primary rounded-r-medless-md px-5 py-4 my-8">
+        <h3 class="text-lg font-semibold text-medless-text-primary mb-2 flex items-center gap-2">
+          <i data-lucide="lightbulb" class="w-5 h-5"></i> Wichtig zu wissen
+        </h3>
+        <p class="text-base">Das Endocannabinoid-System ist bei jedem Menschen individuell ausgeprägt. Faktoren wie Ernährung, Bewegung, Stress und Schlaf beeinflussen seine Funktionsfähigkeit.</p>
+      </div>
+      
+      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Warum ist das ECS wichtig für Medikamentenreduktion?</h2>
+      <p>Ein gut funktionierendes Endocannabinoid-System kann den Körper dabei unterstützen, seine Balance selbst zu regulieren. Dies ist besonders relevant, wenn du Medikamente reduzieren möchtest:</p>
+      
+      <ul class="list-disc list-inside space-y-2 ml-4">
+        <li>Das ECS kann natürliche Mechanismen zur Schmerzlinderung aktivieren</li>
+        <li>Es unterstützt die Stimmungsregulation auf natürliche Weise</li>
+        <li>Ein ausgeglichenes ECS kann Entzugserscheinungen mildern</li>
+        <li>Es fördert die Selbstheilungskräfte des Körpers</li>
+      </ul>
+      
+      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Wie kannst du dein ECS unterstützen?</h2>
+      <p>Es gibt verschiedene natürliche Wege, um dein Endocannabinoid-System zu stärken:</p>
+      
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Bewegung</h3>
+      <p>Regelmäßige körperliche Aktivität stimuliert die Produktion von Endocannabinoiden. Das bekannte "Runner's High" nach dem Sport wird teilweise durch Anandamid ausgelöst.</p>
+      
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Omega-3-Fettsäuren</h3>
+      <p>Eine Ernährung reich an Omega-3-Fettsäuren (z.B. aus Fisch, Leinsamen, Walnüssen) unterstützt die Funktion der Cannabinoid-Rezeptoren.</p>
+      
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Stressmanagement</h3>
+      <p>Chronischer Stress beeinträchtigt das ECS. Entspannungstechniken wie Meditation oder Yoga können helfen, das System im Gleichgewicht zu halten.</p>
+      
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Ausreichend Schlaf</h3>
+      <p>Guter Schlaf ist essentiell für die Regeneration des Endocannabinoid-Systems.</p>
+      
+      <hr class="my-10 border-medless-border-light">
+      
+      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Fazit: Dein körpereigenes Schutzschild verstehen</h2>
+      <p>Das Endocannabinoid-System ist ein faszinierendes Netzwerk, das zentral für unsere Gesundheit ist. Je besser wir verstehen, wie es funktioniert, desto gezielter können wir es unterstützen – besonders wenn wir den Weg zu weniger Medikamenten gehen möchten.</p>
+      
+      <p>Ein gut funktionierendes ECS ist kein Ersatz für notwendige Medikamente, aber es kann eine wichtige Rolle dabei spielen, die natürlichen Selbstheilungskräfte des Körpers zu aktivieren und langfristig die Medikamentenlast zu reduzieren.</p>
       
     </div>
     
@@ -2452,7 +2496,414 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
   `)
 })
 
+// Magazine Article Route: Medikamente absetzen - 7 Fehler
+app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Medikamente absetzen: Die 7 gefährlichsten Fehler – MEDLESS</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #10b981;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #DBEAFE;
+      color: #1E40AF;
+      
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      
+      font-weight: 400;
+      color: #10b981;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #10b981;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      
+      font-weight: 400;
+      color: #10b981;
+      margin-top: 56px;
+      margin-bottom: 24px;
+    }
+    
+    .article-content h3 {
+      
+      font-weight: 500;
+      color: #10b981;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    
+    .article-content p {
+      margin-bottom: 24px;
+    }
+    
+    .article-content ul {
+      margin: 24px 0;
+      padding-left: 32px;
+    }
+    
+    .article-content li {
+      margin-bottom: 16px;
+    }
+    
+    .article-content strong {
+      color: #10b981;
+      font-weight: 500;
+    }
+    
+    .article-content em {
+      color: #6B7280;
+      font-style: italic;
+    }
+    
+    .article-content hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 48px 0;
+    }
+    
+    .cta-box {
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+      padding: 48px;
+      border-radius: 16px;
+      border-left: 5px solid #10b981;
+      margin: 64px 0;
+      text-align: center;
+    }
+    
+    .cta-box h3 {
+      
+      font-weight: 400;
+      color: #10b981;
+      margin: 0 0 16px 0;
+    }
+    
+    .cta-box p {
+      
+      color: #374151;
+      margin-bottom: 24px;
+    }
+    
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 32px;
+      
+      font-weight: 400;
+      color: white;
+      background: #10b981;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(14, 90, 69, 0.2);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(14, 90, 69, 0.3);
+    }
+    
+    footer {
+      background: #10b981;
+      padding: 60px 0 20px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      text-align: center;
+    }
+    
+    .footer-content p {
+      
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    
+    @media (max-width: 768px) {
+      .header-nav {
+        display: none;
+      }
+      
+      .article-detail {
+        padding: 60px 24px;
+      }
+      
+      .article-content {
+        
+      }
+      
+      .cta-box {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="header-logo">
+        <span class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+        </span>
+      </a>
+      
+      <nav class="header-nav">
+        <a href="/#ueber-medless">Über MEDLESS</a>
+        <a href="/#funktionsweise">Funktionsweise</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/fachkreise">Für Ärzt:innen & Apotheken</a>
+        <a href="/#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Article Content -->
+  <article class="article-detail">
+    <!-- Header Image -->
+    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <img src="/static/artikel2-medikamente-absetzen.jpg" alt="Gestresste Person mit Kopfschmerzen und Medikamenten - Rebound-Effekt beim Absetzen" style="width: 100%; height: auto; display: block;" />
+    </div>
+    
+    <span class="article-category">Sicherheit & Praxis</span>
+    <h1 class="article-title">Medikamente absetzen: Die 7 gefährlichsten Fehler (und wie du sie vermeidest)</h1>
+    
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> Januar 2025</span>
+      <span><i class="far fa-clock"></i> 12 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
+      <p class="intro"><strong>Du willst Medikamente reduzieren? Großartig. Aber Vorsicht: Der falsche Weg kann gefährlich werden. Erfahre hier, warum der "kalte Entzug" scheitert und wie du sicher ausschleichst.</strong></p>
+
+      <hr>
+
+      <h2>"Ich setze einfach ab" – warum das fast schiefging</h2>
+      <p>Sarah, 58, hatte genug. Seit Jahren nahm sie acht verschiedene Tabletten. Die Nebenwirkungen waren schlimmer als ihre ursprünglichen Beschwerden. An einem Sonntagmorgen entschied sie: <em>"Das war's. Ich höre auf."</em></p>
+      <p>Sie nahm keine ihrer Tabletten mehr. Drei Tage später saß sie in der Notaufnahme: Blutdruck 190/110, Herzrasen, Panik.</p>
+      <p><strong>Die Diagnose:</strong> Rebound-Effekt durch abruptes Absetzen eines Betablockers.</p>
+      <p>Sarah hatte einen klassischen Fehler gemacht. Der Wunsch nach weniger Medikamenten ist richtig (50% der Deutschen wollen reduzieren!), aber die Methode entscheidet über Erfolg oder Gefahr.</p>
+
+      <h2>Fehler 1: Der kalte Entzug ("Cold Turkey")</h2>
+      <p><strong>Was passiert:</strong> Du hörst von heute auf morgen auf. Von 100 auf 0.</p>
+      <p><strong>Warum es gefährlich ist:</strong> Dein Körper hat sich an den Wirkstoff angepasst (Adaptation). Fehlt dieser plötzlich, reagiert der Körper mit einer massiven Gegenregulation.</p>
+      <ul>
+          <li><strong>Betablocker:</strong> Herzrasen, Blutdruckkrisen.</li>
+          <li><strong>Antidepressiva:</strong> "Brain Zaps" (Stromschläge im Kopf), Übelkeit.</li>
+          <li><strong>Schlafmittel:</strong> Krampfanfälle, massive Angstzustände.</li>
+          <li><strong>Säureblocker (PPI):</strong> Extremes Sodbrennen (Rebound).</li>
+      </ul>
+      <p>✅ <strong>Die Lösung:</strong> Ausschleichen. Reduziere die Dosis schrittweise über Wochen.</p>
+
+      <h2>Fehler 2: Alles gleichzeitig reduzieren</h2>
+      <p><strong>Was passiert:</strong> Du willst schnell Ergebnisse und reduzierst Blutdruckmittel, Schmerzmittel und Schlafmittel gleichzeitig.</p>
+      <p><strong>Warum es gefährlich ist:</strong> Wenn Probleme auftreten, weißt du nicht, welches Medikament fehlt. Du verlierst die Kontrolle.</p>
+      <p>✅ <strong>Die Lösung:</strong> Ein Medikament nach dem anderen. Mache 4-6 Wochen Pause zwischen zwei Reduktionen.</p>
+
+      <h2>Fehler 3: Alleingang ohne Arzt</h2>
+      <p><strong>Was passiert:</strong> <em>"Mein Arzt hat eh keine Zeit"</em> – also machst du es allein.</p>
+      <p><strong>Warum es gefährlich ist:</strong> Du kannst medizinische Warnsignale (Blutdruckspitzen, Laborwerte) nicht selbst beurteilen.</p>
+      <p>✅ <strong>Die Lösung:</strong> Bereite das Gespräch vor. Nutze Tools wie MedLess, um einen Plan als Gesprächsgrundlage zu erstellen.</p>
+
+      <h2>Fehler 4: Warnsignale ignorieren</h2>
+      <p>Manche Symptome sind lebensbedrohlich. <strong>Gehe SOFORT zum Arzt bei:</strong></p>
+      <ul>
+          <li>Starkem Schwindel mit Ohnmachtsgefühl</li>
+          <li>Herzrasen (Puls >120 in Ruhe)</li>
+          <li>Krampfanfällen oder Muskelzuckungen</li>
+          <li>Starker Verwirrtheit oder Suizidgedanken</li>
+      </ul>
+
+      <h2>Fehler 5: Keine Vorbereitung des Körpers</h2>
+      <p>Du nimmst dem Körper die "Krücke" (Medikament) weg, hast aber die Muskeln nicht trainiert. Stärke dich <strong>vorher</strong>:</p>
+      <ul>
+          <li><strong>Schlaf:</strong> Optimiere deine Schlafhygiene.</li>
+          <li><strong>Ernährung:</strong> Iss entzündungshemmend (Omega-3).</li>
+          <li><strong>Wasser:</strong> Trinke 2-3 Liter täglich.</li>
+      </ul>
+
+      <h2>Fehler 6: Zu schnell reduzieren</h2>
+      <p><strong>Die 10%-Regel:</strong> Experten empfehlen oft Schritte von nur 10-25% Reduktion. Je länger du ein Medikament nimmst, desto langsamer muss der Ausstieg sein. Die letzten Milligramme sind oft die schwersten!</p>
+
+      <h2>Fehler 7: Die Ursache ignorieren</h2>
+      <p>Das Medikament war nur das Pflaster. Wenn du es abreißt, blutet die Wunde wieder, wenn sie nicht geheilt ist. Arbeite parallel an der Ursache (Physiotherapie bei Schmerzen, Gewichtsreduktion bei Blutdruck).</p>
+
+      <h2>Dein Geheimtipp: Das Endocannabinoid-System (ECS)</h2>
+      <p>Um all diese Fehler zu vermeiden, nutzen wir bei MedLess dein körpereigenes <strong>Endocannabinoid-System</strong>. Wenn du Medikamente reduzierst, entsteht eine Lücke. Indem wir das ECS gezielt stärken (z.B. durch präzise dosierte Cannabinoide), füllen wir diese Lücke natürlich auf.</p>
+
+      <!-- CTA Box -->
+      <div class="cta-box">
+          <h3>Dein sicherer Fahrplan</h3>
+          <p>Sarah hat es beim zweiten Versuch geschafft – mit Plan, Arzt und Geduld. Möchtest du wissen, wie dein persönlicher Ausschleichplan aussehen könnte?</p>
+          <a href="/#planner-section" class="btn-primary">
+            Jetzt kostenlose KI-Analyse starten ➔
+          </a>
+      </div>
+
+      <hr>
+
+      <h3>Quellen & Referenzen</h3>
+      <ul style=" color: #666;">
+          <li><strong>Apotheken Umschau (2024):</strong> "Medikamente einschleichen und ausschleichen".</li>
+          <li><strong>Deutsches Ärzteblatt:</strong> "Absetz- und Rebound-Phänomene bei Antidepressiva".</li>
+          <li><strong>SWR (2025):</strong> "Antidepressiva absetzen ohne Symptome".</li>
+          <li><strong>CHIP (2025):</strong> "Rebound-Effekt: Diese Medikamente niemals abrupt absetzen".</li>
+      </ul>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient ausschließlich der Information und ersetzt keine ärztliche Beratung. Bei Notfällen wählen Sie 112.</em></p>
+    </div>
+  </article>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
+  `)
+})
+
+// Magazine Article Route: Endocannabinoid-System
 app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   return c.html(`
 <!DOCTYPE html>
@@ -2895,167 +3346,417 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Antidepressiva absetzen ohne Entzug – MEDLESS</title>
+  <title>Antidepressiva absetzen: Der sanfte Weg ohne Entzugserscheinungen – MEDLESS</title>
   
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #10b981;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #FCE7F3;
+      color: #BE185D;
+      
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      
+      font-weight: 400;
+      color: #10b981;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #10b981;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      
+      font-weight: 400;
+      color: #10b981;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    
+    .article-content h3 {
+      
+      font-weight: 500;
+      color: #1F2937;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+    
+    .article-content p {
+      margin-bottom: 20px;
+    }
+    
+    .article-content ul,
+    .article-content ol {
+      margin: 24px 0 24px 24px;
+    }
+    
+    .article-content ul {
+      list-style-type: disc;
+    }
+    
+    .article-content ol {
+      list-style-type: decimal;
+    }
+    
+    .article-content li {
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+    
+    .article-content li strong {
+      color: #1F2937;
+    }
+    
+    .article-content strong {
+      font-weight: 500;
+      color: #10b981;
+    }
+    
+    .article-content em {
+      font-style: italic;
+      color: #6B7280;
+    }
+    
+    .article-content hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 48px 0;
+    }
+    
+    .cta-box {
+      background: linear-gradient(to right, #f0fdf4, #dcfce7);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 40px 0;
+      border-left: 5px solid #10b981;
+    }
+    
+    .cta-box h3 {
+      
+      margin-bottom: 16px;
+      color: #10b981;
+    }
+    
+    .cta-box p {
+      
+      margin-bottom: 24px;
+      color: #374151;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      background-color: #10b981;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 90, 70, 0.3);
+    }
+    
+    footer {
+      background: #F9FAFB;
+      border-top: 1px solid #E5E7EB;
+      padding: 48px 32px;
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: #6B7280;
+      
+    }
+    
+    @media (max-width: 768px) {
+      .article-detail {
+        padding: 48px 24px;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 16px 20px;
+      }
+      
+      .header-nav {
+        gap: 16px;
+        
       }
     }
-  </script>
-  
-  <style>
-    ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body>
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <a href="/" class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
         </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
+      </div>
+      <nav class="header-nav">
+        <a href="/#about">Über MEDLESS</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#contact">Kontakt</a>
       </nav>
     </div>
   </header>
-
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  
+  <!-- Article Detail -->
+  <article class="article-detail">
+    <!-- Header Image -->
+    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <img src="/static/artikel4-antidepressiva-absetzen.jpg" alt="Person in ruhiger Umgebung - mentale Gesundheit und Weg aus der Depression" style="width: 100%; height: auto; display: block;" />
+    </div>
     
-    <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Antidepressiva absetzen ohne Entzug</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
-      
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
-        </span>
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="clock" class="w-4 h-4"></i> 9 Min. Lesezeit
-        </span>
-      </div>
-    </article>
+    <span class="article-category">Mentale Gesundheit</span>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop"
-      alt="Antidepressiva absetzen ohne Entzug"
-      loading="eager"
-    />
+    <h1 class="article-title">Antidepressiva absetzen: Der sanfte Weg ohne Entzugserscheinungen</h1>
     
-    <div class="text-article-body text-medless-text-primary space-y-6">
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> 12. Januar 2025</span>
+      <span><i class="far fa-clock"></i> 8 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Du möchtest Antidepressiva absetzen, hast aber Angst vor dem "Loch" danach? Erfahre, warum Absetzerscheinungen entstehen und wie du sie mit einem 8-Wochen-Plan und ECS-Unterstützung vermeidest.</p>
-      </div>
+      <p class="intro">
+        <strong>Du möchtest Antidepressiva absetzen, hast aber Angst vor dem "Loch" danach? Erfahre, warum Absetzerscheinungen entstehen und wie du sie mit einem 8-Wochen-Plan und ECS-Unterstützung vermeidest.</strong>
+      </p>
       
-            <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Die Angst vor dem Absetzen: "Schaffe ich das?"</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Warum entstehen Absetzerscheinungen überhaupt?</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Die Wahrheit in Zahlen</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Der sanfte 8-Wochen-Plan: So gehst du vor</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Dein natürlicher Fallschirm: Das Endocannabinoid-System (ECS)</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">5 Strategien, um dein ECS beim Absetzen zu stärken</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Rote Flaggen: Wann du sofort zum Arzt musst</h2>
-      <p><strong>Du möchtest Antidepressiva absetzen, hast aber Angst vor dem "Loch" danach? Erfahre, warum Absetzerscheinungen entstehen und wie du sie mit einem 8-Wochen-Plan und ECS-Unterstützung vermeidest.</strong></p>
+      <hr>
+      
+      <h2>Die Angst vor dem Absetzen: "Schaffe ich das?"</h2>
       <p>Kennst du dieses Gefühl? Du nimmst seit Monaten Antidepressiva. Sie haben dir geholfen, aus dem Gröbsten herauszukommen. Du fühlst dich stabil und möchtest eigentlich reduzieren.</p>
       <p>Aber dann hörst du die Geschichten: <em>"Ich hatte tagelang Schwindel"</em>, <em>"Die Angst kam sofort zurück"</em>, <em>"Ich musste wieder anfangen"</em>.</p>
       <p>Die Angst vor dem sogenannten <strong>Absetzsyndrom</strong> hält Millionen Menschen davon ab, den Schritt in die Unabhängigkeit zu wagen.</p>
       <p>Die gute Nachricht: Mit dem richtigen Plan, Geduld und der Unterstützung deines körpereigenen <strong>Endocannabinoid-Systems (ECS)</strong> kannst du den Ausstieg sanft und sicher schaffen.</p>
+      
+      <h2>Warum entstehen Absetzerscheinungen überhaupt?</h2>
       <p>Antidepressiva (vor allem SSRIs wie Citalopram oder Sertralin) wirken, indem sie den Serotoninspiegel im Gehirn künstlich erhöhen. Dein Gehirn gewöhnt sich an dieses hohe Niveau ("Down-Regulation").</p>
       <p>Wenn du das Medikament plötzlich wegnimmst, fehlt dem Gehirn der Botenstoff. Es entsteht ein neurochemisches Ungleichgewicht.</p>
       <p><strong>Die Folgen:</strong></p>
-
+      <ul>
+          <li><strong>Körperlich:</strong> Schwindel ("Brain Zaps"), Übelkeit, Zittern.</li>
+          <li><strong>Psychisch:</strong> Reizbarkeit, plötzliche Tränenausbrüche, Angst.</li>
+      </ul>
+      <p><strong>Wichtig:</strong> <em>Diese Symptome sind meist KEIN Rückfall in die Depression, sondern eine vorübergehende Anpassungsreaktion des Gehirns!</em></p>
       
+      <h2>Die Wahrheit in Zahlen</h2>
+      <p>Eine große Meta-Analyse der Charité Berlin (2024) gibt Entwarnung:</p>
+      <ul>
+          <li>Nur <strong>15%</strong> der Patienten erleben echte, pharmakologische Absetzsymptome.</li>
+          <li>Nur <strong>3%</strong> entwickeln schwere Symptome.</li>
+          <li><strong>97%</strong> kommen gut durch den Prozess – wenn sie es richtig machen.</li>
+      </ul>
+      
+      <h2>Der sanfte 8-Wochen-Plan: So gehst du vor</h2>
+      <p>🚨 <strong>Grundregel:</strong> Setze niemals ohne Rücksprache mit deinem Arzt ab!</p>
+      
+      <h3>Phase 1: Die Vorbereitung (Woche 0)</h3>
+      <p>Bevor du auch nur ein Milligramm reduzierst:</p>
+      <ul>
+          <li>Bist du seit mindestens 6 Monaten stabil?</li>
+          <li>Hast du gerade keinen akuten Stress (Jobwechsel, Trennung)?</li>
+          <li>Hast du mit deinem Arzt gesprochen?</li>
+      </ul>
+      
+      <h3>Phase 2: Das langsame Ausschleichen (Woche 1-8)</h3>
+      <p>Die goldene Regel: <strong>Langsam ist sicher.</strong> Reduziere die Dosis in kleinen Schritten (z.B. alle 2-4 Wochen um 10-25%).</p>
+      <p><em>Tipp: Die letzten Milligramme sind oft die schwersten. Hier besonders langsam vorgehen!</em></p>
+      
+      <h3>Phase 3: Die Stabilisierung (Woche 9+)</h3>
+      <p>Nach der letzten Tablette ist der Prozess nicht vorbei. Dein Gehirn lernt jetzt, wieder selbstständig zu regulieren. Hier ist Unterstützung entscheidend.</p>
+      
+      <h2>Dein natürlicher Fallschirm: Das Endocannabinoid-System (ECS)</h2>
+      <p>Warum schaffen manche das Absetzen spielend und andere nicht? Ein Schlüssel liegt im <strong>Endocannabinoid-System</strong>. Dieses körpereigene System reguliert Stimmung, Schlaf und Stressverarbeitung. Es arbeitet eng mit dem Serotonin-System zusammen.</p>
+      <p><strong>Die MedLess-Strategie:</strong> Wenn wir das Antidepressivum (die "Krücke") wegnehmen, stärken wir gleichzeitig das ECS (den "Muskel").</p>
+      <ul>
+          <li><strong>Stimmungs-Balance:</strong> Ein starkes ECS kann Stimmungstiefs abfedern.</li>
+          <li><strong>Schlaf-Qualität:</strong> Es hilft, den Schlaf-Wach-Rhythmus ohne Chemie zu stabilisieren.</li>
+      </ul>
+      
+      <h2>5 Strategien, um dein ECS beim Absetzen zu stärken</h2>
+      <ol>
+          <li><strong>Omega-3-Fettsäuren:</strong> Sie sind das "Baumaterial" für deine Endocannabinoide. (Fischöl, Algenöl).</li>
+          <li><strong>Sport:</strong> 30 Minuten Laufen oder Radfahren setzen körpereigene Glücksbotenstoffe (Anandamid) frei.</li>
+          <li><strong>CBD (Cannabidiol):</strong> Pflanzliches CBD kann das ECS unterstützen, ohne psychoaktiv zu wirken. <em>Wichtig: Mit dem Arzt besprechen!</em></li>
+          <li><strong>Darm-Gesundheit:</strong> 90% des Serotonins werden im Darm gebildet. Probiotika können helfen.</li>
+          <li><strong>Stress-Reduktion:</strong> Meditation senkt Cortisol, den Feind des ECS.</li>
+      </ol>
+      
+      <h2>Rote Flaggen: Wann du sofort zum Arzt musst</h2>
+      <p>Brich den Versuch ab und kontaktiere deinen Arzt, wenn:</p>
+      <ul>
+          <li>Suizidgedanken auftreten.</li>
+          <li>Du tagelang nicht schlafen kannst.</li>
+          <li>Du schwere Panikattacken hast.</li>
+      </ul>
+      <p>In diesem Fall war der Schritt vielleicht zu groß. <strong>Keine Panik:</strong> Oft reicht es, auf die letzte Dosis zurückzugehen, sich zu stabilisieren und es dann langsamer erneut zu versuchen.</p>
+      
+      <div class="cta-box">
+          <h3>Dein individueller Fahrplan</h3>
+          <p>Du bist nicht abhängig – du bist gewöhnt. Es gibt einen Weg aus den Medikamenten. Möchtest du einen individuellen, ärztlich prüfbaren Ausschleichplan erstellen lassen?</p>
+          <br>
+          <a href="/#start-analysis" class="btn-primary">Jetzt kostenlose KI-Analyse starten ➔</a>
+      </div>
+      
+      <hr>
+      
+      <h3 style=" font-weight: 500; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <ul style=" color: #6B7280;">
+          <li><strong>Charité Berlin (2024):</strong> "Neue Daten zur Häufigkeit von Absetzsymptomen".</li>
+          <li><strong>Ärzteblatt (2025):</strong> "Absetzsymptome meist mild".</li>
+          <li><strong>Royal College of Psychiatrists:</strong> "Stopping Antidepressants".</li>
+      </ul>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Behandlung. Setzen Sie Antidepressiva niemals eigenständig ab. Bei psychischen Notfällen wenden Sie sich an die Telefonseelsorge (0800 1110111).</em></p>
     </div>
-    
-    <section class="mt-16 bg-gradient-to-br from-medless-bg-ultra-light to-medless-bg-card border border-medless-border-primary rounded-medless-lg px-8 py-10 text-center shadow-medless-card">
-      <h2 class="text-2xl md:text-3xl font-semibold text-medless-text-primary mb-4">
-        Starte deinen persönlichen Orientierungsplan
-      </h2>
-      <p class="text-base text-medless-text-secondary max-w-xl mx-auto mb-6">
-        Erfasse deine Medikamente, erhalte sofort einen PDF-Plan und führe bessere Arztgespräche.
-      </p>
-      <a href="/app" class="inline-flex items-center gap-3 px-8 py-3 text-medless-primary bg-white border-2 border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary hover:text-white hover:-translate-y-0.5">
-        Jetzt starten
-        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-      </a>
-    </section>
-    
-  </main>
+  </article>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
-  <script>
-    lucide.createIcons();
-  </script>
 </body>
 </html>
   `)
 })
 
-
+// Magazine Article Route: Schlaftabletten loswerden
 app.get('/magazin/schlaftabletten-loswerden', (c) => {
   return c.html(`
 <!DOCTYPE html>
@@ -3063,166 +3764,405 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Schlaftabletten loswerden – MEDLESS</title>
+  <title>Schlaftabletten loswerden: Endlich wieder natürlich einschlafen – MEDLESS</title>
   
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #10b981;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #E0E7FF;
+      color: #3730A3;
+      
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      
+      font-weight: 400;
+      color: #10b981;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #10b981;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      
+      font-weight: 400;
+      color: #10b981;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    
+    .article-content h3 {
+      
+      font-weight: 500;
+      color: #1F2937;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+    
+    .article-content p {
+      margin-bottom: 20px;
+    }
+    
+    .article-content ul,
+    .article-content ol {
+      margin: 24px 0 24px 24px;
+    }
+    
+    .article-content ul {
+      list-style-type: disc;
+    }
+    
+    .article-content ol {
+      list-style-type: decimal;
+    }
+    
+    .article-content li {
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+    
+    .article-content li strong {
+      color: #1F2937;
+    }
+    
+    .article-content strong {
+      font-weight: 500;
+      color: #10b981;
+    }
+    
+    .article-content em {
+      font-style: italic;
+      color: #6B7280;
+    }
+    
+    .article-content hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 48px 0;
+    }
+    
+    .cta-box {
+      background: linear-gradient(to right, #f0fdf4, #dcfce7);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 40px 0;
+      border-left: 5px solid #10b981;
+    }
+    
+    .cta-box h3 {
+      
+      margin-bottom: 16px;
+      color: #10b981;
+    }
+    
+    .cta-box p {
+      
+      margin-bottom: 24px;
+      color: #374151;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      background-color: #10b981;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 90, 70, 0.3);
+    }
+    
+    footer {
+      background: #F9FAFB;
+      border-top: 1px solid #E5E7EB;
+      padding: 48px 32px;
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: #6B7280;
+      
+    }
+    
+    @media (max-width: 768px) {
+      .article-detail {
+        padding: 48px 24px;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 16px 20px;
+      }
+      
+      .header-nav {
+        gap: 16px;
+        
       }
     }
-  </script>
-  
-  <style>
-    ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body>
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <a href="/" class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
         </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
+      </div>
+      <nav class="header-nav">
+        <a href="/#about">Über MEDLESS</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#contact">Kontakt</a>
       </nav>
     </div>
   </header>
-
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  
+  <!-- Article Detail -->
+  <article class="article-detail">
+    <!-- Header Image -->
+    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <img src="/static/artikel5-schlaftabletten.jpg" alt="Person schläft friedlich - natürlicher Schlaf ohne Tabletten" style="width: 100%; height: auto; display: block;" />
+    </div>
     
-    <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Schlaftabletten loswerden</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
-      
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
-        </span>
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="clock" class="w-4 h-4"></i> 7 Min. Lesezeit
-        </span>
-      </div>
-    </article>
+    <span class="article-category">Schlaf & Erholung</span>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop"
-      alt="Schlaftabletten loswerden"
-      loading="eager"
-    />
+    <h1 class="article-title">Schlaftabletten loswerden: Endlich wieder natürlich einschlafen (Der 8-Wochen-Plan)</h1>
     
-    <div class="text-article-body text-medless-text-primary space-y-6">
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> 15. Januar 2025</span>
+      <span><i class="far fa-clock"></i> 7 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Jede Nacht das gleiche Spiel: Ohne Tablette keine Ruhe. Erfahre, wie du die Abhängigkeit durchbrichst und deinem Körper wieder beibringst, natürlich zu schlafen.</p>
-      </div>
+      <p class="intro">
+        <strong>Jede Nacht das gleiche Spiel: Ohne Tablette keine Ruhe. Erfahre, wie du die Abhängigkeit durchbrichst und deinem Körper wieder beibringst, natürlich zu schlafen.</strong>
+      </p>
       
-            <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Die stille Abhängigkeit: "Ohne geht es nicht mehr"</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Warum Schlafmittel zur Falle werden</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Der sichere Ausweg: Der 8-Wochen-Plan</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Dein natürlicher Schlaf-Lehrer: Das ECS</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">5 natürliche Helfer (statt Chemie)</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Die 3 goldenen Regeln der Schlafhygiene</h2>
-      <p><strong>Jede Nacht das gleiche Spiel: Ohne Tablette keine Ruhe. Erfahre, wie du die Abhängigkeit durchbrichst und deinem Körper wieder beibringst, natürlich zu schlafen.</strong></p>
+      <hr>
+      
+      <h2>Die stille Abhängigkeit: "Ohne geht es nicht mehr"</h2>
       <p>Du öffnest die Schublade. Eine Tablette. Vielleicht zwei. Du weißt, dass du davon wegkommen solltest. Aber die Angst vor der schlaflosen Nacht ist größer.</p>
       <p>Du bist nicht allein: <strong>1,5 Millionen Menschen</strong> in Deutschland sind von Schlafmitteln abhängig. Besonders tückisch sind Benzodiazepine und sogenannte Z-Substanzen (Zolpidem, Zopiclon).</p>
       <p>Die gute Nachricht: Dein Körper hat das Schlafen nicht verlernt. Er hat es nur vergessen. Mit dem richtigen Plan kannst du ihn wieder trainieren.</p>
-      <p>Schlafmittel verstärken den beruhigenden Botenstoff GABA im Gehirn. Das funktioniert anfangs super. Aber nach wenigen Wochen (oft schon nach 4!) passt sich das Gehirn an.</p>
-      <p><strong>Das Ergebnis:</strong> Du nimmst die Tablette nicht mehr, um zu schlafen – sondern nur noch, um den Entzug zu vermeiden.</p>
-      <p>🚨 <strong>Wichtig:</strong> Setze Schlafmittel NIEMALS kalt ab ("Cold Turkey"). Das kann zu Krampfanfällen und massiver Schlaflosigkeit führen.</p>
-      <p>Wir reduzieren die Dosis in winzigen Schritten (z.B. alle 2 Wochen um 10-20%).</p>
-
       
+      <h2>Warum Schlafmittel zur Falle werden</h2>
+      <p>Schlafmittel verstärken den beruhigenden Botenstoff GABA im Gehirn. Das funktioniert anfangs super. Aber nach wenigen Wochen (oft schon nach 4!) passt sich das Gehirn an.</p>
+      <ul>
+          <li><strong>Toleranz:</strong> Du brauchst immer mehr für die gleiche Wirkung.</li>
+          <li><strong>Rebound:</strong> Wenn du die Tablette weglässt, schläfst du schlechter als je zuvor.</li>
+      </ul>
+      <p><strong>Das Ergebnis:</strong> Du nimmst die Tablette nicht mehr, um zu schlafen – sondern nur noch, um den Entzug zu vermeiden.</p>
+      
+      <h2>Der sichere Ausweg: Der 8-Wochen-Plan</h2>
+      <p>🚨 <strong>Wichtig:</strong> Setze Schlafmittel NIEMALS kalt ab ("Cold Turkey"). Das kann zu Krampfanfällen und massiver Schlaflosigkeit führen.</p>
+      
+      <h3>Phase 1: Vorbereitung (Woche 0)</h3>
+      <ul>
+          <li>Ist deine Lebenssituation gerade stabil?</li>
+          <li>Hast du mit deinem Arzt gesprochen?</li>
+          <li>Hast du ein Schlaftagebuch gestartet?</li>
+      </ul>
+      
+      <h3>Phase 2: Langsames Ausschleichen (Woche 1-8)</h3>
+      <p>Wir reduzieren die Dosis in winzigen Schritten (z.B. alle 2 Wochen um 10-20%).</p>
+      <p><em>Beispiel:</em> Eine halbe Tablette weniger ist oft schon zu viel. Wir reden von Krümeln! Das Ziel ist, dass das Gehirn den Entzug gar nicht bemerkt.</p>
+      
+      <h3>Phase 3: Stabilisierung</h3>
+      <p>Dein Gehirn lernt jetzt wieder, eigenes GABA zu produzieren. Hier ist Geduld gefragt.</p>
+      
+      <h2>Dein natürlicher Schlaf-Lehrer: Das ECS</h2>
+      <p>Warum schlafen manche Menschen wie Steine und andere nicht? Ein Schlüssel ist das <strong>Endocannabinoid-System (ECS)</strong>. Es steuert deinen Schlaf-Wach-Rhythmus und die Tiefe deines Schlafs.</p>
+      <p><strong>Die MedLess-Strategie:</strong> Während wir die chemische Bremse (Tablette) lösen, stärken wir das natürliche Bremssystem (ECS).</p>
+      <ul>
+          <li><strong>Tieferer Schlaf:</strong> Ein starkes ECS fördert die Tiefschlafphasen, die durch Tabletten oft unterdrückt werden.</li>
+          <li><strong>Weniger Angst:</strong> Es beruhigt das Gedankenkarussell am Abend.</li>
+      </ul>
+      
+      <h2>5 natürliche Helfer (statt Chemie)</h2>
+      <ol>
+          <li><strong>Melatonin:</strong> Das körpereigene Schlafhormon (als Spray oder Kapsel) hilft beim "Reset" der inneren Uhr.</li>
+          <li><strong>CBD (Cannabidiol):</strong> Kann das ECS unterstützen und Angst lösen, ohne abhängig zu machen.</li>
+          <li><strong>Baldrian & Hopfen:</strong> Die Klassiker. Sie wirken ähnlich wie Schlafmittel auf GABA, aber viel sanfter.</li>
+          <li><strong>Lavendelöl:</strong> Studien zeigen, dass es Angstzustände effektiv lindert.</li>
+          <li><strong>Magnesium:</strong> Entspannt die Muskeln und beruhigt die Nerven.</li>
+      </ol>
+      
+      <h2>Die 3 goldenen Regeln der Schlafhygiene</h2>
+      <p>Ohne diese Basis hilft kein Medikament der Welt dauerhaft:</p>
+      <ol>
+          <li><strong>Das Bett ist nur zum Schlafen da:</strong> Kein Handy, kein Fernseher, kein Grübeln. Wenn du nach 20 Min. nicht schläfst: Aufstehen!</li>
+          <li><strong>Licht aus, Dunkelheit an:</strong> Melatonin braucht Dunkelheit. Blaulicht (Handy) ist Gift für den Schlaf.</li>
+          <li><strong>Kühle Temperatur:</strong> 16-18 Grad sind ideal. Dein Körper muss abkühlen, um einzuschlafen.</li>
+      </ol>
+      
+      <div class="cta-box">
+          <h3>Vertrau deinem Körper</h3>
+          <p>Du brauchst keine Tabletten, um zu schlafen. Schlaf ist ein natürlicher Instinkt. Er kommt zurück, wenn du ihm die Chance gibst. Möchtest du wissen, wie dein individueller, ECS-gestützter Ausschleichplan aussehen könnte?</p>
+          <br>
+          <a href="/#start-analysis" class="btn-primary">Jetzt kostenlose KI-Analyse starten ➔</a>
+      </div>
+      
+      <hr>
+      
+      <h3 style=" font-weight: 500; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <ul style=" color: #6B7280;">
+          <li><strong>Deutsche Hauptstelle für Suchtfragen (DHS):</strong> "Die Sucht und ihre Stoffe: Benzodiazepine".</li>
+          <li><strong>Bundesärztekammer (2022):</strong> "Leitfaden Medikamentenabhängigkeit".</li>
+          <li><strong>Stiftung Gesundheitswissen:</strong> "Schlafmittel-Abhängigkeit behandeln".</li>
+          <li><strong>PMC (2023):</strong> "Cannabinoids: Emerging sleep modulator".</li>
+      </ul>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Behandlung. Setzen Sie Schlafmittel niemals eigenständig ab. Bei schweren Schlafstörungen konsultieren Sie einen Arzt.</em></p>
     </div>
-    
-    <section class="mt-16 bg-gradient-to-br from-medless-bg-ultra-light to-medless-bg-card border border-medless-border-primary rounded-medless-lg px-8 py-10 text-center shadow-medless-card">
-      <h2 class="text-2xl md:text-3xl font-semibold text-medless-text-primary mb-4">
-        Starte deinen persönlichen Orientierungsplan
-      </h2>
-      <p class="text-base text-medless-text-secondary max-w-xl mx-auto mb-6">
-        Erfasse deine Medikamente, erhalte sofort einen PDF-Plan und führe bessere Arztgespräche.
-      </p>
-      <a href="/app" class="inline-flex items-center gap-3 px-8 py-3 text-medless-primary bg-white border-2 border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary hover:text-white hover:-translate-y-0.5">
-        Jetzt starten
-        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-      </a>
-    </section>
-    
-  </main>
+  </article>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
-  <script>
-    lucide.createIcons();
-  </script>
 </body>
 </html>
   `)
 })
 
-
+// Magazine Article Route: CBD Studien und Fakten
 app.get('/magazin/cbd-studien-und-fakten', (c) => {
   return c.html(`
 <!DOCTYPE html>
@@ -3230,165 +4170,387 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CBD: Studien und Fakten – MEDLESS</title>
+  <title>CBD bei Medikamentenreduktion: Was die Wissenschaft wirklich sagt – MEDLESS</title>
   
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #10b981;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #D1FAE5;
+      color: #065F46;
+      
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      
+      font-weight: 400;
+      color: #10b981;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #10b981;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      
+      font-weight: 400;
+      color: #10b981;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    
+    .article-content h3 {
+      
+      font-weight: 500;
+      color: #1F2937;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+    
+    .article-content p {
+      margin-bottom: 20px;
+    }
+    
+    .article-content ul,
+    .article-content ol {
+      margin: 24px 0 24px 24px;
+    }
+    
+    .article-content ul {
+      list-style-type: disc;
+    }
+    
+    .article-content ol {
+      list-style-type: decimal;
+    }
+    
+    .article-content li {
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+    
+    .article-content li strong {
+      color: #1F2937;
+    }
+    
+    .article-content strong {
+      font-weight: 500;
+      color: #10b981;
+    }
+    
+    .article-content em {
+      font-style: italic;
+      color: #6B7280;
+    }
+    
+    .article-content hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 48px 0;
+    }
+    
+    .cta-box {
+      background: linear-gradient(to right, #f0fdf4, #dcfce7);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 40px 0;
+      border-left: 5px solid #10b981;
+    }
+    
+    .cta-box h3 {
+      
+      margin-bottom: 16px;
+      color: #10b981;
+    }
+    
+    .cta-box p {
+      
+      margin-bottom: 24px;
+      color: #374151;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      background-color: #10b981;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 90, 70, 0.3);
+    }
+    
+    footer {
+      background: #F9FAFB;
+      border-top: 1px solid #E5E7EB;
+      padding: 48px 32px;
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: #6B7280;
+      
+    }
+    
+    @media (max-width: 768px) {
+      .article-detail {
+        padding: 48px 24px;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 16px 20px;
+      }
+      
+      .header-nav {
+        gap: 16px;
+        
       }
     }
-  </script>
-  
-  <style>
-    ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body>
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <a href="/" class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
         </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
+      </div>
+      <nav class="header-nav">
+        <a href="/#about">Über MEDLESS</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#contact">Kontakt</a>
       </nav>
     </div>
   </header>
-
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  
+  <!-- Article Detail -->
+  <img src="/static/artikel6-cbd-studien.jpg" alt="CBD Öl mit Labor-Equipment - Wissenschaftliche Forschung zu Cannabidiol" style="width: 100%; max-width: 900px; height: auto; border-radius: 16px; margin: 0 auto 32px auto; display: block; box-shadow: 0 4px 16px rgba(0,0,0,0.08);" />
+  
+  <article class="article-detail">
     
-    <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">CBD: Studien und Fakten</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
-      
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
-        </span>
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="clock" class="w-4 h-4"></i> 10 Min. Lesezeit
-        </span>
-      </div>
-    </article>
+    <span class="article-category">Wissenschaft & Fakten</span>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop"
-      alt="CBD: Studien und Fakten"
-      loading="eager"
-    />
+    <h1 class="article-title">CBD bei Medikamentenreduktion: Was die Wissenschaft wirklich sagt (Studien 2025)</h1>
     
-    <div class="text-article-body text-medless-text-primary space-y-6">
-      
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Überall hörst du: "CBD ist das neue Wundermittel". Doch was stimmt davon? Erfahre, wie CBD dir beim Absetzen von Medikamenten helfen kann – und wo die Risiken liegen.</p>
-      </div>
-      
-            <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Zwischen Hype und Realität</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Was ist CBD eigentlich? (Der 2-Minuten-Crashkurs)</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Das sagen die Studien: Wo CBD wirklich hilft</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Vorsicht: Der "Elefant im Raum" (Wechselwirkungen)</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Die Rechtslage: Ist das legal?</h2>
-      <p><strong>Überall hörst du: "CBD ist das neue Wundermittel". Doch was stimmt davon? Erfahre, wie CBD dir beim Absetzen von Medikamenten helfen kann – und wo die Risiken liegen.</strong></p>
-      <p>Die Schlagzeilen überschlagen sich: "Schmerzfrei ohne Chemie!", "Endlich besser schlafen!". Doch zwischen Marketing-Versprechen und echter Wissenschaft klafft oft eine Lücke.</p>
-      <p>Die Wahrheit ist: <strong>CBD (Cannabidiol) ist kein Allheilmittel.</strong> Es ersetzt keinen Arzt und keine lebenswichtigen Medikamente. <strong>Aber:</strong> Hunderte Studien zeigen inzwischen, dass es eine extrem wertvolle Unterstützung sein kann, wenn man Medikamente reduzieren möchte.</p>
-      <p>CBD ist einer von über 100 Wirkstoffen aus der Hanfpflanze. Der wichtigste Unterschied zu THC (dem "Kiffer-Wirkstoff"): <strong>CBD macht nicht high.</strong></p>
-      <p><strong>Wie es wirkt:</strong> Es dockt nicht direkt an deine Zellen an, sondern moduliert dein körpereigenes <strong>Endocannabinoid-System (ECS)</strong>. Es hilft dem Körper, sich selbst wieder ins Gleichgewicht zu bringen.</p>
-      <p>Das ist das stärkste Feld der Forschung. Studien zeigen, dass Patienten, die Cannabis-Medikamente nutzen, ihren Verbrauch an starken Schmerzmitteln (Opioiden) massiv senken können.</p>
-      <p><em>Das Ergebnis: Weniger Schmerzmittel nötig = weniger Nebenwirkungen, weniger Abhängigkeit.</em> (Quelle: Deutsche Gesellschaft für Schmerzmedizin)</p>
-      <p>CBD dämpft die Reaktion des Körpers auf Stresshormone. Der Vorteil: Im Gegensatz zu Beruhigungsmitteln (Benzodiazepinen) macht es nicht süchtig und führt nicht zu einer Toleranzentwicklung.</p>
-
-      
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> 18. Januar 2025</span>
+      <span><i class="far fa-clock"></i> 6 Min. Lesezeit</span>
     </div>
     
-    <section class="mt-16 bg-gradient-to-br from-medless-bg-ultra-light to-medless-bg-card border border-medless-border-primary rounded-medless-lg px-8 py-10 text-center shadow-medless-card">
-      <h2 class="text-2xl md:text-3xl font-semibold text-medless-text-primary mb-4">
-        Starte deinen persönlichen Orientierungsplan
-      </h2>
-      <p class="text-base text-medless-text-secondary max-w-xl mx-auto mb-6">
-        Erfasse deine Medikamente, erhalte sofort einen PDF-Plan und führe bessere Arztgespräche.
+    <div class="article-content">
+      
+      <p class="intro">
+        <strong>Überall hörst du: "CBD ist das neue Wundermittel". Doch was stimmt davon? Erfahre, wie CBD dir beim Absetzen von Medikamenten helfen kann – und wo die Risiken liegen.</strong>
       </p>
-      <a href="/app" class="inline-flex items-center gap-3 px-8 py-3 text-medless-primary bg-white border-2 border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary hover:text-white hover:-translate-y-0.5">
-        Jetzt starten
-        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-      </a>
-    </section>
-    
-  </main>
+      
+      <hr>
+      
+      <h2>Zwischen Hype und Realität</h2>
+      <p>Die Schlagzeilen überschlagen sich: "Schmerzfrei ohne Chemie!", "Endlich besser schlafen!". Doch zwischen Marketing-Versprechen und echter Wissenschaft klafft oft eine Lücke.</p>
+      <p>Die Wahrheit ist: <strong>CBD (Cannabidiol) ist kein Allheilmittel.</strong> Es ersetzt keinen Arzt und keine lebenswichtigen Medikamente. <strong>Aber:</strong> Hunderte Studien zeigen inzwischen, dass es eine extrem wertvolle Unterstützung sein kann, wenn man Medikamente reduzieren möchte.</p>
+      
+      <h2>Was ist CBD eigentlich? (Der 2-Minuten-Crashkurs)</h2>
+      <p>CBD ist einer von über 100 Wirkstoffen aus der Hanfpflanze. Der wichtigste Unterschied zu THC (dem "Kiffer-Wirkstoff"): <strong>CBD macht nicht high.</strong></p>
+      <ul>
+          <li>Es ist nicht psychoaktiv.</li>
+          <li>Es macht nicht abhängig.</li>
+          <li>Die WHO (Weltgesundheitsorganisation) stuft es als sicher ein.</li>
+      </ul>
+      <p><strong>Wie es wirkt:</strong> Es dockt nicht direkt an deine Zellen an, sondern moduliert dein körpereigenes <strong>Endocannabinoid-System (ECS)</strong>. Es hilft dem Körper, sich selbst wieder ins Gleichgewicht zu bringen.</p>
+      
+      <h2>Das sagen die Studien: Wo CBD wirklich hilft</h2>
+      
+      <h3>1. Bei Schmerzen (Opioid-Ersparnis)</h3>
+      <p>Das ist das stärkste Feld der Forschung. Studien zeigen, dass Patienten, die Cannabis-Medikamente nutzen, ihren Verbrauch an starken Schmerzmitteln (Opioiden) massiv senken können.</p>
+      <p><em>Das Ergebnis: Weniger Schmerzmittel nötig = weniger Nebenwirkungen, weniger Abhängigkeit.</em> (Quelle: Deutsche Gesellschaft für Schmerzmedizin)</p>
+      
+      <h3>2. Bei Angst & Stress</h3>
+      <p>CBD dämpft die Reaktion des Körpers auf Stresshormone. Der Vorteil: Im Gegensatz zu Beruhigungsmitteln (Benzodiazepinen) macht es nicht süchtig und führt nicht zu einer Toleranzentwicklung.</p>
+      
+      <h3>3. Bei Entzündungen</h3>
+      <p>CBD wirkt entzündungshemmend, ähnlich wie Ibuprofen, aber über einen anderen Mechanismus. Das macht es interessant für Rheuma- oder Arthrose-Patienten, die ihren Magen schonen wollen.</p>
+      
+      <h2>Vorsicht: Der "Elefant im Raum" (Wechselwirkungen)</h2>
+      <p>CBD ist natürlich, aber nicht harmlos. Es wird in der Leber über das gleiche Enzym-System abgebaut wie viele Medikamente (das <strong>Cytochrom P450</strong> System).</p>
+      <p><strong>Das Problem:</strong> Wenn CBD diese Enzyme "beschäftigt", können andere Medikamente nicht richtig abgebaut werden. Ihr Spiegel im Blut steigt.</p>
+      <p><strong>Besondere Vorsicht bei:</strong></p>
+      <ul>
+          <li>Blutverdünnern (Marcumar)</li>
+          <li>Bestimmten Antidepressiva</li>
+          <li>Herzmedikamenten (Betablockern)</li>
+      </ul>
+      <p><strong>Die MedLess-Regel:</strong> <em>Nimmst du Medikamente? Dann sprich VOR der CBD-Einnahme immer mit deinem Arzt!</em></p>
+      
+      <h2>Die Rechtslage: Ist das legal?</h2>
+      <p>In Deutschland ist CBD <strong>legal</strong>, solange der THC-Gehalt unter 0,2% (bzw. 0,3%) liegt. Es ist als Öl oder Kapsel meist frei verkäuflich, höher dosierte Präparate sind apothekenpflichtig.</p>
+      
+      <div class="cta-box">
+          <h3>Passt CBD zu deinen Medikamenten?</h3>
+          <p>CBD kann ein starker Hebel sein, um von Chemie loszukommen – aber nur, wenn es sicher kombiniert wird. Möchtest du prüfen, ob CBD in deinen persönlichen Reduktionsplan passen könnte?</p>
+          <br>
+          <a href="/#start-analysis" class="btn-primary">Jetzt kostenlose KI-Analyse starten ➔</a>
+      </div>
+      
+      <hr>
+      
+      <h3 style=" font-weight: 500; color: #6B7280; margin-bottom: 12px;">Quellen & Studien</h3>
+      <ul style=" color: #6B7280;">
+          <li><strong>Deutsche Gesellschaft für Schmerzmedizin (2024):</strong> "Reduzierter Opioid-Verbrauch durch Cannabinoide".</li>
+          <li><strong>Springer Medizin (2022):</strong> "Cannabinoide reduzieren Opioidverbrauch".</li>
+          <li><strong>Ärzteblatt:</strong> "Interaktionspotenzial der Cannabinoide".</li>
+          <li><strong>WHO:</strong> "Cannabidiol (CBD) Critical Review Report".</li>
+      </ul>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel dient der Information und ersetzt keine ärztliche Beratung. CBD kann Wechselwirkungen mit Medikamenten haben. Sprechen Sie immer mit Ihrem Arzt.</em></p>
+    </div>
+  </article>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
-  <script>
-    lucide.createIcons();
-  </script>
 </body>
 </html>
   `)
 })
 
-
+// Magazine Article Route: Magenschutz (PPI) absetzen
 app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
   return c.html(`
 <!DOCTYPE html>
@@ -3396,166 +4558,394 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Magenschutz (PPI) absetzen – MEDLESS</title>
+  <title>Die Säure-Falle: Warum "Magenschutz" oft das Gegenteil bewirkt – MEDLESS</title>
   
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #10b981;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #FED7AA;
+      color: #9A3412;
+      
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      
+      font-weight: 400;
+      color: #10b981;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content .intro {
+      
+      font-weight: 500;
+      color: #1F2937;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #F9FAFB;
+      border-left: 4px solid #10b981;
+      border-radius: 4px;
+    }
+    
+    .article-content h2 {
+      
+      font-weight: 400;
+      color: #10b981;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    
+    .article-content h3 {
+      
+      font-weight: 500;
+      color: #1F2937;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+    
+    .article-content p {
+      margin-bottom: 20px;
+    }
+    
+    .article-content ul,
+    .article-content ol {
+      margin: 24px 0 24px 24px;
+    }
+    
+    .article-content ul {
+      list-style-type: disc;
+    }
+    
+    .article-content ol {
+      list-style-type: decimal;
+    }
+    
+    .article-content li {
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+    
+    .article-content li strong {
+      color: #1F2937;
+    }
+    
+    .article-content strong {
+      font-weight: 500;
+      color: #10b981;
+    }
+    
+    .article-content em {
+      font-style: italic;
+      color: #6B7280;
+    }
+    
+    .article-content hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 48px 0;
+    }
+    
+    .cta-box {
+      background: linear-gradient(to right, #f0fdf4, #dcfce7);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 40px 0;
+      border-left: 5px solid #10b981;
+    }
+    
+    .cta-box h3 {
+      
+      margin-bottom: 16px;
+      color: #10b981;
+    }
+    
+    .cta-box p {
+      
+      margin-bottom: 24px;
+      color: #374151;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      background-color: #10b981;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 90, 70, 0.3);
+    }
+    
+    footer {
+      background: #F9FAFB;
+      border-top: 1px solid #E5E7EB;
+      padding: 48px 32px;
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: #6B7280;
+      
+    }
+    
+    @media (max-width: 768px) {
+      .article-detail {
+        padding: 48px 24px;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 16px 20px;
+      }
+      
+      .header-nav {
+        gap: 16px;
+        
       }
     }
-  </script>
-  
-  <style>
-    ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body>
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <a href="/" class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
         </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
+      </div>
+      <nav class="header-nav">
+        <a href="/#about">Über MEDLESS</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/#contact">Kontakt</a>
       </nav>
     </div>
   </header>
-
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  
+  <!-- Article Detail -->
+  <article class="article-detail">
+    <!-- Header Image -->
+    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <img src="/static/artikel7-magenschutz-ppi.jpg" alt="Person mit Magenschmerzen und Sodbrennen - PPI Rebound-Effekt" style="width: 100%; height: auto; display: block;" />
+    </div>
     
-    <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Magenschutz (PPI) absetzen</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
-      
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
-        </span>
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="clock" class="w-4 h-4"></i> 8 Min. Lesezeit
-        </span>
-      </div>
-    </article>
+    <span class="article-category">Magen & Verdauung</span>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop"
-      alt="Magenschutz (PPI) absetzen"
-      loading="eager"
-    />
+    <h1 class="article-title">Die Säure-Falle: Warum "Magenschutz" oft das Gegenteil bewirkt (und wie du davon loskommst)</h1>
     
-    <div class="text-article-body text-medless-text-primary space-y-6">
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> 20. Januar 2025</span>
+      <span><i class="far fa-clock"></i> 6 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> "Nehmen Sie das morgens dazu, um den Magen zu schützen." Ein Satz, den Millionen Deutsche hören. Doch was als kurzfristiger Schutz gedacht war, wird oft zur Dauerlösung mit Risiken. Erfahre, warum das Absetzen so schwer ist und wie es trotzdem klappt.</p>
-      </div>
+      <p class="intro">
+        <strong>"Nehmen Sie das morgens dazu, um den Magen zu schützen." Ein Satz, den Millionen Deutsche hören. Doch was als kurzfristiger Schutz gedacht war, wird oft zur Dauerlösung mit Risiken. Erfahre, warum das Absetzen so schwer ist und wie es trotzdem klappt.</strong>
+      </p>
       
-            <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Der Klassiker: "Nur zur Sicherheit"</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Der Rebound-Effekt: Warum dein Magen rebelliert</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Sind PPI wirklich harmlos?</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Der Ausweg: Ausschleichen statt Absetzen</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">5 natürliche Alternativen bei akutem Brennen</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Wie dir MedLess und das ECS dabei helfen</h2>
-      <p><strong>"Nehmen Sie das morgens dazu, um den Magen zu schützen." Ein Satz, den Millionen Deutsche hören. Doch was als kurzfristiger Schutz gedacht war, wird oft zur Dauerlösung mit Risiken. Erfahre, warum das Absetzen so schwer ist und wie es trotzdem klappt.</strong></p>
+      <hr>
+      
+      <h2>Der Klassiker: "Nur zur Sicherheit"</h2>
       <p>Es fängt meist harmlos an. Du bekommst ein Schmerzmittel (wie Ibuprofen) oder Antibiotika. Der Arzt verschreibt dazu Pantoprazol oder Omeprazol. "Ein Magenschutz", heißt es. Klingt vernünftig.</p>
       <p>Die Schmerzmittel setzt du nach zwei Wochen ab. Den Magenschutz nimmst du weiter. "Kann ja nicht schaden", denkst du. Monate vergehen. Jahre vergehen.</p>
       <p>Dann vergisst du die Tablette einmal im Urlaub. Und plötzlich ist es da: Ein Brennen, das bis in den Hals steigt. Sodbrennen, schlimmer als je zuvor. Du greifst sofort zur Tablette. Die Erleichterung folgt.</p>
       <p>Deine Schlussfolgerung: <em>"Puh, ich habe wohl wirklich zu viel Magensäure. Gut, dass ich die Tabletten nehme."</em></p>
       <p><strong>Doch das ist ein Trugschluss. Dein Magen ist nicht krank. Er ist abhängig.</strong></p>
+      
+      <h2>Der Rebound-Effekt: Warum dein Magen rebelliert</h2>
       <p>Diese Medikamente (Protonenpumpenhemmer, kurz PPI) blockieren die Säureproduktion extrem effektiv. Dein Körper ist aber schlau. Er merkt: "Huch, zu wenig Säure für die Verdauung!"</p>
       <p>Was macht er? Er baut <strong>mehr</strong> Säure-Pumpen, um gegen die Blockade anzukämpfen. Solange du die Tablette nimmst, merkst du davon nichts. Aber sobald du sie weglässt, arbeiten all diese neuen Pumpen auf Hochtouren. Es kommt zur "Säureflut".</p>
-
+      <p>Das nennt man den <strong>Rebound-Effekt</strong>. Das Sodbrennen ist kein Zeichen deiner Krankheit, sondern ein Entzugssymptom.</p>
       
+      <h2>Sind PPI wirklich harmlos?</h2>
+      <p>Leider nein. Wenn wir die Magensäure dauerhaft unterdrücken, zahlen wir einen Preis:</p>
+      <ul>
+          <li><strong>Nährstoffmangel:</strong> Ohne Säure können Vitamin B12, Magnesium und Calcium schlechter aufgenommen werden.</li>
+          <li><strong>Knochenbrüche:</strong> Durch den Calcium-Mangel steigt langfristig das Risiko für Osteoporose.</li>
+          <li><strong>Infektionen:</strong> Magensäure ist unsere erste Barriere gegen Bakterien. Fehlt sie, haben Keime leichteres Spiel.</li>
+      </ul>
+      
+      <h2>Der Ausweg: Ausschleichen statt Absetzen</h2>
+      <p>Wer PPI von heute auf morgen weglässt, scheitert fast immer am Rebound. Der einzige Weg ist Geduld.</p>
+      
+      <h3>Die "Jeden-zweiten-Tag"-Methode</h3>
+      <p>Ein bewährter Trick ist, die Dosis nicht sofort zu halbieren, sondern die Einnahme-Intervalle zu strecken.</p>
+      <ol>
+          <li><strong>Schritt 1:</strong> Nimm die Tablette nur noch <strong>jeden 2. Tag</strong> (für 2-4 Wochen).</li>
+          <li><strong>Die Brücke:</strong> An den "Pausen-Tagen" kannst du bei Bedarf ein mildes Antazidum (z.B. Rennie, Talcid oder Heilerde) nehmen. Das neutralisiert die Säure, ohne die Pumpen zu beeinflussen.</li>
+          <li><strong>Schritt 2:</strong> Reduziere auf jeden 3. Tag.</li>
+          <li><strong>Schritt 3:</strong> Versuche es ganz ohne.</li>
+      </ol>
+      
+      <h2>5 natürliche Alternativen bei akutem Brennen</h2>
+      <p>Wenn es brennt, musst du nicht leiden. Diese Hausmittel helfen oft sofort:</p>
+      <ul>
+          <li><strong>Heilerde:</strong> Bindet überschüssige Säure wie ein Schwamm.</li>
+          <li><strong>Mandeln:</strong> 5-6 Mandeln sehr lange kauen, bis ein Brei entsteht.</li>
+          <li><strong>Kartoffelsaft:</strong> Wirkt stark basisch.</li>
+          <li><strong>Kaugummi:</strong> Regt den Speichelfluss an, was die Säure in der Speiseröhre neutralisiert.</li>
+      </ul>
+      
+      <h2>Wie dir MedLess und das ECS dabei helfen</h2>
+      <p>Auch hier spielt dein <strong>Endocannabinoid-System (ECS)</strong> eine spannende Rolle. Es reguliert nämlich nicht nur Schmerz, sondern auch die Verdauung und Entzündungen im Magen-Darm-Trakt.</p>
+      <p>Wenn du den chemischen "Hammer" (PPI) wegnimmst, kann eine gezielte Stärkung des ECS (z.B. durch Ernährung oder CBD) helfen, den Magen auf natürliche Weise zu beruhigen, ohne die Säureproduktion komplett lahmzulegen.</p>
+      
+      <div class="cta-box">
+          <h3>Raus aus der Säure-Falle?</h3>
+          <p>Du willst nicht den Rest deines Lebens Magentabletten schlucken? Wir berechnen dir einen Plan, wie du sicher und sanft davon loskommst – ohne dass das Feuer zurückkehrt.</p>
+          <br>
+          <a href="/#start-analysis" class="btn-primary">Jetzt kostenlose Analyse starten ➔</a>
+      </div>
+      
+      <hr>
+      
+      <h3 style=" font-weight: 500; color: #6B7280; margin-bottom: 12px;">Quellen & Fakten</h3>
+      <ul style=" color: #6B7280;">
+          <li><strong>Deutsche Gesellschaft für Gastroenterologie:</strong> Leitlinie zu PPI.</li>
+          <li><strong>Ärzteblatt:</strong> "Langzeitrisiken von Protonenpumpeninhibitoren".</li>
+          <li><strong>Apotheken Umschau:</strong> "Magenschutz richtig absetzen".</li>
+      </ul>
+      <p style=" color: #999; margin-top: 20px;"><em>Haftungsausschluss: Dieser Artikel ersetzt keine ärztliche Beratung. Bei starken Magenschmerzen, Blut im Stuhl oder Vorerkrankungen (z.B. Barrett-Ösophagus) niemals ohne Arzt absetzen.</em></p>
     </div>
-    
-    <section class="mt-16 bg-gradient-to-br from-medless-bg-ultra-light to-medless-bg-card border border-medless-border-primary rounded-medless-lg px-8 py-10 text-center shadow-medless-card">
-      <h2 class="text-2xl md:text-3xl font-semibold text-medless-text-primary mb-4">
-        Starte deinen persönlichen Orientierungsplan
-      </h2>
-      <p class="text-base text-medless-text-secondary max-w-xl mx-auto mb-6">
-        Erfasse deine Medikamente, erhalte sofort einen PDF-Plan und führe bessere Arztgespräche.
-      </p>
-      <a href="/app" class="inline-flex items-center gap-3 px-8 py-3 text-medless-primary bg-white border-2 border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary hover:text-white hover:-translate-y-0.5">
-        Jetzt starten
-        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-      </a>
-    </section>
-    
-  </main>
+  </article>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
-  <script>
-    lucide.createIcons();
-  </script>
 </body>
 </html>
   `)
 })
 
-
+// Magazine Article Route: Täglich 5 Tabletten
 app.get('/magazin/taeglich-5-tabletten', (c) => {
   return c.html(`
 <!DOCTYPE html>
@@ -3563,165 +4953,377 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Täglich 5 Tabletten – ist das normal? – MEDLESS</title>
+  <title>Täglich 5 Tabletten oder mehr? Warum das gefährlich ist. – MEDLESS</title>
   
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F3F4F6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-text {
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+    
+    .logo-med {
+      color: #10b981;
+    }
+    
+    .logo-less {
+      color: #1DB98D;
+    }
+    
+    .logo-dot {
+      color: #1DB98D;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    .header-nav a {
+      
+      font-weight: 500;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .header-nav a:hover {
+      color: #0E5A45;
+    }
+    
+    .article-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    
+    .article-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #D1FAE5;
+      color: #0E5A45;
+      
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    
+    .article-title {
+      
+      font-weight: 400;
+      color: #10b981;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      
+      color: #6B7280;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 48px;
+    }
+    
+    .article-content {
+      
+      line-height: 1.7;
+      color: #374151;
+    }
+    
+    .article-content h2 {
+      
+      font-weight: 400;
+      color: #10b981;
+      margin-top: 56px;
+      margin-bottom: 24px;
+    }
+    
+    .article-content p {
+      margin-bottom: 24px;
+    }
+    
+    .article-content ul {
+      margin: 24px 0;
+      padding-left: 32px;
+    }
+    
+    .article-content li {
+      margin-bottom: 16px;
+    }
+    
+    .article-content strong {
+      color: #10b981;
+      font-weight: 500;
+    }
+    
+    .article-cta {
+      margin: 64px 0;
+      padding: 48px;
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+      border: 2px solid #D1FAE5;
+      border-radius: 16px;
+      text-align: center;
+    }
+    
+    .article-cta h3 {
+      
+      font-weight: 500;
+      color: #10b981;
+      margin-bottom: 24px;
+    }
+    
+    .cta-button-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 32px;
+      
+      font-weight: 400;
+      color: white;
+      background: #10b981;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(14, 90, 69, 0.2);
+    }
+    
+    .cta-button-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(14, 90, 69, 0.3);
+    }
+    
+    footer {
+      background: #10b981;
+      padding: 60px 0 20px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      text-align: center;
+    }
+    
+    .footer-content p {
+      
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    
+    @media (max-width: 768px) {
+      .header-nav {
+        display: none;
+      }
+      
+      .article-detail {
+        padding: 60px 24px;
+      }
+      
+      .article-content {
+        
+      }
+      
+      .article-cta {
+        padding: 32px 24px;
       }
     }
-  </script>
-  
-  <style>
-    ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body>
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="header-logo">
+        <span class="logo-text">
+          <span class="logo-med">Med</span><span class="logo-less">Less</span><span class="logo-dot">.</span>
+        </span>
+      </a>
+      
+      <nav class="header-nav">
+        <a href="/#ueber-medless">Über MEDLESS</a>
+        <a href="/#funktionsweise">Funktionsweise</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/#magazin">Magazin</a>
+        <a href="/fachkreise">Für Ärzt:innen & Apotheken</a>
+        <a href="/#kontakt">Kontakt</a>
       </nav>
     </div>
   </header>
-
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
-    
-    <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Täglich 5 Tabletten – ist das normal?</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
-      
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
-        </span>
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="clock" class="w-4 h-4"></i> 6 Min. Lesezeit
-        </span>
-      </div>
-    </article>
-    
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop"
-      alt="Täglich 5 Tabletten – ist das normal?"
-      loading="eager"
-    />
-    
-    <div class="text-article-body text-medless-text-primary space-y-6">
-      
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Ab fünf Medikamenten täglich sprechen Ärzte von Polypharmazie – ein Zustand, der längst nicht mehr nur ältere Menschen betrifft. Immer mehr Erwachsene schlucken mehrere Tabletten pro Tag, oft über Jahre hinweg, ohne die Risiken wirklich zu kennen.</p>
-      </div>
-      
-            <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Was ist Polypharmazie?</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Die Risiken: Wenn Medikamente miteinander kämpfen</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Warum passiert das so oft?</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Was kannst du tun?</h2>
-      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Fazit</h2>
-      <p>Ab fünf Medikamenten täglich sprechen Ärzte von <strong>Polypharmazie</strong> – ein Zustand, der längst nicht mehr nur ältere Menschen betrifft. Immer mehr Erwachsene schlucken mehrere Tabletten pro Tag, oft über Jahre hinweg, ohne die Risiken wirklich zu kennen.</p>
-      <p>Doch was passiert, wenn sich Wirkstoffe im Körper gegenseitig beeinflussen? Und warum wird das Risiko so selten besprochen?</p>
-      <p>Polypharmazie beschreibt die gleichzeitige Einnahme von fünf oder mehr verschreibungspflichtigen Medikamenten. Offiziell ist das keine Krankheit – aber ein erheblicher Risikofaktor.</p>
-      <p><strong>Das Problem:</strong> Jedes Medikament wird einzeln getestet und verschrieben. Doch wie sie zusammenwirken, wenn fünf, sechs oder sogar zehn Wirkstoffe gleichzeitig im Blutkreislauf sind, ist oft unklar.</p>
-      <p>Je mehr Medikamente, desto höher das Risiko für:</p>
-      <p>In vielen Fällen ist Polypharmazie keine bewusste Entscheidung, sondern das Ergebnis von:</p>
-      <p>Wenn du täglich fünf oder mehr Medikamente einnimmst, solltest du aktiv werden:</p>
-      <p>MEDLESS hilft dir, einen individuellen Ausschleichplan zu erstellen – KI-berechnet, wissenschaftlich fundiert und für die ärztliche Begleitung entwickelt.</p>
-
-      
+  
+  <!-- Article Content -->
+  <article class="article-detail">
+    <!-- Header Image -->
+    <div style="width: 100%; max-width: 900px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <img src="/static/polypharmazie-original-full.jpg" alt="Ältere Hand greift nach grün-weißer Kapsel aus weißer Schale voller verschiedener Medikamente" style="width: 100%; height: auto; display: block;" />
     </div>
     
-    <section class="mt-16 bg-gradient-to-br from-medless-bg-ultra-light to-medless-bg-card border border-medless-border-primary rounded-medless-lg px-8 py-10 text-center shadow-medless-card">
-      <h2 class="text-2xl md:text-3xl font-semibold text-medless-text-primary mb-4">
-        Starte deinen persönlichen Orientierungsplan
-      </h2>
-      <p class="text-base text-medless-text-secondary max-w-xl mx-auto mb-6">
-        Erfasse deine Medikamente, erhalte sofort einen PDF-Plan und führe bessere Arztgespräche.
-      </p>
-      <a href="/app" class="inline-flex items-center gap-3 px-8 py-3 text-medless-primary bg-white border-2 border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary hover:text-white hover:-translate-y-0.5">
-        Jetzt starten
-        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-      </a>
-    </section>
+    <span class="article-category">Polypharmazie</span>
+    <h1 class="article-title">Täglich 5 Tabletten oder mehr? Warum das gefährlich ist.</h1>
     
-  </main>
+    <div class="article-meta">
+      <span><i class="far fa-calendar"></i> Januar 2025</span>
+      <span><i class="far fa-clock"></i> 8 Min. Lesezeit</span>
+    </div>
+    
+    <div class="article-content">
+      <p>
+        Ab fünf Medikamenten täglich sprechen Ärzte von <strong>Polypharmazie</strong> – ein Zustand, der längst nicht mehr nur ältere Menschen betrifft. Immer mehr Erwachsene schlucken mehrere Tabletten pro Tag, oft über Jahre hinweg, ohne die Risiken wirklich zu kennen.
+      </p>
+      
+      <p>
+        Doch was passiert, wenn sich Wirkstoffe im Körper gegenseitig beeinflussen? Und warum wird das Risiko so selten besprochen?
+      </p>
+      
+      <h2>Was ist Polypharmazie?</h2>
+      
+      <p>
+        Polypharmazie beschreibt die gleichzeitige Einnahme von fünf oder mehr verschreibungspflichtigen Medikamenten. Offiziell ist das keine Krankheit – aber ein erheblicher Risikofaktor.
+      </p>
+      
+      <p>
+        <strong>Das Problem:</strong> Jedes Medikament wird einzeln getestet und verschrieben. Doch wie sie zusammenwirken, wenn fünf, sechs oder sogar zehn Wirkstoffe gleichzeitig im Blutkreislauf sind, ist oft unklar.
+      </p>
+      
+      <h2>Die Risiken: Wenn Medikamente miteinander kämpfen</h2>
+      
+      <p>
+        Je mehr Medikamente, desto höher das Risiko für:
+      </p>
+      
+      <ul>
+        <li><strong>Wechselwirkungen:</strong> Ein Medikament verstärkt oder schwächt ein anderes. Das kann lebensbedrohlich werden (z. B. bei Blutverdünnern).</li>
+        <li><strong>Unerwünschte Nebenwirkungen:</strong> Müdigkeit, Schwindel, Übelkeit, Verwirrtheit – oft werden diese Symptome als „Altersschwäche" abgetan, obwohl sie direkt mit Medikamenten zusammenhängen.</li>
+        <li><strong>Kaskadeneffekte:</strong> Ein Medikament verursacht ein Problem, das mit einem weiteren Medikament behandelt wird – und so weiter. Die Medikamentenliste wächst, der Körper leidet.</li>
+        <li><strong>Erhöhtes Sturzrisiko:</strong> Besonders bei älteren Menschen steigt durch Schwindel und Benommenheit das Risiko für schwere Stürze.</li>
+        <li><strong>Kognitive Beeinträchtigungen:</strong> Manche Wirkstoffkombinationen können das Denkvermögen, die Konzentration und das Gedächtnis beeinträchtigen.</li>
+      </ul>
+      
+      <h2>Warum passiert das so oft?</h2>
+      
+      <p>
+        In vielen Fällen ist Polypharmazie keine bewusste Entscheidung, sondern das Ergebnis von:
+      </p>
+      
+      <ul>
+        <li><strong>Symptombehandlung statt Ursachenanalyse:</strong> Ein neues Symptom wird mit einem neuen Medikament behandelt – ohne zu hinterfragen, ob es von einem bereits eingenommenen Medikament kommt.</li>
+        <li><strong>Mehrfachbehandlung:</strong> Verschiedene Ärzte verschreiben Medikamente, ohne über die gesamte Medikamentenliste Bescheid zu wissen.</li>
+        <li><strong>Zeitmangel in der Praxis:</strong> Ärzte haben oft nicht genug Zeit, um die gesamte Medikation eines Patienten zu überprüfen.</li>
+        <li><strong>Angst vor dem Absetzen:</strong> Viele Patienten trauen sich nicht, ein Medikament zu hinterfragen oder abzusetzen – aus Angst vor Rückfällen oder Entzugssymptomen.</li>
+      </ul>
+      
+      <h2>Was kannst du tun?</h2>
+      
+      <p>
+        Wenn du täglich fünf oder mehr Medikamente einnimmst, solltest du aktiv werden:
+      </p>
+      
+      <ul>
+        <li><strong>Medikamentenliste aktualisieren:</strong> Erstelle eine vollständige Liste aller Medikamente (inklusive rezeptfreier Präparate und Nahrungsergänzungsmittel) und besprich sie mit deinem Arzt.</li>
+        <li><strong>Regelmäßige Überprüfungen:</strong> Frag deinen Arzt, ob alle Medikamente noch notwendig sind. Oft können Dosierungen angepasst oder Medikamente abgesetzt werden.</li>
+        <li><strong>Zweitmeinung einholen:</strong> Ein Gespräch mit einem Apotheker oder einem anderen Arzt kann helfen, Wechselwirkungen zu erkennen.</li>
+        <li><strong>Natürliche Unterstützung prüfen:</strong> Moderne Ansätze wie die Stärkung des Endocannabinoid-Systems können dabei helfen, den Medikamentenbedarf zu reduzieren – immer in Absprache mit einem Arzt.</li>
+      </ul>
+      
+      <!-- CTA Section -->
+      <div class="article-cta">
+        <h3>Möchtest du deine Medikamente prüfen?</h3>
+        <p style="margin-bottom: 24px;  color: #374151;">
+          MEDLESS hilft dir, einen individuellen Ausschleichplan zu erstellen – KI-berechnet, wissenschaftlich fundiert und für die ärztliche Begleitung entwickelt.
+        </p>
+        <a href="/#planner-section" class="cta-button-primary">
+          Kostenlos Analyse starten
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+      
+      <h2>Fazit</h2>
+      
+      <p>
+        Polypharmazie ist ein stilles, aber wachsendes Problem. Viele Menschen nehmen täglich mehrere Medikamente, ohne sich der Risiken bewusst zu sein. Doch es gibt Möglichkeiten, die Medikamentenlast sicher zu reduzieren – mit ärztlicher Begleitung, einem individuellen Plan und moderner Unterstützung durch das Endocannabinoid-System.
+      </p>
+      
+      <p>
+        <strong>Der erste Schritt:</strong> Bewusstsein schaffen. Der zweite: Handeln.
+      </p>
+    </div>
+  </article>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
+      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
     </div>
   </footer>
   
-  <script>
-    lucide.createIcons();
-  </script>
 </body>
 </html>
   `)
 })
 
+// Main Route: New Marketing Homepage (served as static file via serveStatic)
+// The static index.html and styles.css are in the public folder and copied to dist during build
+// They will be served automatically by Cloudflare Pages
 
+// Main MEDLESS Tool Application (5-step form with API integration)
 app.get('/app', (c) => {
   return c.html(`
 <!DOCTYPE html>
