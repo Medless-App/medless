@@ -14,7 +14,7 @@ body {
 }
 h1, h2, h3 { color: var(--text-dark); font-weight: 300; }
 h1 { font-size: 3rem; line-height: 1.1; margin-bottom: 1.5rem; }
-h2 { font-size: 2.25rem; margin-bottom: 2rem; text-align: center; }
+h2 { font-size: 2.25rem; margin-bottom: 1rem; text-align: center; } /* REDUCED margin */
 /* FIX: Glass Cards (Die "Balken") */
 .glass-card {
   background: rgba(255, 255, 255, 0.7);
@@ -31,7 +31,7 @@ h2 { font-size: 2.25rem; margin-bottom: 2rem; text-align: center; }
   box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.1);
 }
 /* FIX: Footer Grid */
-footer { background: #f8fafc; padding: 4rem 0; font-size: 0.9rem; }
+footer { background: #f8fafc; padding: 2.5rem 0; font-size: 0.9rem; } /* REDUCED from 4rem */
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -136,10 +136,10 @@ button:hover, .btn:hover, .btn-primary:hover, a[href*="/app"]:hover {
   padding-top: 80px;
 }
 section {
-  padding: 80px 20px;
+  padding: 3rem 20px; /* REDUCED from 80px */
 }
 .py-20 {
-  padding: 5rem 0;
+  padding: 3rem 0; /* REDUCED from 5rem */
 }
 .px-4 {
   padding-left: 1rem;
@@ -216,7 +216,7 @@ section {
   margin-bottom: 1.5rem;
 }
 .mb-12 {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem; /* REDUCED from 3rem */
 }
 
 /* Icon Containers */
@@ -247,7 +247,7 @@ section {
 
 /* Hero Section */
 .hero-section {
-  min-height: 80vh;
+  min-height: 70vh; /* REDUCED from 80vh */
   display: flex;
   align-items: center;
   padding-top: 100px;
