@@ -5760,10 +5760,13 @@ app.get('/app', (c) => {
     }
 
     label {
-      
-      font-weight: 500;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #94a3b8;
       display: block;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.5rem;
     }
 
     input[type="text"],
@@ -6164,7 +6167,7 @@ app.get('/app', (c) => {
     <main>
       <!-- FORMULAR MIT MULTISTEP -->
     <section id="tool">
-      <h2>Erstellen Sie Ihren persönlichen MEDLESS-Orientierungsplan</h2>
+      <h2 class="text-4xl font-light text-slate-900">Erstellen Sie Ihren persönlichen MEDLESS-Orientierungsplan</h2>
       <p class="muted">
         Folgen Sie den Schritten, um Ihre aktuelle Medikation strukturiert zu erfassen und einen persönlichen MEDLESS-Orientierungsplan als Gesprächsgrundlage für Ihren Arzt zu erhalten. Keine Therapie, keine Diagnose – sondern eine klare Übersicht.
       </p>
@@ -6224,7 +6227,7 @@ app.get('/app', (c) => {
         <!-- STEP 1: Name & Gender -->
         <div id="step-1" class="form-step">
           <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 1: Persönliche Angaben</h3>
+            <h3 class="text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 1: Persönliche Angaben</h3>
             <p class="muted" style="margin-bottom: 1.5rem;">Damit wir Sie persönlich ansprechen können.</p>
             
             <div class="form-row">
@@ -6255,7 +6258,7 @@ app.get('/app', (c) => {
             </div>
 
             <div style="text-align: right; margin-top: 1.5rem;">
-              <button type="button" class="btn-primary next-step">
+              <button type="button" class="bg-transparent border-2 border-[#10b981] text-[#10b981] rounded-full px-8 py-3 font-semibold hover:bg-[#10b981] hover:text-white transition-all duration-300 next-step">
                 Weiter <span>→</span>
               </button>
             </div>
@@ -6265,7 +6268,7 @@ app.get('/app', (c) => {
         <!-- STEP 2: Body Data -->
         <div id="step-2" class="form-step" style="display: none;">
           <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
+            <h3 class="text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
             <p class="muted" style="margin-bottom: 1.5rem;">Diese Daten helfen uns, die Dosierung individuell zu berechnen.</p>
             
             <div class="form-row">
@@ -6287,10 +6290,10 @@ app.get('/app', (c) => {
             </div>
 
             <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="btn-ghost prev-step">
+              <button type="button" class="bg-transparent border-2 border-slate-300 text-slate-600 rounded-full px-8 py-3 font-medium hover:bg-slate-100 hover:border-slate-400 transition-all duration-300 prev-step">
                 ← Zurück
               </button>
-              <button type="button" class="btn-primary next-step">
+              <button type="button" class="bg-transparent border-2 border-[#10b981] text-[#10b981] rounded-full px-8 py-3 font-semibold hover:bg-[#10b981] hover:text-white transition-all duration-300 next-step">
                 Weiter <span>→</span>
               </button>
             </div>
@@ -6300,7 +6303,7 @@ app.get('/app', (c) => {
         <!-- STEP 3: Medications -->
         <div id="step-3" class="form-step" style="display: none;">
           <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikation</h3>
+            <h3 class="text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikation</h3>
             <p class="muted" style="margin-bottom: 1.5rem;">Geben Sie hier Ihre aktuellen Medikamente ein. Diese Daten werden genutzt, um einen strukturierten Überblick und einen MEDLESS-Orientierungsplan für Ihr Arztgespräch zu erstellen. Es werden keine Therapieempfehlungen berechnet.</p>
             
             <div id="medication-inputs" style="margin-bottom: 1rem;">
@@ -6312,10 +6315,10 @@ app.get('/app', (c) => {
             </button>
 
             <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="btn-ghost prev-step">
+              <button type="button" class="bg-transparent border-2 border-slate-300 text-slate-600 rounded-full px-8 py-3 font-medium hover:bg-slate-100 hover:border-slate-400 transition-all duration-300 prev-step">
                 ← Zurück
               </button>
-              <button type="button" class="btn-primary next-step">
+              <button type="button" class="bg-transparent border-2 border-[#10b981] text-[#10b981] rounded-full px-8 py-3 font-semibold hover:bg-[#10b981] hover:text-white transition-all duration-300 next-step">
                 Weiter <span>→</span>
               </button>
             </div>
@@ -6325,7 +6328,7 @@ app.get('/app', (c) => {
         <!-- STEP 4: Plan Settings -->
         <div id="step-4" class="form-step" style="display: none;">
           <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
+            <h3 class="text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
             <p class="muted" style="margin-bottom: 1.5rem;">Legen Sie hier die Einstellungen für Ihren MEDLESS-Orientierungsplan fest. Auf dieser Basis wird Ihr persönlicher Orientierungsplan für das Gespräch mit Ihrem Arzt berechnet. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.</p>
             
             <div class="form-row" style="margin-bottom: 1.5rem;">
@@ -6417,10 +6420,10 @@ app.get('/app', (c) => {
             </div>
 
             <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="btn-ghost prev-step">
+              <button type="button" class="bg-transparent border-2 border-slate-300 text-slate-600 rounded-full px-8 py-3 font-medium hover:bg-slate-100 hover:border-slate-400 transition-all duration-300 prev-step">
                 ← Zurück
               </button>
-              <button type="button" class="btn-primary next-step">
+              <button type="button" class="bg-transparent border-2 border-[#10b981] text-[#10b981] rounded-full px-8 py-3 font-semibold hover:bg-[#10b981] hover:text-white transition-all duration-300 next-step">
                 Weiter <span>→</span>
               </button>
             </div>
@@ -6430,7 +6433,7 @@ app.get('/app', (c) => {
         <!-- STEP 5: Email & Summary -->
         <div id="step-5" class="form-step" style="display: none;">
           <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <h3 style="margin-bottom: 0.5rem;">Schritt 5: E-Mail & Zusammenfassung</h3>
+            <h3 class="text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 5: E-Mail & Zusammenfassung</h3>
             <p class="muted" style="margin-bottom: 1.5rem;">Überprüfen Sie Ihre Angaben in Ruhe und geben Sie Ihre E-Mail-Adresse ein. Dorthin senden wir den Download-Link zu Ihrem MEDLESS-Orientierungsplan.</p>
             
             <div class="form-row">
@@ -6476,7 +6479,7 @@ app.get('/app', (c) => {
             </div>
 
             <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="btn-ghost prev-step">
+              <button type="button" class="bg-transparent border-2 border-slate-300 text-slate-600 rounded-full px-8 py-3 font-medium hover:bg-slate-100 hover:border-slate-400 transition-all duration-300 prev-step">
                 ← Zurück
               </button>
               <button type="submit" class="btn-primary">
