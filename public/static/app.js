@@ -847,6 +847,9 @@ async function handleFormSubmit(e) {
   const medicationNames = form.querySelectorAll('input[name="medication_display[]"], input.medication-display-input');
   const medicationMgPerDay = form.querySelectorAll('input[name="medication_mg_per_day[]"]');
   
+  console.log('🔍 DEBUG: Found medication name inputs:', medicationNames.length);
+  console.log('🔍 DEBUG: Found medication dosage inputs:', medicationMgPerDay.length);
+  
   const medications = [];
   let hasMedicationError = false;
   
@@ -854,6 +857,8 @@ async function handleFormSubmit(e) {
     const name = nameInput.value.trim();
     const mgInput = medicationMgPerDay[index];
     const mgPerDayValue = parseFloat(mgInput?.value);
+    
+    console.log(`🔍 DEBUG Med ${index + 1}: name="${name}", dosage="${mgInput?.value}", parsed=${mgPerDayValue}`);
     
     if (name) {
       // Validate mg/day is provided and valid
@@ -877,7 +882,11 @@ async function handleFormSubmit(e) {
     }
   });
   
+  console.log('🔍 DEBUG: Total valid medications:', medications.length);
+  console.log('🔍 DEBUG: Has medication error?', hasMedicationError);
+  
   if (medications.length === 0 && !hasMedicationError) {
+    console.log('🚨 DEBUG: Showing "no medication" error because medications.length === 0');
     const firstMedInput = medicationNames[0];
     if (firstMedInput) {
       showFieldError(firstMedInput, 'Bitte geben Sie mindestens ein Medikament an.');

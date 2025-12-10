@@ -276,23 +276,28 @@
   </main>
 
   <!-- FOOTER -->
-  <footer>
-      <div class="footer-grid">
+  <footer class="bg-slate-900 text-slate-300 py-24 md:py-24 px-6">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="grid md:grid-cols-4 gap-12 mb-12">
           <div>
-              <strong class="block text-[#10b981] mb-4">MEDLESS</strong>
-              <p class="text-slate-400 font-light">Weniger ist mehr.</p>
+              <strong class="text-white font-medium mb-4 text-sm block">MEDLESS</strong>
+              <p class="text-sm leading-relaxed text-slate-400">Weniger ist mehr.</p>
           </div>
           <div>
-              <strong class="block mb-4">Rechtliches</strong>
-              <ul class="space-y-2 text-slate-500">
-                  <li><a href="/impressum">Impressum</a></li>
-                  <li><a href="/datenschutz">Datenschutz</a></li>
+              <strong class="text-white font-medium mb-4 text-sm block">Rechtliches</strong>
+              <ul class="space-y-2 text-sm">
+                  <li><a href="/impressum" class="hover:text-[#10b981] transition-colors">Impressum</a></li>
+                  <li><a href="/datenschutz" class="hover:text-[#10b981] transition-colors">Datenschutz</a></li>
               </ul>
           </div>
           <div>
-              <strong class="block mb-4">Kontakt</strong>
-              <a href="mailto:info@medless.de" class="text-[#10b981]">info@medless.de</a>
+              <strong class="text-white font-medium mb-4 text-sm block">Kontakt</strong>
+              <a href="mailto:info@medless.de" class="text-[#10b981] text-sm hover:text-emerald-400 transition-colors">info@medless.de</a>
           </div>
+        </div>
+        <div class="border-t border-slate-800 pt-8 text-sm text-center">
+          <p>© 2025 Medless. Alle Rechte vorbehalten.</p>
+        </div>
       </div>
   </footer>
 
