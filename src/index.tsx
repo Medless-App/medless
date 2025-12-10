@@ -5588,33 +5588,45 @@ app.get('/app', (c) => {
     .btn-primary {
       border: none;
       cursor: pointer;
-      padding: 0.7rem 1.2rem;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      background: linear-gradient(135deg, #10b981, #059669);
       color: #fff;
       font-weight: 600;
-      
+      font-size: 1rem;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      box-shadow: 0 10px 20px rgba(11, 123, 108, 0.35);
-      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.1s ease;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      transition: all 0.2s ease;
     }
 
     .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(11, 123, 108, 0.45);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, #059669, #047857);
     }
 
     .btn-ghost {
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      padding: 0.6rem 1rem;
-      background: rgba(255, 255, 255, 0.7);
-      
+      border-radius: 0.75rem;
+      border: 1.5px solid rgba(148, 163, 184, 0.3);
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(8px);
+      font-size: 1rem;
+      font-weight: 500;
+      color: #64748b;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.8);
+      border-color: #10b981;
+      color: #10b981;
     }
 
     .note {
@@ -5647,10 +5659,13 @@ app.get('/app', (c) => {
     }
 
     .card {
-      background: #fff;
-      border-radius: var(--radius-lg);
-      padding: 1rem;
-      box-shadow: var(--shadow-soft);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+      border-radius: 2rem;
+      padding: 2rem;
     }
 
     .card h3 {
@@ -5756,19 +5771,21 @@ app.get('/app', (c) => {
     input[type="number"],
     select {
       width: 100%;
-      border-radius: var(--radius-md);
-      border: 1px solid #cbd5e1;
-      padding: 0.55rem 0.6rem;
-      
+      border-radius: 0.75rem;
+      border: 1px solid #e2e8f0;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
       outline: none;
-      background: #f9fafb;
+      background: rgba(255, 255, 255, 0.5);
+      transition: all 0.2s ease;
     }
 
     input:focus,
     select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 1px rgba(11, 123, 108, 0.3);
-      background: #fff;
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      background: rgba(255, 255, 255, 0.9);
+      outline: none;
     }
 
     .helper {
