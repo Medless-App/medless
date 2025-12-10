@@ -5505,13 +5505,7 @@ app.get('/app', (c) => {
       box-sizing: border-box;
     }
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.5;
-    }
+    /* Body styles are now handled by Tailwind classes */
 
     a {
       color: var(--primary);
@@ -5639,10 +5633,7 @@ app.get('/app', (c) => {
       margin-top: 2rem;
     }
 
-    section h2 {
-      
-      margin-bottom: 0.5rem;
-    }
+    /* H2 styles now handled by Tailwind classes */
 
     section p {
       margin: 0.3rem 0;
@@ -5668,11 +5659,7 @@ app.get('/app', (c) => {
       padding: 2rem;
     }
 
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 0.25rem;
-      
-    }
+    /* H3 styles now handled by Tailwind classes */
 
     .tag-small {
       display: inline-block;
