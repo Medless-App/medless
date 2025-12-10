@@ -2051,21 +2051,21 @@ app.get('/magazin', (c) => {
 </head>
 <body style="margin: 0; font-family: 'Inter', sans-serif; background: #F9FAFB;">
   
-  <!-- HEADER -->
-  <header class="header" style="background: white; border-bottom: 1px solid #E5E7EB; position: sticky; top: 0; z-index: 100;">
-    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
-      <nav class="nav" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 0;">
-        <a href="/" class="logo" style="text-decoration: none;">
-          <span class="logo-text" style=" font-weight: 700; color: #0b7b6c;">Medless</span>
+  <!-- HEADER (wie Homepage) -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <a href="/" class="logo">
+          <span class="logo-text">Medless</span>
         </a>
-        <ul class="nav-links" style="display: flex; gap: 32px; list-style: none; margin: 0;">
-          <li><a href="/#how-it-works" style="text-decoration: none; color: #4B5563; font-weight: 500;">So funktioniert's</a></li>
-          <li><a href="/#benefits" style="text-decoration: none; color: #4B5563; font-weight: 500;">Vorteile</a></li>
-          <li><a href="/#faq" style="text-decoration: none; color: #4B5563; font-weight: 500;">FAQ</a></li>
-          <li><a href="/magazin" style="text-decoration: none; color: #0b7b6c; font-weight: 600;">Magazin</a></li>
-          <li><a href="/fachkreise" style="text-decoration: none; color: #4B5563; font-weight: 500;">Für Ärzt:innen & Apotheken</a></li>
+        <ul class="nav-links">
+          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
+          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
+          <li><a href="/#faq" class="nav-link">FAQ</a></li>
+          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
+          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
         </ul>
-        <button onclick="window.location.href='/app'" style="padding: 12px 24px; background: linear-gradient(135deg, #0E5A45, #10B981); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Orientierungsplan starten</button>
+        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
       </nav>
     </div>
   </header>
@@ -2498,7 +2498,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
       <nav class="nav" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 0;">
         <a href="/" class="logo" style="text-decoration: none;">
-          <span class="logo-text" style=" font-weight: 400; color: #0b7b6c;">Medless</span>
+          <span class="logo-text">Medless</span>
         </a>
         <ul class="nav-links" style="display: flex; gap: 32px; list-style: none; margin: 0;">
           <li><a href="/#how-it-works" style="text-decoration: none; color: #4B5563; font-weight: 500;">So funktioniert's</a></li>
@@ -7584,6 +7584,7 @@ function getSharedStyles() {
       --space-7: 48px;
       --space-8: 64px;
       --space-9: 96px;
+      --primary: #10b981;
       --primary-dark-green: #0C5C4C;
       --primary-green: #0F7A67;
       --accent-mint: #CFF1E7;
@@ -7612,7 +7613,6 @@ function getSharedStyles() {
     }
     body {
       font-family: var(--font-family);
-      
       line-height: 1.6;
       color: var(--text-body-color);
       background: var(--background-white);
@@ -7624,6 +7624,86 @@ function getSharedStyles() {
     }
     a:hover {
       text-decoration: underline;
+    }
+    
+    /* HEADER STYLES (wie Homepage) */
+    .header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+      z-index: 1000;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .header .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .header .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+    .logo {
+      text-decoration: none;
+    }
+    .logo-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links li {
+      margin: 0;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: #4B5563;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .nav-link:hover {
+      color: #10b981;
+    }
+    .nav-link.active {
+      color: #10b981;
+      font-weight: 600;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 28px;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: #059669;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      transform: translateY(-1px);
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
     }
   `
 }
