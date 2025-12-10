@@ -1,257 +1,355 @@
-/* -------------------------------------------------------------------------- */
-/* 1. SETUP & VARS
-/* -------------------------------------------------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap');
 :root {
-  /* COLORS */
-  --primary: #10b981;        /* Mint Green */
-  --primary-dark: #059669;   /* Darker Mint for active states */
-  --text-dark: #0f172a;      /* Slate 900 */
-  --text-muted: #64748b;     /* Slate 500 */
-  --bg-gradient-start: #f0fdf4;
-  --bg-gradient-mid: #ffffff;
-  --bg-gradient-end: #ecfdf5;
-  /* GLASSMORPHISM */
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(16, 185, 129, 0.1);
-  --glass-blur: 12px;
-  
-  /* SHADOWS */
-  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
-  --shadow-glow: 0 0 20px rgba(16, 185, 129, 0.15);
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --bg-mint: #f0fdf4;
+  --text-main: #334155; /* Slate 700 */
+  --text-light: #64748b; /* Slate 500 */
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(16, 185, 129, 0.15);
+  --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.05);
+  --shadow-glow: 0 0 20px rgba(16, 185, 129, 0.2);
 }
-/* -------------------------------------------------------------------------- */
-/* 2. BASE STYLES
-/* -------------------------------------------------------------------------- */
+/* 1. GLOBAL RESET & TYPOGRAPHY */
 body {
   font-family: 'Inter', sans-serif;
-  color: var(--text-muted);
-  background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
-  min-height: 100vh;
+  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 50%, #f0fdf4 100%);
+  color: var(--text-main);
+  line-height: 1.6;
   margin: 0;
-  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-h1, h2, h3, h4, h5, h6 {
-  color: var(--text-dark);
-  font-weight: 300; /* Light */
-  letter-spacing: -0.02em; /* Tight */
-}
-/* -------------------------------------------------------------------------- */
-/* 3. TYPOGRAPHY SIZES (FRESH & FINE)
-/* -------------------------------------------------------------------------- */
 h1 {
-  font-size: 3rem; /* 48px Desktop */
-  line-height: 1.2;
-}
-@media (max-width: 768px) { h1 { font-size: 2.25rem; } }
-h2 {
-  font-size: 2rem; /* 32px */
+  font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive H1 */
+  font-weight: 200; /* Extra Light */
+  line-height: 1.1;
+  color: #0f172a;
   margin-bottom: 1.5rem;
+  letter-spacing: -0.03em;
 }
-h3 {
-  font-size: 1.5rem; /* 24px */
-  font-weight: 400; /* Regular */
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 300;
+  color: #0f172a;
+  margin-bottom: 1rem;
 }
-/* -------------------------------------------------------------------------- */
-/* 4. COMPONENTS
-/* -------------------------------------------------------------------------- */
-/* Header (Glass) */
+/* 2. HEADER FIXES */
 header {
-  height: 64px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-bottom: 1px solid var(--glass-border);
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 100;
+  height: 80px; /* Fixed height */
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  z-index: 1000;
   display: flex;
   align-items: center;
+  justify-content: center; /* Center content container */
 }
-/* Cards (Glassmorphism) */
-.card, section.glass-section, .wizard-container {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: var(--shadow-glass);
-  border-radius: 2rem; /* 32px */
-  padding: 2.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+header > div, header .container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between !important; /* Force spread */
 }
-.card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(16, 185, 129, 0.3);
-  box-shadow: var(--shadow-glow);
+/* Navigation Links */
+header nav {
+  display: flex;
+  gap: 30px; /* Space between links */
+  align-items: center;
 }
-/* Buttons (Ghost Style) */
-.btn-primary {
+header nav a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  font-weight: 400;
+  transition: color 0.2s;
+}
+header nav a:hover {
+  color: var(--primary);
+}
+/* 3. BUTTONS (Aggressive Styling) */
+/* Target ALL buttons + specific classes */
+button, .btn, .button, a[href*="/app"], input[type="submit"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 2rem; /* py-3 px-8 */
-  border-radius: 9999px; /* Full pill */
+  padding: 12px 32px;
+  border-radius: 9999px; /* Pill */
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  font-size: 1rem;
   text-decoration: none;
-  
-  /* Ghost Default */
-  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
   border: 1px solid var(--primary);
+  
+  /* Default: Ghost Style */
+  background: transparent;
   color: var(--primary);
 }
-.btn-primary:hover {
+/* Hover State */
+button:hover, .btn:hover, a[href*="/app"]:hover, input[type="submit"]:hover {
   background: var(--primary);
   color: white;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
 }
-/* Inputs */
-input[type="text"], input[type="email"], input[type="number"], select {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: 0.75rem; /* 12px */
-  border: 1px solid #e2e8f0;
-  background: rgba(255, 255, 255, 0.5);
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  outline: none;
-  transition: all 0.2s;
+/* Grey Button Fix (Secondary) */
+button:nth-child(2), .btn-secondary {
+  border-color: #cbd5e1;
+  color: #64748b;
 }
-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+button:nth-child(2):hover, .btn-secondary:hover {
+  background: #f1f5f9;
+  color: #334155;
+  box-shadow: none;
+  border-color: #94a3b8;
+}
+/* 4. LAYOUT & SECTIONS */
+section {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/* Footer Fix */
+footer {
+  margin-top: auto; /* Push to bottom */
+  padding: 40px 0;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+/* Glass Cards */
+.card, .step-card {
   background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s;
 }
-/* Navigation Links */
-.nav-link {
-  color: var(--text-muted);
-  font-size: 0.875rem;
-  text-decoration: none;
-  font-weight: 300;
-  transition: color 0.2s;
+.card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-glow);
 }
-.nav-link:hover {
-  color: var(--primary);
+
+/* 5. GRID LAYOUTS */
+.grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  align-items: center;
 }
-/* -------------------------------------------------------------------------- */
-/* 5. LAYOUT & GRID SYSTEMS
-/* -------------------------------------------------------------------------- */
-.section { padding: 4rem 0; }
-.grid-2col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3rem; align-items: center; }
-.grid-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+.grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
 @media (max-width: 1024px) {
   .grid-2col { grid-template-columns: 1fr; }
   .grid-4col { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
   .grid-4col { grid-template-columns: 1fr; }
-  .section { padding: 3rem 0; }
 }
 
-/* Navigation */
-.nav { display: flex; align-items: center; justify-content: space-between; width: 100%; }
-.logo { text-decoration: none; font-weight: 600; font-size: 1.25rem; color: var(--text-dark); }
-.nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
-.nav-links li { margin: 0; }
+/* 6. HERO SECTION */
+.hero-section {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  padding-top: 100px; /* Account for fixed header */
+}
+.hero-content {
+  max-width: 600px;
+}
+.hero-usps {
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+.hero-usps li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+/* 7. NAVIGATION (Logo + Links) */
+.logo {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #0f172a;
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+.nav-links li {
+  margin: 0;
+}
 @media (max-width: 768px) {
   .nav-links { display: none; }
 }
 
-/* Step Cards Layout */
-.steps-container { display: flex; align-items: center; gap: 1.5rem; }
-.step-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
-.arrow-mobile { display: none; }
+/* 8. STEP CARDS (How it works) */
+.steps-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.step-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  font-size: 1.5rem;
+}
+.arrow-mobile {
+  display: none;
+}
 @media (max-width: 768px) {
-  .steps-container { flex-direction: column; }
-  .step-arrow { transform: rotate(90deg); }
-  .arrow-desktop { display: none; }
-  .arrow-mobile { display: block; }
+  .steps-container {
+    flex-direction: column;
+  }
+  .step-arrow {
+    transform: rotate(90deg);
+  }
+  .arrow-desktop {
+    display: none;
+  }
+  .arrow-mobile {
+    display: block;
+  }
 }
 
-/* Hero Section */
-.hero-section { min-height: 70vh; display: flex; align-items: center; }
-.hero-title { font-size: 3rem; font-weight: 200; margin-bottom: 1.5rem; }
-.hero-subtitle { font-size: 1.125rem; margin-bottom: 2rem; line-height: 1.7; }
-.hero-usps { list-style: none; padding: 0; margin-top: 2rem; }
-.hero-usps li { display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 1rem; font-size: 0.95rem; }
-@media (max-width: 768px) {
-  .hero-title { font-size: 2rem; }
+/* 9. ICONS */
+.icon-lg {
+  width: 48px;
+  height: 48px;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+.usp-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 3px;
 }
 
-/* Icons */
-.icon-lg { width: 48px; height: 48px; color: var(--primary); margin-bottom: 1rem; }
-.usp-icon { width: 20px; height: 20px; color: var(--primary); flex-shrink: 0; }
-
-/* Mockup Visual */
+/* 10. MOCKUP VISUAL */
 .mockup-container {
   background: white;
-  border: 1px solid var(--glass-border);
+  border: 1px solid #e2e8f0;
   border-radius: 1rem;
   padding: 2rem;
-  box-shadow: var(--shadow-glass);
+  box-shadow: var(--shadow-soft);
 }
-.mockup-header { font-weight: 600; margin-bottom: 1rem; color: var(--text-dark); }
+.mockup-header {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #0f172a;
+}
 .mockup-line {
   height: 12px;
   background: #e2e8f0;
   border-radius: 4px;
   margin-bottom: 0.75rem;
 }
-.mockup-line.short { width: 60%; }
-.mockup-table { margin: 1.5rem 0; }
+.mockup-line.short {
+  width: 60%;
+}
+.mockup-table {
+  margin: 1.5rem 0;
+}
 .mockup-table-row {
   height: 40px;
   background: #f8fafc;
   border-radius: 6px;
   margin-bottom: 0.5rem;
 }
-.mockup-footer { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border); }
-.mockup-disclaimer { font-size: 0.75rem; color: var(--text-muted); }
+.mockup-footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+.mockup-disclaimer {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
 
-/* Callout Box */
+/* 11. PROBLEM SECTION */
+.problem-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+.problem-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
 .callout-box {
   background: rgba(16, 185, 129, 0.05);
   border-left: 4px solid var(--primary);
   padding: 1.5rem;
   border-radius: 0.5rem;
   margin-top: 2rem;
+  text-align: left;
 }
 
-/* FAQ */
+/* 12. FAQ */
 .faq-item {
-  background: var(--glass-bg);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: white;
+  border: 1px solid #e2e8f0;
   border-radius: 1rem;
   padding: 1.5rem;
   margin-bottom: 1rem;
 }
 .faq-question {
   font-weight: 500;
-  color: var(--text-dark);
+  color: #0f172a;
   margin-bottom: 0.75rem;
   font-size: 1.05rem;
 }
 .faq-answer {
-  color: var(--text-muted);
+  color: var(--text-light);
   line-height: 1.6;
 }
 
-/* Footer */
-.footer {
-  background: rgba(255, 255, 255, 0.5);
-  padding: 3rem 0 2rem;
-  border-top: 1px solid var(--glass-border);
-  margin-top: 4rem;
+/* 13. UTILITIES */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
-.footer-links { display: flex; gap: 2rem; list-style: none; padding: 0; margin: 0; flex-wrap: wrap; }
-.footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
-.footer-links a:hover { color: var(--primary); }
-
-/* -------------------------------------------------------------------------- */
-/* 6. UTILITIES
-/* -------------------------------------------------------------------------- */
-.text-primary { color: var(--primary); }
-.text-center { text-align: center; }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-.pt-safe { padding-top: 80px; } /* Space for fixed header */
+.text-center {
+  text-align: center;
+}
+.section-title {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.body-text {
+  line-height: 1.7;
+  color: var(--text-light);
+}
+.pt-safe {
+  padding-top: 80px;
+}
