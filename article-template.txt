@@ -1,0 +1,94 @@
+// Helper function for article pages
+function renderArticlePage(data: {
+  title: string;
+  subtitle?: string;
+  date: string;
+  readTime: string;
+  introText: string;
+  content: string;
+  ctaTitle?: string;
+  ctaText?: string;
+}) {
+  return `<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>${data.title} – MEDLESS</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  
+  <!-- External Styles -->
+  <link rel="stylesheet" href="/styles.css">
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #FFFFFF;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- HEADER (identisch zur Homepage) -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <a href="/" class="logo">
+          <span class="logo-text">Medless</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
+          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
+          <li><a href="/#faq" class="nav-link">FAQ</a></li>
+          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
+          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
+        </ul>
+        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ARTICLE CONTENT -->
+  <div class="article-page-container">
+    
+    <article class="article-header">
+      <h1 class="article-hero-title">${data.title}</h1>
+      ${data.subtitle ? `<p class="article-subtitle">${data.subtitle}</p>` : ''}
+      
+      <div class="article-meta-new">
+        <span><i class="far fa-calendar"></i> ${data.date}</span>
+        <span><i class="far fa-clock"></i> ${data.readTime}</span>
+      </div>
+    </article>
+    
+    <div class="article-content-new">
+      <div class="article-intro-box">
+        ${data.introText}
+      </div>
+      
+      ${data.content}
+      
+      <div class="article-cta-box">
+        <h3>${data.ctaTitle || 'Starte deinen persönlichen Orientierungsplan'}</h3>
+        <p>${data.ctaText || 'Erfasse deine Medikamente, erhalte sofort einen PDF-Plan und führe bessere Arztgespräche.'}</p>
+        <a href="/app" class="article-cta-button">
+          Jetzt starten <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+    
+  </div>
+  
+  ${getSharedStyles()}
+</body>
+</html>`
+}
