@@ -644,7 +644,7 @@ function createMedicationInput() {
         <div>
           <label class="block text-xs text-slate-500 mb-2 font-medium">Medikamenten-Name</label>
           <input type="text" 
-                 name="med_name[]" 
+                 name="medication_display[]" 
                  class="medication-display-input wizard-input" 
                  placeholder="z.B. Ibuprofen" 
                  required>
@@ -654,11 +654,12 @@ function createMedicationInput() {
         <!-- Dosierung Input -->
         <div>
           <label class="block text-xs text-slate-500 mb-2 font-medium">Tagesdosis (in mg)</label>
-          <input type="number" 
-                 name="med_dosage[]" 
+          <input type="text" 
+                 inputmode="numeric" 
+                 pattern="[0-9]*" 
+                 name="medication_mg_per_day[]" 
                  class="wizard-input" 
                  placeholder="z.B. 400" 
-                 min="1" 
                  required>
         </div>
       </div>
