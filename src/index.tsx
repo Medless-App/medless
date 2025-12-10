@@ -4,6 +4,10 @@ import { serveStatic } from 'hono/cloudflare-workers'
 import { buildPatientReportData, buildDoctorReportData } from './report_data'
 import { renderDoctorReportHtmlFixed, renderDoctorReportExample } from './report_templates'
 import { renderPatientReportHtmlFixed, renderPatientReportExample } from './report_templates_patient'
+// MEGAPROMPT V2 TEMPLATES
+import { buildDoctorReportDataV3 } from './report_data_v3'
+import { renderDoctorReportHtmlV3 } from './report_templates_doctor_v3'
+import { buildPatientPlanData, renderPatientPlanHTML } from './report_templates_patient_v2'
 import type { AnalyzeResponse } from './types/analyzeResponse'
 
 type Bindings = {
@@ -1519,20 +1523,20 @@ app.post('/api/reports', async (c) => {
     
     const result: any = { success: true };
     
-    // Build Patient Report
+    // Build Patient Report (MEGAPROMPT V2)
     if (includePatient) {
-      const patientData = buildPatientReportData(analysis as AnalyzeResponse);
-      const patientHtml = renderPatientReportHtmlFixed(patientData);
+      const patientDataV2 = buildPatientPlanData(analysis as AnalyzeResponse);
+      const patientHtml = renderPatientPlanHTML(patientDataV2);
       result.patient = {
-        data: patientData,
+        data: patientDataV2,
         html: patientHtml
       };
     }
     
-    // Build Doctor Report
+    // Build Doctor Report (MEGAPROMPT V3)
     if (includeDoctor) {
-      const doctorData = buildDoctorReportData(analysis as AnalyzeResponse);
-      const doctorHtml = renderDoctorReportHtmlFixed(doctorData);
+      const doctorDataV3 = buildDoctorReportDataV3(analysis as AnalyzeResponse);
+      const doctorHtml = renderDoctorReportHtmlV3(doctorDataV3);
       result.doctor = {
         data: doctorData,
         html: doctorHtml
@@ -1569,23 +1573,23 @@ app.post('/api/analyze-and-reports', async (c) => {
     // Use shared analysis function (Single Source of Truth)
     const analysisResult = await buildAnalyzeResponse(body, env);
     
-    // Generate reports from analysis result
-    const patientData = buildPatientReportData(analysisResult as any);
-    const patientHtml = renderPatientReportHtmlFixed(patientData);
+    // Generate reports from analysis result (MEGAPROMPT V2/V3)
+    const patientDataV2 = buildPatientPlanData(analysisResult as any);
+    const patientHtml = renderPatientPlanHTML(patientDataV2);
     
-    const doctorData = buildDoctorReportData(analysisResult as any);
-    const doctorHtml = renderDoctorReportHtmlFixed(doctorData);
+    const doctorDataV3 = buildDoctorReportDataV3(analysisResult as any);
+    const doctorHtml = renderDoctorReportHtmlV3(doctorDataV3);
     
     // Return combined response
     return c.json({
       success: true,
       analysis: analysisResult,
       patient: {
-        data: patientData,
+        data: patientDataV2,
         html: patientHtml
       },
       doctor: {
-        data: doctorData,
+        data: doctorDataV3,
         html: doctorHtml
       }
     });
@@ -1699,8 +1703,9 @@ app.post('/api/pdf/patient', async (c) => {
         patientHtml = html;
       } else if (analysis) {
         // Analysis data provided - generate HTML
-        patientData = buildPatientReportData(analysis as AnalyzeResponse);
-        patientHtml = renderPatientReportHtmlFixed(patientData);
+        // MEGAPROMPT V2: Use new template with consistency
+        const patientDataV2 = buildPatientPlanData(analysis as AnalyzeResponse);
+        patientHtml = renderPatientPlanHTML(patientDataV2);
       } else {
         return c.json({ 
           success: false, 
