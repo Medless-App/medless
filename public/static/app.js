@@ -886,20 +886,21 @@ async function handleFormSubmit(e) {
   }
   
   // === SCHRITT 4: Reduktionsplan ===
-  const durationSelect = form.querySelector('select[name="duration_weeks"]');
-  const durationWeeks = parseInt(durationSelect.value);
-  if (!durationWeeks || isNaN(durationWeeks)) {
-    showFieldError(durationSelect, 'Bitte wählen Sie eine Plan-Dauer aus.');
+  const durationInput = form.querySelector('input[name="duration"]:checked');
+  const durationWeeks = parseInt(durationInput?.value);
+  if (!durationInput || !durationWeeks || isNaN(durationWeeks)) {
+    const firstDurationRadio = form.querySelector('input[name="duration"]');
+    showFieldError(firstDurationRadio, 'Bitte wählen Sie eine Plan-Dauer aus.');
     hasErrors = true;
-    if (!firstErrorField) firstErrorField = durationSelect;
+    if (!firstErrorField) firstErrorField = firstDurationRadio;
   }
   
-  const reductionSelect = form.querySelector('select[name="reduction_goal"]');
-  const reductionGoal = parseInt(reductionSelect.value);
-  if (!reductionGoal || isNaN(reductionGoal)) {
-    showFieldError(reductionSelect, 'Bitte wählen Sie ein Reduktionsziel aus.');
+  const reductionInput = form.querySelector('input[name="reduction"]');
+  const reductionGoal = parseInt(reductionInput?.value);
+  if (!reductionInput || !reductionGoal || isNaN(reductionGoal)) {
+    showFieldError(reductionInput, 'Bitte wählen Sie ein Reduktionsziel aus.');
     hasErrors = true;
-    if (!firstErrorField) firstErrorField = reductionSelect;
+    if (!firstErrorField) firstErrorField = reductionInput;
   }
   
   // === SCHRITT 5: E-Mail ===
