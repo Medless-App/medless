@@ -6283,7 +6283,7 @@ app.get('/app', (c) => {
                   Alter (Jahre) *
                 </label>
                 <input type="number" name="age" class="wizard-input text-center text-lg" 
-                       placeholder="00" min="18" max="120" required>
+                       placeholder="z.B. 45" min="18" max="120" required>
               </div>
               
               <!-- Größe -->
@@ -6292,7 +6292,7 @@ app.get('/app', (c) => {
                   Größe (cm) *
                 </label>
                 <input type="number" name="height" class="wizard-input text-center text-lg" 
-                       placeholder="000" min="100" max="250" required>
+                       placeholder="z.B. 170" min="100" max="250" required>
               </div>
               
               <!-- Gewicht -->
@@ -6301,7 +6301,7 @@ app.get('/app', (c) => {
                   Gewicht (kg) *
                 </label>
                 <input type="number" name="weight" class="wizard-input text-center text-lg" 
-                       placeholder="00" min="30" max="300" required>
+                       placeholder="z.B. 70" min="30" max="300" required>
               </div>
             </div>
 
