@@ -31,6 +31,22 @@ export interface AnalysisEntry {
   interactions: CbdInteraction[];
   mgPerDay: number;
   warning?: string;
+  
+  // NEW: Calculation Factors (for PDF transparency)
+  max_weekly_reduction_pct?: number; // Final calculated value
+  calculationFactors?: {
+    baseReductionPct: number; // Phase 1: Base (10%)
+    categoryLimit: number | null; // Phase 2: Category Safety Limit
+    halfLifeFactor: number; // Phase 3: Half-Life Adjustment (0.5, 0.75, 1.0)
+    cypFactor: number; // Phase 4: CYP Adjustment (0.7, 1.0, 1.15)
+    therapeuticWindowFactor: number; // Phase 5: Narrow Therapeutic Window (0.8, 1.0)
+    withdrawalFactor: number; // Phase 6: Withdrawal Risk (0.75-1.0)
+    interactionFactor: number; // Phase 7: Multi-Drug Interaction (0.7-1.0)
+    finalFactor: number; // Product of all factors
+  };
+  
+  // CYP Profiles (legacy, still used)
+  cypProfiles?: MedicationCypProfile[];
 }
 
 /**
@@ -64,6 +80,23 @@ export interface MedicationWithCategory {
   withdrawal_risk_score?: number | null;
   cbd_interaction_strength?: 'low' | 'medium' | 'high' | 'critical' | null;
   
+  // NEW: CYP450 Boolean Fields (Migration 017 + 018)
+  cyp3a4_substrate?: number | null;
+  cyp3a4_inhibitor?: number | null;
+  cyp3a4_inducer?: number | null;
+  cyp2d6_substrate?: number | null;
+  cyp2d6_inhibitor?: number | null;
+  cyp2d6_inducer?: number | null;
+  cyp2c9_substrate?: number | null;
+  cyp2c9_inhibitor?: number | null;
+  cyp2c9_inducer?: number | null;
+  cyp2c19_substrate?: number | null;
+  cyp2c19_inhibitor?: number | null;
+  cyp2c19_inducer?: number | null;
+  cyp1a2_substrate?: number | null;
+  cyp1a2_inhibitor?: number | null;
+  cyp1a2_inducer?: number | null;
+  
   // Marker that medication was found
   found?: boolean;
 }
@@ -88,6 +121,18 @@ export interface MedicationCategory {
   max_weekly_reduction_pct: number | null;
   requires_specialist: number | null;
   notes: string | null;
+}
+
+/**
+ * CYP450 Enzyme Profile (Legacy, still used for cypProfiles array)
+ */
+export interface MedicationCypProfile {
+  id: number;
+  medication_id: number;
+  cyp_enzyme: string; // e.g., 'CYP2D6', 'CYP3A4', 'UGT'
+  role: string; // 'substrate', 'inhibitor', 'inducer', 'mixed'
+  cbd_effect_on_reduction: 'faster' | 'neutral' | 'slower' | null;
+  note: string | null;
 }
 
 /**

@@ -10,6 +10,79 @@ import type {
 } from './types/analyzeResponse'
 
 // ============================================================
+// HELPER FUNCTIONS FOR CYP DATA (NEW - MIGRATION 017/018)
+// ============================================================
+
+/**
+ * Build CYP data from new Boolean fields in DB (Migration 017/018)
+ * Replaces legacy cyp_profile array-based approach
+ */
+function buildCypDataFromDB(med: MedicationWithCategory): {
+  enzymes: {
+    cyp3a4: { substrate: number; inhibitor: number; inducer: number };
+    cyp2d6: { substrate: number; inhibitor: number; inducer: number };
+    cyp2c9: { substrate: number; inhibitor: number; inducer: number };
+    cyp2c19: { substrate: number; inhibitor: number; inducer: number };
+    cyp1a2: { substrate: number; inhibitor: number; inducer: number };
+  };
+  affectedEnzymes: string[];
+  hasCypData: boolean;
+} {
+  const enzymes = {
+    cyp3a4: {
+      substrate: med.cyp3a4_substrate || 0,
+      inhibitor: med.cyp3a4_inhibitor || 0,
+      inducer: med.cyp3a4_inducer || 0
+    },
+    cyp2d6: {
+      substrate: med.cyp2d6_substrate || 0,
+      inhibitor: med.cyp2d6_inhibitor || 0,
+      inducer: med.cyp2d6_inducer || 0
+    },
+    cyp2c9: {
+      substrate: med.cyp2c9_substrate || 0,
+      inhibitor: med.cyp2c9_inhibitor || 0,
+      inducer: med.cyp2c9_inducer || 0
+    },
+    cyp2c19: {
+      substrate: med.cyp2c19_substrate || 0,
+      inhibitor: med.cyp2c19_inhibitor || 0,
+      inducer: med.cyp2c19_inducer || 0
+    },
+    cyp1a2: {
+      substrate: med.cyp1a2_substrate || 0,
+      inhibitor: med.cyp1a2_inhibitor || 0,
+      inducer: med.cyp1a2_inducer || 0
+    }
+  };
+
+  // Collect affected enzymes (any enzyme with substrate=1 or inhibitor=1 or inducer=1)
+  const affectedEnzymes: string[] = [];
+  
+  if (enzymes.cyp3a4.substrate || enzymes.cyp3a4.inhibitor || enzymes.cyp3a4.inducer) {
+    affectedEnzymes.push('CYP3A4');
+  }
+  if (enzymes.cyp2d6.substrate || enzymes.cyp2d6.inhibitor || enzymes.cyp2d6.inducer) {
+    affectedEnzymes.push('CYP2D6');
+  }
+  if (enzymes.cyp2c9.substrate || enzymes.cyp2c9.inhibitor || enzymes.cyp2c9.inducer) {
+    affectedEnzymes.push('CYP2C9');
+  }
+  if (enzymes.cyp2c19.substrate || enzymes.cyp2c19.inhibitor || enzymes.cyp2c19.inducer) {
+    affectedEnzymes.push('CYP2C19');
+  }
+  if (enzymes.cyp1a2.substrate || enzymes.cyp1a2.inhibitor || enzymes.cyp1a2.inducer) {
+    affectedEnzymes.push('CYP1A2');
+  }
+
+  return {
+    enzymes,
+    affectedEnzymes,
+    hasCypData: affectedEnzymes.length > 0
+  };
+}
+
+// ============================================================
 // V3 TYPE DEFINITIONS (3-LEVEL STRUCTURE)
 // ============================================================
 
@@ -62,6 +135,37 @@ export interface MedicationDetail {
   startDose: string;
   targetDose: string;
   maxWeeklyReductionPct: number; // ← CRITICAL: Must come from analysis data
+  
+  // NEW V1: Safety Flags (Step 7/7)
+  twoPercentFloorApplied?: boolean; // ← CRITICAL: 2% floor applied flag (for PDF warning)
+  
+  // NEW: Raw DB Values (Basiswerte für Arztbericht)
+  rawData: {
+    halfLifeHours: number | null;
+    categoryId: number | null;
+    withdrawalScore: number | null;
+  };
+  
+  // NEW: CYP Enzymes (Detailed Table)
+  cypEnzymes: {
+    cyp3a4: { substrate: number; inhibitor: number; inducer: number };
+    cyp2d6: { substrate: number; inhibitor: number; inducer: number };
+    cyp2c9: { substrate: number; inhibitor: number; inducer: number };
+    cyp2c19: { substrate: number; inhibitor: number; inducer: number };
+    cyp1a2: { substrate: number; inhibitor: number; inducer: number };
+  };
+  
+  // NEW: Calculation Factors (MEDLESS-Formel Zerlegung)
+  calculationFactors?: {
+    baseReductionPct: number;
+    categoryLimit: number | null;
+    halfLifeFactor: number;
+    cypFactor: number;
+    therapeuticWindowFactor: number;
+    withdrawalFactor: number;
+    interactionFactor: number;
+    finalFactor: number;
+  };
   
   withdrawalRisk: {
     score: number;
@@ -311,20 +415,36 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
     // This comes from the backend calculation (after all safety adjustments)
     const maxWeeklyReductionPct = entry.max_weekly_reduction_pct || 0;
 
+    // NEW: Raw DB Values (Basiswerte)
+    const rawData = {
+      halfLifeHours: med.half_life_hours || null,
+      categoryId: med.category_id || null,
+      withdrawalScore: med.withdrawal_risk_score || null
+    };
+
+    // NEW: Build CYP Enzymes from DB Boolean fields
+    const cypFromDB = buildCypDataFromDB(med);
+    const cypEnzymes = cypFromDB.enzymes;
+
+    // NEW: Calculation Factors (from entry.calculationFactors if available)
+    const calculationFactors = entry.calculationFactors || undefined;
+
     // Withdrawal Risk
     const withdrawalScore = med.withdrawal_risk_score || 0;
     const wrAdjustment = withdrawal_risk_adjustment?.medications?.find(m => m.name === name);
     const withdrawalFactor = wrAdjustment?.factor || 1.0;
     const withdrawalSlowdownPct = wrAdjustment?.reduction_slowdown_pct || 0;
 
-    // CYP Data
+    // CYP Data (Legacy + New)
     const cypProfiles = entry.cypProfiles || [];
-    const hasCypData = cypProfiles.length > 0;
+    const hasCypData = cypFromDB.hasCypData || cypProfiles.length > 0;
     const isSlower = cyp_profile?.medicationsWithSlowerEffect?.includes(name) || false;
     const isFaster = cyp_profile?.medicationsWithFasterEffect?.includes(name) || false;
     const cypEffect = isSlower ? 'slower' : isFaster ? 'faster' : 'neutral';
     
-    const affectedEnzymes = cypProfiles.map(p => p.cyp_enzyme);
+    const affectedEnzymes = cypFromDB.affectedEnzymes.length > 0 
+      ? cypFromDB.affectedEnzymes 
+      : cypProfiles.map(p => p.cyp_enzyme);
     const cypAdjustmentFactor = isSlower ? 0.7 : isFaster ? 1.15 : 1.0;
     const cypSlowdownPct = isSlower ? 30 : isFaster ? -15 : 0;
     
@@ -342,19 +462,30 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
 
     // MDI Impact
     let mdiImpact: MedicationDetail['mdiImpact'];
-    if (isSlower && mdi) {
-      const profileCount = cypProfiles.filter(p => p.cbd_effect_on_reduction === 'slower').length;
+    
+    // NEW: Determine MDI role from CYP Boolean fields
+    const isInhibitor = cypEnzymes.cyp3a4.inhibitor || cypEnzymes.cyp2d6.inhibitor || 
+                        cypEnzymes.cyp2c9.inhibitor || cypEnzymes.cyp2c19.inhibitor || 
+                        cypEnzymes.cyp1a2.inhibitor;
+    const isInducer = cypEnzymes.cyp3a4.inducer || cypEnzymes.cyp2d6.inducer || 
+                      cypEnzymes.cyp2c9.inducer || cypEnzymes.cyp2c19.inducer || 
+                      cypEnzymes.cyp1a2.inducer;
+    
+    if (isInhibitor && mdi) {
       mdiImpact = {
         contributesToMdi: true,
         role: 'Inhibitor',
-        score: profileCount
+        score: (cypEnzymes.cyp3a4.inhibitor + cypEnzymes.cyp2d6.inhibitor + 
+                cypEnzymes.cyp2c9.inhibitor + cypEnzymes.cyp2c19.inhibitor + 
+                cypEnzymes.cyp1a2.inhibitor)
       };
-    } else if (isFaster && mdi) {
-      const profileCount = cypProfiles.filter(p => p.cbd_effect_on_reduction === 'faster').length;
+    } else if (isInducer && mdi) {
       mdiImpact = {
         contributesToMdi: true,
         role: 'Inducer',
-        score: profileCount
+        score: (cypEnzymes.cyp3a4.inducer + cypEnzymes.cyp2d6.inducer + 
+                cypEnzymes.cyp2c9.inducer + cypEnzymes.cyp2c19.inducer + 
+                cypEnzymes.cyp1a2.inducer)
       };
     } else {
       mdiImpact = {
@@ -386,6 +517,12 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
       startDose: `${formatMg(startDoseMg)} täglich`,
       targetDose: `${formatMg(targetDoseMg)} täglich`,
       maxWeeklyReductionPct, // ← FROM entry.max_weekly_reduction_pct
+      
+      twoPercentFloorApplied: entry.twoPercentFloorApplied || false, // ← NEW V1: 2% floor flag
+      
+      rawData, // ← NEW: Basiswerte
+      cypEnzymes, // ← NEW: CYP Enzyme Boolean Table
+      calculationFactors, // ← NEW: Calculation Factors
       
       withdrawalRisk: {
         score: withdrawalScore,

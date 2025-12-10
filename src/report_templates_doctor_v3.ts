@@ -310,6 +310,45 @@ function renderHeader(data: DoctorReportDataV3): string {
         <div class="subtitle" style="margin-top: 4px;">Patient: ${data.patientName} | ${new Date().toLocaleDateString('de-DE')}</div>
       </div>
     </div>
+    
+    ${renderLegalDisclaimer()}
+  `;
+}
+
+// ============================================================
+// LEGAL DISCLAIMER
+// ============================================================
+
+function renderLegalDisclaimer(): string {
+  return `
+    <div style="
+      background: #f3f4f6; 
+      border-left: 4px solid #9ca3af; 
+      padding: 12px 16px; 
+      margin: 12px 0 16px 0;
+      font-size: 9pt;
+      line-height: 1.4;
+      color: #374151;
+    ">
+      <strong style="color: #1f2937;">⚠️ ÄRZTLICHE VERANTWORTUNG:</strong><br>
+      Dieses Dokument ist eine <strong>computergestützte Planungshilfe</strong> und ersetzt <strong>keine medizinische Diagnose oder Therapieentscheidung</strong>. 
+      Die finale Verantwortung für Dosierung, Monitoring und Anpassung der Medikation liegt <strong>vollständig bei der behandelnden Ärztin / dem behandelnden Arzt</strong>. 
+      Individuelle Faktoren (z.&nbsp;B. Organfunktion, Komorbiditäten, weitere Medikamente) müssen immer zusätzlich berücksichtigt werden.
+    </div>
+    
+    <div style="
+      background: #EFF6FF; 
+      border-left: 4px solid #0284C7; 
+      padding: 12px 16px; 
+      margin: 12px 0 16px 0;
+      font-size: 9pt;
+      line-height: 1.4;
+      color: #1e40af;
+    ">
+      <strong style="color: #1e3a8a;">💡 MEDLESS IST EIN OBERGRENZEN-TOOL:</strong><br>
+      Die berechneten Dosisreduktionen stellen <strong>konservative Obergrenzen</strong> dar. 
+      Die tatsächliche Reduktion sollte durch die behandelnde Ärztin / den behandelnden Arzt <strong>individuell festgelegt</strong> werden.
+    </div>
   `;
 }
 
@@ -331,6 +370,14 @@ function renderLevel1Overview(data: DoctorReportDataV3): string {
     ${renderOverviewTable(data.overviewMedications)}
     
     ${renderGlobalRiskBox(data.globalRisk)}
+    
+    ${renderHighRiskSubstanceClassesWarning()}
+    
+    ${renderPharmacokineticsVsPharmacodynamicsNote()}
+    
+    ${renderTaperTailWarning()}
+    
+    ${renderMonitoringRecommendations(data)}
   `;
 }
 
@@ -402,6 +449,90 @@ function renderGlobalRiskBox(globalRisk: DoctorReportDataV3['globalRisk']): stri
 }
 
 // ============================================================
+// NEW V1 GO-LIVE WARNINGS (STEP 7/7)
+// ============================================================
+
+/**
+ * 1. Taper-Tail Warning (always shown)
+ */
+function renderTaperTailWarning(): string {
+  return `
+    <div class="warning-box" style="margin-top: 16px;">
+      <p style="font-weight: 700; color: #92400E; margin-bottom: 6px;">⚠️ TAPER-TAIL-WARNUNG (Letzte 25–30% der Reduktion):</p>
+      <p style="font-size: 9pt; line-height: 1.5;">
+        Die <strong>letzten 25–30% der Dosisreduktion</strong> sollten in der Praxis häufig <strong>deutlich langsamer</strong> erfolgen als im Plan dargestellt. 
+        Besonders bei <strong>Benzodiazepinen, Antipsychotika und Opioiden</strong> sollte die Endphase der Reduktion ärztlich individuell über mindestens <strong>4–8 zusätzliche Wochen verlängert</strong> werden.
+      </p>
+    </div>
+  `;
+}
+
+/**
+ * 2. Two-Percent Floor Warning (conditional - shown per medication)
+ */
+function renderTwoPercentFloorWarning(): string {
+  return `
+    <div class="warning-box" style="margin-top: 8px;">
+      <p style="font-weight: 700; color: #92400E; margin-bottom: 4px;">⚠️ SICHERHEITSHINWEIS – 2%-UNTERGRENZE ANGEWENDET:</p>
+      <p style="font-size: 8.5pt; line-height: 1.5;">
+        Die berechnete Reduktionsgeschwindigkeit wurde automatisch auf <strong>mindestens 2% pro Woche</strong> begrenzt. 
+        Dies weist auf eine <strong>Hochrisiko-Konstellation</strong> hin (z.B. sehr lange Halbwertszeit, starke Interaktionen oder Polypharmazie). 
+        Eine <strong>enge ärztliche Überwachung</strong> wird empfohlen.
+      </p>
+    </div>
+  `;
+}
+
+/**
+ * 3. High-Risk Substance Classes Warning (always shown)
+ */
+function renderHighRiskSubstanceClassesWarning(): string {
+  return `
+    <div class="critical-box" style="margin-top: 16px;">
+      <p style="font-weight: 700; color: #7F1D1D; margin-bottom: 8px;">⚠️ BESONDERS VORSICHTIG ANWENDEN BEI:</p>
+      <ul style="margin-left: 18px; font-size: 9pt; line-height: 1.6;">
+        <li><strong>Benzodiazepinen</strong> (Entzugsrisiko, Rebound-Angst, Krampfanfälle)</li>
+        <li><strong>Antipsychotika</strong> (Rebound-Psychose, Dopamin-Hypersensitivität)</li>
+        <li><strong>Opioiden</strong> (physisches Entzugssyndrom)</li>
+        <li><strong>Antikonvulsiva</strong> (Breakthrough-Seizures)</li>
+        <li><strong>Medikamenten mit engem therapeutischem Fenster</strong> (z.B. Digoxin, Lithium, Warfarin, Phenytoin)</li>
+      </ul>
+    </div>
+  `;
+}
+
+/**
+ * 4. Pharmacokinetics vs Pharmacodynamics Note (always shown)
+ */
+function renderPharmacokineticsVsPharmacodynamicsNote(): string {
+  return `
+    <div class="info-box" style="margin-top: 16px;">
+      <p style="font-weight: 700; color: #1e40af; margin-bottom: 6px;">🔬 WICHTIGER HINWEIS: PHARMAKOKINETIK VS. PHARMAKODYNAMIK</p>
+      <p style="font-size: 9pt; line-height: 1.5;">
+        MEDLESS berücksichtigt <strong>pharmakokinetische Faktoren</strong> wie Halbwertszeit, CYP-Interaktionen und Polypharmazie. 
+        <strong>Pharmakodynamische Risiken</strong> (z.B. additive Sedierung bei Benzo + Opioid, Serotonin-Syndrom bei SSRI + Tramadol, 
+        QT-Verlängerung bei Antipsychotika + Makroliden) müssen <strong>ärztlich separat geprüft</strong> werden.
+      </p>
+    </div>
+  `;
+}
+
+/**
+ * 6. Monitoring Recommendations (always shown)
+ */
+function renderMonitoringRecommendations(data: DoctorReportDataV3): string {
+  return `
+    <div class="info-box" style="margin-top: 16px;">
+      <p style="font-weight: 700; color: #0369a1; margin-bottom: 8px;">🩺 MONITORING-EMPFEHLUNGEN:</p>
+      <ul style="margin-left: 18px; font-size: 9pt; line-height: 1.6;">
+        <li>Bei einem <strong>Entzugsrisiko-Score ≥ 7</strong> wird eine <strong>wöchentliche ärztliche Überwachung</strong> empfohlen.</li>
+        <li>Bei Medikamenten mit <strong>engem therapeutischem Fenster</strong> (z.B. Warfarin, Lithium, Digoxin) sind <strong>regelmäßige Laborkontrollen (TDM)</strong> erforderlich.</li>
+      </ul>
+    </div>
+  `;
+}
+
+// ============================================================
 // LEVEL 2: PER-MEDICATION SHORT PROFILES (PAGE 2+)
 // ============================================================
 
@@ -443,6 +574,16 @@ function renderMedicationProfile(med: DoctorReportDataV3['medicationDetails'][0]
         <div class="med-profile-value">${med.maxWeeklyReductionPct}% (nach allen Anpassungen)</div>
       </div>
       
+      <hr style="margin: 12px 0; border: none; border-top: 2px solid #00C39A;">
+      
+      ${renderBasiswerteSection(med)}
+      
+      ${renderCypEnzymeTable(med)}
+      
+      ${renderCalculationFactorsBox(med)}
+      
+      ${med.twoPercentFloorApplied ? renderTwoPercentFloorWarning() : ''}
+      
       <hr style="margin: 8px 0; border: none; border-top: 1px solid #e5e7eb;">
       
       ${index === 0 ? '<h3 style="font-size: 10pt; margin-top: 8px; color: #00584D; margin-bottom: 10px;">🔬 Modell-Faktoren (gelten für alle Profile):</h3>' : ''}
@@ -462,6 +603,122 @@ function renderMedicationProfile(med: DoctorReportDataV3['medicationDetails'][0]
           ${med.monitoring}
         </div>
       ` : ''}
+    </div>
+  `;
+}
+
+// ============================================================
+// NEW: BASISWERTE SECTION (RAW DATA)
+// ============================================================
+
+function renderBasiswerteSection(med: DoctorReportDataV3['medicationDetails'][0]): string {
+  return `
+    <h3 style="font-size: 10pt; margin-top: 8px; color: #00584D; margin-bottom: 6px;">📋 A. Basiswerte</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+      <div style="background: #F3F4F6; padding: 6px 8px; border-radius: 4px;">
+        <div style="font-size: 8pt; color: #6b7280; font-weight: 600;">KATEGORIE</div>
+        <div style="font-size: 9pt; color: #1f2937;">${med.category || 'Unbekannt'} ${med.rawData?.categoryId ? `(ID ${med.rawData.categoryId})` : ''}</div>
+      </div>
+      <div style="background: #F3F4F6; padding: 6px 8px; border-radius: 4px;">
+        <div style="font-size: 8pt; color: #6b7280; font-weight: 600;">HALBWERTSZEIT</div>
+        <div style="font-size: 9pt; color: #1f2937;">${med.rawData?.halfLifeHours ? `${med.rawData.halfLifeHours}h` : 'Keine Daten'}</div>
+      </div>
+      <div style="background: #F3F4F6; padding: 6px 8px; border-radius: 4px;">
+        <div style="font-size: 8pt; color: #6b7280; font-weight: 600;">WITHDRAWAL SCORE</div>
+        <div style="font-size: 9pt; color: #1f2937;">${med.rawData?.withdrawalScore !== null && med.rawData?.withdrawalScore !== undefined ? `${med.rawData.withdrawalScore}/10` : 'Keine Daten'}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// NEW: CYP ENZYME TABLE (DETAILED BOOLEAN TABLE)
+// ============================================================
+
+function renderCypEnzymeTable(med: DoctorReportDataV3['medicationDetails'][0]): string {
+  if (!med.cypEnzymes) {
+    return '';
+  }
+  
+  const enzymes = [
+    { name: 'CYP3A4', data: med.cypEnzymes.cyp3a4 },
+    { name: 'CYP2D6', data: med.cypEnzymes.cyp2d6 },
+    { name: 'CYP2C9', data: med.cypEnzymes.cyp2c9 },
+    { name: 'CYP2C19', data: med.cypEnzymes.cyp2c19 },
+    { name: 'CYP1A2', data: med.cypEnzymes.cyp1a2 }
+  ].filter(e => e.data.substrate || e.data.inhibitor || e.data.inducer);
+  
+  if (enzymes.length === 0) {
+    return `
+      <h3 style="font-size: 10pt; margin-top: 8px; color: #00584D; margin-bottom: 6px;">🧬 B. CYP-Profil</h3>
+      <p style="font-size: 9pt; color: #6b7280; margin-bottom: 10px;">Keine CYP-Daten vorhanden (Nicht-CYP-Metabolismus: z.B. UGT, Renale Clearance)</p>
+    `;
+  }
+  
+  return `
+    <h3 style="font-size: 10pt; margin-top: 8px; color: #00584D; margin-bottom: 6px;">🧬 B. CYP-Profil</h3>
+    <table style="width: 100%; border-collapse: collapse; font-size: 9pt; margin-bottom: 10px;">
+      <thead style="background: #F3F4F6;">
+        <tr>
+          <th style="border: 1px solid #e5e7eb; padding: 6px; text-align: left; font-weight: 600;">Enzym</th>
+          <th style="border: 1px solid #e5e7eb; padding: 6px; text-align: center; font-weight: 600;">Substrat</th>
+          <th style="border: 1px solid #e5e7eb; padding: 6px; text-align: center; font-weight: 600;">Inhibitor</th>
+          <th style="border: 1px solid #e5e7eb; padding: 6px; text-align: center; font-weight: 600;">Induktor</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${enzymes.map(e => `
+          <tr>
+            <td style="border: 1px solid #e5e7eb; padding: 6px; font-weight: 600;">${e.name}</td>
+            <td style="border: 1px solid #e5e7eb; padding: 6px; text-align: center;">${e.data.substrate ? '✓' : '—'}</td>
+            <td style="border: 1px solid #e5e7eb; padding: 6px; text-align: center; color: ${e.data.inhibitor ? '#DC2626' : '#6b7280'}; font-weight: ${e.data.inhibitor ? '600' : '400'};">${e.data.inhibitor ? '✓' : '—'}</td>
+            <td style="border: 1px solid #e5e7eb; padding: 6px; text-align: center; color: ${e.data.inducer ? '#059669' : '#6b7280'}; font-weight: ${e.data.inducer ? '600' : '400'};">${e.data.inducer ? '✓' : '—'}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+// ============================================================
+// NEW: CALCULATION FACTORS BOX (MEDLESS FORMULA)
+// ============================================================
+
+function renderCalculationFactorsBox(med: DoctorReportDataV3['medicationDetails'][0]): string {
+  if (!med.calculationFactors) {
+    return '';
+  }
+  
+  const cf = med.calculationFactors;
+  
+  return `
+    <h3 style="font-size: 10pt; margin-top: 8px; color: #00584D; margin-bottom: 6px;">🧮 C. Berechnungsformel (MEDLESS-Modell)</h3>
+    <div style="background: #F0FDFA; border: 2px solid #00C39A; border-radius: 6px; padding: 10px; margin-bottom: 10px;">
+      <div style="font-size: 9pt; line-height: 1.7; color: #1f2937;">
+        <div style="margin-bottom: 4px;"><strong>Phase 1 (Base):</strong> ${cf.baseReductionPct}%</div>
+        <div style="margin-bottom: 4px;"><strong>Phase 2 (Kategorie-Limit):</strong> ${cf.categoryLimit ? cf.categoryLimit + '%/Woche' : 'Keine Begrenzung'}</div>
+        <div style="margin-bottom: 4px;"><strong>Phase 3 (Halbwertszeit):</strong> Faktor ${cf.halfLifeFactor.toFixed(2)} ${cf.halfLifeFactor < 1 ? '❄️ (Verlangsamung)' : ''}</div>
+        <div style="margin-bottom: 4px;"><strong>Phase 4 (CYP-Anpassung):</strong> Faktor ${cf.cypFactor.toFixed(2)} ${cf.cypFactor < 1 ? '🧬 (Hemmung)' : cf.cypFactor > 1 ? '⚡ (Induktion)' : ''}</div>
+        <div style="margin-bottom: 4px;"><strong>Phase 5 (Therap. Fenster):</strong> Faktor ${cf.therapeuticWindowFactor.toFixed(2)} ${cf.therapeuticWindowFactor < 1 ? '🧪 (Enges Fenster)' : ''}</div>
+        <div style="margin-bottom: 4px;"><strong>Phase 6 (Withdrawal):</strong> Faktor ${cf.withdrawalFactor.toFixed(2)} ${cf.withdrawalFactor < 1 ? '⚠️ (Hohes Risiko)' : ''}</div>
+        <div style="margin-bottom: 8px;"><strong>Phase 7 (Multi-Drug):</strong> Faktor ${cf.interactionFactor.toFixed(2)} ${cf.interactionFactor < 1 ? '💊 (Interaktion)' : ''}</div>
+        
+        <hr style="border: none; border-top: 1px solid #00C39A; margin: 8px 0;">
+        
+        <div style="font-size: 10pt; font-weight: 700; color: #00584D;">
+          <strong>FINAL FACTOR:</strong> ${(cf.finalFactor * 100).toFixed(1)}% 
+          <span style="font-weight: 400; color: #6b7280;">(Produkt aller Faktoren)</span>
+        </div>
+      </div>
+    </div>
+    
+    <div style="background: #EFF6FF; border-left: 4px solid #3B82F6; padding: 8px 10px; margin-bottom: 10px;">
+      <div style="font-size: 9pt; color: #1f2937; font-weight: 600;">
+        📌 D. MEDLESS Empfehlung: Max. <span style="color: #00584D; font-size: 11pt;">${med.maxWeeklyReductionPct}% pro Woche</span>
+      </div>
+      <div style="font-size: 8pt; color: #6b7280; margin-top: 4px;">
+        Basierend auf pharmakokinetischen Daten, Interaktionsprofil und Absetzrisiko.
+      </div>
     </div>
   `;
 }

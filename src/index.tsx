@@ -81,6 +81,18 @@ interface SafetyResult {
   cypAdjustmentFactor?: number; // NEW: CYP adjustment multiplier (e.g., 0.7, 1.15)
   withdrawalRiskAdjustmentApplied?: boolean; // NEW P1: Indicates if withdrawal risk quantification was applied
   withdrawalRiskFactor?: number; // NEW P1: Withdrawal risk factor (0.75-1.0)
+  
+  // NEW: Calculation Factors (for PDF transparency - PHASE F)
+  calculationFactors?: {
+    baseReductionPct: number; // Phase 1: Base (10%)
+    categoryLimit: number | null; // Phase 2: Category Safety Limit
+    halfLifeFactor: number; // Phase 3: Half-Life Adjustment (0.5, 0.75, 1.0)
+    cypFactor: number; // Phase 4: CYP Adjustment (0.7, 1.0, 1.15)
+    therapeuticWindowFactor: number; // Phase 5: Narrow Therapeutic Window (0.8, 1.0)
+    withdrawalFactor: number; // Phase 6: Withdrawal Risk (0.75-1.0)
+    interactionFactor: number; // Phase 7: Multi-Drug Interaction (0.7-1.0)
+    finalFactor: number; // Product of all factors
+  };
 }
 
 // ============================================================
@@ -419,6 +431,48 @@ function applyCategorySafetyRules(params: {
     );
   }
   
+  // ===== NEW: PHASE F - Calculate Calculation Factors for PDF Transparency =====
+  // Extract all calculation steps into structured format
+  const baseReductionPct = 10; // Phase 1: Base (always 10%)
+  const categoryLimit = maxWeeklyReductionPct; // Phase 2: Category Safety Limit
+  
+  // Phase 3: Half-Life Factor (determined by steady state calculation)
+  let halfLifeFactor = 1.0;
+  if (category.half_life_hours && category.half_life_hours > 0) {
+    const steadyStateDays = (category.half_life_hours * 5) / 24;
+    if (steadyStateDays > 7) {
+      halfLifeFactor = 0.5;
+    } else if (steadyStateDays > 3) {
+      halfLifeFactor = 0.75;
+    }
+  }
+  
+  // Phase 4: CYP Factor (already calculated)
+  const cypFactor = cypAdjustmentFactor;
+  
+  // Phase 5: Therapeutic Window Factor
+  const therapeuticWindowFactor = therapeuticRangeAdjustmentApplied ? 0.8 : 1.0;
+  
+  // Phase 6: Withdrawal Factor (already calculated)
+  const withdrawalFactor = withdrawalRiskFactor;
+  
+  // Phase 7: Multi-Drug Interaction Factor (will be calculated later in /api/analyze)
+  const interactionFactor = 1.0; // Placeholder - actual value calculated in multi-drug context
+  
+  // Final Factor: Product of all factors
+  const finalFactor = halfLifeFactor * cypFactor * therapeuticWindowFactor * withdrawalFactor * interactionFactor;
+  
+  const calculationFactors = {
+    baseReductionPct,
+    categoryLimit,
+    halfLifeFactor,
+    cypFactor,
+    therapeuticWindowFactor,
+    withdrawalFactor,
+    interactionFactor,
+    finalFactor
+  };
+  
   return {
     effectiveTargetMg,
     effectiveWeeklyReduction,
@@ -428,7 +482,8 @@ function applyCategorySafetyRules(params: {
     cypAdjustmentApplied, // NEW: Indicates if CYP-based adjustment was applied
     cypAdjustmentFactor, // NEW: CYP adjustment multiplier (0.7 = 30% slower, 1.15 = 15% faster)
     withdrawalRiskAdjustmentApplied, // NEW P1: Indicates if withdrawal risk quantification was applied
-    withdrawalRiskFactor // NEW P1: Withdrawal risk factor (0.75-1.0)
+    withdrawalRiskFactor, // NEW P1: Withdrawal risk factor (0.75-1.0)
+    calculationFactors // NEW: PHASE F - Calculation Factors for PDF
   };
 }
 
@@ -713,7 +768,22 @@ async function buildAnalyzeResponse(body: any, env: any) {
              m.therapeutic_min_ng_ml,
              m.therapeutic_max_ng_ml,
              m.withdrawal_risk_score,
-             m.cbd_interaction_strength
+             m.cbd_interaction_strength,
+             m.cyp3a4_substrate,
+             m.cyp3a4_inhibitor,
+             m.cyp3a4_inducer,
+             m.cyp2d6_substrate,
+             m.cyp2d6_inhibitor,
+             m.cyp2d6_inducer,
+             m.cyp2c9_substrate,
+             m.cyp2c9_inhibitor,
+             m.cyp2c9_inducer,
+             m.cyp2c19_substrate,
+             m.cyp2c19_inhibitor,
+             m.cyp2c19_inducer,
+             m.cyp1a2_substrate,
+             m.cyp1a2_inhibitor,
+             m.cyp1a2_inducer
       FROM medications m
       LEFT JOIN medication_categories mc ON m.category_id = mc.id
       WHERE m.name LIKE ? OR m.generic_name LIKE ?
@@ -757,61 +827,76 @@ async function buildAnalyzeResponse(body: any, env: any) {
   }
   
   // ===== NEW P1 TASK #3: MULTI-DRUG INTERACTION (MDI) SYSTEM =====
-  // Calculate cumulative CYP burden across all medications
-  // MDI-Logic:
-  //   - sum_inhibition_score = count of all 'slower' CYP profiles across all medications
-  //   - sum_induction_score = count of all 'faster' CYP profiles across all medications
+  // ===== MDI CODE CHANGE 1 (VERPFLICHTEND FÜR V1) =====
+  // Calculate cumulative CYP burden based on NUMBER OF MEDICATIONS (not number of profiles)
   //
-  // MDI-Levels:
-  //   - Mild (2-3 inhibitors): -10% reduction
-  //   - Moderate (4-6 inhibitors): -20% reduction
-  //   - Severe (≥7 inhibitors): -30% reduction + Warning
+  // MDI-Logic (CORRECTED):
+  //   - Count medications with at least one 'slower' CYP profile
+  //   - Each medication counts ONCE, regardless of how many 'slower' profiles it has
+  //   - Example: Med A (2 slower profiles) + Med B (1 slower profile) = 2 medications (NOT 3)
   //
-  // Induction (only if ≥2 'faster' profiles):
-  //   - Mild Faster (≥2): +5% reduction
-  //   - Strong Faster (≥4): +10% reduction
+  // MDI-Levels (based on medication count):
+  //   - None (0-1 medications): No brake, Factor 1.0
+  //   - Mild (2-3 medications): -10% reduction, Factor 0.9
+  //   - Moderate (4-5 medications): -20% reduction, Factor 0.8
+  //   - Severe (≥6 medications): -30% reduction, Factor 0.7 + Warning
+  //
+  // Induction (only if NO inhibitor medications present):
+  //   - Mild Faster (2-3 medications): +5% reduction, Factor 1.05
+  //   - Strong Faster (≥4 medications): +10% reduction, Factor 1.1
   
-  const allCypProfiles = analysisResults.flatMap(r => r.cypProfiles || []);
-  const inhibitors = allCypProfiles.filter(p => p.cbd_effect_on_reduction === 'slower').length;
-  const inducers = allCypProfiles.filter(p => p.cbd_effect_on_reduction === 'faster').length;
+  // Count medications with at least one 'slower' profile
+  const medicationsWithSlowerProfile = analysisResults.filter(result => {
+    const cypProfiles = result.cypProfiles || [];
+    return cypProfiles.some(p => p.cbd_effect_on_reduction === 'slower');
+  }).length;
+  
+  // Count medications with at least one 'faster' profile
+  const medicationsWithFasterProfile = analysisResults.filter(result => {
+    const cypProfiles = result.cypProfiles || [];
+    return cypProfiles.some(p => p.cbd_effect_on_reduction === 'faster');
+  }).length;
+  
+  const inhibitors = medicationsWithSlowerProfile;
+  const inducers = medicationsWithFasterProfile;
   
   let mdiLevel: 'none' | 'mild' | 'moderate' | 'severe' = 'none';
   let mdiAdjustmentFactor = 1.0;
   const mdiWarnings: string[] = [];
   
-  // Determine MDI level based on inhibition score
-  if (inhibitors >= 7) {
+  // Determine MDI level based on NUMBER OF MEDICATIONS with slower profiles (NOT profile count)
+  if (inhibitors >= 6) {
     mdiLevel = 'severe';
     mdiAdjustmentFactor = 0.7; // 30% slower
     mdiWarnings.push(
-      `🚨 SEVERE Multi-Drug Interaction: ${inhibitors} CYP-Hemm-Profile erkannt - Reduktion wird um 30% verlangsamt. Engmaschige ärztliche Kontrolle erforderlich!`
+      `🚨 SEVERE Multi-Drug Interaction: ${inhibitors} Medikamente mit CYP-Inhibition erkannt - Reduktion wird um 30% verlangsamt. Engmaschige ärztliche Kontrolle erforderlich!`
     );
   } else if (inhibitors >= 4) {
     mdiLevel = 'moderate';
     mdiAdjustmentFactor = 0.8; // 20% slower
     mdiWarnings.push(
-      `⚠️ MODERATE Multi-Drug Interaction: ${inhibitors} CYP-Hemm-Profile - Reduktion um 20% verlangsamt`
+      `⚠️ MODERATE Multi-Drug Interaction: ${inhibitors} Medikamente mit CYP-Inhibition - Reduktion um 20% verlangsamt`
     );
   } else if (inhibitors >= 2) {
     mdiLevel = 'mild';
     mdiAdjustmentFactor = 0.9; // 10% slower
     mdiWarnings.push(
-      `ℹ️ MILD Multi-Drug Interaction: ${inhibitors} CYP-Hemm-Profile - Reduktion um 10% verlangsamt`
+      `ℹ️ MILD Multi-Drug Interaction: ${inhibitors} Medikamente mit CYP-Inhibition - Reduktion um 10% verlangsamt`
     );
   }
   
-  // Override with induction if applicable (only if NO inhibitors present)
+  // Override with induction if applicable (only if NO inhibitor medications present)
   if (inhibitors === 0 && inducers >= 4) {
     mdiLevel = 'mild'; // Use 'mild' to indicate induction
     mdiAdjustmentFactor = 1.1; // 10% faster (strong induction)
     mdiWarnings.push(
-      `ℹ️ Strong CYP-Induktion: ${inducers} 'faster'-Profile - Reduktion um 10% beschleunigt (konservativ)`
+      `ℹ️ Strong CYP-Induktion: ${inducers} Medikamente mit 'faster'-Profil - Reduktion um 10% beschleunigt (konservativ)`
     );
   } else if (inhibitors === 0 && inducers >= 2) {
     mdiLevel = 'mild';
     mdiAdjustmentFactor = 1.05; // 5% faster (mild induction)
     mdiWarnings.push(
-      `ℹ️ Mild CYP-Induktion: ${inducers} 'faster'-Profile - Reduktion um 5% beschleunigt`
+      `ℹ️ Mild CYP-Induktion: ${inducers} Medikamente mit 'faster'-Profil - Reduktion um 5% beschleunigt`
     );
   }
   
@@ -919,6 +1004,13 @@ async function buildAnalyzeResponse(body: any, env: any) {
       // This runs AFTER withdrawal risk quantification (which is per-medication)
       let weeklyReduction = safetyResult.effectiveWeeklyReduction;
       weeklyReduction *= mdiAdjustmentFactor; // Apply MDI adjustment (0.7-1.1)
+      
+      // ===== MDI CODE CHANGE 2: Apply 2% weekly reduction floor (VERPFLICHTEND F\u00dcR V1) =====
+      const MIN_WEEKLY_PCT = 0.02; // 2% of starting dose
+      const minWeeklyReductionMg = startMg * MIN_WEEKLY_PCT;
+      if (weeklyReduction < minWeeklyReductionMg && startMg > 0) {
+        weeklyReduction = minWeeklyReductionMg;
+      }
       
       const targetMg = safetyResult.effectiveTargetMg;
       
@@ -1134,14 +1226,41 @@ async function buildAnalyzeResponse(body: any, env: any) {
     // Apply MDI adjustment (global factor affecting all medications)
     let finalWeeklyReduction = safetyResult.effectiveWeeklyReduction * mdiAdjustmentFactor;
     
-    // Calculate as percentage of starting dose
+    // ===== MDI CODE CHANGE 2 (VERPFLICHTEND FÜR V1) =====
+    // Apply 2% weekly reduction floor to prevent unrealistically long plans
+    // This ensures final reduction never falls below 2% of starting dose per week
+    const startMg = med.mgPerDay;
+    const MIN_WEEKLY_PCT = 0.02; // 2% of starting dose
+    const minWeeklyReductionMg = startMg * MIN_WEEKLY_PCT;
+    
+    let twoPercentFloorApplied = false;
+    if (finalWeeklyReduction < minWeeklyReductionMg && startMg > 0) {
+      // Original reduction was below 2% floor - apply floor
+      twoPercentFloorApplied = true;
+      finalWeeklyReduction = minWeeklyReductionMg;
+    }
+    
+    // Calculate as percentage of starting dose (after floor application)
     const finalWeeklyReductionPct = med.mgPerDay > 0 
       ? Math.round((finalWeeklyReduction / med.mgPerDay) * 100 * 10) / 10
       : null;
     
+    // NEW: PHASE F - Update calculationFactors with MDI factor
+    const updatedCalculationFactors = safetyResult.calculationFactors ? {
+      ...safetyResult.calculationFactors,
+      interactionFactor: mdiAdjustmentFactor, // Phase 7: Update with actual MDI factor
+      finalFactor: safetyResult.calculationFactors.halfLifeFactor * 
+                   safetyResult.calculationFactors.cypFactor * 
+                   safetyResult.calculationFactors.therapeuticWindowFactor * 
+                   safetyResult.calculationFactors.withdrawalFactor * 
+                   mdiAdjustmentFactor
+    } : undefined;
+    
     return {
       ...medAnalysis,
-      max_weekly_reduction_pct: finalWeeklyReductionPct
+      max_weekly_reduction_pct: finalWeeklyReductionPct,
+      calculationFactors: updatedCalculationFactors, // NEW: Add calculation factors to analysis entry
+      twoPercentFloorApplied // NEW: Flag indicating if 2% floor was applied (for PDF warning)
     };
   });
   
