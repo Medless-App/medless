@@ -342,6 +342,59 @@ section {
   padding: 1.5rem;
   border-radius: 0.5rem;
   margin-top: 2rem;
+}
+
+/* ===== APP WIZARD FORM INPUTS (Glass Effect) ===== */
+
+/* HIDE NUMBER INPUT SPINNERS */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* GLASS INPUTS */
+.glass-input {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px);
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+.glass-input:focus {
+  background: white;
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+  outline: none;
+}
+
+/* SELECTION CARDS (für Gender, Dauer, usw.) */
+.select-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+}
+input:checked + .select-card {
+  border-color: #10b981;
+  background: #f0fdf4;
+  color: #10b981;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+}
   text-align: left;
 }
 

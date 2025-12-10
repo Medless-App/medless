@@ -6212,7 +6212,7 @@ app.get('/app', (c) => {
       </div>
 
       <form id="medication-form">
-        <!-- STEP 1: Name & Gender -->
+        <!-- STEP 1: Name & Gender & Body Data -->
         <div id="step-1" class="form-step">
           <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
             <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 1: Persönliche Angaben</h3>
@@ -6221,27 +6221,26 @@ app.get('/app', (c) => {
             <div class="form-row">
               <div>
                 <label for="first-name">Ihr Vorname *</label>
-                <input type="text" id="first-name" name="first_name" placeholder="z.B. Maria" required />
+                <input type="text" id="first-name" name="first_name" class="glass-input" placeholder="z.B. Maria" required />
               </div>
             </div>
 
-            <div class="form-row">
-              <div>
-                <label>Geschlecht *</label>
-                <div class="inline-row">
-                  <label class="radio-pill">
-                    <input type="radio" name="gender" value="female" required />
-                    <span>Weiblich</span>
-                  </label>
-                  <label class="radio-pill">
-                    <input type="radio" name="gender" value="male" />
-                    <span>Männlich</span>
-                  </label>
-                  <label class="radio-pill">
-                    <input type="radio" name="gender" value="diverse" />
-                    <span>Divers</span>
-                  </label>
-                </div>
+            <!-- Geschlecht (Neue Card-Auswahl) -->
+            <div class="mb-8">
+              <label class="block text-[10px] uppercase tracking-widest text-slate-400 mb-3 font-medium text-center">Geschlecht *</label>
+              <div class="grid grid-cols-3 gap-4">
+                <label>
+                  <input type="radio" name="gender" value="male" class="peer sr-only" required />
+                  <div class="select-card">Herr</div>
+                </label>
+                <label>
+                  <input type="radio" name="gender" value="female" class="peer sr-only" />
+                  <div class="select-card">Frau</div>
+                </label>
+                <label>
+                  <input type="radio" name="gender" value="diverse" class="peer sr-only" />
+                  <div class="select-card">Divers</div>
+                </label>
               </div>
             </div>
 
@@ -6253,7 +6252,7 @@ app.get('/app', (c) => {
           </div>
         </div>
 
-        <!-- STEP 2: Body Data -->
+        <!-- STEP 2: Body Data (glass-input auf Feldern) -->
         <div id="step-2" class="form-step" style="display: none;">
           <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
             <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
@@ -6262,17 +6261,17 @@ app.get('/app', (c) => {
             <div class="form-row">
               <div>
                 <label for="age">Alter (Jahre) *</label>
-                <input type="number" id="age" name="age" placeholder="z.B. 45" min="18" max="120" required />
+                <input type="number" id="age" name="age" class="glass-input" placeholder="z.B. 45" min="18" max="120" required />
                 <div class="helper">Für altersgerechte Dosierung</div>
               </div>
               <div>
                 <label for="weight">Gewicht (kg) *</label>
-                <input type="number" id="weight" name="weight" placeholder="z.B. 70" min="30" max="250" step="0.1" required />
+                <input type="number" id="weight" name="weight" class="glass-input" placeholder="z.B. 70" min="30" max="250" step="0.1" required />
                 <div class="helper">In Kilogramm</div>
               </div>
               <div>
                 <label for="height">Größe (cm) *</label>
-                <input type="number" id="height" name="height" placeholder="z.B. 170" min="120" max="230" required />
+                <input type="number" id="height" name="height" class="glass-input" placeholder="z.B. 170" min="120" max="230" required />
                 <div class="helper">In Zentimetern</div>
               </div>
             </div>
@@ -6319,62 +6318,49 @@ app.get('/app', (c) => {
             <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Legen Sie hier die Einstellungen für Ihren MEDLESS-Orientierungsplan fest. Auf dieser Basis wird Ihr persönlicher Orientierungsplan für das Gespräch mit Ihrem Arzt berechnet. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.</p>
             
-            <div class="form-row" style="margin-bottom: 1.5rem;">
-              <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0b7b6c, #14b8a6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-calendar-alt" style="color: white; "></i>
-                  </div>
-                  <div>
-                    <label for="duration-weeks" style=" font-weight: 600; color: #0b7b6c; margin: 0;">Plan-Dauer (Wochen) *</label>
-                    <p style=" color: #6b7280; margin: 0.25rem 0 0 0;">Wie lange soll Ihr Orientierungsplan dauern?</p>
-                  </div>
-                </div>
-                <select id="duration-weeks" name="duration_weeks" required style="width: 100%; padding: 0.875rem;  border: 2px solid #14b8a6; border-radius: 8px; background: white;">
-                  <option value="">-- Bitte wählen --</option>
-                  <option value="4">4 Wochen – Schneller Einstieg</option>
-                  <option value="6">6 Wochen – Zügig</option>
-                  <option value="8" selected>8 Wochen – Standard (empfohlen) ⭐</option>
-                  <option value="10">10 Wochen – Behutsam</option>
-                  <option value="12">12 Wochen – Sehr langsam</option>
-                </select>
-                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #059669;">
-                  <i class="fas fa-info-circle" style="color: #059669; margin-right: 0.5rem;"></i>
-                  <span style=" color: #374151;">Empfohlen: 8–12 Wochen für eine sanfte und stabile Reduktion.</span>
-                </div>
+            <!-- Dauer (5er-Grid) -->
+            <div class="mb-8">
+              <label class="block text-[10px] uppercase tracking-widest text-slate-400 mb-3 font-medium text-center">Dauer des Plans (Wochen) *</label>
+              <div class="grid grid-cols-5 gap-2">
+                <label>
+                  <input type="radio" name="duration_weeks" value="2" class="peer sr-only" />
+                  <div class="select-card">2</div>
+                </label>
+                <label>
+                  <input type="radio" name="duration_weeks" value="4" class="peer sr-only" />
+                  <div class="select-card">4</div>
+                </label>
+                <label>
+                  <input type="radio" name="duration_weeks" value="6" class="peer sr-only" />
+                  <div class="select-card">6</div>
+                </label>
+                <label>
+                  <input type="radio" name="duration_weeks" value="8" class="peer sr-only" checked required />
+                  <div class="select-card">8</div>
+                </label>
+                <label>
+                  <input type="radio" name="duration_weeks" value="12" class="peer sr-only" />
+                  <div class="select-card">12</div>
+                </label>
               </div>
             </div>
 
-            <div class="form-row" style="margin-bottom: 1.5rem;">
-              <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #14b8a6;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0b7b6c, #14b8a6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-chart-line" style="color: white; "></i>
-                  </div>
-                  <div>
-                    <label for="reduction-goal" style=" font-weight: 600; color: #0b7b6c; margin: 0;">Reduktionsziel *</label>
-                    <p style=" color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel möchten Sie reduzieren?</p>
-                  </div>
+            <!-- Reduktion (Toggle Switch) -->
+            <label class="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-[#10b981] transition-colors group shadow-sm mb-8">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 group-hover:text-[#10b981] transition-colors">
+                  <i class="fas fa-chart-line"></i>
                 </div>
-                <select id="reduction-goal" name="reduction_goal" required style="width: 100%; padding: 0.875rem;  border: 2px solid #14b8a6; border-radius: 8px; background: white;">
-                  <option value="">-- Bitte wählen --</option>
-                  <option value="10">10% Reduktion</option>
-                  <option value="20">20% Reduktion</option>
-                  <option value="30">30% Reduktion</option>
-                  <option value="40">40% Reduktion</option>
-                  <option value="50" selected>50% Reduktion (empfohlen) ⭐</option>
-                  <option value="60">60% Reduktion</option>
-                  <option value="70">70% Reduktion</option>
-                  <option value="80">80% Reduktion</option>
-                  <option value="90">90% Reduktion</option>
-                  <option value="100">100% Reduktion (komplett absetzen)</option>
-                </select>
-                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #059669;">
-                  <i class="fas fa-lightbulb" style="color: #059669; margin-right: 0.5rem;"></i>
-                  <span style=" color: #374151;">Tipp: Beginnen Sie mit 30–50 % für einen sicheren und gut verträglichen Start.</span>
+                <div>
+                  <p class="font-medium text-slate-700">Reduktion erwünscht?</p>
+                  <p class="text-xs text-slate-400">Plan auf Dosis-Senkung auslegen</p>
                 </div>
               </div>
-            </div>
+              <div class="relative inline-block w-12 h-6 rounded-full bg-slate-200 group-hover:bg-slate-300 transition-colors">
+                <input type="checkbox" id="reduction-toggle" name="reduction_goal" value="50" class="absolute w-full h-full opacity-0 cursor-pointer peer" checked />
+                <span class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-all peer-checked:translate-x-6 peer-checked:bg-[#10b981]"></span>
+              </div>
+            </label>
 
             <div class="form-row">
               <div style="background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #f59e0b; display: none;">

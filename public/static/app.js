@@ -625,32 +625,30 @@ function createMedicationInput() {
     <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
       <!-- Medication Name with Autocomplete -->
       <div style="position: relative;">
-        <label style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-          Medikamentenname
+        <label class="block text-[10px] uppercase tracking-widest text-slate-400 mb-2 font-medium">
+          Medikamenten-Name
         </label>
         <input type="text" 
                name="medication_display[]" 
-               class="medication-display-input" 
-               placeholder="z.B. Ibuprofen, Diazepam, Sertralin..." 
-               required
-               style="width: 100%; padding: 0.75rem; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem;">
+               class="medication-display-input glass-input" 
+               placeholder="z.B. Ibuprofen" 
+               required>
         <input type="hidden" name="medication_name[]" class="medication-name-hidden">
       </div>
       
 
-      <!-- mg/Tag - PRIMARY INPUT (gleiche Farbe wie Medikamentenname, OHNE Dropdown-Pfeile) -->
+      <!-- Tagesdosis (in mg) - Neues Design -->
       <div>
-        <label style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-          Tagesdosis in mg
+        <label class="block text-[10px] uppercase tracking-widest text-slate-400 mb-2 font-medium">
+          Tagesdosis (in mg)
         </label>
         <input type="number" 
                name="medication_mg_per_day[]" 
-               class="no-spinner-input"
-               placeholder="z.B. 1200" 
+               class="glass-input"
+               placeholder="z.B. 400" 
                min="0"
                step="0.1"
-               required
-               style="width: 100%; padding: 0.75rem; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem;">
+               required>
       </div>
     </div>
   `;
