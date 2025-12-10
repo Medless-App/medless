@@ -4,97 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Medless – Strukturierte Orientierungshilfe für dein Arztgespräch. Kostenlose Medikamentenanalyse als PDF-Orientierungsplan.">
-  <title>Medless – Dein Weg zu weniger Medikamenten</title>
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="shortcut icon" href="/favicon.png">
-  <link rel="apple-touch-icon" href="/favicon.png">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="de_DE">
-  <meta property="og:title" content="Medless – Dein Weg zu weniger Medikamenten">
-  <meta property="og:description" content="Medless erstellt dir eine übersichtliche Analyse deiner aktuellen Medikation – als Orientierungshilfe für dein nächstes Arztgespräch.">
-  <meta property="og:url" content="https://medless.pages.dev/">
-  <meta property="og:site_name" content="Medless">
-  <meta property="og:image" content="https://medless.pages.dev/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Medless – Strukturierte Orientierungshilfe für dein Arztgespräch">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Medless – Dein Weg zu weniger Medikamenten">
-  <meta name="twitter:description" content="Strukturierte Orientierungshilfe für dein Arztgespräch – mit kostenloser Medikationsanalyse als PDF-Orientierungsplan.">
-  <meta name="twitter:image" content="https://medless.pages.dev/og-image.png">
-  <meta name="twitter:image:alt" content="Medless Orientierungsplan – Beispielansicht">
-  
-  <!-- Google Fonts -->
+  <title>Medless – Weniger Medikamente. Mehr Lebensqualität.</title>
+  <!-- Fonts: Inter Light/Thin -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CDN (Sicherstellen, dass es geladen wird!) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: { fresh: { primary: '#10b981', mint: '#f0fdf4' } },
-          boxShadow: { 'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.05)', 'glow': '0 0 20px rgba(16, 185, 129, 0.15)' }
+          colors: {
+            fresh: { primary: '#10b981', mint: '#f0fdf4' }
+          },
+          boxShadow: {
+            'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.05)',
+            'glow': '0 0 20px rgba(16, 185, 129, 0.15)',
+          }
         }
       }
     }
   </script>
-  
-  <!-- Lucide Icons -->
+  <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="text-slate-600 antialiased bg-white">
+<body class="text-slate-600 antialiased bg-gradient-to-br from-[#f0fdf4] via-white to-emerald-50/30 min-h-screen">
 
-  <!-- HEADER - Fixed Glassmorphism Style -->
+  <!-- Header (Glass) -->
   <header class="fixed w-full bg-white/60 backdrop-blur-md z-50 border-b border-[#10b981]/10">
     <div class="container mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <i data-lucide="leaf" class="w-6 h-6 text-[#10b981] stroke-[1.5]"></i>
         <span class="text-xl font-light tracking-wide text-slate-800">MEDLESS</span>
       </div>
+      <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center space-x-10">
-        <a href="#how-it-works" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm tracking-wide">So funktioniert's</a>
-        <a href="#benefits" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm tracking-wide">Vorteile</a>
-        <a href="#faq" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm tracking-wide">FAQ</a>
-        <a href="/magazin" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm tracking-wide">Magazin</a>
-        <a href="/fachkreise" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm tracking-wide">Für Ärzt:innen & Apotheken</a>
+        <a href="#how-it-works" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm">So funktioniert's</a>
+        <a href="#benefits" class="text-slate-500 hover:text-[#10b981] font-light transition-colors text-sm">Vorteile</a>
+        <a href="/app" class="border border-[#10b981] text-[#10b981] px-6 py-2 rounded-full text-sm font-medium hover:bg-[#10b981] hover:text-white transition-all">App starten</a>
       </nav>
-      <button onclick="window.location.href='/app'" class="border border-[#10b981] text-[#10b981] px-6 py-2 rounded-full text-sm font-medium hover:bg-[#10b981] hover:text-white transition-all duration-300">Orientierungsplan starten</button>
     </div>
   </header>
-
-  <!-- MAIN CONTENT -->
-  <main>
-
-    <!-- HERO SECTION - Fresh & Fine Design -->
-    <section class="min-h-screen flex items-center pt-24 bg-gradient-to-br from-[#f0fdf4] via-white to-emerald-50/30 relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-emerald-100/20 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
-      <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
-        <h1 class="text-4xl md:text-5xl lg:text-5xl font-light text-slate-900 leading-[1.2] mb-8 tracking-tight">
-          Ihr Orientierungsplan für weniger Medikamente – <br />
-          <span class="font-normal text-[#10b981]">gemeinsam mit Ihrem Arzt</span>
-        </h1>
-        <p class="text-lg md:text-xl text-slate-500 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
-          MEDLESS hilft Ihnen, Ihre aktuelle Medikation übersichtlich zu erfassen und als verständlichen PDF-Orientierungsplan für Ihr nächstes Arztgespräch aufzubereiten.
-        </p>
-        <div class="flex justify-center gap-6">
-          <button onclick="window.location.href='/app'" class="group border border-[#10b981] text-[#10b981] bg-transparent text-lg px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#10b981] hover:text-white hover:shadow-lg flex items-center justify-center gap-3">
-            Jetzt Orientierung starten <i data-lucide="arrow-right" class="w-5 h-5 stroke-[1.5] group-hover:translate-x-1 transition-transform"></i>
-          </button>
-        </div>
-        <div class="mt-12 flex flex-wrap justify-center gap-8 text-sm text-slate-400 font-light">
-          <span class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#10b981]"></i> Kostenlos</span>
-          <span class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#10b981]"></i> Datensicher</span>
-        </div>
+  
+  <!-- Hero Section -->
+  <section class="min-h-screen flex items-center pt-24 relative overflow-hidden">
+    <!-- Background Blobs -->
+    <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-emerald-100/20 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+    
+    <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
+      <h1 class="text-4xl md:text-6xl font-extralight text-slate-900 leading-[1.1] mb-8 tracking-tight">
+        Ihr Orientierungsplan für weniger Medikamente – <br />
+        <span class="font-normal text-[#10b981]">gemeinsam mit Ihrem Arzt</span>
+      </h1>
+      <p class="text-lg md:text-xl text-slate-500 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
+        MEDLESS hilft Ihnen, Ihre aktuelle Medikation übersichtlich zu erfassen und als verständlichen PDF-Orientierungsplan aufzubereiten.
+      </p>
+      <div class="flex justify-center">
+        <a href="/app" class="group border border-[#10b981] text-[#10b981] bg-transparent text-lg px-10 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#10b981] hover:text-white hover:shadow-glow flex items-center gap-3">
+          Jetzt starten <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+        </a>
       </div>
-    </section>
+    </div>
+  </section>
 
     <!-- OLD HERO CONTENT BELOW (keeping for reference structure)
             <ul class="hero-usps">
