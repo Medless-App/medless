@@ -7038,7 +7038,12 @@ app.get('/app', (c) => {
       if (stepNumber === 3) {
         // Check for medication inputs (new autocomplete version)
         const medicationInputs = document.querySelectorAll('.medication-display-input');
-        const dosageInputs = document.querySelectorAll('input[name="medication_mg_per_day[]"]');
+        const dosageInputs = document.querySelectorAll('input[name="med_dosage[]"]');
+        
+        // ALLOW empty medication list - user can skip this step
+        if (medicationInputs.length === 0) {
+          return true;
+        }
         
         let hasValidMedication = false;
         let emptyMedicationName = false;
@@ -7060,8 +7065,9 @@ app.get('/app', (c) => {
           }
         });
         
-        if (!hasValidMedication) {
-          alert('Bitte geben Sie mindestens ein Medikament mit Tagesdosis ein.');
+        // If there are medication cards, at least one must be valid
+        if (medicationInputs.length > 0 && !hasValidMedication) {
+          alert('Bitte geben Sie mindestens ein Medikament mit Tagesdosis ein oder entfernen Sie leere Felder.');
           return false;
         }
         

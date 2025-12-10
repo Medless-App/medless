@@ -296,6 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
         emptyState.style.display = 'none';
       }
       
+      // Create new medication input
       createMedicationInput();
     });
   } else {
