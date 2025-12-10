@@ -41,7 +41,7 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
+<body class="pt-safe">
 
   <!-- HEADER -->
   <header class="header">
@@ -51,13 +51,13 @@
           <span class="logo-text">Medless</span>
         </a>
         <ul class="nav-links">
-          <li><a href="#how-it-works">So funktioniert's</a></li>
-          <li><a href="#benefits">Vorteile</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="/magazin">Magazin</a></li>
-          <li><a href="/fachkreise">Für Ärzt:innen & Apotheken</a></li>
+          <li><a href="#how-it-works" class="nav-link">So funktioniert's</a></li>
+          <li><a href="#benefits" class="nav-link">Vorteile</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+          <li><a href="/magazin" class="nav-link">Magazin</a></li>
+          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
         </ul>
-        <button class="btn-primary-sm" onclick="window.location.href='/app'">Orientierungsplan starten</button>
+        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
       </nav>
     </div>
   </header>
@@ -125,7 +125,7 @@
       <div class="container">
         <h2 class="section-title">So funktioniert Medless – in 3 Schritten</h2>
         <div class="steps-container">
-          <div class="step-card">
+          <div class="step-card card">
             <div class="step-badge">1</div>
             <i data-lucide="clipboard-list" class="icon-lg step-icon"></i>
             <h3 class="card-title">Kurzfragebogen ausfüllen</h3>
@@ -135,7 +135,7 @@
             <i data-lucide="arrow-right" class="arrow-icon arrow-desktop"></i>
             <i data-lucide="arrow-down" class="arrow-icon arrow-mobile"></i>
           </div>
-          <div class="step-card">
+          <div class="step-card card">
             <div class="step-badge">2</div>
             <i data-lucide="file-text" class="icon-lg step-icon"></i>
             <h3 class="card-title">Individuellen Orientierungsplan erhalten</h3>
@@ -145,7 +145,7 @@
             <i data-lucide="arrow-right" class="arrow-icon arrow-desktop"></i>
             <i data-lucide="arrow-down" class="arrow-icon arrow-mobile"></i>
           </div>
-          <div class="step-card">
+          <div class="step-card card">
             <div class="step-badge">3</div>
             <i data-lucide="stethoscope" class="icon-lg step-icon"></i>
             <h3 class="card-title">Gemeinsam mit deinem Arzt besprechen</h3>
