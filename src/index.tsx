@@ -2291,29 +2291,65 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Das Endocannabinoid-System: Dein körpereigenes Schutzschild – MEDLESS</title>
   
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- External Styles -->
-  <link rel="stylesheet" href="/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'medless': {
+              primary: '#2FB585',
+              'primary-hover': '#28A376',
+              'primary-light': '#E7F8EF',
+              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
+              'bg-light': 'rgba(47, 181, 133, 0.05)',
+              'bg-card': '#FBFCFD',
+              'text-primary': '#1B2A36',
+              'text-secondary': '#5E6A71',
+              'text-tertiary': '#94A3B8',
+              'border-primary': 'rgba(0, 0, 0, 0.06)',
+              'border-light': '#E9ECEF'
+            }
+          },
+          fontSize: {
+            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
+            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
+            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
+            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
+            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
+          },
+          maxWidth: {
+            'article': '800px'
+          },
+          borderRadius: {
+            'medless-lg': '16px',
+            'medless-md': '12px',
+            'medless-button': '24px'
+          },
+          boxShadow: {
+            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
+            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
+          },
+          transitionDuration: {
+            'medless': '280ms'
+          }
+        }
+      }
+    }
+  </script>
   
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #FFFFFF;
-      margin: 0;
-      padding: 0;
-    }
+    ${getSharedStyles()}
   </style>
 </head>
-<body>
+<body class="m-0 font-['Inter'] bg-white">
   
-  <!-- HEADER (identisch zur Homepage) -->
   <header class="header">
     <div class="container">
       <nav class="nav">
@@ -2332,98 +2368,129 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     </div>
   </header>
 
-  <!-- ARTICLE CONTENT -->
-  <div class="article-page-container">
+  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
     
-    <article class="article-header">
-      <h1 class="article-hero-title">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
-      <p class="article-subtitle">Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
+    <article class="mb-8">
+      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
+      <p class="text-article-subtitle text-medless-text-secondary mb-6">Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
       
-      <div class="article-meta-new">
-        <span><i class="far fa-calendar"></i> 8. Dezember 2024</span>
-        <span><i class="far fa-clock"></i> 7 Min. Lesezeit</span>
+      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
+        <span class="inline-flex items-center gap-2">
+          <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
+        </span>
+        <span class="inline-flex items-center gap-2">
+          <i data-lucide="clock" class="w-4 h-4"></i> 7 Min. Lesezeit
+        </span>
       </div>
     </article>
     
-    <div class="article-content-new">
-      <div class="article-intro-box">
-        <strong>Kurz erklärt:</strong> Das Endocannabinoid-System (ECS) ist ein komplexes Netzwerk im Körper, das zahlreiche wichtige Funktionen reguliert – von Schmerzempfinden über Stimmung bis hin zu Immunreaktionen. Es besteht aus Rezeptoren, Enzymen und körpereigenen Cannabinoiden und sorgt dafür, dass dein Körper im Gleichgewicht bleibt.
+    <img
+      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
+      src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&h=400&fit=crop"
+      alt="Das Endocannabinoid-System: Dein körpereigenes Schutzschild"
+      loading="eager"
+    />
+    
+    <div class="text-article-body text-medless-text-primary space-y-6">
+      
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
+        <p><strong>Kurz erklärt:</strong> Das Endocannabinoid-System (ECS) ist ein komplexes Netzwerk im Körper, das zahlreiche wichtige Funktionen reguliert – von Schmerzempfinden über Stimmung bis hin zu Immunreaktionen. Es besteht aus Rezeptoren, Enzymen und körpereigenen Cannabinoiden und sorgt dafür, dass dein Körper im Gleichgewicht bleibt.</p>
       </div>
       
-      <h2>Was ist das Endocannabinoid-System?</h2>
+      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Was ist das Endocannabinoid-System?</h2>
       <p>Das Endocannabinoid-System (ECS) ist eines der faszinierendsten Regulationssysteme unseres Körpers. Obwohl es erst in den 1990er Jahren entdeckt wurde, spielt es eine zentrale Rolle für unsere Gesundheit und unser Wohlbefinden.</p>
       
       <p>Das ECS besteht aus drei Hauptkomponenten:</p>
-      <ul>
+      <ul class="list-disc list-inside space-y-2 ml-4">
         <li><strong>Endocannabinoide:</strong> Körpereigene Botenstoffe wie Anandamid und 2-AG</li>
         <li><strong>Rezeptoren:</strong> CB1 (hauptsächlich im Nervensystem) und CB2 (vor allem im Immunsystem)</li>
         <li><strong>Enzyme:</strong> FAAH und MAGL, die Endocannabinoide abbauen</li>
       </ul>
       
-      <h2>Welche Funktionen reguliert das ECS?</h2>
+      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Welche Funktionen reguliert das ECS?</h2>
       <p>Das Endocannabinoid-System wirkt wie ein körpereigener Regulator, der zahlreiche Prozesse steuert:</p>
       
-      <h3>Schmerzwahrnehmung</h3>
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Schmerzwahrnehmung</h3>
       <p>Das ECS moduliert die Schmerzempfindung und kann sowohl akute als auch chronische Schmerzen beeinflussen. Dies erklärt, warum Cannabinoide in der Schmerztherapie eine wichtige Rolle spielen können.</p>
       
-      <h3>Stimmung und Emotionen</h3>
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Stimmung und Emotionen</h3>
       <p>Anandamid, oft als "Glücksmolekül" bezeichnet, beeinflusst unsere Stimmung positiv. Ein gut funktionierendes ECS trägt zur emotionalen Balance bei.</p>
       
-      <h3>Immunsystem</h3>
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Immunsystem</h3>
       <p>Die CB2-Rezeptoren im Immunsystem helfen, Entzündungsprozesse zu regulieren und das Immunsystem im Gleichgewicht zu halten.</p>
       
-      <h3>Appetit und Stoffwechsel</h3>
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Appetit und Stoffwechsel</h3>
       <p>Das ECS beeinflusst Hunger, Sättigung und den Energiestoffwechsel. Es spielt eine Rolle bei der Regulation des Körpergewichts.</p>
       
-      <div class="article-info-box">
-        <h3><i class="fas fa-lightbulb"></i> Wichtig zu wissen</h3>
-        <p>Das Endocannabinoid-System ist bei jedem Menschen individuell ausgeprägt. Faktoren wie Ernährung, Bewegung, Stress und Schlaf beeinflussen seine Funktionsfähigkeit.</p>
+      <div class="bg-medless-primary-light border-l-4 border-medless-primary rounded-r-medless-md px-5 py-4 my-8">
+        <h3 class="text-lg font-semibold text-medless-text-primary mb-2 flex items-center gap-2">
+          <i data-lucide="lightbulb" class="w-5 h-5"></i> Wichtig zu wissen
+        </h3>
+        <p class="text-base">Das Endocannabinoid-System ist bei jedem Menschen individuell ausgeprägt. Faktoren wie Ernährung, Bewegung, Stress und Schlaf beeinflussen seine Funktionsfähigkeit.</p>
       </div>
       
-      <h2>Warum ist das ECS wichtig für Medikamentenreduktion?</h2>
+      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Warum ist das ECS wichtig für Medikamentenreduktion?</h2>
       <p>Ein gut funktionierendes Endocannabinoid-System kann den Körper dabei unterstützen, seine Balance selbst zu regulieren. Dies ist besonders relevant, wenn du Medikamente reduzieren möchtest:</p>
       
-      <ul>
+      <ul class="list-disc list-inside space-y-2 ml-4">
         <li>Das ECS kann natürliche Mechanismen zur Schmerzlinderung aktivieren</li>
         <li>Es unterstützt die Stimmungsregulation auf natürliche Weise</li>
         <li>Ein ausgeglichenes ECS kann Entzugserscheinungen mildern</li>
         <li>Es fördert die Selbstheilungskräfte des Körpers</li>
       </ul>
       
-      <h2>Wie kannst du dein ECS unterstützen?</h2>
+      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Wie kannst du dein ECS unterstützen?</h2>
       <p>Es gibt verschiedene natürliche Wege, um dein Endocannabinoid-System zu stärken:</p>
       
-      <h3>Bewegung</h3>
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Bewegung</h3>
       <p>Regelmäßige körperliche Aktivität stimuliert die Produktion von Endocannabinoiden. Das bekannte "Runner's High" nach dem Sport wird teilweise durch Anandamid ausgelöst.</p>
       
-      <h3>Omega-3-Fettsäuren</h3>
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Omega-3-Fettsäuren</h3>
       <p>Eine Ernährung reich an Omega-3-Fettsäuren (z.B. aus Fisch, Leinsamen, Walnüssen) unterstützt die Funktion der Cannabinoid-Rezeptoren.</p>
       
-      <h3>Stressmanagement</h3>
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Stressmanagement</h3>
       <p>Chronischer Stress beeinträchtigt das ECS. Entspannungstechniken wie Meditation oder Yoga können helfen, das System im Gleichgewicht zu halten.</p>
       
-      <h3>Ausreichend Schlaf</h3>
+      <h3 class="text-article-h3 text-medless-text-primary mt-8 mb-2">Ausreichend Schlaf</h3>
       <p>Guter Schlaf ist essentiell für die Regeneration des Endocannabinoid-Systems.</p>
       
-      <hr>
+      <hr class="my-10 border-medless-border-light">
       
-      <h2>Fazit: Dein körpereigenes Schutzschild verstehen</h2>
+      <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Fazit: Dein körpereigenes Schutzschild verstehen</h2>
       <p>Das Endocannabinoid-System ist ein faszinierendes Netzwerk, das zentral für unsere Gesundheit ist. Je besser wir verstehen, wie es funktioniert, desto gezielter können wir es unterstützen – besonders wenn wir den Weg zu weniger Medikamenten gehen möchten.</p>
       
       <p>Ein gut funktionierendes ECS ist kein Ersatz für notwendige Medikamente, aber es kann eine wichtige Rolle dabei spielen, die natürlichen Selbstheilungskräfte des Körpers zu aktivieren und langfristig die Medikamentenlast zu reduzieren.</p>
       
-      <div class="article-cta-box">
-        <h3>Starte deinen persönlichen Orientierungsplan</h3>
-        <p>Erfasse deine Medikamente, erhalte sofort einen PDF-Plan und führe bessere Arztgespräche.</p>
-        <a href="/app" class="article-cta-button">
-          Jetzt starten <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
     </div>
     
-  </div>
+    <section class="mt-16 bg-gradient-to-br from-medless-bg-ultra-light to-medless-bg-card border border-medless-border-primary rounded-medless-lg px-8 py-10 text-center shadow-medless-card">
+      <h2 class="text-2xl md:text-3xl font-semibold text-medless-text-primary mb-4">
+        Starte deinen persönlichen Orientierungsplan
+      </h2>
+      <p class="text-base text-medless-text-secondary max-w-xl mx-auto mb-6">
+        Erfasse deine Medikamente, erhalte sofort einen PDF-Plan und führe bessere Arztgespräche.
+      </p>
+      <a href="/app" class="inline-flex items-center gap-3 px-8 py-3 text-medless-primary bg-white border-2 border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary hover:text-white hover:-translate-y-0.5">
+        Jetzt starten
+        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+      </a>
+    </section>
+    
+  </main>
   
-  ${getSharedStyles()}
+  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
+    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
+    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+    <div class="mt-6 flex gap-6 justify-center">
+      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
+      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
+      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
+    </div>
+  </footer>
+  
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>
   `)
