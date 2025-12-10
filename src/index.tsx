@@ -7685,19 +7685,20 @@ function getSharedStyles() {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 12px 28px;
-      background: #10b981;
-      color: white;
-      border: none;
-      border-radius: 9999px;
+      padding: 11px 26px;
+      background: white;
+      color: #2FB585;
+      border: 2px solid #2FB585;
+      border-radius: 24px;
       font-weight: 500;
       font-size: 0.95rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
     }
     .btn-primary:hover {
-      background: #059669;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      background: #2FB585;
+      color: white;
+      box-shadow: 0 4px 12px rgba(47, 181, 133, 0.25);
       transform: translateY(-1px);
     }
     @media (max-width: 768px) {

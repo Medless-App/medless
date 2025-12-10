@@ -72,25 +72,18 @@ header > div, header .container {
 
 /* Navigation */
 .logo {
-  font-weight: 600;
-  font-size: 1.25rem;
-  color: #0f172a;
   text-decoration: none;
 }
-header nav {
+.logo-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+header nav, .nav {
   display: flex;
   gap: 30px;
   align-items: center;
-}
-header nav a {
-  text-decoration: none;
-  color: var(--text-main);
-  font-size: 0.9rem;
-  font-weight: 400;
-  transition: color 0.2s;
-}
-header nav a:hover {
-  color: var(--primary);
 }
 .nav-links {
   display: flex;
@@ -102,31 +95,45 @@ header nav a:hover {
 .nav-links li {
   margin: 0;
 }
+.nav-link {
+  text-decoration: none;
+  color: #4B5563;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-link:hover {
+  color: #2FB585;
+}
+.nav-link.active {
+  color: #2FB585;
+  font-weight: 600;
+}
 @media (max-width: 768px) {
   .nav-links { display: none; }
 }
 
-/* Buttons */
-button, .btn, .btn-primary, a[href*="/app"] {
+/* Buttons (Header) */
+button.btn-primary, .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 32px;
-  border-radius: 9999px;
+  padding: 11px 26px;
+  border-radius: 24px;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.95rem;
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 1px solid var(--primary);
-  background: transparent;
-  color: var(--primary);
+  transition: all 0.25s ease;
+  border: 2px solid #2FB585;
+  background: white;
+  color: #2FB585;
 }
-button:hover, .btn:hover, .btn-primary:hover, a[href*="/app"]:hover {
-  background: var(--primary);
+button.btn-primary:hover, .btn-primary:hover {
+  background: #2FB585;
   color: white;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 12px rgba(47, 181, 133, 0.25);
   transform: translateY(-1px);
 }
 
