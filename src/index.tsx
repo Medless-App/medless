@@ -7029,9 +7029,11 @@ app.get('/app', (c) => {
       }
       
       if (stepNumber === 3) {
-        // Check for medication inputs (new autocomplete version)
-        const medicationInputs = document.querySelectorAll('.medication-display-input');
-        const dosageInputs = document.querySelectorAll('input[name="med_dosage[]"]');
+        // Check for medication inputs (V4 field names)
+        const medicationInputs = document.querySelectorAll('input[name="medication_display[]"]');
+        const dosageInputs = document.querySelectorAll('input[name="medication_mg_per_day[]"]');
+        
+        console.log('WIZARD STEP 3: Found ' + medicationInputs.length + ' medication fields and ' + dosageInputs.length + ' dosage fields');
         
         // REQUIRE at least 1 medication - no skipping allowed
         if (medicationInputs.length === 0) {
@@ -7047,6 +7049,8 @@ app.get('/app', (c) => {
           const medName = medInput.value.trim();
           const dosageValue = dosageInputs[index] ? dosageInputs[index].value.trim() : '';
           
+          console.log('WIZARD Med ' + (index + 1) + ': name="' + medName + '", dosage="' + dosageValue + '"');
+          
           if (medName && dosageValue) {
             // Both fields filled - valid medication
             hasValidMedication = true;
@@ -7058,6 +7062,8 @@ app.get('/app', (c) => {
             emptyMedicationName = true;
           }
         });
+        
+        console.log('WIZARD: hasValidMedication = ' + hasValidMedication);
         
         // At least one medication must be valid
         if (!hasValidMedication) {
