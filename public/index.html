@@ -73,12 +73,24 @@
             <h1 class="text-4xl md:text-5xl font-light text-slate-900 leading-tight mb-6">Ihr Orientierungsplan für weniger Medikamente – gemeinsam mit Ihrem Arzt</h1>
             <p class="text-base text-slate-600 leading-relaxed mb-8">MEDLESS hilft Ihnen, Ihre aktuelle Medikation übersichtlich zu erfassen und als verständlichen PDF-Orientierungsplan für Ihr nächstes Arztgespräch aufzubereiten. Keine Therapie, keine Diagnose – sondern eine klare Grundlage, um gemeinsam über mögliche Veränderungen zu sprechen.</p>
             <button class="bg-[#10b981] text-white px-6 py-3 rounded-full text-base font-medium hover:bg-emerald-600 transition-colors duration-200 inline-flex items-center gap-2 mb-8" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-            <ul class="hero-usps">
-              <li><i data-lucide="check-circle" class="usp-icon"></i> Erfasst Ihre aktuellen Medikamente, Dosierungen und Einnahmezeiten</li>
-              <li><i data-lucide="list-ordered" class="usp-icon"></i> Zeigt mögliche Reihenfolgen für eine schrittweise Reduktion</li>
-              <li><i data-lucide="activity" class="usp-icon"></i> Macht Wechselwirkungen sichtbar, die Sie im Arztgespräch ansprechen können</li>
-              <li><i data-lucide="file-text" class="usp-icon"></i> Erstellt einen übersichtlichen PDF-Orientierungsplan und einen separaten Arztbericht</li>
-            </ul>
+            <div class="hero-usps-grid">
+              <div class="usp-card">
+                <i data-lucide="check-circle" class="usp-icon-large"></i>
+                <p>Erfasst Ihre aktuellen Medikamente, Dosierungen und Einnahmezeiten</p>
+              </div>
+              <div class="usp-card">
+                <i data-lucide="list-ordered" class="usp-icon-large"></i>
+                <p>Zeigt mögliche Reihenfolgen für eine schrittweise Reduktion</p>
+              </div>
+              <div class="usp-card">
+                <i data-lucide="activity" class="usp-icon-large"></i>
+                <p>Macht Wechselwirkungen sichtbar, die Sie im Arztgespräch ansprechen können</p>
+              </div>
+              <div class="usp-card">
+                <i data-lucide="file-text" class="usp-icon-large"></i>
+                <p>Erstellt einen übersichtlichen PDF-Orientierungsplan und einen separaten Arztbericht</p>
+              </div>
+            </div>
           </div>
           <div class="hero-visual">
             <div class="mockup-container">

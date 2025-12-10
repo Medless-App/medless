@@ -283,14 +283,63 @@ section {
   flex-shrink: 0;
   margin-top: 3px;
 }
+.usp-icon-large {
+  width: 28px;
+  height: 28px;
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-bottom: 0.75rem;
+}
 
-/* Mockup */
+/* USP Grid (2x2 Cards) */
+.hero-usps-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 0;
+}
+.usp-card {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+}
+.usp-card:hover {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+}
+.usp-card p {
+  color: #475569;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .hero-usps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Hero Visual & Mockup */
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .mockup-container {
   background: white;
   border: 1px solid #e2e8f0;
   border-radius: 1rem;
   padding: 2rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  max-width: 500px;
+  width: 100%;
 }
 .mockup-header {
   font-weight: 600;
