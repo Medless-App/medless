@@ -6287,19 +6287,29 @@ app.get('/app', (c) => {
           </div>
         </div>
 
-        <!-- STEP 3: Medications -->
+        <!-- STEP 3: Medications (Empty State) -->
         <div id="step-3" class="form-step" style="display: none;">
           <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
             <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikation</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Geben Sie hier Ihre aktuellen Medikamente ein. Diese Daten werden genutzt, um einen strukturierten Überblick und einen MEDLESS-Orientierungsplan für Ihr Arztgespräch zu erstellen. Es werden keine Therapieempfehlungen berechnet.</p>
             
-            <div id="medication-inputs" style="margin-bottom: 1rem;">
-              <!-- Wird durch JavaScript befüllt -->
-            </div>
+            <div class="space-y-4 mb-8">
+              <!-- LEERER ZUSTAND (Standard) -->
+              <div id="empty-state" class="text-center py-12 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
+                <i class="fas fa-pills text-4xl text-slate-300 mb-4"></i>
+                <p class="text-sm text-slate-400 font-light">Noch keine Medikamente hinzugefügt.</p>
+                <p class="text-xs text-slate-300 mt-2">Klicken Sie auf "+ Medikament hinzufügen", um zu starten.</p>
+              </div>
+              
+              <!-- LISTE (Wird per JS gefüllt, beginnt leer) -->
+              <div id="medication-inputs" style="margin-bottom: 1rem;">
+                <!-- Wird durch JavaScript befüllt -->
+              </div>
 
-            <button type="button" id="add-medication" class="btn-small" style="margin-bottom: 1rem;">
-              + Weiteres Medikament hinzufügen
-            </button>
+              <button type="button" id="add-medication" class="w-full py-4 rounded-2xl border-2 border-dashed border-slate-300 text-slate-400 text-sm font-medium hover:border-[#10b981] hover:text-[#10b981] hover:bg-emerald-50/30 transition-all duration-300">
+                <i class="fas fa-plus mr-2"></i> Medikament hinzufügen
+              </button>
+            </div>
 
             <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
               <button type="button" class="bg-transparent border-2 border-slate-300 text-slate-600 rounded-full px-8 py-3 font-medium hover:bg-slate-100 hover:border-slate-400 transition-all duration-300 prev-step">
@@ -6345,50 +6355,29 @@ app.get('/app', (c) => {
               </div>
             </div>
 
-            <!-- Reduktion (Toggle Switch) -->
-            <label class="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-[#10b981] transition-colors group shadow-sm mb-8">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 group-hover:text-[#10b981] transition-colors">
-                  <i class="fas fa-chart-line"></i>
-                </div>
-                <div>
-                  <p class="font-medium text-slate-700">Reduktion erwünscht?</p>
-                  <p class="text-xs text-slate-400">Plan auf Dosis-Senkung auslegen</p>
-                </div>
-              </div>
-              <div class="relative inline-block w-12 h-6 rounded-full bg-slate-200 group-hover:bg-slate-300 transition-colors">
-                <input type="checkbox" id="reduction-toggle" name="reduction_goal" value="50" class="absolute w-full h-full opacity-0 cursor-pointer peer" checked />
-                <span class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-all peer-checked:translate-x-6 peer-checked:bg-[#10b981]"></span>
-              </div>
-            </label>
-
-            <div class="form-row">
-              <div style="background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #f59e0b; display: none;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #fbbf24); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-chart-line" style="color: white; "></i>
+            <!-- REDUCTION SLIDER -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm mb-10">
+              <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center text-[#10b981]">
+                    <i class="fas fa-chart-line"></i>
                   </div>
                   <div>
-                    <label for="reduction-goal-hidden" style=" font-weight: 600; color: #b45309; margin: 0;">Reduktionsziel (%) *</label>
-                    <p style=" color: #6b7280; margin: 0.25rem 0 0 0;">Wie viel Prozent Ihrer Medikamente möchten Sie reduzieren?</p>
+                    <p class="font-medium text-slate-700">Reduktionsziel</p>
+                    <p class="text-xs text-slate-400">Ziel-Dosis in Prozent</p>
                   </div>
                 </div>
-                <select id="reduction-goal-hidden" name="reduction_goal" required style="width: 100%; padding: 0.875rem;  border: 2px solid #f59e0b; border-radius: 8px; background: white;">
-                  <option value="">-- Bitte wählen --</option>
-                  <option value="10">10% – Minimale Reduktion</option>
-                  <option value="20">20% – Leichte Reduktion</option>
-                  <option value="30">30% – Moderate Reduktion</option>
-                  <option value="40">40% – Deutliche Reduktion</option>
-                  <option value="50" selected>50% – Halbierung (empfohlen) ⭐</option>
-                  <option value="60">60% – Starke Reduktion</option>
-                  <option value="70">70% – Sehr starke Reduktion</option>
-                  <option value="80">80% – Maximale Reduktion</option>
-                  <option value="90">90% – Fast vollständig</option>
-                  <option value="100">100% – Vollständiger Verzicht (nur nach ärztlicher Rücksprache!)</option>
-                </select>
-                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #f59e0b;">
-                  <i class="fas fa-exclamation-triangle" style="color: #f59e0b; margin-right: 0.5rem;"></i>
-                  <span style=" color: #374151;">Wichtig: Medikamentenreduktion nur in Absprache mit Ihrem Arzt!</span>
+                <div class="text-right">
+                  <span id="reductionVal" class="text-2xl font-light text-[#10b981]">100%</span>
+                </div>
+              </div>
+              
+              <div class="relative px-2 py-2">
+                <input type="range" name="reduction_goal" min="10" max="100" value="100" step="10" class="w-full" oninput="document.getElementById('reductionVal').innerText = this.value + '%'" />
+                <div class="flex justify-between mt-3 text-[10px] text-slate-400 font-medium px-1">
+                  <span>10%</span>
+                  <span>50%</span>
+                  <span>100% (Keine)</span>
                 </div>
               </div>
             </div>

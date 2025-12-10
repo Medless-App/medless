@@ -274,13 +274,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
   loadMedications();
   
-  // IMPORTANT: Create first medication input field
-  // Note: medication-inputs container must exist in HTML (Step 3)
-  // We create it immediately so it's ready when user reaches Step 3
+  // IMPORTANT: Do NOT create first medication input automatically
+  // User should see empty state and add medications manually
   const medicationContainer = document.getElementById('medication-inputs');
   if (medicationContainer) {
-    console.log('✅ medication-inputs container found - creating first input');
-    createMedicationInput();
+    console.log('✅ medication-inputs container found - empty state ready');
   } else {
     console.warn('⚠️ medication-inputs container not found yet - will retry on step navigation');
   }
@@ -291,6 +289,13 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('✅ add-medication button found');
     addButton.addEventListener('click', () => {
       console.log('🖱️ Add medication button clicked');
+      
+      // Hide empty state when first medication is added
+      const emptyState = document.getElementById('empty-state');
+      if (emptyState && medicationCount === 0) {
+        emptyState.style.display = 'none';
+      }
+      
       createMedicationInput();
     });
   } else {
@@ -308,27 +313,30 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('DEBUG_MEDLESS: CRITICAL ERROR - medication-form NOT FOUND!');
   }
   
-  // FALLBACK: Initialize medication inputs when Step 3 becomes visible
+  // FALLBACK: Setup add-medication button when Step 3 becomes visible
   // This handles cases where DOMContentLoaded fires before step navigation is set up
   const observer = new MutationObserver(() => {
     const step3 = document.getElementById('step-3');
     const medicationContainer = document.getElementById('medication-inputs');
     
     if (step3 && !step3.classList.contains('hidden') && medicationContainer) {
-      const existingInputs = medicationContainer.querySelectorAll('.medication-input-group');
-      if (existingInputs.length === 0) {
-        console.log('🔄 Step 3 became visible - initializing medication inputs');
-        createMedicationInput();
-        
-        // Also ensure add-medication button is set up
-        const addBtn = document.getElementById('add-medication');
-        if (addBtn && !addBtn.hasAttribute('data-listener-attached')) {
-          addBtn.setAttribute('data-listener-attached', 'true');
-          addBtn.addEventListener('click', () => {
-            console.log('🖱️ Add medication button clicked (fallback handler)');
-            createMedicationInput();
-          });
-        }
+      console.log('🔄 Step 3 became visible - empty state shown');
+      
+      // Only ensure add-medication button is set up (no auto-creation)
+      const addBtn = document.getElementById('add-medication');
+      if (addBtn && !addBtn.hasAttribute('data-listener-attached')) {
+        addBtn.setAttribute('data-listener-attached', 'true');
+        addBtn.addEventListener('click', () => {
+          console.log('🖱️ Add medication button clicked (fallback handler)');
+          
+          // Hide empty state when first medication is added
+          const emptyState = document.getElementById('empty-state');
+          if (emptyState && medicationCount === 0) {
+            emptyState.style.display = 'none';
+          }
+          
+          createMedicationInput();
+        });
       }
     }
   });
