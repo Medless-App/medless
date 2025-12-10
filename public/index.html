@@ -121,38 +121,30 @@
     </section>
 
     <!-- SEKTION 3: HOW IT WORKS -->
-    <section id="how-it-works" class="section how-it-works-section">
-      <div class="container">
-        <h2 class="section-title">So funktioniert Medless – in 3 Schritten</h2>
-        <div class="steps-container">
-          <div class="step-card card">
-            <div class="step-badge">1</div>
-            <i data-lucide="clipboard-list" class="icon-lg step-icon"></i>
-            <h3 class="card-title">Kurzfragebogen ausfüllen</h3>
-            <p class="card-text">In ca. 3 Minuten gibst du deine aktuellen Medikamente ein. Deine Daten bleiben privat und werden nicht medizinisch bewertet.</p>
-          </div>
-          <div class="step-arrow">
-            <i data-lucide="arrow-right" class="arrow-icon arrow-desktop"></i>
-            <i data-lucide="arrow-down" class="arrow-icon arrow-mobile"></i>
-          </div>
-          <div class="step-card card">
-            <div class="step-badge">2</div>
-            <i data-lucide="file-text" class="icon-lg step-icon"></i>
-            <h3 class="card-title">Individuellen Orientierungsplan erhalten</h3>
-            <p class="card-text">Du erhältst sofort einen strukturierten PDF-Orientierungsplan – keine Therapieempfehlung, sondern eine Übersicht für dein Arztgespräch.</p>
-          </div>
-          <div class="step-arrow">
-            <i data-lucide="arrow-right" class="arrow-icon arrow-desktop"></i>
-            <i data-lucide="arrow-down" class="arrow-icon arrow-mobile"></i>
-          </div>
-          <div class="step-card card">
-            <div class="step-badge">3</div>
-            <i data-lucide="stethoscope" class="icon-lg step-icon"></i>
-            <h3 class="card-title">Gemeinsam mit deinem Arzt besprechen</h3>
-            <p class="card-text">Dein Arzt entscheidet, welche Schritte für dich sinnvoll sind. Medless liefert nur die Struktur für euer Gespräch.</p>
-          </div>
+    <section class="py-20">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <h2 class="text-3xl font-light text-center mb-12">So funktioniert Medless</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Step 1 -->
+                <div class="glass-card">
+                    <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-[#10b981] mb-6"><i data-lucide="clipboard-list"></i></div>
+                    <h3 class="text-xl font-normal mb-2">1. Erfassen</h3>
+                    <p class="text-sm font-light">In 3 Minuten Medikamente eingeben.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="glass-card">
+                    <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-[#10b981] mb-6"><i data-lucide="file-check"></i></div>
+                    <h3 class="text-xl font-normal mb-2">2. Plan erhalten</h3>
+                    <p class="text-sm font-light">Sofortiger PDF-Orientierungsplan.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="glass-card">
+                    <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-[#10b981] mb-6"><i data-lucide="message-circle"></i></div>
+                    <h3 class="text-xl font-normal mb-2">3. Besprechen</h3>
+                    <p class="text-sm font-light">Bessere Gespräche mit Ihrem Arzt.</p>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
     <!-- SEKTION 4: BENEFITS -->
@@ -284,42 +276,24 @@
   </main>
 
   <!-- FOOTER -->
-  <footer id="footer" class="footer">
-    <div class="container">
+  <footer>
       <div class="footer-grid">
-        <div class="footer-col">
-          <h4 class="footer-title">Medless</h4>
-          <p class="footer-text">Strukturierte Orientierungshilfe für dein Arztgespräch.</p>
-        </div>
-        <div class="footer-col">
-          <h5 class="footer-subtitle">Navigation</h5>
-          <ul class="footer-links">
-            <li><a href="#how-it-works">So funktioniert's</a></li>
-            <li><a href="#benefits">Vorteile</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="/magazin">Magazin</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5 class="footer-subtitle">Rechtliches</h5>
-          <ul class="footer-links">
-            <li><a href="/impressum">Impressum</a></li>
-            <li><a href="/datenschutz">Datenschutz</a></li>
-            <li><a href="/agb">AGB</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5 class="footer-subtitle">Kontakt</h5>
-          <p class="footer-text">E-Mail: <a href="mailto:info@medless.de">info@medless.de</a></p>
-        </div>
+          <div>
+              <strong class="block text-[#10b981] mb-4">MEDLESS</strong>
+              <p class="text-slate-400 font-light">Weniger ist mehr.</p>
+          </div>
+          <div>
+              <strong class="block mb-4">Rechtliches</strong>
+              <ul class="space-y-2 text-slate-500">
+                  <li><a href="/impressum">Impressum</a></li>
+                  <li><a href="/datenschutz">Datenschutz</a></li>
+              </ul>
+          </div>
+          <div>
+              <strong class="block mb-4">Kontakt</strong>
+              <a href="mailto:info@medless.de" class="text-[#10b981]">info@medless.de</a>
+          </div>
       </div>
-      <div class="footer-bottom">
-        <p class="footer-copyright">&copy; 2025 Medless. Alle Rechte vorbehalten.</p>
-        <p class="footer-disclaimer">
-          <strong>Wichtiger Hinweis:</strong> Medless ist kein Medizinprodukt und ersetzt keine ärztliche Beratung. Alle medizinischen Entscheidungen treffen Sie gemeinsam mit Ihrem Arzt.
-        </p>
-      </div>
-    </div>
   </footer>
 
   <!-- JAVASCRIPT -->

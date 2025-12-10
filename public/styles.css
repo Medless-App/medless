@@ -1,53 +1,61 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap');
 :root {
   --primary: #10b981;
-  --primary-hover: #059669;
-  --bg-mint: #f0fdf4;
-  --text-main: #334155; /* Slate 700 */
-  --text-light: #64748b; /* Slate 500 */
-  --glass-bg: rgba(255, 255, 255, 0.9);
-  --glass-border: rgba(16, 185, 129, 0.15);
-  --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.05);
-  --shadow-glow: 0 0 20px rgba(16, 185, 129, 0.2);
+  --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #ecfdf5 100%);
+  --text-main: #475569; /* Slate 600 - Weicher als Schwarz */
+  --text-dark: #1e293b; /* Slate 800 */
 }
-/* 1. GLOBAL RESET & TYPOGRAPHY */
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 50%, #f0fdf4 100%);
+  background: var(--bg-gradient);
   color: var(--text-main);
   line-height: 1.6;
   margin: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
-h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive H1 */
-  font-weight: 200; /* Extra Light */
-  line-height: 1.1;
-  color: #0f172a;
-  margin-bottom: 1.5rem;
-  letter-spacing: -0.03em;
+h1, h2, h3 { color: var(--text-dark); font-weight: 300; }
+h1 { font-size: 3rem; line-height: 1.1; margin-bottom: 1.5rem; }
+h2 { font-size: 2.25rem; margin-bottom: 2rem; text-align: center; }
+/* FIX: Glass Cards (Die "Balken") */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 2rem;
+  padding: 2.5rem;
+  transition: transform 0.3s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
-h2 {
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 300;
-  color: #0f172a;
-  margin-bottom: 1rem;
+.glass-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.1);
 }
-/* 2. HEADER FIXES */
+/* FIX: Footer Grid */
+footer { background: #f8fafc; padding: 4rem 0; font-size: 0.9rem; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ===== ADDITIONAL NECESSARY STYLES ===== */
+
+/* Header */
 header {
   position: fixed;
   top: 0;
   width: 100%;
-  height: 80px; /* Fixed height */
+  height: 80px;
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.15);
   z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: center; /* Center content container */
+  justify-content: center;
 }
 header > div, header .container {
   width: 100%;
@@ -55,17 +63,24 @@ header > div, header .container {
   padding: 0 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between !important; /* Force spread */
+  justify-content: space-between !important;
 }
-/* Navigation Links */
+
+/* Navigation */
+.logo {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #0f172a;
+  text-decoration: none;
+}
 header nav {
   display: flex;
-  gap: 30px; /* Space between links */
+  gap: 30px;
   align-items: center;
 }
 header nav a {
   text-decoration: none;
-  color: var(--text-light);
+  color: var(--text-main);
   font-size: 0.9rem;
   font-weight: 400;
   transition: color 0.2s;
@@ -73,14 +88,27 @@ header nav a {
 header nav a:hover {
   color: var(--primary);
 }
-/* 3. BUTTONS (Aggressive Styling) */
-/* Target ALL buttons + specific classes */
-button, .btn, .button, a[href*="/app"], input[type="submit"] {
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+.nav-links li {
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}
+
+/* Buttons */
+button, .btn, .btn-primary, a[href*="/app"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 12px 32px;
-  border-radius: 9999px; /* Pill */
+  border-radius: 9999px;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 1rem;
@@ -88,60 +116,58 @@ button, .btn, .button, a[href*="/app"], input[type="submit"] {
   cursor: pointer;
   transition: all 0.3s ease;
   border: 1px solid var(--primary);
-  
-  /* Default: Ghost Style */
   background: transparent;
   color: var(--primary);
 }
-/* Hover State */
-button:hover, .btn:hover, a[href*="/app"]:hover, input[type="submit"]:hover {
+button:hover, .btn:hover, .btn-primary:hover, a[href*="/app"]:hover {
   background: var(--primary);
   color: white;
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
   transform: translateY(-1px);
 }
-/* Grey Button Fix (Secondary) */
-button:nth-child(2), .btn-secondary {
-  border-color: #cbd5e1;
-  color: #64748b;
-}
-button:nth-child(2):hover, .btn-secondary:hover {
-  background: #f1f5f9;
-  color: #334155;
-  box-shadow: none;
-  border-color: #94a3b8;
-}
-/* 4. LAYOUT & SECTIONS */
-section {
-  padding: 80px 20px;
+
+/* Layout */
+.container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
-/* Footer Fix */
-footer {
-  margin-top: auto; /* Push to bottom */
-  padding: 40px 0;
-  border-top: 1px solid #e2e8f0;
-  background: #f8fafc;
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--text-light);
+.pt-safe {
+  padding-top: 80px;
 }
-/* Glass Cards */
-.card, .step-card {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 24px;
-  padding: 40px;
-  box-shadow: var(--shadow-soft);
-  transition: all 0.3s;
+section {
+  padding: 80px 20px;
 }
-.card:hover {
-  border-color: var(--primary);
-  box-shadow: var(--shadow-glow);
+.py-20 {
+  padding: 5rem 0;
+}
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.max-w-6xl {
+  max-width: 72rem;
 }
 
-/* 5. GRID LAYOUTS */
+/* Grid System */
+.grid {
+  display: grid;
+}
+.md\:grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 768px) {
+  .md\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+.gap-6 {
+  gap: 1.5rem;
+}
 .grid-2col {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -161,12 +187,70 @@ footer {
   .grid-4col { grid-template-columns: 1fr; }
 }
 
-/* 6. HERO SECTION */
+/* Typography */
+.text-3xl {
+  font-size: 1.875rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+}
+.font-light {
+  font-weight: 300;
+}
+.font-normal {
+  font-weight: 400;
+}
+.text-center {
+  text-align: center;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
+/* Icon Containers */
+.w-12 {
+  width: 3rem;
+}
+.h-12 {
+  height: 3rem;
+}
+.bg-emerald-50 {
+  background-color: #ecfdf5;
+}
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+.flex {
+  display: flex;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.text-\[\#10b981\] {
+  color: #10b981;
+}
+
+/* Hero Section */
 .hero-section {
   min-height: 80vh;
   display: flex;
   align-items: center;
-  padding-top: 100px; /* Account for fixed header */
+  padding-top: 100px;
 }
 .hero-content {
   max-width: 600px;
@@ -182,63 +266,10 @@ footer {
   align-items: flex-start;
   margin-bottom: 1rem;
   font-size: 0.95rem;
-  color: var(--text-light);
+  color: var(--text-main);
 }
 
-/* 7. NAVIGATION (Logo + Links) */
-.logo {
-  font-weight: 600;
-  font-size: 1.25rem;
-  color: #0f172a;
-  text-decoration: none;
-}
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
-}
-.nav-links li {
-  margin: 0;
-}
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-}
-
-/* 8. STEP CARDS (How it works) */
-.steps-container {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-top: 3rem;
-}
-.step-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-light);
-  font-size: 1.5rem;
-}
-.arrow-mobile {
-  display: none;
-}
-@media (max-width: 768px) {
-  .steps-container {
-    flex-direction: column;
-  }
-  .step-arrow {
-    transform: rotate(90deg);
-  }
-  .arrow-desktop {
-    display: none;
-  }
-  .arrow-mobile {
-    display: block;
-  }
-}
-
-/* 9. ICONS */
+/* Icons */
 .icon-lg {
   width: 48px;
   height: 48px;
@@ -253,13 +284,13 @@ footer {
   margin-top: 3px;
 }
 
-/* 10. MOCKUP VISUAL */
+/* Mockup */
 .mockup-container {
   background: white;
   border: 1px solid #e2e8f0;
   border-radius: 1rem;
   padding: 2rem;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 .mockup-header {
   font-weight: 600;
@@ -291,10 +322,10 @@ footer {
 }
 .mockup-disclaimer {
   font-size: 0.75rem;
-  color: var(--text-light);
+  color: var(--text-main);
 }
 
-/* 11. PROBLEM SECTION */
+/* Problem Section */
 .problem-content {
   max-width: 800px;
   margin: 0 auto;
@@ -314,7 +345,7 @@ footer {
   text-align: left;
 }
 
-/* 12. FAQ */
+/* FAQ */
 .faq-item {
   background: white;
   border: 1px solid #e2e8f0;
@@ -329,27 +360,37 @@ footer {
   font-size: 1.05rem;
 }
 .faq-answer {
-  color: var(--text-light);
+  color: var(--text-main);
   line-height: 1.6;
 }
 
-/* 13. UTILITIES */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+/* Footer Utilities */
+footer .space-y-2 > * + * {
+  margin-top: 0.5rem;
 }
-.text-center {
-  text-align: center;
+footer .text-slate-400 {
+  color: #94a3b8;
 }
-.section-title {
-  text-align: center;
-  margin-bottom: 3rem;
+footer .text-slate-500 {
+  color: #64748b;
 }
-.body-text {
-  line-height: 1.7;
-  color: var(--text-light);
+footer .block {
+  display: block;
 }
-.pt-safe {
-  padding-top: 80px;
+footer strong {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+footer a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s;
+}
+footer a:hover {
+  color: var(--primary);
 }
