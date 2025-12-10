@@ -4483,12 +4483,12 @@ app.get('/app', (c) => {
     }
   </style>
 </head>
-<body class="text-slate-600 antialiased bg-gradient-to-br from-[#f0fdf4] via-white to-emerald-50/30 min-h-screen flex flex-col">
-  <!-- HEADER - Fresh & Fine Style -->
-  <header class="w-full bg-white/60 backdrop-blur-md z-50 border-b border-[#10b981]/10 h-16 flex-none">
+<body class="text-medless-text-primary antialiased bg-gradient-to-br from-medless-bg-ultra-light via-white to-medless-bg-light min-h-screen flex flex-col">
+  <!-- HEADER - MEDLESS DESIGN -->
+  <header class="w-full bg-white/80 backdrop-blur-md z-50 border-b border-medless-border-light h-16 flex-none">
     <div class="container mx-auto px-4 md:px-6 h-full flex items-center justify-between">
       <div class="flex items-center gap-2">
-        <span class="text-lg font-light tracking-wide text-slate-800">MEDLESS</span>
+        <span class="text-lg font-semibold tracking-tight text-medless-text-primary">MEDLESS</span>
       </div>
     </div>
   </header>
@@ -4505,54 +4505,114 @@ app.get('/app', (c) => {
     
     <section id="tool">
 
-      <!-- Progress Stepper - FIXED HEIGHT WRAPPER prevents vertical movement -->
-      <div style="min-height: 80px; margin-bottom: 1.5rem; margin-top: 0;">
-        <!-- Circles and Progress Bars Container - Fixed 48px containers -->
-        <div style="display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px 1fr 48px 1fr 48px; align-items: center; max-width: 800px; margin: 0 auto 8px; gap: 0;">
-          <!-- Step 1 Circle - Fixed 48px container -->
-          <div id="step-indicator-1" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #0b7b6c; color: white; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">1</div>
+      <!-- Progress Stepper - MEDLESS DESIGN -->
+      <!-- MEDLESS STEPPER/PROGRESS INDICATOR (TAILWIND, RESPONSIVE) -->
+      <div class="mb-8 mt-0">
+        <!-- Desktop: Horizontal Layout (md:grid) | Mobile: Simplified Stack -->
+        <div class="hidden md:grid grid-cols-[48px_1fr_48px_1fr_48px_1fr_48px_1fr_48px] items-center max-w-3xl mx-auto mb-2 gap-0">
+          <!-- Step 1 Circle -->
+          <div id="step-indicator-1" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-medless-primary text-white font-semibold flex items-center justify-center transition-all duration-300 shadow-lg">
+            <i data-lucide="user" class="w-5 h-5"></i>
+          </div>
           <!-- Progress Bar 1 -->
-          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-            <div id="progress-bar-1" style="height: 100%; background: #0b7b6c; width: 100%; transition: width 0.3s;"></div>
+          <div class="h-0.5 bg-medless-border-light mx-2">
+            <div id="progress-bar-1" class="h-full bg-medless-primary w-full transition-all duration-300"></div>
           </div>
-          <!-- Step 2 Circle - Fixed 48px container -->
-          <div id="step-indicator-2" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">2</div>
+          <!-- Step 2 Circle -->
+          <div id="step-indicator-2" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center transition-all duration-300">
+            <i data-lucide="activity" class="w-5 h-5"></i>
+          </div>
           <!-- Progress Bar 2 -->
-          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-            <div id="progress-bar-2" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
+          <div class="h-0.5 bg-medless-border-light mx-2">
+            <div id="progress-bar-2" class="h-full bg-medless-primary w-0 transition-all duration-300"></div>
           </div>
-          <!-- Step 3 Circle - Fixed 48px container -->
-          <div id="step-indicator-3" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">3</div>
+          <!-- Step 3 Circle -->
+          <div id="step-indicator-3" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center transition-all duration-300">
+            <i data-lucide="pill" class="w-5 h-5"></i>
+          </div>
           <!-- Progress Bar 3 -->
-          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-            <div id="progress-bar-3" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
+          <div class="h-0.5 bg-medless-border-light mx-2">
+            <div id="progress-bar-3" class="h-full bg-medless-primary w-0 transition-all duration-300"></div>
           </div>
-          <!-- Step 4 Circle - Fixed 48px container -->
-          <div id="step-indicator-4" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">4</div>
+          <!-- Step 4 Circle -->
+          <div id="step-indicator-4" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center transition-all duration-300">
+            <i data-lucide="file-text" class="w-5 h-5"></i>
+          </div>
           <!-- Progress Bar 4 -->
-          <div style="height: 2px; background: #cbd5e1; margin: 0 0.5rem;">
-            <div id="progress-bar-4" style="height: 100%; background: #0b7b6c; width: 0%; transition: width 0.3s;"></div>
+          <div class="h-0.5 bg-medless-border-light mx-2">
+            <div id="progress-bar-4" class="h-full bg-medless-primary w-0 transition-all duration-300"></div>
           </div>
-          <!-- Step 5 Circle - Fixed 48px container -->
-          <div id="step-indicator-5" style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; background: #cbd5e1; color: #6b7280; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;">5</div>
+          <!-- Step 5 Circle -->
+          <div id="step-indicator-5" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center transition-all duration-300">
+            <i data-lucide="check-circle" class="w-5 h-5"></i>
+          </div>
         </div>
         
-        <!-- Labels Container - EXACTLY ALIGNED with 48px circles, stable position -->
-        <div style="display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px 1fr 48px 1fr 48px; max-width: 800px; margin: 0 auto; gap: 0;">
-          <!-- Label 1 -->
-          <span style=" color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Name</span>
+        <!-- Desktop Labels -->
+        <div class="hidden md:grid grid-cols-[48px_1fr_48px_1fr_48px_1fr_48px_1fr_48px] max-w-3xl mx-auto gap-0">
+          <span class="text-xs font-medium text-medless-text-tertiary text-center leading-tight">Name</span>
           <span></span>
-          <!-- Label 2 -->
-          <span style=" color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Körperdaten</span>
+          <span class="text-xs font-medium text-medless-text-tertiary text-center leading-tight">Körper</span>
           <span></span>
-          <!-- Label 3 -->
-          <span style=" color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Medikation</span>
+          <span class="text-xs font-medium text-medless-text-tertiary text-center leading-tight">Medikation</span>
           <span></span>
-          <!-- Label 4 -->
-          <span style=" color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Orientierungsplan</span>
+          <span class="text-xs font-medium text-medless-text-tertiary text-center leading-tight">Plan</span>
           <span></span>
-          <!-- Label 5 -->
-          <span style=" color: #6b7280; text-align: center; line-height: 1.2; white-space: nowrap;">Zusammenfassung</span>
+          <span class="text-xs font-medium text-medless-text-tertiary text-center leading-tight">Zusammen-fassung</span>
+        </div>
+
+        <!-- Mobile: Vertical Stack -->
+        <div class="md:hidden flex flex-col gap-3">
+          <!-- Step 1 -->
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-medless-primary text-white font-semibold flex items-center justify-center shadow-md">
+              <i data-lucide="user" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 1</p>
+              <p class="text-sm text-medless-text-primary font-medium">Name</p>
+            </div>
+          </div>
+          <!-- Step 2 -->
+          <div class="flex items-center gap-3 opacity-50">
+            <div class="w-10 h-10 rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center">
+              <i data-lucide="activity" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 2</p>
+              <p class="text-sm text-medless-text-secondary">Körperdaten</p>
+            </div>
+          </div>
+          <!-- Step 3 -->
+          <div class="flex items-center gap-3 opacity-50">
+            <div class="w-10 h-10 rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center">
+              <i data-lucide="pill" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 3</p>
+              <p class="text-sm text-medless-text-secondary">Medikation</p>
+            </div>
+          </div>
+          <!-- Step 4 -->
+          <div class="flex items-center gap-3 opacity-50">
+            <div class="w-10 h-10 rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 4</p>
+              <p class="text-sm text-medless-text-secondary">Orientierungsplan</p>
+            </div>
+          </div>
+          <!-- Step 5 -->
+          <div class="flex items-center gap-3 opacity-50">
+            <div class="w-10 h-10 rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 5</p>
+              <p class="text-sm text-medless-text-secondary">Zusammenfassung</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -4563,23 +4623,30 @@ app.get('/app', (c) => {
             <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 1: Persönliche Angaben</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Damit wir Sie persönlich ansprechen können.</p>
             
-            <div class="form-row">
+            <div class="mb-6">
               <div>
-                <label for="first-name">Ihr Vorname *</label>
-                <input type="text" id="first-name" name="first_name" class="glass-input" placeholder="z.B. Maria" required />
+                <label for="first-name" class="block text-sm font-medium text-medless-text-primary mb-1.5">Ihr Vorname *</label>
+                <input 
+                  type="text" 
+                  id="first-name" 
+                  name="first_name" 
+                  class="w-full rounded-medless-md border border-medless-border-light px-3 py-2.5 text-sm md:text-base text-medless-text-primary placeholder:text-medless-text-tertiary focus:outline-none focus:ring-2 focus:ring-medless-primary/40 focus:border-medless-primary bg-white transition-all duration-200" 
+                  placeholder="z.B. Maria" 
+                  required 
+                />
               </div>
             </div>
 
-            <!-- Geschlecht (V4 - Fully Clickable Cards) -->
-            <div class="mb-8">
-              <label class="block text-xs uppercase tracking-wider text-slate-400 mb-4 font-medium">Geschlecht *</label>
+            <!-- Geschlecht (MEDLESS DESIGN) -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-medless-text-primary mb-1.5">Geschlecht *</label>
               <div class="grid grid-cols-3 gap-4">
                 <!-- Option 1 -->
                 <label class="cursor-pointer">
                   <input type="radio" name="gender" value="herr" class="peer sr-only" required>
-                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] 
-                              border-2 border-slate-200 rounded-2xl p-4 text-center transition-all duration-200
-                              hover:border-slate-300 hover:shadow-sm">
+                  <div class="peer-checked:bg-medless-bg-card peer-checked:border-medless-primary peer-checked:text-medless-primary 
+                              border-2 border-medless-border-light rounded-medless-md p-4 text-center transition-all duration-200
+                              hover:border-medless-primary/40 hover:shadow-sm bg-white">
                     <span class="font-medium">Herr</span>
                   </div>
                 </label>
@@ -4587,9 +4654,9 @@ app.get('/app', (c) => {
                 <!-- Option 2 -->
                 <label class="cursor-pointer">
                   <input type="radio" name="gender" value="frau" class="peer sr-only" required>
-                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] 
-                              border-2 border-slate-200 rounded-2xl p-4 text-center transition-all duration-200
-                              hover:border-slate-300 hover:shadow-sm">
+                  <div class="peer-checked:bg-medless-bg-card peer-checked:border-medless-primary peer-checked:text-medless-primary 
+                              border-2 border-medless-border-light rounded-medless-md p-4 text-center transition-all duration-200
+                              hover:border-medless-primary/40 hover:shadow-sm bg-white">
                     <span class="font-medium">Frau</span>
                   </div>
                 </label>
@@ -4597,9 +4664,9 @@ app.get('/app', (c) => {
                 <!-- Option 3 -->
                 <label class="cursor-pointer">
                   <input type="radio" name="gender" value="divers" class="peer sr-only" required>
-                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] 
-                              border-2 border-slate-200 rounded-2xl p-4 text-center transition-all duration-200
-                              hover:border-slate-300 hover:shadow-sm">
+                  <div class="peer-checked:bg-medless-bg-card peer-checked:border-medless-primary peer-checked:text-medless-primary 
+                              border-2 border-medless-border-light rounded-medless-md p-4 text-center transition-all duration-200
+                              hover:border-medless-primary/40 hover:shadow-sm bg-white">
                     <span class="font-medium">Divers</span>
                   </div>
                 </label>
@@ -4607,8 +4674,9 @@ app.get('/app', (c) => {
             </div>
 
             <div style="text-align: right; margin-top: 1.5rem;">
-              <button type="button" class="bg-transparent border-2 border-[#10b981] text-[#10b981] rounded-full px-8 py-3 font-semibold hover:bg-[#10b981] hover:text-white transition-all duration-300 next-step">
-                Weiter <span>→</span>
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover min-h-[44px] next-step">
+                <span>Weiter</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </button>
             </div>
           </div>
@@ -4620,42 +4688,65 @@ app.get('/app', (c) => {
             <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Diese Daten helfen uns, die Dosierung individuell zu berechnen.</p>
             
-            <!-- Körperdaten V4 (Clean Design, No Icons) -->
-            <div class="grid grid-cols-3 gap-6">
+            <!-- Körperdaten (MEDLESS DESIGN) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
               <!-- Alter -->
               <div>
-                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-3 font-medium text-center">
+                <label class="block text-sm font-medium text-medless-text-primary mb-1.5 text-center">
                   Alter (Jahre) *
                 </label>
-                <input type="text" inputmode="numeric" pattern="[0-9]*" name="age" class="wizard-input text-center text-lg" 
-                       placeholder="z.B. 45" required>
+                <input 
+                  type="text" 
+                  inputmode="numeric" 
+                  pattern="[0-9]*" 
+                  name="age" 
+                  class="w-full rounded-medless-md border border-medless-border-light px-3 py-2.5 text-center text-lg text-medless-text-primary placeholder:text-medless-text-tertiary focus:outline-none focus:ring-2 focus:ring-medless-primary/40 focus:border-medless-primary bg-white transition-all duration-200" 
+                  placeholder="z.B. 45" 
+                  required
+                >
               </div>
               
               <!-- Größe -->
               <div>
-                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-3 font-medium text-center">
+                <label class="block text-sm font-medium text-medless-text-primary mb-1.5 text-center">
                   Größe (cm) *
                 </label>
-                <input type="text" inputmode="numeric" pattern="[0-9]*" name="height" class="wizard-input text-center text-lg" 
-                       placeholder="z.B. 170" required>
+                <input 
+                  type="text" 
+                  inputmode="numeric" 
+                  pattern="[0-9]*" 
+                  name="height" 
+                  class="w-full rounded-medless-md border border-medless-border-light px-3 py-2.5 text-center text-lg text-medless-text-primary placeholder:text-medless-text-tertiary focus:outline-none focus:ring-2 focus:ring-medless-primary/40 focus:border-medless-primary bg-white transition-all duration-200" 
+                  placeholder="z.B. 170" 
+                  required
+                >
               </div>
               
               <!-- Gewicht -->
               <div>
-                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-3 font-medium text-center">
+                <label class="block text-sm font-medium text-medless-text-primary mb-1.5 text-center">
                   Gewicht (kg) *
                 </label>
-                <input type="text" inputmode="numeric" pattern="[0-9]*" name="weight" class="wizard-input text-center text-lg" 
-                       placeholder="z.B. 70" required>
+                <input 
+                  type="text" 
+                  inputmode="numeric" 
+                  pattern="[0-9]*" 
+                  name="weight" 
+                  class="w-full rounded-medless-md border border-medless-border-light px-3 py-2.5 text-center text-lg text-medless-text-primary placeholder:text-medless-text-tertiary focus:outline-none focus:ring-2 focus:ring-medless-primary/40 focus:border-medless-primary bg-white transition-all duration-200" 
+                  placeholder="z.B. 70" 
+                  required
+                >
               </div>
             </div>
 
             <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="bg-transparent border-2 border-slate-300 text-slate-600 rounded-full px-8 py-3 font-medium hover:bg-slate-100 hover:border-slate-400 transition-all duration-300 prev-step">
-                ← Zurück
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-medless-text-secondary bg-white border border-medless-border-light rounded-medless-button transition-all duration-medless hover:bg-medless-bg-ultra-light hover:border-medless-primary/40 min-h-[44px] prev-step">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Zurück</span>
               </button>
-              <button type="button" class="bg-transparent border-2 border-[#10b981] text-[#10b981] rounded-full px-8 py-3 font-semibold hover:bg-[#10b981] hover:text-white transition-all duration-300 next-step">
-                Weiter <span>→</span>
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover min-h-[44px] next-step">
+                <span>Weiter</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </button>
             </div>
           </div>
@@ -4679,11 +4770,13 @@ app.get('/app', (c) => {
             </div>
 
             <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="bg-transparent border-2 border-slate-300 text-slate-600 rounded-full px-8 py-3 font-medium hover:bg-slate-100 hover:border-slate-400 transition-all duration-300 prev-step">
-                ← Zurück
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-medless-text-secondary bg-white border border-medless-border-light rounded-medless-button transition-all duration-medless hover:bg-medless-bg-ultra-light hover:border-medless-primary/40 min-h-[44px] prev-step">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Zurück</span>
               </button>
-              <button type="button" class="bg-transparent border-2 border-[#10b981] text-[#10b981] rounded-full px-8 py-3 font-semibold hover:bg-[#10b981] hover:text-white transition-all duration-300 next-step">
-                Weiter <span>→</span>
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover min-h-[44px] next-step">
+                <span>Weiter</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </button>
             </div>
           </div>
@@ -4812,11 +4905,13 @@ app.get('/app', (c) => {
             </div>
 
             <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="bg-transparent border-2 border-slate-300 text-slate-600 rounded-full px-8 py-3 font-medium hover:bg-slate-100 hover:border-slate-400 transition-all duration-300 prev-step">
-                ← Zurück
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-medless-text-secondary bg-white border border-medless-border-light rounded-medless-button transition-all duration-medless hover:bg-medless-bg-ultra-light hover:border-medless-primary/40 min-h-[44px] prev-step">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Zurück</span>
               </button>
-              <button type="button" class="bg-transparent border-2 border-[#10b981] text-[#10b981] rounded-full px-8 py-3 font-semibold hover:bg-[#10b981] hover:text-white transition-all duration-300 next-step">
-                Weiter <span>→</span>
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover min-h-[44px] next-step">
+                <span>Weiter</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </button>
             </div>
           </div>
@@ -4871,8 +4966,9 @@ app.get('/app', (c) => {
             </div>
 
             <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
-              <button type="button" class="bg-transparent border-2 border-slate-300 text-slate-600 rounded-full px-8 py-3 font-medium hover:bg-slate-100 hover:border-slate-400 transition-all duration-300 prev-step">
-                ← Zurück
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-medless-text-secondary bg-white border border-medless-border-light rounded-medless-button transition-all duration-medless hover:bg-medless-bg-ultra-light hover:border-medless-primary/40 min-h-[44px] prev-step">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Zurück</span>
               </button>
               <button type="submit" class="btn-primary">
                 Orientierungsplan erstellen <span>✓</span>
