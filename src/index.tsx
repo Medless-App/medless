@@ -7016,20 +7016,20 @@ app.get('/app', (c) => {
       }
       
       if (stepNumber === 2) {
-        const age = document.getElementById('age').value;
-        const weight = document.getElementById('weight').value;
-        const height = document.getElementById('height').value;
+        const age = document.querySelector('input[name="age"]').value;
+        const weight = document.querySelector('input[name="weight"]').value;
+        const height = document.querySelector('input[name="height"]').value;
         
         if (!age || age < 18 || age > 120) {
           alert('Bitte geben Sie ein gültiges Alter ein (18-120 Jahre).');
           return false;
         }
-        if (!weight || weight < 30 || weight > 250) {
-          alert('Bitte geben Sie ein gültiges Gewicht ein (30-250 kg).');
+        if (!weight || weight < 30 || weight > 300) {
+          alert('Bitte geben Sie ein gültiges Gewicht ein (30-300 kg).');
           return false;
         }
-        if (!height || height < 120 || height > 230) {
-          alert('Bitte geben Sie eine gültige Größe ein (120-230 cm).');
+        if (!height || height < 100 || height > 250) {
+          alert('Bitte geben Sie eine gültige Größe ein (100-250 cm).');
           return false;
         }
         return true;
@@ -7079,15 +7079,15 @@ app.get('/app', (c) => {
       }
       
       if (stepNumber === 4) {
-        const duration = document.getElementById('duration-weeks').value;
-        const reductionGoal = document.getElementById('reduction-goal').value;
+        const duration = document.querySelector('input[name="duration"]:checked');
+        const reduction = document.querySelector('input[name="reduction"]');
         
         if (!duration) {
           alert('Bitte wählen Sie eine Plan-Dauer aus.');
           return false;
         }
         
-        if (!reductionGoal) {
+        if (!reduction || !reduction.value) {
           alert('Bitte wählen Sie ein Reduktionsziel aus.');
           return false;
         }
@@ -7120,9 +7120,9 @@ app.get('/app', (c) => {
       document.getElementById('summary-gender').textContent = genderText;
       
       // Age, Weight, Height
-      document.getElementById('summary-age').textContent = document.getElementById('age').value + ' Jahre' || '-';
-      document.getElementById('summary-weight').textContent = document.getElementById('weight').value + ' kg' || '-';
-      document.getElementById('summary-height').textContent = document.getElementById('height').value + ' cm' || '-';
+      document.getElementById('summary-age').textContent = document.querySelector('input[name="age"]').value + ' Jahre' || '-';
+      document.getElementById('summary-weight').textContent = document.querySelector('input[name="weight"]').value + ' kg' || '-';
+      document.getElementById('summary-height').textContent = document.querySelector('input[name="height"]').value + ' cm' || '-';
       
       // Medications
       const medicationInputs = document.querySelectorAll('input[name="medication_name[]"]');
@@ -7135,8 +7135,8 @@ app.get('/app', (c) => {
       document.getElementById('summary-medications').textContent = medications.length > 0 ? medications.join(', ') : '-';
       
       // Duration
-      const durationSelect = document.getElementById('duration-weeks');
-      const durationText = durationSelect.options[durationSelect.selectedIndex]?.text || '-';
+      const durationRadio = document.querySelector('input[name="duration"]:checked');
+      const durationText = durationRadio ? (durationRadio.value + ' Wochen') : '-';
       document.getElementById('summary-duration').textContent = durationText;
     }
     
