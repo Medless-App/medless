@@ -1047,3 +1047,152 @@ footer a:hover {
     font-size: 15px;
   }
 }
+
+/* ========================================
+   MAGAZIN - Article Cards (NEU 2024-12-10)
+   ======================================== */
+
+/* Section Container */
+.magazine-articles-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 32px;
+  background: #FFFFFF;
+}
+
+/* 3-Column Grid Layout */
+.magazine-articles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* Article Card */
+.article-card-new {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  height: 100%;
+}
+
+.article-card-new:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(47, 181, 133, 0.12);
+  border-color: rgba(47, 181, 133, 0.2);
+}
+
+/* Image Wrapper */
+.article-image-wrapper {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 16px 16px 0 0;
+  position: relative;
+}
+
+.article-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease-out;
+}
+
+.article-card-new:hover .article-image-wrapper img {
+  transform: scale(1.03);
+}
+
+/* Content Area */
+.article-content-new {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+/* Title */
+.article-title-new {
+  font-size: 21px;
+  font-weight: 500;
+  color: #1B2A36;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.article-title-new a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s;
+}
+
+.article-title-new a:hover {
+  color: #2FB585;
+}
+
+/* Description */
+.article-description-new {
+  color: #5E6A71;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+/* Read More Link */
+.article-link-new {
+  color: #2FB585;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
+  transition: all 0.2s;
+}
+
+.article-link-new i {
+  font-size: 13px;
+  transition: transform 0.2s;
+}
+
+.article-link-new:hover {
+  color: #1B9C6E;
+}
+
+.article-link-new:hover i {
+  transform: translateX(3px);
+}
+
+/* Responsive Layout */
+@media (max-width: 1024px) {
+  .magazine-articles-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .magazine-articles-section {
+    padding: 60px 20px;
+  }
+  
+  .magazine-articles-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .article-image-wrapper {
+    height: 200px;
+  }
+  
+  .article-title-new {
+    font-size: 19px;
+  }
+}

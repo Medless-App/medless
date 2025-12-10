@@ -2076,117 +2076,131 @@ app.get('/magazin', (c) => {
     <p class="lead" style="max-width: 700px; margin: 0 auto; font-size: 1.125rem; color: #475569;">Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.</p>
   </div>
 
-  <!-- ARTICLES GRID -->
-  <div style="max-width: 1200px; margin: 60px auto; padding: 0 32px;">
-    <div class="magazine-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px;">
+  <!-- ARTICLES GRID (NEU - MEDIZINISCH) -->
+  <div class="magazine-articles-section">
+    <div class="magazine-articles-grid">
       
       <!-- Artikel: ECS erklärt -->
-      <article class="magazine-card" style="background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; display: flex; flex-direction: column; height: 100%;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(15, 118, 110, 0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)';">
-        <a href="/magazin/endocannabinoid-system-erklaert" style="display: block; text-decoration: none;">
-          <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&h=400&fit=crop" alt="Das Endocannabinoid-System erklärt" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
-        </a>
-        <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
-            <a href="/magazin/endocannabinoid-system-erklaert" style="text-decoration: none; color: inherit;">Das Endocannabinoid-System erklärt</a>
+      <article class="article-card-new">
+        <div class="article-image-wrapper">
+          <a href="/magazin/endocannabinoid-system-erklaert">
+            <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&h=400&fit=crop" alt="Das Endocannabinoid-System erklärt" loading="lazy" />
+          </a>
+        </div>
+        <div class="article-content-new">
+          <h3 class="article-title-new">
+            <a href="/magazin/endocannabinoid-system-erklaert">Das Endocannabinoid-System erklärt</a>
           </h3>
-          <p style="color: #64748B; margin: 0; flex: 1;">Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
-          <a href="/magazin/endocannabinoid-system-erklaert" style="color: #10b981; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;">
+          <p class="article-description-new">Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.</p>
+          <a href="/magazin/endocannabinoid-system-erklaert" class="article-link-new">
             Artikel lesen <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: 7 Fehler -->
-      <article class="magazine-card" style="background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; display: flex; flex-direction: column; height: 100%;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(15, 118, 110, 0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)';">
-        <a href="/magazin/medikamente-absetzen-7-fehler" style="display: block; text-decoration: none;">
-          <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop" alt="7 Fehler beim Medikamente absetzen" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
-        </a>
-        <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
-            <a href="/magazin/medikamente-absetzen-7-fehler" style="text-decoration: none; color: inherit;">7 Fehler beim Medikamente absetzen</a>
+      <article class="article-card-new">
+        <div class="article-image-wrapper">
+          <a href="/magazin/medikamente-absetzen-7-fehler">
+            <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop" alt="7 Fehler beim Medikamente absetzen" loading="lazy" />
+          </a>
+        </div>
+        <div class="article-content-new">
+          <h3 class="article-title-new">
+            <a href="/magazin/medikamente-absetzen-7-fehler">7 Fehler beim Medikamente absetzen</a>
           </h3>
-          <p style="color: #64748B; margin: 0; flex: 1;">Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
-          <a href="/magazin/medikamente-absetzen-7-fehler" style="color: #10b981; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;">
+          <p class="article-description-new">Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
+          <a href="/magazin/medikamente-absetzen-7-fehler" class="article-link-new">
             Artikel lesen <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: Antidepressiva -->
-      <article class="magazine-card" style="background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; display: flex; flex-direction: column; height: 100%;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(15, 118, 110, 0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)';">
-        <a href="/magazin/antidepressiva-absetzen-ohne-entzug" style="display: block; text-decoration: none;">
-          <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop" alt="Antidepressiva absetzen ohne Entzug" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
-        </a>
-        <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
-            <a href="/magazin/antidepressiva-absetzen-ohne-entzug" style="text-decoration: none; color: inherit;">Antidepressiva absetzen ohne Entzug</a>
+      <article class="article-card-new">
+        <div class="article-image-wrapper">
+          <a href="/magazin/antidepressiva-absetzen-ohne-entzug">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop" alt="Antidepressiva absetzen ohne Entzug" loading="lazy" />
+          </a>
+        </div>
+        <div class="article-content-new">
+          <h3 class="article-title-new">
+            <a href="/magazin/antidepressiva-absetzen-ohne-entzug">Antidepressiva absetzen ohne Entzug</a>
           </h3>
-          <p style="color: #64748B; margin: 0; flex: 1;">Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
-          <a href="/magazin/antidepressiva-absetzen-ohne-entzug" style="color: #10b981; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;">
+          <p class="article-description-new">Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
+          <a href="/magazin/antidepressiva-absetzen-ohne-entzug" class="article-link-new">
             Artikel lesen <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: Schlaftabletten -->
-      <article class="magazine-card" style="background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; display: flex; flex-direction: column; height: 100%;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(15, 118, 110, 0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)';">
-        <a href="/magazin/schlaftabletten-loswerden" style="display: block; text-decoration: none;">
-          <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop" alt="Schlaftabletten loswerden" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
-        </a>
-        <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
-            <a href="/magazin/schlaftabletten-loswerden" style="text-decoration: none; color: inherit;">Schlaftabletten loswerden</a>
+      <article class="article-card-new">
+        <div class="article-image-wrapper">
+          <a href="/magazin/schlaftabletten-loswerden">
+            <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop" alt="Schlaftabletten loswerden" loading="lazy" />
+          </a>
+        </div>
+        <div class="article-content-new">
+          <h3 class="article-title-new">
+            <a href="/magazin/schlaftabletten-loswerden">Schlaftabletten loswerden</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0;  flex: 1;">Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
-          <a href="/magazin/schlaftabletten-loswerden" style="color: #10b981; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;">
+          <p class="article-description-new">Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
+          <a href="/magazin/schlaftabletten-loswerden" class="article-link-new">
             Artikel lesen <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: CBD Studien -->
-      <article class="magazine-card" style="background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; display: flex; flex-direction: column; height: 100%;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(15, 118, 110, 0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)';">
-        <a href="/magazin/cbd-studien-und-fakten" style="display: block; text-decoration: none;">
-          <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop" alt="CBD: Studien und Fakten" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
-        </a>
-        <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
-            <a href="/magazin/cbd-studien-und-fakten" style="text-decoration: none; color: inherit;">CBD: Studien und Fakten</a>
+      <article class="article-card-new">
+        <div class="article-image-wrapper">
+          <a href="/magazin/cbd-studien-und-fakten">
+            <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop" alt="CBD: Studien und Fakten" loading="lazy" />
+          </a>
+        </div>
+        <div class="article-content-new">
+          <h3 class="article-title-new">
+            <a href="/magazin/cbd-studien-und-fakten">CBD: Studien und Fakten</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0;  flex: 1;">Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
-          <a href="/magazin/cbd-studien-und-fakten" style="color: #10b981; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;">
+          <p class="article-description-new">Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
+          <a href="/magazin/cbd-studien-und-fakten" class="article-link-new">
             Artikel lesen <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: Magenschutz -->
-      <article class="magazine-card" style="background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; display: flex; flex-direction: column; height: 100%;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(15, 118, 110, 0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)';">
-        <a href="/magazin/magenschutz-absetzen-ppi" style="display: block; text-decoration: none;">
-          <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop" alt="Magenschutz (PPI) absetzen" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
-        </a>
-        <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
-            <a href="/magazin/magenschutz-absetzen-ppi" style="text-decoration: none; color: inherit;">Magenschutz (PPI) absetzen</a>
+      <article class="article-card-new">
+        <div class="article-image-wrapper">
+          <a href="/magazin/magenschutz-absetzen-ppi">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop" alt="Magenschutz (PPI) absetzen" loading="lazy" />
+          </a>
+        </div>
+        <div class="article-content-new">
+          <h3 class="article-title-new">
+            <a href="/magazin/magenschutz-absetzen-ppi">Magenschutz (PPI) absetzen</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0;  flex: 1;">Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
-          <a href="/magazin/magenschutz-absetzen-ppi" style="color: #10b981; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;">
+          <p class="article-description-new">Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
+          <a href="/magazin/magenschutz-absetzen-ppi" class="article-link-new">
             Artikel lesen <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </article>
       
       <!-- Artikel: 5 Tabletten -->
-      <article class="magazine-card" style="background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; display: flex; flex-direction: column; height: 100%;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(15, 118, 110, 0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)';">
-        <a href="/magazin/taeglich-5-tabletten" style="display: block; text-decoration: none;">
-          <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop" alt="Täglich 5 Tabletten – ist das normal?" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" />
-        </a>
-        <div style="padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
-          <h3 style="font-size: 1.5rem; font-weight: 400; color: #1e293b; margin: 0; line-height: 1.3;">
-            <a href="/magazin/taeglich-5-tabletten" style="text-decoration: none; color: inherit;">Täglich 5 Tabletten – ist das normal?</a>
+      <article class="article-card-new">
+        <div class="article-image-wrapper">
+          <a href="/magazin/taeglich-5-tabletten">
+            <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop" alt="Täglich 5 Tabletten – ist das normal?" loading="lazy" />
+          </a>
+        </div>
+        <div class="article-content-new">
+          <h3 class="article-title-new">
+            <a href="/magazin/taeglich-5-tabletten">Täglich 5 Tabletten – ist das normal?</a>
           </h3>
-          <p style="color: #64748B; line-height: 1.6; margin: 0;  flex: 1;">Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
-          <a href="/magazin/taeglich-5-tabletten" style="color: #10b981; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;">
+          <p class="article-description-new">Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
+          <a href="/magazin/taeglich-5-tabletten" class="article-link-new">
             Artikel lesen <i class="fas fa-arrow-right"></i>
           </a>
         </div>
