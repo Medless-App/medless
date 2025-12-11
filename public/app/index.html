@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Medless – Strukturierte Orientierungshilfe für dein Arztgespräch. Kostenlose Medikamentenanalyse als PDF-Orientierungsplan.">
+  <title>MEDLESS-Orientierungsplan erstellen</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="shortcut icon" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  
+  <!-- Google Fonts - Inter (Fresh & Fine Design) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'medless-primary': '#2FB585',
+            'medless-primary-dark': '#1B9C6E',
+            'medless-primary-light': '#36C48C',
+            'medless-bg-ultra-light': '#FAFEFB',
+            'medless-bg-light': '#F4FBF7',
+            'medless-bg-card': '#E7F8EF',
+            'medless-bg-card-hover': '#D4F1E3',
+            'medless-text-primary': '#1B2A36',
+            'medless-text-secondary': '#5E6A71',
+            'medless-text-tertiary': '#94A3B8',
+            'medless-border-light': '#E9ECEF',
+            'medless-border-primary': 'rgba(47, 181, 133, 0.2)',
+            'medless-border-primary-hover': 'rgba(47, 181, 133, 0.3)',
+          },
+          borderRadius: {
+            'medless-sm': '12px',
+            'medless-md': '14px',
+            'medless-lg': '16px',
+            'medless-xl': '20px',
+            'medless-button': '24px',
+          },
+          boxShadow: {
+            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.04)',
+            'medless-card-hover': '0 8px 20px rgba(47, 181, 133, 0.12)',
+            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.1)',
+            'medless-button-hover': '0 4px 16px rgba(47, 181, 133, 0.25)',
+            'medless-header': '0 1px 3px rgba(0, 0, 0, 0.03)',
+          },
+          transitionDuration: {
+            'medless': '250ms',
+          },
+        },
+      },
+    }
+
+  </script>
+  
+  <!-- jsPDF for PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+  <!-- Axios for API calls -->
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary: #2FB585;
+      --primary-dark: #28A376;
+      --primary-light: #E7F8EF;
+      --bg: #FBFCFD;
+      --text: #1B2A36;
+      --text-secondary: #5E6A71;
+      --text-tertiary: #94A3B8;
+      --border: rgba(0, 0, 0, 0.06);
+      --accent: #f97316;
+      --danger: #b91c1c;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+    
+    @media (max-width: 768px) {
+      main {
+        padding: 1.5rem 1rem;
+      }
+    }
+
+    /* HERO - MEDLESS STYLE */
+    .hero {
+      margin-top: 1.5rem;
+      padding: 2rem 1.75rem;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(47, 181, 133, 0.03), rgba(47, 181, 133, 0.08));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero h1 {
+      margin: 0 0 0.75rem;
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--text);
+    }
+
+    .hero-sub {
+      margin: 0 0 1.25rem;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .hero-list {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .hero-list li + li {
+      margin-top: 0.375rem;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 1.25rem;
+    }
+    
+    @media (max-width: 768px) {
+      .hero {
+        padding: 1.5rem 1.25rem;
+      }
+      
+      .hero h1 {
+        font-size: 1.75rem;
+      }
+      
+      .hero-sub {
+        font-size: 1rem;
+      }
+    }
+
+    .btn-primary {
+      border: none;
+      cursor: pointer;
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 8px rgba(47, 181, 133, 0.15);
+      transition: all 280ms ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(47, 181, 133, 0.25);
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      border-radius: var(--radius-md);
+      border: 2px solid var(--primary);
+      padding: 0.75rem 1.75rem;
+      background: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 280ms ease;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(47, 181, 133, 0.05);
+      transform: translateY(-1px);
+    }
+    
+    .btn-ghost {
+      border-radius: var(--radius-md);
+      border: 1.5px solid rgba(148, 163, 184, 0.2);
+      padding: 0.75rem 1.5rem;
+      background: #fff;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 280ms ease;
+    }
+    
+    .btn-ghost:hover {
+      background: var(--bg);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .note {
+      
+      color: #6b7280;
+    }
+
+    /* GENERIC SECTIONS */
+    section {
+      margin-top: 2rem;
+    }
+
+    /* H2 styles now handled by Tailwind classes */
+
+    section p {
+      margin: 0.3rem 0;
+    }
+
+    .muted {
+      color: #6b7280;
+      
+    }
+
+    .grid-3 {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+      border-radius: 2rem;
+      padding: 2rem;
+    }
+
+    /* H3 styles now handled by Tailwind classes */
+
+    .tag-small {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.05);
+      
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.3rem;
+    }
+
+    /* STEP STRIP */
+    .steps {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 0.7rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(11, 123, 108, 0.1);
+      color: var(--primary-dark);
+      
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-weight: 500;
+      
+    }
+
+    .step-text {
+      
+      color: #4b5563;
+    }
+
+    /* TOOL / FORM */
+    .tool-wrapper {
+      margin-top: 1rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .form-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .form-card h3 {
+      margin-top: 0;
+      margin-bottom: 0.6rem;
+    }
+
+    .badge-warning {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(185, 28, 28, 0.08);
+      color: var(--danger);
+      
+      margin-bottom: 0.6rem;
+    }
+
+    .form-row {
+      display: grid;
+      gap: 0.7rem;
+      margin-bottom: 0.8rem;
+    }
+
+    label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #94a3b8;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select {
+      width: 100%;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e8f0;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      outline: none;
+      background: rgba(255, 255, 255, 0.6);
+      transition: all 0.2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: medless-primary;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+      background: rgba(255, 255, 255, 1);
+      outline: none;
+    }
+
+    .helper {
+      
+      color: #6b7280;
+      margin-top: 0.1rem;
+    }
+
+    .inline-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .radio-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      padding: 0.25rem 0.7rem;
+      
+      cursor: pointer;
+      background: #f9fafb;
+    }
+
+    .radio-pill input {
+      margin: 0;
+    }
+
+    .med-row {
+      display: grid;
+      gap: 0.4rem;
+      padding: 0.5rem;
+      border-radius: var(--radius-md);
+      background: #f9fafb;
+      border: 1px dashed #cbd5e1;
+    }
+
+    .btn-small {
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      padding: 0.3rem 0.7rem;
+      
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .btn-small:hover {
+      border-color: #94a3b8;
+    }
+
+    .tabs {
+      display: inline-flex;
+      padding: 0.25rem;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin-bottom: 0.8rem;
+    }
+
+    .tab-btn {
+      border: none;
+      background: transparent;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      
+      cursor: pointer;
+      color: #4b5563;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .tab-btn.active {
+      background: #fff;
+      color: var(--primary-dark);
+      box-shadow: 0 2px 6px rgba(148, 163, 184, 0.6);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .upload-box {
+      border-radius: var(--radius-md);
+      border: 1px dashed #cbd5e1;
+      padding: 0.9rem;
+      text-align: center;
+      background: #f9fafb;
+      
+    }
+
+    .upload-box input {
+      margin-top: 0.6rem;
+    }
+
+    /* FAQ */
+    .faq {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 0.8rem;
+    }
+
+    details {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 0.6rem 0.8rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      
+      font-weight: 500;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details[open] summary {
+      color: var(--primary-dark);
+    }
+
+    details p {
+      
+      color: #4b5563;
+      margin-top: 0.4rem;
+    }
+
+    /* Autocomplete Styles */
+    .medication-input-wrapper {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    
+    .autocomplete-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      max-height: 250px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-top: -1px;
+    }
+    
+    .autocomplete-item {
+      padding: 0.75rem;
+      cursor: pointer;
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.2s;
+    }
+    
+    .autocomplete-item:hover {
+      background: #f9fafb;
+    }
+    
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+
+    footer {
+      margin-top: 2.5rem;
+      
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    /* DESKTOP */
+    @media (min-width: 768px) {
+      main {
+        padding: 1.8rem 1.2rem 3rem;
+      }
+
+      .hero {
+        padding: 1.8rem 2rem;
+      }
+
+      .hero h1 {
+        
+      }
+
+      .hero-grid {
+        grid-template-columns: 1.4fr 1.1fr;
+        align-items: flex-start;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .tool-wrapper {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        align-items: flex-start;
+      }
+    }
+  </style>
+  
+  <!-- FontAwesome für Loading-Animation -->
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    /* Zusätzliche Tailwind-kompatible Styles */
+    .section-card {
+      background: white;
+      border-left: 4px solid medless-primary-dark;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+    }
+    .hidden { display: none !important; }
+    
+    /* Remove number input spinner arrows (Chrome, Safari, Edge, Opera) */
+    input[type="number"].no-spinner-input::-webkit-outer-spin-button,
+    input[type="number"].no-spinner-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    /* Remove number input spinner arrows (Firefox) */
+    input[type="number"].no-spinner-input {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    .animate-ping {
+      animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+    .animate-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+    .animate-bounce {
+      animation: bounce 1s infinite;
+    }
+    @keyframes ping {
+      75%, 100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+    @keyframes pulse {
+      50% {
+        opacity: .5;
+      }
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(-25%);
+        animation-timing-function: cubic-bezier(0.8,0,1,1);
+      }
+      50% {
+        transform: none;
+        animation-timing-function: cubic-bezier(0,0,0.2,1);
+      }
+    }
+    @keyframes burst {
+      0% { 
+        transform: scale(0); 
+        opacity: 1; 
+      }
+      100% { 
+        transform: scale(3); 
+        opacity: 0; 
+      }
+    }
+    @keyframes float {
+      0%, 100% { 
+        transform: translateY(0px) translateX(0px); 
+        opacity: 0.3;
+      }
+      50% { 
+        transform: translateY(-20px) translateX(10px); 
+        opacity: 0.6;
+      }
+    }
+    @keyframes rotate-center {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { 
+        filter: drop-shadow(0 0 8px rgba(11, 123, 108, 0.4));
+      }
+      50% { 
+        filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.8));
+      }
+    }
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    @keyframes burst-particle {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(var(--tx, 0) * 1px), calc(var(--ty, 0) * 1px)) scale(0);
+        opacity: 0;
+      }
+    }
+    @keyframes gentle-pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3);
+      }
+      50% {
+        transform: scale(1.02);
+        box-shadow: 0 12px 32px rgba(11, 123, 108, 0.4);
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-medless-bg-ultra-light flex flex-col">
+  
+  
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-medless-header">
+    <div class="max-w-container mx-auto px-4 md:px-7 py-4 md:py-5 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="/" class="text-xl md:text-2xl font-semibold text-medless-text-primary tracking-tight">
+        Medless
+      </a>
+      
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex items-center gap-7">
+        <li><a href="/#how-it-works" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">So funktioniert's</a></li>
+        <li><a href="/#benefits" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Vorteile</a></li>
+        <li><a href="/#faq" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">FAQ</a></li>
+        <li><a href="/magazin" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Magazin</a></li>
+        <li><a href="/fachkreise" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Für Ärzt:innen & Apotheken</a></li>
+      </ul>
+      
+      <!-- Desktop CTA Button -->
+      <a
+        href="/app" 
+        class="hidden md:inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-medless-button border-2 border-medless-primary text-medless-primary bg-white text-button-text font-medium shadow-medless-button transition-all duration-medless hover:bg-medless-primary hover:text-white hover:shadow-medless-button-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40"
+      >
+        Orientierungsplan starten
+      </a>
+      
+      <!-- Mobile Menu Button -->
+      <button 
+        id="mobile-nav-toggle"
+        class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-medless-border-light text-medless-text-primary hover:bg-medless-bg-ultra-light transition-colors"
+      >
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION OVERLAY -->
+  <div id="mobile-nav-overlay" class="hidden fixed inset-0 bg-black/30 z-50">
+    <div class="max-w-xs w-full ml-auto bg-white h-full shadow-medless-card flex flex-col">
+      <!-- Header -->
+      <div class="flex items-center justify-between p-5 border-b border-medless-border-light">
+        <a href="/" class="text-xl font-semibold text-medless-text-primary tracking-tight">
+          Medless
+        </a>
+        <button 
+          id="mobile-nav-close"
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-medless-border-light text-medless-text-primary hover:bg-medless-bg-ultra-light transition-colors"
+        >
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <!-- Navigation Links -->
+      <nav class="flex-1 overflow-y-auto p-5">
+        <ul class="space-y-2">
+          <li>
+            <a href="/#how-it-works" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              So funktioniert's
+            </a>
+          </li>
+          <li>
+            <a href="/#benefits" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              Vorteile
+            </a>
+          </li>
+          <li>
+            <a href="/#faq" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              FAQ
+            </a>
+          </li>
+          <li>
+            <a href="/magazin" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              Magazin
+            </a>
+          </li>
+          <li>
+            <a href="/fachkreise" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              Für Ärzt:innen & Apotheken
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <!-- CTA Button -->
+      <div class="p-5 border-t border-medless-border-light">
+        <a 
+          href="/app" 
+          class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover transition-all duration-medless"
+        >
+          <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          <span>Orientierungsplan starten</span>
+        </a>
+      </div>
+
+  <script>
+    // Mobile menu toggle
+    const toggle = document.getElementById('mobile-nav-toggle');
+    const overlay = document.getElementById('mobile-nav-overlay');
+    const close = document.getElementById('mobile-nav-close');
+    const links = document.querySelectorAll('.mobile-nav-link');
+    
+    if (toggle && overlay && close) {
+      toggle.addEventListener('click', () => {
+        overlay.classList.remove('hidden');
+        lucide.createIcons();
+      });
+      
+      close.addEventListener('click', () => {
+        overlay.classList.add('hidden');
+      });
+      
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.add('hidden');
+        }
+      });
+      
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          overlay.classList.add('hidden');
+        });
+      });
+    }
+  </script>
+  
+
+  <!-- MAIN CONTENT - MEDLESS Layout -->
+  <main class="flex-grow bg-medless-bg-ultra-light">
+    <div class="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-14">
+      
+      <!-- HERO SECTION - MEDLESS STYLE -->
+      <header class="mb-8 md:mb-10 text-center">
+        <h1 class="text-2xl md:text-3xl font-light text-medless-text-primary mb-2">Ihr persönlicher MEDLESS-Orientierungsplan</h1>
+        <p class="text-sm md:text-base text-medless-text-secondary max-w-2xl mx-auto">
+          Folgen Sie den Schritten, um Ihre aktuelle Medikation strukturiert zu erfassen und einen persönlichen MEDLESS-Orientierungsplan als Gesprächsgrundlage für Ihren Arzt zu erhalten.
+        </p>
+      </header>
+
+      <!-- WIZARD CARD -->
+      <section id="tool" class="bg-white rounded-medless-lg shadow-medless-card px-4 md:px-8 py-6 md:py-8">
+
+      <!-- Progress Stepper - MEDLESS DESIGN -->
+      <!-- MEDLESS STEPPER/PROGRESS INDICATOR (TAILWIND, RESPONSIVE) -->
+      <div class="mb-8 mt-0">
+        <!-- Desktop: Horizontal Layout (md:grid) | Mobile: Simplified Stack -->
+        <div class="hidden md:grid grid-cols-[48px_1fr_48px_1fr_48px_1fr_48px_1fr_48px] items-center max-w-3xl mx-auto mb-2 gap-0">
+          <!-- Step 1 Circle -->
+          <div id="step-indicator-1" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-medless-primary text-white font-semibold flex items-center justify-center transition-all duration-300 shadow-lg">
+            <i data-lucide="user" class="w-5 h-5"></i>
+          </div>
+          <!-- Progress Bar 1 -->
+          <div class="h-0.5 bg-medless-border-light mx-2">
+            <div id="progress-bar-1" class="h-full bg-medless-primary w-full transition-all duration-300"></div>
+          </div>
+          <!-- Step 2 Circle -->
+          <div id="step-indicator-2" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center transition-all duration-300">
+            <i data-lucide="activity" class="w-5 h-5"></i>
+          </div>
+          <!-- Progress Bar 2 -->
+          <div class="h-0.5 bg-medless-border-light mx-2">
+            <div id="progress-bar-2" class="h-full bg-medless-primary w-0 transition-all duration-300"></div>
+          </div>
+          <!-- Step 3 Circle -->
+          <div id="step-indicator-3" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center transition-all duration-300">
+            <i data-lucide="pill" class="w-5 h-5"></i>
+          </div>
+          <!-- Progress Bar 3 -->
+          <div class="h-0.5 bg-medless-border-light mx-2">
+            <div id="progress-bar-3" class="h-full bg-medless-primary w-0 transition-all duration-300"></div>
+          </div>
+          <!-- Step 4 Circle -->
+          <div id="step-indicator-4" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center transition-all duration-300">
+            <i data-lucide="file-text" class="w-5 h-5"></i>
+          </div>
+          <!-- Progress Bar 4 -->
+          <div class="h-0.5 bg-medless-border-light mx-2">
+            <div id="progress-bar-4" class="h-full bg-medless-primary w-0 transition-all duration-300"></div>
+          </div>
+          <!-- Step 5 Circle -->
+          <div id="step-indicator-5" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center transition-all duration-300">
+            <i data-lucide="check-circle" class="w-5 h-5"></i>
+          </div>
+        </div>
+        
+        <!-- Desktop Labels -->
+        <div class="hidden md:grid grid-cols-[48px_1fr_48px_1fr_48px_1fr_48px_1fr_48px] max-w-3xl mx-auto gap-0">
+          <span class="text-xs font-medium text-medless-text-tertiary text-center leading-tight">Name</span>
+          <span></span>
+          <span class="text-xs font-medium text-medless-text-tertiary text-center leading-tight">Körper</span>
+          <span></span>
+          <span class="text-xs font-medium text-medless-text-tertiary text-center leading-tight">Medikation</span>
+          <span></span>
+          <span class="text-xs font-medium text-medless-text-tertiary text-center leading-tight">Plan</span>
+          <span></span>
+          <span class="text-xs font-medium text-medless-text-tertiary text-center leading-tight">Zusammen-fassung</span>
+        </div>
+
+        <!-- Mobile: Vertical Stack -->
+        <div class="md:hidden flex flex-col gap-3">
+          <!-- Step 1 -->
+          <div class="flex items-center gap-2 md:gap-3">
+            <div class="w-10 h-10 rounded-full bg-medless-primary text-white font-semibold flex items-center justify-center shadow-md">
+              <i data-lucide="user" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 1</p>
+              <p class="text-sm text-medless-text-primary font-medium">Name</p>
+            </div>
+          </div>
+          <!-- Step 2 -->
+          <div class="flex items-center gap-3 opacity-50">
+            <div class="w-10 h-10 rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center">
+              <i data-lucide="activity" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 2</p>
+              <p class="text-sm text-medless-text-secondary">Körperdaten</p>
+            </div>
+          </div>
+          <!-- Step 3 -->
+          <div class="flex items-center gap-3 opacity-50">
+            <div class="w-10 h-10 rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center">
+              <i data-lucide="pill" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 3</p>
+              <p class="text-sm text-medless-text-secondary">Medikation</p>
+            </div>
+          </div>
+          <!-- Step 4 -->
+          <div class="flex items-center gap-3 opacity-50">
+            <div class="w-10 h-10 rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 4</p>
+              <p class="text-sm text-medless-text-secondary">Orientierungsplan</p>
+            </div>
+          </div>
+          <!-- Step 5 -->
+          <div class="flex items-center gap-3 opacity-50">
+            <div class="w-10 h-10 rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 5</p>
+              <p class="text-sm text-medless-text-secondary">Zusammenfassung</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form id="medication-form">
+        <!-- STEP 1: Name & Gender & Body Data -->
+        <div id="step-1" class="form-step">
+          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
+            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 1: Persönliche Angaben</h3>
+            <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Damit wir Sie persönlich ansprechen können.</p>
+            
+            <div class="mb-6">
+              <div>
+                <label for="first-name" class="block text-sm font-medium text-medless-text-primary mb-1.5">Ihr Vorname *</label>
+                <input 
+                  type="text" 
+                  id="first-name" 
+                  name="first_name" 
+                  class="w-full rounded-medless-md border border-medless-border-light px-3 py-2.5 text-sm md:text-base text-medless-text-primary placeholder:text-medless-text-tertiary focus:outline-none focus:ring-2 focus:ring-medless-primary/40 focus:border-medless-primary bg-white transition-all duration-200" 
+                  placeholder="z.B. Maria" 
+                  required 
+                />
+              </div>
+            </div>
+
+            <!-- Geschlecht (MEDLESS DESIGN) -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-medless-text-primary mb-1.5">Geschlecht *</label>
+              <div class="grid grid-cols-3 gap-4">
+                <!-- Option 1 -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="gender" value="herr" class="peer sr-only" required>
+                  <div class="peer-checked:bg-medless-bg-card peer-checked:border-medless-primary peer-checked:text-medless-primary 
+                              border-2 border-medless-border-light rounded-medless-md p-4 text-center transition-all duration-200
+                              hover:border-medless-primary/40 hover:shadow-sm bg-white">
+                    <span class="font-medium">Herr</span>
+                  </div>
+                </label>
+                
+                <!-- Option 2 -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="gender" value="frau" class="peer sr-only" required>
+                  <div class="peer-checked:bg-medless-bg-card peer-checked:border-medless-primary peer-checked:text-medless-primary 
+                              border-2 border-medless-border-light rounded-medless-md p-4 text-center transition-all duration-200
+                              hover:border-medless-primary/40 hover:shadow-sm bg-white">
+                    <span class="font-medium">Frau</span>
+                  </div>
+                </label>
+                
+                <!-- Option 3 -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="gender" value="divers" class="peer sr-only" required>
+                  <div class="peer-checked:bg-medless-bg-card peer-checked:border-medless-primary peer-checked:text-medless-primary 
+                              border-2 border-medless-border-light rounded-medless-md p-4 text-center transition-all duration-200
+                              hover:border-medless-primary/40 hover:shadow-sm bg-white">
+                    <span class="font-medium">Divers</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 1.5rem;">
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover min-h-[44px] next-step">
+                <span>Weiter</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Body Data (glass-input auf Feldern) -->
+        <div id="step-2" class="form-step" style="display: none;">
+          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
+            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
+            <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Diese Daten helfen uns, die Dosierung individuell zu berechnen.</p>
+            
+            <!-- Körperdaten (MEDLESS DESIGN) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <!-- Alter -->
+              <div>
+                <label class="block text-sm font-medium text-medless-text-primary mb-1.5 text-center">
+                  Alter (Jahre) *
+                </label>
+                <input 
+                  type="text" 
+                  inputmode="numeric" 
+                  pattern="[0-9]*" 
+                  name="age" 
+                  class="w-full rounded-medless-md border border-medless-border-light px-3 py-2.5 text-center text-lg text-medless-text-primary placeholder:text-medless-text-tertiary focus:outline-none focus:ring-2 focus:ring-medless-primary/40 focus:border-medless-primary bg-white transition-all duration-200" 
+                  placeholder="z.B. 45" 
+                  required
+                >
+              </div>
+              
+              <!-- Größe -->
+              <div>
+                <label class="block text-sm font-medium text-medless-text-primary mb-1.5 text-center">
+                  Größe (cm) *
+                </label>
+                <input 
+                  type="text" 
+                  inputmode="numeric" 
+                  pattern="[0-9]*" 
+                  name="height" 
+                  class="w-full rounded-medless-md border border-medless-border-light px-3 py-2.5 text-center text-lg text-medless-text-primary placeholder:text-medless-text-tertiary focus:outline-none focus:ring-2 focus:ring-medless-primary/40 focus:border-medless-primary bg-white transition-all duration-200" 
+                  placeholder="z.B. 170" 
+                  required
+                >
+              </div>
+              
+              <!-- Gewicht -->
+              <div>
+                <label class="block text-sm font-medium text-medless-text-primary mb-1.5 text-center">
+                  Gewicht (kg) *
+                </label>
+                <input 
+                  type="text" 
+                  inputmode="numeric" 
+                  pattern="[0-9]*" 
+                  name="weight" 
+                  class="w-full rounded-medless-md border border-medless-border-light px-3 py-2.5 text-center text-lg text-medless-text-primary placeholder:text-medless-text-tertiary focus:outline-none focus:ring-2 focus:ring-medless-primary/40 focus:border-medless-primary bg-white transition-all duration-200" 
+                  placeholder="z.B. 70" 
+                  required
+                >
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-medless-text-secondary bg-white border border-medless-border-light rounded-medless-button transition-all duration-medless hover:bg-medless-bg-ultra-light hover:border-medless-primary/40 min-h-[44px] prev-step">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Zurück</span>
+              </button>
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover min-h-[44px] next-step">
+                <span>Weiter</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Medications (Empty State) -->
+        <div id="step-3" class="form-step" style="display: none;">
+          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
+            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikation</h3>
+            <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Geben Sie hier Ihre aktuellen Medikamente ein. Diese Daten werden genutzt, um einen strukturierten Überblick und einen MEDLESS-Orientierungsplan für Ihr Arztgespräch zu erstellen. Es werden keine Therapieempfehlungen berechnet.</p>
+            
+            <!-- Info Box -->
+            <div class="mb-6 rounded-medless-md bg-medless-bg-card border border-medless-border-light px-4 py-3 text-sm text-medless-text-secondary">
+              <p>
+                Gib hier deine aktuellen Medikamente ein. Diese Daten werden in deinen MEDLESS-Orientierungsplan übernommen. Du kannst jederzeit weitere Medikamente hinzufügen.
+              </p>
+            </div>
+
+            <div class="space-y-4 mb-8">
+              <!-- MEDIKATIONS-LISTE (Wird per JS gefüllt, erste Card wird automatisch erstellt) -->
+              <div id="medication-inputs" class="space-y-3">
+                <!-- Wird durch JavaScript befüllt -->
+              </div>
+
+              <button type="button" id="add-medication" class="w-full py-4 rounded-medless-md border-2 border-dashed border-medless-border-light text-medless-text-tertiary text-sm font-medium hover:border-medless-primary hover:text-medless-primary hover:bg-medless-bg-ultra-light transition-all duration-medless inline-flex items-center justify-center gap-2">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+                <span>Weiteres Medikament hinzufügen</span>
+              </button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-medless-text-secondary bg-white border border-medless-border-light rounded-medless-button transition-all duration-medless hover:bg-medless-bg-ultra-light hover:border-medless-primary/40 min-h-[44px] prev-step">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Zurück</span>
+              </button>
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover min-h-[44px] next-step">
+                <span>Weiter</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Plan Settings -->
+        <div id="step-4" class="form-step" style="display: none;">
+          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
+            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
+            <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Legen Sie hier die Einstellungen für Ihren MEDLESS-Orientierungsplan fest. Auf dieser Basis wird Ihr persönlicher Orientierungsplan für das Gespräch mit Ihrem Arzt berechnet. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.</p>
+            
+            <!-- Dauer V4 (Fully Clickable Cards) -->
+            <div class="mb-10">
+              <label class="block text-xs uppercase tracking-wider text-slate-400 mb-4 font-medium text-center">
+                Dauer des Plans (Wochen) *
+              </label>
+              <div class="grid grid-cols-5 gap-3">
+                <!-- 2 Wochen -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="duration" value="2" class="peer sr-only" required>
+                  <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
+                              border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="text-2xl">2</span>
+                  </div>
+                </label>
+                
+                <!-- 4 Wochen -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="duration" value="4" class="peer sr-only text-sm py-2.5 px-3">
+                  <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
+                              border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="text-2xl">4</span>
+                  </div>
+                </label>
+                
+                <!-- 6 Wochen -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="duration" value="6" class="peer sr-only text-sm py-2.5 px-3">
+                  <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
+                              border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="text-2xl">6</span>
+                  </div>
+                </label>
+                
+                <!-- 8 Wochen (Default) -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="duration" value="8" class="peer sr-only" checked>
+                  <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
+                              border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="text-2xl">8</span>
+                  </div>
+                </label>
+                
+                <!-- 12 Wochen -->
+                <label class="cursor-pointer">
+                  <input type="radio" name="duration" value="12" class="peer sr-only text-sm py-2.5 px-3">
+                  <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
+                              border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
+                              hover:border-slate-300 hover:shadow-sm">
+                    <span class="text-2xl">12</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- REDUCTION SLIDER V4 (Clear Labels + Info Box) -->
+            <div class="bg-white border-2 border-slate-200 rounded-3xl p-8 shadow-sm">
+              <div class="flex items-center gap-4 mb-6">
+                <div class="w-14 h-14 bg-[medless-bg-card] rounded-2xl flex items-center justify-center flex-shrink-0">
+                  <svg class="w-7 h-7 text-[medless-primary]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                  </svg>
+                </div>
+                <div class="flex-grow">
+                  <h4 class="font-semibold text-slate-800 text-lg mb-1">Reduktionsziel</h4>
+                  <p class="text-sm text-slate-500">Wie stark möchten Sie Ihre Medikation reduzieren?</p>
+                </div>
+                <div class="text-right">
+                  <div class="text-4xl font-light text-[medless-primary]" id="reductionValue">100%</div>
+                  <p class="text-xs text-slate-400 uppercase tracking-wide mt-1">Ziel-Dosis</p>
+                </div>
+              </div>
+              
+              <!-- Slider -->
+              <div class="relative px-2 mb-6">
+                <input type="range" name="reduction" min="10" max="100" value="100" step="10" 
+                       class="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer
+                              [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6
+                              [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[medless-primary] 
+                              [&::-webkit-slider-thumb]:border-4 [&::-webkit-slider-thumb]:border-white
+                              [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:cursor-pointer"
+                       oninput="document.getElementById('reductionValue').innerText = this.value + '%'">
+              </div>
+              
+              <!-- Labels mit Klarstellung -->
+              <div class="flex justify-between text-xs text-slate-400 font-medium px-1">
+                <div class="text-center">
+                  <div class="font-semibold text-slate-600">10%</div>
+                  <div class="text-[10px] mt-1">Minimale Reduktion</div>
+                </div>
+                <div class="text-center">
+                  <div class="font-semibold text-slate-600">50%</div>
+                  <div class="text-[10px] mt-1">Halbe Dosis</div>
+                </div>
+                <div class="text-center">
+                  <div class="font-semibold text-[medless-primary]">100%</div>
+                  <div class="text-[10px] mt-1">Komplette Reduktion</div>
+                </div>
+              </div>
+              
+              <!-- Info-Box -->
+              <div class="mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-start gap-3">
+                <svg class="w-5 h-5 text-[medless-primary] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <p class="text-xs text-slate-600">
+                  <strong>Hinweis:</strong> 100% bedeutet <strong>komplette Reduktion</strong> der Medikation. 
+                  10% bedeutet minimale Reduktion. Bitte besprechen Sie Ihr Ziel mit Ihrem Arzt.
+                </p>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-medless-text-secondary bg-white border border-medless-border-light rounded-medless-button transition-all duration-medless hover:bg-medless-bg-ultra-light hover:border-medless-primary/40 min-h-[44px] prev-step">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Zurück</span>
+              </button>
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button transition-all duration-medless hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover min-h-[44px] next-step">
+                <span>Weiter</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5: Email & Summary -->
+        <div id="step-5" class="form-step" style="display: none;">
+          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
+            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 5: E-Mail & Zusammenfassung</h3>
+            <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Überprüfen Sie Ihre Angaben in Ruhe und geben Sie Ihre E-Mail-Adresse ein. Dorthin senden wir den Download-Link zu Ihrem MEDLESS-Orientierungsplan.</p>
+            
+            <div class="form-row">
+              <div>
+                <label for="email">Ihre E-Mail-Adresse *</label>
+                <input type="email" id="email" name="email" placeholder="ihre.email@beispiel.de" required />
+                <div class="helper">Hierhin schicken wir den Download-Link zu Ihrem Dosierungsplan</div>
+              </div>
+            </div>
+
+            <div class="card" style="background: #f9fafb; margin-top: 1.5rem; padding: 1rem;">
+              <h4 style=" font-weight: 500; margin-bottom: 0.8rem;">Ihre Angaben im Überblick</h4>
+              <div style="">
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Name:</span>
+                  <span id="summary-name" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Geschlecht:</span>
+                  <span id="summary-gender" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Alter:</span>
+                  <span id="summary-age" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Gewicht:</span>
+                  <span id="summary-weight" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Größe:</span>
+                  <span id="summary-height" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb;">
+                  <span class="muted">Medikamente:</span>
+                  <span id="summary-medications" style="font-weight: 500;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0;">
+                  <span class="muted">Plan-Dauer:</span>
+                  <span id="summary-duration" style="font-weight: 500;">-</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-medless-text-secondary bg-white border border-medless-border-light rounded-medless-button transition-all duration-medless hover:bg-medless-bg-ultra-light hover:border-medless-primary/40 min-h-[44px] prev-step">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Zurück</span>
+              </button>
+              <button type="submit" class="btn-primary">
+                Orientierungsplan erstellen <span>✓</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Loading Animation -->
+      <div id="loading" class="hidden" style="margin-top: 1.5rem;">
+        <div class="card" style="max-width: 550px; margin: 0 auto; padding: 3rem 1.5rem; text-align: center;">
+          
+          <!-- Medical AI Loader -->
+          <div class="medical-loader">
+            <!-- Spektakuläre Medical AI DNA-Helix Scanner Animation (150px) -->
+            <div class="medical-dna-scanner">
+              <!-- Hexagon Container (pulsating medical grid) -->
+              <div class="medical-hexagon-container">
+                <!-- Outer Hexagon -->
+                <svg class="hexagon hexagon-outer" viewBox="0 0 120 120" width="150" height="150">
+                  <polygon points="60,10 100,30 100,70 60,90 20,70 20,30" fill="none" stroke="#15927a" stroke-width="2.5" opacity="0.3"/>
+                </svg>
+                <!-- Middle Hexagon -->
+                <svg class="hexagon hexagon-middle" viewBox="0 0 120 120" width="150" height="150">
+                  <polygon points="60,20 90,35 90,65 60,80 30,65 30,35" fill="none" stroke="#14b8a6" stroke-width="2.5" opacity="0.5"/>
+                </svg>
+                <!-- Inner Hexagon (brightest) -->
+                <svg class="hexagon hexagon-inner" viewBox="0 0 120 120" width="150" height="150">
+                  <polygon points="60,30 80,40 80,60 60,70 40,60 40,40" fill="rgba(20, 184, 166, 0.1)" stroke="#14b8a6" stroke-width="3" opacity="0.8"/>
+                </svg>
+              </div>
+              
+              <!-- DNA Helix (rotating double-helix with particles) -->
+              <div class="medical-helix-container">
+                <!-- Left Helix Strand -->
+                <div class="helix-strand helix-left"></div>
+                <!-- Right Helix Strand -->
+                <div class="helix-strand helix-right"></div>
+                
+                <!-- Floating Medical Particles -->
+                <div class="medical-particle particle-1"></div>
+                <div class="medical-particle particle-2"></div>
+                <div class="medical-particle particle-3"></div>
+                <div class="medical-particle particle-4"></div>
+              </div>
+              
+              <!-- Center Glow Pulse -->
+              <div class="medical-center-glow"></div>
+            </div>
+            
+            <h2 class="plan-loader-title">Ihr MEDLESS-Orientierungsplan wird erstellt …</h2>
+            <p class="plan-loader-subtitle">
+              Bitte haben Sie einen Moment Geduld. Ihr Orientierungsplan wird anhand Ihrer Angaben berechnet und als PDF vorbereitet.
+            </p>
+            
+            <!-- Medical Analysis Pipeline with Premium Card Design -->
+            <div class="plan-loader-pipeline">
+              <!-- Step 1: Medication Analysis -->
+              <div class="plan-loader-step step-1">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                    <path d="M9.5 2.5L14.5 7.5L9.5 12.5L4.5 7.5L9.5 2.5Z" fill="currentColor" opacity="0.3"/>
+                    <path d="M14.5 11.5L19.5 16.5L14.5 21.5L9.5 16.5L14.5 11.5Z" fill="currentColor"/>
+                    <path d="M9.5 2.5L14.5 7.5M14.5 7.5L9.5 12.5M14.5 7.5L19.5 16.5M9.5 12.5L4.5 7.5M9.5 12.5L14.5 11.5M4.5 7.5L9.5 2.5M14.5 11.5L9.5 16.5M14.5 11.5L19.5 16.5M9.5 16.5L14.5 21.5M19.5 16.5L14.5 21.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="step-text">
+                  <div class="step-title">
+                    Medikamente werden analysiert …
+                    <span class="step-counter">0/47</span>
+                  </div>
+                  <div class="step-subtitle">Wirkstoffe, Dosierung und Einnahmezeiten werden geprüft</div>
+                  <div class="step-progress">
+                    <div class="step-progress-bar" data-step="1"></div>
+                  </div>
+                  <div class="step-percentage">0%</div>
+                </div>
+              </div>
+              
+              <!-- Step 2: Metabolism & Interactions -->
+              <div class="plan-loader-step step-2">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                    <path d="M12 3C12 3 8 5.5 8 9C8 11.5 9.5 13 12 13C14.5 13 16 11.5 16 9C16 5.5 12 3 12 3Z" fill="currentColor" opacity="0.3"/>
+                    <path d="M12 13C12 13 8 15.5 8 19C8 21.5 9.5 23 12 23C14.5 23 16 21.5 16 19C16 15.5 12 13 12 13Z" fill="currentColor" opacity="0.3"/>
+                    <path d="M4 8C4 8 2 10.5 2 13C2 14.5 3 16 4.5 16C6 16 7.5 14.5 7.5 13C7.5 10.5 4 8 4 8Z" fill="currentColor"/>
+                    <path d="M20 8C20 8 22 10.5 22 13C22 14.5 21 16 19.5 16C18 16 16.5 14.5 16.5 13C16.5 10.5 20 8 20 8Z" fill="currentColor"/>
+                    <path d="M12 3L12 23M8 9C8 9 4 8 4 8M16 9C16 9 20 8 20 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="step-text">
+                  <div class="step-title">
+                    Stoffwechsel & Wechselwirkungen werden berechnet …
+                    <span class="step-counter">0/128</span>
+                  </div>
+                  <div class="step-subtitle">Leberenzyme und mögliche Interaktionen werden simuliert</div>
+                  <div class="step-progress">
+                    <div class="step-progress-bar" data-step="2"></div>
+                  </div>
+                  <div class="step-percentage">0%</div>
+                </div>
+              </div>
+              
+              <!-- Step 3: Plan Construction -->
+              <div class="plan-loader-step step-3">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <path d="M3 9H21M9 3V21" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M12 12L17 17M12 17L17 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+                    <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+                    <circle cx="6" cy="15" r="1.5" fill="currentColor" opacity="0.7"/>
+                    <circle cx="15" cy="6" r="1.5" fill="currentColor" opacity="0.7"/>
+                  </svg>
+                </div>
+                <div class="step-text">
+                  <div class="step-title">
+                    Orientierungsplan wird konstruiert …
+                    <span class="step-counter">0/89</span>
+                  </div>
+                  <div class="step-subtitle">Ihr persönlicher MEDLESS-Orientierungsplan wird aufgebaut</div>
+                  <div class="step-progress">
+                    <div class="step-progress-bar" data-step="3"></div>
+                  </div>
+                  <div class="step-percentage">0%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+          <!-- Final "Plan ist fertig!" Message (hidden initially) -->
+          <div id="plan-ready-message" style="display: none; margin-top: 1rem;">
+            <div id="plan-ready-card" style="background: linear-gradient(135deg, medless-primary-dark 0%, medless-primary-dark 100%); padding: 1.5rem; border-radius: 14px; box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3); text-align: center; animation: gentle-pulse 2s ease-in-out infinite;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-file-medical" style="color: white; "></i>
+                <h3 style="margin: 0;  font-weight: 300; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Ihr persönlicher MEDLESS-Orientierungsplan ist fertig!</h3>
+              </div>
+              <p style="margin: 0; color: rgba(255,255,255,0.95);  font-weight: 500; margin-bottom: 1rem;">
+                Ihr persönlicher Orientierungsplan wurde erstellt. Er fasst Ihre Angaben zu Medikamenten und Einnahmezeiten übersichtlich zusammen und dient als Grundlage für das Gespräch mit Ihrem Arzt. MEDLESS ersetzt keine ärztliche Beratung und ist kein Medizinprodukt.
+              </p>
+              <button id="show-plan-button" style="
+                background: white;
+                color: medless-primary-dark;
+                border: none;
+                padding: 0.75rem 1.75rem;
+                border-radius: 24px;
+                
+                font-weight: 400;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.6rem;
+              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+                <i class="fas fa-eye" style=""></i>
+                <span>Plan jetzt anzeigen</span>
+              </button>
+              <p style="margin: 0.75rem 0 0 0; color: rgba(255,255,255,0.8); ">
+                <i class="fas fa-info-circle" style="margin-right: 0.3rem;"></i>
+                Klicken Sie auf den Button wenn Sie bereit sind
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+          
+
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="results" class="hidden" style="margin-top: 2rem;"></div>
+      
+      <!-- DNA Scanner Animation Script -->
+      <script>
+        // Animate DNA Scanner Loader with Counters & Progress Bars
+        function animateDNAScanner() {
+          console.log('🧬 DNA Scanner Animation started');
+          
+          // Get all elements
+          const step1Counter = document.querySelector('.step-1 .step-counter');
+          const step1ProgressBar = document.querySelector('.step-progress-bar[data-step="1"]');
+          const step1Percentage = document.querySelector('.step-1 .step-percentage');
+          
+          const step2Counter = document.querySelector('.step-2 .step-counter');
+          const step2ProgressBar = document.querySelector('.step-progress-bar[data-step="2"]');
+          const step2Percentage = document.querySelector('.step-2 .step-percentage');
+          
+          const step3Counter = document.querySelector('.step-3 .step-counter');
+          const step3ProgressBar = document.querySelector('.step-progress-bar[data-step="3"]');
+          const step3Percentage = document.querySelector('.step-3 .step-percentage');
+          
+          // Check if all elements exist
+          if (!step1Counter || !step1ProgressBar || !step1Percentage) {
+            console.warn('⚠️ DNA Scanner elements not found');
+            return;
+          }
+          
+          // Animation config: [maxCount, duration, delay]
+          const steps = [
+            { max: 47, duration: 3500, delay: 600, elements: { counter: step1Counter, bar: step1ProgressBar, percentage: step1Percentage } },   // Step 1: 47 medications
+            { max: 128, duration: 4000, delay: 1200, elements: { counter: step2Counter, bar: step2ProgressBar, percentage: step2Percentage } },  // Step 2: 128 interactions
+            { max: 89, duration: 3000, delay: 1800, elements: { counter: step3Counter, bar: step3ProgressBar, percentage: step3Percentage } }    // Step 3: 89 calculations
+          ];
+          
+          // Animate each step sequentially
+          steps.forEach((step, index) => {
+            setTimeout(() => {
+              const { max, duration, elements } = step;
+              const startTime = Date.now();
+              
+              // Animation interval
+              const interval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(100, (elapsed / duration) * 100);
+                const currentCount = Math.floor((progress / 100) * max);
+                
+                // Update counter
+                if (elements.counter) {
+                  elements.counter.textContent = currentCount + '/' + max;
+                }
+                
+                // Update progress bar
+                if (elements.bar) {
+                  elements.bar.style.width = progress + '%';
+                }
+                
+                // Update percentage
+                if (elements.percentage) {
+                  elements.percentage.textContent = Math.round(progress) + '%';
+                }
+                
+                // Stop when complete
+                if (progress >= 100) {
+                  clearInterval(interval);
+                  console.log('✅ Step ' + (index + 1) + ' complete: ' + max + '/' + max);
+                }
+              }, 50); // Update every 50ms for smooth animation
+              
+            }, step.delay);
+          });
+        }
+        
+        // Auto-start animation when loader is visible
+        const loadingObserver = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            const loadingEl = document.getElementById('loading');
+            if (loadingEl && !loadingEl.classList.contains('hidden')) {
+              console.log('🎬 Loader visible - starting DNA Scanner animation');
+              animateDNAScanner();
+              loadingObserver.disconnect(); // Stop observing after first trigger
+            }
+          });
+        });
+        
+        // Start observing when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', () => {
+            const loadingEl = document.getElementById('loading');
+            if (loadingEl) {
+              loadingObserver.observe(loadingEl, { attributes: true, attributeFilter: ['class'] });
+            }
+          });
+        } else {
+          const loadingEl = document.getElementById('loading');
+          if (loadingEl) {
+            loadingObserver.observe(loadingEl, { attributes: true, attributeFilter: ['class'] });
+          }
+        }
+      </script>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    // Tabs umschalten
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabPanels = document.querySelectorAll(".tab-panel");
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.target;
+        tabButtons.forEach((b) => b.classList.remove("active"));
+        tabPanels.forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(target).classList.add("active");
+      });
+    });
+
+    // Medikamenten-Zeilen dynamisch
+    const medList = document.getElementById("med-list");
+    const btnAddMed = document.getElementById("btn-add-med");
+
+    function addMedRow() {
+      const wrapper = document.createElement("div");
+      wrapper.className = "med-row";
+
+      wrapper.innerHTML = \`
+        <input type="text" name="medName[]" placeholder="Name des Medikaments" />
+        <input type="text" name="medDose[]" placeholder="z. B. 10 mg morgens, 10 mg abends" />
+        <button type="button" class="btn-small btn-remove-med">Entfernen</button>
+      \`;
+
+      medList.appendChild(wrapper);
+
+      wrapper.querySelector(".btn-remove-med").addEventListener("click", () => {
+        medList.removeChild(wrapper);
+      });
+    }
+
+    if (btnAddMed) {
+      btnAddMed.addEventListener("click", addMedRow);
+      // mindestens eine Zeile beim Start
+      addMedRow();
+    }
+
+    // Formulare aktuell nur Demo: hier später API-Aufrufe einbauen
+    function handleDemoSubmit(formId) {
+      const form = document.getElementById(formId);
+      if (!form) return;
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert(
+          "Hier kannst du deinen Backend-Aufruf einbauen.\\n\\nAktuell ist dies nur eine Demo-Oberfläche."
+        );
+      });
+    }
+
+    handleDemoSubmit("form-manual");
+    handleDemoSubmit("form-photo");
+  </script>
+
+  <script>
+    // Multi-Step Wizard Navigation
+    let currentStep = 1;
+    const totalSteps = 5;
+    
+    function showStep(stepNumber) {
+      // Fade-Out current step (150ms)
+      const currentStepEl = document.getElementById(\`step-\${currentStep}\
