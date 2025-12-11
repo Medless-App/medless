@@ -1,4 +1,91 @@
 // ============================================================
+// BOOTSTRAP ENTRY POINT - Dynamic Wizard Rendering
+// ============================================================
+
+/**
+ * Bootstrap the Medless App by rendering the complete Wizard UI into #root
+ * This replaces the need for server-rendered HTML
+ */
+function bootstrapMedlessApp() {
+  console.log('🚀 bootstrapMedlessApp() - Initializing Medless Wizard');
+  
+  const root = document.getElementById('root');
+  if (!root) {
+    console.error('❌ Root element #root not found - cannot bootstrap app');
+    return;
+  }
+  
+  // Render complete Wizard HTML into root
+  root.innerHTML = `
+    <div class="min-h-screen bg-gray-50 py-8 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">MEDLESS Orientierungsplan</h1>
+        
+        <!-- Error Box -->
+        <div id="error-box" class="hidden mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <p id="error-message" class="text-red-800"></p>
+        </div>
+        
+        <!-- Main Form -->
+        <form id="medication-form" class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6">Schritt 3: Medikation</h2>
+          
+          <!-- Empty State -->
+          <div id="empty-state" class="text-center py-8 text-gray-500">
+            <p class="mb-4">Noch keine Medikamente hinzugefügt</p>
+          </div>
+          
+          <!-- Medication Inputs Container -->
+          <div id="medication-inputs" class="space-y-4 mb-6"></div>
+          
+          <!-- Add Medication Button -->
+          <button type="button" id="add-medication" class="w-full py-3 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+            + Medikament hinzufügen
+          </button>
+          
+          <!-- Submit Button -->
+          <button type="submit" class="mt-6 w-full py-3 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+            Orientierungsplan erstellen
+          </button>
+        </form>
+        
+        <!-- Loading Indicator -->
+        <div id="loading" class="hidden mt-8 text-center">
+          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          <p class="mt-4 text-gray-600">Plan wird erstellt...</p>
+        </div>
+        
+        <!-- Results Container -->
+        <div id="results" class="hidden mt-8"></div>
+        
+        <!-- Particles Container (for animations) -->
+        <div id="particles-container" class="fixed inset-0 pointer-events-none"></div>
+        
+        <!-- Step 3 (for Observer compatibility) -->
+        <div id="step-3" class="hidden"></div>
+      </div>
+    </div>
+  `;
+  
+  console.log('✅ Wizard HTML rendered into #root');
+  console.log('✅ DOM elements created: medication-form, medication-inputs, add-medication');
+}
+
+// Initialize app IMMEDIATELY when this script loads
+// This ensures the DOM is created BEFORE the main DOMContentLoaded listener fires
+(function initializeApp() {
+  if (document.readyState === 'loading') {
+    // DOM not ready yet - wait for DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+      bootstrapMedlessApp();
+    }, { once: true, capture: true }); // Run BEFORE other listeners
+  } else {
+    // DOM already loaded - run immediately
+    bootstrapMedlessApp();
+  }
+})();
+
+// ============================================================
 // UX HELPER FUNCTIONS - Professional Error Display
 // ============================================================
 
