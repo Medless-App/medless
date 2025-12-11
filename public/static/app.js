@@ -39,12 +39,12 @@ function bootstrapMedlessApp() {
           <div id="medication-inputs" class="space-y-4 mb-6"></div>
           
           <!-- Add Medication Button -->
-          <button type="button" id="add-medication" class="w-full py-3 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+          <button type="button" id="add-medication" class="w-full py-3 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-semibold">
             + Medikament hinzufügen
           </button>
           
-          <!-- Submit Button -->
-          <button type="submit" class="mt-6 w-full py-3 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+          <!-- Submit Button (initially hidden until medications are added) -->
+          <button type="submit" id="submit-button" class="hidden mt-6 w-full py-3 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-semibold">
             Orientierungsplan erstellen
           </button>
         </form>
@@ -52,7 +52,7 @@ function bootstrapMedlessApp() {
         <!-- Loading Indicator -->
         <div id="loading" class="hidden mt-8 text-center">
           <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-          <p class="mt-4 text-gray-600">Plan wird erstellt...</p>
+          <p class="mt-4 text-gray-600">Wird erstellt...</p>
         </div>
         
         <!-- Results Container -->
@@ -700,6 +700,12 @@ function createMedicationInput() {
   
   medicationCount++;
   
+  // Show submit button when first medication is added
+  const submitButton = document.getElementById('submit-button');
+  if (submitButton && medicationCount > 0) {
+    submitButton.classList.remove('hidden');
+  }
+  
   const inputGroup = document.createElement('div');
   inputGroup.className = 'medication-input-group';
   inputGroup.style.cssText = 'margin-bottom: 1.5rem;';
@@ -790,6 +796,14 @@ document.addEventListener('click', (e) => {
     if (group) {
       group.remove();
       medicationCount--;
+      
+      // Hide submit button if no medications remain
+      if (medicationCount === 0) {
+        const submitButton = document.getElementById('submit-button');
+        if (submitButton) {
+          submitButton.classList.add('hidden');
+        }
+      }
     }
   }
 });
