@@ -3391,17 +3391,120 @@ app.get('/app', (c) => {
 
         <div class="button-row">
           <button type="button" onclick="showStep(1)" style="background: white !important; color: #2FB585 !important; border: 2px solid #2FB585 !important; margin-right: 10px;">← Zurück</button>
-          <button type="button" onclick="alert('Wizard funktioniert! Weitere Schritte folgen.')">Weiter →</button>
+          <button type="button" onclick="showStep(3)">Weiter →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div id="step-3" class="form-step step-hidden">
+        <h2 style="font-size: 24px; font-weight: 300; margin-bottom: 10px; color: #1B2A36;">Schritt 3: Ihre Medikation</h2>
+        <p style="color: #5E6A71; margin-bottom: 25px;">Geben Sie hier Ihre aktuellen Medikamente ein.</p>
+        
+        <div id="medication-list"></div>
+        
+        <button type="button" onclick="addMedication()" style="background: white !important; color: #2FB585 !important; border: 2px solid #2FB585 !important; margin-top: 15px;">+ Medikament hinzufügen</button>
+
+        <div class="button-row">
+          <button type="button" onclick="showStep(2)" style="background: white !important; color: #2FB585 !important; border: 2px solid #2FB585 !important; margin-right: 10px;">← Zurück</button>
+          <button type="button" onclick="showStep(4)">Weiter →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div id="step-4" class="form-step step-hidden">
+        <h2 style="font-size: 24px; font-weight: 300; margin-bottom: 10px; color: #1B2A36;">Schritt 4: Plan-Einstellungen</h2>
+        <p style="color: #5E6A71; margin-bottom: 25px;">Über welchen Zeitraum möchten Sie den Plan erstellen?</p>
+        
+        <div class="form-group">
+          <label>Zeitraum *</label>
+          <div class="radio-group" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="radio-option">
+              <input type="radio" id="duration-7" name="duration" value="7" required checked>
+              <label for="duration-7">7 Tage</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="duration-14" name="duration" value="14">
+              <label for="duration-14">14 Tage</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="duration-30" name="duration" value="30">
+              <label for="duration-30">30 Tage</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="duration-90" name="duration" value="90">
+              <label for="duration-90">90 Tage</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button type="button" onclick="showStep(3)" style="background: white !important; color: #2FB585 !important; border: 2px solid #2FB585 !important; margin-right: 10px;">← Zurück</button>
+          <button type="button" onclick="showStep(5)">Weiter →</button>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div id="step-5" class="form-step step-hidden">
+        <h2 style="font-size: 24px; font-weight: 300; margin-bottom: 10px; color: #1B2A36;">Schritt 5: Zusammenfassung</h2>
+        <p style="color: #5E6A71; margin-bottom: 25px;">Überprüfen Sie Ihre Angaben.</p>
+        
+        <div id="summary" style="background: #F8F9FA; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+          <!-- Summary will be populated by JavaScript -->
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-Mail-Adresse *</label>
+          <input type="email" id="email" name="email" placeholder="ihre@email.de" required>
+          <small style="color: #5E6A71; font-size: 13px; margin-top: 5px; display: block;">
+            Wir senden Ihnen den Download-Link zu Ihrem Orientierungsplan.
+          </small>
+        </div>
+
+        <div class="button-row">
+          <button type="button" onclick="showStep(4)" style="background: white !important; color: #2FB585 !important; border: 2px solid #2FB585 !important; margin-right: 10px;">← Zurück</button>
+          <button type="button" onclick="generatePlan()" id="generate-btn">Orientierungsplan erstellen ✓</button>
         </div>
       </div>
     </form>
+
+    <!-- LOADING OVERLAY -->
+    <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
+      <div style="background: white; padding: 40px; border-radius: 16px; text-align: center; max-width: 400px;">
+        <div style="width: 60px; height: 60px; border: 4px solid #E9ECEF; border-top-color: #2FB585; border-radius: 50%; margin: 0 auto 20px; animation: spin 1s linear infinite;"></div>
+        <h3 style="color: #1B2A36; margin-bottom: 10px;">Ihr Orientierungsplan wird erstellt...</h3>
+        <p style="color: #5E6A71; font-size: 14px;">Bitte warten Sie einen Moment.</p>
+      </div>
+    </div>
+
+    <!-- SUCCESS OVERLAY -->
+    <div id="success-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
+      <div style="background: white; padding: 40px; border-radius: 16px; text-align: center; max-width: 500px;">
+        <div style="width: 80px; height: 80px; background: #E7F8EF; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 40px;">✓</div>
+        <h3 style="color: #2FB585; margin-bottom: 15px; font-size: 24px;">Erfolgreich erstellt!</h3>
+        <p style="color: #5E6A71; font-size: 16px; margin-bottom: 25px;">Ihr MEDLESS-Orientierungsplan wurde erstellt.</p>
+        <button type="button" onclick="downloadPDF()" style="width: 100%; margin-bottom: 10px;">PDF herunterladen</button>
+        <button type="button" onclick="window.location.reload()" style="background: white !important; color: #2FB585 !important; border: 2px solid #2FB585 !important; width: 100%;">Neuen Plan erstellen</button>
+      </div>
+    </div>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
   console.log('✅ MEDLESS Wizard loaded successfully');
   
+  let medicationCount = 0;
+  let wizardData = {};
+
+  // Add spin animation
+  const style = document.createElement('style');
+  style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+  document.head.appendChild(style);
+  
   function showStep(stepNumber) {
+    // Collect data from current step before moving
+    collectStepData();
+    
     // Hide all steps
     const steps = document.querySelectorAll('.form-step');
     steps.forEach(step => {
@@ -3413,11 +3516,163 @@ app.get('/app', (c) => {
     if (targetStep) {
       targetStep.classList.remove('step-hidden');
       console.log('Showing step ' + stepNumber);
+      
+      // If step 5, populate summary
+      if (stepNumber === 5) {
+        populateSummary();
+      }
     }
+    
+    // Scroll to top
+    window.scrollTo(0, 0);
   }
   
-  // Initialize: Show step 1
+  function collectStepData() {
+    // Collect form data
+    wizardData.firstName = document.getElementById('first-name')?.value || '';
+    wizardData.gender = document.querySelector('input[name="gender"]:checked')?.value || '';
+    wizardData.age = document.getElementById('age')?.value || '';
+    wizardData.weight = document.getElementById('weight')?.value || '';
+    wizardData.height = document.getElementById('height')?.value || '';
+    wizardData.email = document.getElementById('email')?.value || '';
+    wizardData.duration = document.querySelector('input[name="duration"]:checked')?.value || '7';
+    
+    // Collect medications
+    const medInputs = document.querySelectorAll('.med-input');
+    wizardData.medications = [];
+    medInputs.forEach(input => {
+      if (input.value.trim()) {
+        wizardData.medications.push(input.value.trim());
+      }
+    });
+  }
+  
+  function populateSummary() {
+    const summary = document.getElementById('summary');
+    const genderLabel = wizardData.gender === 'herr' ? 'Herr' : wizardData.gender === 'frau' ? 'Frau' : 'Divers';
+    
+    summary.innerHTML = \`
+      <div style="margin-bottom: 20px;">
+        <strong style="color: #1B2A36;">Persönliche Angaben</strong>
+        <p style="color: #5E6A71; margin: 5px 0;">Name: \${wizardData.firstName}</p>
+        <p style="color: #5E6A71; margin: 5px 0;">Geschlecht: \${genderLabel}</p>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <strong style="color: #1B2A36;">Körperdaten</strong>
+        <p style="color: #5E6A71; margin: 5px 0;">Alter: \${wizardData.age} Jahre</p>
+        <p style="color: #5E6A71; margin: 5px 0;">Gewicht: \${wizardData.weight} kg</p>
+        <p style="color: #5E6A71; margin: 5px 0;">Größe: \${wizardData.height} cm</p>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <strong style="color: #1B2A36;">Medikation</strong>
+        \${wizardData.medications.length > 0 
+          ? wizardData.medications.map(med => \`<p style="color: #5E6A71; margin: 5px 0;">• \${med}</p>\`).join('')
+          : '<p style="color: #5E6A71; margin: 5px 0;">Keine Medikamente angegeben</p>'}
+      </div>
+      <div>
+        <strong style="color: #1B2A36;">Zeitraum</strong>
+        <p style="color: #5E6A71; margin: 5px 0;">\${wizardData.duration} Tage</p>
+      </div>
+    \`;
+  }
+  
+  function addMedication() {
+    medicationCount++;
+    const medList = document.getElementById('medication-list');
+    const medDiv = document.createElement('div');
+    medDiv.className = 'form-group';
+    medDiv.innerHTML = \`
+      <label for="med-\${medicationCount}">Medikament \${medicationCount}</label>
+      <div style="display: flex; gap: 10px;">
+        <input type="text" id="med-\${medicationCount}" class="med-input" placeholder="z.B. Ibuprofen 400mg" style="flex: 1;">
+        <button type="button" onclick="this.parentElement.parentElement.remove()" style="background: #dc2626 !important; padding: 12px 20px !important; min-width: auto;">✕</button>
+      </div>
+    \`;
+    medList.appendChild(medDiv);
+  }
+  
+  function generatePlan() {
+    collectStepData();
+    
+    // Validate email
+    if (!wizardData.email || !wizardData.email.includes('@')) {
+      alert('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
+      return;
+    }
+    
+    // Show loading
+    document.getElementById('loading-overlay').style.display = 'flex';
+    
+    // Simulate API call
+    setTimeout(() => {
+      document.getElementById('loading-overlay').style.display = 'none';
+      document.getElementById('success-overlay').style.display = 'flex';
+    }, 2000);
+  }
+  
+  function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Title
+    doc.setFontSize(20);
+    doc.setTextColor(47, 181, 133);
+    doc.text('MEDLESS-Orientierungsplan', 20, 20);
+    
+    // Date
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text('Erstellt am: ' + new Date().toLocaleDateString('de-DE'), 20, 30);
+    
+    // Personal data
+    doc.setFontSize(14);
+    doc.setTextColor(0);
+    doc.text('Persönliche Angaben', 20, 45);
+    doc.setFontSize(11);
+    doc.text(\`Name: \${wizardData.firstName}\`, 20, 55);
+    doc.text(\`Geschlecht: \${wizardData.gender === 'herr' ? 'Herr' : wizardData.gender === 'frau' ? 'Frau' : 'Divers'}\`, 20, 62);
+    
+    // Body data
+    doc.setFontSize(14);
+    doc.text('Körperdaten', 20, 75);
+    doc.setFontSize(11);
+    doc.text(\`Alter: \${wizardData.age} Jahre\`, 20, 85);
+    doc.text(\`Gewicht: \${wizardData.weight} kg\`, 20, 92);
+    doc.text(\`Größe: \${wizardData.height} cm\`, 20, 99);
+    
+    // Medications
+    doc.setFontSize(14);
+    doc.text('Medikation', 20, 112);
+    doc.setFontSize(11);
+    let yPos = 122;
+    if (wizardData.medications.length > 0) {
+      wizardData.medications.forEach(med => {
+        doc.text(\`• \${med}\`, 20, yPos);
+        yPos += 7;
+      });
+    } else {
+      doc.text('Keine Medikamente angegeben', 20, yPos);
+    }
+    
+    // Duration
+    doc.setFontSize(14);
+    doc.text('Zeitraum', 20, yPos + 13);
+    doc.setFontSize(11);
+    doc.text(\`\${wizardData.duration} Tage\`, 20, yPos + 23);
+    
+    // Footer
+    doc.setFontSize(9);
+    doc.setTextColor(150);
+    doc.text('Dieser Orientierungsplan wurde mit MEDLESS erstellt.', 20, 280);
+    doc.text('Bitte besprechen Sie alle Änderungen mit Ihrem Arzt.', 20, 286);
+    
+    // Save
+    doc.save(\`MEDLESS-Orientierungsplan-\${wizardData.firstName}-\${new Date().toISOString().split('T')[0]}.pdf\`);
+  }
+  
+  // Initialize: Show step 1 and add first medication field
   showStep(1);
+  addMedication();
 </script>
 
 </body>
