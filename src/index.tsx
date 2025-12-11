@@ -3199,6 +3199,28 @@ app.get('/app', (c) => {
   <!-- Google Fonts - Inter (Fresh & Fine Design) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
   
+  <!-- CRITICAL CSS FALLBACK - Always visible -->
+  <style>
+    /* Emergency fallback to ensure content is ALWAYS visible */
+    body {
+      background-color: #FAFEFB !important; /* light green background */
+      color: #111111 !important;            /* dark text */
+      min-height: 100vh;
+    }
+    main {
+      min-height: 100vh;
+      display: block !important;
+    }
+    #tool {
+      background: white !important;
+      padding: 20px !important;
+      display: block !important;
+    }
+    .form-step {
+      display: block !important;
+    }
+  </style>
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -4011,6 +4033,14 @@ app.get('/app', (c) => {
 
   <!-- MAIN CONTENT - MEDLESS Layout -->
   <main class="flex-grow bg-medless-bg-ultra-light">
+    
+    <!-- 🚨 DEBUG BLOCK - REMOVE AFTER FIX -->
+    <div style="padding: 40px; font-size: 24px; color: #000; background: #ffecb3; border: 3px solid #ff6b00; margin: 20px;">
+      🚨 DEBUG: APP-WIZARD CONTENT SOLLTE HIER DARUNTER SICHTBAR SEIN
+      <br>
+      <span style="font-size: 16px; color: #666;">Wenn Sie diesen gelben Block sehen, ist das Template OK. Wenn nicht, liegt ein Routing-Problem vor.</span>
+    </div>
+    
     <div class="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-14">
       
       <!-- HERO SECTION - MEDLESS STYLE -->
