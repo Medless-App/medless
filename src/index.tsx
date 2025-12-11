@@ -3188,50 +3188,27 @@ app.get('/app', (c) => {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>MEDLESS Wizard – Strukturtest</title>
-      <style>
-        body { background: #fafefb; font-family: Arial; padding: 20px; }
-        h1 { color: #2FB585; }
-        .card {
-          background: white;
-          border: 1px solid #dce9e2;
-          padding: 20px;
-          border-radius: 12px;
-          max-width: 800px;
-        }
-        .step { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; }
-        .hidden { display: none; }
-      </style>
+      <title>MEDLESS – Tailwind Test</title>
+
+      <!-- Minimal Tailwind CDN -->
+      <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-      <h1>MEDLESS Wizard – Strukturtest</h1>
-      <div class="card">
-        <div id="step-1" class="step">
-          <h2>Schritt 1 – Persönliche Angaben</h2>
-          <p>Vorname: _______</p>
-          <p>Geschlecht: Herr / Frau / Divers</p>
-        </div>
+    <body class="bg-green-50 p-10">
 
-        <div id="step-2" class="step">
-          <h2>Schritt 2 – Körperdaten</h2>
-          <p>Alter, Gewicht, Größe…</p>
-        </div>
+      <h1 class="text-3xl font-bold text-green-600 mb-6">
+        MEDLESS Tailwind – Basistest
+      </h1>
 
-        <div id="step-3" class="step">
-          <h2>Schritt 3 – Medikation</h2>
-          <p>Medikamentenliste…</p>
-        </div>
+      <div class="p-6 bg-white rounded-xl shadow text-gray-700">
+        <p class="text-red-500 font-semibold">
+          Wenn dieser Text ROT ist, funktioniert Tailwind korrekt.
+        </p>
 
-        <div id="step-4" class="step">
-          <h2>Schritt 4 – Plan-Erstellung</h2>
-          <p>Orientierungsplan…</p>
-        </div>
-
-        <div id="step-5" class="step">
-          <h2>Schritt 5 – Zusammenfassung</h2>
-          <p>Übersicht & PDF Download…</p>
-        </div>
+        <p class="mt-4">
+          Jetzt testen wir Schritt für Schritt den Wizard in Tailwind.
+        </p>
       </div>
+
     </body>
     </html>
   `);
