@@ -2208,189 +2208,205 @@ app.get('/magazin', (c) => {
     ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-gray-50">
+<body class="m-0 font-['Inter'] bg-medless-bg-ultra-light">
   
   ${getCanonicalHeader('magazin')}
 
-  <!-- HERO SECTION (TAILWIND) - OPTIMIERT -->
-  <section class="bg-gradient-to-b from-[#F3FFF8] via-[#F7FFF9] to-[#FAFFFA] py-10 md:py-14 px-8 text-center">
-    <div class="max-w-3xl mx-auto">
-      <h1 class="text-section-title text-medless-text-primary mt-0 mb-3">MEDLESS Magazin</h1>
-      <p class="text-article-subtitle text-medless-text-secondary">
-        Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.
-      </p>
+  <!-- HERO SECTION - MEDLESS CARD STYLE -->
+  <section class="py-10 md:py-16 px-4 md:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="rounded-medless-lg bg-medless-bg-light border border-medless-border-light shadow-medless-card px-6 py-8 md:px-10 md:py-10 text-center">
+        <h1 class="text-section-title text-medless-text-primary mt-0 mb-3">MEDLESS Magazin</h1>
+        <p class="text-article-body text-medless-text-secondary max-w-3xl mx-auto">
+          Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.
+        </p>
+      </div>
     </div>
   </section>
 
-  <!-- ARTICLES GRID (TAILWIND) -->
-  <section class="max-w-7xl mx-auto px-8 py-section">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <!-- ARTICLES GRID -->
+  <section class="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
       
       <!-- Artikel: ECS erklärt -->
-      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+      <article class="group bg-white border border-medless-border-light rounded-medless-lg overflow-hidden shadow-medless-card hover:shadow-medless-card-hover transition-all duration-medless flex flex-col">
         <a href="/magazin/endocannabinoid-system-erklaert" class="block">
-          <div class="overflow-hidden">
+          <div class="overflow-hidden aspect-[4/3]">
             <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&h=400&fit=crop" 
                  alt="Das Endocannabinoid-System erklärt" 
                  loading="lazy"
-                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-medless" />
           </div>
         </a>
-        <div class="p-6">
-          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
-            <a href="/magazin/endocannabinoid-system-erklaert">Das Endocannabinoid-System erklärt</a>
+        <div class="p-5 md:p-6 flex flex-col flex-1">
+          <h3 class="text-card-title text-medless-text-primary mb-2">
+            <a href="/magazin/endocannabinoid-system-erklaert" class="hover:text-medless-primary transition-colors duration-medless">Das Endocannabinoid-System erklärt</a>
           </h3>
-          <p class="text-card-description text-medless-text-secondary mb-4">
+          <p class="text-sm text-medless-text-secondary mb-4">
             Erfahre, wie dein körpereigenes Schutzschild funktioniert und warum es so wichtig für deine Gesundheit ist.
           </p>
-          <a href="/magazin/endocannabinoid-system-erklaert" 
-             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
-            Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </a>
+          <div class="mt-auto pt-2">
+            <a href="/magazin/endocannabinoid-system-erklaert" 
+               class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
+              Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
         </div>
       </article>
       
       <!-- Artikel: 7 Fehler -->
-      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+      <article class="group bg-white border border-medless-border-light rounded-medless-lg overflow-hidden shadow-medless-card hover:shadow-medless-card-hover transition-all duration-medless flex flex-col">
         <a href="/magazin/medikamente-absetzen-7-fehler" class="block">
-          <div class="overflow-hidden">
+          <div class="overflow-hidden aspect-[4/3]">
             <img src="https://www.genspark.ai/api/files/s/KMI6cvDz" 
                  alt="7 Fehler beim Medikamente absetzen - Kalter Entzug vs. Sicher ausschleichen" 
                  loading="lazy"
-                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-medless" />
           </div>
         </a>
-        <div class="p-6">
-          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
-            <a href="/magazin/medikamente-absetzen-7-fehler">7 Fehler beim Medikamente absetzen</a>
+        <div class="p-5 md:p-6 flex flex-col flex-1">
+          <h3 class="text-card-title text-medless-text-primary mb-2">
+            <a href="/magazin/medikamente-absetzen-7-fehler" class="hover:text-medless-primary transition-colors duration-medless">7 Fehler beim Medikamente absetzen</a>
           </h3>
-          <p class="text-card-description text-medless-text-secondary mb-4">
+          <p class="text-sm text-medless-text-secondary mb-4">
             Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.
           </p>
-          <a href="/magazin/medikamente-absetzen-7-fehler" 
-             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+          <div class="mt-auto pt-2">
+            <a href="/magazin/medikamente-absetzen-7-fehler" 
+               class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
+          </div>
         </div>
       </article>
       
       <!-- Artikel: Antidepressiva -->
-      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+      <article class="group bg-white border border-medless-border-light rounded-medless-lg overflow-hidden shadow-medless-card hover:shadow-medless-card-hover transition-all duration-medless flex flex-col">
         <a href="/magazin/antidepressiva-absetzen-ohne-entzug" class="block">
-          <div class="overflow-hidden">
+          <div class="overflow-hidden aspect-[4/3]">
             <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop" 
                  alt="Antidepressiva absetzen ohne Entzug" 
                  loading="lazy"
-                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-medless" />
           </div>
         </a>
-        <div class="p-6">
-          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
-            <a href="/magazin/antidepressiva-absetzen-ohne-entzug">Antidepressiva absetzen ohne Entzug</a>
+        <div class="p-5 md:p-6 flex flex-col flex-1">
+          <h3 class="text-card-title text-medless-text-primary mb-2">
+            <a href="/magazin/antidepressiva-absetzen-ohne-entzug" class="hover:text-medless-primary transition-colors duration-medless">Antidepressiva absetzen ohne Entzug</a>
           </h3>
-          <p class="text-card-description text-medless-text-secondary mb-4">
+          <p class="text-sm text-medless-text-secondary mb-4">
             Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.
           </p>
-          <a href="/magazin/antidepressiva-absetzen-ohne-entzug" 
-             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+          <div class="mt-auto pt-2">
+            <a href="/magazin/antidepressiva-absetzen-ohne-entzug" 
+               class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
+          </div>
         </div>
       </article>
       
       <!-- Artikel: Schlaftabletten -->
-      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+      <article class="group bg-white border border-medless-border-light rounded-medless-lg overflow-hidden shadow-medless-card hover:shadow-medless-card-hover transition-all duration-medless flex flex-col">
         <a href="/magazin/schlaftabletten-loswerden" class="block">
-          <div class="overflow-hidden">
+          <div class="overflow-hidden aspect-[4/3]">
             <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop" 
                  alt="Schlaftabletten loswerden" 
                  loading="lazy"
-                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-medless" />
           </div>
         </a>
-        <div class="p-6">
-          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
-            <a href="/magazin/schlaftabletten-loswerden">Schlaftabletten loswerden</a>
+        <div class="p-5 md:p-6 flex flex-col flex-1">
+          <h3 class="text-card-title text-medless-text-primary mb-2">
+            <a href="/magazin/schlaftabletten-loswerden" class="hover:text-medless-primary transition-colors duration-medless">Schlaftabletten loswerden</a>
           </h3>
-          <p class="text-card-description text-medless-text-secondary mb-4">
+          <p class="text-sm text-medless-text-secondary mb-4">
             Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.
           </p>
-          <a href="/magazin/schlaftabletten-loswerden" 
-             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+          <div class="mt-auto pt-2">
+            <a href="/magazin/schlaftabletten-loswerden" 
+               class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
+          </div>
         </div>
       </article>
       
       <!-- Artikel: CBD Studien -->
-      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+      <article class="group bg-white border border-medless-border-light rounded-medless-lg overflow-hidden shadow-medless-card hover:shadow-medless-card-hover transition-all duration-medless flex flex-col">
         <a href="/magazin/cbd-studien-und-fakten" class="block">
-          <div class="overflow-hidden">
+          <div class="overflow-hidden aspect-[4/3]">
             <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop" 
                  alt="CBD: Studien und Fakten" 
                  loading="lazy"
-                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-medless" />
           </div>
         </a>
-        <div class="p-6">
-          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
-            <a href="/magazin/cbd-studien-und-fakten">CBD: Studien und Fakten</a>
+        <div class="p-5 md:p-6 flex flex-col flex-1">
+          <h3 class="text-card-title text-medless-text-primary mb-2">
+            <a href="/magazin/cbd-studien-und-fakten" class="hover:text-medless-primary transition-colors duration-medless">CBD: Studien und Fakten</a>
           </h3>
-          <p class="text-card-description text-medless-text-secondary mb-4">
+          <p class="text-sm text-medless-text-secondary mb-4">
             Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.
           </p>
-          <a href="/magazin/cbd-studien-und-fakten" 
-             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+          <div class="mt-auto pt-2">
+            <a href="/magazin/cbd-studien-und-fakten" 
+               class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
+          </div>
         </div>
       </article>
       
       <!-- Artikel: Magenschutz -->
-      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+      <article class="group bg-white border border-medless-border-light rounded-medless-lg overflow-hidden shadow-medless-card hover:shadow-medless-card-hover transition-all duration-medless flex flex-col">
         <a href="/magazin/magenschutz-absetzen-ppi" class="block">
-          <div class="overflow-hidden">
+          <div class="overflow-hidden aspect-[4/3]">
             <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop" 
                  alt="Magenschutz (PPI) absetzen" 
                  loading="lazy"
-                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-medless" />
           </div>
         </a>
-        <div class="p-6">
-          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
-            <a href="/magazin/magenschutz-absetzen-ppi">Magenschutz (PPI) absetzen</a>
+        <div class="p-5 md:p-6 flex flex-col flex-1">
+          <h3 class="text-card-title text-medless-text-primary mb-2">
+            <a href="/magazin/magenschutz-absetzen-ppi" class="hover:text-medless-primary transition-colors duration-medless">Magenschutz (PPI) absetzen</a>
           </h3>
-          <p class="text-card-description text-medless-text-secondary mb-4">
+          <p class="text-sm text-medless-text-secondary mb-4">
             Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.
           </p>
-          <a href="/magazin/magenschutz-absetzen-ppi" 
-             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+          <div class="mt-auto pt-2">
+            <a href="/magazin/magenschutz-absetzen-ppi" 
+               class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
+          </div>
         </div>
       </article>
       
       <!-- Artikel: 5 Tabletten -->
-      <article class="group bg-white border border-black/[0.06] rounded-medless-lg overflow-hidden hover:-translate-y-1 hover:shadow-medless-card-hover transition-all duration-medless">
+      <article class="group bg-white border border-medless-border-light rounded-medless-lg overflow-hidden shadow-medless-card hover:shadow-medless-card-hover transition-all duration-medless flex flex-col">
         <a href="/magazin/taeglich-5-tabletten" class="block">
-          <div class="overflow-hidden">
+          <div class="overflow-hidden aspect-[4/3]">
             <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop" 
                  alt="Täglich 5 Tabletten – ist das normal?" 
                  loading="lazy"
-                 class="w-full h-56 object-cover group-hover:scale-105 transition-all duration-medless" />
+                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-medless" />
           </div>
         </a>
-        <div class="p-6">
-          <h3 class="text-card-title text-medless-text-primary group-hover:text-medless-primary transition-colors duration-medless mb-3">
-            <a href="/magazin/taeglich-5-tabletten">Täglich 5 Tabletten – ist das normal?</a>
+        <div class="p-5 md:p-6 flex flex-col flex-1">
+          <h3 class="text-card-title text-medless-text-primary mb-2">
+            <a href="/magazin/taeglich-5-tabletten" class="hover:text-medless-primary transition-colors duration-medless">Täglich 5 Tabletten – ist das normal?</a>
           </h3>
-          <p class="text-card-description text-medless-text-secondary mb-4">
+          <p class="text-sm text-medless-text-secondary mb-4">
             Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?
           </p>
-          <a href="/magazin/taeglich-5-tabletten" 
-             class="inline-flex items-center gap-2 text-medless-primary hover:translate-x-1 transition-all duration-medless font-medium">
+          <div class="mt-auto pt-2">
+            <a href="/magazin/taeglich-5-tabletten" 
+               class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
+          </div>
         </div>
       </article>
     </div>
@@ -2433,11 +2449,11 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body class="m-0 font-['Inter'] bg-medless-bg-ultra-light">
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
     
     <article class="mb-8">
       <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">7 Fehler beim Medikamente absetzen</h1>
@@ -2453,17 +2469,19 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
       </div>
     </article>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://www.genspark.ai/api/files/s/KMI6cvDz"
-      alt="7 Fehler beim Medikamente absetzen - Kalter Entzug vs. Sicher ausschleichen"
-      loading="eager"
-    />
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+      <img
+        class="w-full h-full aspect-video object-cover"
+        src="https://www.genspark.ai/api/files/s/KMI6cvDz"
+        alt="7 Fehler beim Medikamente absetzen - Kalter Entzug vs. Sicher ausschleichen"
+        loading="eager"
+      />
+    </div>
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Du willst Medikamente reduzieren? Großartig. Aber Vorsicht: Der falsche Weg kann gefährlich werden. Erfahre hier, warum der "kalte Entzug" scheitert und wie du sicher ausschleichst.</p>
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+        <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Du willst Medikamente reduzieren? Großartig. Aber Vorsicht: Der falsche Weg kann gefährlich werden. Erfahre hier, warum der "kalte Entzug" scheitert und wie du sicher ausschleichst.</p>
       </div>
       
             <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">"Ich setze einfach ab" – warum das fast schiefging</h2>
@@ -2537,11 +2555,11 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body class="m-0 font-['Inter'] bg-medless-bg-ultra-light">
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
     
     <article class="mb-8">
       <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
@@ -2557,17 +2575,19 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       </div>
     </article>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop"
-      alt="Endocannabinoid-System - Körpereigene Regulationssysteme"
-      loading="eager"
-    />
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+      <img
+        class="w-full h-full aspect-video object-cover"
+        src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop"
+        alt="Endocannabinoid-System - Körpereigene Regulationssysteme"
+        loading="eager"
+      />
+    </div>
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Stell dir vor, dein Körper hätte eine eigene Apotheke gegen Schmerz, Stress und Entzündungen – eine biologische Schutzinstanz, die rund um die Uhr arbeitet. Du hast sie bereits: das <strong>Endocannabinoid-System (ECS)</strong>.</p>
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+        <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Stell dir vor, dein Körper hätte eine eigene Apotheke gegen Schmerz, Stress und Entzündungen – eine biologische Schutzinstanz, die rund um die Uhr arbeitet. Du hast sie bereits: das <strong>Endocannabinoid-System (ECS)</strong>.</p>
       </div>
       
       <p>Trotz seiner zentralen Rolle ist das ECS eines der am wenigsten bekannten Körpersysteme – selbst vielen Ärzten. Warum? Weil es erst in den 1990er Jahren entdeckt wurde. Seitdem gilt es als <strong>Regulationssystem des Körpers</strong>, das alles von Schmerzwahrnehmung bis Stimmung beeinflusst.</p>
@@ -2678,11 +2698,11 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body class="m-0 font-['Inter'] bg-medless-bg-ultra-light">
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
     
     <article class="mb-8">
       <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Antidepressiva absetzen ohne Entzug</h1>
@@ -2698,17 +2718,19 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
       </div>
     </article>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop"
-      alt="Antidepressiva absetzen ohne Entzug"
-      loading="eager"
-    />
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+      <img
+        class="w-full h-full aspect-video object-cover"
+        src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop"
+        alt="Antidepressiva absetzen ohne Entzug"
+        loading="eager"
+      />
+    </div>
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Du möchtest Antidepressiva absetzen, hast aber Angst vor dem "Loch" danach? Erfahre, warum Absetzerscheinungen entstehen und wie du sie mit einem 8-Wochen-Plan und ECS-Unterstützung vermeidest.</p>
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+        <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Du möchtest Antidepressiva absetzen, hast aber Angst vor dem "Loch" danach? Erfahre, warum Absetzerscheinungen entstehen und wie du sie mit einem 8-Wochen-Plan und ECS-Unterstützung vermeidest.</p>
       </div>
       
             <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Die Angst vor dem Absetzen: "Schaffe ich das?"</h2>
@@ -2780,11 +2802,11 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body class="m-0 font-['Inter'] bg-medless-bg-ultra-light">
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
     
     <article class="mb-8">
       <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Schlaftabletten loswerden</h1>
@@ -2800,17 +2822,19 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
       </div>
     </article>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop"
-      alt="Schlaftabletten loswerden"
-      loading="eager"
-    />
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+      <img
+        class="w-full h-full aspect-video object-cover"
+        src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop"
+        alt="Schlaftabletten loswerden"
+        loading="eager"
+      />
+    </div>
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Jede Nacht das gleiche Spiel: Ohne Tablette keine Ruhe. Erfahre, wie du die Abhängigkeit durchbrichst und deinem Körper wieder beibringst, natürlich zu schlafen.</p>
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+        <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Jede Nacht das gleiche Spiel: Ohne Tablette keine Ruhe. Erfahre, wie du die Abhängigkeit durchbrichst und deinem Körper wieder beibringst, natürlich zu schlafen.</p>
       </div>
       
             <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Die stille Abhängigkeit: "Ohne geht es nicht mehr"</h2>
@@ -2881,11 +2905,11 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body class="m-0 font-['Inter'] bg-medless-bg-ultra-light">
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
     
     <article class="mb-8">
       <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">CBD: Studien und Fakten</h1>
@@ -2901,17 +2925,19 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
       </div>
     </article>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop"
-      alt="CBD: Studien und Fakten"
-      loading="eager"
-    />
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+      <img
+        class="w-full h-full aspect-video object-cover"
+        src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop"
+        alt="CBD: Studien und Fakten"
+        loading="eager"
+      />
+    </div>
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Überall hörst du: "CBD ist das neue Wundermittel". Doch was stimmt davon? Erfahre, wie CBD dir beim Absetzen von Medikamenten helfen kann – und wo die Risiken liegen.</p>
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+        <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Überall hörst du: "CBD ist das neue Wundermittel". Doch was stimmt davon? Erfahre, wie CBD dir beim Absetzen von Medikamenten helfen kann – und wo die Risiken liegen.</p>
       </div>
       
             <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Zwischen Hype und Realität</h2>
@@ -2981,11 +3007,11 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body class="m-0 font-['Inter'] bg-medless-bg-ultra-light">
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
     
     <article class="mb-8">
       <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Magenschutz (PPI) absetzen</h1>
@@ -3001,17 +3027,19 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       </div>
     </article>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop"
-      alt="Magenschutz (PPI) absetzen"
-      loading="eager"
-    />
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+      <img
+        class="w-full h-full aspect-video object-cover"
+        src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop"
+        alt="Magenschutz (PPI) absetzen"
+        loading="eager"
+      />
+    </div>
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> "Nehmen Sie das morgens dazu, um den Magen zu schützen." Ein Satz, den Millionen Deutsche hören. Doch was als kurzfristiger Schutz gedacht war, wird oft zur Dauerlösung mit Risiken. Erfahre, warum das Absetzen so schwer ist und wie es trotzdem klappt.</p>
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+        <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> "Nehmen Sie das morgens dazu, um den Magen zu schützen." Ein Satz, den Millionen Deutsche hören. Doch was als kurzfristiger Schutz gedacht war, wird oft zur Dauerlösung mit Risiken. Erfahre, warum das Absetzen so schwer ist und wie es trotzdem klappt.</p>
       </div>
       
             <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Der Klassiker: "Nur zur Sicherheit"</h2>
@@ -3082,11 +3110,11 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     ${getSharedStyles()}
   </style>
 </head>
-<body class="m-0 font-['Inter'] bg-white">
+<body class="m-0 font-['Inter'] bg-medless-bg-ultra-light">
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-8 py-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
     
     <article class="mb-8">
       <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Täglich 5 Tabletten – ist das normal?</h1>
@@ -3102,17 +3130,19 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
       </div>
     </article>
     
-    <img
-      class="w-full h-56 md:h-80 object-cover rounded-medless-lg shadow-medless-card mb-8"
-      src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop"
-      alt="Täglich 5 Tabletten – ist das normal?"
-      loading="eager"
-    />
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+      <img
+        class="w-full h-full aspect-video object-cover"
+        src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop"
+        alt="Täglich 5 Tabletten – ist das normal?"
+        loading="eager"
+      />
+    </div>
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-md px-5 py-4 md:px-6 md:py-5 mb-10">
-        <p><strong>Kurz erklärt:</strong> Ab fünf Medikamenten täglich sprechen Ärzte von Polypharmazie – ein Zustand, der längst nicht mehr nur ältere Menschen betrifft. Immer mehr Erwachsene schlucken mehrere Tabletten pro Tag, oft über Jahre hinweg, ohne die Risiken wirklich zu kennen.</p>
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+        <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Ab fünf Medikamenten täglich sprechen Ärzte von Polypharmazie – ein Zustand, der längst nicht mehr nur ältere Menschen betrifft. Immer mehr Erwachsene schlucken mehrere Tabletten pro Tag, oft über Jahre hinweg, ohne die Risiken wirklich zu kennen.</p>
       </div>
       
             <h2 class="text-article-h2 text-medless-text-primary mt-10 mb-3">Was ist Polypharmazie?</h2>
