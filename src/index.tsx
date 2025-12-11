@@ -3894,21 +3894,24 @@ app.get('/app', (c) => {
     }
   </style>
 </head>
-<body class="text-medless-text-primary antialiased bg-gradient-to-br from-medless-bg-ultra-light via-white to-medless-bg-light min-h-screen flex flex-col">
+<body class="min-h-screen bg-medless-bg-ultra-light flex flex-col">
   
   ${getCanonicalHeader('app')}
 
-  <!-- MAIN CONTENT - Fresh & Fine Layout -->
-  <main class="flex-grow container mx-auto px-4 md:px-6 py-8 flex flex-col items-center justify-start">
-    <div class="max-w-4xl w-full">
-      <div class="text-center mb-10">
-        <h1 class="text-2xl md:text-3xl font-extralight text-slate-900 mb-2">Ihr persönlicher Orientierungsplan</h1>
-        <p class="text-slate-500 font-light">
+  <!-- MAIN CONTENT - MEDLESS Layout -->
+  <main class="flex-grow bg-medless-bg-ultra-light">
+    <div class="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-14">
+      
+      <!-- HERO SECTION - MEDLESS STYLE -->
+      <header class="mb-8 md:mb-10 text-center">
+        <h1 class="text-2xl md:text-3xl font-light text-medless-text-primary mb-2">Ihr persönlicher MEDLESS-Orientierungsplan</h1>
+        <p class="text-sm md:text-base text-medless-text-secondary max-w-2xl mx-auto">
           Folgen Sie den Schritten, um Ihre aktuelle Medikation strukturiert zu erfassen und einen persönlichen MEDLESS-Orientierungsplan als Gesprächsgrundlage für Ihren Arzt zu erhalten.
         </p>
-      </div>
-    
-    <section id="tool">
+      </header>
+
+      <!-- WIZARD CARD -->
+      <section id="tool" class="bg-white rounded-medless-lg shadow-medless-card px-4 md:px-8 py-6 md:py-8">
 
       <!-- Progress Stepper - MEDLESS DESIGN -->
       <!-- MEDLESS STEPPER/PROGRESS INDICATOR (TAILWIND, RESPONSIVE) -->
@@ -4657,10 +4660,9 @@ app.get('/app', (c) => {
           }
         }
       </script>
-    </section>
-    </main>
-  </div>
-  <!-- END MAX-W-7XL WRAPPER -->
+      </section>
+    </div>
+  </main>
 
   <script>
     // Tabs umschalten
