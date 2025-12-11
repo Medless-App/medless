@@ -3188,24 +3188,57 @@ app.get('/app', (c) => {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>MEDLESS – Tailwind Test</title>
-
-      <!-- Minimal Tailwind CDN -->
+      <title>MEDLESS Wizard – Stepper Test</title>
       <script src="https://cdn.tailwindcss.com"></script>
     </head>
+
     <body class="bg-green-50 p-10">
 
-      <h1 class="text-3xl font-bold text-green-600 mb-6">
-        MEDLESS Tailwind – Basistest
+      <h1 class="text-3xl font-bold text-green-600 mb-10">
+        MEDLESS Wizard – Stepper Test
       </h1>
 
-      <div class="p-6 bg-white rounded-xl shadow text-gray-700">
-        <p class="text-red-500 font-semibold">
-          Wenn dieser Text ROT ist, funktioniert Tailwind korrekt.
-        </p>
+      <!-- STEP INDICATOR -->
+      <div class="grid grid-cols-5 gap-4 mb-10">
+        <div class="text-center">
+          <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto">
+            1
+          </div>
+          <p class="mt-2 text-sm">Persönlich</p>
+        </div>
 
-        <p class="mt-4">
-          Jetzt testen wir Schritt für Schritt den Wizard in Tailwind.
+        <div class="text-center opacity-40">
+          <div class="w-10 h-10 bg-gray-400 text-white rounded-full flex items-center justify-center mx-auto">
+            2
+          </div>
+          <p class="mt-2 text-sm">Körper</p>
+        </div>
+
+        <div class="text-center opacity-40">
+          <div class="w-10 h-10 bg-gray-400 text-white rounded-full flex items-center justify-center mx-auto">
+            3
+          </div>
+          <p class="mt-2 text-sm">Medikation</p>
+        </div>
+
+        <div class="text-center opacity-40">
+          <div class="w-10 h-10 bg-gray-400 text-white rounded-full flex items-center justify-center mx-auto">
+            4
+          </div>
+          <p class="mt-2 text-sm">Plan</p>
+        </div>
+
+        <div class="text-center opacity-40">
+          <div class="w-10 h-10 bg-gray-400 text-white rounded-full flex items-center justify-center mx-auto">
+            5
+          </div>
+          <p class="mt-2 text-sm">Fertig</p>
+        </div>
+      </div>
+
+      <div class="p-6 bg-white shadow rounded-xl">
+        <p class="text-gray-700">
+          Wenn der Stepper oben sichtbar ist (runde Buttons 1–5), funktioniert das Wizard-Layout wieder.
         </p>
       </div>
 
