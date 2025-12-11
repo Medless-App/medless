@@ -3202,7 +3202,45 @@ app.get('/app', (c) => {
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
+    // MEDLESS Design System Custom Config (inline for CDN)
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'medless-primary': '#2FB585',
+            'medless-primary-dark': '#1B9C6E',
+            'medless-primary-light': '#36C48C',
+            'medless-bg-ultra-light': '#FAFEFB',
+            'medless-bg-light': '#F4FBF7',
+            'medless-bg-card': '#E7F8EF',
+            'medless-bg-card-hover': '#D4F1E3',
+            'medless-text-primary': '#1B2A36',
+            'medless-text-secondary': '#5E6A71',
+            'medless-text-tertiary': '#94A3B8',
+            'medless-border-light': '#E9ECEF',
+            'medless-border-primary': 'rgba(47, 181, 133, 0.2)',
+            'medless-border-primary-hover': 'rgba(47, 181, 133, 0.3)',
+          },
+          borderRadius: {
+            'medless-sm': '12px',
+            'medless-md': '14px',
+            'medless-lg': '16px',
+            'medless-xl': '20px',
+            'medless-button': '24px',
+          },
+          boxShadow: {
+            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.04)',
+            'medless-card-hover': '0 8px 20px rgba(47, 181, 133, 0.12)',
+            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.1)',
+            'medless-button-hover': '0 4px 16px rgba(47, 181, 133, 0.25)',
+            'medless-header': '0 1px 3px rgba(0, 0, 0, 0.03)',
+          },
+          transitionDuration: {
+            'medless': '250ms',
+          },
+        },
+      },
+    }
   </script>
   
   <!-- jsPDF for PDF Generation -->
