@@ -1,0 +1,40 @@
+/* MEDLESS Scroll Animations */
+
+/* Initial state: hidden */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Visible state */
+[data-animate].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Tap feedback für mobile */
+.tap-feedback {
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.tap-feedback:active {
+  transform: scale(0.98);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile-optimized spacing utilities */
+@media (max-width: 768px) {
+  .mobile-compact {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+  
+  .mobile-spacing {
+    gap: 1rem !important;
+  }
+}

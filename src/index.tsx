@@ -1427,49 +1427,49 @@ app.use('/static/*', serveStatic({ root: './public' }))
 function getCanonicalFooter() {
   return `
   <!-- FOOTER - Mobile-First MEDLESS Design -->
-  <footer class="bg-medless-bg-ultra-light md:bg-slate-900 text-medless-text-primary md:text-slate-300 py-12 md:py-24 px-6 mt-12 md:mt-16 border-t border-medless-border-light md:border-slate-800">
+  <footer class="bg-medless-bg-light text-medless-text-secondary py-8 md:py-16 px-4 mt-12 border-t border-medless-border-light">
     <div class="max-w-6xl mx-auto">
       
-      <div class="grid md:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-12 mb-6 md:mb-10">
         
         <!-- Brand Section -->
         <div>
-          <strong class="text-medless-text-primary md:text-white font-semibold mb-3 md:mb-4 text-sm block tracking-tight">MEDLESS</strong>
-          <p class="text-sm leading-relaxed text-medless-text-secondary md:text-slate-400">Weniger ist mehr.</p>
+          <strong class="text-medless-text-primary font-semibold mb-3 text-sm block tracking-tight">MEDLESS</strong>
+          <p class="text-sm leading-relaxed text-medless-text-secondary">Weniger ist mehr.</p>
         </div>
         
         <!-- Legal Links -->
         <div>
-          <strong class="text-medless-text-primary md:text-white font-semibold mb-3 md:mb-4 text-sm block tracking-tight">Rechtliches</strong>
-          <ul class="space-y-1 md:space-y-2 text-sm">
-            <li><a href="/impressum" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">Impressum</a></li>
-            <li><a href="/datenschutz" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">Datenschutz</a></li>
-            <li><a href="/agb" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">AGB</a></li>
+          <strong class="text-medless-text-primary font-semibold mb-3 text-sm block tracking-tight">Rechtliches</strong>
+          <ul class="space-y-1 text-sm">
+            <li><a href="/impressum" class="block py-2 text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless active:scale-[0.98] active:text-medless-primary-dark">Impressum</a></li>
+            <li><a href="/datenschutz" class="block py-2 text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless active:scale-[0.98] active:text-medless-primary-dark">Datenschutz</a></li>
+            <li><a href="/agb" class="block py-2 text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless active:scale-[0.98] active:text-medless-primary-dark">AGB</a></li>
           </ul>
         </div>
         
         <!-- Contact -->
         <div>
-          <strong class="text-medless-text-primary md:text-white font-semibold mb-3 md:mb-4 text-sm block tracking-tight">Kontakt</strong>
-          <a href="mailto:info@medless.de" class="block py-3 md:py-2 text-medless-primary hover:text-medless-primary-dark md:hover:text-emerald-400 text-sm transition-colors duration-medless active:text-medless-primary-dark font-medium">
+          <strong class="text-medless-text-primary font-semibold mb-3 text-sm block tracking-tight">Kontakt</strong>
+          <a href="mailto:info@medless.de" class="block py-2 text-medless-primary hover:text-medless-primary-dark text-sm transition-colors duration-medless active:scale-[0.98] active:text-medless-primary-dark font-medium">
             info@medless.de
           </a>
         </div>
         
-        <!-- Social/Additional -->
+        <!-- Navigation -->
         <div>
-          <strong class="text-medless-text-primary md:text-white font-semibold mb-3 md:mb-4 text-sm block tracking-tight">Navigation</strong>
-          <ul class="space-y-1 md:space-y-2 text-sm">
-            <li><a href="/magazin" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">Magazin</a></li>
-            <li><a href="/fachkreise" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">Fachkreise</a></li>
-            <li><a href="/app" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">Orientierungsplan</a></li>
+          <strong class="text-medless-text-primary font-semibold mb-3 text-sm block tracking-tight">Navigation</strong>
+          <ul class="space-y-1 text-sm">
+            <li><a href="/magazin" class="block py-2 text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless active:scale-[0.98] active:text-medless-primary-dark">Magazin</a></li>
+            <li><a href="/fachkreise" class="block py-2 text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless active:scale-[0.98] active:text-medless-primary-dark">Fachkreise</a></li>
+            <li><a href="/app" class="block py-2 text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless active:scale-[0.98] active:text-medless-primary-dark">Orientierungsplan</a></li>
           </ul>
         </div>
         
       </div>
       
       <!-- Copyright -->
-      <div class="border-t border-medless-border-light md:border-slate-800 pt-6 md:pt-8 text-xs md:text-sm text-center text-medless-text-secondary md:text-slate-400">
+      <div class="border-t border-medless-border-light pt-6 text-xs text-center text-medless-text-secondary">
         <p>© 2025 Medless – Eine Marke der CBD-Vertriebskompetenz GmbH</p>
       </div>
       
@@ -2201,6 +2201,8 @@ app.get('/magazin', (c) => {
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/scroll-animations.css">
+  <script src="/static/scroll-animations.js" defer></script>
   <script>
     // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
   </script>
@@ -2213,11 +2215,11 @@ app.get('/magazin', (c) => {
   ${getCanonicalHeader('magazin')}
 
   <!-- HERO SECTION - MEDLESS CARD STYLE -->
-  <section class="py-10 md:py-16 px-4 md:px-6 lg:px-8">
+  <section class="py-8 md:py-16 px-4 md:px-6">
     <div class="max-w-6xl mx-auto">
-      <div class="rounded-medless-lg bg-medless-bg-light border border-medless-border-light shadow-medless-card px-6 py-8 md:px-10 md:py-10 text-center">
-        <h1 class="text-section-title text-medless-text-primary mt-0 mb-3">MEDLESS Magazin</h1>
-        <p class="text-article-body text-medless-text-secondary max-w-3xl mx-auto">
+      <div class="rounded-medless-lg bg-medless-bg-light border border-medless-border-light shadow-medless-card px-4 py-6 md:px-10 md:py-10 text-center">
+        <h1 class="text-2xl md:text-section-title text-medless-text-primary mt-0 mb-2 md:mb-3">MEDLESS Magazin</h1>
+        <p class="text-sm md:text-base text-medless-text-secondary max-w-3xl mx-auto leading-relaxed">
           Wissenswertes rund um Medikamentenreduktion, das Endocannabinoid-System und natürliche Gesundheit.
         </p>
       </div>
@@ -2225,7 +2227,7 @@ app.get('/magazin', (c) => {
   </section>
 
   <!-- ARTICLES GRID -->
-  <section class="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14">
+  <section class="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-14">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
       
       <!-- Artikel: ECS erklärt -->
@@ -2453,13 +2455,13 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 py-8 md:py-14 pb-12 md:pb-16">
     
     <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">7 Fehler beim Medikamente absetzen</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
+      <h1 class="text-2xl md:text-article-hero text-medless-text-primary mb-4">7 Fehler beim Medikamente absetzen</h1>
+      <p class="text-sm md:text-base text-medless-text-secondary mb-4 md:mb-6 leading-relaxed">Die häufigsten Fehler beim Ausschleichen von Medikamenten und wie du sie vermeidest.</p>
       
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
+      <div class="flex flex-wrap gap-3 md:gap-4 text-xs md:text-sm text-medless-text-tertiary mb-6 md:mb-8 pb-4 md:pb-6 border-b border-medless-border-light">
         <span class="inline-flex items-center gap-2">
           <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
         </span>
@@ -2469,7 +2471,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
       </div>
     </article>
     
-    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-6 md:mb-8">
       <img
         class="w-full h-full aspect-video object-cover"
         src="https://www.genspark.ai/api/files/s/KMI6cvDz"
@@ -2480,7 +2482,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-4 py-4 md:px-6 md:py-6 mb-6 md:mb-10 text-sm md:text-base leading-relaxed">
         <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Du willst Medikamente reduzieren? Großartig. Aber Vorsicht: Der falsche Weg kann gefährlich werden. Erfahre hier, warum der "kalte Entzug" scheitert und wie du sicher ausschleichst.</p>
       </div>
       
@@ -2559,13 +2561,13 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 py-8 md:py-14 pb-12 md:pb-16">
     
     <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Wie dein Körper sich selbst heilt – und warum dir das niemand erzählt hat.</p>
+      <h1 class="text-2xl md:text-article-hero text-medless-text-primary mb-4">Das Endocannabinoid-System: Dein körpereigenes Schutzschild</h1>
+      <p class="text-sm md:text-base text-medless-text-secondary mb-4 md:mb-6 leading-relaxed">Wie dein Körper sich selbst heilt – und warum dir das niemand erzählt hat.</p>
       
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
+      <div class="flex flex-wrap gap-3 md:gap-4 text-xs md:text-sm text-medless-text-tertiary mb-6 md:mb-8 pb-4 md:pb-6 border-b border-medless-border-light">
         <span class="inline-flex items-center gap-2">
           <i data-lucide="calendar" class="w-4 h-4"></i> 10. Januar 2025
         </span>
@@ -2575,7 +2577,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       </div>
     </article>
     
-    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-6 md:mb-8">
       <img
         class="w-full h-full aspect-video object-cover"
         src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop"
@@ -2586,7 +2588,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-4 py-4 md:px-6 md:py-6 mb-6 md:mb-10 text-sm md:text-base leading-relaxed">
         <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Stell dir vor, dein Körper hätte eine eigene Apotheke gegen Schmerz, Stress und Entzündungen – eine biologische Schutzinstanz, die rund um die Uhr arbeitet. Du hast sie bereits: das <strong>Endocannabinoid-System (ECS)</strong>.</p>
       </div>
       
@@ -2702,13 +2704,13 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 py-8 md:py-14 pb-12 md:pb-16">
     
     <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Antidepressiva absetzen ohne Entzug</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
+      <h1 class="text-2xl md:text-article-hero text-medless-text-primary mb-4">Antidepressiva absetzen ohne Entzug</h1>
+      <p class="text-sm md:text-base text-medless-text-secondary mb-4 md:mb-6 leading-relaxed">Strukturierter Leitfaden für ein sicheres Ausschleichen von Antidepressiva unter ärztlicher Begleitung.</p>
       
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
+      <div class="flex flex-wrap gap-3 md:gap-4 text-xs md:text-sm text-medless-text-tertiary mb-6 md:mb-8 pb-4 md:pb-6 border-b border-medless-border-light">
         <span class="inline-flex items-center gap-2">
           <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
         </span>
@@ -2718,7 +2720,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
       </div>
     </article>
     
-    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-6 md:mb-8">
       <img
         class="w-full h-full aspect-video object-cover"
         src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop"
@@ -2729,7 +2731,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-4 py-4 md:px-6 md:py-6 mb-6 md:mb-10 text-sm md:text-base leading-relaxed">
         <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Du möchtest Antidepressiva absetzen, hast aber Angst vor dem "Loch" danach? Erfahre, warum Absetzerscheinungen entstehen und wie du sie mit einem 8-Wochen-Plan und ECS-Unterstützung vermeidest.</p>
       </div>
       
@@ -2806,13 +2808,13 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 py-8 md:py-14 pb-12 md:pb-16">
     
     <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Schlaftabletten loswerden</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
+      <h1 class="text-2xl md:text-article-hero text-medless-text-primary mb-4">Schlaftabletten loswerden</h1>
+      <p class="text-sm md:text-base text-medless-text-secondary mb-4 md:mb-6 leading-relaxed">Wie du dich schrittweise von Schlafmitteln lösen und zu natürlichem Schlaf zurückfinden kannst.</p>
       
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
+      <div class="flex flex-wrap gap-3 md:gap-4 text-xs md:text-sm text-medless-text-tertiary mb-6 md:mb-8 pb-4 md:pb-6 border-b border-medless-border-light">
         <span class="inline-flex items-center gap-2">
           <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
         </span>
@@ -2822,7 +2824,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
       </div>
     </article>
     
-    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-6 md:mb-8">
       <img
         class="w-full h-full aspect-video object-cover"
         src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=400&fit=crop"
@@ -2833,7 +2835,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-4 py-4 md:px-6 md:py-6 mb-6 md:mb-10 text-sm md:text-base leading-relaxed">
         <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Jede Nacht das gleiche Spiel: Ohne Tablette keine Ruhe. Erfahre, wie du die Abhängigkeit durchbrichst und deinem Körper wieder beibringst, natürlich zu schlafen.</p>
       </div>
       
@@ -2909,13 +2911,13 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 py-8 md:py-14 pb-12 md:pb-16">
     
     <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">CBD: Studien und Fakten</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
+      <h1 class="text-2xl md:text-article-hero text-medless-text-primary mb-4">CBD: Studien und Fakten</h1>
+      <p class="text-sm md:text-base text-medless-text-secondary mb-4 md:mb-6 leading-relaxed">Wissenschaftliche Erkenntnisse zur Wirkung von CBD bei verschiedenen Beschwerden.</p>
       
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
+      <div class="flex flex-wrap gap-3 md:gap-4 text-xs md:text-sm text-medless-text-tertiary mb-6 md:mb-8 pb-4 md:pb-6 border-b border-medless-border-light">
         <span class="inline-flex items-center gap-2">
           <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
         </span>
@@ -2925,7 +2927,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
       </div>
     </article>
     
-    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-6 md:mb-8">
       <img
         class="w-full h-full aspect-video object-cover"
         src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&h=400&fit=crop"
@@ -2936,7 +2938,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-4 py-4 md:px-6 md:py-6 mb-6 md:mb-10 text-sm md:text-base leading-relaxed">
         <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Überall hörst du: "CBD ist das neue Wundermittel". Doch was stimmt davon? Erfahre, wie CBD dir beim Absetzen von Medikamenten helfen kann – und wo die Risiken liegen.</p>
       </div>
       
@@ -3011,13 +3013,13 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 py-8 md:py-14 pb-12 md:pb-16">
     
     <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Magenschutz (PPI) absetzen</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
+      <h1 class="text-2xl md:text-article-hero text-medless-text-primary mb-4">Magenschutz (PPI) absetzen</h1>
+      <p class="text-sm md:text-base text-medless-text-secondary mb-4 md:mb-6 leading-relaxed">Protonenpumpenhemmer sicher reduzieren: Was du über das Absetzen von Magenschutz wissen musst.</p>
       
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
+      <div class="flex flex-wrap gap-3 md:gap-4 text-xs md:text-sm text-medless-text-tertiary mb-6 md:mb-8 pb-4 md:pb-6 border-b border-medless-border-light">
         <span class="inline-flex items-center gap-2">
           <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
         </span>
@@ -3027,7 +3029,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
       </div>
     </article>
     
-    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-6 md:mb-8">
       <img
         class="w-full h-full aspect-video object-cover"
         src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop"
@@ -3038,7 +3040,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-4 py-4 md:px-6 md:py-6 mb-6 md:mb-10 text-sm md:text-base leading-relaxed">
         <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> "Nehmen Sie das morgens dazu, um den Magen zu schützen." Ein Satz, den Millionen Deutsche hören. Doch was als kurzfristiger Schutz gedacht war, wird oft zur Dauerlösung mit Risiken. Erfahre, warum das Absetzen so schwer ist und wie es trotzdem klappt.</p>
       </div>
       
@@ -3114,13 +3116,13 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
   
   ${getCanonicalHeader('magazin')}
 
-  <main class="max-w-article mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14 pb-16">
+  <main class="max-w-article mx-auto px-4 md:px-6 py-8 md:py-14 pb-12 md:pb-16">
     
     <article class="mb-8">
-      <h1 class="text-3xl md:text-article-hero text-medless-text-primary mb-4">Täglich 5 Tabletten – ist das normal?</h1>
-      <p class="text-article-subtitle text-medless-text-secondary mb-6">Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
+      <h1 class="text-2xl md:text-article-hero text-medless-text-primary mb-4">Täglich 5 Tabletten – ist das normal?</h1>
+      <p class="text-sm md:text-base text-medless-text-secondary mb-4 md:mb-6 leading-relaxed">Polypharmazie verstehen: Wann wird Medikation zur Belastung und was kannst du dagegen tun?</p>
       
-      <div class="flex flex-wrap gap-4 text-sm text-medless-text-tertiary mb-8 pb-6 border-b border-medless-border-light">
+      <div class="flex flex-wrap gap-3 md:gap-4 text-xs md:text-sm text-medless-text-tertiary mb-6 md:mb-8 pb-4 md:pb-6 border-b border-medless-border-light">
         <span class="inline-flex items-center gap-2">
           <i data-lucide="calendar" class="w-4 h-4"></i> 8. Dezember 2024
         </span>
@@ -3130,7 +3132,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
       </div>
     </article>
     
-    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-8">
+    <div class="rounded-medless-lg overflow-hidden border border-medless-border-light shadow-medless-card mb-6 md:mb-8">
       <img
         class="w-full h-full aspect-video object-cover"
         src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600&h=400&fit=crop"
@@ -3141,7 +3143,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     
     <div class="text-article-body text-medless-text-primary space-y-6">
       
-      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-5 py-5 md:px-6 md:py-6 mb-10 text-base md:text-lg leading-relaxed">
+      <div class="bg-medless-bg-card border border-medless-border-primary rounded-medless-lg px-4 py-4 md:px-6 md:py-6 mb-6 md:mb-10 text-sm md:text-base leading-relaxed">
         <p><span class="font-semibold text-medless-text-primary">Kurz erklärt:</span> Ab fünf Medikamenten täglich sprechen Ärzte von Polypharmazie – ein Zustand, der längst nicht mehr nur ältere Menschen betrifft. Immer mehr Erwachsene schlucken mehrere Tabletten pro Tag, oft über Jahre hinweg, ohne die Risiken wirklich zu kennen.</p>
       </div>
       
@@ -3967,7 +3969,7 @@ app.get('/app', (c) => {
         <!-- Mobile: Vertical Stack -->
         <div class="md:hidden flex flex-col gap-3">
           <!-- Step 1 -->
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2 md:gap-3">
             <div class="w-10 h-10 rounded-full bg-medless-primary text-white font-semibold flex items-center justify-center shadow-md">
               <i data-lucide="user" class="w-4 h-4"></i>
             </div>
@@ -4217,7 +4219,7 @@ app.get('/app', (c) => {
                 
                 <!-- 4 Wochen -->
                 <label class="cursor-pointer">
-                  <input type="radio" name="duration" value="4" class="peer sr-only">
+                  <input type="radio" name="duration" value="4" class="peer sr-only text-sm py-2.5 px-3">
                   <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
                               border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
                               hover:border-slate-300 hover:shadow-sm">
@@ -4227,7 +4229,7 @@ app.get('/app', (c) => {
                 
                 <!-- 6 Wochen -->
                 <label class="cursor-pointer">
-                  <input type="radio" name="duration" value="6" class="peer sr-only">
+                  <input type="radio" name="duration" value="6" class="peer sr-only text-sm py-2.5 px-3">
                   <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
                               border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
                               hover:border-slate-300 hover:shadow-sm">
@@ -4247,7 +4249,7 @@ app.get('/app', (c) => {
                 
                 <!-- 12 Wochen -->
                 <label class="cursor-pointer">
-                  <input type="radio" name="duration" value="12" class="peer sr-only">
+                  <input type="radio" name="duration" value="12" class="peer sr-only text-sm py-2.5 px-3">
                   <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
                               border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
                               hover:border-slate-300 hover:shadow-sm">
