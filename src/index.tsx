@@ -3188,30 +3188,49 @@ app.get('/app', (c) => {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>MEDLESS Wizard – HTML Test</title>
+      <title>MEDLESS Wizard – Strukturtest</title>
       <style>
-        body {
-          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-          background: #fafefb;
-          margin: 0;
-          padding: 40px;
-        }
-        .box {
+        body { background: #fafefb; font-family: Arial; padding: 20px; }
+        h1 { color: #2FB585; }
+        .card {
           background: white;
-          border-radius: 12px;
-          padding: 20px;
           border: 1px solid #dce9e2;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+          padding: 20px;
+          border-radius: 12px;
+          max-width: 800px;
         }
+        .step { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; }
+        .hidden { display: none; }
       </style>
     </head>
     <body>
-      <h1 style="color:#2FB585; font-size: 28px; margin-bottom: 20px;">
-        MEDLESS Wizard – HTML Test
-      </h1>
-      <div class="box">
-        <p>Wenn du diese Box siehst, funktioniert das Rendering des HTML.</p>
-        <p>Jetzt testen wir schrittweise die Integration des echten Wizards.</p>
+      <h1>MEDLESS Wizard – Strukturtest</h1>
+      <div class="card">
+        <div id="step-1" class="step">
+          <h2>Schritt 1 – Persönliche Angaben</h2>
+          <p>Vorname: _______</p>
+          <p>Geschlecht: Herr / Frau / Divers</p>
+        </div>
+
+        <div id="step-2" class="step">
+          <h2>Schritt 2 – Körperdaten</h2>
+          <p>Alter, Gewicht, Größe…</p>
+        </div>
+
+        <div id="step-3" class="step">
+          <h2>Schritt 3 – Medikation</h2>
+          <p>Medikamentenliste…</p>
+        </div>
+
+        <div id="step-4" class="step">
+          <h2>Schritt 4 – Plan-Erstellung</h2>
+          <p>Orientierungsplan…</p>
+        </div>
+
+        <div id="step-5" class="step">
+          <h2>Schritt 5 – Zusammenfassung</h2>
+          <p>Übersicht & PDF Download…</p>
+        </div>
       </div>
     </body>
     </html>
