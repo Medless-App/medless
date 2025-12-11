@@ -5087,10 +5087,16 @@ app.get('/app', (c) => {
         });
         const shortHash = buildInfo.buildHash.substring(0, 8);
         const shortCommit = buildInfo.commit.substring(0, 7);
-        document.getElementById('build-info-tag').textContent = \`Build: \${buildDate} | \${shortHash} (\${shortCommit})\`;
+        const buildInfoEl = document.getElementById('build-info-tag');
+        if (buildInfoEl) {
+          buildInfoEl.textContent = \`Build: \${buildDate} | \${shortHash} (\${shortCommit})\`;
+        }
       } catch (error) {
         console.warn('Could not load build info:', error);
-        document.getElementById('build-info-tag').textContent = 'Build info unavailable';
+        const buildInfoEl = document.getElementById('build-info-tag');
+        if (buildInfoEl) {
+          buildInfoEl.textContent = 'Build info unavailable';
+        }
       }
     })();
   </script>
