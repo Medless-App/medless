@@ -3202,6 +3202,10 @@ app.get('/app', (c) => {
   <!-- React Mountpoint -->
   <div id="root"></div>
   
+  <!-- External Dependencies (required by React bundle) -->
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
   <!-- WICHTIG: Absoluter Pfad, damit NICHT /app/static/app.js geladen wird -->
   <script type="module" src="/static/app.js"></script>
 </body>
