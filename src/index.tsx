@@ -3202,7 +3202,54 @@ app.get('/app', (c) => {
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
+    // ✅ MEDLESS Design System - Canonical Config
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'medless-primary': '#2FB585',
+            'medless-primary-dark': '#1B9C6E',
+            'medless-primary-light': '#36C48C',
+            'medless-bg-ultra-light': '#FAFEFB',
+            'medless-bg-light': '#F4FBF7',
+            'medless-bg-card': '#E7F8EF',
+            'medless-bg-card-hover': '#D4F1E3',
+            'medless-text-primary': '#1B2A36',
+            'medless-text-secondary': '#5E6A71',
+            'medless-text-tertiary': '#94A3B8',
+            'medless-border-light': '#E9ECEF',
+            'medless-border-primary': 'rgba(47, 181, 133, 0.2)',
+            'medless-border-shadow': 'rgba(0, 0, 0, 0.05)',
+          },
+          fontSize: {
+            'button-text': ['16px', { lineHeight: '1.5', fontWeight: '600' }],
+          },
+          borderRadius: {
+            'medless-sm': '6px',
+            'medless-md': '12px',
+            'medless-lg': '16px',
+            'medless-xl': '20px',
+            'medless-button': '10px',
+          },
+          boxShadow: {
+            'medless-card': '0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06)',
+            'medless-card-hover': '0 8px 16px rgba(0, 0, 0, 0.12)',
+            'medless-button': '0 2px 6px rgba(47, 181, 133, 0.15)',
+            'medless-button-hover': '0 4px 12px rgba(47, 181, 133, 0.25)',
+            'medless-header': '0 1px 2px rgba(0, 0, 0, 0.04)',
+          },
+          maxWidth: {
+            'container': '1400px',
+          },
+          transitionDuration: {
+            'medless': '250ms',
+          },
+          transitionTimingFunction: {
+            'medless': 'cubic-bezier(0.4, 0, 0.2, 1)',
+          }
+        }
+      }
+    }
   </script>
   
   <!-- jsPDF for PDF Generation -->
