@@ -2250,7 +2250,6 @@ app.get('/magazin', (c) => {
                class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
               Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </a>
-          </div>
         </div>
       </article>
       
@@ -2276,7 +2275,6 @@ app.get('/magazin', (c) => {
                class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
-          </div>
         </div>
       </article>
       
@@ -2302,7 +2300,6 @@ app.get('/magazin', (c) => {
                class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
-          </div>
         </div>
       </article>
       
@@ -2328,7 +2325,6 @@ app.get('/magazin', (c) => {
                class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
-          </div>
         </div>
       </article>
       
@@ -2354,7 +2350,6 @@ app.get('/magazin', (c) => {
                class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
-          </div>
         </div>
       </article>
       
@@ -2380,7 +2375,6 @@ app.get('/magazin', (c) => {
                class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
-          </div>
         </div>
       </article>
       
@@ -2406,7 +2400,6 @@ app.get('/magazin', (c) => {
                class="inline-flex items-center gap-2 text-sm font-medium text-medless-primary hover:text-medless-primary-dark transition-colors duration-medless">
             Artikel lesen <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
-          </div>
         </div>
       </article>
     </div>
@@ -3951,7 +3944,6 @@ app.get('/app', (c) => {
           <!-- Step 5 Circle -->
           <div id="step-indicator-5" class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white border-2 border-medless-border-light text-medless-text-tertiary font-semibold flex items-center justify-center transition-all duration-300">
             <i data-lucide="check-circle" class="w-5 h-5"></i>
-          </div>
         </div>
         
         <!-- Desktop Labels -->
@@ -4085,8 +4077,7 @@ app.get('/app', (c) => {
 
         <!-- STEP 2: Body Data (glass-input auf Feldern) -->
         <div id="step-2" class="form-step" style="display: none;">
-          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
-            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
+          <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 2: Körperdaten</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Diese Daten helfen uns, die Dosierung individuell zu berechnen.</p>
             
             <!-- Körperdaten (MEDLESS DESIGN) -->
@@ -4153,8 +4144,7 @@ app.get('/app', (c) => {
 
         <!-- STEP 3: Medications (Empty State) -->
         <div id="step-3" class="form-step" style="display: none;">
-          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
-            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikation</h3>
+          <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikation</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Geben Sie hier Ihre aktuellen Medikamente ein. Diese Daten werden genutzt, um einen strukturierten Überblick und einen MEDLESS-Orientierungsplan für Ihr Arztgespräch zu erstellen. Es werden keine Therapieempfehlungen berechnet.</p>
             
             <!-- Info Box -->
@@ -4189,8 +4179,7 @@ app.get('/app', (c) => {
 
         <!-- STEP 4: Plan Settings -->
         <div id="step-4" class="form-step" style="display: none;">
-          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
-            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
+          <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 4: Orientierungsplan-Einstellungen</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Legen Sie hier die Einstellungen für Ihren MEDLESS-Orientierungsplan fest. Auf dieser Basis wird Ihr persönlicher Orientierungsplan für das Gespräch mit Ihrem Arzt berechnet. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.</p>
             
             <!-- Dauer V4 (Fully Clickable Cards) -->
@@ -4320,8 +4309,7 @@ app.get('/app', (c) => {
 
         <!-- STEP 5: Email & Summary -->
         <div id="step-5" class="form-step" style="display: none;">
-          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
-            <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 5: E-Mail & Zusammenfassung</h3>
+          <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 5: E-Mail & Zusammenfassung</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Überprüfen Sie Ihre Angaben in Ruhe und geben Sie Ihre E-Mail-Adresse ein. Dorthin senden wir den Download-Link zu Ihrem MEDLESS-Orientierungsplan.</p>
             
             <div class="form-row">
