@@ -2011,36 +2011,7 @@ app.get('/magazin', (c) => {
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
-    // MEDLESS Design System loaded from tailwind.config.js],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '500' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }],
-            'section-title': ['2.5rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'card-title': ['1.3125rem', { lineHeight: '1.4', fontWeight: '500' }],
-            'card-description': ['0.9375rem', { lineHeight: '1.6', fontWeight: '400' }]
-          },
-          borderRadius: {
-            'medless-sm': '12px',
-            'medless-md': '14px',
-            'medless-lg': '16px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.04)',
-            'medless-card-hover': '0 8px 20px rgba(47, 181, 133, 0.12)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.1)',
-            'medless-button-hover': '0 4px 16px rgba(47, 181, 133, 0.25)'
-          },
-          maxWidth: {
-            'article': '800px',
-            'container': '1200px'
-          },
-          transitionDuration: {
-            'medless': '250ms'
-          }
-        }
-      }
-    }
+    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
   </script>
   <style>
     ${getSharedStyles()}
@@ -2289,29 +2260,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    // MEDLESS Design System loaded from tailwind.config.js],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
-      }
-    }
+    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
   </script>
   
   <style>
@@ -2874,29 +2823,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    // MEDLESS Design System loaded from tailwind.config.js],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
-      }
-    }
+    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
   </script>
   
   <style>
@@ -3022,29 +2949,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    // MEDLESS Design System loaded from tailwind.config.js],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
-      }
-    }
+    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
   </script>
   
   <style>
@@ -3169,29 +3074,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    // MEDLESS Design System loaded from tailwind.config.js],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
-      }
-    }
+    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
   </script>
   
   <style>
@@ -3315,29 +3198,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    // MEDLESS Design System loaded from tailwind.config.js],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
-      }
-    }
+    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
   </script>
   
   <style>
@@ -3462,29 +3323,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    // MEDLESS Design System loaded from tailwind.config.js],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
-          },
-          maxWidth: {
-            'article': '800px'
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
-      }
-    }
+    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
   </script>
   
   <style>
@@ -3612,26 +3451,7 @@ app.get('/app', (c) => {
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // MEDLESS Design System loaded from tailwind.config.js],
-            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
-            'button-text': ['1rem', { lineHeight: '1.5', fontWeight: '500' }]
-          },
-          borderRadius: {
-            'medless-lg': '16px',
-            'medless-md': '12px',
-            'medless-button': '24px'
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.15)',
-            'medless-button-hover': '0 8px 16px rgba(47, 181, 133, 0.25)'
-          },
-          transitionDuration: {
-            'medless': '280ms'
-          }
-        }
-      }
-    }
+    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
   </script>
   
   <!-- jsPDF for PDF Generation -->
@@ -4192,31 +4012,7 @@ app.get('/app', (c) => {
   <!-- TailwindCSS & FontAwesome für Loading-Animation -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // MEDLESS Design System loaded from tailwind.config.js],
-            'card-title': ['21px', { lineHeight: '1.4', fontWeight: '500' }],
-            'button-text': ['16px', { lineHeight: '1.5', fontWeight: '500' }],
-          },
-          borderRadius: {
-            'medless-sm': '12px',
-            'medless-md': '14px',
-            'medless-lg': '16px',
-            'medless-button': '24px',
-          },
-          boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.04)',
-            'medless-card-hover': '0 8px 20px rgba(47, 181, 133, 0.12)',
-            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.1)',
-            'medless-button-hover': '0 4px 16px rgba(47, 181, 133, 0.25)',
-          },
-          maxWidth: {
-            'container': '1200px',
-          },
-          transitionDuration: {
-            'medless': '250ms',
-          },
-        },
-      },
-    }
+    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
   </script>
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
   
