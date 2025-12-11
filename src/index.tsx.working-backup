@@ -3188,9 +3188,7 @@ app.get('/app', (c) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MEDLESS-Orientierungsplan erstellen</title>
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <title>MEDLESS TEST</title>
   
   <style>
     * {
@@ -3198,226 +3196,87 @@ app.get('/app', (c) => {
       padding: 0;
       box-sizing: border-box;
     }
-    html, body {
+    html {
       display: block !important;
       visibility: visible !important;
       opacity: 1 !important;
-      font-family: 'Inter', Arial, sans-serif !important;
-      background: #FAFEFB !important;
+    }
+    body {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      font-family: Arial, sans-serif !important;
+      background: #f0f0f0 !important;
+      padding: 20px !important;
       min-height: 100vh !important;
-      color: #1B2A36 !important;
     }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-    header.hero {
-      text-align: center;
-      margin-bottom: 40px;
-      padding: 30px 20px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-    header.hero h1 {
-      font-size: 28px;
-      font-weight: 300;
-      color: #2FB585;
-      margin-bottom: 15px;
-    }
-    header.hero p {
-      font-size: 16px;
-      color: #5E6A71;
-      line-height: 1.6;
-    }
-    .wizard-card {
-      background: white !important;
-      padding: 40px 30px !important;
-      border-radius: 16px !important;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+    .test-box {
       display: block !important;
       visibility: visible !important;
       opacity: 1 !important;
+      background: #ff0000 !important;
+      color: #ffffff !important;
+      padding: 50px !important;
+      font-size: 30px !important;
+      font-weight: bold !important;
+      text-align: center !important;
+      border: 10px solid #000000 !important;
+      margin: 50px auto !important;
+      max-width: 800px !important;
+      position: relative !important;
+      z-index: 9999 !important;
     }
-    .form-group {
-      margin-bottom: 25px;
+    .wizard {
+      background: #ffffff;
+      padding: 30px;
+      margin: 30px auto;
+      max-width: 800px;
+      border: 3px solid #2FB585;
     }
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      font-weight: 500;
-      color: #1B2A36;
-      margin-bottom: 8px;
-    }
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 12px 15px;
-      font-size: 16px;
-      border: 2px solid #E9ECEF;
-      border-radius: 10px;
-      font-family: inherit;
-      transition: all 0.2s;
-    }
-    .form-group input:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: #2FB585;
-      box-shadow: 0 0 0 3px rgba(47, 181, 133, 0.1);
-    }
-    .radio-group {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin-top: 10px;
-    }
-    .radio-option {
-      position: relative;
-    }
-    .radio-option input[type="radio"] {
-      position: absolute;
-      opacity: 0;
-    }
-    .radio-option label {
-      display: block;
-      padding: 15px;
-      text-align: center;
-      border: 2px solid #E9ECEF;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: white;
-    }
-    .radio-option input[type="radio"]:checked + label {
-      border-color: #2FB585;
-      background: #E7F8EF;
+    .wizard h1 {
       color: #2FB585;
-      font-weight: 500;
+      margin-bottom: 20px;
     }
-    .button-row {
-      margin-top: 30px;
-      text-align: right;
+    .wizard input {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      border: 2px solid #ccc;
+      margin: 10px 0;
     }
-    button {
-      background: #2FB585 !important;
-      color: white !important;
-      padding: 14px 32px !important;
-      font-size: 16px !important;
-      font-weight: 600 !important;
-      border: none !important;
-      border-radius: 10px !important;
-      cursor: pointer !important;
-      transition: all 0.25s !important;
-      box-shadow: 0 2px 6px rgba(47, 181, 133, 0.15) !important;
-    }
-    button:hover {
-      background: #1B9C6E !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 4px 12px rgba(47, 181, 133, 0.25) !important;
-    }
-    .step-hidden {
-      display: none !important;
-    }
-    @media (max-width: 768px) {
-      .radio-group {
-        grid-template-columns: 1fr;
-      }
+    .wizard button {
+      background: #2FB585;
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
     }
   </style>
 </head>
-<body>
+<body style="display: block !important; visibility: visible !important; opacity: 1 !important; background: #f0f0f0 !important; padding: 20px !important;">
 
-<div class="container">
-  <header class="hero">
-    <h1>Ihr persönlicher MEDLESS-Orientierungsplan</h1>
-    <p>Folgen Sie den Schritten, um Ihre aktuelle Medikation strukturiert zu erfassen und einen persönlichen MEDLESS-Orientierungsplan als Gesprächsgrundlage für Ihren Arzt zu erhalten.</p>
-  </header>
+<div class="test-box" style="display: block !important; visibility: visible !important; opacity: 1 !important; background: #ff0000 !important; color: #ffffff !important; padding: 50px !important; font-size: 30px !important; border: 10px solid #000000 !important; margin: 50px auto !important; max-width: 800px !important; text-align: center !important; font-weight: bold !important;">
+  🚨 EMERGENCY TEST - WENN DU DAS SIEHST, FUNKTIONIERT DAS ROUTING!
+</div>
 
-  <div class="wizard-card">
-    <form id="wizard-form">
-      <!-- STEP 1 -->
-      <div id="step-1" class="form-step">
-        <h2 style="font-size: 24px; font-weight: 300; margin-bottom: 10px; color: #1B2A36;">Schritt 1: Persönliche Angaben</h2>
-        <p style="color: #5E6A71; margin-bottom: 25px;">Damit wir Sie persönlich ansprechen können.</p>
-        
-        <div class="form-group">
-          <label for="first-name">Ihr Vorname *</label>
-          <input type="text" id="first-name" name="first_name" placeholder="z.B. Maria" required>
-        </div>
-
-        <div class="form-group">
-          <label>Geschlecht *</label>
-          <div class="radio-group">
-            <div class="radio-option">
-              <input type="radio" id="gender-herr" name="gender" value="herr" required>
-              <label for="gender-herr">Herr</label>
-            </div>
-            <div class="radio-option">
-              <input type="radio" id="gender-frau" name="gender" value="frau">
-              <label for="gender-frau">Frau</label>
-            </div>
-            <div class="radio-option">
-              <input type="radio" id="gender-divers" name="gender" value="divers">
-              <label for="gender-divers">Divers</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="button-row">
-          <button type="button" onclick="showStep(2)">Weiter →</button>
-        </div>
-      </div>
-
-      <!-- STEP 2 -->
-      <div id="step-2" class="form-step step-hidden">
-        <h2 style="font-size: 24px; font-weight: 300; margin-bottom: 10px; color: #1B2A36;">Schritt 2: Körperdaten</h2>
-        <p style="color: #5E6A71; margin-bottom: 25px;">Diese Angaben helfen bei der Einordnung.</p>
-        
-        <div class="form-group">
-          <label for="age">Alter (Jahre) *</label>
-          <input type="number" id="age" name="age" placeholder="z.B. 45" required>
-        </div>
-
-        <div class="form-group">
-          <label for="weight">Gewicht (kg) *</label>
-          <input type="number" id="weight" name="weight" placeholder="z.B. 70" required>
-        </div>
-
-        <div class="form-group">
-          <label for="height">Größe (cm) *</label>
-          <input type="number" id="height" name="height" placeholder="z.B. 170" required>
-        </div>
-
-        <div class="button-row">
-          <button type="button" onclick="showStep(1)" style="background: white !important; color: #2FB585 !important; border: 2px solid #2FB585 !important; margin-right: 10px;">← Zurück</button>
-          <button type="button" onclick="alert('Wizard funktioniert! Weitere Schritte folgen.')">Weiter →</button>
-        </div>
-      </div>
-    </form>
-  </div>
+<div class="wizard">
+  <h1>Ihr persönlicher MEDLESS-Orientierungsplan</h1>
+  <p>Schritt 1: Persönliche Angaben</p>
+  
+  <label>Vorname:</label>
+  <input type="text" placeholder="z.B. Maria">
+  
+  <label>Geschlecht:</label>
+  <input type="text" placeholder="Herr / Frau / Divers">
+  
+  <button>WEITER</button>
 </div>
 
 <script>
-  console.log('✅ MEDLESS Wizard loaded successfully');
-  
-  function showStep(stepNumber) {
-    // Hide all steps
-    const steps = document.querySelectorAll('.form-step');
-    steps.forEach(step => {
-      step.classList.add('step-hidden');
-    });
-    
-    // Show requested step
-    const targetStep = document.getElementById('step-' + stepNumber);
-    if (targetStep) {
-      targetStep.classList.remove('step-hidden');
-      console.log('Showing step ' + stepNumber);
-    }
-  }
-  
-  // Initialize: Show step 1
-  showStep(1);
+  console.log('🚨 EMERGENCY TEST PAGE LOADED');
+  alert('TEST: Wenn du das siehst, läuft JavaScript!');
 </script>
 
 </body>
