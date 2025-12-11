@@ -2011,43 +2011,32 @@ app.get('/magazin', (c) => {
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-subtle': '#E9ECEF'
-            }
-          },
-          fontSize: {
+    // MEDLESS Design System loaded from tailwind.config.js],
+            'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
+            'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '500' }],
+            'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }],
             'section-title': ['2.5rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.125rem', { lineHeight: '1.6' }],
-            'card-title': ['1.3125rem', { lineHeight: '1.4', fontWeight: '600' }],
-            'card-description': ['0.9375rem', { lineHeight: '1.6' }]
+            'card-title': ['1.3125rem', { lineHeight: '1.4', fontWeight: '500' }],
+            'card-description': ['0.9375rem', { lineHeight: '1.6', fontWeight: '400' }]
           },
           borderRadius: {
+            'medless-sm': '12px',
+            'medless-md': '14px',
             'medless-lg': '16px',
-            'medless-md': '12px'
+            'medless-button': '24px'
           },
           boxShadow: {
-            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.06)',
-            'medless-card-hover': '0 12px 32px rgba(47, 181, 133, 0.15)'
+            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.04)',
+            'medless-card-hover': '0 8px 20px rgba(47, 181, 133, 0.12)',
+            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.1)',
+            'medless-button-hover': '0 4px 16px rgba(47, 181, 133, 0.25)'
           },
-          spacing: {
-            'section': '5rem'
+          maxWidth: {
+            'article': '800px',
+            'container': '1200px'
           },
           transitionDuration: {
-            'medless': '280ms'
+            'medless': '250ms'
           }
         }
       }
@@ -2300,27 +2289,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
+    // MEDLESS Design System loaded from tailwind.config.js],
             'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
             'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
             'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
@@ -2517,7 +2486,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     }
     
     .logo-med {
-      color: #10b981;
+      color: medless-primary;
     }
     
     .logo-less {
@@ -2568,7 +2537,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .article-title {
       
       font-weight: 400;
-      color: #10b981;
+      color: medless-primary;
       line-height: 1.2;
       margin-bottom: 32px;
     }
@@ -2596,14 +2565,14 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
       margin-bottom: 32px;
       padding: 20px;
       background: #F9FAFB;
-      border-left: 4px solid #10b981;
+      border-left: 4px solid medless-primary;
       border-radius: 4px;
     }
     
     .article-content h2 {
       
       font-weight: 400;
-      color: #10b981;
+      color: medless-primary;
       margin-top: 48px;
       margin-bottom: 20px;
       line-height: 1.3;
@@ -2637,11 +2606,11 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     
     .article-content strong {
       font-weight: 500;
-      color: #10b981;
+      color: medless-primary;
     }
     
     .cta-box {
-      background: linear-gradient(135deg, #10b981 0%, #1DB98D 100%);
+      background: linear-gradient(135deg, medless-primary 0%, #1DB98D 100%);
       color: white;
       padding: 40px;
       border-radius: 12px;
@@ -2664,7 +2633,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
     .cta-button {
       display: inline-block;
       background: white;
-      color: #10b981;
+      color: medless-primary;
       padding: 14px 32px;
       border-radius: 8px;
       text-decoration: none;
@@ -2905,27 +2874,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
+    // MEDLESS Design System loaded from tailwind.config.js],
             'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
             'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
             'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
@@ -3073,27 +3022,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
+    // MEDLESS Design System loaded from tailwind.config.js],
             'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
             'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
             'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
@@ -3240,27 +3169,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
+    // MEDLESS Design System loaded from tailwind.config.js],
             'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
             'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
             'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
@@ -3406,27 +3315,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
+    // MEDLESS Design System loaded from tailwind.config.js],
             'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
             'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
             'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
@@ -3573,27 +3462,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'article-hero': ['2.625rem', { lineHeight: '1.2', fontWeight: '300' }],
-            'article-subtitle': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
+    // MEDLESS Design System loaded from tailwind.config.js],
             'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
             'article-h2': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
             'article-h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }]
@@ -3743,27 +3612,7 @@ app.get('/app', (c) => {
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            'medless': {
-              primary: '#2FB585',
-              'primary-hover': '#28A376',
-              'primary-light': '#E7F8EF',
-              'bg-ultra-light': 'rgba(47, 181, 133, 0.02)',
-              'bg-light': 'rgba(47, 181, 133, 0.05)',
-              'bg-card': '#FBFCFD',
-              'text-primary': '#1B2A36',
-              'text-secondary': '#5E6A71',
-              'text-tertiary': '#94A3B8',
-              'border-primary': 'rgba(0, 0, 0, 0.06)',
-              'border-light': '#E9ECEF'
-            }
-          },
-          fontSize: {
-            'section-title': ['2.5rem', { lineHeight: '1.2', fontWeight: '300' }],
+    // MEDLESS Design System loaded from tailwind.config.js],
             'article-body': ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],
             'button-text': ['1rem', { lineHeight: '1.5', fontWeight: '500' }]
           },
@@ -4126,7 +3975,7 @@ app.get('/app', (c) => {
 
     input:focus,
     select:focus {
-      border-color: #10b981;
+      border-color: medless-primary;
       box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
       background: rgba(255, 255, 255, 1);
       outline: none;
@@ -4343,21 +4192,27 @@ app.get('/app', (c) => {
   <!-- TailwindCSS & FontAwesome für Loading-Animation -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+    // MEDLESS Design System loaded from tailwind.config.js],
+            'card-title': ['21px', { lineHeight: '1.4', fontWeight: '500' }],
+            'button-text': ['16px', { lineHeight: '1.5', fontWeight: '500' }],
           },
-          colors: {
-            emerald: {
-              50: '#ecfdf5',
-              100: '#d1fae5',
-              500: '#10b981',
-              600: '#059669',
-              800: '#065f46',
-              900: '#064e3b',
-            },
+          borderRadius: {
+            'medless-sm': '12px',
+            'medless-md': '14px',
+            'medless-lg': '16px',
+            'medless-button': '24px',
+          },
+          boxShadow: {
+            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.04)',
+            'medless-card-hover': '0 8px 20px rgba(47, 181, 133, 0.12)',
+            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.1)',
+            'medless-button-hover': '0 4px 16px rgba(47, 181, 133, 0.25)',
+          },
+          maxWidth: {
+            'container': '1200px',
+          },
+          transitionDuration: {
+            'medless': '250ms',
           },
         },
       },
@@ -4369,7 +4224,7 @@ app.get('/app', (c) => {
     /* Zusätzliche Tailwind-kompatible Styles */
     .section-card {
       background: white;
-      border-left: 4px solid #0b7b6c;
+      border-left: 4px solid medless-primary-dark;
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
     }
     .hidden { display: none !important; }
@@ -4805,7 +4660,7 @@ app.get('/app', (c) => {
                 <!-- 2 Wochen -->
                 <label class="cursor-pointer">
                   <input type="radio" name="duration" value="2" class="peer sr-only" required>
-                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] peer-checked:font-semibold 
+                  <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
                               border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
                               hover:border-slate-300 hover:shadow-sm">
                     <span class="text-2xl">2</span>
@@ -4815,7 +4670,7 @@ app.get('/app', (c) => {
                 <!-- 4 Wochen -->
                 <label class="cursor-pointer">
                   <input type="radio" name="duration" value="4" class="peer sr-only">
-                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] peer-checked:font-semibold 
+                  <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
                               border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
                               hover:border-slate-300 hover:shadow-sm">
                     <span class="text-2xl">4</span>
@@ -4825,7 +4680,7 @@ app.get('/app', (c) => {
                 <!-- 6 Wochen -->
                 <label class="cursor-pointer">
                   <input type="radio" name="duration" value="6" class="peer sr-only">
-                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] peer-checked:font-semibold 
+                  <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
                               border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
                               hover:border-slate-300 hover:shadow-sm">
                     <span class="text-2xl">6</span>
@@ -4835,7 +4690,7 @@ app.get('/app', (c) => {
                 <!-- 8 Wochen (Default) -->
                 <label class="cursor-pointer">
                   <input type="radio" name="duration" value="8" class="peer sr-only" checked>
-                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] peer-checked:font-semibold 
+                  <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
                               border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
                               hover:border-slate-300 hover:shadow-sm">
                     <span class="text-2xl">8</span>
@@ -4845,7 +4700,7 @@ app.get('/app', (c) => {
                 <!-- 12 Wochen -->
                 <label class="cursor-pointer">
                   <input type="radio" name="duration" value="12" class="peer sr-only">
-                  <div class="peer-checked:bg-[#f0fdf4] peer-checked:border-[#10b981] peer-checked:text-[#10b981] peer-checked:font-semibold 
+                  <div class="peer-checked:bg-[medless-bg-card] peer-checked:border-[medless-primary] peer-checked:text-[medless-primary] peer-checked:font-semibold 
                               border-2 border-slate-200 rounded-2xl py-4 text-center transition-all duration-200
                               hover:border-slate-300 hover:shadow-sm">
                     <span class="text-2xl">12</span>
@@ -4857,8 +4712,8 @@ app.get('/app', (c) => {
             <!-- REDUCTION SLIDER V4 (Clear Labels + Info Box) -->
             <div class="bg-white border-2 border-slate-200 rounded-3xl p-8 shadow-sm">
               <div class="flex items-center gap-4 mb-6">
-                <div class="w-14 h-14 bg-[#f0fdf4] rounded-2xl flex items-center justify-center flex-shrink-0">
-                  <svg class="w-7 h-7 text-[#10b981]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-14 h-14 bg-[medless-bg-card] rounded-2xl flex items-center justify-center flex-shrink-0">
+                  <svg class="w-7 h-7 text-[medless-primary]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                           d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                   </svg>
@@ -4868,7 +4723,7 @@ app.get('/app', (c) => {
                   <p class="text-sm text-slate-500">Wie stark möchten Sie Ihre Medikation reduzieren?</p>
                 </div>
                 <div class="text-right">
-                  <div class="text-4xl font-light text-[#10b981]" id="reductionValue">100%</div>
+                  <div class="text-4xl font-light text-[medless-primary]" id="reductionValue">100%</div>
                   <p class="text-xs text-slate-400 uppercase tracking-wide mt-1">Ziel-Dosis</p>
                 </div>
               </div>
@@ -4878,7 +4733,7 @@ app.get('/app', (c) => {
                 <input type="range" name="reduction" min="10" max="100" value="100" step="10" 
                        class="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer
                               [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6
-                              [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#10b981] 
+                              [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[medless-primary] 
                               [&::-webkit-slider-thumb]:border-4 [&::-webkit-slider-thumb]:border-white
                               [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:cursor-pointer"
                        oninput="document.getElementById('reductionValue').innerText = this.value + '%'">
@@ -4895,14 +4750,14 @@ app.get('/app', (c) => {
                   <div class="text-[10px] mt-1">Halbe Dosis</div>
                 </div>
                 <div class="text-center">
-                  <div class="font-semibold text-[#10b981]">100%</div>
+                  <div class="font-semibold text-[medless-primary]">100%</div>
                   <div class="text-[10px] mt-1">Komplette Reduktion</div>
                 </div>
               </div>
               
               <!-- Info-Box -->
               <div class="mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-start gap-3">
-                <svg class="w-5 h-5 text-[#10b981] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-[medless-primary] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 <p class="text-xs text-slate-600">
@@ -5111,7 +4966,7 @@ app.get('/app', (c) => {
           
           <!-- Final "Plan ist fertig!" Message (hidden initially) -->
           <div id="plan-ready-message" style="display: none; margin-top: 1rem;">
-            <div id="plan-ready-card" style="background: linear-gradient(135deg, #0b7b6c 0%, #059669 100%); padding: 1.5rem; border-radius: 14px; box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3); text-align: center; animation: gentle-pulse 2s ease-in-out infinite;">
+            <div id="plan-ready-card" style="background: linear-gradient(135deg, medless-primary-dark 0%, medless-primary-dark 100%); padding: 1.5rem; border-radius: 14px; box-shadow: 0 8px 24px rgba(11, 123, 108, 0.3); text-align: center; animation: gentle-pulse 2s ease-in-out infinite;">
               <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
                 <i class="fas fa-file-medical" style="color: white; "></i>
                 <h3 style="margin: 0;  font-weight: 300; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Ihr persönlicher MEDLESS-Orientierungsplan ist fertig!</h3>
@@ -5121,7 +4976,7 @@ app.get('/app', (c) => {
               </p>
               <button id="show-plan-button" style="
                 background: white;
-                color: #0b7b6c;
+                color: medless-primary-dark;
                 border: none;
                 padding: 0.75rem 1.75rem;
                 border-radius: 24px;
@@ -5401,7 +5256,7 @@ app.get('/app', (c) => {
         if (i < stepNumber) {
           // Completed steps - fixed size container, scaled down
           if (indicator) {
-            indicator.style.background = '#059669';
+            indicator.style.background = 'medless-primary-dark';
             indicator.style.color = 'white';
             indicator.style.fontSize = '1rem';
             indicator.style.transform = 'scale(0.83)';  // 40px visual size
@@ -5657,7 +5512,7 @@ app.get('/app', (c) => {
   
   <!-- Footer with Build Info -->
   <footer style="background: #F9FAFB; border-top: 1px solid #E5E7EB; padding: 48px 32px; margin-top: 80px; text-align: center; color: #6B7280; font-size: 0.875rem;">
-    <p style="margin: 0;">© 2025 Medless | <a href="/impressum" style="color: #0b7b6c; text-decoration: none;">Impressum</a> | <a href="/datenschutz" style="color: #0b7b6c; text-decoration: none;">Datenschutz</a></p>
+    <p style="margin: 0;">© 2025 Medless | <a href="/impressum" style="color: medless-primary-dark; text-decoration: none;">Impressum</a> | <a href="/datenschutz" style="color: medless-primary-dark; text-decoration: none;">Datenschutz</a></p>
     <p id="build-info-tag" style="margin: 12px 0 0 0; opacity: 0.6;">Loading build info...</p>
   </footer>
   
@@ -6033,6 +5888,7 @@ app.get('/agb', (c) => {
 function getSharedStyles() {
   return `
     :root {
+      /* MEDLESS Design System - PDF Styles */
       --space-1: 4px;
       --space-2: 8px;
       --space-3: 12px;
@@ -6042,11 +5898,11 @@ function getSharedStyles() {
       --space-7: 48px;
       --space-8: 64px;
       --space-9: 96px;
-      --primary: #10b981;
-      --primary-dark-green: #0C5C4C;
-      --primary-green: #0F7A67;
-      --accent-mint: #CFF1E7;
-      --accent-mint-light: #E8F8F4;
+      --primary: #2FB585;
+      --primary-dark: #1B9C6E;
+      --primary-light: #E7F8EF;
+      --accent-mint: #E7F8EF;
+      --accent-mint-light: #FAFEFB;
       --gray-50: #F9FAFB;
       --gray-100: #F3F4F6;
       --gray-200: #E5E7EB;
@@ -6058,10 +5914,10 @@ function getSharedStyles() {
       --gray-800: #1F2937;
       --gray-900: #111827;
       --background-white: #FFFFFF;
-      --background-ultra-light: #F9FAFB;
-      --text-body-color: #374151;
-      --text-muted: #6B7280;
-      --border-light: #E5E7EB;
+      --background-ultra-light: #FAFEFB;
+      --text-body-color: #1B2A36;
+      --text-muted: #5E6A71;
+      --border-light: #E9ECEF;
       --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     }
     * {
@@ -6133,10 +5989,10 @@ function getSharedStyles() {
       transition: color 0.2s;
     }
     .nav-link:hover {
-      color: #10b981;
+      color: medless-primary;
     }
     .nav-link.active {
-      color: #10b981;
+      color: medless-primary;
       font-weight: 600;
     }
     .btn-primary {
