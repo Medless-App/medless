@@ -14,6 +14,62 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // ✅ MEDLESS Design System - Canonical Config
+    // Source of Truth: tailwind.config.js
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'medless-primary': '#2FB585',
+            'medless-primary-dark': '#1B9C6E',
+            'medless-primary-light': '#36C48C',
+            'medless-bg-ultra-light': '#FAFEFB',
+            'medless-bg-light': '#F4FBF7',
+            'medless-bg-card': '#E7F8EF',
+            'medless-bg-card-hover': '#D4F1E3',
+            'medless-text-primary': '#1B2A36',
+            'medless-text-secondary': '#5E6A71',
+            'medless-text-tertiary': '#94A3B8',
+            'medless-border-light': '#E9ECEF',
+            'medless-border-primary': 'rgba(47, 181, 133, 0.2)',
+            'medless-border-shadow': 'rgba(0, 0, 0, 0.05)',
+          },
+          fontSize: {
+            'hero-title': ['42px', { lineHeight: '1.2', fontWeight: '300' }],
+            'section-title': ['40px', { lineHeight: '1.2', fontWeight: '300' }],
+            'card-title': ['21px', { lineHeight: '1.4', fontWeight: '500' }],
+            'card-description': ['15px', { lineHeight: '1.6', fontWeight: '400' }],
+            'meta-text': ['15px', { lineHeight: '1.5', fontWeight: '400' }],
+            'button-text': ['16px', { lineHeight: '1.5', fontWeight: '500' }],
+          },
+          borderRadius: {
+            'medless-sm': '12px',
+            'medless-md': '14px',
+            'medless-lg': '16px',
+            'medless-xl': '20px',
+            'medless-button': '24px',
+          },
+          boxShadow: {
+            'medless-card': '0 2px 8px rgba(0, 0, 0, 0.04)',
+            'medless-card-hover': '0 8px 20px rgba(47, 181, 133, 0.12)',
+            'medless-button': '0 2px 8px rgba(47, 181, 133, 0.1)',
+            'medless-button-hover': '0 4px 16px rgba(47, 181, 133, 0.25)',
+            'medless-header': '0 1px 3px rgba(0, 0, 0, 0.03)',
+          },
+          maxWidth: {
+            'container': '1200px',
+          },
+          transitionDuration: {
+            'medless': '250ms',
+          },
+        }
+      }
+    }
+  </script>
+  
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
@@ -471,24 +527,133 @@
   </style>
 </head>
 <body>
-  <!-- HEADER (same as landingpage) -->
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works">So funktioniert's</a></li>
-          <li><a href="/#benefits">Vorteile</a></li>
-          <li><a href="/#faq">FAQ</a></li>
-          <li><a href="/magazin">Magazin</a></li>
-          <li><a href="/fachkreise" style="color: #10b981; font-weight: 600;">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary-sm" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-      </nav>
+  
+  <!-- CANONICAL HEADER (consistent with all pages) -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-medless-header">
+    <div class="max-w-container mx-auto px-4 md:px-7 py-4 md:py-5 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="/" class="text-xl md:text-2xl font-semibold text-medless-text-primary tracking-tight">
+        Medless
+      </a>
+      
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex items-center gap-7">
+        <li><a href="/#how-it-works" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">So funktioniert's</a></li>
+        <li><a href="/#benefits" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Vorteile</a></li>
+        <li><a href="/#faq" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">FAQ</a></li>
+        <li><a href="/magazin" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Magazin</a></li>
+        <li><a href="/fachkreise" class="text-[15px] text-medless-primary font-medium hover:text-medless-primary transition-colors duration-medless">Für Ärzt:innen & Apotheken</a></li>
+      </ul>
+      
+      <!-- Desktop CTA Button -->
+      <button 
+        onclick="window.location.href='/app'" 
+        class="hidden md:inline-flex items-center justify-center gap-3 px-8 py-3 text-button-text text-medless-primary bg-white border-2 border-medless-primary rounded-medless-button transition-all duration-medless hover:bg-medless-primary hover:text-white hover:-translate-y-0.5 shadow-medless-button hover:shadow-medless-button-hover"
+      >
+        Orientierungsplan starten
+      </button>
+      
+      <!-- Mobile Menu Button -->
+      <button 
+        id="mobile-nav-toggle"
+        class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-medless-border-light text-medless-text-primary hover:bg-medless-bg-ultra-light transition-colors"
+      >
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
     </div>
   </header>
+
+  <!-- MOBILE NAVIGATION OVERLAY -->
+  <div id="mobile-nav-overlay" class="hidden fixed inset-0 bg-black/30 z-50">
+    <div class="max-w-xs w-full ml-auto bg-white h-full shadow-medless-card flex flex-col">
+      <!-- Header -->
+      <div class="flex items-center justify-between p-5 border-b border-medless-border-light">
+        <a href="/" class="text-xl font-semibold text-medless-text-primary tracking-tight">
+          Medless
+        </a>
+        <button 
+          id="mobile-nav-close"
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-medless-border-light text-medless-text-primary hover:bg-medless-bg-ultra-light transition-colors"
+        >
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <!-- Navigation Links -->
+      <nav class="flex-1 overflow-y-auto p-5">
+        <ul class="space-y-2">
+          <li>
+            <a href="/#how-it-works" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              So funktioniert's
+            </a>
+          </li>
+          <li>
+            <a href="/#benefits" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              Vorteile
+            </a>
+          </li>
+          <li>
+            <a href="/#faq" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              FAQ
+            </a>
+          </li>
+          <li>
+            <a href="/magazin" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              Magazin
+            </a>
+          </li>
+          <li>
+            <a href="/fachkreise" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              Für Ärzt:innen & Apotheken
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <!-- CTA Button -->
+      <div class="p-5 border-t border-medless-border-light">
+        <a 
+          href="/app" 
+          class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover transition-all duration-medless"
+        >
+          <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          <span>Orientierungsplan starten</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    const toggle = document.getElementById('mobile-nav-toggle');
+    const overlay = document.getElementById('mobile-nav-overlay');
+    const close = document.getElementById('mobile-nav-close');
+    const links = document.querySelectorAll('.mobile-nav-link');
+    
+    if (toggle && overlay && close) {
+      toggle.addEventListener('click', () => {
+        overlay.classList.remove('hidden');
+        lucide.createIcons();
+      });
+      
+      close.addEventListener('click', () => {
+        overlay.classList.add('hidden');
+      });
+      
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.add('hidden');
+        }
+      });
+      
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          overlay.classList.add('hidden');
+        });
+      });
+    }
+  </script>
 
   <!-- 1. HERO -->
   <section class="fachkreise-hero">

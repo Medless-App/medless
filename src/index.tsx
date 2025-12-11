@@ -1422,6 +1422,141 @@ app.use('/static/*', serveStatic({ root: './public' }))
 // This is handled by Cloudflare Pages automatically (excluded from Worker in _routes.json)
 // The /app route serves the actual wizard application
 
+// ===== CANONICAL HEADER COMPONENT =====
+// Single source of truth for header across all routes
+function getCanonicalHeader(activePage: 'home' | 'magazin' | 'fachkreise' | 'app' = 'home') {
+  const isActive = (page: string) => activePage === page ? 'text-medless-primary font-medium' : 'text-medless-text-secondary';
+  
+  return `
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-medless-header">
+    <div class="max-w-container mx-auto px-4 md:px-7 py-4 md:py-5 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="/" class="text-xl md:text-2xl font-semibold text-medless-text-primary tracking-tight">
+        Medless
+      </a>
+      
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex items-center gap-7">
+        <li><a href="/#how-it-works" class="text-[15px] ${isActive('home')} hover:text-medless-primary transition-colors duration-medless">So funktioniert's</a></li>
+        <li><a href="/#benefits" class="text-[15px] ${isActive('home')} hover:text-medless-primary transition-colors duration-medless">Vorteile</a></li>
+        <li><a href="/#faq" class="text-[15px] ${isActive('home')} hover:text-medless-primary transition-colors duration-medless">FAQ</a></li>
+        <li><a href="/magazin" class="text-[15px] ${isActive('magazin')} hover:text-medless-primary transition-colors duration-medless">Magazin</a></li>
+        <li><a href="/fachkreise" class="text-[15px] ${isActive('fachkreise')} hover:text-medless-primary transition-colors duration-medless">Für Ärzt:innen & Apotheken</a></li>
+      </ul>
+      
+      <!-- Desktop CTA Button -->
+      <button 
+        onclick="window.location.href='/app'" 
+        class="hidden md:inline-flex items-center justify-center gap-3 px-8 py-3 text-button-text text-medless-primary bg-white border-2 border-medless-primary rounded-medless-button transition-all duration-medless hover:bg-medless-primary hover:text-white hover:-translate-y-0.5 shadow-medless-button hover:shadow-medless-button-hover"
+      >
+        Orientierungsplan starten
+      </button>
+      
+      <!-- Mobile Menu Button -->
+      <button 
+        id="mobile-nav-toggle"
+        class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-medless-border-light text-medless-text-primary hover:bg-medless-bg-ultra-light transition-colors"
+      >
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION OVERLAY -->
+  <div id="mobile-nav-overlay" class="hidden fixed inset-0 bg-black/30 z-50">
+    <div class="max-w-xs w-full ml-auto bg-white h-full shadow-medless-card flex flex-col">
+      <!-- Header -->
+      <div class="flex items-center justify-between p-5 border-b border-medless-border-light">
+        <a href="/" class="text-xl font-semibold text-medless-text-primary tracking-tight">
+          Medless
+        </a>
+        <button 
+          id="mobile-nav-close"
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-medless-border-light text-medless-text-primary hover:bg-medless-bg-ultra-light transition-colors"
+        >
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <!-- Navigation Links -->
+      <nav class="flex-1 overflow-y-auto p-5">
+        <ul class="space-y-2">
+          <li>
+            <a href="/#how-it-works" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              So funktioniert's
+            </a>
+          </li>
+          <li>
+            <a href="/#benefits" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              Vorteile
+            </a>
+          </li>
+          <li>
+            <a href="/#faq" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              FAQ
+            </a>
+          </li>
+          <li>
+            <a href="/magazin" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              Magazin
+            </a>
+          </li>
+          <li>
+            <a href="/fachkreise" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+              Für Ärzt:innen & Apotheken
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <!-- CTA Button -->
+      <div class="p-5 border-t border-medless-border-light">
+        <a 
+          href="/app" 
+          class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover transition-all duration-medless"
+        >
+          <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          <span>Orientierungsplan starten</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    const toggle = document.getElementById('mobile-nav-toggle');
+    const overlay = document.getElementById('mobile-nav-overlay');
+    const close = document.getElementById('mobile-nav-close');
+    const links = document.querySelectorAll('.mobile-nav-link');
+    
+    if (toggle && overlay && close) {
+      toggle.addEventListener('click', () => {
+        overlay.classList.remove('hidden');
+        lucide.createIcons();
+      });
+      
+      close.addEventListener('click', () => {
+        overlay.classList.add('hidden');
+      });
+      
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.add('hidden');
+        }
+      });
+      
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          overlay.classList.add('hidden');
+        });
+      });
+    }
+  </script>
+  `;
+}
+
 // API Routes
 // Get all medications
 app.get('/api/medications', async (c) => {
@@ -2019,24 +2154,7 @@ app.get('/magazin', (c) => {
 </head>
 <body class="m-0 font-['Inter'] bg-gray-50">
   
-  <!-- HEADER (wie Homepage) -->
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-      </nav>
-    </div>
-  </header>
+  ${getCanonicalHeader('magazin')}
 
   <!-- HERO SECTION (TAILWIND) - OPTIMIERT -->
   <section class="bg-gradient-to-b from-[#F3FFF8] via-[#F7FFF9] to-[#FAFFFA] py-10 md:py-14 px-8 text-center">
@@ -2269,23 +2387,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
 </head>
 <body class="m-0 font-['Inter'] bg-white">
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-      </nav>
-    </div>
-  </header>
+  ${getCanonicalHeader('magazin')}
 
   <main class="max-w-article mx-auto px-4 md:px-8 py-16">
     
@@ -2832,23 +2934,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
 </head>
 <body class="m-0 font-['Inter'] bg-white">
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-      </nav>
-    </div>
-  </header>
+  ${getCanonicalHeader('magazin')}
 
   <main class="max-w-article mx-auto px-4 md:px-8 py-16">
     
@@ -2958,23 +3044,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
 </head>
 <body class="m-0 font-['Inter'] bg-white">
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-      </nav>
-    </div>
-  </header>
+  ${getCanonicalHeader('magazin')}
 
   <main class="max-w-article mx-auto px-4 md:px-8 py-16">
     
@@ -3083,23 +3153,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
 </head>
 <body class="m-0 font-['Inter'] bg-white">
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-      </nav>
-    </div>
-  </header>
+  ${getCanonicalHeader('magazin')}
 
   <main class="max-w-article mx-auto px-4 md:px-8 py-16">
     
@@ -3207,23 +3261,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
 </head>
 <body class="m-0 font-['Inter'] bg-white">
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-      </nav>
-    </div>
-  </header>
+  ${getCanonicalHeader('magazin')}
 
   <main class="max-w-article mx-auto px-4 md:px-8 py-16">
     
@@ -3332,23 +3370,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
 </head>
 <body class="m-0 font-['Inter'] bg-white">
   
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">
-          <span class="logo-text">Medless</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works" class="nav-link">So funktioniert's</a></li>
-          <li><a href="/#benefits" class="nav-link">Vorteile</a></li>
-          <li><a href="/#faq" class="nav-link">FAQ</a></li>
-          <li><a href="/magazin" class="nav-link active">Magazin</a></li>
-          <li><a href="/fachkreise" class="nav-link">Für Ärzt:innen & Apotheken</a></li>
-        </ul>
-        <button class="btn-primary" onclick="window.location.href='/app'">Orientierungsplan starten</button>
-      </nav>
-    </div>
-  </header>
+  ${getCanonicalHeader('magazin')}
 
   <main class="max-w-article mx-auto px-4 md:px-8 py-16">
     
@@ -4135,14 +4157,8 @@ app.get('/app', (c) => {
   </style>
 </head>
 <body class="text-medless-text-primary antialiased bg-gradient-to-br from-medless-bg-ultra-light via-white to-medless-bg-light min-h-screen flex flex-col">
-  <!-- HEADER - MEDLESS DESIGN -->
-  <header class="w-full bg-white/80 backdrop-blur-md z-50 border-b border-medless-border-light h-16 flex-none">
-    <div class="container mx-auto px-4 md:px-6 h-full flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span class="text-lg font-semibold tracking-tight text-medless-text-primary">MEDLESS</span>
-      </div>
-    </div>
-  </header>
+  
+  ${getCanonicalHeader('app')}
 
   <!-- MAIN CONTENT - Fresh & Fine Layout -->
   <main class="flex-grow container mx-auto px-4 md:px-6 py-8 flex flex-col items-center justify-start">
