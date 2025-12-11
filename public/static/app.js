@@ -618,23 +618,18 @@ function createMedicationInput() {
   inputGroup.style.cssText = 'margin-bottom: 1.5rem;';
   
   inputGroup.innerHTML = `
-    <div class="bg-white border-2 border-[#10b981] rounded-3xl p-6 shadow-sm">
+    <div class="bg-white border border-medless-border-light rounded-medless-md p-5 md:p-6 shadow-medless-card hover:shadow-medless-card-hover transition-shadow duration-medless">
       <div class="flex items-start gap-4 mb-4">
-        <div class="w-12 h-12 bg-[#f0fdf4] rounded-xl flex items-center justify-center flex-shrink-0">
-          <svg class="w-6 h-6 text-[#10b981]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                  d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
-          </svg>
+        <div class="w-12 h-12 bg-medless-bg-card rounded-medless-md flex items-center justify-center flex-shrink-0">
+          <i data-lucide="pill" class="w-6 h-6 text-medless-primary"></i>
         </div>
         <div class="flex-grow">
-          <h4 class="font-medium text-slate-800 text-lg mb-1">Medikament ${medicationCount}</h4>
-          <p class="text-xs text-slate-400 uppercase tracking-wide">Aktuell eingenommen</p>
+          <h4 class="font-semibold text-medless-text-primary text-base mb-1">Medikament ${medicationCount}</h4>
+          <p class="text-xs text-medless-text-tertiary uppercase tracking-wide">Aktuell eingenommen</p>
         </div>
         ${medicationCount > 1 ? `
-          <button type="button" class="remove-medication text-slate-300 hover:text-red-400 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
+          <button type="button" class="remove-medication inline-flex items-center justify-center rounded-full p-1.5 text-medless-text-tertiary hover:text-red-500 hover:bg-red-50 transition-colors">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
           </button>
         ` : ''}
       </div>
@@ -642,10 +637,10 @@ function createMedicationInput() {
       <div class="space-y-4">
         <!-- Name Input -->
         <div>
-          <label class="block text-xs text-slate-500 mb-2 font-medium">Medikamenten-Name</label>
+          <label class="block text-sm font-medium text-medless-text-primary mb-1.5">Medikamenten-Name *</label>
           <input type="text" 
                  name="medication_display[]" 
-                 class="medication-display-input wizard-input" 
+                 class="medication-display-input w-full rounded-medless-md border border-medless-border-light px-3 py-2.5 text-sm md:text-base text-medless-text-primary placeholder:text-medless-text-tertiary focus:outline-none focus:ring-2 focus:ring-medless-primary/40 focus:border-medless-primary bg-white transition-all duration-200" 
                  placeholder="z.B. Ibuprofen" 
                  required>
           <input type="hidden" name="medication_name[]" class="medication-name-hidden">
@@ -653,12 +648,12 @@ function createMedicationInput() {
         
         <!-- Dosierung Input -->
         <div>
-          <label class="block text-xs text-slate-500 mb-2 font-medium">Tagesdosis (in mg)</label>
+          <label class="block text-sm font-medium text-medless-text-primary mb-1.5">Tagesdosis (in mg) *</label>
           <input type="text" 
                  inputmode="numeric" 
                  pattern="[0-9]*" 
                  name="medication_mg_per_day[]" 
-                 class="wizard-input" 
+                 class="w-full rounded-medless-md border border-medless-border-light px-3 py-2.5 text-sm md:text-base text-medless-text-primary placeholder:text-medless-text-tertiary focus:outline-none focus:ring-2 focus:ring-medless-primary/40 focus:border-medless-primary bg-white transition-all duration-200" 
                  placeholder="z.B. 400" 
                  required>
         </div>
@@ -667,6 +662,11 @@ function createMedicationInput() {
   `;
   
   container.appendChild(inputGroup);
+  
+  // Initialize Lucide icons in the new card
+  if (typeof lucide !== 'undefined' && lucide.createIcons) {
+    lucide.createIcons();
+  }
   
   // Setup autocomplete for the new input
   const displayInput = inputGroup.querySelector('.medication-display-input');

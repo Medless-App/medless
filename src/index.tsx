@@ -4758,14 +4758,22 @@ app.get('/app', (c) => {
             <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 3: Ihre Medikation</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Geben Sie hier Ihre aktuellen Medikamente ein. Diese Daten werden genutzt, um einen strukturierten Überblick und einen MEDLESS-Orientierungsplan für Ihr Arztgespräch zu erstellen. Es werden keine Therapieempfehlungen berechnet.</p>
             
+            <!-- Info Box -->
+            <div class="mb-6 rounded-medless-md bg-medless-bg-card border border-medless-border-light px-4 py-3 text-sm text-medless-text-secondary">
+              <p>
+                Gib hier deine aktuellen Medikamente ein. Diese Daten werden in deinen MEDLESS-Orientierungsplan übernommen. Du kannst jederzeit weitere Medikamente hinzufügen.
+              </p>
+            </div>
+
             <div class="space-y-4 mb-8">
-              <!-- LISTE (Wird per JS gefüllt, erste Card wird automatisch erstellt) -->
-              <div id="medication-inputs" style="margin-bottom: 1rem;">
+              <!-- MEDIKATIONS-LISTE (Wird per JS gefüllt, erste Card wird automatisch erstellt) -->
+              <div id="medication-inputs" class="space-y-3">
                 <!-- Wird durch JavaScript befüllt -->
               </div>
 
-              <button type="button" id="add-medication" class="w-full py-4 rounded-2xl border-2 border-dashed border-slate-300 text-slate-400 text-sm font-medium hover:border-[#10b981] hover:text-[#10b981] hover:bg-emerald-50/30 transition-all duration-300">
-                <i class="fas fa-plus mr-2"></i> Weiteres Medikament hinzufügen
+              <button type="button" id="add-medication" class="w-full py-4 rounded-medless-md border-2 border-dashed border-medless-border-light text-medless-text-tertiary text-sm font-medium hover:border-medless-primary hover:text-medless-primary hover:bg-medless-bg-ultra-light transition-all duration-medless inline-flex items-center justify-center gap-2">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+                <span>Weiteres Medikament hinzufügen</span>
               </button>
             </div>
 
