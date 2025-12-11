@@ -1422,6 +1422,62 @@ app.use('/static/*', serveStatic({ root: './public' }))
 // This is handled by Cloudflare Pages automatically (excluded from Worker in _routes.json)
 // The /app route serves the actual wizard application
 
+// ===== CANONICAL FOOTER COMPONENT =====
+// Mobile-first footer with light background on mobile, dark on desktop
+function getCanonicalFooter() {
+  return `
+  <!-- FOOTER - Mobile-First MEDLESS Design -->
+  <footer class="bg-medless-bg-ultra-light md:bg-slate-900 text-medless-text-primary md:text-slate-300 py-12 md:py-24 px-6 mt-12 md:mt-16 border-t border-medless-border-light md:border-slate-800">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="grid md:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12">
+        
+        <!-- Brand Section -->
+        <div>
+          <strong class="text-medless-text-primary md:text-white font-semibold mb-3 md:mb-4 text-sm block tracking-tight">MEDLESS</strong>
+          <p class="text-sm leading-relaxed text-medless-text-secondary md:text-slate-400">Weniger ist mehr.</p>
+        </div>
+        
+        <!-- Legal Links -->
+        <div>
+          <strong class="text-medless-text-primary md:text-white font-semibold mb-3 md:mb-4 text-sm block tracking-tight">Rechtliches</strong>
+          <ul class="space-y-1 md:space-y-2 text-sm">
+            <li><a href="/impressum" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">Impressum</a></li>
+            <li><a href="/datenschutz" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">Datenschutz</a></li>
+            <li><a href="/agb" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">AGB</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact -->
+        <div>
+          <strong class="text-medless-text-primary md:text-white font-semibold mb-3 md:mb-4 text-sm block tracking-tight">Kontakt</strong>
+          <a href="mailto:info@medless.de" class="block py-3 md:py-2 text-medless-primary hover:text-medless-primary-dark md:hover:text-emerald-400 text-sm transition-colors duration-medless active:text-medless-primary-dark font-medium">
+            info@medless.de
+          </a>
+        </div>
+        
+        <!-- Social/Additional -->
+        <div>
+          <strong class="text-medless-text-primary md:text-white font-semibold mb-3 md:mb-4 text-sm block tracking-tight">Navigation</strong>
+          <ul class="space-y-1 md:space-y-2 text-sm">
+            <li><a href="/magazin" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">Magazin</a></li>
+            <li><a href="/fachkreise" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">Fachkreise</a></li>
+            <li><a href="/app" class="block py-3 md:py-2 text-medless-text-secondary md:text-slate-300 hover:text-medless-primary md:hover:text-medless-primary transition-colors duration-medless active:text-medless-primary-dark">Orientierungsplan</a></li>
+          </ul>
+        </div>
+        
+      </div>
+      
+      <!-- Copyright -->
+      <div class="border-t border-medless-border-light md:border-slate-800 pt-6 md:pt-8 text-xs md:text-sm text-center text-medless-text-secondary md:text-slate-400">
+        <p>© 2025 Medless – Eine Marke der CBD-Vertriebskompetenz GmbH</p>
+      </div>
+      
+    </div>
+  </footer>
+  `;
+}
+
 // ===== CANONICAL HEADER COMPONENT =====
 // Single source of truth for header across all routes
 function getCanonicalHeader(activePage: 'home' | 'magazin' | 'fachkreise' | 'app' = 'home') {
@@ -2341,15 +2397,7 @@ app.get('/magazin', (c) => {
   </section>
   
   <!-- FOOTER -->
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
-    </div>
-  </footer>
+  ${getCanonicalFooter()}
   
   <script>
     lucide.createIcons();
@@ -2454,15 +2502,7 @@ app.get('/magazin/medikamente-absetzen-7-fehler', (c) => {
     
   </main>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
-    </div>
-  </footer>
+  ${getCanonicalFooter()}
   
   <script>
     lucide.createIcons();
@@ -2895,12 +2935,7 @@ app.get('/magazin/endocannabinoid-system-erklaert', (c) => {
   </article>
   
   <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <p><strong>MEDLESS</strong> – Dein Weg zu weniger Medikamenten</p>
-      <p style="margin-top: 16px; ">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    </div>
-  </footer>
+  ${getCanonicalFooter()}
   
 </body>
 </html>
@@ -2999,15 +3034,7 @@ app.get('/magazin/antidepressiva-absetzen-ohne-entzug', (c) => {
     
   </main>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
-    </div>
-  </footer>
+  ${getCanonicalFooter()}
   
   <script>
     lucide.createIcons();
@@ -3108,15 +3135,7 @@ app.get('/magazin/schlaftabletten-loswerden', (c) => {
     
   </main>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
-    </div>
-  </footer>
+  ${getCanonicalFooter()}
   
   <script>
     lucide.createIcons();
@@ -3216,15 +3235,7 @@ app.get('/magazin/cbd-studien-und-fakten', (c) => {
     
   </main>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
-    </div>
-  </footer>
+  ${getCanonicalFooter()}
   
   <script>
     lucide.createIcons();
@@ -3325,15 +3336,7 @@ app.get('/magazin/magenschutz-absetzen-ppi', (c) => {
     
   </main>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
-    </div>
-  </footer>
+  ${getCanonicalFooter()}
   
   <script>
     lucide.createIcons();
@@ -3433,15 +3436,7 @@ app.get('/magazin/taeglich-5-tabletten', (c) => {
     
   </main>
   
-  <footer class="bg-slate-900 py-16 px-8 text-white text-center mt-20">
-    <p class="font-semibold mb-3">MEDLESS – Dein Weg zu weniger Medikamenten</p>
-    <p class="opacity-85 text-white/80">Eine Marke der CBD-Vertriebskompetenz GmbH</p>
-    <div class="mt-6 flex gap-6 justify-center">
-      <a href="/impressum" class="text-white/80 hover:text-white transition-colors no-underline">Impressum</a>
-      <a href="/datenschutz" class="text-white/80 hover:text-white transition-colors no-underline">Datenschutz</a>
-      <a href="/agb" class="text-white/80 hover:text-white transition-colors no-underline">AGB</a>
-    </div>
-  </footer>
+  ${getCanonicalFooter()}
   
   <script>
     lucide.createIcons();
@@ -5323,10 +5318,7 @@ app.get('/app', (c) => {
   <script src="/static/app.js?v=${Date.now()}"></script>
   
   <!-- Footer with Build Info -->
-  <footer style="background: #F9FAFB; border-top: 1px solid #E5E7EB; padding: 48px 32px; margin-top: 80px; text-align: center; color: #6B7280; font-size: 0.875rem;">
-    <p style="margin: 0;">© 2025 Medless | <a href="/impressum" style="color: medless-primary-dark; text-decoration: none;">Impressum</a> | <a href="/datenschutz" style="color: medless-primary-dark; text-decoration: none;">Datenschutz</a></p>
-    <p id="build-info-tag" style="margin: 12px 0 0 0; opacity: 0.6;">Loading build info...</p>
-  </footer>
+  ${getCanonicalFooter()}
   
   <script>
     // Fetch and display build info in footer
