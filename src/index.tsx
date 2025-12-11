@@ -3807,11 +3807,7 @@ app.get('/app', (c) => {
     }
   </style>
   
-  <!-- TailwindCSS & FontAwesome für Loading-Animation -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    // ✅ MEDLESS Design System loaded from tailwind.config.js (canonical)
-  </script>
+  <!-- FontAwesome für Loading-Animation -->
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
   
   <style>
