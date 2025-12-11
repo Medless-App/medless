@@ -3196,21 +3196,35 @@ app.get('/app', (c) => {
       padding: 0;
       box-sizing: border-box;
     }
+    html {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
     body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      padding: 20px;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      font-family: Arial, sans-serif !important;
+      background: #f0f0f0 !important;
+      padding: 20px !important;
+      min-height: 100vh !important;
     }
     .test-box {
-      background: #ff0000;
-      color: #ffffff;
-      padding: 50px;
-      font-size: 30px;
-      font-weight: bold;
-      text-align: center;
-      border: 10px solid #000000;
-      margin: 50px auto;
-      max-width: 800px;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      background: #ff0000 !important;
+      color: #ffffff !important;
+      padding: 50px !important;
+      font-size: 30px !important;
+      font-weight: bold !important;
+      text-align: center !important;
+      border: 10px solid #000000 !important;
+      margin: 50px auto !important;
+      max-width: 800px !important;
+      position: relative !important;
+      z-index: 9999 !important;
     }
     .wizard {
       background: #ffffff;
@@ -3241,9 +3255,9 @@ app.get('/app', (c) => {
     }
   </style>
 </head>
-<body>
+<body style="display: block !important; visibility: visible !important; opacity: 1 !important; background: #f0f0f0 !important; padding: 20px !important;">
 
-<div class="test-box">
+<div class="test-box" style="display: block !important; visibility: visible !important; opacity: 1 !important; background: #ff0000 !important; color: #ffffff !important; padding: 50px !important; font-size: 30px !important; border: 10px solid #000000 !important; margin: 50px auto !important; max-width: 800px !important; text-align: center !important; font-weight: bold !important;">
   🚨 EMERGENCY TEST - WENN DU DAS SIEHST, FUNKTIONIERT DAS ROUTING!
 </div>
 
