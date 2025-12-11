@@ -3188,6 +3188,96 @@ app.get('/app', (c) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEDLESS TEST</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .test-box {
+      background: #ff0000;
+      color: #ffffff;
+      padding: 50px;
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      border: 10px solid #000000;
+      margin: 50px auto;
+      max-width: 800px;
+    }
+    .wizard {
+      background: #ffffff;
+      padding: 30px;
+      margin: 30px auto;
+      max-width: 800px;
+      border: 3px solid #2FB585;
+    }
+    .wizard h1 {
+      color: #2FB585;
+      margin-bottom: 20px;
+    }
+    .wizard input {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      border: 2px solid #ccc;
+      margin: 10px 0;
+    }
+    .wizard button {
+      background: #2FB585;
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="test-box">
+  🚨 EMERGENCY TEST - WENN DU DAS SIEHST, FUNKTIONIERT DAS ROUTING!
+</div>
+
+<div class="wizard">
+  <h1>Ihr persönlicher MEDLESS-Orientierungsplan</h1>
+  <p>Schritt 1: Persönliche Angaben</p>
+  
+  <label>Vorname:</label>
+  <input type="text" placeholder="z.B. Maria">
+  
+  <label>Geschlecht:</label>
+  <input type="text" placeholder="Herr / Frau / Divers">
+  
+  <button>WEITER</button>
+</div>
+
+<script>
+  console.log('🚨 EMERGENCY TEST PAGE LOADED');
+  alert('TEST: Wenn du das siehst, läuft JavaScript!');
+</script>
+
+</body>
+</html>
+  `)
+})
+
+// BACKUP: Original /app route (commented out)
+app.get('/app-original', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Medless – Strukturierte Orientierungshilfe für dein Arztgespräch. Kostenlose Medikamentenanalyse als PDF-Orientierungsplan.">
   <title>MEDLESS-Orientierungsplan erstellen</title>
   
