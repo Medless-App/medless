@@ -3287,15 +3287,44 @@ app.get('/app', (c) => {
       text-decoration: none;
     }
 
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #FAFEFB; /* medless-bg-ultra-light fallback */
+      font-family: 'Inter', sans-serif;
+    }
+
     main {
-      max-width: 1024px;
+      flex-grow: 1;
+      background-color: #FAFEFB; /* medless-bg-ultra-light */
+      min-height: calc(100vh - 200px);
+    }
+    
+    main > div {
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 2.5rem 2rem;
+      padding: 2.5rem 1.5rem;
     }
     
     @media (max-width: 768px) {
-      main {
+      main > div {
         padding: 1.5rem 1rem;
+      }
+    }
+
+    /* WIZARD CARD - CRITICAL STYLES */
+    #tool {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+      padding: 1.5rem 1rem;
+      margin-top: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      #tool {
+        padding: 2rem 2rem;
       }
     }
 
@@ -3542,6 +3571,54 @@ app.get('/app', (c) => {
       border-radius: var(--radius-lg);
       padding: 1rem;
       box-shadow: var(--shadow-soft);
+    }
+    
+    /* CRITICAL: Form steps visibility */
+    .form-step {
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      min-height: 400px;
+      padding: 1.5rem 0;
+    }
+    
+    .form-step h3 {
+      color: #1B2A36;
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+    
+    /* Buttons must be visible */
+    .next-step, .prev-step {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      min-height: 44px;
+      background-color: #2FB585;
+      color: white;
+      border: 1px solid #2FB585;
+    }
+    
+    .next-step:hover {
+      background-color: #1B9C6E;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(47, 181, 133, 0.25);
+    }
+    
+    .prev-step {
+      background-color: white;
+      color: #2FB585;
+      border: 2px solid #2FB585;
+    }
+    
+    .prev-step:hover {
+      background-color: #E7F8EF;
     }
 
     .form-card h3 {
