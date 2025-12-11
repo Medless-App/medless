@@ -134,20 +134,20 @@
       
       <!-- Desktop Navigation -->
       <ul class="hidden md:flex items-center gap-7">
-        <li><a href="#how-it-works" class="text-[15px] text-gray-600 hover:text-medless-primary transition-colors duration-200">So funktioniert's</a></li>
-        <li><a href="#benefits" class="text-[15px] text-gray-600 hover:text-medless-primary transition-colors duration-200">Vorteile</a></li>
-        <li><a href="#faq" class="text-[15px] text-gray-600 hover:text-medless-primary transition-colors duration-200">FAQ</a></li>
-        <li><a href="/magazin" class="text-[15px] text-gray-600 hover:text-medless-primary transition-colors duration-200">Magazin</a></li>
-        <li><a href="/fachkreise" class="text-[15px] text-gray-600 hover:text-medless-primary transition-colors duration-200">Für Ärzt:innen & Apotheken</a></li>
+        <li><a href="#how-it-works" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">So funktioniert's</a></li>
+        <li><a href="#benefits" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Vorteile</a></li>
+        <li><a href="#faq" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">FAQ</a></li>
+        <li><a href="/magazin" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Magazin</a></li>
+        <li><a href="/fachkreise" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Für Ärzt:innen & Apotheken</a></li>
       </ul>
       
       <!-- Desktop CTA Button -->
-      <button 
-        onclick="window.location.href='/app'" 
-        class= active:scale-[0.97] active:bg-medless-primary-dark"hidden md:inline-flex items-center justify-center gap-3 px-8 py-4 text-button-text text-medless-primary bg-white border-2 border-medless-primary rounded-medless-button transition-all duration-[250ms] hover:bg-medless-primary hover:text-white hover:-translate-y-0.5 shadow-medless-button hover:shadow-medless-button-hover active:scale-[0.97] active:bg-medless-primary-dark"
+      <a
+        href="/app" 
+        class="hidden md:inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-medless-button border-2 border-medless-primary text-medless-primary bg-white text-button-text font-medium shadow-medless-button transition-all duration-medless hover:bg-medless-primary hover:text-white hover:shadow-medless-button-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40"
       >
         Orientierungsplan starten
-      </button>
+      </a>
       
       <!-- Mobile Menu Button -->
       <button 
@@ -210,7 +210,7 @@
       <div class="p-5 border-t border-medless-border-light">
         <a 
           href="/app" 
-          class= active:scale-[0.97] active:bg-medless-primary-dark"inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover transition-all duration-[250ms] active:scale-[0.97] active:bg-medless-primary-dark"
+          class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover transition-all duration-medless active:scale-[0.97]"
         >
           <i data-lucide="plus-circle" class="w-5 h-5"></i>
           <span>Orientierungsplan starten</span>
@@ -240,21 +240,14 @@
                 Erfasst Medikamente, zeigt Wechselwirkungen, erstellt einen ärztetauglichen PDF-Bericht.
               </p>
               
-              <div class="mt-5">
-                <button 
-                  onclick="window.location.href='/app'" 
-                  class= active:scale-[0.97] active:bg-medless-primary-dark"inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover transition-all duration-[250ms] active:scale-[0.97] active:bg-medless-primary-dark"
+              <div class="mt-6 md:mt-8">
+                <a
+                  href="/app" 
+                  class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3 rounded-medless-button bg-medless-primary text-white text-button-text font-semibold shadow-medless-button transition-all duration-medless hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40"
                 >
-                  <i data-lucide="plus-circle" class="w-5 h-5"></i>
+                  <i data-lucide="plus" class="w-5 h-5"></i>
                   <span>Orientierungsplan starten</span>
-                </button>
-                <button 
-                  type="button"
-                  onclick="document.getElementById('how-it-works').scrollIntoView({behavior: 'smooth'})"
-                  class="mt-3 text-sm text-medless-text-secondary hover:text-medless-primary underline-offset-4 hover:underline transition-colors"
-                >
-                  Mehr erfahren
-                </button>
+                </a>
               </div>
             </div>
             
