@@ -1577,8 +1577,6 @@ function getCanonicalHeader(activePage: 'home' | 'magazin' | 'fachkreise' | 'app
           <span>Orientierungsplan starten</span>
         </a>
       </div>
-    </div>
-  </div>
 
   <script>
     // Mobile menu toggle
@@ -4020,14 +4018,11 @@ app.get('/app', (c) => {
               <p class="text-xs font-semibold uppercase text-medless-text-tertiary tracking-wide">Schritt 5</p>
               <p class="text-sm text-medless-text-secondary">Zusammenfassung</p>
             </div>
-          </div>
-        </div>
       </div>
 
       <form id="medication-form">
         <!-- STEP 1: Name & Gender & Body Data -->
         <div id="step-1" class="form-step">
-          <div class="bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] rounded-[2rem] p-8 md:p-10 min-h-[450px]">
             <h3 class="text-2xl md:text-3xl font-light text-slate-900" style="margin-bottom: 0.5rem;">Schritt 1: Persönliche Angaben</h3>
             <p class="text-slate-500 font-light text-sm" style="margin-bottom: 1.5rem;">Damit wir Sie persönlich ansprechen können.</p>
             
@@ -4087,8 +4082,6 @@ app.get('/app', (c) => {
                 <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </button>
             </div>
-          </div>
-        </div>
 
         <!-- STEP 2: Body Data (glass-input auf Feldern) -->
         <div id="step-2" class="form-step" style="display: none;">
@@ -4157,8 +4150,6 @@ app.get('/app', (c) => {
                 <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </button>
             </div>
-          </div>
-        </div>
 
         <!-- STEP 3: Medications (Empty State) -->
         <div id="step-3" class="form-step" style="display: none;">
@@ -4195,8 +4186,6 @@ app.get('/app', (c) => {
                 <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </button>
             </div>
-          </div>
-        </div>
 
         <!-- STEP 4: Plan Settings -->
         <div id="step-4" class="form-step" style="display: none;">
@@ -4305,8 +4294,6 @@ app.get('/app', (c) => {
                 <div class="text-center">
                   <div class="font-semibold text-[medless-primary]">100%</div>
                   <div class="text-[10px] mt-1">Komplette Reduktion</div>
-                </div>
-              </div>
               
               <!-- Info-Box -->
               <div class="mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-start gap-3">
@@ -4330,8 +4317,6 @@ app.get('/app', (c) => {
                 <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </button>
             </div>
-          </div>
-        </div>
 
         <!-- STEP 5: Email & Summary -->
         <div id="step-5" class="form-step" style="display: none;">
@@ -4344,8 +4329,6 @@ app.get('/app', (c) => {
                 <label for="email">Ihre E-Mail-Adresse *</label>
                 <input type="email" id="email" name="email" placeholder="ihre.email@beispiel.de" required />
                 <div class="helper">Hierhin schicken wir den Download-Link zu Ihrem Dosierungsplan</div>
-              </div>
-            </div>
 
             <div class="card" style="background: #f9fafb; margin-top: 1.5rem; padding: 1rem;">
               <h4 style=" font-weight: 500; margin-bottom: 0.8rem;">Ihre Angaben im Überblick</h4>
@@ -4378,8 +4361,6 @@ app.get('/app', (c) => {
                   <span class="muted">Plan-Dauer:</span>
                   <span id="summary-duration" style="font-weight: 500;">-</span>
                 </div>
-              </div>
-            </div>
 
             <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
               <button type="button" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-button-text text-medless-text-secondary bg-white border border-medless-border-light rounded-medless-button transition-all duration-medless hover:bg-medless-bg-ultra-light hover:border-medless-primary/40 min-h-[44px] prev-step">
@@ -4390,8 +4371,6 @@ app.get('/app', (c) => {
                 Orientierungsplan erstellen <span>✓</span>
               </button>
             </div>
-          </div>
-        </div>
       </form>
 
       <!-- Loading Animation -->
@@ -4462,8 +4441,6 @@ app.get('/app', (c) => {
                     <div class="step-progress-bar" data-step="1"></div>
                   </div>
                   <div class="step-percentage">0%</div>
-                </div>
-              </div>
               
               <!-- Step 2: Metabolism & Interactions -->
               <div class="plan-loader-step step-2">
@@ -4486,8 +4463,6 @@ app.get('/app', (c) => {
                     <div class="step-progress-bar" data-step="2"></div>
                   </div>
                   <div class="step-percentage">0%</div>
-                </div>
-              </div>
               
               <!-- Step 3: Plan Construction -->
               <div class="plan-loader-step step-3">
@@ -4511,8 +4486,6 @@ app.get('/app', (c) => {
                     <div class="step-progress-bar" data-step="3"></div>
                   </div>
                   <div class="step-percentage">0%</div>
-                </div>
-              </div>
             </div>
           </div>
           
@@ -4550,8 +4523,6 @@ app.get('/app', (c) => {
                 Klicken Sie auf den Button wenn Sie bereit sind
               </p>
             </div>
-          </div>
-        </div>
       </div>
 
       <!-- Results -->
