@@ -3188,15 +3188,31 @@ app.get('/app', (c) => {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>MEDLESS – Testseite</title>
+      <title>MEDLESS Wizard – HTML Test</title>
+      <style>
+        body {
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          background: #fafefb;
+          margin: 0;
+          padding: 40px;
+        }
+        .box {
+          background: white;
+          border-radius: 12px;
+          padding: 20px;
+          border: 1px solid #dce9e2;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+      </style>
     </head>
-    <body style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
-      <h1 style="margin: 40px; font-size: 32px; color: #2FB585;">
-        MEDLESS /app – Testseite
+    <body>
+      <h1 style="color:#2FB585; font-size: 28px; margin-bottom: 20px;">
+        MEDLESS Wizard – HTML Test
       </h1>
-      <p style="margin: 40px; font-size: 18px;">
-        Wenn du diesen Text siehst, funktioniert die /app-Route technisch korrekt.
-      </p>
+      <div class="box">
+        <p>Wenn du diese Box siehst, funktioniert das Rendering des HTML.</p>
+        <p>Jetzt testen wir schrittweise die Integration des echten Wizards.</p>
+      </div>
     </body>
     </html>
   `);
