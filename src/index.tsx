@@ -3196,8 +3196,11 @@ app.get('/app', (c) => {
 
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap" rel="stylesheet" />
+    
+    <!-- TailwindCSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="antialiased">
+  <body class="antialiased bg-gray-50">
     <!-- React Mountpoint -->
     <div id="root"></div>
 

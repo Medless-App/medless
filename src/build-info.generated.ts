@@ -1,8 +1,8 @@
 // Auto-generated build information
 export const BUILD_INFO = {
-  buildHash: 'afa5ad3695b05238f8f8aa42cc39d4797cccc2398efbcde9192bf293bace10ce',
-  buildTime: '2025-12-11T11:35:45.711Z',
-  commit: '87e5e9b',
+  buildHash: 'ae52cc04b90aa18e821d07643b1972f989fe5ffca98274939829ccc429b3e5cc',
+  buildTime: '2025-12-11T11:50:08.002Z',
+  commit: '14ef928',
   branch: 'main',
   asset: 'static/app.js',
   version: '1.1.0'
