@@ -3190,20 +3190,12 @@ app.get('/app', (c) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>MEDLESS-Orientierungsplan erstellen</title>
       
-      <!-- Google Fonts - Inter (same as Landing) -->
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-      
       <!-- Tailwind CDN + MEDLESS Design System -->
       <script src="https://cdn.tailwindcss.com"></script>
       <script>
         tailwind.config = {
           theme: {
             extend: {
-              fontFamily: {
-                sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
-              },
               colors: {
                 'medless-primary': '#2FB585',
                 'medless-primary-dark': '#27a073',
@@ -3230,7 +3222,7 @@ app.get('/app', (c) => {
       </script>
     </head>
     
-    <body class="font-sans bg-medless-bg-ultra-light text-medless-text-primary">
+    <body class="bg-medless-bg-ultra-light text-medless-text-primary">
       
       <!-- HERO SECTION -->
       <section class="bg-gradient-to-br from-medless-primary to-medless-primary-dark text-white py-20 px-4">
@@ -3250,26 +3242,26 @@ app.get('/app', (c) => {
             </button>
           </div>
           
-          <!-- BENEFITS GRID (styled like Landing) -->
+          <!-- BENEFITS GRID -->
           <div class="grid md:grid-cols-4 gap-6 mt-12">
-            <div class="bg-white/10 backdrop-blur-sm rounded-medless-lg shadow-medless-card p-6 text-center">
+            <div class="bg-white/10 backdrop-blur-sm rounded-medless-md p-6 text-center">
               <div class="text-4xl mb-3">📋</div>
-              <h3 class="font-semibold text-lg mb-2">Medikamente erfassen</h3>
+              <h3 class="font-semibold mb-2">Medikamente erfassen</h3>
               <p class="text-sm text-white/80">Alle aktuellen Medikamente zentral dokumentieren</p>
             </div>
-            <div class="bg-white/10 backdrop-blur-sm rounded-medless-lg shadow-medless-card p-6 text-center">
+            <div class="bg-white/10 backdrop-blur-sm rounded-medless-md p-6 text-center">
               <div class="text-4xl mb-3">⚠️</div>
-              <h3 class="font-semibold text-lg mb-2">Wechselwirkungen prüfen</h3>
+              <h3 class="font-semibold mb-2">Wechselwirkungen prüfen</h3>
               <p class="text-sm text-white/80">Automatische Analyse kritischer Kombinationen</p>
             </div>
-            <div class="bg-white/10 backdrop-blur-sm rounded-medless-lg shadow-medless-card p-6 text-center">
+            <div class="bg-white/10 backdrop-blur-sm rounded-medless-md p-6 text-center">
               <div class="text-4xl mb-3">📊</div>
-              <h3 class="font-semibold text-lg mb-2">Plan erstellen</h3>
+              <h3 class="font-semibold mb-2">Plan erstellen</h3>
               <p class="text-sm text-white/80">Individueller Reduktionsplan (2-12 Wochen)</p>
             </div>
-            <div class="bg-white/10 backdrop-blur-sm rounded-medless-lg shadow-medless-card p-6 text-center">
+            <div class="bg-white/10 backdrop-blur-sm rounded-medless-md p-6 text-center">
               <div class="text-4xl mb-3">💾</div>
-              <h3 class="font-semibold text-lg mb-2">PDF Download</h3>
+              <h3 class="font-semibold mb-2">PDF Download</h3>
               <p class="text-sm text-white/80">Professioneller Bericht für Arztgespräch</p>
             </div>
           </div>
@@ -3297,35 +3289,35 @@ app.get('/app', (c) => {
             <div class="mb-10">
               <!-- Desktop Stepper -->
               <div class="hidden md:grid md:grid-cols-5 gap-4">
-                <div class="text-center step-indicator" data-step="1">
+                <div class="text-center stepper-step-desktop" data-step="1">
                   <div id="step-indicator-1" class="w-12 h-12 rounded-full bg-medless-primary text-white font-semibold flex items-center justify-center mx-auto transition-all">1</div>
-                  <p class="mt-2 text-sm text-medless-text-secondary font-medium">Persönlich</p>
+                  <p class="mt-2 text-sm text-medless-text-secondary">Persönlich</p>
                 </div>
-                <div class="text-center step-indicator" data-step="2">
+                <div class="text-center stepper-step-desktop" data-step="2">
                   <div id="step-indicator-2" class="w-12 h-12 rounded-full bg-gray-300 text-white font-semibold flex items-center justify-center mx-auto transition-all">2</div>
-                  <p class="mt-2 text-sm text-medless-text-secondary font-medium">Körper</p>
+                  <p class="mt-2 text-sm text-medless-text-secondary">Körper</p>
                 </div>
-                <div class="text-center step-indicator" data-step="3">
+                <div class="text-center stepper-step-desktop" data-step="3">
                   <div id="step-indicator-3" class="w-12 h-12 rounded-full bg-gray-300 text-white font-semibold flex items-center justify-center mx-auto transition-all">3</div>
-                  <p class="mt-2 text-sm text-medless-text-secondary font-medium">Medikation</p>
+                  <p class="mt-2 text-sm text-medless-text-secondary">Medikation</p>
                 </div>
-                <div class="text-center step-indicator" data-step="4">
+                <div class="text-center stepper-step-desktop" data-step="4">
                   <div id="step-indicator-4" class="w-12 h-12 rounded-full bg-gray-300 text-white font-semibold flex items-center justify-center mx-auto transition-all">4</div>
-                  <p class="mt-2 text-sm text-medless-text-secondary font-medium">Plan</p>
+                  <p class="mt-2 text-sm text-medless-text-secondary">Plan</p>
                 </div>
-                <div class="text-center step-indicator" data-step="5">
+                <div class="text-center stepper-step-desktop" data-step="5">
                   <div id="step-indicator-5" class="w-12 h-12 rounded-full bg-gray-300 text-white font-semibold flex items-center justify-center mx-auto transition-all">5</div>
-                  <p class="mt-2 text-sm text-medless-text-secondary font-medium">Fertig</p>
+                  <p class="mt-2 text-sm text-medless-text-secondary">Fertig</p>
                 </div>
               </div>
               
               <!-- Mobile Stepper -->
               <div class="md:hidden flex justify-center items-center gap-2">
-                <div id="step-indicator-mobile-1" class="w-3 h-3 rounded-full bg-medless-primary transition-all"></div>
-                <div id="step-indicator-mobile-2" class="w-3 h-3 rounded-full bg-gray-300 transition-all"></div>
-                <div id="step-indicator-mobile-3" class="w-3 h-3 rounded-full bg-gray-300 transition-all"></div>
-                <div id="step-indicator-mobile-4" class="w-3 h-3 rounded-full bg-gray-300 transition-all"></div>
-                <div id="step-indicator-mobile-5" class="w-3 h-3 rounded-full bg-gray-300 transition-all"></div>
+                <div id="step-indicator-mobile-1" class="w-3 h-3 rounded-full bg-medless-primary"></div>
+                <div id="step-indicator-mobile-2" class="w-3 h-3 rounded-full bg-gray-300"></div>
+                <div id="step-indicator-mobile-3" class="w-3 h-3 rounded-full bg-gray-300"></div>
+                <div id="step-indicator-mobile-4" class="w-3 h-3 rounded-full bg-gray-300"></div>
+                <div id="step-indicator-mobile-5" class="w-3 h-3 rounded-full bg-gray-300"></div>
               </div>
             </div>
             
@@ -3337,47 +3329,47 @@ app.get('/app', (c) => {
             <!-- WIZARD FORM -->
             <form id="medication-form">
               
-              <!-- STEP 1: Persönliche Angaben (NOT hidden - visible by default) -->
+              <!-- STEP 1: Persönliche Angaben -->
               <div id="step-1" class="form-step">
                 <h3 class="text-xl font-semibold mb-4 text-medless-primary">Schritt 1: Persönliche Angaben</h3>
                 <div class="space-y-4">
                   <div>
                     <label class="block text-sm font-medium mb-1">Vorname</label>
-                    <input type="text" id="first_name" name="first_name" placeholder="Ihr Vorname" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" required />
+                    <input type="text" id="first_name" name="first_name" placeholder="Ihr Vorname" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary" required />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium mb-2">Geschlecht</label>
+                    <label class="block text-sm font-medium mb-1">Geschlecht</label>
                     <div class="space-y-2">
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="gender" value="herr" class="mr-2 text-medless-primary focus:ring-medless-primary" required /> Herr</label>
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="gender" value="frau" class="mr-2 text-medless-primary focus:ring-medless-primary" /> Frau</label>
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="gender" value="divers" class="mr-2 text-medless-primary focus:ring-medless-primary" /> Divers</label>
+                      <label class="flex items-center"><input type="radio" name="gender" value="herr" class="mr-2" required /> Herr</label>
+                      <label class="flex items-center"><input type="radio" name="gender" value="frau" class="mr-2" /> Frau</label>
+                      <label class="flex items-center"><input type="radio" name="gender" value="divers" class="mr-2" /> Divers</label>
                     </div>
                   </div>
                 </div>
                 <div class="mt-6 flex justify-end">
-                  <button type="button" class="btn-next bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:bg-medless-primary-dark transition-colors font-medium">Weiter</button>
+                  <button type="button" class="btn-next bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:opacity-90">Weiter</button>
                 </div>
               </div>
               
-              <!-- STEP 2: Körperdaten (hidden initially) -->
+              <!-- STEP 2: Körperdaten -->
               <div id="step-2" class="form-step hidden">
                 <h3 class="text-xl font-semibold mb-4 text-medless-primary">Schritt 2: Körperdaten</h3>
                 <div class="space-y-4">
                   <div>
                     <label class="block text-sm font-medium mb-1">Alter (Jahre)</label>
-                    <input type="number" id="age" name="age" placeholder="Ihr Alter" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" min="1" max="120" required />
+                    <input type="number" id="age" name="age" placeholder="Ihr Alter" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary" min="1" max="120" required />
                   </div>
                   <div>
                     <label class="block text-sm font-medium mb-1">Gewicht (kg)</label>
-                    <input type="number" id="weight" name="weight" placeholder="Ihr Gewicht" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" min="1" max="300" step="0.1" required />
+                    <input type="number" id="weight" name="weight" placeholder="Ihr Gewicht" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary" min="1" max="300" step="0.1" required />
                   </div>
                   <div>
                     <label class="block text-sm font-medium mb-1">Größe (cm)</label>
-                    <input type="number" id="height" name="height" placeholder="Ihre Größe" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" min="50" max="250" required />
+                    <input type="number" id="height" name="height" placeholder="Ihre Größe" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary" min="50" max="250" required />
                   </div>
                   <div>
                     <label class="block text-sm font-medium mb-1">Leberfunktion</label>
-                    <select id="liver_function" name="liver_function" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" required>
+                    <select id="liver_function" name="liver_function" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary" required>
                       <option value="">Bitte auswählen</option>
                       <option value="normal">Normal</option>
                       <option value="mild">Leicht eingeschränkt</option>
@@ -3387,7 +3379,7 @@ app.get('/app', (c) => {
                   </div>
                   <div>
                     <label class="block text-sm font-medium mb-1">Nierenfunktion</label>
-                    <select id="kidney_function" name="kidney_function" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" required>
+                    <select id="kidney_function" name="kidney_function" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary" required>
                       <option value="">Bitte auswählen</option>
                       <option value="normal">Normal</option>
                       <option value="mild">Leicht eingeschränkt</option>
@@ -3397,56 +3389,56 @@ app.get('/app', (c) => {
                   </div>
                 </div>
                 <div class="mt-6 flex justify-between">
-                  <button type="button" class="btn-prev bg-gray-200 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-300 transition-colors font-medium">Zurück</button>
-                  <button type="button" class="btn-next bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:bg-medless-primary-dark transition-colors font-medium">Weiter</button>
+                  <button type="button" class="btn-prev bg-gray-300 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-400">Zurück</button>
+                  <button type="button" class="btn-next bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:opacity-90">Weiter</button>
                 </div>
               </div>
               
-              <!-- STEP 3: Medikation (hidden initially) -->
+              <!-- STEP 3: Medikation -->
               <div id="step-3" class="form-step hidden">
                 <h3 class="text-xl font-semibold mb-4 text-medless-primary">Schritt 3: Ihre Medikation</h3>
                 <div id="medication-inputs" class="space-y-4">
                   <div id="empty-state" class="text-center py-8 text-medless-text-secondary">
-                    <p class="font-medium">Noch keine Medikamente hinzugefügt.</p>
+                    <p>Noch keine Medikamente hinzugefügt.</p>
                     <p class="text-sm mt-2">Klicken Sie auf "Medikament hinzufügen"</p>
                   </div>
                 </div>
-                <button type="button" id="add-medication" class="mt-4 bg-medless-bg-medium text-medless-primary px-4 py-2 rounded-medless-button hover:bg-medless-primary hover:text-white transition-all font-medium">+ Medikament hinzufügen</button>
+                <button type="button" id="add-medication" class="mt-4 bg-medless-bg-medium text-medless-primary px-4 py-2 rounded-medless-button hover:bg-medless-primary hover:text-white transition-all">+ Medikament hinzufügen</button>
                 <div class="mt-6 flex justify-between">
-                  <button type="button" class="btn-prev bg-gray-200 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-300 transition-colors font-medium">Zurück</button>
-                  <button type="button" class="btn-next bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:bg-medless-primary-dark transition-colors font-medium">Weiter</button>
+                  <button type="button" class="btn-prev bg-gray-300 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-400">Zurück</button>
+                  <button type="button" class="btn-next bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:opacity-90">Weiter</button>
                 </div>
               </div>
               
-              <!-- STEP 4: Plan-Auswahl (hidden initially) -->
+              <!-- STEP 4: Plan-Auswahl -->
               <div id="step-4" class="form-step hidden">
                 <h3 class="text-xl font-semibold mb-4 text-medless-primary">Schritt 4: Plan-Auswahl</h3>
                 <div class="space-y-4">
                   <div>
                     <label class="block text-sm font-medium mb-2">Zieldauer (Wochen)</label>
                     <div class="space-y-2">
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="duration" value="2" class="mr-2 text-medless-primary focus:ring-medless-primary" required /> 2 Wochen (schnell)</label>
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="duration" value="4" class="mr-2 text-medless-primary focus:ring-medless-primary" /> 4 Wochen</label>
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="duration" value="6" class="mr-2 text-medless-primary focus:ring-medless-primary" /> 6 Wochen</label>
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="duration" value="8" class="mr-2 text-medless-primary focus:ring-medless-primary" checked /> 8 Wochen (empfohlen)</label>
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="duration" value="12" class="mr-2 text-medless-primary focus:ring-medless-primary" /> 12 Wochen (sehr sanft)</label>
+                      <label class="flex items-center"><input type="radio" name="duration" value="2" class="mr-2" required /> 2 Wochen (schnell)</label>
+                      <label class="flex items-center"><input type="radio" name="duration" value="4" class="mr-2" /> 4 Wochen</label>
+                      <label class="flex items-center"><input type="radio" name="duration" value="6" class="mr-2" /> 6 Wochen</label>
+                      <label class="flex items-center"><input type="radio" name="duration" value="8" class="mr-2" checked /> 8 Wochen (empfohlen)</label>
+                      <label class="flex items-center"><input type="radio" name="duration" value="12" class="mr-2" /> 12 Wochen (sehr sanft)</label>
                     </div>
                   </div>
                   <div>
                     <label class="block text-sm font-medium mb-2">Reduktion aktivieren?</label>
                     <div class="space-y-2">
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="reduction" value="yes" class="mr-2 text-medless-primary focus:ring-medless-primary" required checked /> Ja, ich möchte Medikamente reduzieren</label>
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="reduction" value="no" class="mr-2 text-medless-primary focus:ring-medless-primary" /> Nein, nur Übersicht anzeigen</label>
+                      <label class="flex items-center"><input type="radio" name="reduction" value="yes" class="mr-2" required checked /> Ja, ich möchte Medikamente reduzieren</label>
+                      <label class="flex items-center"><input type="radio" name="reduction" value="no" class="mr-2" /> Nein, nur Übersicht anzeigen</label>
                     </div>
                   </div>
                 </div>
                 <div class="mt-6 flex justify-between">
-                  <button type="button" class="btn-prev bg-gray-200 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-300 transition-colors font-medium">Zurück</button>
-                  <button type="button" class="btn-next bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:bg-medless-primary-dark transition-colors font-medium">Weiter</button>
+                  <button type="button" class="btn-prev bg-gray-300 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-400">Zurück</button>
+                  <button type="button" class="btn-next bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:opacity-90">Weiter</button>
                 </div>
               </div>
               
-              <!-- STEP 5: Zusammenfassung (hidden initially) -->
+              <!-- STEP 5: Zusammenfassung -->
               <div id="step-5" class="form-step hidden">
                 <h3 class="text-xl font-semibold mb-4 text-medless-primary">Schritt 5: Zusammenfassung</h3>
                 <div class="bg-medless-bg-light rounded-medless-md p-6 space-y-3">
@@ -3458,11 +3450,11 @@ app.get('/app', (c) => {
                 </div>
                 <div class="mt-6">
                   <label class="block text-sm font-medium mb-2">E-Mail (optional, für Erinnerungen)</label>
-                  <input type="email" name="email" placeholder="ihre@email.de" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" />
+                  <input type="email" name="email" placeholder="ihre@email.de" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary" />
                 </div>
                 <div class="mt-6 flex justify-between">
-                  <button type="button" class="btn-prev bg-gray-200 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-300 transition-colors font-medium">Zurück</button>
-                  <button type="submit" class="bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:bg-medless-primary-dark transition-colors shadow-medless-button font-medium">Plan erstellen & PDF herunterladen</button>
+                  <button type="button" class="btn-prev bg-gray-300 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-400">Zurück</button>
+                  <button type="submit" class="bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:opacity-90 shadow-medless-button">Plan erstellen & PDF herunterladen</button>
                 </div>
               </div>
               
@@ -3471,7 +3463,7 @@ app.get('/app', (c) => {
             <!-- LOADING/RESULTS SECTION (for PDF generation) -->
             <div id="loading" class="hidden text-center py-12">
               <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-medless-primary mx-auto mb-4"></div>
-              <p class="text-medless-text-secondary font-medium">Erstelle Ihren persönlichen Orientierungsplan...</p>
+              <p class="text-medless-text-secondary">Erstelle Ihren persönlichen Orientierungsplan...</p>
               <div id="particles-container" class="mt-8"></div>
             </div>
             
@@ -3500,7 +3492,6 @@ app.get('/app', (c) => {
     </html>
   `);
 })
-
 
 
 

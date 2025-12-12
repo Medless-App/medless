@@ -3576,3 +3576,203 @@ function downloadPDF(event) {
     }
   }
 }
+
+// ============================================================
+// WIZARD NAVIGATION ENGINE
+// ============================================================
+
+/**
+ * Multi-Step Wizard Navigation System
+ * Manages step transitions, validation, and UI updates
+ */
+
+const TOTAL_STEPS = 5;
+let currentStep = 1;
+
+/**
+ * Show specific wizard step and update UI
+ * @param {number} step - Step number to show (1-5)
+ */
+function showStep(step) {
+  // Defensive guards
+  if (step < 1 || step > TOTAL_STEPS) {
+    console.warn(`[Wizard] Invalid step: ${step}. Must be between 1 and ${TOTAL_STEPS}`);
+    return;
+  }
+  
+  currentStep = step;
+  console.log(`[Wizard] Showing step ${currentStep}`);
+  
+  // Hide all steps
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const stepEl = document.getElementById(`step-${i}`);
+    if (stepEl) {
+      stepEl.classList.add('hidden');
+    } else {
+      console.warn(`[Wizard] Step container #step-${i} not found`);
+    }
+  }
+  
+  // Show current step
+  const currentStepEl = document.getElementById(`step-${currentStep}`);
+  if (currentStepEl) {
+    currentStepEl.classList.remove('hidden');
+  } else {
+    console.error(`[Wizard] Cannot show step ${currentStep} - element not found`);
+    return;
+  }
+  
+  // Update desktop stepper indicators
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const indicator = document.getElementById(`step-indicator-${i}`);
+    if (indicator) {
+      if (i === currentStep) {
+        // Active step: green background
+        indicator.classList.remove('bg-gray-300');
+        indicator.classList.add('bg-medless-primary');
+      } else if (i < currentStep) {
+        // Completed step: green with checkmark (future enhancement)
+        indicator.classList.remove('bg-gray-300');
+        indicator.classList.add('bg-medless-primary');
+      } else {
+        // Inactive step: gray background
+        indicator.classList.remove('bg-medless-primary');
+        indicator.classList.add('bg-gray-300');
+      }
+    }
+  }
+  
+  // Update mobile stepper indicators
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const mobileIndicator = document.getElementById(`step-indicator-mobile-${i}`);
+    if (mobileIndicator) {
+      if (i === currentStep) {
+        mobileIndicator.classList.remove('bg-gray-300');
+        mobileIndicator.classList.add('bg-medless-primary');
+      } else if (i < currentStep) {
+        mobileIndicator.classList.remove('bg-gray-300');
+        mobileIndicator.classList.add('bg-medless-primary');
+      } else {
+        mobileIndicator.classList.remove('bg-medless-primary');
+        mobileIndicator.classList.add('bg-gray-300');
+      }
+    }
+  }
+  
+  // Scroll to top of wizard card
+  const toolSection = document.getElementById('tool');
+  if (toolSection) {
+    toolSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  
+  // Clear any previous errors
+  clearError();
+}
+
+/**
+ * Validate current step before proceeding
+ * @returns {boolean} True if validation passes
+ */
+function validateCurrentStep() {
+  const currentStepEl = document.getElementById(`step-${currentStep}`);
+  if (!currentStepEl) {
+    console.warn(`[Wizard] Cannot validate - step ${currentStep} not found`);
+    return false;
+  }
+  
+  // Get all required inputs in current step
+  const requiredInputs = currentStepEl.querySelectorAll('input[required], select[required], textarea[required]');
+  
+  let isValid = true;
+  requiredInputs.forEach(input => {
+    // Reset custom validity
+    input.setCustomValidity('');
+    
+    // Check if empty
+    if (!input.value || input.value.trim() === '') {
+      input.setCustomValidity('Dieses Feld ist erforderlich');
+      isValid = false;
+    }
+    
+    // Special validation for radio buttons
+    if (input.type === 'radio') {
+      const name = input.name;
+      const checkedRadio = currentStepEl.querySelector(`input[name="${name}"]:checked`);
+      if (!checkedRadio) {
+        input.setCustomValidity('Bitte wählen Sie eine Option');
+        isValid = false;
+      } else {
+        // Clear validity for all radios in group
+        const allRadios = currentStepEl.querySelectorAll(`input[name="${name}"]`);
+        allRadios.forEach(r => r.setCustomValidity(''));
+      }
+    }
+  });
+  
+  // Show validation errors
+  if (!isValid) {
+    const firstInvalid = currentStepEl.querySelector('input:invalid, select:invalid, textarea:invalid');
+    if (firstInvalid) {
+      firstInvalid.reportValidity();
+      firstInvalid.focus();
+    }
+  }
+  
+  return isValid;
+}
+
+/**
+ * Initialize wizard navigation system
+ */
+function initWizardNavigation() {
+  console.log('[Wizard] Initializing navigation system...');
+  
+  // Show first step
+  showStep(1);
+  
+  // Event delegation for next/prev buttons
+  document.addEventListener('click', (e) => {
+    const nextBtn = e.target.closest('.next-step, .btn-next');
+    const prevBtn = e.target.closest('.prev-step, .btn-prev');
+    
+    if (nextBtn) {
+      e.preventDefault();
+      console.log('[Wizard] Next button clicked');
+      
+      // Validate current step
+      if (!validateCurrentStep()) {
+        console.warn('[Wizard] Validation failed for step', currentStep);
+        return;
+      }
+      
+      // Move to next step
+      if (currentStep < TOTAL_STEPS) {
+        showStep(currentStep + 1);
+      } else {
+        console.log('[Wizard] Already at final step');
+      }
+    }
+    
+    if (prevBtn) {
+      e.preventDefault();
+      console.log('[Wizard] Previous button clicked');
+      
+      // Move to previous step (no validation needed)
+      if (currentStep > 1) {
+        showStep(currentStep - 1);
+      } else {
+        console.log('[Wizard] Already at first step');
+      }
+    }
+  });
+  
+  console.log('[Wizard] Navigation system initialized ✓');
+}
+
+// Initialize on DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initWizardNavigation);
+} else {
+  // DOM already loaded
+  initWizardNavigation();
+}
