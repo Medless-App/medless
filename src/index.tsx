@@ -3439,6 +3439,19 @@ app.get('/app', (c) => {
                       <label class="flex items-center cursor-pointer"><input type="radio" name="reduction" value="no" class="mr-2 text-medless-primary focus:ring-medless-primary" /> Nein, nur Übersicht anzeigen</label>
                     </div>
                   </div>
+                  
+                  <!-- Reduction Slider (visible when reduction=yes) -->
+                  <div id="reduction-slider-container" class="mt-4">
+                    <label class="block text-sm font-medium mb-2">
+                      Reduktionsziel: <span id="reduction-percentage-label" class="text-medless-primary font-semibold">100%</span>
+                    </label>
+                    <input type="range" id="reduction-percentage" name="reduction_percentage" min="0" max="100" value="100" step="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-medless-primary" />
+                    <div class="flex justify-between text-xs text-medless-text-secondary mt-1">
+                      <span>0%</span>
+                      <span>50%</span>
+                      <span>100%</span>
+                    </div>
+                  </div>
                 </div>
                 <div class="mt-6 flex justify-between">
                   <button type="button" class="btn-prev bg-gray-200 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-300 transition-colors font-medium">Zurück</button>
@@ -3453,8 +3466,11 @@ app.get('/app', (c) => {
                   <div class="flex justify-between"><span class="font-medium">Name:</span><span id="summary-name" class="text-medless-text-secondary">—</span></div>
                   <div class="flex justify-between"><span class="font-medium">Alter:</span><span id="summary-age" class="text-medless-text-secondary">—</span></div>
                   <div class="flex justify-between"><span class="font-medium">Gewicht:</span><span id="summary-weight" class="text-medless-text-secondary">—</span></div>
+                  <div class="flex justify-between"><span class="font-medium">Leberfunktion:</span><span id="summary-liver" class="text-medless-text-secondary">—</span></div>
+                  <div class="flex justify-between"><span class="font-medium">Nierenfunktion:</span><span id="summary-kidney" class="text-medless-text-secondary">—</span></div>
                   <div class="flex justify-between"><span class="font-medium">Medikamente:</span><span id="summary-medications" class="text-medless-text-secondary">—</span></div>
                   <div class="flex justify-between"><span class="font-medium">Zieldauer:</span><span id="summary-duration" class="text-medless-text-secondary">—</span></div>
+                  <div class="flex justify-between"><span class="font-medium">Reduktion:</span><span id="summary-reduction" class="text-medless-text-secondary">—</span></div>
                 </div>
                 <div class="mt-6">
                   <label class="block text-sm font-medium mb-2">E-Mail (optional, für Erinnerungen)</label>
@@ -3462,7 +3478,7 @@ app.get('/app', (c) => {
                 </div>
                 <div class="mt-6 flex justify-between">
                   <button type="button" class="btn-prev bg-gray-200 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-300 transition-colors font-medium">Zurück</button>
-                  <button type="submit" class="bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:bg-medless-primary-dark transition-colors shadow-medless-button font-medium">Plan erstellen & PDF herunterladen</button>
+                  <button type="button" id="create-plan-btn" class="bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:bg-medless-primary-dark transition-colors shadow-medless-button font-medium">Plan erstellen & PDF herunterladen</button>
                 </div>
               </div>
               

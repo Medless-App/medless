@@ -3776,3 +3776,285 @@ if (document.readyState === 'loading') {
   // DOM already loaded
   initWizardNavigation();
 }
+
+// ===============================
+// SUMMARY AUTO-UPDATE (Step 5)
+// ===============================
+
+function updateSummary() {
+  console.log('[Summary] Updating Step 5 summary...');
+  
+  // Name
+  const firstName = document.getElementById('first_name')?.value || '';
+  const lastName = document.getElementById('last_name')?.value || ''; // If exists
+  const name = lastName ? `${firstName} ${lastName}` : firstName;
+  document.getElementById('summary-name').textContent = name || '—';
+  
+  // Age
+  const age = document.getElementById('age')?.value || '';
+  document.getElementById('summary-age').textContent = age ? `${age} Jahre` : '—';
+  
+  // Weight
+  const weight = document.getElementById('weight')?.value || '';
+  document.getElementById('summary-weight').textContent = weight ? `${weight} kg` : '—';
+  
+  // Liver function
+  const liverSelect = document.getElementById('liver_function');
+  const liverText = liverSelect?.options[liverSelect.selectedIndex]?.text || '—';
+  document.getElementById('summary-liver').textContent = liverText;
+  
+  // Kidney function
+  const kidneySelect = document.getElementById('kidney_function');
+  const kidneyText = kidneySelect?.options[kidneySelect.selectedIndex]?.text || '—';
+  document.getElementById('summary-kidney').textContent = kidneyText;
+  
+  // Medications (from dynamic medication-inputs)
+  const medInputs = document.querySelectorAll('.medication-input-group');
+  const meds = [];
+  medInputs.forEach(group => {
+    const nameInput = group.querySelector('.medication-display-input');
+    const dosageInput = group.querySelector('input[name="medication_dosage[]"]');
+    const frequencyInput = group.querySelector('input[name="medication_frequency[]"]');
+    
+    if (nameInput?.value) {
+      const dosage = dosageInput?.value || '?';
+      const frequency = frequencyInput?.value || '?';
+      meds.push(`${nameInput.value} ${dosage}mg (${frequency}x/Tag)`);
+    }
+  });
+  document.getElementById('summary-medications').textContent = meds.length > 0 ? meds.join(', ') : '—';
+  
+  // Duration
+  const durationRadio = document.querySelector('input[name="duration"]:checked');
+  const duration = durationRadio?.value || '';
+  document.getElementById('summary-duration').textContent = duration ? `${duration} Wochen` : '—';
+  
+  // Reduction
+  const reductionRadio = document.querySelector('input[name="reduction"]:checked');
+  const reductionEnabled = reductionRadio?.value === 'yes';
+  const reductionPercentage = document.getElementById('reduction-percentage')?.value || '100';
+  
+  if (reductionEnabled) {
+    document.getElementById('summary-reduction').textContent = `Ja, Ziel: ${reductionPercentage}%`;
+  } else {
+    document.getElementById('summary-reduction').textContent = 'Nein';
+  }
+  
+  console.log('[Summary] Update complete ✓');
+}
+
+// ===============================
+// REDUCTION SLIDER LOGIC
+// ===============================
+
+function initReductionSlider() {
+  const reductionYes = document.querySelector('input[name="reduction"][value="yes"]');
+  const reductionNo = document.querySelector('input[name="reduction"][value="no"]');
+  const sliderContainer = document.getElementById('reduction-slider-container');
+  const slider = document.getElementById('reduction-percentage');
+  const label = document.getElementById('reduction-percentage-label');
+  
+  if (!reductionYes || !reductionNo || !sliderContainer || !slider || !label) {
+    console.warn('[Slider] Reduction elements not found');
+    return;
+  }
+  
+  // Update slider visibility based on radio selection
+  function updateSliderVisibility() {
+    if (reductionYes.checked) {
+      sliderContainer.classList.remove('hidden');
+      slider.value = '100'; // Reset to 100%
+      label.textContent = '100%';
+    } else {
+      sliderContainer.classList.add('hidden');
+      slider.value = '0'; // Set to 0 when disabled
+    }
+    updateSummary(); // Refresh summary
+  }
+  
+  // Live update percentage label
+  slider.addEventListener('input', function() {
+    label.textContent = `${slider.value}%`;
+    updateSummary();
+  });
+  
+  // Listen to radio changes
+  reductionYes.addEventListener('change', updateSliderVisibility);
+  reductionNo.addEventListener('change', updateSliderVisibility);
+  
+  // Initialize visibility
+  updateSliderVisibility();
+  
+  console.log('[Slider] Reduction slider initialized ✓');
+}
+
+// ===============================
+// PLAN CREATION & PDF FLOW
+// ===============================
+
+function initPlanCreation() {
+  const createPlanBtn = document.getElementById('create-plan-btn');
+  const form = document.getElementById('medication-form');
+  const loadingDiv = document.getElementById('loading');
+  const resultsDiv = document.getElementById('results');
+  
+  if (!createPlanBtn || !form) {
+    console.warn('[Plan] Create plan button or form not found');
+    return;
+  }
+  
+  createPlanBtn.addEventListener('click', async function(e) {
+    e.preventDefault();
+    console.log('[Plan] Creating plan...');
+    
+    // 1. Validate: Check medications
+    const medInputs = document.querySelectorAll('.medication-input-group');
+    if (medInputs.length === 0) {
+      showError('Bitte fügen Sie mindestens ein Medikament hinzu.');
+      return;
+    }
+    
+    // 2. Collect data
+    const formData = new FormData(form);
+    const payload = {
+      patient: {
+        first_name: formData.get('first_name') || '',
+        last_name: formData.get('last_name') || '',
+        gender: formData.get('gender') || '',
+        age: parseInt(formData.get('age')) || 0,
+        weight: parseFloat(formData.get('weight')) || 0,
+        height: parseInt(formData.get('height')) || 0,
+        liver_function: formData.get('liver_function') || 'normal',
+        kidney_function: formData.get('kidney_function') || 'normal',
+        email: formData.get('email') || ''
+      },
+      medications: [],
+      plan: {
+        duration_weeks: parseInt(formData.get('duration')) || 8,
+        reduction_enabled: formData.get('reduction') === 'yes',
+        reduction_percentage: parseInt(formData.get('reduction_percentage')) || 0
+      }
+    };
+    
+    // Collect medications
+    medInputs.forEach(group => {
+      const nameInput = group.querySelector('.medication-name-hidden');
+      const dosageInput = group.querySelector('input[name="medication_dosage[]"]');
+      const frequencyInput = group.querySelector('input[name="medication_frequency[]"]');
+      
+      if (nameInput?.value && dosageInput?.value && frequencyInput?.value) {
+        payload.medications.push({
+          name: nameInput.value,
+          dosage_mg: parseFloat(dosageInput.value),
+          frequency_per_day: parseInt(frequencyInput.value)
+        });
+      }
+    });
+    
+    console.log('[Plan] Payload:', payload);
+    
+    // 3. Show loading animation
+    document.getElementById('step-5').classList.add('hidden');
+    loadingDiv.classList.remove('hidden');
+    
+    try {
+      // 4. Call /api/analyze
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      console.log('[Plan] Analysis result:', result);
+      
+      // 5. Show results
+      loadingDiv.classList.add('hidden');
+      resultsDiv.classList.remove('hidden');
+      
+      // 6. Trigger PDF downloads (if downloadHtmlAsPdf exists)
+      setTimeout(() => {
+        if (typeof downloadHtmlAsPdf === 'function') {
+          console.log('[Plan] Triggering PDF downloads...');
+          // Download Doctor PDF
+          downloadHtmlAsPdf('doctor');
+          
+          // Download Patient PDF (after 2s delay)
+          setTimeout(() => {
+            downloadHtmlAsPdf('patient');
+          }, 2000);
+        } else {
+          console.warn('[Plan] downloadHtmlAsPdf function not found');
+        }
+      }, 1000);
+      
+    } catch (error) {
+      console.error('[Plan] Error:', error);
+      loadingDiv.classList.add('hidden');
+      document.getElementById('step-5').classList.remove('hidden');
+      showError(`Fehler beim Erstellen des Plans: ${error.message}`);
+    }
+  });
+  
+  console.log('[Plan] Plan creation handler initialized ✓');
+}
+
+// ===============================
+// AUTO-UPDATE TRIGGERS
+// ===============================
+
+function initSummaryAutoUpdate() {
+  // Update summary when navigating to Step 5
+  const originalShowStep = window.showStep || showStep;
+  window.showStep = function(step) {
+    originalShowStep(step);
+    if (step === 5) {
+      updateSummary();
+    }
+  };
+  
+  // Update summary on input/change events
+  const form = document.getElementById('medication-form');
+  if (form) {
+    form.addEventListener('input', function(e) {
+      if (currentStep === 5) {
+        updateSummary();
+      }
+    });
+    form.addEventListener('change', function(e) {
+      if (currentStep === 5) {
+        updateSummary();
+      }
+    });
+  }
+  
+  console.log('[Summary] Auto-update triggers initialized ✓');
+}
+
+// ===============================
+// INITIALIZE ALL ENHANCEMENTS
+// ===============================
+
+function initWizardEnhancements() {
+  console.log('[Wizard] Initializing enhancements...');
+  
+  initReductionSlider();
+  initSummaryAutoUpdate();
+  initPlanCreation();
+  
+  console.log('[Wizard] All enhancements initialized ✓');
+}
+
+// Wait for DOM + original wizard navigation
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initWizardEnhancements, 100); // After original init
+  });
+} else {
+  setTimeout(initWizardEnhancements, 100);
+}
+
