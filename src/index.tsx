@@ -721,17 +721,23 @@ async function buildAnalyzeResponse(body: any, env: any) {
     throw new Error('Bitte geben Sie eine gültige Dauer in Wochen an');
   }
   
-  // Normalize medication field names (support both dailyDoseMg and mgPerDay)
+  // Normalize medication field names (support: daily_dose_mg, dailyDoseMg, mgPerDay)
   for (const med of medications) {
     // Normalize medication name (support both name and generic_name)
     med.name = med.name || med.generic_name || 'Unbekanntes Medikament';
     
-    const doseMg = med.dailyDoseMg || med.mgPerDay;
-    if (!doseMg || isNaN(doseMg) || doseMg <= 0) {
-      throw new Error(`Bitte geben Sie eine gültige Tagesdosis in mg für "${med.name}" ein`);
+    // Support multiple field names for daily dose
+    const doseMg = med.daily_dose_mg || med.dailyDoseMg || med.mgPerDay;
+    
+    // Allow null/undefined (Tagesdosis fehlt), but validate if present
+    if (doseMg !== null && doseMg !== undefined) {
+      if (isNaN(doseMg) || doseMg < 0) {
+        throw new Error(`Bitte geben Sie eine gültige Tagesdosis in mg für "${med.name}" ein`);
+      }
     }
-    // Normalize to mgPerDay for internal use
-    med.mgPerDay = doseMg;
+    
+    // Normalize to mgPerDay for internal use (null if not provided)
+    med.mgPerDay = doseMg !== null && doseMg !== undefined ? doseMg : null;
   }
   
   // Save email to database if provided
