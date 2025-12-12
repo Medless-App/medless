@@ -3242,6 +3242,37 @@ app.get('/app', (c) => {
         </p>
       </div>
 
+      <div class="mt-10 max-w-xl bg-white rounded-xl shadow p-6">
+        <h2 class="text-xl font-semibold mb-4">
+          Schritt 1 – Persönliche Angaben
+        </h2>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">Vorname</label>
+          <input
+            type="text"
+            placeholder="Dein Vorname"
+            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-green-200"
+          />
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">Geschlecht</label>
+          <select class="w-full border rounded-lg px-3 py-2">
+            <option>Bitte auswählen</option>
+            <option>Herr</option>
+            <option>Frau</option>
+            <option>Divers</option>
+          </select>
+        </div>
+
+        <div class="text-right">
+          <button class="bg-green-500 text-white px-5 py-2 rounded-lg">
+            Weiter
+          </button>
+        </div>
+      </div>
+
     </body>
     </html>
   `);
