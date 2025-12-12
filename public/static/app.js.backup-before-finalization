@@ -3778,76 +3778,7 @@ if (document.readyState === 'loading') {
 }
 
 // ===============================
-
-// ===============================
-// FINALIZED WIZARD ENHANCEMENTS
-// ===============================
-
-// ===============================
-// 1. EMAIL VALIDATION + BUTTON STATE
-// ===============================
-
-function initEmailValidation() {
-  const emailInput = document.getElementById('email-input');
-  const createBtn = document.getElementById('create-plan-btn');
-  
-  if (!emailInput || !createBtn) {
-    console.warn('[Email] Email input or create button not found');
-    return;
-  }
-  
-  function validateEmail() {
-    const email = emailInput.value.trim();
-    const isValid = email.length > 0 && emailInput.checkValidity();
-    
-    createBtn.disabled = !isValid;
-    
-    if (isValid) {
-      createBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-    } else {
-      createBtn.classList.add('opacity-50', 'cursor-not-allowed');
-    }
-  }
-  
-  // Listen to input events
-  emailInput.addEventListener('input', validateEmail);
-  emailInput.addEventListener('blur', validateEmail);
-  
-  // Initial validation
-  validateEmail();
-  
-  console.log('[Email] Email validation initialized ✓');
-}
-
-// ===============================
-// 2. REDUCTION SLIDER (10-100%, no toggle)
-// ===============================
-
-function initReductionSlider() {
-  const slider = document.getElementById('reduction-percentage');
-  const label = document.getElementById('reduction-percentage-label');
-  
-  if (!slider || !label) {
-    console.warn('[Slider] Reduction slider elements not found');
-    return;
-  }
-  
-  // Update label live
-  slider.addEventListener('input', function() {
-    label.textContent = `${slider.value}%`;
-    if (currentStep === 5) {
-      updateSummary();
-    }
-  });
-  
-  // Initialize
-  label.textContent = `${slider.value}%`;
-  
-  console.log('[Slider] Reduction slider initialized ✓ (min: 10%, max: 100%)');
-}
-
-// ===============================
-// 3. SUMMARY AUTO-UPDATE
+// SUMMARY AUTO-UPDATE (Step 5)
 // ===============================
 
 function updateSummary() {
@@ -3855,7 +3786,9 @@ function updateSummary() {
   
   // Name
   const firstName = document.getElementById('first_name')?.value || '';
-  document.getElementById('summary-name').textContent = firstName || '—';
+  const lastName = document.getElementById('last_name')?.value || ''; // If exists
+  const name = lastName ? `${firstName} ${lastName}` : firstName;
+  document.getElementById('summary-name').textContent = name || '—';
   
   // Age
   const age = document.getElementById('age')?.value || '';
@@ -3865,17 +3798,17 @@ function updateSummary() {
   const weight = document.getElementById('weight')?.value || '';
   document.getElementById('summary-weight').textContent = weight ? `${weight} kg` : '—';
   
-  // Liver
+  // Liver function
   const liverSelect = document.getElementById('liver_function');
   const liverText = liverSelect?.options[liverSelect.selectedIndex]?.text || '—';
   document.getElementById('summary-liver').textContent = liverText;
   
-  // Kidney
+  // Kidney function
   const kidneySelect = document.getElementById('kidney_function');
   const kidneyText = kidneySelect?.options[kidneySelect.selectedIndex]?.text || '—';
   document.getElementById('summary-kidney').textContent = kidneyText;
   
-  // Medications
+  // Medications (from dynamic medication-inputs)
   const medInputs = document.querySelectorAll('.medication-input-group');
   const meds = [];
   medInputs.forEach(group => {
@@ -3896,91 +3829,67 @@ function updateSummary() {
   const duration = durationRadio?.value || '';
   document.getElementById('summary-duration').textContent = duration ? `${duration} Wochen` : '—';
   
-  // Reduction (always enabled now, just show percentage)
+  // Reduction
+  const reductionRadio = document.querySelector('input[name="reduction"]:checked');
+  const reductionEnabled = reductionRadio?.value === 'yes';
   const reductionPercentage = document.getElementById('reduction-percentage')?.value || '100';
-  document.getElementById('summary-reduction').textContent = `${reductionPercentage}%`;
+  
+  if (reductionEnabled) {
+    document.getElementById('summary-reduction').textContent = `Ja, Ziel: ${reductionPercentage}%`;
+  } else {
+    document.getElementById('summary-reduction').textContent = 'Nein';
+  }
   
   console.log('[Summary] Update complete ✓');
 }
 
 // ===============================
-// 4. KI LOADING ANIMATION (3 Steps)
+// REDUCTION SLIDER LOGIC
 // ===============================
 
-function startKiAnimation() {
-  const step1 = document.getElementById('ki-step-1');
-  const step2 = document.getElementById('ki-step-2');
-  const step3 = document.getElementById('ki-step-3');
+function initReductionSlider() {
+  const reductionYes = document.querySelector('input[name="reduction"][value="yes"]');
+  const reductionNo = document.querySelector('input[name="reduction"][value="no"]');
+  const sliderContainer = document.getElementById('reduction-slider-container');
+  const slider = document.getElementById('reduction-percentage');
+  const label = document.getElementById('reduction-percentage-label');
   
-  if (!step1 || !step2 || !step3) {
-    console.warn('[KI] Animation elements not found');
+  if (!reductionYes || !reductionNo || !sliderContainer || !slider || !label) {
+    console.warn('[Slider] Reduction elements not found');
     return;
   }
   
-  // Reset all steps
-  [step1, step2, step3].forEach(el => {
-    el.classList.remove('bg-medless-bg-light', 'opacity-100');
-    el.classList.add('bg-gray-100', 'opacity-50');
-    const circle = el.querySelector('.rounded-full');
-    if (circle) {
-      circle.classList.remove('bg-medless-primary');
-      circle.classList.add('bg-gray-400');
+  // Update slider visibility based on radio selection
+  function updateSliderVisibility() {
+    if (reductionYes.checked) {
+      sliderContainer.classList.remove('hidden');
+      slider.value = '100'; // Reset to 100%
+      label.textContent = '100%';
+    } else {
+      sliderContainer.classList.add('hidden');
+      slider.value = '0'; // Set to 0 when disabled
     }
-    const spinner = el.querySelector('.animate-spin');
-    if (spinner) spinner.remove();
+    updateSummary(); // Refresh summary
+  }
+  
+  // Live update percentage label
+  slider.addEventListener('input', function() {
+    label.textContent = `${slider.value}%`;
+    updateSummary();
   });
   
-  // Animate Step 1
-  setTimeout(() => {
-    step1.classList.remove('bg-gray-100', 'opacity-50');
-    step1.classList.add('bg-medless-bg-light', 'opacity-100');
-    const circle1 = step1.querySelector('.rounded-full');
-    if (circle1) {
-      circle1.classList.remove('bg-gray-400');
-      circle1.classList.add('bg-medless-primary');
-    }
-    step1.innerHTML += '<div class="ml-auto"><div class="animate-spin h-4 w-4 border-2 border-medless-primary border-t-transparent rounded-full"></div></div>';
-  }, 100);
+  // Listen to radio changes
+  reductionYes.addEventListener('change', updateSliderVisibility);
+  reductionNo.addEventListener('change', updateSliderVisibility);
   
-  // Animate Step 2
-  setTimeout(() => {
-    const spinner1 = step1.querySelector('.ml-auto');
-    if (spinner1) spinner1.innerHTML = '<span class="text-medless-primary">✓</span>';
-    
-    step2.classList.remove('bg-gray-100', 'opacity-50');
-    step2.classList.add('bg-medless-bg-light', 'opacity-100');
-    const circle2 = step2.querySelector('.rounded-full');
-    if (circle2) {
-      circle2.classList.remove('bg-gray-400');
-      circle2.classList.add('bg-medless-primary');
-    }
-    step2.innerHTML += '<div class="ml-auto"><div class="animate-spin h-4 w-4 border-2 border-medless-primary border-t-transparent rounded-full"></div></div>';
-  }, 1500);
+  // Initialize visibility
+  updateSliderVisibility();
   
-  // Animate Step 3
-  setTimeout(() => {
-    const spinner2 = step2.querySelector('.ml-auto');
-    if (spinner2) spinner2.innerHTML = '<span class="text-medless-primary">✓</span>';
-    
-    step3.classList.remove('bg-gray-100', 'opacity-50');
-    step3.classList.add('bg-medless-bg-light', 'opacity-100');
-    const circle3 = step3.querySelector('.rounded-full');
-    if (circle3) {
-      circle3.classList.remove('bg-gray-400');
-      circle3.classList.add('bg-medless-primary');
-    }
-    step3.innerHTML += '<div class="ml-auto"><div class="animate-spin h-4 w-4 border-2 border-medless-primary border-t-transparent rounded-full"></div></div>';
-  }, 3000);
-  
-  // Complete Step 3
-  setTimeout(() => {
-    const spinner3 = step3.querySelector('.ml-auto');
-    if (spinner3) spinner3.innerHTML = '<span class="text-medless-primary">✓</span>';
-  }, 4500);
+  console.log('[Slider] Reduction slider initialized ✓');
 }
 
 // ===============================
-// 5. PLAN CREATION FLOW
+// PLAN CREATION & PDF FLOW
 // ===============================
 
 function initPlanCreation() {
@@ -3998,43 +3907,19 @@ function initPlanCreation() {
     e.preventDefault();
     console.log('[Plan] Creating plan...');
     
-    // 1. Validate medications
+    // 1. Validate: Check medications
     const medInputs = document.querySelectorAll('.medication-input-group');
     if (medInputs.length === 0) {
-      showError('Bitte fügen Sie mindestens ein Medikament hinzu (Schritt 3).');
+      showError('Bitte fügen Sie mindestens ein Medikament hinzu.');
       return;
     }
     
-    // 2. Validate email
-    const emailInput = document.getElementById('email-input');
-    if (!emailInput || !emailInput.value.trim() || !emailInput.checkValidity()) {
-      showError('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
-      emailInput?.focus();
-      return;
-    }
-    
-    // 3. Collect data
+    // 2. Collect data
     const formData = new FormData(form);
-    
-    // Collect medications
-    const medications = [];
-    medInputs.forEach(group => {
-      const nameInput = group.querySelector('.medication-name-hidden');
-      const dosageInput = group.querySelector('input[name="medication_dosage[]"]');
-      const frequencyInput = group.querySelector('input[name="medication_frequency[]"]');
-      
-      if (nameInput?.value && dosageInput?.value && frequencyInput?.value) {
-        medications.push({
-          name: nameInput.value,
-          dosage_mg: parseFloat(dosageInput.value) || 0,
-          frequency_per_day: parseInt(frequencyInput.value) || 1
-        });
-      }
-    });
-    
     const payload = {
       patient: {
         first_name: formData.get('first_name') || '',
+        last_name: formData.get('last_name') || '',
         gender: formData.get('gender') || '',
         age: parseInt(formData.get('age')) || 0,
         weight: parseFloat(formData.get('weight')) || 0,
@@ -4043,85 +3928,75 @@ function initPlanCreation() {
         kidney_function: formData.get('kidney_function') || 'normal',
         email: formData.get('email') || ''
       },
-      medications: medications,
+      medications: [],
       plan: {
         duration_weeks: parseInt(formData.get('duration')) || 8,
-        reduction_percentage: parseInt(formData.get('reduction_percentage')) || 100
+        reduction_enabled: formData.get('reduction') === 'yes',
+        reduction_percentage: parseInt(formData.get('reduction_percentage')) || 0
       }
     };
     
+    // Collect medications
+    medInputs.forEach(group => {
+      const nameInput = group.querySelector('.medication-name-hidden');
+      const dosageInput = group.querySelector('input[name="medication_dosage[]"]');
+      const frequencyInput = group.querySelector('input[name="medication_frequency[]"]');
+      
+      if (nameInput?.value && dosageInput?.value && frequencyInput?.value) {
+        payload.medications.push({
+          name: nameInput.value,
+          dosage_mg: parseFloat(dosageInput.value),
+          frequency_per_day: parseInt(frequencyInput.value)
+        });
+      }
+    });
+    
     console.log('[Plan] Payload:', payload);
     
-    // 4. Validate payload
-    if (!payload.patient.first_name || !payload.patient.email) {
-      showError('Bitte füllen Sie alle Pflichtfelder aus.');
-      return;
-    }
-    
-    if (medications.length === 0) {
-      showError('Bitte fügen Sie mindestens ein Medikament hinzu.');
-      return;
-    }
-    
-    // 5. Show loading
+    // 3. Show loading animation
     document.getElementById('step-5').classList.add('hidden');
     loadingDiv.classList.remove('hidden');
-    startKiAnimation();
     
     try {
-      // 6. Call API
+      // 4. Call /api/analyze
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
       
-      const responseText = await response.text();
-      console.log('[Plan] Raw response:', responseText);
-      
       if (!response.ok) {
-        let errorMsg = `HTTP ${response.status}`;
-        try {
-          const errorData = JSON.parse(responseText);
-          errorMsg = errorData.error || errorData.message || errorMsg;
-        } catch (e) {
-          errorMsg = responseText || errorMsg;
-        }
-        throw new Error(errorMsg);
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
-      const result = JSON.parse(responseText);
+      const result = await response.json();
       console.log('[Plan] Analysis result:', result);
       
-      // 7. Show results after animation completes
+      // 5. Show results
+      loadingDiv.classList.add('hidden');
+      resultsDiv.classList.remove('hidden');
+      
+      // 6. Trigger PDF downloads (if downloadHtmlAsPdf exists)
       setTimeout(() => {
-        loadingDiv.classList.add('hidden');
-        resultsDiv.classList.remove('hidden');
-        
-        // 8. Trigger automatic PDF download
-        setTimeout(() => {
-          downloadPDF(result);
-        }, 1000);
-      }, 5000); // Wait for full KI animation
+        if (typeof downloadHtmlAsPdf === 'function') {
+          console.log('[Plan] Triggering PDF downloads...');
+          // Download Doctor PDF
+          downloadHtmlAsPdf('doctor');
+          
+          // Download Patient PDF (after 2s delay)
+          setTimeout(() => {
+            downloadHtmlAsPdf('patient');
+          }, 2000);
+        } else {
+          console.warn('[Plan] downloadHtmlAsPdf function not found');
+        }
+      }, 1000);
       
     } catch (error) {
       console.error('[Plan] Error:', error);
       loadingDiv.classList.add('hidden');
       document.getElementById('step-5').classList.remove('hidden');
-      
-      // User-friendly error messages
-      let userMessage = 'Fehler beim Erstellen des Plans.';
-      if (error.message.includes('400')) {
-        userMessage = 'Ungültige Eingaben. Bitte überprüfen Sie Ihre Angaben.';
-      } else if (error.message.includes('500')) {
-        userMessage = 'Server-Fehler. Bitte versuchen Sie es später erneut.';
-      } else if (error.message.includes('Network')) {
-        userMessage = 'Netzwerkfehler. Bitte überprüfen Sie Ihre Verbindung.';
-      } else if (error.message) {
-        userMessage = `Fehler: ${error.message}`;
-      }
-      
-      showError(userMessage);
+      showError(`Fehler beim Erstellen des Plans: ${error.message}`);
     }
   });
   
@@ -4129,62 +4004,28 @@ function initPlanCreation() {
 }
 
 // ===============================
-// 6. AUTO PDF DOWNLOAD
-// ===============================
-
-function downloadPDF(analysisResult) {
-  console.log('[PDF] Starting automatic PDF download...');
-  
-  // Check if downloadHtmlAsPdf exists (from original app.js)
-  if (typeof downloadHtmlAsPdf === 'function') {
-    console.log('[PDF] Using downloadHtmlAsPdf function...');
-    
-    // Download Patient PDF first
-    setTimeout(() => {
-      downloadHtmlAsPdf('patient');
-      console.log('[PDF] Patient PDF download triggered');
-    }, 500);
-    
-    // Download Doctor PDF after 2s
-    setTimeout(() => {
-      downloadHtmlAsPdf('doctor');
-      console.log('[PDF] Doctor PDF download triggered');
-    }, 2500);
-  } else {
-    console.warn('[PDF] downloadHtmlAsPdf function not found - skipping PDF download');
-    // Fallback: show download button or message
-    const resultsDiv = document.getElementById('results');
-    if (resultsDiv) {
-      resultsDiv.innerHTML += '<p class="text-sm text-medless-text-secondary mt-4">PDF-Download konnte nicht automatisch gestartet werden.</p>';
-    }
-  }
-}
-
-// ===============================
-// 7. AUTO-UPDATE TRIGGERS
+// AUTO-UPDATE TRIGGERS
 // ===============================
 
 function initSummaryAutoUpdate() {
-  // Wrap showStep to trigger updateSummary on Step 5
+  // Update summary when navigating to Step 5
   const originalShowStep = window.showStep || showStep;
-  if (originalShowStep) {
-    window.showStep = function(step) {
-      originalShowStep(step);
-      if (step === 5) {
-        setTimeout(updateSummary, 100);
-      }
-    };
-  }
+  window.showStep = function(step) {
+    originalShowStep(step);
+    if (step === 5) {
+      updateSummary();
+    }
+  };
   
-  // Listen to form changes
+  // Update summary on input/change events
   const form = document.getElementById('medication-form');
   if (form) {
-    form.addEventListener('input', function() {
+    form.addEventListener('input', function(e) {
       if (currentStep === 5) {
         updateSummary();
       }
     });
-    form.addEventListener('change', function() {
+    form.addEventListener('change', function(e) {
       if (currentStep === 5) {
         updateSummary();
       }
@@ -4195,26 +4036,25 @@ function initSummaryAutoUpdate() {
 }
 
 // ===============================
-// 8. INITIALIZE ALL
+// INITIALIZE ALL ENHANCEMENTS
 // ===============================
 
-function initFinalizedWizard() {
-  console.log('[Wizard] Initializing finalized enhancements...');
+function initWizardEnhancements() {
+  console.log('[Wizard] Initializing enhancements...');
   
-  setTimeout(() => {
-    initEmailValidation();
-    initReductionSlider();
-    initSummaryAutoUpdate();
-    initPlanCreation();
-    
-    console.log('[Wizard] ✅ All finalized enhancements initialized');
-  }, 200); // Wait for original wizard init
+  initReductionSlider();
+  initSummaryAutoUpdate();
+  initPlanCreation();
+  
+  console.log('[Wizard] All enhancements initialized ✓');
 }
 
-// Initialize
+// Wait for DOM + original wizard navigation
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initFinalizedWizard);
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initWizardEnhancements, 100); // After original init
+  });
 } else {
-  initFinalizedWizard();
+  setTimeout(initWizardEnhancements, 100);
 }
 

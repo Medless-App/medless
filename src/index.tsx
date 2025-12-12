@@ -680,26 +680,29 @@ function calculatePlanCosts(weeklyPlan: any[]) {
 // DO NOT modify this function without understanding its medical implications.
 
 async function buildAnalyzeResponse(body: any, env: any) {
-  // Extract and normalize field names (support both API formats)
+  // Extract and normalize field names (support both API formats + nested structures)
+  const patient = body.patient || {};
+  const plan = body.plan || {};
+  
   const { 
     medications, 
-    durationWeeks, 
-    reductionGoal = 50, 
-    email, 
-    firstName, 
-    vorname,     // German field name
+    durationWeeks = plan.duration_weeks, 
+    reductionGoal = plan.reduction_percentage || 50, 
+    email = patient.email, 
+    firstName = patient.first_name, 
+    vorname = patient.vorname,     // German field name
     patientName,
-    gender, 
-    geschlecht,  // German field name
+    gender = patient.gender, 
+    geschlecht = patient.geschlecht,  // German field name
     patientGender,
-    age, 
-    alter,       // German field name
+    age = patient.age, 
+    alter = patient.alter,       // German field name
     patientAge,
-    weight, 
-    gewicht,     // German field name
+    weight = patient.weight, 
+    gewicht = patient.gewicht,     // German field name
     patientWeight,
-    height,
-    groesse      // German field name
+    height = patient.height,
+    groesse = patient.groesse      // German field name
   } = body;
   
   // ✅ FIX 2: Field Mapping Standardization (firstName takes priority)
@@ -3432,25 +3435,18 @@ app.get('/app', (c) => {
                       <label class="flex items-center cursor-pointer"><input type="radio" name="duration" value="12" class="mr-2 text-medless-primary focus:ring-medless-primary" /> 12 Wochen (sehr sanft)</label>
                     </div>
                   </div>
+                  <!-- Reduction Slider (always visible, 10-100%) -->
                   <div>
-                    <label class="block text-sm font-medium mb-2">Reduktion aktivieren?</label>
-                    <div class="space-y-2">
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="reduction" value="yes" class="mr-2 text-medless-primary focus:ring-medless-primary" required checked /> Ja, ich möchte Medikamente reduzieren</label>
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="reduction" value="no" class="mr-2 text-medless-primary focus:ring-medless-primary" /> Nein, nur Übersicht anzeigen</label>
-                    </div>
-                  </div>
-                  
-                  <!-- Reduction Slider (visible when reduction=yes) -->
-                  <div id="reduction-slider-container" class="mt-4">
                     <label class="block text-sm font-medium mb-2">
                       Reduktionsziel: <span id="reduction-percentage-label" class="text-medless-primary font-semibold">100%</span>
                     </label>
-                    <input type="range" id="reduction-percentage" name="reduction_percentage" min="0" max="100" value="100" step="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-medless-primary" />
+                    <input type="range" id="reduction-percentage" name="reduction_percentage" min="10" max="100" value="100" step="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-medless-primary" required />
                     <div class="flex justify-between text-xs text-medless-text-secondary mt-1">
-                      <span>0%</span>
+                      <span>10%</span>
                       <span>50%</span>
                       <span>100%</span>
                     </div>
+                    <p class="text-xs text-medless-text-secondary mt-2">MEDLESS unterstützt ausschließlich Reduktionspläne (10-100%)</p>
                   </div>
                 </div>
                 <div class="mt-6 flex justify-between">
@@ -3473,12 +3469,13 @@ app.get('/app', (c) => {
                   <div class="flex justify-between"><span class="font-medium">Reduktion:</span><span id="summary-reduction" class="text-medless-text-secondary">—</span></div>
                 </div>
                 <div class="mt-6">
-                  <label class="block text-sm font-medium mb-2">E-Mail (optional, für Erinnerungen)</label>
-                  <input type="email" name="email" placeholder="ihre@email.de" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" />
+                  <label class="block text-sm font-medium mb-2">E-Mail (Pflichtfeld für Plan-Erstellung)</label>
+                  <input type="email" id="email-input" name="email" placeholder="ihre@email.de" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" required />
+                  <p class="text-xs text-medless-text-secondary mt-1">Sie erhalten Ihren Orientierungsplan per E-Mail</p>
                 </div>
                 <div class="mt-6 flex justify-between">
                   <button type="button" class="btn-prev bg-gray-200 text-medless-text-primary px-6 py-2 rounded-medless-button hover:bg-gray-300 transition-colors font-medium">Zurück</button>
-                  <button type="button" id="create-plan-btn" class="bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:bg-medless-primary-dark transition-colors shadow-medless-button font-medium">Plan erstellen & PDF herunterladen</button>
+                  <button type="button" id="create-plan-btn" class="bg-medless-primary text-white px-6 py-2 rounded-medless-button hover:bg-medless-primary-dark transition-colors shadow-medless-button font-medium disabled:opacity-50 disabled:cursor-not-allowed" disabled>Plan erstellen & PDF herunterladen</button>
                 </div>
               </div>
               
@@ -3487,7 +3484,25 @@ app.get('/app', (c) => {
             <!-- LOADING/RESULTS SECTION (for PDF generation) -->
             <div id="loading" class="hidden text-center py-12">
               <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-medless-primary mx-auto mb-4"></div>
-              <p class="text-medless-text-secondary font-medium">Erstelle Ihren persönlichen Orientierungsplan...</p>
+              <h3 class="text-xl font-semibold text-medless-primary mb-6">KI-Analyse läuft...</h3>
+              
+              <!-- 3-Step AI Loading Animation -->
+              <div class="max-w-md mx-auto space-y-4">
+                <div id="ki-step-1" class="flex items-center gap-3 p-3 bg-medless-bg-light rounded-medless-md">
+                  <div class="w-6 h-6 rounded-full bg-medless-primary flex items-center justify-center text-white text-sm font-semibold">1</div>
+                  <span class="text-sm text-medless-text-secondary">Medikamente analysieren...</span>
+                  <div class="ml-auto"><div class="animate-spin h-4 w-4 border-2 border-medless-primary border-t-transparent rounded-full"></div></div>
+                </div>
+                <div id="ki-step-2" class="flex items-center gap-3 p-3 bg-gray-100 rounded-medless-md opacity-50">
+                  <div class="w-6 h-6 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm font-semibold">2</div>
+                  <span class="text-sm text-gray-500">Wechselwirkungen prüfen...</span>
+                </div>
+                <div id="ki-step-3" class="flex items-center gap-3 p-3 bg-gray-100 rounded-medless-md opacity-50">
+                  <div class="w-6 h-6 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm font-semibold">3</div>
+                  <span class="text-sm text-gray-500">Reduktionsplan erstellen...</span>
+                </div>
+              </div>
+              
               <div id="particles-container" class="mt-8"></div>
             </div>
             
@@ -3495,7 +3510,7 @@ app.get('/app', (c) => {
               <div class="text-center py-8">
                 <div class="text-6xl mb-4">✅</div>
                 <h3 class="text-2xl font-bold text-medless-primary mb-4">Ihr Plan ist fertig!</h3>
-                <p class="text-medless-text-secondary mb-6">Der PDF-Download sollte automatisch starten.</p>
+                <p class="text-medless-text-secondary mb-6">Der PDF-Download startet automatisch...</p>
                 <div id="plan-ready-animations"></div>
               </div>
             </div>
