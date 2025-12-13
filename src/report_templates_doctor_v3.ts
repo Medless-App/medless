@@ -380,6 +380,30 @@ function renderLevel1Overview(data: DoctorReportDataV3): string {
       <strong>Reduktionsdauer:</strong> ${data.durationWeeks} Wochen
     </div>
     
+    ${data.liverFunction && data.liverFunction !== 'normal' || data.kidneyFunction && data.kidneyFunction !== 'normal' ? `
+    <div class="warning-box" style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px; margin: 16px 0;">
+      <strong style="color: #92400E;">🩺 Organfunktion:</strong>
+      <ul style="margin: 8px 0 0 20px; color: #92400E;">
+        ${data.liverFunction && data.liverFunction !== 'normal' ? `
+          <li><strong>Leber:</strong> ${
+            data.liverFunction === 'schwer_eingeschränkt' ? 'Schwer eingeschränkt' :
+            data.liverFunction === 'eingeschränkt' ? 'Eingeschränkt' : 'Normal'
+          } – Besondere Vorsicht bei hepatisch metabolisierten Wirkstoffen (CYP450-Substrate)</li>
+        ` : ''}
+        ${data.kidneyFunction && data.kidneyFunction !== 'normal' ? `
+          <li><strong>Niere:</strong> ${
+            data.kidneyFunction === 'schwer_eingeschränkt' ? 'Schwer eingeschränkt' :
+            data.kidneyFunction === 'eingeschränkt' ? 'Eingeschränkt' : 'Normal'
+          } – Besondere Vorsicht bei renal eliminierten Wirkstoffen</li>
+        ` : ''}
+      </ul>
+      <p style="margin: 8px 0 0 0; font-size: 9pt; color: #92400E;">
+        <strong>Empfehlung:</strong> Konservativer Reduktionsverlauf mit engmaschiger klinischer Überwachung. 
+        Regelmäßige Kontrolle der Organfunktion während der Reduktionsphase angeraten.
+      </p>
+    </div>
+    ` : ''}
+    
     ${renderCBDAndReductionSummary(data)}
 
     ${renderOverviewTable(data.overviewMedications)}
