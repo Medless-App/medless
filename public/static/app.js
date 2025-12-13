@@ -3782,68 +3782,84 @@ if (document.readyState === 'loading') {
 // ===============================
 
 // ===============================
-// FINALIZED WIZARD ENHANCEMENTS (FIXED)
+// FINALIZED WIZARD ENHANCEMENTS (COMPLETE FIX)
 // ===============================
 
 // ===============================
-// 1. COLLECT MEDICATIONS (Single Source of Truth)
+// WIZARD STATE (Single Source of Truth)
 // ===============================
 
-function collectMedications() {
-  console.log('[Medications] Collecting from DOM...');
+const wizardState = {
+  medications: []
+};
+
+// ===============================
+// 1. COLLECT MEDICATIONS FROM DOM → STATE
+// ===============================
+
+function syncMedicationsToState() {
+  console.log('[Medications] Syncing from DOM to state...');
   
-  const items = [];
+  wizardState.medications = [];
   const groups = document.querySelectorAll('.medication-input-group');
   
   groups.forEach((group, index) => {
-    // Get display input (user types here, autocomplete fills hidden input)
     const displayInput = group.querySelector('.medication-display-input');
     const hiddenInput = group.querySelector('.medication-name-hidden');
-    
-    // Get medication name (prefer hidden input from autocomplete, fallback to display)
     const name = (hiddenInput?.value || displayInput?.value || '').trim();
     
-    // Get daily dose (mg/Tag)
     const dosageInput = group.querySelector('input[name="medication_mg_per_day[]"]');
     const dosageValue = dosageInput?.value?.trim() || '';
     const dailyDoseMg = dosageValue ? parseFloat(dosageValue) : null;
     
-    // Only add if name is set
     if (!name) {
       console.log(`[Medications] Row ${index + 1}: Skipping (no name)`);
       return;
     }
     
-    // Validate daily dose
-    const isValidDose = dailyDoseMg !== null && Number.isFinite(dailyDoseMg) && dailyDoseMg >= 0;
+    const isValidDose = dailyDoseMg !== null && Number.isFinite(dailyDoseMg) && dailyDoseMg > 0;
     
-    const med = {
+    wizardState.medications.push({
       name: name,
       daily_dose_mg: isValidDose ? dailyDoseMg : null
-    };
+    });
     
-    items.push(med);
-    
-    console.log(`[Medications] Row ${index + 1}: ${med.name} ${med.daily_dose_mg !== null ? med.daily_dose_mg + ' mg/Tag' : '(Tagesdosis fehlt)'}`);
+    console.log(`[Medications] Row ${index + 1}: ${name} ${isValidDose ? dailyDoseMg + ' mg/Tag' : '(Tagesdosis fehlt)'}`);
   });
   
-  console.log(`[Medications] Collected ${items.length} medications:`, items);
-  return items;
+  console.log(`[Medications] State updated: ${wizardState.medications.length} medications`, wizardState.medications);
+  return wizardState.medications;
 }
 
 // ===============================
-// 2. FORMAT MEDICATION FOR DISPLAY
+// 2. VALIDATE MEDICATIONS STATE
+// ===============================
+
+function hasValidMedications() {
+  return (
+    Array.isArray(wizardState.medications) &&
+    wizardState.medications.length > 0 &&
+    wizardState.medications.every(m =>
+      (m?.name || '').trim().length > 0 &&
+      Number.isFinite(Number(m?.daily_dose_mg)) &&
+      Number(m.daily_dose_mg) > 0
+    )
+  );
+}
+
+// ===============================
+// 3. FORMAT MEDICATION FOR DISPLAY
 // ===============================
 
 function formatMedication(m) {
-  if (m.daily_dose_mg === null || m.daily_dose_mg === undefined || Number.isNaN(m.daily_dose_mg)) {
+  if (!m.daily_dose_mg || m.daily_dose_mg === null || Number.isNaN(m.daily_dose_mg)) {
     return `${m.name} (Tagesdosis fehlt)`;
   }
   return `${m.name} ${m.daily_dose_mg} mg/Tag`;
 }
 
 // ===============================
-// 3. EMAIL VALIDATION + BUTTON STATE
+// 4. EMAIL VALIDATION + BUTTON STATE
 // ===============================
 
 function initEmailValidation() {
@@ -3859,9 +3875,13 @@ function initEmailValidation() {
     const email = emailInput.value.trim();
     const isValid = email.length > 0 && emailInput.checkValidity();
     
-    createBtn.disabled = !isValid;
+    // Also check medications
+    syncMedicationsToState();
+    const hasMeds = hasValidMedications();
     
-    if (isValid) {
+    createBtn.disabled = !isValid || !hasMeds;
+    
+    if (isValid && hasMeds) {
       createBtn.classList.remove('opacity-50', 'cursor-not-allowed');
     } else {
       createBtn.classList.add('opacity-50', 'cursor-not-allowed');
@@ -3871,13 +3891,23 @@ function initEmailValidation() {
   emailInput.addEventListener('input', validateEmail);
   emailInput.addEventListener('blur', validateEmail);
   
+  // Also listen to medication changes
+  const form = document.getElementById('medication-form');
+  if (form) {
+    form.addEventListener('input', function(e) {
+      if (e.target.name === 'medication_mg_per_day[]' || e.target.classList.contains('medication-display-input')) {
+        setTimeout(validateEmail, 100);
+      }
+    });
+  }
+  
   validateEmail();
   
-  console.log('[Email] Email validation initialized ✓');
+  console.log('[Email] Email + Medication validation initialized ✓');
 }
 
 // ===============================
-// 4. REDUCTION SLIDER (10-100%)
+// 5. REDUCTION SLIDER (10-100%)
 // ===============================
 
 function initReductionSlider() {
@@ -3902,7 +3932,7 @@ function initReductionSlider() {
 }
 
 // ===============================
-// 5. SUMMARY AUTO-UPDATE
+// 6. SUMMARY AUTO-UPDATE
 // ===============================
 
 function updateSummary() {
@@ -3930,10 +3960,10 @@ function updateSummary() {
   const kidneyText = kidneySelect?.options[kidneySelect.selectedIndex]?.text || '—';
   document.getElementById('summary-kidney').textContent = kidneyText;
   
-  // Medications (NEW: use collectMedications)
-  const medications = collectMedications();
-  const medsDisplay = medications.length > 0 
-    ? medications.map(formatMedication).join(', ') 
+  // Medications (sync from DOM first)
+  syncMedicationsToState();
+  const medsDisplay = wizardState.medications.length > 0 
+    ? wizardState.medications.map(formatMedication).join(', ') 
     : '—';
   document.getElementById('summary-medications').textContent = medsDisplay;
   
@@ -3946,11 +3976,22 @@ function updateSummary() {
   const reductionPercentage = document.getElementById('reduction-percentage')?.value || '100';
   document.getElementById('summary-reduction').textContent = `${reductionPercentage}%`;
   
-  console.log('[Summary] Update complete ✓');
+  // Validate and hide/show error banner
+  const hasValid = hasValidMedications();
+  const errorBox = document.getElementById('error-box');
+  
+  if (!hasValid && errorBox) {
+    errorBox.classList.remove('hidden');
+    document.getElementById('error-message').textContent = 'Bitte fügen Sie mindestens ein Medikament mit Tagesdosis hinzu (Schritt 3).';
+  } else if (errorBox) {
+    errorBox.classList.add('hidden');
+  }
+  
+  console.log('[Summary] Update complete ✓ (hasValidMedications:', hasValid, ')');
 }
 
 // ===============================
-// 6. KI LOADING ANIMATION (3 Steps)
+// 7. KI LOADING ANIMATION (3 Steps)
 // ===============================
 
 function startKiAnimation() {
@@ -3963,7 +4004,6 @@ function startKiAnimation() {
     return;
   }
   
-  // Reset all
   [step1, step2, step3].forEach(el => {
     el.classList.remove('bg-medless-bg-light', 'opacity-100');
     el.classList.add('bg-gray-100', 'opacity-50');
@@ -3976,7 +4016,6 @@ function startKiAnimation() {
     if (spinner) spinner.remove();
   });
   
-  // Step 1
   setTimeout(() => {
     step1.classList.remove('bg-gray-100', 'opacity-50');
     step1.classList.add('bg-medless-bg-light', 'opacity-100');
@@ -3988,7 +4027,6 @@ function startKiAnimation() {
     step1.innerHTML += '<div class="ml-auto"><div class="animate-spin h-4 w-4 border-2 border-medless-primary border-t-transparent rounded-full"></div></div>';
   }, 100);
   
-  // Step 2
   setTimeout(() => {
     const spinner1 = step1.querySelector('.ml-auto');
     if (spinner1) spinner1.innerHTML = '<span class="text-medless-primary">✓</span>';
@@ -4003,7 +4041,6 @@ function startKiAnimation() {
     step2.innerHTML += '<div class="ml-auto"><div class="animate-spin h-4 w-4 border-2 border-medless-primary border-t-transparent rounded-full"></div></div>';
   }, 1500);
   
-  // Step 3
   setTimeout(() => {
     const spinner2 = step2.querySelector('.ml-auto');
     if (spinner2) spinner2.innerHTML = '<span class="text-medless-primary">✓</span>';
@@ -4018,7 +4055,6 @@ function startKiAnimation() {
     step3.innerHTML += '<div class="ml-auto"><div class="animate-spin h-4 w-4 border-2 border-medless-primary border-t-transparent rounded-full"></div></div>';
   }, 3000);
   
-  // Complete
   setTimeout(() => {
     const spinner3 = step3.querySelector('.ml-auto');
     if (spinner3) spinner3.innerHTML = '<span class="text-medless-primary">✓</span>';
@@ -4026,7 +4062,7 @@ function startKiAnimation() {
 }
 
 // ===============================
-// 7. PLAN CREATION FLOW (FIXED)
+// 8. PLAN CREATION FLOW (COMPLETE FIX)
 // ===============================
 
 function initPlanCreation() {
@@ -4044,14 +4080,13 @@ function initPlanCreation() {
     e.preventDefault();
     console.log('[Plan] Creating plan...');
     
-    // 1. Collect medications (Single Source of Truth)
-    const medications = collectMedications();
-    console.log('[Plan] medications used for submit:', medications);
+    // 1. Sync state
+    syncMedicationsToState();
+    console.log('[Plan] medications used for submit:', wizardState.medications);
     
     // 2. Validate medications
-    if (!Array.isArray(medications) || medications.length === 0) {
-      showError('Bitte fügen Sie mindestens ein Medikament hinzu (Schritt 3).');
-      // Go to Step 3
+    if (!hasValidMedications()) {
+      showError('Bitte fügen Sie mindestens ein Medikament mit Tagesdosis hinzu (Schritt 3).');
       if (typeof showStep === 'function') {
         showStep(3);
       }
@@ -4066,10 +4101,9 @@ function initPlanCreation() {
       return;
     }
     
-    // 4. Collect form data
+    // 4. Build payload
     const formData = new FormData(form);
     
-    // 5. Build payload (FIXED: use collected medications)
     const payload = {
       patient: {
         first_name: formData.get('first_name') || '',
@@ -4081,9 +4115,9 @@ function initPlanCreation() {
         kidney_function: formData.get('kidney_function') || 'normal',
         email: formData.get('email') || ''
       },
-      medications: medications.map(m => ({
+      medications: wizardState.medications.map(m => ({
         name: m.name,
-        daily_dose_mg: m.daily_dose_mg
+        daily_dose_mg: Number(m.daily_dose_mg)
       })),
       plan: {
         duration_weeks: parseInt(formData.get('duration')) || 8,
@@ -4093,19 +4127,12 @@ function initPlanCreation() {
     
     console.log('[Plan] Final payload:', payload);
     
-    // 6. Final validation
-    if (!payload.patient.first_name || !payload.patient.email) {
-      showError('Bitte füllen Sie alle Pflichtfelder aus.');
-      return;
-    }
-    
-    // 7. Show loading
+    // 5. Show loading
     document.getElementById('step-5').classList.add('hidden');
     loadingDiv.classList.remove('hidden');
     startKiAnimation();
     
     try {
-      // 8. Call API
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -4129,12 +4156,10 @@ function initPlanCreation() {
       const result = JSON.parse(responseText);
       console.log('[Plan] Analysis result:', result);
       
-      // 9. Show results after animation
       setTimeout(() => {
         loadingDiv.classList.add('hidden');
         resultsDiv.classList.remove('hidden');
         
-        // 10. Trigger PDF download
         setTimeout(() => {
           downloadPDF(result);
         }, 1000);
@@ -4145,7 +4170,6 @@ function initPlanCreation() {
       loadingDiv.classList.add('hidden');
       document.getElementById('step-5').classList.remove('hidden');
       
-      // User-friendly error messages
       let userMessage = 'Fehler beim Erstellen des Plans.';
       if (error.message.includes('400')) {
         userMessage = 'Ungültige Eingaben. Bitte überprüfen Sie Ihre Angaben.';
@@ -4165,7 +4189,7 @@ function initPlanCreation() {
 }
 
 // ===============================
-// 8. AUTO PDF DOWNLOAD
+// 9. AUTO PDF DOWNLOAD
 // ===============================
 
 function downloadPDF(analysisResult) {
@@ -4193,11 +4217,10 @@ function downloadPDF(analysisResult) {
 }
 
 // ===============================
-// 9. AUTO-UPDATE TRIGGERS
+// 10. AUTO-UPDATE TRIGGERS
 // ===============================
 
 function initSummaryAutoUpdate() {
-  // Wrap showStep
   const originalShowStep = window.showStep || (typeof showStep !== 'undefined' ? showStep : null);
   if (originalShowStep) {
     window.showStep = function(step) {
@@ -4208,7 +4231,6 @@ function initSummaryAutoUpdate() {
     };
   }
   
-  // Listen to form changes
   const form = document.getElementById('medication-form');
   if (form) {
     form.addEventListener('input', function() {
@@ -4227,23 +4249,54 @@ function initSummaryAutoUpdate() {
 }
 
 // ===============================
-// 10. INITIALIZE ALL
+// 11. STEP 3 VALIDATION OVERRIDE
+// ===============================
+
+function enhanceStep3Validation() {
+  // Override wizard navigation to add Step 3 validation
+  const originalValidate = window.validateCurrentStep || (typeof validateCurrentStep !== 'undefined' ? validateCurrentStep : null);
+  
+  if (originalValidate) {
+    window.validateCurrentStep = function() {
+      // Call original validation first
+      const basicValid = originalValidate();
+      
+      // If Step 3, add medication validation
+      if (window.currentStep === 3 || currentStep === 3) {
+        syncMedicationsToState();
+        const hasMeds = wizardState.medications.length > 0;
+        
+        if (!hasMeds) {
+          showError('Bitte fügen Sie mindestens ein Medikament hinzu.');
+          return false;
+        }
+      }
+      
+      return basicValid;
+    };
+    
+    console.log('[Wizard] Step 3 validation enhanced ✓');
+  }
+}
+
+// ===============================
+// 12. INITIALIZE ALL
 // ===============================
 
 function initFinalizedWizard() {
-  console.log('[Wizard] Initializing finalized enhancements...');
+  console.log('[Wizard] Initializing COMPLETE fixed enhancements...');
   
   setTimeout(() => {
+    enhanceStep3Validation();
     initEmailValidation();
     initReductionSlider();
     initSummaryAutoUpdate();
     initPlanCreation();
     
-    console.log('[Wizard] ✅ All finalized enhancements initialized');
+    console.log('[Wizard] ✅ All COMPLETE enhancements initialized');
   }, 200);
 }
 
-// Initialize
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initFinalizedWizard);
 } else {
