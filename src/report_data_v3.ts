@@ -253,8 +253,26 @@ export interface ModelInfo {
 // HELPER FUNCTIONS
 // ============================================================
 
+/**
+ * ✅ D1 FIX: Display medication name with user input + brand name
+ * Logic: "UserInput (BrandName)" or fallback to brand name only
+ * 
+ * Examples:
+ * - User: "Sertralin", DB: "Zoloft" → "Sertralin (Zoloft)"
+ * - User: "Zoloft", DB: "Zoloft" → "Zoloft"
+ * - User: empty, DB: "Zoloft" → "Zoloft"
+ */
 function getMedicationName(entry: AnalysisEntry): string {
-  return entry.medication?.name || 'Unbekannt';
+  const dbName = entry.medication?.name || 'Unbekannt';
+  const userInput = entry.userInputName;
+  
+  // If no user input or same as DB name, just show DB name
+  if (!userInput || userInput.toLowerCase() === dbName.toLowerCase()) {
+    return dbName;
+  }
+  
+  // Otherwise: "UserInput (DBName)"
+  return `${userInput} (${dbName})`;
 }
 
 /**

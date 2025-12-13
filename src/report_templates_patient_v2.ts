@@ -349,6 +349,9 @@ function renderPatientHeader(data: PatientPlanData): string {
 function renderPatientSummary(data: PatientPlanData): string {
   const cbd = data.cbdDoseInfo;
   
+  // ✅ D3 FIX: Only show CBD if actually present
+  const showCBD = data.cbdProgression.startMg > 0 || cbd.startDose > 0;
+  
   return `
     <h1>📋 Deine Zusammenfassung</h1>
     
@@ -357,6 +360,7 @@ function renderPatientSummary(data: PatientPlanData): string {
       <p><strong>Gewicht:</strong> ${data.patientWeight} kg</p>
     </div>
     
+    ${showCBD ? `
     <h2>CBD-Dosis (Start → Ende)</h2>
     <div class="success-box">
       <p style="font-size: 11pt; margin: 4px 0;">
@@ -365,6 +369,7 @@ function renderPatientSummary(data: PatientPlanData): string {
         <strong>Deine CBD-Dosis steigt stufenweise von ${formatMgValue(cbd.startDose)} auf ${formatMgValue(cbd.endDose)}.</strong>
       </p>
     </div>
+    ` : ''}
     
     <h2>Deine Medikamente</h2>
     <table>
@@ -377,14 +382,21 @@ function renderPatientSummary(data: PatientPlanData): string {
         </tr>
       </thead>
       <tbody>
-        ${data.medications.map(med => `
+        ${data.medications.map(med => {
+          // ✅ D2 FIX: Patient-friendly 0% explanation
+          const reductionText = med.reductionPercent === 0 
+            ? '<span style="color: #9CA3AF;">Aktuell wird keine Reduktion empfohlen (0%) - aus Sicherheitsgründen</span>'
+            : `${med.reductionPercent}%`;
+          
+          return `
           <tr>
             <td><strong>${med.name}</strong></td>
             <td>${formatMgValue(med.startDose)}</td>
             <td>${formatMgValue(med.endDose)}</td>
-            <td>${med.reductionPercent}%</td>
+            <td>${reductionText}</td>
           </tr>
-        `).join('')}
+        `;
+        }).join('')}
       </tbody>
     </table>
   `;
@@ -404,7 +416,7 @@ function renderPatientWeeklyPlan(data: PatientPlanData): string {
       <thead>
         <tr>
           <th>Woche</th>
-          <th>CBD-Dosis</th>
+          ${data.cbdProgression.startMg > 0 ? '<th>CBD-Dosis</th>' : ''}
           ${data.medications.map(med => `<th>${med.name}</th>`).join('')}
         </tr>
       </thead>
@@ -412,7 +424,7 @@ function renderPatientWeeklyPlan(data: PatientPlanData): string {
         ${data.weeklyPlan.map(week => `
           <tr>
             <td><strong>${week.week}</strong></td>
-            <td>${formatMgValue(week.cbdDose)}</td>
+            ${data.cbdProgression.startMg > 0 ? `<td>${formatMgValue(week.cbdDose)}</td>` : ''}
             ${week.medications.map(med => `<td>${formatMgValue(med.dose)}</td>`).join('')}
           </tr>
         `).join('')}

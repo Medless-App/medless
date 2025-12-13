@@ -712,6 +712,10 @@ async function buildAnalyzeResponse(body: any, env: any) {
   const finalWeight = gewicht || weight || patientWeight;
   const finalHeight = groesse || height;
   
+  // ✅ ORGAN FUNCTION: Extract liver and kidney function (normalized to 3 levels)
+  const liverFunction = patient?.liver_function || 'normal';
+  const kidneyFunction = patient?.kidney_function || 'normal';
+  
   // ✅ FIX 3: Error-Handling für leere Medikamentenliste
   if (!medications || !Array.isArray(medications) || medications.length === 0) {
     throw new Error('Bitte fügen Sie mindestens ein Medikament hinzu.');
@@ -723,6 +727,9 @@ async function buildAnalyzeResponse(body: any, env: any) {
   
   // Normalize medication field names (support: daily_dose_mg, dailyDoseMg, mgPerDay)
   for (const med of medications) {
+    // ✅ D1 FIX: Preserve user input as "userInputName" before normalization
+    med.userInputName = med.name || med.generic_name || 'Unbekanntes Medikament';
+    
     // Normalize medication name (support both name and generic_name)
     med.name = med.name || med.generic_name || 'Unbekanntes Medikament';
     
@@ -827,7 +834,8 @@ async function buildAnalyzeResponse(body: any, env: any) {
         medication: medResult,
         interactions: interactions.results,
         cypProfiles: (cypProfiles.results || []) as MedicationCypProfile[], // NEW: CYP profiles
-        mgPerDay: med.mgPerDay
+        mgPerDay: med.mgPerDay,
+        userInputName: med.userInputName  // ✅ D1 FIX: Preserve user input for PDF display
       });
       
       if (interactions.results.length > 0) {
@@ -841,6 +849,7 @@ async function buildAnalyzeResponse(body: any, env: any) {
         medication: { name: med.name, found: false },
         interactions: [],
         mgPerDay: med.mgPerDay,
+        userInputName: med.userInputName,  // ✅ D1 FIX: Preserve user input for PDF display
         warning: 'Medikament nicht in Datenbank gefunden'
       });
     }
@@ -1226,6 +1235,16 @@ async function buildAnalyzeResponse(body: any, env: any) {
     warnings.push(...categorySafetyNotes);
   }
   
+  // ✅ ORGAN FUNCTION WARNINGS (LAYER 2: Documentation + Warnings)
+  if (kidneyFunction && kidneyFunction !== 'normal') {
+    const severityText = kidneyFunction === 'schwer_eingeschränkt' ? 'stark' : 'mäßig';
+    warnings.push(`⚠️ Nierenfunktion ${severityText} eingeschränkt: Konservativer Reduktionsverlauf empfohlen. Vorsicht bei renal eliminierten Wirkstoffen. Ärztliche Überwachung angeraten.`);
+  }
+  if (liverFunction && liverFunction !== 'normal') {
+    const severityText = liverFunction === 'schwer_eingeschränkt' ? 'stark' : 'mäßig';
+    warnings.push(`⚠️ Leberfunktion ${severityText} eingeschränkt: Konservativer Reduktionsverlauf empfohlen. Vorsicht bei hepatisch metabolisierten Wirkstoffen. Regelmäßige Leberwert-Kontrolle empfohlen.`);
+  }
+  
   // ===== BUGFIX: Enrich analysisResults with calculated max_weekly_reduction_pct =====
   // Calculate final weekly reduction percentage for each medication (AFTER all safety adjustments)
   const enrichedAnalysis = medications.map((med: any, index: number) => {
@@ -1325,7 +1344,9 @@ async function buildAnalyzeResponse(body: any, env: any) {
       cbdEndMg: Math.round(cbdEndMg * 10) / 10,
       hasBenzoOrOpioid,
       maxWithdrawalRiskScore,
-      notes: adjustmentNotes
+      notes: adjustmentNotes,
+      liverFunction,  // ✅ NEW: Store organ function for reports
+      kidneyFunction  // ✅ NEW: Store organ function for reports
     },
     warnings,
     categorySafety: {
@@ -3389,9 +3410,8 @@ app.get('/app', (c) => {
                     <select id="liver_function" name="liver_function" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" required>
                       <option value="">Bitte auswählen</option>
                       <option value="normal">Normal</option>
-                      <option value="mild">Leicht eingeschränkt</option>
-                      <option value="moderate">Mäßig eingeschränkt</option>
-                      <option value="severe">Stark eingeschränkt</option>
+                      <option value="eingeschränkt">Eingeschränkt</option>
+                      <option value="schwer_eingeschränkt">Schwer eingeschränkt</option>
                     </select>
                   </div>
                   <div>
@@ -3399,9 +3419,8 @@ app.get('/app', (c) => {
                     <select id="kidney_function" name="kidney_function" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" required>
                       <option value="">Bitte auswählen</option>
                       <option value="normal">Normal</option>
-                      <option value="mild">Leicht eingeschränkt</option>
-                      <option value="moderate">Mäßig eingeschränkt</option>
-                      <option value="severe">Stark eingeschränkt</option>
+                      <option value="eingeschränkt">Eingeschränkt</option>
+                      <option value="schwer_eingeschränkt">Schwer eingeschränkt</option>
                     </select>
                   </div>
                 </div>

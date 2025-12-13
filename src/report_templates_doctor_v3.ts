@@ -430,9 +430,13 @@ function renderCBDAndReductionSummary(data: DoctorReportDataV3): string {
         
         <h4 style="font-size: 10pt; margin-top: 10px; color: #374151;">Medikamentenspezifische Reduktionen:</h4>
         <ul style="margin: 6px 0 0 20px; font-size: 9pt; line-height: 1.6;">
-          ${reduction.medications.map(med => `
-            <li><strong>${med.name}:</strong> ${formatMgValue(med.startMg)} → ${formatMgValue(med.endMg)} (${med.reductionPercent}%)</li>
-          `).join('')}
+          ${reduction.medications.map(med => {
+            // ✅ D2 FIX: Explain 0% reduction clearly
+            if (med.reductionPercent === 0) {
+              return `<li><strong>${med.name}:</strong> ${formatMgValue(med.startMg)} → ${formatMgValue(med.endMg)} <span style="color: #9CA3AF;">(0% - Safety-Layer blockiert Reduktion aufgrund pharmakologischer Risikofaktoren)</span></li>`;
+            }
+            return `<li><strong>${med.name}:</strong> ${formatMgValue(med.startMg)} → ${formatMgValue(med.endMg)} (${med.reductionPercent}%)</li>`;
+          }).join('')}
         </ul>
       </div>
     ` : ''}
