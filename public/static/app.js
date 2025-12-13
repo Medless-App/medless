@@ -4156,13 +4156,9 @@ function initPlanCreation() {
       const result = JSON.parse(responseText);
       console.log('[Plan] Analysis result:', result);
       
+      // Wait for KI animation to complete (5 seconds)
       setTimeout(() => {
-        loadingDiv.classList.add('hidden');
-        resultsDiv.classList.remove('hidden');
-        
-        setTimeout(() => {
-          downloadPDF(result);
-        }, 1000);
+        handlePlanCreationSuccess(result);
       }, 5000);
       
     } catch (error) {
@@ -4189,29 +4185,309 @@ function initPlanCreation() {
 }
 
 // ===============================
-// 9. AUTO PDF DOWNLOAD
+// 9. PDF MODAL DOWNLOAD (REPLACES AUTO-DOWNLOAD)
 // ===============================
 
-function downloadPDF(analysisResult) {
-  console.log('[PDF] Starting automatic PDF download...');
+// Global variables to store analysis result and HTML reports
+let currentAnalysisResult = null;
+let currentReportsHtml = null;
+
+// ===============================
+// 9.1 ENSURE PDF CONTENT READY (GUARD FUNCTION)
+// ===============================
+async function ensurePdfContentReady(htmlString, type) {
+  console.log(`[PDF Guard] Checking ${type} HTML content readiness...`);
   
-  if (typeof downloadHtmlAsPdf === 'function') {
-    console.log('[PDF] Using downloadHtmlAsPdf function...');
+  // Basic HTML string validation
+  if (!htmlString || typeof htmlString !== 'string') {
+    console.error(`[PDF Guard] ${type}: HTML is not a valid string`, {
+      type: typeof htmlString,
+      value: htmlString
+    });
+    return { ready: false, error: 'HTML-Inhalt ist ungültig (kein String).' };
+  }
+  
+  const trimmedHtml = htmlString.trim();
+  console.log(`[PDF Guard] ${type} HTML length:`, trimmedHtml.length);
+  
+  // Length validation
+  if (trimmedHtml.length < 200) {
+    console.error(`[PDF Guard] ${type}: HTML too short`, {
+      length: trimmedHtml.length,
+      sample: trimmedHtml.substring(0, 100)
+    });
+    return { 
+      ready: false, 
+      error: `PDF-Inhalt ist zu kurz (${trimmedHtml.length} Zeichen). Mindestens 200 Zeichen erforderlich.` 
+    };
+  }
+  
+  // Content validation: Check for essential elements
+  const hasBody = /<body/i.test(trimmedHtml);
+  const hasContent = /<(p|div|table|li|h[1-6])/i.test(trimmedHtml);
+  
+  console.log(`[PDF Guard] ${type} content check:`, {
+    hasBody,
+    hasContent,
+    length: trimmedHtml.length
+  });
+  
+  if (!hasBody || !hasContent) {
+    console.error(`[PDF Guard] ${type}: Missing essential HTML elements`, {
+      hasBody,
+      hasContent
+    });
+    return { 
+      ready: false, 
+      error: 'PDF-Inhalt enthält keine vollständigen HTML-Elemente.' 
+    };
+  }
+  
+  console.log(`[PDF Guard] ${type}: Content is ready ✓`);
+  return { ready: true };
+}
+
+// ===============================
+// 9.2 SHOW PDF DOWNLOAD MODAL
+// ===============================
+function showPdfModal() {
+  console.log('[PDF Modal] Opening PDF download modal...');
+  
+  const modal = document.getElementById('pdf-download-modal');
+  if (!modal) {
+    console.error('[PDF Modal] Modal element not found');
+    return;
+  }
+  
+  // Hide results, show modal
+  const resultsDiv = document.getElementById('results');
+  if (resultsDiv) {
+    resultsDiv.classList.add('hidden');
+  }
+  
+  // Show modal (remove 'hidden' class AND set display style)
+  modal.classList.remove('hidden');
+  modal.style.display = 'flex';
+  
+  console.log('[PDF Modal] Modal opened ✓');
+}
+
+// ===============================
+// 9.3 HIDE PDF MODAL
+// ===============================
+function hidePdfModal() {
+  console.log('[PDF Modal] Closing PDF download modal...');
+  
+  const modal = document.getElementById('pdf-download-modal');
+  if (!modal) return;
+  
+  modal.classList.add('hidden');
+  modal.style.display = 'none';
+  
+  // Clear any error messages
+  const errorDiv = document.getElementById('pdf-modal-error');
+  if (errorDiv) {
+    errorDiv.classList.add('hidden');
+    const errorText = errorDiv.querySelector('p');
+    if (errorText) errorText.textContent = '';
+  }
+  
+  console.log('[PDF Modal] Modal closed ✓');
+}
+
+// ===============================
+// 9.4 SHOW MODAL ERROR MESSAGE
+// ===============================
+function showModalError(message) {
+  console.error('[PDF Modal] Showing error:', message);
+  
+  const errorDiv = document.getElementById('pdf-modal-error');
+  if (!errorDiv) return;
+  
+  const errorText = errorDiv.querySelector('p');
+  if (errorText) {
+    errorText.textContent = message;
+  }
+  
+  errorDiv.classList.remove('hidden');
+}
+
+// ===============================
+// 9.5 DOWNLOAD SINGLE PDF (PATIENT OR DOCTOR)
+// ===============================
+async function downloadSinglePdf(type) {
+  console.log(`[PDF Download] Starting ${type} PDF download...`);
+  
+  if (!currentReportsHtml || !currentReportsHtml[type]) {
+    showModalError(`${type === 'patient' ? 'Patienten' : 'Ärzte'}plan-HTML nicht verfügbar. Bitte erstellen Sie den Plan erneut.`);
+    return;
+  }
+  
+  const htmlString = currentReportsHtml[type].html;
+  const fileName = type === 'patient' 
+    ? 'MEDLESS_Patientenplan.pdf' 
+    : 'MEDLESS_Aerzteplan.pdf';
+  
+  // Guard: Ensure content is ready
+  const guardResult = await ensurePdfContentReady(htmlString, type);
+  if (!guardResult.ready) {
+    showModalError(guardResult.error);
+    return;
+  }
+  
+  // Proceed with PDF download
+  try {
+    await downloadHtmlAsPdf(htmlString, fileName);
+    console.log(`[PDF Download] ${type} PDF download completed ✓`);
+  } catch (error) {
+    console.error(`[PDF Download] Error downloading ${type} PDF:`, error);
+    showModalError(`Fehler beim Herunterladen des PDFs: ${error.message}`);
+  }
+}
+
+// ===============================
+// 9.6 DOWNLOAD BOTH PDFs (SEQUENTIAL)
+// ===============================
+async function downloadBothPdfs() {
+  console.log('[PDF Download] Starting download of both PDFs...');
+  
+  // Download patient PDF first
+  await downloadSinglePdf('patient');
+  
+  // Wait 2 seconds before downloading doctor PDF
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  
+  // Download doctor PDF
+  await downloadSinglePdf('doctor');
+  
+  console.log('[PDF Download] Both PDFs download completed ✓');
+}
+
+// ===============================
+// 9.7 FETCH HTML REPORTS FROM BACKEND
+// ===============================
+async function fetchHtmlReports(analysisResult) {
+  console.log('[PDF Reports] Fetching HTML reports from /api/reports...');
+  
+  try {
+    const response = await fetch('/api/reports', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        analysis: analysisResult,
+        includePatient: true,
+        includeDoctor: true
+      })
+    });
     
-    setTimeout(() => {
-      downloadHtmlAsPdf('patient');
-      console.log('[PDF] Patient PDF download triggered');
-    }, 500);
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('[PDF Reports] API error:', response.status, errorText);
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    }
     
+    const reportsData = await response.json();
+    console.log('[PDF Reports] Reports received:', {
+      hasPatient: !!reportsData.patient,
+      hasDoctor: !!reportsData.doctor,
+      patientHtmlLength: reportsData.patient?.html?.length || 0,
+      doctorHtmlLength: reportsData.doctor?.html?.length || 0
+    });
+    
+    return reportsData;
+    
+  } catch (error) {
+    console.error('[PDF Reports] Error fetching reports:', error);
+    throw error;
+  }
+}
+
+// ===============================
+// 9.8 INIT PDF MODAL BUTTONS
+// ===============================
+function initPdfModalButtons() {
+  console.log('[PDF Modal] Initializing modal button handlers...');
+  
+  // Patient PDF button
+  const patientBtn = document.getElementById('download-patient-btn');
+  if (patientBtn) {
+    patientBtn.addEventListener('click', () => downloadSinglePdf('patient'));
+  }
+  
+  // Doctor PDF button
+  const doctorBtn = document.getElementById('download-doctor-btn');
+  if (doctorBtn) {
+    doctorBtn.addEventListener('click', () => downloadSinglePdf('doctor'));
+  }
+  
+  // Both PDFs button
+  const bothBtn = document.getElementById('download-both-btn');
+  if (bothBtn) {
+    bothBtn.addEventListener('click', downloadBothPdfs);
+  }
+  
+  // Close modal button
+  const closeBtn = document.getElementById('close-modal-btn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', hidePdfModal);
+  }
+  
+  // Close modal on backdrop click
+  const modal = document.getElementById('pdf-download-modal');
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        hidePdfModal();
+      }
+    });
+  }
+  
+  console.log('[PDF Modal] Button handlers initialized ✓');
+}
+
+// ===============================
+// 9.9 HANDLE PLAN CREATION SUCCESS (REPLACES OLD downloadPDF)
+// ===============================
+async function handlePlanCreationSuccess(analysisResult) {
+  console.log('[Plan Success] Handling successful plan creation...');
+  
+  // Store analysis result globally
+  currentAnalysisResult = analysisResult;
+  
+  // Fetch HTML reports
+  try {
+    currentReportsHtml = await fetchHtmlReports(analysisResult);
+    
+    // Hide loading, show results briefly
+    const loadingDiv = document.getElementById('loading');
+    const resultsDiv = document.getElementById('results');
+    
+    if (loadingDiv) loadingDiv.classList.add('hidden');
+    if (resultsDiv) resultsDiv.classList.remove('hidden');
+    
+    // After 1 second, show PDF modal
     setTimeout(() => {
-      downloadHtmlAsPdf('doctor');
-      console.log('[PDF] Doctor PDF download triggered');
-    }, 2500);
-  } else {
-    console.warn('[PDF] downloadHtmlAsPdf function not found');
+      showPdfModal();
+    }, 1000);
+    
+  } catch (error) {
+    console.error('[Plan Success] Error fetching reports:', error);
+    
+    // Hide loading, show error
+    const loadingDiv = document.getElementById('loading');
+    if (loadingDiv) loadingDiv.classList.add('hidden');
+    
     const resultsDiv = document.getElementById('results');
     if (resultsDiv) {
-      resultsDiv.innerHTML += '<p class="text-sm text-medless-text-secondary mt-4">PDF-Download konnte nicht automatisch gestartet werden.</p>';
+      resultsDiv.classList.remove('hidden');
+      resultsDiv.innerHTML = `
+        <div class="text-center py-8">
+          <div class="text-6xl mb-4">❌</div>
+          <h3 class="text-2xl font-bold text-red-600 mb-4">Fehler beim Erstellen der PDFs</h3>
+          <p class="text-medless-text-secondary mb-4">${error.message}</p>
+          <p class="text-sm text-medless-text-secondary">Bitte erstellen Sie den Plan erneut oder wenden Sie sich an den Support.</p>
+        </div>
+      `;
     }
   }
 }
@@ -4292,6 +4568,7 @@ function initFinalizedWizard() {
     initReductionSlider();
     initSummaryAutoUpdate();
     initPlanCreation();
+    initPdfModalButtons();
     
     console.log('[Wizard] ✅ All COMPLETE enhancements initialized');
   }, 200);

@@ -1743,7 +1743,7 @@ app.post('/api/reports', async (c) => {
       const doctorDataV3 = buildDoctorReportDataV3(analysis as AnalyzeResponse);
       const doctorHtml = renderDoctorReportHtmlV3(doctorDataV3);
       result.doctor = {
-        data: doctorData,
+        data: doctorDataV3,
         html: doctorHtml
       };
     }
@@ -3516,8 +3516,41 @@ app.get('/app', (c) => {
               <div class="text-center py-8">
                 <div class="text-6xl mb-4">✅</div>
                 <h3 class="text-2xl font-bold text-medless-primary mb-4">Ihr Plan ist fertig!</h3>
-                <p class="text-medless-text-secondary mb-6">Der PDF-Download startet automatisch...</p>
+                <p class="text-medless-text-secondary mb-6">Wählen Sie unten, welche PDFs Sie herunterladen möchten.</p>
                 <div id="plan-ready-animations"></div>
+              </div>
+            </div>
+
+            <!-- PDF Download Modal -->
+            <div id="pdf-download-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+              <div class="bg-white rounded-medless-lg shadow-medless-card p-8 max-w-md w-full mx-4">
+                <div class="text-center mb-6">
+                  <div class="text-5xl mb-4">📄</div>
+                  <h3 class="text-2xl font-bold text-medless-primary mb-2">Ihr Plan ist fertig!</h3>
+                  <p class="text-medless-text-secondary">Laden Sie die gewünschten PDFs herunter:</p>
+                </div>
+                
+                <div class="space-y-3 mb-6">
+                  <button id="download-patient-btn" class="btn-medless-primary w-full py-3 px-6 text-lg font-semibold rounded-medless-md shadow-medless-button hover:shadow-medless-button-hover transition-all duration-200">
+                    <span class="mr-2">👤</span> Patientenplan herunterladen
+                  </button>
+                  
+                  <button id="download-doctor-btn" class="btn-medless-primary w-full py-3 px-6 text-lg font-semibold rounded-medless-md shadow-medless-button hover:shadow-medless-button-hover transition-all duration-200">
+                    <span class="mr-2">🩺</span> Ärzteplan herunterladen
+                  </button>
+                  
+                  <button id="download-both-btn" class="bg-white border-2 border-medless-primary text-medless-primary w-full py-3 px-6 text-lg font-semibold rounded-medless-md hover:bg-medless-bg transition-all duration-200">
+                    <span class="mr-2">📥</span> Beide PDFs herunterladen
+                  </button>
+                </div>
+                
+                <div id="pdf-modal-error" class="hidden mt-4 p-3 bg-red-50 border border-red-200 rounded-medless-md">
+                  <p class="text-red-700 text-sm"></p>
+                </div>
+                
+                <button id="close-modal-btn" class="mt-4 text-medless-text-secondary text-sm hover:text-medless-primary transition-colors w-full">
+                  Schließen
+                </button>
               </div>
             </div>
             
