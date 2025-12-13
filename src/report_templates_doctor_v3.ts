@@ -471,17 +471,27 @@ function renderCBDAndReductionSummary(data: DoctorReportDataV3): string {
   const cbd = data.cbdProgression;
   const reduction = data.reductionSummary;
   
+  // 🔒 DEFENSIVE: Extract CBD values with fallbacks
+  const cbdStartMg = cbd?.startMg ?? null;
+  const cbdEndMg = cbd?.endMg ?? null;
+  const cbdWeeklyIncrease = cbd?.weeklyIncrease ?? null;
+  
+  // 🔒 DEFENSIVE: Only show CBD if valid data exists
+  const showCBD = cbdStartMg !== null && cbdEndMg !== null && cbdStartMg > 0;
+  
   return `
     <h2>Zusammenfassung</h2>
     
+    ${showCBD ? `
     <div style="background: #F0FDFA; border-left: 4px solid #00C39A; padding: 12px 16px; margin: 12px 0; border-radius: 4px;">
       <h3 style="color: #00584D; margin-bottom: 8px;">CBD-Dosis (Start → Ende)</h3>
       <p style="font-size: 10pt; margin: 4px 0;">
-        <strong>Start:</strong> ${formatMgValue(cbd.startMg)} (entspricht ${formatMgPerKg(cbd.startMg, data.patientWeight)})<br>
-        <strong>Ende:</strong> ${formatMgValue(cbd.endMg)} (entspricht ${formatMgPerKg(cbd.endMg, data.patientWeight)})<br>
-        <strong>Wöchentliche Steigerung:</strong> ${formatMgValue(cbd.weeklyIncrease)}
+        <strong>Start:</strong> ${formatMgValue(cbdStartMg)} (entspricht ${formatMgPerKg(cbdStartMg, data.patientWeight)})<br>
+        <strong>Ende:</strong> ${formatMgValue(cbdEndMg)} (entspricht ${formatMgPerKg(cbdEndMg, data.patientWeight)})<br>
+        ${cbdWeeklyIncrease !== null ? `<strong>Wöchentliche Steigerung:</strong> ${formatMgValue(cbdWeeklyIncrease)}` : ''}
       </p>
     </div>
+    ` : ''}
     
     ${reduction ? `
       <div style="background: #EFF6FF; border-left: 4px solid #0284C7; padding: 12px 16px; margin: 12px 0; border-radius: 4px;">

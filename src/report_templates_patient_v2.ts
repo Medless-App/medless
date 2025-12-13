@@ -349,8 +349,8 @@ function renderPatientHeader(data: PatientPlanData): string {
 function renderPatientSummary(data: PatientPlanData): string {
   const cbd = data.cbdDoseInfo;
   
-  // ✅ D3 FIX: Only show CBD if actually present
-  const showCBD = data.cbdProgression.startMg > 0 || cbd.startDose > 0;
+  // 🔒 DEFENSIVE: Check if cbdProgression exists before accessing startMg
+  const showCBD = (data.cbdProgression?.startMg ?? 0) > 0 || cbd.startDose > 0;
   
   return `
     <h1>📋 Deine Zusammenfassung</h1>
@@ -428,7 +428,7 @@ function renderPatientWeeklyPlan(data: PatientPlanData): string {
       <thead>
         <tr>
           <th>Woche</th>
-          ${data.cbdProgression.startMg > 0 ? '<th>CBD-Dosis</th>' : ''}
+          ${(data.cbdProgression?.startMg ?? 0) > 0 ? '<th>CBD-Dosis</th>' : ''}
           ${data.medications.map(med => `<th>${med.name}</th>`).join('')}
         </tr>
       </thead>
@@ -436,7 +436,7 @@ function renderPatientWeeklyPlan(data: PatientPlanData): string {
         ${data.weeklyPlan.map(week => `
           <tr>
             <td><strong>${week.week}</strong></td>
-            ${data.cbdProgression.startMg > 0 ? `<td>${formatMgValue(week.cbdDose)}</td>` : ''}
+            ${(data.cbdProgression?.startMg ?? 0) > 0 ? `<td>${formatMgValue(week.cbdDose)}</td>` : ''}
             ${week.medications.map(med => `<td>${formatMgValue(med.dose)}</td>`).join('')}
           </tr>
         `).join('')}
