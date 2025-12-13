@@ -4346,25 +4346,7 @@ async function downloadSinglePdf(type) {
 }
 
 // ===============================
-// 9.6 DOWNLOAD BOTH PDFs (SEQUENTIAL)
-// ===============================
-async function downloadBothPdfs() {
-  console.log('[PDF Download] Starting download of both PDFs...');
-  
-  // Download patient PDF first
-  await downloadSinglePdf('patient');
-  
-  // Wait 2 seconds before downloading doctor PDF
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  
-  // Download doctor PDF
-  await downloadSinglePdf('doctor');
-  
-  console.log('[PDF Download] Both PDFs download completed ✓');
-}
-
-// ===============================
-// 9.7 FETCH HTML REPORTS FROM BACKEND
+// 9.6 FETCH HTML REPORTS FROM BACKEND
 // ===============================
 async function fetchHtmlReports(analysisResult) {
   console.log('[PDF Reports] Fetching HTML reports from /api/reports...');
@@ -4403,7 +4385,7 @@ async function fetchHtmlReports(analysisResult) {
 }
 
 // ===============================
-// 9.8 INIT PDF MODAL BUTTONS
+// 9.7 INIT PDF MODAL BUTTONS
 // ===============================
 function initPdfModalButtons() {
   console.log('[PDF Modal] Initializing modal button handlers...');
@@ -4418,12 +4400,6 @@ function initPdfModalButtons() {
   const doctorBtn = document.getElementById('download-doctor-btn');
   if (doctorBtn) {
     doctorBtn.addEventListener('click', () => downloadSinglePdf('doctor'));
-  }
-  
-  // Both PDFs button
-  const bothBtn = document.getElementById('download-both-btn');
-  if (bothBtn) {
-    bothBtn.addEventListener('click', downloadBothPdfs);
   }
   
   // Close modal button
@@ -4446,7 +4422,7 @@ function initPdfModalButtons() {
 }
 
 // ===============================
-// 9.9 HANDLE PLAN CREATION SUCCESS (REPLACES OLD downloadPDF)
+// 9.8 HANDLE PLAN CREATION SUCCESS (REPLACES OLD downloadPDF)
 // ===============================
 async function handlePlanCreationSuccess(analysisResult) {
   console.log('[Plan Success] Handling successful plan creation...');

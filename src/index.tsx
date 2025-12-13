@@ -3527,7 +3527,7 @@ app.get('/app', (c) => {
                 <div class="text-center mb-6">
                   <div class="text-5xl mb-4">📄</div>
                   <h3 class="text-2xl font-bold text-medless-primary mb-2">Ihr Plan ist fertig!</h3>
-                  <p class="text-medless-text-secondary">Laden Sie die gewünschten PDFs herunter:</p>
+                  <p class="text-medless-text-secondary">Laden Sie den gewünschten Plan herunter:</p>
                 </div>
                 
                 <div class="space-y-3 mb-6">
@@ -3537,10 +3537,6 @@ app.get('/app', (c) => {
                   
                   <button id="download-doctor-btn" class="btn-medless-primary w-full py-3 px-6 text-lg font-semibold rounded-medless-md shadow-medless-button hover:shadow-medless-button-hover transition-all duration-200">
                     <span class="mr-2">🩺</span> Ärzteplan herunterladen
-                  </button>
-                  
-                  <button id="download-both-btn" class="bg-white border-2 border-medless-primary text-medless-primary w-full py-3 px-6 text-lg font-semibold rounded-medless-md hover:bg-medless-bg transition-all duration-200">
-                    <span class="mr-2">📥</span> Beide PDFs herunterladen
                   </button>
                 </div>
                 
