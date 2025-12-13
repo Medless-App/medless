@@ -4192,6 +4192,10 @@ function initPlanCreation() {
 let currentAnalysisResult = null;
 let currentReportsHtml = null;
 
+// Download status tracking
+let patientDownloaded = false;
+let doctorDownloaded = false;
+
 // ===============================
 // 9.1 ENSURE PDF CONTENT READY (GUARD FUNCTION)
 // ===============================
@@ -4270,6 +4274,112 @@ function showPdfModal() {
   modal.style.display = 'flex';
   
   console.log('[PDF Modal] Modal opened ✓');
+  
+  // Initialize UI state
+  updatePdfModalUi();
+}
+
+// ===============================
+// 9.2B UPDATE PDF MODAL UI BASED ON DOWNLOAD STATUS
+// ===============================
+function updatePdfModalUi() {
+  console.log('[PDF Modal] Updating UI...', { patientDownloaded, doctorDownloaded });
+  
+  // Get modal elements
+  const modal = document.getElementById('pdf-download-modal');
+  if (!modal) return;
+  
+  const subtitle = modal.querySelector('.text-medless-text-secondary');
+  const patientBtn = document.getElementById('download-patient-btn');
+  const doctorBtn = document.getElementById('download-doctor-btn');
+  const buttonContainer = modal.querySelector('.space-y-3');
+  
+  // Update Patient button
+  if (patientBtn) {
+    if (patientDownloaded) {
+      patientBtn.innerHTML = '<span class="mr-2">✅</span> Patientenplan erneut herunterladen';
+      patientBtn.classList.remove('btn-medless-primary');
+      patientBtn.classList.add('bg-white', 'border-2', 'border-medless-primary', 'text-medless-primary');
+    } else {
+      patientBtn.innerHTML = '<span class="mr-2">👤</span> Patientenplan herunterladen';
+      patientBtn.classList.add('btn-medless-primary');
+      patientBtn.classList.remove('bg-white', 'border-2', 'border-medless-primary', 'text-medless-primary');
+    }
+  }
+  
+  // Update Doctor button
+  if (doctorBtn) {
+    if (doctorDownloaded) {
+      doctorBtn.innerHTML = '<span class="mr-2">✅</span> Ärzteplan erneut herunterladen';
+      doctorBtn.classList.remove('btn-medless-primary');
+      doctorBtn.classList.add('bg-white', 'border-2', 'border-medless-primary', 'text-medless-primary');
+    } else {
+      doctorBtn.innerHTML = '<span class="mr-2">🩺</span> Ärzteplan herunterladen';
+      doctorBtn.classList.add('btn-medless-primary');
+      doctorBtn.classList.remove('bg-white', 'border-2', 'border-medless-primary', 'text-medless-primary');
+    }
+  }
+  
+  // Update subtitle and add success message/restart button
+  let existingSuccessMsg = modal.querySelector('#pdf-success-message');
+  let existingRestartBtn = document.getElementById('restart-wizard-btn');
+  
+  if (patientDownloaded && doctorDownloaded) {
+    // Both downloaded - show success message and restart button
+    if (subtitle) {
+      subtitle.textContent = 'Beide Pläne wurden heruntergeladen.';
+    }
+    
+    // Add success message if not exists
+    if (!existingSuccessMsg && buttonContainer) {
+      const successMsg = document.createElement('div');
+      successMsg.id = 'pdf-success-message';
+      successMsg.className = 'mt-4 p-4 bg-green-50 border border-green-200 rounded-medless-md text-center';
+      successMsg.innerHTML = `
+        <div class="text-4xl mb-2">✅</div>
+        <p class="text-green-800 font-semibold">Beide Pläne wurden erfolgreich heruntergeladen!</p>
+      `;
+      buttonContainer.parentElement.insertBefore(successMsg, buttonContainer.nextSibling);
+    }
+    
+    // Add restart button if not exists
+    if (!existingRestartBtn && buttonContainer) {
+      const restartBtn = document.createElement('button');
+      restartBtn.id = 'restart-wizard-btn';
+      restartBtn.className = 'mt-4 w-full py-3 px-6 text-lg font-semibold rounded-medless-md bg-medless-primary text-white hover:opacity-90 transition-all duration-200';
+      restartBtn.innerHTML = '<span class="mr-2">🔄</span> Neuen Orientierungsplan starten';
+      restartBtn.addEventListener('click', restartWizard);
+      
+      const successMsg = modal.querySelector('#pdf-success-message');
+      if (successMsg) {
+        successMsg.parentElement.insertBefore(restartBtn, successMsg.nextSibling);
+      } else {
+        buttonContainer.parentElement.insertBefore(restartBtn, buttonContainer.nextSibling);
+      }
+    }
+    
+  } else if (patientDownloaded || doctorDownloaded) {
+    // One downloaded - show encouraging message
+    if (subtitle) {
+      subtitle.textContent = 'Download gestartet. Sie können auch den anderen Plan herunterladen.';
+    }
+    
+    // Remove success message and restart button if exist
+    if (existingSuccessMsg) existingSuccessMsg.remove();
+    if (existingRestartBtn) existingRestartBtn.remove();
+    
+  } else {
+    // None downloaded - show initial message
+    if (subtitle) {
+      subtitle.textContent = 'Laden Sie den gewünschten Plan herunter:';
+    }
+    
+    // Remove success message and restart button if exist
+    if (existingSuccessMsg) existingSuccessMsg.remove();
+    if (existingRestartBtn) existingRestartBtn.remove();
+  }
+  
+  console.log('[PDF Modal] UI updated ✓');
 }
 
 // ===============================
@@ -4293,6 +4403,70 @@ function hidePdfModal() {
   }
   
   console.log('[PDF Modal] Modal closed ✓');
+}
+
+// ===============================
+// 9.3B RESTART WIZARD
+// ===============================
+function restartWizard() {
+  console.log('[Wizard] Restarting wizard...');
+  
+  // Close modal
+  hidePdfModal();
+  
+  // Reset download flags
+  patientDownloaded = false;
+  doctorDownloaded = false;
+  
+  // Reset global variables
+  currentAnalysisResult = null;
+  currentReportsHtml = null;
+  
+  // Reset wizard state
+  if (typeof wizardState !== 'undefined') {
+    wizardState.medications = [];
+  }
+  
+  // Reset form
+  const form = document.getElementById('medication-form');
+  if (form) {
+    form.reset();
+  }
+  
+  // Clear medication inputs
+  const medicationContainer = document.getElementById('medication-inputs');
+  if (medicationContainer) {
+    medicationContainer.innerHTML = '';
+  }
+  
+  // Show empty state
+  const emptyState = document.getElementById('empty-state');
+  if (emptyState) {
+    emptyState.style.display = 'block';
+  }
+  
+  // Reset medication count
+  if (typeof window !== 'undefined') {
+    window.medicationCount = 0;
+  }
+  
+  // Hide results and loading
+  const resultsDiv = document.getElementById('results');
+  const loadingDiv = document.getElementById('loading');
+  if (resultsDiv) resultsDiv.classList.add('hidden');
+  if (loadingDiv) loadingDiv.classList.add('hidden');
+  
+  // Show step 1
+  if (typeof showStep === 'function') {
+    showStep(1);
+  } else if (typeof window.showStep === 'function') {
+    window.showStep(1);
+  }
+  
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+  console.log('[Wizard] Wizard restarted ✓');
 }
 
 // ===============================
@@ -4339,6 +4513,16 @@ async function downloadSinglePdf(type) {
   try {
     await downloadHtmlAsPdf(htmlString, fileName);
     console.log(`[PDF Download] ${type} PDF download completed ✓`);
+    
+    // Mark as downloaded and update UI
+    if (type === 'patient') {
+      patientDownloaded = true;
+    } else if (type === 'doctor') {
+      doctorDownloaded = true;
+    }
+    
+    updatePdfModalUi();
+    
   } catch (error) {
     console.error(`[PDF Download] Error downloading ${type} PDF:`, error);
     showModalError(`Fehler beim Herunterladen des PDFs: ${error.message}`);
@@ -4429,6 +4613,10 @@ async function handlePlanCreationSuccess(analysisResult) {
   
   // Store analysis result globally
   currentAnalysisResult = analysisResult;
+  
+  // Reset download flags for new plan
+  patientDownloaded = false;
+  doctorDownloaded = false;
   
   // Fetch HTML reports
   try {
