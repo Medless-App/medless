@@ -716,10 +716,6 @@ async function buildAnalyzeResponse(body: any, env: any) {
   const finalWeight = gewicht || weight || patientWeight;
   const finalHeight = groesse || height;
   
-  // ✅ ORGAN FUNCTION: Extract liver and kidney function (normalized to 3 levels)
-  const liverFunction = patient?.liver_function || 'normal';
-  const kidneyFunction = patient?.kidney_function || 'normal';
-  
   // ✅ FIX 3: Error-Handling für leere Medikamentenliste
   if (!medications || !Array.isArray(medications) || medications.length === 0) {
     throw new Error('Bitte fügen Sie mindestens ein Medikament hinzu.');
@@ -1359,9 +1355,7 @@ async function buildAnalyzeResponse(body: any, env: any) {
       cbdEndMg: Math.round(cbdEndMg * 10) / 10,
       hasBenzoOrOpioid,
       maxWithdrawalRiskScore,
-      notes: adjustmentNotes,
-      liverFunction,  // ✅ NEW: Store organ function for reports
-      kidneyFunction  // ✅ NEW: Store organ function for reports
+      notes: adjustmentNotes
     },
     warnings,
     categorySafety: {
@@ -3391,11 +3385,10 @@ app.get('/app', (c) => {
                     <input type="text" id="first_name" name="first_name" placeholder="Ihr Vorname" class="w-full border border-medless-border-light rounded-medless-button px-4 py-2 focus:outline-none focus:ring-2 focus:ring-medless-primary focus:border-medless-primary transition-colors" required />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium mb-2">Geschlecht</label>
+                    <label class="block text-sm font-medium mb-2">Biologisches Geschlecht</label>
                     <div class="space-y-2">
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="gender" value="herr" class="mr-2 text-medless-primary focus:ring-medless-primary" required /> Herr</label>
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="gender" value="frau" class="mr-2 text-medless-primary focus:ring-medless-primary" /> Frau</label>
-                      <label class="flex items-center cursor-pointer"><input type="radio" name="gender" value="divers" class="mr-2 text-medless-primary focus:ring-medless-primary" /> Divers</label>
+                      <label class="flex items-center cursor-pointer"><input type="radio" name="gender" value="male" class="mr-2 text-medless-primary focus:ring-medless-primary" required /> Männlich</label>
+                      <label class="flex items-center cursor-pointer"><input type="radio" name="gender" value="female" class="mr-2 text-medless-primary focus:ring-medless-primary" /> Weiblich</label>
                     </div>
                   </div>
                 </div>
@@ -4611,33 +4604,23 @@ app.get('/app-original', (c) => {
             <div class="mb-6">
               <label class="block text-sm font-medium text-medless-text-primary mb-1.5">Geschlecht *</label>
               <div class="grid grid-cols-3 gap-4">
-                <!-- Option 1 -->
+                <!-- Option 1: Männlich -->
                 <label class="cursor-pointer">
-                  <input type="radio" name="gender" value="herr" class="peer sr-only" required>
+                  <input type="radio" name="gender" value="male" class="peer sr-only" required>
                   <div class="peer-checked:bg-medless-bg-card peer-checked:border-medless-primary peer-checked:text-medless-primary 
                               border-2 border-medless-border-light rounded-medless-md p-4 text-center transition-all duration-200
                               hover:border-medless-primary/40 hover:shadow-sm bg-white">
-                    <span class="font-medium">Herr</span>
+                    <span class="font-medium">Männlich</span>
                   </div>
                 </label>
                 
-                <!-- Option 2 -->
+                <!-- Option 2: Weiblich -->
                 <label class="cursor-pointer">
-                  <input type="radio" name="gender" value="frau" class="peer sr-only" required>
+                  <input type="radio" name="gender" value="female" class="peer sr-only" required>
                   <div class="peer-checked:bg-medless-bg-card peer-checked:border-medless-primary peer-checked:text-medless-primary 
                               border-2 border-medless-border-light rounded-medless-md p-4 text-center transition-all duration-200
                               hover:border-medless-primary/40 hover:shadow-sm bg-white">
-                    <span class="font-medium">Frau</span>
-                  </div>
-                </label>
-                
-                <!-- Option 3 -->
-                <label class="cursor-pointer">
-                  <input type="radio" name="gender" value="divers" class="peer sr-only" required>
-                  <div class="peer-checked:bg-medless-bg-card peer-checked:border-medless-primary peer-checked:text-medless-primary 
-                              border-2 border-medless-border-light rounded-medless-md p-4 text-center transition-all duration-200
-                              hover:border-medless-primary/40 hover:shadow-sm bg-white">
-                    <span class="font-medium">Divers</span>
+                    <span class="font-medium">Weiblich</span>
                   </div>
                 </label>
               </div>

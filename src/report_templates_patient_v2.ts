@@ -383,6 +383,18 @@ function renderPatientSummary(data: PatientPlanData): string {
       </thead>
       <tbody>
         ${data.medications.map(med => {
+          // 🔒 DEFENSIVE: Handle missing startDose/endDose
+          if (med.startDose === undefined || med.startDose === null || med.startDose === 0) {
+            return `
+          <tr>
+            <td><strong>${med.name}</strong></td>
+            <td colspan="3" style="color: #9CA3AF; text-align: center;">
+              Aktuell wird keine Reduktion empfohlen (0%). Der Plan dient ausschließlich als Orientierung.
+            </td>
+          </tr>
+        `;
+          }
+          
           // ✅ D2 FIX: Patient-friendly 0% explanation
           const reductionText = med.reductionPercent === 0 
             ? '<span style="color: #9CA3AF;">Aktuell wird keine Reduktion empfohlen (0%) - aus Sicherheitsgründen</span>'

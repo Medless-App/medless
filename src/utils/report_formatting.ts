@@ -18,8 +18,13 @@ export function formatMgValue(value: number): string {
 
 /**
  * Format mg/kg with exactly 2 decimals (REGEL 4)
+ * 🔒 DEFENSIVE: Handles 0 or undefined weight
  */
 export function formatMgPerKg(mgTotal: number, weightKg: number): string {
+  // 🔒 DEFENSIVE: Prevent division by zero
+  if (!weightKg || weightKg === 0) {
+    return 'N/A mg/kg';
+  }
   const mgPerKg = mgTotal / weightKg;
   return `${mgPerKg.toFixed(2)} mg/kg`;
 }
@@ -27,8 +32,13 @@ export function formatMgPerKg(mgTotal: number, weightKg: number): string {
 /**
  * REGEL 5: Calculate percentage reduction correctly
  * Example: 300mg → 207mg = 31% (not 30.5%)
+ * 🔒 DEFENSIVE: Handles 0 or undefined startDose
  */
 export function calculateReductionPercentage(startDose: number, endDose: number): number {
+  // 🔒 DEFENSIVE: Prevent division by zero
+  if (!startDose || startDose === 0) {
+    return 0;
+  }
   const reduction = ((startDose - endDose) / startDose) * 100;
   return Math.round(reduction); // Round to whole number
 }
@@ -57,11 +67,14 @@ export function buildCBDDoseInfo(
   endDose: number,
   patientWeight: number
 ): CBDDoseInfo {
+  // 🔒 DEFENSIVE: Prevent division by zero
+  const safeWeight = patientWeight && patientWeight > 0 ? patientWeight : 1;
+  
   return {
     startDose,
     endDose,
-    startMgPerKg: startDose / patientWeight,
-    endMgPerKg: endDose / patientWeight,
+    startMgPerKg: startDose / safeWeight,
+    endMgPerKg: endDose / safeWeight,
     patientWeight
   };
 }

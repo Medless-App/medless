@@ -676,6 +676,7 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
   };
 
   // MEGAPROMPT REGEL 2.2: Build reduction summary (theoretical vs. actual)
+  // 🔒 DEFENSIVE: Handle 0mg and missing values safely
   const reductionSummary = reductionGoal ? {
     theoreticalTargetPercent: reductionGoal,
     actualReductionPercent: analysis.map(entry => {
@@ -683,6 +684,9 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
       const lastWeek = weeklyPlan[weeklyPlan.length - 1];
       const targetMed = lastWeek?.medications.find((m: any) => m.name === getMedicationName(entry));
       const endMg = targetMed?.targetMg || startMg;
+      
+      // 🔒 DEFENSIVE: Prevent division by zero
+      if (startMg === 0 || !startMg) return 0;
       return Math.round(((startMg - endMg) / startMg) * 100);
     }).reduce((sum, pct) => sum + pct, 0) / analysis.length,
     medications: analysis.map(entry => {
@@ -691,11 +695,17 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
       const lastWeek = weeklyPlan[weeklyPlan.length - 1];
       const targetMed = lastWeek?.medications.find((m: any) => m.name === name);
       const endMg = targetMed?.targetMg || startMg;
+      
+      // 🔒 DEFENSIVE: Prevent division by zero
+      const reductionPercent = (startMg === 0 || !startMg) 
+        ? 0 
+        : Math.round(((startMg - endMg) / startMg) * 100);
+      
       return {
         name,
         startMg,
         endMg,
-        reductionPercent: Math.round(((startMg - endMg) / startMg) * 100)
+        reductionPercent
       };
     })
   } : undefined;
