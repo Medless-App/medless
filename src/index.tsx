@@ -705,6 +705,10 @@ async function buildAnalyzeResponse(body: any, env: any) {
     groesse = patient.groesse      // German field name
   } = body;
   
+  // ===== NEW: Extract organ function parameters =====
+  const liverFunction = patient.liver_function ?? 'normal';
+  const kidneyFunction = patient.kidney_function ?? 'normal';
+  
   // ✅ FIX 2: Field Mapping Standardization (firstName takes priority)
   const finalFirstName = firstName || vorname || patientName || '';
   const finalGender = geschlecht || gender || patientGender;
@@ -1236,13 +1240,22 @@ async function buildAnalyzeResponse(body: any, env: any) {
   }
   
   // ✅ ORGAN FUNCTION WARNINGS (LAYER 2: Documentation + Warnings)
-  if (kidneyFunction && kidneyFunction !== 'normal') {
-    const severityText = kidneyFunction === 'schwer_eingeschränkt' ? 'stark' : 'mäßig';
-    warnings.push(`⚠️ Nierenfunktion ${severityText} eingeschränkt: Konservativer Reduktionsverlauf empfohlen. Vorsicht bei renal eliminierten Wirkstoffen. Ärztliche Überwachung angeraten.`);
+  if (kidneyFunction !== 'normal') {
+    const severityText = kidneyFunction === 'schwer_eingeschränkt' 
+      ? 'Schwer eingeschränkte Nierenfunktion' 
+      : 'Eingeschränkte Nierenfunktion';
+    warnings.push(
+      `🩺 ${severityText}: Konservativer Reduktionsverlauf empfohlen. Besondere Vorsicht bei renal eliminierten Wirkstoffen. Ärztliche Begleitung und engmaschige Nierenfunktionskontrolle angeraten.`
+    );
   }
-  if (liverFunction && liverFunction !== 'normal') {
-    const severityText = liverFunction === 'schwer_eingeschränkt' ? 'stark' : 'mäßig';
-    warnings.push(`⚠️ Leberfunktion ${severityText} eingeschränkt: Konservativer Reduktionsverlauf empfohlen. Vorsicht bei hepatisch metabolisierten Wirkstoffen. Regelmäßige Leberwert-Kontrolle empfohlen.`);
+  
+  if (liverFunction !== 'normal') {
+    const severityText = liverFunction === 'schwer_eingeschränkt' 
+      ? 'Schwer eingeschränkte Leberfunktion' 
+      : 'Eingeschränkte Leberfunktion';
+    warnings.push(
+      `🩺 ${severityText}: Konservativer Reduktionsverlauf empfohlen. Besondere Vorsicht bei hepatisch metabolisierten Wirkstoffen (CYP450-Substrate). Ärztliche Begleitung und regelmäßige Leberfunktionskontrolle angeraten.`
+    );
   }
   
   // ===== BUGFIX: Enrich analysisResults with calculated max_weekly_reduction_pct =====
@@ -1340,6 +1353,8 @@ async function buildAnalyzeResponse(body: any, env: any) {
       bmi,
       bsa,
       idealWeightKg,
+      liverFunction,      // NEW: Organ function
+      kidneyFunction,     // NEW: Organ function
       cbdStartMg: Math.round(cbdStartMg * 10) / 10,
       cbdEndMg: Math.round(cbdEndMg * 10) / 10,
       hasBenzoOrOpioid,

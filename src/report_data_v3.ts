@@ -97,6 +97,8 @@ export interface DoctorReportDataV3 {
   patientAge: number;
   patientWeight: number;
   patientGender?: string;
+  liverFunction?: string;    // NEW: Organ function
+  kidneyFunction?: string;   // NEW: Organ function
   durationWeeks: number;
   
   // CBD Progression (MEGAPROMPT REGEL 1: Must be consistent everywhere)
@@ -372,6 +374,8 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
   const patientAge = personalization?.age || 0;
   const patientWeight = personalization?.weight || 0;
   const patientGender = personalization?.gender || 'unknown';
+  const liverFunction = personalization?.liverFunction || 'normal';    // NEW
+  const kidneyFunction = personalization?.kidneyFunction || 'normal';  // NEW
   const durationWeeks = weeklyPlan.length || 0;
   
   // MEGAPROMPT REGEL 1: Extract CBD progression (must be consistent everywhere)
@@ -701,6 +705,8 @@ export function buildDoctorReportDataV3(response: AnalyzeResponse): DoctorReport
     patientAge,
     patientWeight,
     patientGender,
+    liverFunction,    // NEW
+    kidneyFunction,   // NEW
     durationWeeks,
     // MEGAPROMPT REGEL 1: CBD Progression
     cbdProgression: {

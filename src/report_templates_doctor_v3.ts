@@ -380,6 +380,74 @@ function renderLevel1Overview(data: DoctorReportDataV3): string {
       <strong>Reduktionsdauer:</strong> ${data.durationWeeks} Wochen
     </div>
     
+    ${((data.liverFunction && data.liverFunction !== 'normal') || (data.kidneyFunction && data.kidneyFunction !== 'normal')) ? `
+    <div class="warning-box" style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px; margin: 16px 0;">
+      <strong style="color: #92400E; font-size: 11pt;">🩺 Organfunktion – Ärztliche Hinweise</strong>
+      
+      <div style="margin: 12px 0;">
+        <p style="margin: 0 0 8px 0; font-size: 9pt; color: #92400E; font-style: italic;">
+          Hinweis: Die folgenden Parameter beeinflussen nicht die algorithmische Reduktionsberechnung. 
+          Sie dienen als Orientierung für ärztliche Entscheidungen zu Monitoring und Dosisanpassungen.
+        </p>
+      </div>
+      
+      <table style="width: 100%; border-collapse: collapse; margin: 8px 0;">
+        <thead>
+          <tr style="background-color: #FDE68A; border-bottom: 2px solid #F59E0B;">
+            <th style="padding: 6px; text-align: left; font-size: 9pt; color: #92400E;">Organ</th>
+            <th style="padding: 6px; text-align: left; font-size: 9pt; color: #92400E;">Status</th>
+            <th style="padding: 6px; text-align: left; font-size: 9pt; color: #92400E;">Klinische Empfehlung</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.liverFunction && data.liverFunction !== 'normal' ? `
+          <tr style="border-bottom: 1px solid #FDE68A;">
+            <td style="padding: 6px; font-size: 9pt; color: #92400E;"><strong>Leber</strong></td>
+            <td style="padding: 6px; font-size: 9pt; color: #92400E;">
+              ${data.liverFunction === 'schwer_eingeschränkt' ? '<strong>Schwer eingeschränkt</strong>' : 'Eingeschränkt'}
+            </td>
+            <td style="padding: 6px; font-size: 9pt; color: #92400E;">
+              ${data.liverFunction === 'schwer_eingeschränkt' 
+                ? '<strong>Besondere Vorsicht:</strong> Klinische Überwachung und Prüfung medikationsbezogener Dosisanpassungen angeraten. Vorsicht bei hepatisch metabolisierten Wirkstoffen (CYP450-Substrate).' 
+                : 'Konservatives Vorgehen erwägen. Engmaschige Kontrolle der Leberwerte. Vorsicht bei CYP450-Substraten.'}
+            </td>
+          </tr>
+          ` : ''}
+          ${data.kidneyFunction && data.kidneyFunction !== 'normal' ? `
+          <tr style="border-bottom: 1px solid #FDE68A;">
+            <td style="padding: 6px; font-size: 9pt; color: #92400E;"><strong>Niere</strong></td>
+            <td style="padding: 6px; font-size: 9pt; color: #92400E;">
+              ${data.kidneyFunction === 'schwer_eingeschränkt' ? '<strong>Schwer eingeschränkt</strong>' : 'Eingeschränkt'}
+            </td>
+            <td style="padding: 6px; font-size: 9pt; color: #92400E;">
+              ${data.kidneyFunction === 'schwer_eingeschränkt' 
+                ? '<strong>Besondere Vorsicht:</strong> Klinische Überwachung und Prüfung medikationsbezogener Dosisanpassungen angeraten. Vorsicht bei renal eliminierten Wirkstoffen.' 
+                : 'Konservatives Vorgehen erwägen. Engmaschige Kontrolle der Nierenfunktion. Vorsicht bei renal eliminierten Wirkstoffen.'}
+            </td>
+          </tr>
+          ` : ''}
+        </tbody>
+      </table>
+      
+      <div style="margin: 12px 0 0 0; padding: 8px; background-color: #FFFBEB; border-radius: 4px;">
+        <strong style="color: #92400E; font-size: 9pt;">Monitoring-Checkliste bei eingeschränkter Organfunktion:</strong>
+        <ul style="margin: 6px 0 0 20px; color: #92400E; font-size: 9pt; line-height: 1.4;">
+          <li>Organparameter im Verlauf kontrollieren (Labor: Leberwerte, Kreatinin, GFR)</li>
+          <li>Sedierung/Überdosierungszeichen beachten (bei relevanten Substanzen wie Benzodiazepinen, Opioiden)</li>
+          <li>Bei Unsicherheiten substanzspezifische Dosisanpassungsregeln prüfen (z.B. Fachinformation, DOSING-Datenbank)</li>
+          <li>Reduktionsgeschwindigkeit ggf. individuell anpassen (konservativeres Vorgehen erwägen)</li>
+          <li>Engmaschige klinische Nachkontrollen einplanen</li>
+        </ul>
+      </div>
+      
+      <p style="margin: 12px 0 0 0; font-size: 8pt; color: #92400E; font-style: italic;">
+        <strong>Rechtlicher Hinweis:</strong> MEDLESS liefert einen Orientierungsplan. 
+        Die finale Entscheidung über Dosisanpassungen und Reduktionsgeschwindigkeit liegt beim behandelnden Arzt. 
+        Dies sind Empfehlungen, keine verbindlichen Anweisungen.
+      </p>
+    </div>
+    ` : ''}
+    
     ${renderCBDAndReductionSummary(data)}
 
     ${renderOverviewTable(data.overviewMedications)}
