@@ -1,8 +1,8 @@
 {
   "buildHash": "654dc84a33b7289a0cfca1092a348f0d6f8f02c6b6b4556eb2e9ae08fa047e73",
-  "buildTime": "2025-12-14T23:25:59.755Z",
-  "commit": "c58b3c2",
-  "branch": "main",
+  "buildTime": "2025-12-14T23:42:42.750Z",
+  "commit": "26d0c73",
+  "branch": "hotfix-restore-design",
   "asset": "static/app.js",
   "version": "1.1.0"
 }

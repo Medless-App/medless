@@ -1,40 +1,58 @@
 /**
- * MEDLESS DESIGN TOKENS - PRODUCTION
- * Single source of truth for all pages
- * Last updated: 2025-12-14
+ * MEDLESS DESIGN TOKENS - CSS Layer
+ * 
+ * Token Bridge for PUBLIC website (Landing Page, Fachkreise, etc.)
+ * Source of Truth: src/design-system/tokens.cjs
+ * 
+ * IMPORTANT: These values are manually synced from tokens.cjs
+ * When tokens.cjs changes, update this file accordingly.
+ * 
+ * Last synced: 2025-12-14
  */
 
 :root {
   /* ==================
      BACKGROUNDS
      ================== */
-  --medless-bg: #FFFFFF;              /* Pure white for cards */
-  --medless-surface: #FFFFFF;         /* Clean white for surfaces */
-  
-  /* Background gradient stops (static, no JS) */
-  --medless-gradient-top: #FFFFFF;    /* Very light white at top */
-  --medless-gradient-mid: #F5FBF8;    /* Soft medical mint in mid */
-  --medless-gradient-deep: #E6F5EE;   /* Slightly deeper in lower sections */
-  --medless-gradient-bottom: #D8EFE5; /* Pastel green at bottom */
+  --medless-bg: #FAFEFB;              /* medless-bg-ultra-light */
+  --medless-surface: #FFFFFF;         /* Clean white for cards/surfaces */
   
   /* ==================
      TEXT COLORS
      ================== */
-  --medless-text-head: #1B2A36;       /* Headlines */
-  --medless-text-body: #5E6A71;       /* Body text */
-  --medless-text-muted: #94A3B8;      /* Muted text */
-  --medless-text-strong: #0F172A;     /* Strong emphasis */
+  --medless-text-head: #1B2A36;       /* medless-text-primary (Headlines) */
+  --medless-text-body: #5E6A71;       /* medless-text-secondary (Body text) */
+  --medless-text-muted: #94A3B8;      /* medless-text-tertiary (Muted text) */
   
   /* ==================
      BRAND COLORS
      ================== */
   --medless-primary: #2FB585;         /* Main brand green */
-  --medless-primary-hover: #1B9C6E;   /* Hover state */
+  --medless-primary-hover: #1B9C6E;   /* medless-primary-dark (Hover state) */
   
   /* ==================
-     BORDERS & SHADOWS
+     BORDERS & DIVIDERS
      ================== */
-  --medless-border-soft: #E9ECEF;     /* Subtle borders */
-  --medless-card-border: rgba(0, 0, 0, 0.06); /* Card borders */
-  --medless-shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.04); /* Card shadow */
+  --medless-border-soft: #E9ECEF;     /* medless-border-light (Subtle borders) */
+  
+  /* ==================
+     SHADOWS
+     ================== */
+  --medless-shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.04);  /* medless-card shadow */
 }
+
+/**
+ * TOKEN MAPPING REFERENCE:
+ * 
+ * CSS Variable              → Design Token (tokens.cjs)
+ * --------------------------------------------------------
+ * --medless-bg              → medless-bg-ultra-light (#FAFEFB)
+ * --medless-surface         → Pure white (#FFFFFF)
+ * --medless-text-head       → medless-text-primary (#1B2A36)
+ * --medless-text-body       → medless-text-secondary (#5E6A71)
+ * --medless-text-muted      → medless-text-tertiary (#94A3B8)
+ * --medless-primary         → medless-primary (#2FB585)
+ * --medless-primary-hover   → medless-primary-dark (#1B9C6E)
+ * --medless-border-soft     → medless-border-light (#E9ECEF)
+ * --medless-shadow-soft     → medless-card (0 2px 8px rgba(0, 0, 0, 0.04))
+ */
