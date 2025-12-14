@@ -1,0 +1,84 @@
+# Design Token Check - Prevent hardcoded hex colors in reports
+name: Design Token Check
+
+on:
+  pull_request:
+    paths:
+      - 'src/report_templates_*.ts'
+      - 'src/design-system/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/report_templates_*.ts'
+      - 'src/design-system/**'
+
+jobs:
+  check-hardcoded-colors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check for hardcoded hex colors in report templates
+        run: |
+          echo "🔍 Checking for hardcoded hex colors in report templates..."
+          
+          # Check doctor report
+          DOCTOR_HEX=$(grep -c "#[0-9A-Fa-f]\{3,8\}" src/report_templates_doctor_v3.ts || echo "0")
+          
+          # Check patient report v2
+          PATIENT_HEX=$(grep -c "#[0-9A-Fa-f]\{3,8\}" src/report_templates_patient_v2.ts || echo "0")
+          
+          echo "Doctor Report: $DOCTOR_HEX hardcoded hex colors"
+          echo "Patient Report V2: $PATIENT_HEX hardcoded hex colors"
+          
+          if [ "$DOCTOR_HEX" -gt 0 ] || [ "$PATIENT_HEX" -gt 0 ]; then
+            echo "❌ FAILED: Hardcoded hex colors detected in report templates!"
+            echo ""
+            echo "Report templates must use design tokens via getReportStyles()."
+            echo "Example:"
+            echo "  ❌ Bad:  background: #F0F9FF;"
+            echo "  ✅ Good: background: \${S.infoBg};"
+            echo ""
+            echo "See: src/design-system/TOKEN_GOVERNANCE.md"
+            exit 1
+          fi
+          
+          echo "✅ PASSED: No hardcoded hex colors found!"
+      
+      - name: Check for hardcoded rgb/rgba in report templates
+        run: |
+          echo "🔍 Checking for hardcoded rgb/rgba colors..."
+          
+          DOCTOR_RGB=$(grep -c "rgba\?([0-9]" src/report_templates_doctor_v3.ts || echo "0")
+          PATIENT_RGB=$(grep -c "rgba\?([0-9]" src/report_templates_patient_v2.ts || echo "0")
+          
+          echo "Doctor Report: $DOCTOR_RGB rgb/rgba colors"
+          echo "Patient Report V2: $PATIENT_RGB rgb/rgba colors"
+          
+          if [ "$DOCTOR_RGB" -gt 0 ] || [ "$PATIENT_RGB" -gt 0 ]; then
+            echo "⚠️  WARNING: rgb/rgba colors detected (may be acceptable for opacity)"
+            echo "If these are for opacity/transparency, this is OK."
+            echo "If these are colors, use design tokens instead."
+          else
+            echo "✅ No rgb/rgba colors found"
+          fi
+      
+      - name: Verify design token sync
+        run: |
+          echo "🔍 Checking if tokens.cjs and index.ts are in sync..."
+          
+          # Extract primary color from both files
+          CJS_PRIMARY=$(grep "'medless-primary':" src/design-system/tokens.cjs | grep -o "#[0-9A-Fa-f]\{6\}")
+          TS_PRIMARY=$(grep "'medless-primary':" src/design-system/index.ts | grep -o "#[0-9A-Fa-f]\{6\}")
+          
+          if [ "$CJS_PRIMARY" != "$TS_PRIMARY" ]; then
+            echo "❌ FAILED: Design tokens out of sync!"
+            echo "tokens.cjs primary: $CJS_PRIMARY"
+            echo "index.ts primary:   $TS_PRIMARY"
+            echo ""
+            echo "After changing tokens.cjs, also update index.ts with identical values!"
+            exit 1
+          fi
+          
+          echo "✅ tokens.cjs and index.ts are in sync"

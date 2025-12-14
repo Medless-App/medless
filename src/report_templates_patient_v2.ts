@@ -496,3 +496,122 @@ function renderPatientFooter(data: PatientPlanData): string {
     </div>
   `;
 }
+
+// ============================================================
+// EXAMPLE FUNCTION FOR TESTING
+// ============================================================
+
+/**
+ * Generate example patient plan HTML for testing/preview
+ * Uses realistic dummy data matching production structure
+ */
+export function renderPatientPlanExample(): string {
+  const exampleData: PatientPlanData = {
+    patient: {
+      firstName: 'Maria',
+      age: 62,
+      weight: 68,
+      height: 165,
+      gender: 'female',
+      bmi: 24.9,
+      durationWeeks: 8
+    },
+    cbdProgression: {
+      startMg: 35,
+      endMg: 68,
+      weeklyIncrease: 4.7
+    },
+    reductionSummary: {
+      theoreticalTargetPercent: 50,
+      actualReductionPercent: 44,
+      medications: [
+        {
+          name: 'Celecoxib',
+          startMg: 400,
+          endMg: 224,
+          reductionPercent: 44
+        }
+      ]
+    },
+    medications: [
+      {
+        name: 'Celecoxib',
+        generic: 'Celecoxib',
+        startMg: 400,
+        endMg: 224,
+        currentDoseMg: 400
+      }
+    ],
+    weeklyPlan: [
+      {
+        week: 1,
+        cbdDose: 35,
+        medications: { 'Celecoxib': 400 }
+      },
+      {
+        week: 2,
+        cbdDose: 52.5,
+        medications: { 'Celecoxib': 400 }
+      },
+      {
+        week: 3,
+        cbdDose: 56,
+        medications: { 'Celecoxib': 380 }
+      },
+      {
+        week: 4,
+        cbdDose: 60,
+        medications: { 'Celecoxib': 350 }
+      },
+      {
+        week: 5,
+        cbdDose: 63,
+        medications: { 'Celecoxib': 310 }
+      },
+      {
+        week: 6,
+        cbdDose: 65,
+        medications: { 'Celecoxib': 270 }
+      },
+      {
+        week: 7,
+        cbdDose: 66.5,
+        medications: { 'Celecoxib': 240 }
+      },
+      {
+        week: 8,
+        cbdDose: 68,
+        medications: { 'Celecoxib': 224 }
+      }
+    ],
+    warnings: [
+      '⚠️ Bei starken Schmerzen, Unwohlsein oder neuen Symptomen kontaktieren Sie sofort Ihren Arzt',
+      '⚠️ Reduzieren Sie die Medikation NICHT schneller als im Plan vorgesehen',
+      '⚠️ CBD kann mit anderen Medikamenten interagieren - informieren Sie alle behandelnden Ärzte'
+    ],
+    positiveEffects: [
+      '✨ Weniger Nebenwirkungen durch niedrigere Medikamentendosis',
+      '💪 Mehr Energie und besseres Wohlbefinden im Alltag',
+      '😌 Natürliche Unterstützung des Endocannabinoid-Systems',
+      '🛡️ Schutz vor Entzugssymptomen durch CBD-Begleitung',
+      '🎯 Schritt für Schritt zu mehr Lebensqualität'
+    ],
+    checkupInfo: {
+      frequency: 'Nach 2, 4 und 8 Wochen',
+      parameters: [
+        'Schmerzniveau (VAS-Skala)',
+        'Nebenwirkungen dokumentieren',
+        'Lebensqualität bewerten',
+        'Ggf. Laborwerte kontrollieren'
+      ]
+    },
+    costs: {
+      totalEur: 167.20,
+      breakdown: 'Geschätzte Gesamtkosten für 8 Wochen CBD-Therapie'
+    },
+    footerNote: 'Erstellt am ' + new Date().toLocaleDateString('de-DE'),
+    disclaimer: 'Dieser Plan ersetzt keine ärztliche Beratung. Führen Sie Änderungen nur in Absprache mit Ihrem Arzt durch.'
+  };
+
+  return renderPatientPlanHTML(exampleData);
+}

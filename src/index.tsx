@@ -3,7 +3,7 @@ import { cors } from 'hono/cors'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { buildPatientReportData, buildDoctorReportData } from './report_data'
 import { renderDoctorReportHtmlFixed, renderDoctorReportExample } from './report_templates'
-import { renderPatientReportHtmlFixed, renderPatientReportExample } from './report_templates_patient'
+import { renderPatientPlanExample } from './report_templates_patient_v2'
 // MEGAPROMPT V2 TEMPLATES
 import { buildDoctorReportDataV3 } from './report_data_v3'
 import { renderDoctorReportHtmlV3 } from './report_templates_doctor_v3'
@@ -1909,8 +1909,8 @@ app.post('/api/pdf/patient', async (c) => {
     
     if (isExample) {
       // Use example data from renderPatientReportExample
-      const { renderPatientReportExample } = await import('./report_templates_patient');
-      const exampleHtml = renderPatientReportExample();
+      const { renderPatientPlanExample } = await import('./report_templates_patient_v2');
+      const exampleHtml = renderPatientPlanExample();
       
       // PRODUCTION VERSION: Generate PDF with PDFShift
       const pdfBuffer = await generatePdfWithService(
@@ -2000,8 +2000,8 @@ app.get('/api/pdf/patient', async (c) => {
     }
     
     // Use example data
-    const { renderPatientReportExample } = await import('./report_templates_patient');
-    const exampleHtml = renderPatientReportExample();
+    const { renderPatientPlanExample } = await import('./report_templates_patient_v2');
+    const exampleHtml = renderPatientPlanExample();
     
     // Generate PDF with PDFShift
     const pdfBuffer = await generatePdfWithService(
@@ -6115,7 +6115,7 @@ app.get('/test/doctor-report', async (c) => {
 })
 
 app.get('/test/patient-report', (c) => {
-  const html = renderPatientReportExample()
+  const html = renderPatientPlanExample()
   return c.html(html)
 })
 
