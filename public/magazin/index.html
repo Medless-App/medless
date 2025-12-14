@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="de" data-site="public">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEDLESS Magazin – Wissen rund um Medikamentenreduktion</title>
+  <meta name="description" content="Das MEDLESS Magazin bietet fundierte Artikel und Ratgeber zum Thema Medikamentenreduktion, Polypharmazie und gesunde Lebensweise.">
+  
+  <!-- MEDLESS Global Styles -->
+  <link rel="stylesheet" href="/styles.css">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'medless-primary': '#2FB585',
+            'medless-text-primary': '#1B2A36',
+            'medless-text-secondary': '#5E6A71',
+            'medless-border-light': '#E9ECEF',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body data-theme="medless">
+
+  <!-- HEADER (IDENTICAL TO ALL PAGES) -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-medless-header">
+    <div class="max-w-container mx-auto px-4 md:px-7 py-4 md:py-5 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="/" class="text-xl md:text-2xl font-semibold text-medless-text-primary tracking-tight">
+        Medless
+      </a>
+      
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex items-center gap-7">
+        <li><a href="/#how-it-works" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">So funktioniert's</a></li>
+        <li><a href="/#benefits" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Vorteile</a></li>
+        <li><a href="/#faq" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">FAQ</a></li>
+        <li><a href="/magazin/" class="text-[15px] text-medless-primary font-medium hover:text-medless-primary transition-colors duration-medless">Magazin</a></li>
+        <li><a href="/fachkreise/" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Für Ärzt:innen & Apotheken</a></li>
+      </ul>
+      
+      <!-- Desktop CTA Button -->
+      <a
+        href="/app" 
+        class="hidden md:inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-medless-button border-2 border-medless-primary text-medless-primary bg-white text-button-text font-medium shadow-medless-button transition-all duration-medless active:scale-[0.98] hover:bg-medless-primary hover:text-white hover:shadow-medless-button-hover hover:-translate-y-0.5"
+      >
+        Orientierungsplan starten
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="page">
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="container">
+        <h1>MEDLESS Magazin</h1>
+        <p>Fundierte Artikel und Ratgeber zum Thema Medikamentenreduktion</p>
+      </div>
+    </section>
+
+    <!-- CONTENT SECTION -->
+    <section class="section">
+      <div class="container">
+        <h2>Artikel folgen in Kürze</h2>
+        <p>Das MEDLESS Magazin befindet sich im Aufbau. Hier entstehen fundierte Artikel rund um die Themen Medikamentenreduktion, Polypharmazie und gesunde Lebensweise.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white py-12 border-t border-medless-border-light">
+    <div class="container">
+      <p class="text-center text-medless-text-secondary">© 2025 MEDLESS. Alle Rechte vorbehalten.</p>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons Init -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>
