@@ -13,6 +13,10 @@ import {
   buildCBDDoseInfo,
   type CBDDoseInfo
 } from './utils/report_formatting'
+import { getReportStyles } from './design-system/reportStyles'
+
+// 🎨 Get design tokens for consistent styling
+const S = getReportStyles();
 
 /**
  * MEGAPROMPT REGEL 3: Patient Plan Data Structure
@@ -186,7 +190,7 @@ function getPatientStyles(): string {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 11pt;
       line-height: 1.6;
-      color: #1f2937;
+      color: ${S.gray800};
       background: white;
     }
     
@@ -202,7 +206,7 @@ function getPatientStyles(): string {
       justify-content: space-between;
       margin-bottom: 8mm;
       padding-bottom: 4mm;
-      border-bottom: 2px solid #00C39A;
+      border-bottom: 2px solid ${S.successBorder};
     }
     
     .header-logo {
@@ -219,36 +223,36 @@ function getPatientStyles(): string {
     .header-title h1 {
       font-size: 14pt;
       font-weight: 700;
-      color: #00584D;
+      color: ${S.successText};
       margin-bottom: 2px;
     }
     
     .header-title .subtitle {
       font-size: 9pt;
-      color: #6b7280;
+      color: ${S.gray500};
     }
     
     /* Typography */
     h1 {
       font-size: 16pt;
       font-weight: 700;
-      color: #111827;
+      color: ${S.gray900};
       margin: 12px 0 8px 0;
     }
     
     h2 {
       font-size: 13pt;
       font-weight: 600;
-      color: #1f2937;
+      color: ${S.gray800};
       margin: 16px 0 8px 0;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid ${S.gray200};
       padding-bottom: 4px;
     }
     
     h3 {
       font-size: 11pt;
       font-weight: 600;
-      color: #374151;
+      color: ${S.gray700};
       margin: 10px 0 6px 0;
     }
     
@@ -258,24 +262,24 @@ function getPatientStyles(): string {
     
     /* Boxes */
     .info-box {
-      background: #F0F9FF;
-      border-left: 3px solid #0284C7;
+      background: ${S.infoBg};
+      border-left: 3px solid ${S.infoBorder};
       padding: 12px 14px;
       margin: 10px 0;
       border-radius: 4px;
     }
     
     .success-box {
-      background: #F0FDF4;
-      border-left: 3px solid #059669;
+      background: ${S.successBg};
+      border-left: 3px solid ${S.successText};
       padding: 12px 14px;
       margin: 10px 0;
       border-radius: 4px;
     }
     
     .warning-box {
-      background: #FEF3C7;
-      border-left: 3px solid #F59E0B;
+      background: ${S.warningBg};
+      border-left: 3px solid ${S.warningBorder};
       padding: 12px 14px;
       margin: 10px 0;
       border-radius: 4px;
@@ -290,29 +294,29 @@ function getPatientStyles(): string {
     }
     
     th {
-      background: #f3f4f6;
+      background: ${S.gray100};
       padding: 8px 6px;
       text-align: left;
       font-weight: 600;
-      border: 1px solid #d1d5db;
+      border: 1px solid ${S.gray300};
     }
     
     td {
       padding: 6px;
-      border: 1px solid #e5e7eb;
+      border: 1px solid ${S.gray200};
     }
     
     tr:nth-child(even) {
-      background: #f9fafb;
+      background: ${S.gray50};
     }
     
     /* Footer */
     .footer {
       margin-top: 20px;
       padding-top: 10px;
-      border-top: 1px solid #e5e7eb;
+      border-top: 1px solid ${S.gray200};
       font-size: 8pt;
-      color: #6b7280;
+      color: ${S.gray500};
     }
     
     ul {
@@ -388,7 +392,7 @@ function renderPatientSummary(data: PatientPlanData): string {
             return `
           <tr>
             <td><strong>${med.name}</strong></td>
-            <td colspan="3" style="color: #9CA3AF; text-align: center;">
+            <td colspan="3" style="color: ${S.gray400}; text-align: center;">
               Aktuell wird keine Reduktion empfohlen (0%). Der Plan dient ausschließlich als Orientierung.
             </td>
           </tr>
@@ -397,7 +401,7 @@ function renderPatientSummary(data: PatientPlanData): string {
           
           // ✅ D2 FIX: Patient-friendly 0% explanation
           const reductionText = med.reductionPercent === 0 
-            ? '<span style="color: #9CA3AF;">Aktuell wird keine Reduktion empfohlen (0%) - aus Sicherheitsgründen</span>'
+            ? '<span style="color: ${S.gray400};">Aktuell wird keine Reduktion empfohlen (0%) - aus Sicherheitsgründen</span>'
             : `${med.reductionPercent}%`;
           
           return `
@@ -420,7 +424,7 @@ function renderPatientSummary(data: PatientPlanData): string {
 function renderPatientWeeklyPlan(data: PatientPlanData): string {
   return `
     <h2>📅 Dein Wochenplan</h2>
-    <p style="font-size: 10pt; color: #6b7280; margin-bottom: 10px;">
+    <p style="font-size: 10pt; color: ${S.gray500}; margin-bottom: 10px;">
       Hier siehst du, wie sich deine Dosen Woche für Woche ändern.
     </p>
     
@@ -461,7 +465,7 @@ function renderPatientSafetyInfo(data: PatientPlanData): string {
     ` : ''}
     
     <div class="warning-box" style="margin-top: 12px;">
-      <h3 style="color: #92400E; margin-bottom: 6px;">🩺 Besprich diesen Plan mit deinem Arzt</h3>
+      <h3 style="color: ${S.warningText}; margin-bottom: 6px;">🩺 Besprich diesen Plan mit deinem Arzt</h3>
       <p style="font-size: 10pt; line-height: 1.6;">
         Dieser Plan ist eine <strong>Orientierungshilfe</strong>. Dein Arzt wird entscheiden, ob und wie schnell deine Medikamente reduziert werden können. 
         <strong>Ändere niemals die Dosis ohne Rücksprache mit deinem Arzt!</strong>
@@ -469,7 +473,7 @@ function renderPatientSafetyInfo(data: PatientPlanData): string {
     </div>
     
     <div class="info-box" style="margin-top: 12px;">
-      <h3 style="color: #1e40af; margin-bottom: 6px;">📞 Bei Beschwerden sofort zum Arzt</h3>
+      <h3 style="color: ${S.infoText}; margin-bottom: 6px;">📞 Bei Beschwerden sofort zum Arzt</h3>
       <ul style="margin: 6px 0 0 20px; font-size: 10pt; line-height: 1.6;">
         <li>Starke Kopfschmerzen oder Schwindel</li>
         <li>Unruhe, Angst oder Schlafstörungen</li>
