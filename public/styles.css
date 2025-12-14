@@ -1,6 +1,6 @@
 /**
  * MEDLESS GLOBAL STYLES - PRODUCTION
- * Applied identically across: Landing, Fachkreise, Magazin, /app
+ * Applied identically across: Landing, Fachkreise, Magazin, FAQ, /app
  */
 
 /* Import design tokens */
@@ -28,9 +28,9 @@ body {
   line-height: 1.6;
 }
 
-/* ===== TYPOGRAPHY SYSTEM (MANDATORY HIERARCHY) ===== */
+/* ===== GLOBAL TYPOGRAPHY SYSTEM (MANDATORY) ===== */
 
-/* H1: Only for page hero headline */
+/* H1: Page hero headline only */
 h1 {
   font-size: 42px;
   font-weight: 300;
@@ -47,6 +47,7 @@ h2 {
   line-height: 1.3;
   color: var(--medless-text-head);
   margin: 0 0 1.25rem 0;
+  text-align: center;
 }
 
 /* H3: Card / subsection titles */
@@ -59,17 +60,48 @@ h3 {
 }
 
 /* Body text */
-p, li {
+p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--medless-text-body);
+  margin: 0 0 1rem 0;
+}
+
+/* List items */
+li {
   font-size: 16px;
   line-height: 1.7;
   color: var(--medless-text-body);
 }
 
-/* ===== CARDS (ALWAYS WHITE) ===== */
+/* Small text */
+small {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--medless-text-muted);
+}
 
-.glass-card,
+/* ===== GLOBAL SECTION SYSTEM (STANDARD SPACING) ===== */
+
+section {
+  padding: 5rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Mobile: reduced padding */
+@media (max-width: 768px) {
+  section {
+    padding: 3rem 1rem;
+  }
+}
+
+/* ===== GLOBAL CARD SYSTEM (ONE STYLE) ===== */
+
 .card,
-[class*="card-"] {
+.glass-card,
+[class*="rounded-"][class*="bg-white"],
+[class*="border"][class*="rounded-"] {
   background: var(--medless-bg) !important;
   border: 1px solid var(--medless-card-border);
   border-radius: 16px;
@@ -78,13 +110,21 @@ p, li {
   transition: all 0.25s ease;
 }
 
-.glass-card:hover,
-.card:hover {
+.card:hover,
+.glass-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(47, 181, 133, 0.12);
 }
 
-/* ===== HEADER (CONSISTENT ACROSS ALL PAGES) ===== */
+/* Mobile: reduced card padding */
+@media (max-width: 768px) {
+  .card,
+  .glass-card {
+    padding: 1.5rem;
+  }
+}
+
+/* ===== HEADER (UNCHANGED - DO NOT MODIFY) ===== */
 
 header {
   background: rgba(255, 255, 255, 0.95);
@@ -98,26 +138,46 @@ header {
 footer {
   background: transparent;
   padding: 2.5rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
+}
+
+/* ===== CONTENT WRAPPER (MAX-WIDTH ENFORCEMENT) ===== */
+
+.container,
+.max-w-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 /* ===== AGGRESSIVE OVERRIDES FOR TAILWIND bg-white ===== */
 
 main[class*="bg-white"],
 section[class*="bg-white"],
-div[class*="bg-white"]:not(.card):not([class*="card-"]) {
+div[class*="bg-white"]:not([class*="card"]):not([class*="rounded-"]) {
   background: transparent !important;
 }
 
-/* Keep cards white */
-.bg-white[class*="card"],
-.bg-white[class*="rounded-"] {
+/* ===== FAQ SPECIFIC (IF EXISTS) ===== */
+
+.faq-item {
   background: var(--medless-bg) !important;
+  border: 1px solid var(--medless-card-border);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+/* ===== PREVENT TAILWIND TYPOGRAPHY OVERRIDES ===== */
+
+[class*="text-"][class*="xl"],
+[class*="text-"][class*="lg"],
+[class*="text-"][class*="md"] {
+  font-size: inherit !important;
 }
