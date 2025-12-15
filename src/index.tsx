@@ -3227,7 +3227,7 @@ app.get('/app', (c) => {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>MEDLESS-Orientierungsplan erstellen</title>
+      <title>MEDLESS Plan erstellen</title>
       
       <!-- Google Fonts - Inter (same as Landing) -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3370,18 +3370,22 @@ app.get('/app', (c) => {
 
       <!-- MAIN WIZARD SECTION (NO HERO - direct to tool) -->
       <main class="py-12 px-4 bg-medless-bg-ultra-light min-h-screen">
-        <div class="max-w-5xl mx-auto">
+        <div class="max-w-7xl mx-auto">
           
-          <!-- WIZARD CARD -->
-          <section id="tool" class="bg-white rounded-xl shadow-sm border border-medless-border-light p-6 md:p-10">
+          <!-- 2-Column Grid: Wizard (left) + Sidebar (right) -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- WIZARD CARD (left, 2 cols) -->
+            <div class="lg:col-span-2">
+              <section id="tool" class="bg-white rounded-xl shadow-sm border border-medless-border-light p-6 md:p-10">
             
             <!-- MINIMAL INTRO (inside wizard, not separate hero) -->
             <div class="mb-8 pb-6 border-b border-medless-border-light">
               <h1 class="text-2xl md:text-3xl font-semibold text-medless-text-primary mb-2">
-                Orientierungsplan erstellen
+                Ihren MEDLESS Plan erstellen
               </h1>
               <p class="text-medless-text-secondary text-base">
-                5 Schritte zum individuellen Medikationsplan – Angaben vertraulich, keine Datenspeicherung
+                5 Schritte zur strukturierten Orientierungshilfe für Ihr Arztgespräch – Angaben vertraulich, keine Datenspeicherung
               </p>
             </div>
             
@@ -3630,7 +3634,74 @@ app.get('/app', (c) => {
               </div>
             </div>
             
-          </section>
+              </section>
+            </div>
+            
+            <!-- RIGHT SIDEBAR (1 col) -->
+            <aside class="lg:col-span-1 space-y-6">
+              
+              <!-- BOX 1: So entsteht Ihr MEDLESS Plan -->
+              <div class="bg-white rounded-xl shadow-sm border border-medless-border-light p-6">
+                <h3 class="text-lg font-semibold text-medless-text-primary mb-4 flex items-center gap-2">
+                  <i data-lucide="list-checks" class="w-5 h-5 text-medless-primary"></i>
+                  So entsteht Ihr MEDLESS Plan
+                </h3>
+                <ol class="space-y-3 text-sm text-medless-text-secondary">
+                  <li class="flex gap-3">
+                    <span class="flex-shrink-0 w-6 h-6 rounded-full bg-medless-bg-light text-medless-primary flex items-center justify-center text-xs font-semibold">1</span>
+                    <span>Sie erfassen Ihre aktuelle Medikation</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="flex-shrink-0 w-6 h-6 rounded-full bg-medless-bg-light text-medless-primary flex items-center justify-center text-xs font-semibold">2</span>
+                    <span>Sie beantworten Fragen zu Beschwerden und Zielen</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="flex-shrink-0 w-6 h-6 rounded-full bg-medless-bg-light text-medless-primary flex items-center justify-center text-xs font-semibold">3</span>
+                    <span>MEDLESS analysiert Wechselwirkungen und Anpassungspotentiale</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="flex-shrink-0 w-6 h-6 rounded-full bg-medless-bg-light text-medless-primary flex items-center justify-center text-xs font-semibold">4</span>
+                    <span>Sie erhalten einen strukturierten PDF-Bericht</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="flex-shrink-0 w-6 h-6 rounded-full bg-medless-bg-light text-medless-primary flex items-center justify-center text-xs font-semibold">5</span>
+                    <span>Sie besprechen den Plan mit Ihrem Arzt</span>
+                  </li>
+                </ol>
+              </div>
+              
+              <!-- BOX 2: Was MEDLESS nicht ist -->
+              <div class="bg-amber-50 rounded-xl border border-amber-200 p-6">
+                <h3 class="text-lg font-semibold text-medless-text-primary mb-3 flex items-center gap-2">
+                  <i data-lucide="alert-circle" class="w-5 h-5 text-amber-600"></i>
+                  Was MEDLESS nicht ist
+                </h3>
+                <ul class="space-y-2 text-sm text-medless-text-secondary">
+                  <li class="flex gap-2">
+                    <i data-lucide="x" class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5"></i>
+                    <span>Keine medizinische Diagnose</span>
+                  </li>
+                  <li class="flex gap-2">
+                    <i data-lucide="x" class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5"></i>
+                    <span>Keine Therapieempfehlung</span>
+                  </li>
+                  <li class="flex gap-2">
+                    <i data-lucide="x" class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5"></i>
+                    <span>Kein Ersatz für ärztliche Beratung</span>
+                  </li>
+                  <li class="flex gap-2">
+                    <i data-lucide="x" class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5"></i>
+                    <span>Kein Medizinprodukt</span>
+                  </li>
+                </ul>
+                <p class="mt-4 text-xs text-medless-text-secondary leading-relaxed">
+                  Der MEDLESS Plan ist eine strukturierte Gesprächsgrundlage. Alle medizinischen Entscheidungen trifft ausschließlich Ihr Arzt.
+                </p>
+              </div>
+              
+            </aside>
+            
+          </div>
           
         </div>
       </main>
