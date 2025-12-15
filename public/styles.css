@@ -1638,3 +1638,202 @@ a[href="/app"]:hover {
 .app-container {
   background: transparent !important;
 }
+
+/* ============================================
+   APP WIZARD REDESIGN
+   Minimal-invasive CSS-only → Medical Clean Look
+   ============================================ */
+
+/* Soften Hero Area */
+.hero {
+  background: linear-gradient(135deg, rgba(47, 181, 133, 0.03), rgba(47, 181, 133, 0.06)) !important;
+  border: 1px solid rgba(47, 181, 133, 0.12) !important;
+  padding: 2rem 2rem !important;
+  margin-top: 2rem !important;
+}
+
+.hero-tag {
+  background: rgba(47, 181, 133, 0.08) !important;
+  color: #1B9C6E !important;
+  font-size: 13px !important;
+  padding: 0.35rem 0.75rem !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+}
+
+.hero h1 {
+  font-size: 32px !important;
+  font-weight: 500 !important;
+  color: #1B2A36 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.hero p {
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+  color: #5E6A71 !important;
+}
+
+/* Stepper: Clean & Subtle */
+.stepper-container {
+  background: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  padding: 1.5rem !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.step-circle {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: #F4FBF7 !important;
+  color: #2FB585 !important;
+  border: 2px solid rgba(47, 181, 133, 0.2) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.step-circle.completed {
+  background: #2FB585 !important;
+  color: white !important;
+  border-color: #2FB585 !important;
+}
+
+.step-circle.active {
+  background: white !important;
+  color: #2FB585 !important;
+  border: 3px solid #2FB585 !important;
+  box-shadow: 0 0 0 3px rgba(47, 181, 133, 0.12) !important;
+}
+
+.step-line {
+  height: 2px !important;
+  background: rgba(47, 181, 133, 0.15) !important;
+}
+
+.step-line.completed {
+  background: #2FB585 !important;
+}
+
+/* Buttons: Landing-Style (Medless-Green) */
+.btn-primary,
+button[type="submit"],
+button.primary {
+  background: #2FB585 !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 24px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(47, 181, 133, 0.2) !important;
+  transition: all 250ms ease !important;
+  cursor: pointer !important;
+}
+
+.btn-primary:hover,
+button[type="submit"]:hover,
+button.primary:hover {
+  background: #1B9C6E !important;
+  box-shadow: 0 4px 16px rgba(47, 181, 133, 0.3) !important;
+  transform: translateY(-2px) !important;
+}
+
+.btn-secondary,
+button.secondary {
+  background: white !important;
+  color: #2FB585 !important;
+  border: 2px solid rgba(47, 181, 133, 0.3) !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 24px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  transition: all 250ms ease !important;
+  cursor: pointer !important;
+}
+
+.btn-secondary:hover,
+button.secondary:hover {
+  background: rgba(47, 181, 133, 0.05) !important;
+  border-color: #2FB585 !important;
+}
+
+/* Form Inputs: Subtle & Clean */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 12px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 16px !important;
+  color: #1B2A36 !important;
+  background: white !important;
+  transition: all 250ms ease !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  border-color: #2FB585 !important;
+  box-shadow: 0 0 0 3px rgba(47, 181, 133, 0.08) !important;
+}
+
+/* Cards: Like Landing */
+.wizard-card,
+.card,
+.question-card {
+  background: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  border-radius: 16px !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transition: all 250ms ease !important;
+}
+
+.wizard-card:hover,
+.card:hover,
+.question-card:hover {
+  box-shadow: 0 8px 20px rgba(47, 181, 133, 0.12) !important;
+  border-color: rgba(47, 181, 133, 0.2) !important;
+}
+
+/* Container: Max-Width like Landing */
+.wizard-container,
+main {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 2rem 1rem !important;
+}
+
+/* Progress Bar: Medless-Green */
+.progress-bar {
+  background: rgba(47, 181, 133, 0.1) !important;
+  height: 6px !important;
+  border-radius: 3px !important;
+  overflow: hidden !important;
+}
+
+.progress-fill {
+  background: #2FB585 !important;
+  height: 100% !important;
+  transition: width 300ms ease !important;
+}
+
+/* Pills/Badges: Green Accent */
+.pill,
+.badge {
+  background: rgba(47, 181, 133, 0.1) !important;
+  color: #1B9C6E !important;
+  padding: 0.35rem 0.75rem !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
