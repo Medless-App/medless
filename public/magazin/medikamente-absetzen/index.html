@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de" data-site="public">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medikamente sicher absetzen: Was Sie wissen müssen | MEDLESS Magazin</title>
+  <meta name="description" content="Ein strukturierter Leitfaden zum sicheren Absetzen von Medikamenten unter ärztlicher Aufsicht.">
+  
+  <!-- Design Tokens -->
+  <link rel="stylesheet" href="/design-tokens.css">
+  
+  <!-- MEDLESS Global Styles -->
+  <link rel="stylesheet" href="/styles.css">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body data-theme="medless">
+
+  <!-- HEADER (IDENTICAL TO ALL PAGES) -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-medless-header">
+    <div class="max-w-container mx-auto px-4 md:px-7 py-4 md:py-5 flex items-center justify-between">
+      <a href="/" class="text-xl md:text-2xl font-semibold text-medless-text-primary tracking-tight">Medless</a>
+      <ul class="hidden md:flex items-center gap-7">
+        <li><a href="/#how-it-works" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors">So funktioniert's</a></li>
+        <li><a href="/#benefits" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors">Vorteile</a></li>
+        <li><a href="/#faq" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors">FAQ</a></li>
+        <li><a href="/magazin/" class="text-[15px] text-medless-primary font-medium">Magazin</a></li>
+        <li><a href="/fachkreise/" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors">Für Ärzt:innen</a></li>
+      </ul>
+      <a href="/app" class="hidden md:inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-medless-button border-2 border-medless-primary text-medless-primary bg-white text-button-text font-medium shadow-medless-button transition-all hover:bg-medless-primary hover:text-white">
+        Orientierungsplan starten
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="page">
+
+    <!-- ARTICLE HEADER -->
+    <section class="hero">
+      <div class="container">
+        <p class="text-medless-text-muted text-sm mb-4"><a href="/magazin/" class="hover:text-medless-primary">← Zurück zum Magazin</a></p>
+        <span class="inline-block px-3 py-1 bg-medless-bg-card text-medless-primary text-xs font-medium rounded-full mb-4">Medikamentenreduktion</span>
+        <h1>Medikamente sicher absetzen: Was Sie wissen müssen</h1>
+        <p class="text-medless-text-muted text-sm mt-4">1. Dezember 2024 · 8 Min. Lesezeit</p>
+      </div>
+    </section>
+
+    <!-- ARTICLE IMAGE -->
+    <section class="section" style="padding-top: 2rem;">
+      <div class="container">
+        <img src="/static/artikel2-medikamente-absetzen.jpg" alt="Medikamente sicher absetzen" class="w-full max-w-3xl mx-auto rounded-medless-lg shadow-medless-card">
+      </div>
+    </section>
+
+    <!-- ARTICLE CONTENT -->
+    <section class="section">
+      <div class="container max-w-3xl">
+        <article class="prose prose-lg">
+          <p class="text-xl text-medless-text-body leading-relaxed mb-8">
+            Das Absetzen von Medikamenten erfordert eine strukturierte Vorgehensweise und ärztliche Begleitung. Dieser Artikel bietet einen fundierten Überblick über wichtige Aspekte und Sicherheitsmaßnahmen.
+          </p>
+
+          <h2>Warum ist ärztliche Begleitung wichtig?</h2>
+          <p>Viele Medikamente können nicht einfach abrupt abgesetzt werden. Der Körper hat sich möglicherweise über Monate oder Jahre an die Substanz gewöhnt. Ein plötzliches Absetzen kann zu:</p>
+          <ul>
+            <li>Entzugssymptomen</li>
+            <li>Rebound-Effekten (Wiederauftreten verstärkter Symptome)</li>
+            <li>Gefährlichen gesundheitlichen Komplikationen</li>
+          </ul>
+
+          <h2>Der strukturierte Ansatz</h2>
+          <p>MEDLESS unterstützt Sie mit einem wissenschaftlich fundierten Orientierungsplan, der:</p>
+          <ul>
+            <li>Ihre aktuelle Medikation analysiert</li>
+            <li>Wechselwirkungen identifiziert</li>
+            <li>Einen individuellen Reduktionsvorschlag erstellt</li>
+            <li>Als Gesprächsgrundlage für Ihren Arzt dient</li>
+          </ul>
+
+          <div class="bg-medless-bg-card border-l-4 border-medless-primary p-6 rounded-r-medless-md my-8">
+            <p class="font-medium text-medless-text-primary mb-2">Wichtiger Hinweis</p>
+            <p class="text-sm text-medless-text-body">Setzen Sie niemals Medikamente eigenmächtig ab. Besprechen Sie jeden Schritt mit Ihrem behandelnden Arzt. MEDLESS ersetzt keine ärztliche Beratung, sondern dient als Orientierungshilfe für das Arztgespräch.</p>
+          </div>
+
+          <h2>Nächste Schritte</h2>
+          <p>Möchten Sie einen strukturierten Überblick über Ihre Medikation erhalten? Erstellen Sie jetzt Ihren persönlichen MEDLESS-Orientierungsplan.</p>
+
+          <a href="/app" class="inline-flex items-center justify-center gap-2 px-8 py-3 mt-6 rounded-medless-button bg-medless-primary text-white font-medium shadow-medless-button hover:bg-medless-primary-dark transition-all">
+            Orientierungsplan starten
+          </a>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white py-12 border-t border-medless-border-light">
+    <div class="container">
+      <p class="text-center text-medless-text-secondary">© 2025 MEDLESS. Alle Rechte vorbehalten.</p>
+    </div>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

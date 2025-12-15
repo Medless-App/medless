@@ -1,0 +1,65 @@
+[
+  {
+    "id": 2,
+    "slug": "medikamente-absetzen",
+    "title": "Medikamente sicher absetzen: Was Sie wissen müssen",
+    "excerpt": "Ein strukturierter Leitfaden zum sicheren Absetzen von Medikamenten unter ärztlicher Aufsicht.",
+    "image": "/static/artikel2-medikamente-absetzen.jpg",
+    "date": "2024-12-01",
+    "category": "Medikamentenreduktion"
+  },
+  {
+    "id": 3,
+    "slug": "endocannabinoid-system",
+    "title": "Das Endocannabinoid-System: Körpereigene Regulation",
+    "excerpt": "Verstehen Sie, wie Ihr körpereigenes Endocannabinoid-System Gesundheit und Wohlbefinden beeinflusst.",
+    "image": "/static/artikel3-endocannabinoid-system.jpg",
+    "date": "2024-11-28",
+    "category": "Gesundheitswissen"
+  },
+  {
+    "id": 4,
+    "slug": "antidepressiva-absetzen",
+    "title": "Antidepressiva absetzen: Ein schrittweiser Ansatz",
+    "excerpt": "Wichtige Informationen zum strukturierten Ausschleichen von Antidepressiva mit ärztlicher Begleitung.",
+    "image": "/static/artikel4-antidepressiva-absetzen.jpg",
+    "date": "2024-11-25",
+    "category": "Psychopharmaka"
+  },
+  {
+    "id": 5,
+    "slug": "schlaftabletten-alternativen",
+    "title": "Schlaftabletten: Risiken und natürliche Alternativen",
+    "excerpt": "Langzeitrisiken von Schlafmitteln und evidenzbasierte nicht-medikamentöse Ansätze für besseren Schlaf.",
+    "image": "/static/artikel5-schlaftabletten.jpg",
+    "date": "2024-11-22",
+    "category": "Schlafgesundheit"
+  },
+  {
+    "id": 6,
+    "slug": "cbd-studien-ueberblick",
+    "title": "CBD in der Forschung: Aktueller Wissensstand",
+    "excerpt": "Ein Überblick über wissenschaftliche Studien zu Cannabidiol und dessen potenzielle Anwendungsbereiche.",
+    "image": "/static/artikel6-cbd-studien.jpg",
+    "date": "2024-11-19",
+    "category": "Forschung"
+  },
+  {
+    "id": 7,
+    "slug": "magenschutz-ppi-wann-noetig",
+    "title": "Magenschutz (PPI): Wann wirklich notwendig?",
+    "excerpt": "Protonenpumpenhemmer werden oft unnötig eingenommen. Wann sind sie sinnvoll und welche Risiken bestehen?",
+    "image": "/static/artikel7-magenschutz-ppi.jpg",
+    "date": "2024-11-16",
+    "category": "Medikationssicherheit"
+  },
+  {
+    "id": 1,
+    "slug": "polypharmazie-verstehen",
+    "title": "Polypharmazie verstehen und reduzieren",
+    "excerpt": "Was ist Polypharmazie und wie kann ein strukturierter Ansatz helfen, Medikamente sicher zu reduzieren?",
+    "image": "/static/polypharmazie.jpg",
+    "date": "2024-12-05",
+    "category": "Grundlagen"
+  }
+]

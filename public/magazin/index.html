@@ -6,88 +6,380 @@
   <title>MEDLESS Magazin – Wissen rund um Medikamentenreduktion</title>
   <meta name="description" content="Das MEDLESS Magazin bietet fundierte Artikel und Ratgeber zum Thema Medikamentenreduktion, Polypharmazie und gesunde Lebensweise.">
   
-  <!-- MEDLESS Global Styles -->
+  <!-- Design System -->
+  <link rel="stylesheet" href="/design-tokens.css">
   <link rel="stylesheet" href="/styles.css">
   
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS (CDN) -->
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/lucide-static@0.294.0/font/lucide.min.css" rel="stylesheet">
+  
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            'medless-primary': '#2FB585',
-            'medless-text-primary': '#1B2A36',
-            'medless-text-secondary': '#5E6A71',
-            'medless-border-light': '#E9ECEF',
+            'medless': {
+              'primary': '#2FB585',
+              'primary-hover': '#1B9C6E',
+              'text-primary': '#1B2A36',
+              'text-secondary': '#5E6A71',
+              'bg-ultra-light': '#FAFEFB',
+              'bg-card': '#FFFFFF',
+              'border-light': '#E9ECEF'
+            }
           }
         }
       }
     }
   </script>
 </head>
-<body data-theme="medless">
 
-  <!-- HEADER (IDENTICAL TO ALL PAGES) -->
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-medless-header">
-    <div class="max-w-container mx-auto px-4 md:px-7 py-4 md:py-5 flex items-center justify-between">
-      
-      <!-- Logo -->
-      <a href="/" class="text-xl md:text-2xl font-semibold text-medless-text-primary tracking-tight">
-        Medless
-      </a>
-      
-      <!-- Desktop Navigation -->
-      <ul class="hidden md:flex items-center gap-7">
-        <li><a href="/#how-it-works" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">So funktioniert's</a></li>
-        <li><a href="/#benefits" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Vorteile</a></li>
-        <li><a href="/#faq" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">FAQ</a></li>
-        <li><a href="/magazin/" class="text-[15px] text-medless-primary font-medium hover:text-medless-primary transition-colors duration-medless">Magazin</a></li>
-        <li><a href="/fachkreise/" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Für Ärzt:innen & Apotheken</a></li>
-      </ul>
-      
-      <!-- Desktop CTA Button -->
-      <a
-        href="/app" 
-        class="hidden md:inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-medless-button border-2 border-medless-primary text-medless-primary bg-white text-button-text font-medium shadow-medless-button transition-all duration-medless active:scale-[0.98] hover:bg-medless-primary hover:text-white hover:shadow-medless-button-hover hover:-translate-y-0.5"
-      >
-        Orientierungsplan starten
-      </a>
+<body data-theme="medless">
+  
+  <!-- Header (identical to other pages) -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-sm sticky top-0 z-50">
+    <div class="container mx-auto px-6 md:px-8 py-4">
+      <div class="flex items-center justify-between">
+        <a href="/" class="flex items-center space-x-3 group">
+          <div class="w-10 h-10 bg-gradient-to-br from-medless-primary to-emerald-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300">
+            <span class="text-white text-xl font-bold">M</span>
+          </div>
+          <span class="text-xl font-semibold text-medless-text-primary tracking-tight">MEDLESS</span>
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="/" class="text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">Startseite</a>
+          <a href="/#how-it-works" class="text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">So funktioniert's</a>
+          <a href="/#benefits" class="text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">Vorteile</a>
+          <a href="/#faq" class="text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">FAQ</a>
+          <a href="/magazin/" class="text-medless-primary font-medium">Magazin</a>
+          <a href="/fachkreise/" class="text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">Für Ärzt:innen & Apotheken</a>
+        </nav>
+
+        <a href="/app" class="hidden md:inline-flex items-center px-6 py-2.5 bg-medless-primary hover:bg-medless-primary-hover text-white rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-200">
+          <span>Orientierungsplan starten</span>
+          <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+        </a>
+
+        <button class="md:hidden p-2 text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-lg transition-colors">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
   <main class="page">
-
-    <!-- HERO SECTION -->
+    
+    <!-- Magazine Hero -->
     <section class="hero">
       <div class="container">
-        <h1>MEDLESS Magazin</h1>
-        <p>Fundierte Artikel und Ratgeber zum Thema Medikamentenreduktion</p>
+        <div class="flex flex-col items-center text-center max-w-3xl mx-auto">
+          <h1 class="text-4xl md:text-5xl font-light text-medless-text-primary mb-6 leading-tight">
+            MEDLESS Magazin
+          </h1>
+          <p class="text-xl text-medless-text-secondary leading-relaxed">
+            Fundierte Artikel und Ratgeber zum Thema Medikamentenreduktion, Polypharmazie und gesunde Lebensweise
+          </p>
+        </div>
       </div>
     </section>
 
-    <!-- CONTENT SECTION -->
+    <!-- Articles Grid -->
     <section class="section">
       <div class="container">
-        <h2>Artikel folgen in Kürze</h2>
-        <p>Das MEDLESS Magazin befindet sich im Aufbau. Hier entstehen fundierte Artikel rund um die Themen Medikamentenreduktion, Polypharmazie und gesunde Lebensweise.</p>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- Article 1: Polypharmazie -->
+          <a href="/magazin/polypharmazie-verstehen/" class="group">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-medless-border-light h-full flex flex-col">
+              <div class="aspect-video overflow-hidden">
+                <img 
+                  src="/static/polypharmazie.jpg" 
+                  alt="Polypharmazie verstehen" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                >
+              </div>
+              <div class="p-6 flex flex-col flex-grow">
+                <div class="flex items-center space-x-2 text-sm text-medless-text-secondary mb-3">
+                  <i data-lucide="calendar" class="w-4 h-4"></i>
+                  <span>10. Dezember 2024</span>
+                </div>
+                <h3 class="text-xl font-medium text-medless-text-primary mb-3 group-hover:text-medless-primary transition-colors">
+                  Polypharmazie verstehen und reduzieren
+                </h3>
+                <p class="text-medless-text-secondary text-sm leading-relaxed mb-4 flex-grow">
+                  Was ist Polypharmazie und wann wird es gefährlich? Ein umfassender Leitfaden zu Wechselwirkungen, Risiken und sicheren Reduktionsstrategien.
+                </p>
+                <div class="flex items-center text-medless-primary text-sm font-medium group-hover:underline">
+                  <span>Weiterlesen</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Article 2: Medikamente absetzen -->
+          <a href="/magazin/medikamente-absetzen/" class="group">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-medless-border-light h-full flex flex-col">
+              <div class="aspect-video overflow-hidden">
+                <img 
+                  src="/static/artikel2-medikamente-absetzen.jpg" 
+                  alt="Medikamente sicher absetzen" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                >
+              </div>
+              <div class="p-6 flex flex-col flex-grow">
+                <div class="flex items-center space-x-2 text-sm text-medless-text-secondary mb-3">
+                  <i data-lucide="calendar" class="w-4 h-4"></i>
+                  <span>1. Dezember 2024</span>
+                </div>
+                <h3 class="text-xl font-medium text-medless-text-primary mb-3 group-hover:text-medless-primary transition-colors">
+                  Medikamente sicher absetzen
+                </h3>
+                <p class="text-medless-text-secondary text-sm leading-relaxed mb-4 flex-grow">
+                  Ein strukturierter Leitfaden zum sicheren Absetzen von Medikamenten unter ärztlicher Aufsicht.
+                </p>
+                <div class="flex items-center text-medless-primary text-sm font-medium group-hover:underline">
+                  <span>Weiterlesen</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Article 3: Endocannabinoid-System -->
+          <a href="/magazin/endocannabinoid-system/" class="group">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-medless-border-light h-full flex flex-col">
+              <div class="aspect-video overflow-hidden">
+                <img 
+                  src="/static/artikel3-endocannabinoid-system.jpg" 
+                  alt="Endocannabinoid-System" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                >
+              </div>
+              <div class="p-6 flex flex-col flex-grow">
+                <div class="flex items-center space-x-2 text-sm text-medless-text-secondary mb-3">
+                  <i data-lucide="calendar" class="w-4 h-4"></i>
+                  <span>28. November 2024</span>
+                </div>
+                <h3 class="text-xl font-medium text-medless-text-primary mb-3 group-hover:text-medless-primary transition-colors">
+                  Das Endocannabinoid-System
+                </h3>
+                <p class="text-medless-text-secondary text-sm leading-relaxed mb-4 flex-grow">
+                  Verstehen Sie, wie Ihr körpereigenes Endocannabinoid-System Gesundheit und Wohlbefinden beeinflusst.
+                </p>
+                <div class="flex items-center text-medless-primary text-sm font-medium group-hover:underline">
+                  <span>Weiterlesen</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Article 4: Antidepressiva -->
+          <a href="/magazin/antidepressiva-absetzen/" class="group">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-medless-border-light h-full flex flex-col">
+              <div class="aspect-video overflow-hidden">
+                <img 
+                  src="/static/artikel4-antidepressiva-absetzen.jpg" 
+                  alt="Antidepressiva absetzen" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                >
+              </div>
+              <div class="p-6 flex flex-col flex-grow">
+                <div class="flex items-center space-x-2 text-sm text-medless-text-secondary mb-3">
+                  <i data-lucide="calendar" class="w-4 h-4"></i>
+                  <span>25. November 2024</span>
+                </div>
+                <h3 class="text-xl font-medium text-medless-text-primary mb-3 group-hover:text-medless-primary transition-colors">
+                  Antidepressiva absetzen
+                </h3>
+                <p class="text-medless-text-secondary text-sm leading-relaxed mb-4 flex-grow">
+                  Wichtige Informationen zum strukturierten Ausschleichen von Antidepressiva mit ärztlicher Begleitung.
+                </p>
+                <div class="flex items-center text-medless-primary text-sm font-medium group-hover:underline">
+                  <span>Weiterlesen</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Article 5: Schlaftabletten -->
+          <a href="/magazin/schlaftabletten-alternativen/" class="group">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-medless-border-light h-full flex flex-col">
+              <div class="aspect-video overflow-hidden">
+                <img 
+                  src="/static/artikel5-schlaftabletten.jpg" 
+                  alt="Schlaftabletten Alternativen" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                >
+              </div>
+              <div class="p-6 flex flex-col flex-grow">
+                <div class="flex items-center space-x-2 text-sm text-medless-text-secondary mb-3">
+                  <i data-lucide="calendar" class="w-4 h-4"></i>
+                  <span>22. November 2024</span>
+                </div>
+                <h3 class="text-xl font-medium text-medless-text-primary mb-3 group-hover:text-medless-primary transition-colors">
+                  Schlaftabletten: Risiken und Alternativen
+                </h3>
+                <p class="text-medless-text-secondary text-sm leading-relaxed mb-4 flex-grow">
+                  Langzeitrisiken von Schlafmitteln und evidenzbasierte nicht-medikamentöse Ansätze für besseren Schlaf.
+                </p>
+                <div class="flex items-center text-medless-primary text-sm font-medium group-hover:underline">
+                  <span>Weiterlesen</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Article 6: CBD Studien -->
+          <a href="/magazin/cbd-studien-ueberblick/" class="group">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-medless-border-light h-full flex flex-col">
+              <div class="aspect-video overflow-hidden">
+                <img 
+                  src="/static/artikel6-cbd-studien.jpg" 
+                  alt="CBD Studien" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                >
+              </div>
+              <div class="p-6 flex flex-col flex-grow">
+                <div class="flex items-center space-x-2 text-sm text-medless-text-secondary mb-3">
+                  <i data-lucide="calendar" class="w-4 h-4"></i>
+                  <span>19. November 2024</span>
+                </div>
+                <h3 class="text-xl font-medium text-medless-text-primary mb-3 group-hover:text-medless-primary transition-colors">
+                  CBD in der Forschung
+                </h3>
+                <p class="text-medless-text-secondary text-sm leading-relaxed mb-4 flex-grow">
+                  Ein Überblick über wissenschaftliche Studien zu Cannabidiol und dessen potenzielle Anwendungsbereiche.
+                </p>
+                <div class="flex items-center text-medless-primary text-sm font-medium group-hover:underline">
+                  <span>Weiterlesen</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Article 7: Magenschutz PPI -->
+          <a href="/magazin/magenschutz-ppi-wann-noetig/" class="group">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-medless-border-light h-full flex flex-col">
+              <div class="aspect-video overflow-hidden">
+                <img 
+                  src="/static/artikel7-magenschutz-ppi.jpg" 
+                  alt="Magenschutz PPI" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                >
+              </div>
+              <div class="p-6 flex flex-col flex-grow">
+                <div class="flex items-center space-x-2 text-sm text-medless-text-secondary mb-3">
+                  <i data-lucide="calendar" class="w-4 h-4"></i>
+                  <span>16. November 2024</span>
+                </div>
+                <h3 class="text-xl font-medium text-medless-text-primary mb-3 group-hover:text-medless-primary transition-colors">
+                  Magenschutz (PPI): Wann nötig?
+                </h3>
+                <p class="text-medless-text-secondary text-sm leading-relaxed mb-4 flex-grow">
+                  Protonenpumpenhemmer werden oft unnötig eingenommen. Wann sind sie sinnvoll und welche Risiken bestehen?
+                </p>
+                <div class="flex items-center text-medless-primary text-sm font-medium group-hover:underline">
+                  <span>Weiterlesen</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </div>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section bg-medless-bg-ultra-light">
+      <div class="container">
+        <div class="bg-gradient-to-br from-medless-primary/5 to-emerald-50 rounded-2xl p-8 md:p-12 text-center">
+          <h2 class="text-3xl font-medium text-medless-text-primary mb-4">
+            Bereit für Ihren persönlichen Orientierungsplan?
+          </h2>
+          <p class="text-medless-text-secondary mb-8 max-w-2xl mx-auto text-lg">
+            Erstellen Sie in 5 Minuten Ihren individuellen MEDLESS-Orientierungsplan – 
+            wissenschaftlich fundiert und auf Ihre Situation abgestimmt.
+          </p>
+          <a href="/app" class="inline-flex items-center px-8 py-4 bg-medless-primary hover:bg-medless-primary-hover text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-200 text-lg">
+            <span>Jetzt kostenlos starten</span>
+            <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+          </a>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- FOOTER -->
-  <footer class="bg-white py-12 border-t border-medless-border-light">
-    <div class="container">
-      <p class="text-center text-medless-text-secondary">© 2025 MEDLESS. Alle Rechte vorbehalten.</p>
+  <!-- Footer (identical to other pages) -->
+  <footer class="bg-slate-900 text-slate-300 py-16 px-6 border-t border-slate-800">
+    <div class="container mx-auto max-w-6xl">
+      <div class="grid md:grid-cols-4 gap-12">
+        
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-8 h-8 bg-gradient-to-br from-medless-primary to-emerald-600 rounded-lg flex items-center justify-center">
+              <span class="text-white text-sm font-bold">M</span>
+            </div>
+            <span class="text-lg font-semibold text-white">MEDLESS</span>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Ihr digitaler Begleiter für sichere Medikamentenreduktion – wissenschaftlich fundiert, individuell angepasst.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-white mb-4">Navigation</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/" class="hover:text-medless-primary transition-colors">Startseite</a></li>
+            <li><a href="/#how-it-works" class="hover:text-medless-primary transition-colors">So funktioniert's</a></li>
+            <li><a href="/#benefits" class="hover:text-medless-primary transition-colors">Vorteile</a></li>
+            <li><a href="/#faq" class="hover:text-medless-primary transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-white mb-4">Ressourcen</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/magazin/" class="hover:text-medless-primary transition-colors">Magazin</a></li>
+            <li><a href="/fachkreise/" class="hover:text-medless-primary transition-colors">Für Fachkreise</a></li>
+            <li><a href="/app" class="hover:text-medless-primary transition-colors">Orientierungsplan</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-white mb-4">Rechtliches</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/impressum" class="hover:text-medless-primary transition-colors">Impressum</a></li>
+            <li><a href="/datenschutz" class="hover:text-medless-primary transition-colors">Datenschutz</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-slate-800 text-center text-sm text-slate-400">
+        <p>&copy; 2024 MEDLESS. Alle Rechte vorbehalten.</p>
+      </div>
     </div>
   </footer>
 
-  <!-- Lucide Icons Init -->
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     lucide.createIcons();
   </script>
