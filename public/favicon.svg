@@ -1,4 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <circle cx="32" cy="32" r="30" fill="#2FB585"/>
-  <text x="32" y="46" font-family="Inter, sans-serif" font-size="40" font-weight="600" fill="white" text-anchor="middle">M</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- White background -->
+  <rect width="100" height="100" fill="#ffffff" rx="8"/>
+  
+  <!-- M from logo in Brand Green #2FB585 -->
+  <!-- Centered and scaled to fit favicon -->
+  <path d="M20 75V25h12l16 26.67 16-26.67h12v50h-12V42.33L48 69 32 42.33V75h-12z" fill="#2FB585" stroke="#2FB585" stroke-width="1"/>
 </svg>

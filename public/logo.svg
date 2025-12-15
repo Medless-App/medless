@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" fill="none">
+  <!-- M in Brand Green #2FB585 -->
+  <path d="M10 60V20h8l12 20 12-20h8v40h-8V32l-12 20-12-20v28h-8z" fill="#2FB585"/>
+  
+  <!-- EDLESS in Text Primary #111111 -->
+  <text x="60" y="50" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="40" font-weight="400" fill="#111111" letter-spacing="-0.02em">
+    EDLESS
+  </text>
+</svg>

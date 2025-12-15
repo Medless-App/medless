@@ -7,12 +7,16 @@
   <title>Medless – Dein Weg zu weniger Medikamenten</title>
   
   <!-- Favicon -->
-    <link rel="stylesheet" href="/static/scroll-animations.css">
-  <script src="/static/scroll-animations.js" defer></script>
+  <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="shortcut icon" href="/favicon.png">
-  <link rel="apple-touch-icon" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <meta name="theme-color" content="#ffffff">
+  
+  <!-- Scroll Animations -->
+  <link rel="stylesheet" href="/static/scroll-animations.css">
+  <script src="/static/scroll-animations.js" defer></script>
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -48,14 +52,16 @@
       theme: {
         extend: {
           colors: {
-            'medless-primary': '#2FB585',
+            // Final Brand Colors
+            'medless-primary': '#2FB585',      // Brand/M color (logo M)
+            'medless-cta': '#27A073',          // CTA button color
             'medless-primary-dark': '#1B9C6E',
             'medless-primary-light': '#36C48C',
             'medless-bg-ultra-light': '#FAFEFB',
             'medless-bg-light': '#F4FBF7',
             'medless-bg-card': '#E7F8EF',
             'medless-bg-card-hover': '#D4F1E3',
-            'medless-text-primary': '#1B2A36',
+            'medless-text-primary': '#111111',  // Final text color (EDLESS)
             'medless-text-secondary': '#5E6A71',
             'medless-text-tertiary': '#94A3B8',
             'medless-border-light': '#E9ECEF',
@@ -128,9 +134,9 @@
   <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-medless-header">
     <div class="max-w-container mx-auto px-4 md:px-7 py-4 md:py-5 flex items-center justify-between">
       
-      <!-- Logo -->
-      <a href="/" class="text-xl md:text-2xl font-semibold text-medless-text-primary tracking-tight">
-        Medless
+      <!-- Logo: MEDLESS Wordmark -->
+      <a href="/" class="text-xl md:text-2xl font-normal text-medless-text-primary tracking-tight hover:opacity-80 transition-opacity">
+        <span class="text-medless-primary">M</span><span>EDLESS</span>
       </a>
       
       <!-- Desktop Navigation -->
@@ -157,8 +163,8 @@
     <div class="max-w-xs w-full ml-auto bg-white h-full shadow-medless-card flex flex-col">
       <!-- Header -->
       <div class="flex items-center justify-between p-5 border-b border-medless-border-light">
-        <a href="/" class="text-xl font-semibold text-medless-text-primary tracking-tight">
-          Medless
+        <a href="/" class="text-xl font-normal text-medless-text-primary tracking-tight">
+          <span class="text-medless-primary">M</span><span>EDLESS</span>
         </a>
         <button 
           id="mobile-nav-close"
