@@ -3,109 +3,398 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medikamente sicher absetzen: Was Sie wissen müssen | MEDLESS Magazin</title>
-  <meta name="description" content="Ein strukturierter Leitfaden zum sicheren Absetzen von Medikamenten unter ärztlicher Aufsicht.">
+  <title>Polypharmazie verstehen – MEDLESS Magazin</title>
+  <meta name="description" content="Was ist Polypharmazie und wann wird es gefährlich? Ein umfassender Leitfaden zu Wechselwirkungen, Risiken und sicheren Reduktionsstrategien.">
   
-  <!-- Design Tokens -->
+  <!-- Design System -->
   <link rel="stylesheet" href="/design-tokens.css">
+  <link rel="stylesheet" href="/styles.css?v=7436f04">
   
-  <!-- MEDLESS Global Styles -->
-  <link rel="stylesheet" href="/styles.css">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/lucide-static@0.294.0/font/lucide.min.css" rel="stylesheet">
   
-  <!-- Tailwind CSS (CDN) -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'medless': {
+              'primary': '#2FB585',
+              'primary-hover': '#1B9C6E',
+              'text-primary': '#1B2A36',
+              'text-secondary': '#5E6A71',
+              'bg-ultra-light': '#FAFEFB',
+              'bg-card': '#FFFFFF',
+              'border-light': '#E9ECEF'
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body data-theme="medless">
 
-  <!-- HEADER (IDENTICAL TO ALL PAGES) -->
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-medless-header">
-    <div class="max-w-container mx-auto px-4 md:px-7 py-4 md:py-5 flex items-center justify-between">
-      <a href="/" class="text-xl md:text-2xl font-semibold text-medless-text-primary tracking-tight">Medless</a>
-      <ul class="hidden md:flex items-center gap-7">
-        <li><a href="/#how-it-works" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors">So funktioniert's</a></li>
-        <li><a href="/#benefits" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors">Vorteile</a></li>
-        <li><a href="/#faq" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors">FAQ</a></li>
-        <li><a href="/magazin/" class="text-[15px] text-medless-primary font-medium">Magazin</a></li>
-        <li><a href="/fachkreise/" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors">Für Ärzt:innen</a></li>
-      </ul>
-      <a href="/app" class="hidden md:inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-medless-button border-2 border-medless-primary text-medless-primary bg-white text-button-text font-medium shadow-medless-button transition-all hover:bg-medless-primary hover:text-white">
-        Orientierungsplan starten
-      </a>
+<body data-theme="medless">
+  
+  <!-- Header (identical to other pages) -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-sm sticky top-0 z-50">
+    <div class="container mx-auto px-6 md:px-8 py-4">
+      <div class="flex items-center justify-between">
+        <a href="/" class="flex items-center space-x-3 group">
+          <div class="w-10 h-10 bg-gradient-to-br from-medless-primary to-emerald-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300">
+            <span class="text-white text-xl font-bold">M</span>
+          </div>
+          <span class="text-xl font-semibold text-medless-text-primary tracking-tight">MEDLESS</span>
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="/" class="text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">Startseite</a>
+          <a href="/#how-it-works" class="text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">So funktioniert's</a>
+          <a href="/#benefits" class="text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">Vorteile</a>
+          <a href="/#faq" class="text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">FAQ</a>
+          <a href="/magazin/" class="text-medless-primary font-medium">Magazin</a>
+          <a href="/fachkreise/" class="text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">Für Ärzt:innen & Apotheken</a>
+        </nav>
+
+        <a href="/app" class="hidden md:inline-flex items-center px-6 py-2.5 bg-medless-primary hover:bg-medless-primary-hover text-white rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-200">
+          <span>Orientierungsplan starten</span>
+          <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+        </a>
+
+        <button class="md:hidden p-2 text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-lg transition-colors">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
   <main class="page">
-
-    <!-- ARTICLE HEADER -->
+    
+    <!-- Article Hero -->
     <section class="hero">
       <div class="container">
-        <p class="text-medless-text-muted text-sm mb-4"><a href="/magazin/" class="hover:text-medless-primary">← Zurück zum Magazin</a></p>
-        <span class="inline-block px-3 py-1 bg-medless-bg-card text-medless-primary text-xs font-medium rounded-full mb-4">Medikamentenreduktion</span>
-        <h1>Medikamente sicher absetzen: Was Sie wissen müssen</h1>
-        <p class="text-medless-text-muted text-sm mt-4">1. Dezember 2024 · 8 Min. Lesezeit</p>
-      </div>
-    </section>
-
-    <!-- ARTICLE IMAGE -->
-    <section class="section" style="padding-top: 2rem;">
-      <div class="container">
-        <img src="/static/artikel2-medikamente-absetzen.jpg" alt="Medikamente sicher absetzen" class="w-full max-w-3xl mx-auto rounded-medless-lg shadow-medless-card">
-      </div>
-    </section>
-
-    <!-- ARTICLE CONTENT -->
-    <section class="section">
-      <div class="container max-w-3xl">
-        <article class="prose prose-lg">
-          <p class="text-xl text-medless-text-body leading-relaxed mb-8">
-            Das Absetzen von Medikamenten erfordert eine strukturierte Vorgehensweise und ärztliche Begleitung. Dieser Artikel bietet einen fundierten Überblick über wichtige Aspekte und Sicherheitsmaßnahmen.
-          </p>
-
-          <h2>Warum ist ärztliche Begleitung wichtig?</h2>
-          <p>Viele Medikamente können nicht einfach abrupt abgesetzt werden. Der Körper hat sich möglicherweise über Monate oder Jahre an die Substanz gewöhnt. Ein plötzliches Absetzen kann zu:</p>
-          <ul>
-            <li>Entzugssymptomen</li>
-            <li>Rebound-Effekten (Wiederauftreten verstärkter Symptome)</li>
-            <li>Gefährlichen gesundheitlichen Komplikationen</li>
-          </ul>
-
-          <h2>Der strukturierte Ansatz</h2>
-          <p>MEDLESS unterstützt Sie mit einem wissenschaftlich fundierten Orientierungsplan, der:</p>
-          <ul>
-            <li>Ihre aktuelle Medikation analysiert</li>
-            <li>Wechselwirkungen identifiziert</li>
-            <li>Einen individuellen Reduktionsvorschlag erstellt</li>
-            <li>Als Gesprächsgrundlage für Ihren Arzt dient</li>
-          </ul>
-
-          <div class="bg-medless-bg-card border-l-4 border-medless-primary p-6 rounded-r-medless-md my-8">
-            <p class="font-medium text-medless-text-primary mb-2">Wichtiger Hinweis</p>
-            <p class="text-sm text-medless-text-body">Setzen Sie niemals Medikamente eigenmächtig ab. Besprechen Sie jeden Schritt mit Ihrem behandelnden Arzt. MEDLESS ersetzt keine ärztliche Beratung, sondern dient als Orientierungshilfe für das Arztgespräch.</p>
+        <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
+          <a href="/magazin/" class="inline-flex items-center text-sm text-medless-primary hover:text-medless-primary-hover font-medium mb-6 group">
+            <i data-lucide="arrow-left" class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform"></i>
+            Zurück zum Magazin
+          </a>
+          
+          <div class="flex items-center space-x-4 text-sm text-medless-text-secondary mb-6">
+            <span class="flex items-center">
+              <i data-lucide="calendar" class="w-4 h-4 mr-1.5"></i>
+              10. Dezember 2024
+            </span>
+            <span class="flex items-center">
+              <i data-lucide="clock" class="w-4 h-4 mr-1.5"></i>
+              8 Min. Lesezeit
+            </span>
           </div>
 
-          <h2>Nächste Schritte</h2>
-          <p>Möchten Sie einen strukturierten Überblick über Ihre Medikation erhalten? Erstellen Sie jetzt Ihren persönlichen MEDLESS-Orientierungsplan.</p>
+          <h1 class="text-4xl md:text-5xl font-light text-medless-text-primary mb-6 leading-tight">
+            Polypharmazie verstehen: <br class="hidden md:block">Wenn viele Medikamente zum Risiko werden
+          </h1>
+          
+          <p class="text-xl text-medless-text-secondary leading-relaxed mb-8">
+            Was ist Polypharmazie und wann wird es gefährlich? Ein umfassender Leitfaden zu Wechselwirkungen, Risiken und sicheren Reduktionsstrategien.
+          </p>
+        </div>
 
-          <a href="/app" class="inline-flex items-center justify-center gap-2 px-8 py-3 mt-6 rounded-medless-button bg-medless-primary text-white font-medium shadow-medless-button hover:bg-medless-primary-dark transition-all">
-            Orientierungsplan starten
+        <div class="max-w-4xl mx-auto">
+          <img 
+            src="/static/polypharmazie.jpg" 
+            alt="Polypharmazie: Viele Medikamente auf einem Tisch" 
+            class="w-full rounded-2xl shadow-lg"
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="section">
+      <div class="container max-w-3xl">
+        
+        <div class="prose prose-lg max-w-none">
+          
+          <h2>Was ist Polypharmazie?</h2>
+          <p>
+            Als Polypharmazie bezeichnet man die gleichzeitige Einnahme von fünf oder mehr Medikamenten. 
+            In Deutschland betrifft dies etwa jeden vierten Erwachsenen über 65 Jahre – Tendenz steigend. 
+            Während jedes einzelne Medikament für sich genommen hilfreich sein kann, entsteht durch die Kombination 
+            ein komplexes Wechselwirkungsnetz, das schwer zu überschauen ist.
+          </p>
+
+          <h2>Die unsichtbare Gefahr: Wechselwirkungen</h2>
+          <p>
+            Je mehr Medikamente Sie einnehmen, desto höher wird das Risiko unerwünschter Wechselwirkungen. 
+            Studien zeigen, dass ab fünf Medikamenten die Wahrscheinlichkeit schwerer Nebenwirkungen exponentiell steigt:
+          </p>
+          
+          <div class="bg-medless-bg-ultra-light border-l-4 border-medless-primary p-6 rounded-lg my-8">
+            <ul class="space-y-2 mb-0">
+              <li><strong>5 Medikamente:</strong> 50% Risiko für Wechselwirkungen</li>
+              <li><strong>7 Medikamente:</strong> 80% Risiko für Wechselwirkungen</li>
+              <li><strong>10+ Medikamente:</strong> Nahezu 100% Risiko für Wechselwirkungen</li>
+            </ul>
+          </div>
+
+          <h2>Typische Symptome einer Übermedikamentation</h2>
+          <p>
+            Viele Symptome werden fälschlicherweise dem Alter oder neuen Krankheiten zugeschrieben, 
+            sind aber tatsächlich Folgen von Polypharmazie:
+          </p>
+          
+          <ul>
+            <li>Chronische Müdigkeit und Schwindel</li>
+            <li>Verwirrtheit und Gedächtnisprobleme</li>
+            <li>Erhöhtes Sturzrisiko</li>
+            <li>Magen-Darm-Beschwerden</li>
+            <li>Verschlechterung bestehender Symptome</li>
+          </ul>
+
+          <h2>Die Verschreibungskaskade</h2>
+          <p>
+            Ein besonders problematischer Kreislauf: Ein Medikament verursacht Nebenwirkungen, 
+            die als neues Krankheitsbild interpretiert werden. Daraufhin wird ein weiteres Medikament verschrieben, 
+            das wiederum neue Nebenwirkungen hat. So entsteht eine <strong>Verschreibungskaskade</strong>, 
+            die schwer zu durchbrechen ist.
+          </p>
+
+          <div class="bg-white border border-medless-border-light rounded-xl p-6 my-8 shadow-sm">
+            <h3 class="text-xl font-medium text-medless-text-primary mb-4 flex items-center">
+              <i data-lucide="lightbulb" class="w-5 h-5 mr-2 text-medless-primary"></i>
+              Beispiel einer Verschreibungskaskade
+            </h3>
+            <ol class="space-y-3 text-medless-text-secondary">
+              <li><strong>1.</strong> Blutdrucksenker verursacht Schwindel</li>
+              <li><strong>2.</strong> Gegen Schwindel: Medikament gegen Übelkeit</li>
+              <li><strong>3.</strong> Übelkeitsmedikament verursacht Verstopfung</li>
+              <li><strong>4.</strong> Gegen Verstopfung: Abführmittel</li>
+              <li><strong>5.</strong> Abführmittel stört Mineralhaushalt → weitere Medikamente nötig</li>
+            </ol>
+          </div>
+
+          <h2>Wann ist eine Reduktion sinnvoll?</h2>
+          <p>
+            Nicht jede Medikamentenkombination ist problematisch. Eine kritische Überprüfung ist jedoch sinnvoll, wenn:
+          </p>
+          
+          <ul>
+            <li>Sie 5 oder mehr Medikamente dauerhaft einnehmen</li>
+            <li>Sie neue, unklare Symptome entwickeln</li>
+            <li>Sie sich trotz Behandlung nicht besser fühlen</li>
+            <li>Medikamente seit Jahren unverändert eingenommen werden</li>
+            <li>Mehrere Ärzte unterschiedliche Medikamente verschreiben</li>
+          </ul>
+
+          <h2>Der sichere Weg zur Reduktion</h2>
+          <p>
+            <strong>Wichtig:</strong> Setzen Sie niemals eigenständig Medikamente ab! 
+            Eine sichere Reduktion erfordert ärztliche Begleitung und einen strukturierten Plan.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6 my-8">
+            <div class="bg-white border border-medless-border-light rounded-xl p-6 shadow-sm">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 bg-medless-primary/10 rounded-lg flex items-center justify-center mr-3">
+                  <i data-lucide="check-circle" class="w-5 h-5 text-medless-primary"></i>
+                </div>
+                <h3 class="text-lg font-medium text-medless-text-primary mb-0">Richtig</h3>
+              </div>
+              <ul class="space-y-2 text-sm text-medless-text-secondary mb-0">
+                <li>• Strukturierte Analyse mit MEDLESS</li>
+                <li>• Ärztliche Begleitung</li>
+                <li>• Schrittweises Ausschleichen</li>
+                <li>• Regelmäßige Kontrollen</li>
+              </ul>
+            </div>
+
+            <div class="bg-red-50 border border-red-200 rounded-xl p-6">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                  <i data-lucide="x-circle" class="w-5 h-5 text-red-600"></i>
+                </div>
+                <h3 class="text-lg font-medium text-red-900 mb-0">Falsch</h3>
+              </div>
+              <ul class="space-y-2 text-sm text-red-800 mb-0">
+                <li>• Plötzliches Absetzen</li>
+                <li>• Ohne ärztliche Rücksprache</li>
+                <li>• Mehrere Medikamente gleichzeitig</li>
+                <li>• Ohne Monitoring</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2>Wie MEDLESS bei Polypharmazie hilft</h2>
+          <p>
+            MEDLESS analysiert Ihre gesamte Medikation auf Basis aktueller wissenschaftlicher Leitlinien und erstellt 
+            einen individuellen Orientierungsplan. Dabei werden berücksichtigt:
+          </p>
+          
+          <ul>
+            <li>Wechselwirkungen zwischen allen Medikamenten</li>
+            <li>PRISCUS-Liste (potenziell inadäquate Medikation für Ältere)</li>
+            <li>Anticholinerge Belastung (kognitive Risiken)</li>
+            <li>Individuelle Gesundheitssituation und Prioritäten</li>
+          </ul>
+
+          <div class="bg-gradient-to-br from-medless-primary/5 to-emerald-50 rounded-2xl p-8 my-12 text-center">
+            <h3 class="text-2xl font-medium text-medless-text-primary mb-4">
+              Bereit für eine sichere Medikamentenreduktion?
+            </h3>
+            <p class="text-medless-text-secondary mb-6 max-w-2xl mx-auto">
+              Erstellen Sie in 5 Minuten Ihren persönlichen MEDLESS-Orientierungsplan – 
+              wissenschaftlich fundiert und individuell auf Ihre Situation abgestimmt.
+            </p>
+            <a href="/app" class="inline-flex items-center px-8 py-4 bg-medless-primary hover:bg-medless-primary-hover text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-200 text-lg">
+              <span>Jetzt kostenlos starten</span>
+              <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+            </a>
+          </div>
+
+          <h2>Fazit</h2>
+          <p>
+            Polypharmazie ist ein weit verbreitetes Problem, das oft übersehen wird. 
+            Die gute Nachricht: Mit ärztlicher Begleitung und einem strukturierten Ansatz lässt sich 
+            die Medikamentenlast häufig sicher reduzieren – mit spürbarer Verbesserung der Lebensqualität.
+          </p>
+          
+          <p>
+            <strong>Denken Sie daran:</strong> Mehr Medikamente bedeuten nicht automatisch mehr Gesundheit. 
+            Manchmal ist weniger mehr.
+          </p>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Related Articles -->
+    <section class="section bg-medless-bg-ultra-light">
+      <div class="container">
+        <h2 class="text-3xl font-medium text-medless-text-primary text-center mb-12">
+          Das könnte Sie auch interessieren
+        </h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          
+          <a href="/magazin/medikamente-absetzen/" class="group">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-medless-border-light">
+              <div class="aspect-video overflow-hidden">
+                <img src="/static/artikel2-medikamente-absetzen.jpg" alt="Medikamente sicher absetzen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-medium text-medless-text-primary mb-3 group-hover:text-medless-primary transition-colors">
+                  Medikamente sicher absetzen
+                </h3>
+                <p class="text-medless-text-secondary text-sm leading-relaxed">
+                  Der strukturierte Weg zu weniger Tabletten – mit ärztlicher Begleitung
+                </p>
+              </div>
+            </div>
           </a>
-        </article>
+
+          <a href="/magazin/endocannabinoid-system/" class="group">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-medless-border-light">
+              <div class="aspect-video overflow-hidden">
+                <img src="/static/artikel3-endocannabinoid-system.jpg" alt="Endocannabinoid-System" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-medium text-medless-text-primary mb-3 group-hover:text-medless-primary transition-colors">
+                  Das Endocannabinoid-System
+                </h3>
+                <p class="text-medless-text-secondary text-sm leading-relaxed">
+                  Wie Ihr Körper sich selbst reguliert – und warum das wichtig ist
+                </p>
+              </div>
+            </div>
+          </a>
+
+          <a href="/magazin/schlaftabletten-alternativen/" class="group">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-medless-border-light">
+              <div class="aspect-video overflow-hidden">
+                <img src="/static/artikel5-schlaftabletten.jpg" alt="Schlaftabletten Alternativen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-medium text-medless-text-primary mb-3 group-hover:text-medless-primary transition-colors">
+                  Schlaftabletten: Alternativen
+                </h3>
+                <p class="text-medless-text-secondary text-sm leading-relaxed">
+                  Natürliche Wege zu besserem Schlaf ohne Abhängigkeitsrisiko
+                </p>
+              </div>
+            </div>
+          </a>
+
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- FOOTER -->
-  <footer class="bg-white py-12 border-t border-medless-border-light">
-    <div class="container">
-      <p class="text-center text-medless-text-secondary">© 2025 MEDLESS. Alle Rechte vorbehalten.</p>
+  <!-- Footer (identical to other pages) -->
+  <footer class="bg-slate-900 text-slate-300 py-16 px-6 border-t border-slate-800">
+    <div class="container mx-auto max-w-6xl">
+      <div class="grid md:grid-cols-4 gap-12">
+        
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-8 h-8 bg-gradient-to-br from-medless-primary to-emerald-600 rounded-lg flex items-center justify-center">
+              <span class="text-white text-sm font-bold">M</span>
+            </div>
+            <span class="text-lg font-semibold text-white">MEDLESS</span>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Ihr digitaler Begleiter für sichere Medikamentenreduktion – wissenschaftlich fundiert, individuell angepasst.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-white mb-4">Navigation</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/" class="hover:text-medless-primary transition-colors">Startseite</a></li>
+            <li><a href="/#how-it-works" class="hover:text-medless-primary transition-colors">So funktioniert's</a></li>
+            <li><a href="/#benefits" class="hover:text-medless-primary transition-colors">Vorteile</a></li>
+            <li><a href="/#faq" class="hover:text-medless-primary transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-white mb-4">Ressourcen</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/magazin/" class="hover:text-medless-primary transition-colors">Magazin</a></li>
+            <li><a href="/fachkreise/" class="hover:text-medless-primary transition-colors">Für Fachkreise</a></li>
+            <li><a href="/app" class="hover:text-medless-primary transition-colors">Orientierungsplan</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-white mb-4">Rechtliches</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/impressum" class="hover:text-medless-primary transition-colors">Impressum</a></li>
+            <li><a href="/datenschutz" class="hover:text-medless-primary transition-colors">Datenschutz</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-slate-800 text-center text-sm text-slate-400">
+        <p>&copy; 2024 MEDLESS. Alle Rechte vorbehalten.</p>
+      </div>
     </div>
   </footer>
 
-  <script>lucide.createIcons();</script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+
 </body>
 </html>

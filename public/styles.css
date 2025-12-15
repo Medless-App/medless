@@ -1545,3 +1545,15 @@ footer a:hover {
 .fachkreise-section.gray {
   background: transparent !important;
 }
+
+/* ===== FAQ CENTERING FIX ===== */
+#faq .container {
+  max-width: 900px !important;
+  margin: 0 auto;
+}
+
+.faq-item {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
