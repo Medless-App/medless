@@ -142,14 +142,6 @@
         <li><a href="/fachkreise/" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Für Ärzt:innen & Apotheken</a></li>
       </ul>
       
-      <!-- Desktop CTA Button (Outline/Ghost - reduced prominence) -->
-      <a
-        href="/app" 
-        class="hidden md:inline-flex items-center justify-center gap-2 px-5 py-2 rounded-medless-button border-2 border-medless-primary text-medless-primary bg-white text-[15px] font-medium transition-all duration-medless hover:bg-medless-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40"
-      >
-        Orientierungsplan starten
-      </a>
-      
       <!-- Mobile Menu Button -->
       <button 
         id="mobile-nav-toggle"
@@ -207,16 +199,7 @@
         </ul>
       </nav>
       
-      <!-- CTA Button -->
-      <div class="p-5 border-t border-medless-border-light">
-        <a 
-          href="/app" 
-          class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover transition-all duration-medless active:scale-[0.97]"
-        >
-          <i data-lucide="plus-circle" class="w-5 h-5"></i>
-          <span>Orientierungsplan starten</span>
-        </a>
-      </div>
+
     </div>
   </div>
 
@@ -762,6 +745,14 @@
       });
     });
   </script>
+
+  <!-- STICKY CTA (erscheint nach 25% Scroll) -->
+  <div id="sticky-cta">
+    <a href="/app" id="sticky-cta-button">
+      Orientierungsplan starten
+    </a>
+  </div>
+  <script src="/static/sticky-cta.js"></script>
 
 </body>
 </html>

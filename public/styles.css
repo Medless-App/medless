@@ -1837,6 +1837,94 @@ main {
   font-weight: 500 !important;
 }
 
+/* ============================================
+   STICKY CTA BUTTON (Dezent & Medizinisch)
+   Erscheint nach 25% Scroll, unten rechts
+   ============================================ */
+
+#sticky-cta {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 40;
+  
+  /* Initial State: Hidden */
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  
+  /* Smooth Transitions */
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+#sticky-cta.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#sticky-cta-button {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  
+  /* Typography */
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
+  white-space: nowrap;
+  
+  /* Medical Green (ruhiger als Logo-M) */
+  background: #27a073;
+  
+  /* Border & Shadow (dezent) */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(39, 160, 115, 0.2);
+  
+  /* Smooth Hover Transition */
+  transition: background-color 200ms ease, box-shadow 200ms ease, transform 100ms ease;
+  
+  /* No text selection */
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#sticky-cta-button:hover {
+  background: #229968;
+  box-shadow: 0 6px 16px rgba(39, 160, 115, 0.3);
+  transform: translateY(-1px);
+}
+
+#sticky-cta-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(39, 160, 115, 0.25);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  #sticky-cta {
+    /* Centered on mobile */
+    left: 50%;
+    right: auto;
+    bottom: 1.5rem;
+    transform: translateX(-50%) translateY(20px);
+  }
+  
+  #sticky-cta.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  #sticky-cta-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 14px;
+  }
+}
+
 
 /* ============================================
    FACHKREISE: DEDICATED STYLES
