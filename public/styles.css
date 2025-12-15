@@ -1,4 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap');
+
+/* ===== SMOOTH SCROLLING ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scroll offset for sticky header */
+section[id] {
+  scroll-margin-top: 90px;
+}
+
 :root {
   --primary: #10b981;
   --medless-green: #2FB585;
@@ -16,9 +27,54 @@ body {
   line-height: 1.6;
   margin: 0;
 }
-h1, h2, h3 { color: var(--medless-text-head); font-weight: 300; }
-h1 { font-size: 3rem; line-height: 1.1; margin-bottom: 1.5rem; }
-h2 { font-size: 2.25rem; margin-bottom: 1rem; text-align: center; } /* REDUCED margin */
+/* ===== GLOBAL TYPOGRAPHY SYSTEM ===== */
+/* Consistent H1/H2/H3/Body across Landing, Magazin, Fachkreise */
+
+h1, h2, h3 { 
+  color: var(--medless-text-head); 
+  font-weight: 300; 
+  margin: 0;
+}
+
+/* H1: Hero Headlines (Landing Hero, Article Hero) */
+h1 { 
+  font-size: 42px; 
+  line-height: 1.2; 
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+}
+
+/* H2: Section Headlines */
+h2 { 
+  font-size: 32px; 
+  line-height: 1.3;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+/* H3: Card Titles, Subsection Headlines */
+h3 { 
+  font-size: 21px; 
+  line-height: 1.4;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+/* Body Text */
+p, li {
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 400;
+  color: var(--medless-text-body);
+}
+
+/* Small Text (Meta, Footer) */
+small {
+  font-size: 14px;
+  line-height: 1.5;
+}
 /* FIX: Glass Cards (Die "Balken") */
 .glass-card {
   background: var(--medless-surface);
@@ -1452,4 +1508,40 @@ footer a:hover {
   .article-cta-box {
     padding: 36px 24px;
   }
+}
+
+/* ===== FACHKREISE NORMALIZATION ===== */
+/* Force Fachkreise to use same styles as Landing */
+
+.fachkreise-hero,
+.fachkreise-section {
+  background: transparent !important;
+  padding: 5rem 1rem !important;
+}
+
+.fachkreise-hero .container,
+.fachkreise-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.fachkreise-hero h1 {
+  font-size: 42px !important;
+  line-height: 1.2 !important;
+  font-weight: 300 !important;
+  color: var(--medless-text-head) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.fachkreise-section-title {
+  font-size: 32px !important;
+  line-height: 1.3 !important;
+  font-weight: 500 !important;
+  color: var(--medless-text-head) !important;
+}
+
+/* Remove Fachkreise-specific backgrounds */
+.fachkreise-section.gray {
+  background: transparent !important;
 }
