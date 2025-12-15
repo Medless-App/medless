@@ -348,24 +348,24 @@
         <!-- Process Steps with continuous timeline -->
         <div class="max-w-5xl mx-auto">
           
-          <!-- Desktop: Horizontal with continuous line -->
+          <!-- Desktop: Horizontal process line with numbers on the line -->
           <div class="hidden md:block">
-            <!-- Continuous Process Line (background) -->
-            <div class="relative">
-              <!-- Horizontal timeline -->
-              <div class="absolute top-7 left-0 right-0 h-[1px] bg-medless-border-light"></div>
+            <div class="relative pt-12 pb-8">
+              
+              <!-- Horizontal Process Line (centerline) -->
+              <div class="absolute top-0 left-0 right-0 h-[1px] bg-medless-border-light"></div>
               
               <!-- Steps Grid -->
-              <div class="relative grid grid-cols-3 gap-12">
+              <div class="relative grid grid-cols-3 gap-16">
                 
                 <!-- Step 1 -->
-                <div class="text-center space-y-4">
-                  <!-- Number -->
-                  <div class="text-5xl font-light text-medless-text-secondary/50">
+                <div class="text-center">
+                  <!-- Number (sits on the line) -->
+                  <div class="absolute -top-[28px] left-1/2 -translate-x-1/2 text-5xl font-light text-medless-text-secondary/50 bg-white px-3">
                     01
                   </div>
                   <!-- Title -->
-                  <h3 class="text-xl font-normal text-medless-text-primary">
+                  <h3 class="text-xl font-normal text-medless-text-primary mt-6 mb-2">
                     Erfassen
                   </h3>
                   <!-- Description -->
@@ -375,13 +375,13 @@
                 </div>
                 
                 <!-- Step 2 -->
-                <div class="text-center space-y-4">
-                  <!-- Number -->
-                  <div class="text-5xl font-light text-medless-text-secondary/50">
+                <div class="text-center relative">
+                  <!-- Number (sits on the line) -->
+                  <div class="absolute -top-[28px] left-1/2 -translate-x-1/2 text-5xl font-light text-medless-text-secondary/50 bg-white px-3">
                     02
                   </div>
                   <!-- Title -->
-                  <h3 class="text-xl font-normal text-medless-text-primary">
+                  <h3 class="text-xl font-normal text-medless-text-primary mt-6 mb-2">
                     Plan erhalten
                   </h3>
                   <!-- Description -->
@@ -391,13 +391,13 @@
                 </div>
                 
                 <!-- Step 3 -->
-                <div class="text-center space-y-4">
-                  <!-- Number -->
-                  <div class="text-5xl font-light text-medless-text-secondary/50">
+                <div class="text-center relative">
+                  <!-- Number (sits on the line) -->
+                  <div class="absolute -top-[28px] left-1/2 -translate-x-1/2 text-5xl font-light text-medless-text-secondary/50 bg-white px-3">
                     03
                   </div>
                   <!-- Title -->
-                  <h3 class="text-xl font-normal text-medless-text-primary">
+                  <h3 class="text-xl font-normal text-medless-text-primary mt-6 mb-2">
                     Besprechen
                   </h3>
                   <!-- Description -->
@@ -411,10 +411,10 @@
           </div>
           
           <!-- Mobile: Vertical Stack (no line) -->
-          <div class="md:hidden space-y-10">
+          <div class="md:hidden space-y-8">
             
             <!-- Step 1 -->
-            <div class="text-center space-y-3">
+            <div class="text-center space-y-2">
               <div class="text-4xl font-light text-medless-text-secondary/50">
                 01
               </div>
@@ -427,7 +427,7 @@
             </div>
             
             <!-- Step 2 -->
-            <div class="text-center space-y-3">
+            <div class="text-center space-y-2">
               <div class="text-4xl font-light text-medless-text-secondary/50">
                 02
               </div>
@@ -440,7 +440,7 @@
             </div>
             
             <!-- Step 3 -->
-            <div class="text-center space-y-3">
+            <div class="text-center space-y-2">
               <div class="text-4xl font-light text-medless-text-secondary/50">
                 03
               </div>
