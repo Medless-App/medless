@@ -240,13 +240,23 @@
                 Erfasst Medikamente, zeigt Wechselwirkungen, erstellt einen ärztetauglichen PDF-Bericht.
               </p>
               
-              <div class="mt-4 md:mt-8">
+              <div class="mt-4 md:mt-8 flex flex-col sm:flex-row gap-3">
+                <!-- Primary CTA: Header bleibt "Orientierungsplan starten" -->
                 <a
-                  href="/app" 
+                  href="/#how-it-works" 
                   class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-2.5 rounded-medless-button bg-medless-primary text-white text-button-text font-semibold shadow-medless-button transition-all duration-medless active:scale-[0.98] hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40"
                 >
-                  <i data-lucide="plus" class="w-5 h-5"></i>
-                  <span>Orientierungsplan starten</span>
+                  <i data-lucide="arrow-down" class="w-5 h-5"></i>
+                  <span>So funktioniert's</span>
+                </a>
+                <!-- Secondary CTA: Beispiel -->
+                <a
+                  href="/medless_aerztebericht_beispiel.pdf"
+                  target="_blank"
+                  class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-2.5 rounded-medless-button border-2 border-medless-primary text-medless-primary bg-white text-button-text font-medium transition-all duration-medless active:scale-[0.98] hover:bg-medless-primary hover:text-white hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40"
+                >
+                  <i data-lucide="file-text" class="w-5 h-5"></i>
+                  <span>Beispiel ansehen</span>
                 </a>
               </div>
             </div>
