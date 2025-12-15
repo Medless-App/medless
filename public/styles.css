@@ -642,7 +642,7 @@ input[type=range]::-moz-range-track {
 }
 .faq-item.active .faq-answer {
   max-height: 500px;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
 }
 
 /* Footer Utilities */
