@@ -239,44 +239,24 @@
             <!-- Feature Blocks -->
             <div class="mt-4 space-y-4 md:space-y-0 md:grid md:grid-cols-1 md:gap-4">
               
-              <div class="flex items-start gap-3 bg-medless-bg-card border border-medless-border-light rounded-medless-md p-4 transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-sm">
-                <div class="flex-shrink-0 w-9 h-9 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center">
-                  <i data-lucide="check-circle-2" class="w-5 h-5 md:w-6 md:h-6 text-medless-primary"></i>
-                </div>
-                <div>
-                  <h3 class="text-sm md:text-base font-medium text-medless-text-primary mb-1">Erfasst Ihre aktuellen Medikamente</h3>
-                  <p class="text-xs md:text-sm text-medless-text-secondary">Dosierungen und Einnahmezeiten werden automatisch strukturiert</p>
-                </div>
+              <div class="bg-medless-bg-card border border-medless-border-light rounded-medless-md p-4 transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-sm">
+                <h3 class="text-sm md:text-base font-medium text-medless-text-primary mb-1">Erfasst Ihre aktuellen Medikamente</h3>
+                <p class="text-xs md:text-sm text-medless-text-secondary">Dosierungen und Einnahmezeiten werden automatisch strukturiert</p>
               </div>
               
-              <div class="flex items-start gap-3 bg-medless-bg-card border border-medless-border-light rounded-medless-md p-4 transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-sm">
-                <div class="flex-shrink-0 w-9 h-9 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center">
-                  <i data-lucide="list-ordered" class="w-5 h-5 md:w-6 md:h-6 text-medless-primary"></i>
-                </div>
-                <div>
-                  <h3 class="text-sm md:text-base font-medium text-medless-text-primary mb-1">Zeigt mögliche Reihenfolgen</h3>
-                  <p class="text-xs md:text-sm text-medless-text-secondary">Für eine schrittweise und sichere Reduktion</p>
-                </div>
+              <div class="bg-medless-bg-card border border-medless-border-light rounded-medless-md p-4 transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-sm">
+                <h3 class="text-sm md:text-base font-medium text-medless-text-primary mb-1">Zeigt mögliche Reihenfolgen</h3>
+                <p class="text-xs md:text-sm text-medless-text-secondary">Für eine schrittweise und sichere Reduktion</p>
               </div>
               
-              <div class="flex items-start gap-3 bg-medless-bg-card border border-medless-border-light rounded-medless-md p-4 transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-sm">
-                <div class="flex-shrink-0 w-9 h-9 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center">
-                  <i data-lucide="activity" class="w-5 h-5 md:w-6 md:h-6 text-medless-primary"></i>
-                </div>
-                <div>
-                  <h3 class="text-sm md:text-base font-medium text-medless-text-primary mb-1">Macht Wechselwirkungen sichtbar</h3>
-                  <p class="text-xs md:text-sm text-medless-text-secondary">Unterstützt Sie im Arztgespräch</p>
-                </div>
+              <div class="bg-medless-bg-card border border-medless-border-light rounded-medless-md p-4 transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-sm">
+                <h3 class="text-sm md:text-base font-medium text-medless-text-primary mb-1">Macht Wechselwirkungen sichtbar</h3>
+                <p class="text-xs md:text-sm text-medless-text-secondary">Unterstützt Sie im Arztgespräch</p>
               </div>
               
-              <div class="flex items-start gap-3 bg-medless-bg-card border border-medless-border-light rounded-medless-md p-4 transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-sm">
-                <div class="flex-shrink-0 w-9 h-9 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center">
-                  <i data-lucide="file-text" class="w-5 h-5 md:w-6 md:h-6 text-medless-primary"></i>
-                </div>
-                <div>
-                  <h3 class="text-sm md:text-base font-medium text-medless-text-primary mb-1">Erstellt einen PDF-Plan</h3>
-                  <p class="text-xs md:text-sm text-medless-text-secondary">Orientierung für Sie und Ihren Arzt</p>
-                </div>
+              <div class="bg-medless-bg-card border border-medless-border-light rounded-medless-md p-4 transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-sm">
+                <h3 class="text-sm md:text-base font-medium text-medless-text-primary mb-1">Erstellt einen PDF-Plan</h3>
+                <p class="text-xs md:text-sm text-medless-text-secondary">Orientierung für Sie und Ihren Arzt</p>
               </div>
               
             </div>
@@ -357,85 +337,122 @@
     </section>
 
     <!-- SO FUNKTIONIERT'S SECTION -->
-    <section id="how-it-works" class="section">
+    <section id="how-it-works" class="section bg-white">
       <div class="container">
         
         <!-- Section Title -->
-        <h2 class="text-2xl md:text-section-title text-medless-text-primary text-center mb-8 md:mb-12">
+        <h2 class="text-2xl md:text-4xl font-light text-medless-text-primary text-center mb-12 md:mb-16">
           So funktioniert Medless
         </h2>
         
-        <!-- 3-Column Grid -->
-        <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+        <!-- Process Steps (Desktop: horizontal with line, Mobile: vertical) -->
+        <div class="max-w-5xl mx-auto">
           
-          <!-- Step 1 -->
-          <div class="group" data-animate="fade-up">
-            <div class="bg-white border border-black/[0.06] rounded-medless-lg p-6 md:p-10 text-center transition-all duration-medless hover:-translate-y-1 hover:shadow-medless-card-hover hover:border-medless-primary/25 active:scale-[0.99] active:bg-medless-bg-card">
-              
-              <!-- Icon -->
-              <div class="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 bg-medless-bg-card rounded-medless-xl flex items-center justify-center transition-all duration-300 group-hover:bg-medless-bg-card-hover group-hover:scale-105">
-                <i data-lucide="clipboard-list" class="w-8 h-8 md:w-10 md:h-10 text-medless-primary"></i>
+          <!-- Desktop: Grid with 3 columns + 2 connector lines -->
+          <div class="hidden md:grid md:grid-cols-[1fr_auto_1fr_auto_1fr] md:gap-6 md:items-start">
+            
+            <!-- Step 1 -->
+            <div class="text-center space-y-4">
+              <!-- Number -->
+              <div class="text-6xl font-light text-medless-text-secondary/40">
+                01
               </div>
-              
-              <!-- Step Label -->
-              <p class="text-xs font-semibold uppercase tracking-wider text-medless-text-tertiary mb-3">
-                SCHRITT 01
-              </p>
-              
               <!-- Title -->
-              <h3 class="text-card-title text-medless-text-primary mb-3">
+              <h3 class="text-xl font-normal text-medless-text-primary">
                 Erfassen
               </h3>
-              
               <!-- Description -->
-              <p class="text-card-description text-medless-text-secondary">
+              <p class="text-sm text-medless-text-secondary leading-relaxed">
                 In 3 Minuten Medikamente eingeben.
               </p>
             </div>
-          </div>
-          
-          <!-- Step 2 -->
-          <div class="group" data-animate="fade-up">
-            <div class="bg-white border border-black/[0.06] rounded-medless-lg p-6 md:p-10 text-center transition-all duration-medless hover:-translate-y-1 hover:shadow-medless-card-hover hover:border-medless-primary/25 active:scale-[0.99] active:bg-medless-bg-card">
-              
-              <div class="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 bg-medless-bg-card rounded-medless-xl flex items-center justify-center transition-all duration-300 group-hover:bg-medless-bg-card-hover group-hover:scale-105">
-                <i data-lucide="file-check" class="w-8 h-8 md:w-10 md:h-10 text-medless-primary"></i>
+            
+            <!-- Connector Line 1 -->
+            <div class="flex items-center justify-center pt-8">
+              <div class="w-16 h-[1px] bg-medless-border-light"></div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="text-center space-y-4">
+              <!-- Number -->
+              <div class="text-6xl font-light text-medless-text-secondary/40">
+                02
               </div>
-              
-              <p class="text-xs font-semibold uppercase tracking-wider text-medless-text-tertiary mb-3">
-                SCHRITT 02
-              </p>
-              
-              <h3 class="text-card-title text-medless-text-primary mb-3">
+              <!-- Title -->
+              <h3 class="text-xl font-normal text-medless-text-primary">
                 Plan erhalten
               </h3>
-              
-              <p class="text-card-description text-medless-text-secondary">
+              <!-- Description -->
+              <p class="text-sm text-medless-text-secondary leading-relaxed">
                 Sofortiger PDF-Bericht.
               </p>
             </div>
-          </div>
-          
-          <!-- Step 3 -->
-          <div class="group" data-animate="fade-up">
-            <div class="bg-white border border-black/[0.06] rounded-medless-lg p-6 md:p-10 text-center transition-all duration-medless hover:-translate-y-1 hover:shadow-medless-card-hover hover:border-medless-primary/25 active:scale-[0.99] active:bg-medless-bg-card">
-              
-              <div class="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 bg-medless-bg-card rounded-medless-xl flex items-center justify-center transition-all duration-300 group-hover:bg-medless-bg-card-hover group-hover:scale-105">
-                <i data-lucide="users" class="w-8 h-8 md:w-10 md:h-10 text-medless-primary"></i>
+            
+            <!-- Connector Line 2 -->
+            <div class="flex items-center justify-center pt-8">
+              <div class="w-16 h-[1px] bg-medless-border-light"></div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="text-center space-y-4">
+              <!-- Number -->
+              <div class="text-6xl font-light text-medless-text-secondary/40">
+                03
               </div>
-              
-              <p class="text-xs font-semibold uppercase tracking-wider text-medless-text-tertiary mb-3">
-                SCHRITT 03
-              </p>
-              
-              <h3 class="text-card-title text-medless-text-primary mb-3">
+              <!-- Title -->
+              <h3 class="text-xl font-normal text-medless-text-primary">
                 Besprechen
               </h3>
-              
-              <p class="text-card-description text-medless-text-secondary">
+              <!-- Description -->
+              <p class="text-sm text-medless-text-secondary leading-relaxed">
                 Bessere Gespräche mit Ihrem Arzt.
               </p>
             </div>
+            
+          </div>
+          
+          <!-- Mobile: Vertical Stack -->
+          <div class="md:hidden space-y-10">
+            
+            <!-- Step 1 -->
+            <div class="text-center space-y-3">
+              <div class="text-5xl font-light text-medless-text-secondary/40">
+                01
+              </div>
+              <h3 class="text-lg font-normal text-medless-text-primary">
+                Erfassen
+              </h3>
+              <p class="text-sm text-medless-text-secondary leading-relaxed">
+                In 3 Minuten Medikamente eingeben.
+              </p>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="text-center space-y-3">
+              <div class="text-5xl font-light text-medless-text-secondary/40">
+                02
+              </div>
+              <h3 class="text-lg font-normal text-medless-text-primary">
+                Plan erhalten
+              </h3>
+              <p class="text-sm text-medless-text-secondary leading-relaxed">
+                Sofortiger PDF-Bericht.
+              </p>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="text-center space-y-3">
+              <div class="text-5xl font-light text-medless-text-secondary/40">
+                03
+              </div>
+              <h3 class="text-lg font-normal text-medless-text-primary">
+                Besprechen
+              </h3>
+              <p class="text-sm text-medless-text-secondary leading-relaxed">
+                Bessere Gespräche mit Ihrem Arzt.
+              </p>
+            </div>
+            
           </div>
           
         </div>

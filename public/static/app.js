@@ -4347,7 +4347,7 @@ function updatePdfModalUi() {
       const restartBtn = document.createElement('button');
       restartBtn.id = 'restart-wizard-btn';
       restartBtn.className = 'mt-4 w-full py-3 px-6 text-lg font-semibold rounded-medless-md bg-medless-primary text-white hover:opacity-90 transition-all duration-200';
-      restartBtn.innerHTML = '<span class="mr-2">🔄</span> Neuen Plan erstellen';
+      restartBtn.innerHTML = 'Neuen Plan erstellen';
       restartBtn.addEventListener('click', restartWizard);
       
       const successMsg = modal.querySelector('#pdf-success-message');
