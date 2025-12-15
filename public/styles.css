@@ -592,20 +592,21 @@ input[type=range]::-moz-range-track {
   margin: 0 auto;
 }
 .faq-item {
-  background: white;
-  border: none;
-  border-bottom: 1px solid #e5e7eb;
-  border-radius: 0;
-  padding: 0.65rem 0;
-  margin-bottom: 0;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0.75rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 .faq-item:last-child {
-  border-bottom: none;
+  margin-bottom: 0;
 }
 .faq-item:hover {
-  background-color: #f9fafb;
+  background-color: #fafafa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 .faq-question {
   display: flex;
