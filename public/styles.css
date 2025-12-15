@@ -1837,3 +1837,189 @@ main {
   font-weight: 500 !important;
 }
 
+
+/* ============================================
+   FACHKREISE: DEDICATED STYLES
+   (Restored - needed by public/fachkreise/index.html)
+   ============================================ */
+
+/* Hero Section */
+.fachkreise-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .fachkreise-hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.fachkreise-hero-subtitle {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--medless-text-secondary);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.fachkreise-hero-intro {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--medless-text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+/* Visual Card */
+.fachkreise-visual-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+  max-width: 420px;
+}
+
+@media (max-width: 768px) {
+  .fachkreise-visual-card {
+    max-width: 100%;
+    margin-top: 2rem;
+  }
+}
+
+.fachkreise-visual-header {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  color: var(--medless-primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #E5E7EB;
+}
+
+.fachkreise-visual-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.fachkreise-visual-line {
+  height: 8px;
+  background: linear-gradient(90deg, #E5E7EB 0%, #F3F4F6 100%);
+  border-radius: 4px;
+}
+
+.fachkreise-visual-line.short {
+  width: 60%;
+}
+
+/* Section Title */
+.fachkreise-section-title {
+  font-size: 32px !important;
+  font-weight: 500 !important;
+  color: var(--medless-text-head) !important;
+  margin-bottom: 2rem !important;
+  text-align: center;
+}
+
+/* Cards */
+.fachkreise-card {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 250ms ease;
+}
+
+.fachkreise-card:hover {
+  box-shadow: 0 8px 20px rgba(47, 181, 133, 0.12);
+  border-color: rgba(47, 181, 133, 0.2);
+  transform: translateY(-2px);
+}
+
+.fachkreise-card-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--medless-bg-card);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.fachkreise-card-icon i {
+  width: 24px;
+  height: 24px;
+  color: var(--medless-primary);
+}
+
+/* Grid Layouts */
+.fachkreise-two-col {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .fachkreise-two-col {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.fachkreise-three-col {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .fachkreise-three-col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.fachkreise-four-col {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .fachkreise-four-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .fachkreise-four-col {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Icon Cards */
+.fachkreise-icon-card {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.fachkreise-icon-card-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--medless-bg-card);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.fachkreise-icon-card-icon i {
+  width: 32px;
+  height: 32px;
+  color: var(--medless-primary);
+}
+
