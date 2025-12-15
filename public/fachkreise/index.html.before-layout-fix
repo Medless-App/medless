@@ -124,7 +124,7 @@
 </head>
 <body class="bg-white">
 
-  <!-- HEADER (identical to Landing) -->
+  <!-- HEADER -->
   <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-medless-header">
     <div class="max-w-container mx-auto px-4 md:px-7 py-4 md:py-5 flex items-center justify-between">
       
@@ -142,10 +142,10 @@
         <li><a href="/fachkreise/" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Für Ärzt:innen & Apotheken</a></li>
       </ul>
       
-      <!-- Desktop CTA Button (Outline/Ghost - reduced prominence) -->
+      <!-- Desktop CTA Button -->
       <a
         href="/app" 
-        class="hidden md:inline-flex items-center justify-center gap-2 px-5 py-2 rounded-medless-button border-2 border-medless-primary text-medless-primary bg-white text-[15px] font-medium transition-all duration-medless hover:bg-medless-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40"
+        class="hidden md:inline-flex items-center justify-center gap-2 px-5 py-2 rounded-medless-button border-2 border-medless-primary text-medless-primary bg-white text-[15px] font-medium transition-all duration-medless hover:bg-medless-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40 shadow-medless-button transition-all duration-medless active:scale-[0.98] hover:bg-medless-primary hover:text-white hover:shadow-medless-button-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40"
       >
         Orientierungsplan starten
       </a>
@@ -158,13 +158,13 @@
         <i data-lucide="menu" class="w-5 h-5"></i>
       </button>
     </div>
-  </header>
 
+  <!-- MOBILE NAVIGATION OVERLAY -->
   <!-- MOBILE NAVIGATION OVERLAY -->
   <div id="mobile-nav-overlay" class="hidden fixed inset-0 bg-black/30 z-50">
     <div class="max-w-xs w-full ml-auto bg-white h-full shadow-medless-card flex flex-col">
       <!-- Header -->
-      <div class="flex items-center justify-between p-5 border-medless-border-light">
+      <div class="flex items-center justify-between p-5 border-b border-medless-border-light">
         <a href="/" class="text-xl font-semibold text-medless-text-primary tracking-tight">
           Medless
         </a>
@@ -200,7 +200,7 @@
             </a>
           </li>
           <li>
-            <a href="/fachkreise/" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
+            <a href="/fachkreise/" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-primary hover:bg-medless-bg-ultra-light rounded-medless-md transition-colors">
               Für Ärzt:innen & Apotheken
             </a>
           </li>
@@ -211,7 +211,7 @@
       <div class="p-5 border-t border-medless-border-light">
         <a 
           href="/app" 
-          class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover transition-all duration-medless active:scale-[0.97]"
+          class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-button-text text-white bg-medless-primary border border-medless-primary rounded-medless-button shadow-medless-button hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover transition-all duration-medless"
         >
           <i data-lucide="plus-circle" class="w-5 h-5"></i>
           <span>Orientierungsplan starten</span>
@@ -408,68 +408,36 @@
   </section>
 
   <!-- 5. WAS MEDLESS MACHT -->
-  <section class="section bg-medless-bg-ultra-light py-16 md:py-24">
-    <div class="max-w-container mx-auto px-4 md:px-7">
-      
-      <!-- Section Header -->
-      <h2 class="text-3xl md:text-4xl font-light text-medless-text-primary text-center mb-12 md:mb-16">
-        Was MEDLESS konkret macht
-      </h2>
-      
-      <!-- 4-Column Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
-        <!-- Card 1 -->
-        <div class="bg-white rounded-medless-md border border-medless-border-light p-6 text-center hover:shadow-medless-card-hover transition-shadow duration-medless">
-          <div class="w-14 h-14 mx-auto mb-4 bg-medless-bg-light rounded-full flex items-center justify-center">
-            <i data-lucide="clipboard-list" class="w-7 h-7 text-medless-primary"></i>
-          </div>
-          <h4 class="text-lg font-semibold text-medless-text-primary mb-2">Strukturierte Erfassung</h4>
-          <p class="text-sm text-medless-text-secondary leading-relaxed">Medikamente, Dosierungen, Einnahmezeiten werden systematisch dokumentiert</p>
+  <section class="section">
+    <div class="container">
+      <h2 class="fachkreise-section-title">Was MEDLESS konkret macht</h2>
+      <div class="fachkreise-four-col">
+        <div class="fachkreise-icon-card">
+          <i data-lucide="clipboard-list" class="fachkreise-icon-card-icon"></i>
+          <h4>Strukturierte Erfassung</h4>
+          <p>Medikamente, Dosierungen, Einnahmezeiten werden systematisch dokumentiert</p>
         </div>
-        
-        <!-- Card 2 -->
-        <div class="bg-white rounded-medless-md border border-medless-border-light p-6 text-center hover:shadow-medless-card-hover transition-shadow duration-medless">
-          <div class="w-14 h-14 mx-auto mb-4 bg-medless-bg-light rounded-full flex items-center justify-center">
-            <i data-lucide="list-ordered" class="w-7 h-7 text-medless-primary"></i>
-          </div>
-          <h4 class="text-lg font-semibold text-medless-text-primary mb-2">Plausible Reihenfolge</h4>
-          <p class="text-sm text-medless-text-secondary leading-relaxed">Algorithmus ordnet eine biologisch nachvollziehbare Reduktionsreihenfolge zu</p>
+        <div class="fachkreise-icon-card">
+          <i data-lucide="list-ordered" class="fachkreise-icon-card-icon"></i>
+          <h4>Plausible Reihenfolge</h4>
+          <p>Algorithmus ordnet eine biologisch nachvollziehbare Reduktionsreihenfolge zu</p>
         </div>
-        
-        <!-- Card 3 -->
-        <div class="bg-white rounded-medless-md border border-medless-border-light p-6 text-center hover:shadow-medless-card-hover transition-shadow duration-medless">
-          <div class="w-14 h-14 mx-auto mb-4 bg-medless-bg-light rounded-full flex items-center justify-center">
-            <i data-lucide="network" class="w-7 h-7 text-medless-primary"></i>
-          </div>
-          <h4 class="text-lg font-semibold text-medless-text-primary mb-2">Orientierung zu Überlappungen</h4>
-          <p class="text-sm text-medless-text-secondary leading-relaxed">Zeigt mögliche pharmakokinetische Überlappungen – rein informativ, nicht verbindlich</p>
+        <div class="fachkreise-icon-card">
+          <i data-lucide="network" class="fachkreise-icon-card-icon"></i>
+          <h4>Orientierung zu Überlappungen</h4>
+          <p>Zeigt mögliche pharmakokinetische Überlappungen – rein informativ, nicht verbindlich</p>
         </div>
-        
-        <!-- Card 4 -->
-        <div class="bg-white rounded-medless-md border border-medless-border-light p-6 text-center hover:shadow-medless-card-hover transition-shadow duration-medless">
-          <div class="w-14 h-14 mx-auto mb-4 bg-medless-bg-light rounded-full flex items-center justify-center">
-            <i data-lucide="file-text" class="w-7 h-7 text-medless-primary"></i>
-          </div>
-          <h4 class="text-lg font-semibold text-medless-text-primary mb-2">PDF-Reports</h4>
-          <p class="text-sm text-medless-text-secondary leading-relaxed">Generiert Orientierungsplan für Patient:innen und separaten Ärztebericht</p>
+        <div class="fachkreise-icon-card">
+          <i data-lucide="file-text" class="fachkreise-icon-card-icon"></i>
+          <h4>PDF-Reports</h4>
+          <p>Generiert Orientierungsplan für Patient:innen und separaten Ärztebericht</p>
         </div>
       </div>
-      
-      <!-- Important Disclaimer (as Callout) -->
-      <div class="max-w-3xl mx-auto bg-amber-50 border-2 border-amber-200 rounded-medless-md p-6 md:p-8">
-        <div class="flex items-start gap-3">
-          <div class="flex-shrink-0 w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center mt-1">
-            <i data-lucide="alert-circle" class="w-6 h-6 text-amber-600"></i>
-          </div>
-          <div>
-            <h3 class="text-lg font-semibold text-amber-900 mb-2">Wichtig</h3>
-            <p class="text-base text-amber-800 leading-relaxed">
-              MEDLESS erstellt keine Therapieempfehlung. Alle medizinischen Entscheidungen – Dosisanpassungen, Reihenfolge, Timing – trifft ausschließlich die behandelnde Ärztin oder der behandelnde Arzt.
-            </p>
-          </div>
-        </div>
+      <div style="text-align: center; margin-top: 2.5rem;">
+        <p style=" color: #4B5563; font-weight: 500; max-width: 800px; margin: 0 auto;">
+          <strong>Wichtig:</strong> MEDLESS erstellt keine Therapieempfehlung. Alle medizinischen Entscheidungen – Dosisanpassungen, Reihenfolge, Timing – trifft ausschließlich die behandelnde Ärztin oder der behandelnde Arzt.
+        </p>
       </div>
-      
     </div>
   </section>
 
