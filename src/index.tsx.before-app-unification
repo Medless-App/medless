@@ -3269,119 +3269,66 @@ app.get('/app', (c) => {
       </script>
     </head>
     
-    <body class="font-sans bg-white text-medless-text-primary">
+    <body class="font-sans bg-medless-bg-ultra-light text-medless-text-primary">
       
-      <!-- HEADER (identical to Landing, but app-specific CTA) -->
-      <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-medless-border-light shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 md:px-7 py-4 md:py-5 flex items-center justify-between">
-          
-          <!-- Logo -->
-          <a href="/" class="text-xl md:text-2xl font-semibold text-medless-text-primary tracking-tight">
-            Medless
-          </a>
-          
-          <!-- Desktop Navigation -->
-          <ul class="hidden md:flex items-center gap-7">
-            <li><a href="/#how-it-works" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">So funktioniert's</a></li>
-            <li><a href="/#benefits" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">Vorteile</a></li>
-            <li><a href="/#faq" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">FAQ</a></li>
-            <li><a href="/magazin/" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">Magazin</a></li>
-            <li><a href="/fachkreise/" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-200">Für Ärzt:innen & Apotheken</a></li>
-          </ul>
-          
-          <!-- Desktop CTA Button (App-specific: "Zur Startseite") -->
-          <a
-            href="/" 
-            class="hidden md:inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl border-2 border-medless-primary text-medless-primary bg-white text-[15px] font-medium transition-all duration-200 hover:bg-medless-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40"
-          >
-            Zur Startseite
-          </a>
-          
-          <!-- Mobile Menu Button -->
-          <button 
-            id="mobile-nav-toggle"
-            class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-medless-border-light text-medless-text-primary hover:bg-medless-bg-ultra-light transition-colors"
-            aria-label="Menü öffnen"
-          >
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          </button>
-        </div>
-      </header>
-
-      <!-- MOBILE NAVIGATION OVERLAY -->
-      <div id="mobile-nav-overlay" class="hidden fixed inset-0 bg-black/30 z-50">
-        <div class="max-w-xs w-full ml-auto bg-white h-full shadow-lg flex flex-col">
-          <!-- Header -->
-          <div class="flex items-center justify-between p-5 border-b border-medless-border-light">
-            <a href="/" class="text-xl font-semibold text-medless-text-primary tracking-tight">
-              Medless
-            </a>
+      <!-- HERO SECTION -->
+      <section class="bg-gradient-to-br from-medless-primary to-medless-primary-dark text-white py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+              Ihr persönlicher MEDLESS-Orientierungsplan
+            </h1>
+            <p class="text-xl md:text-2xl text-white/90 mb-8">
+              Erfasst Medikamente, zeigt Wechselwirkungen, erstellt einen ärztetauglichen PDF-Bericht
+            </p>
             <button 
-              id="mobile-nav-close"
-              class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-medless-border-light text-medless-text-primary hover:bg-medless-bg-ultra-light transition-colors"
-              aria-label="Menü schließen"
+              onclick="document.getElementById('tool').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => document.getElementById('first_name')?.focus(), 500);"
+              class="bg-white text-medless-primary px-8 py-4 rounded-medless-lg font-semibold text-lg hover:bg-medless-bg-ultra-light transition-all shadow-lg hover:shadow-xl"
             >
-              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Orientierungsplan starten →
             </button>
           </div>
           
-          <!-- Navigation Links -->
-          <nav class="flex-1 overflow-y-auto p-5">
-            <ul class="space-y-2">
-              <li>
-                <a href="/#how-it-works" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-xl transition-colors">
-                  So funktioniert's
-                </a>
-              </li>
-              <li>
-                <a href="/#benefits" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-xl transition-colors">
-                  Vorteile
-                </a>
-              </li>
-              <li>
-                <a href="/#faq" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-xl transition-colors">
-                  FAQ
-                </a>
-              </li>
-              <li>
-                <a href="/magazin/" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-xl transition-colors">
-                  Magazin
-                </a>
-              </li>
-              <li>
-                <a href="/fachkreise/" class="mobile-nav-link block px-4 py-3 text-base font-medium text-medless-text-primary hover:bg-medless-bg-ultra-light rounded-xl transition-colors">
-                  Für Ärzt:innen & Apotheken
-                </a>
-              </li>
-            </ul>
-          </nav>
-          
-          <!-- CTA Button -->
-          <div class="p-5 border-t border-medless-border-light">
-            <a 
-              href="/" 
-              class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-white bg-medless-primary border border-medless-primary rounded-xl shadow-sm hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 active:scale-[0.97]"
-            >
-              <span>Zur Startseite</span>
-            </a>
+          <!-- BENEFITS GRID (styled like Landing) -->
+          <div class="grid md:grid-cols-4 gap-6 mt-12">
+            <div class="bg-white/10 backdrop-blur-sm rounded-medless-lg shadow-medless-card p-6 text-center">
+              <div class="text-4xl mb-3">📋</div>
+              <h3 class="font-semibold text-lg mb-2">Medikamente erfassen</h3>
+              <p class="text-sm text-white/80">Alle aktuellen Medikamente zentral dokumentieren</p>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-medless-lg shadow-medless-card p-6 text-center">
+              <div class="text-4xl mb-3">⚠️</div>
+              <h3 class="font-semibold text-lg mb-2">Wechselwirkungen prüfen</h3>
+              <p class="text-sm text-white/80">Automatische Analyse kritischer Kombinationen</p>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-medless-lg shadow-medless-card p-6 text-center">
+              <div class="text-4xl mb-3">📊</div>
+              <h3 class="font-semibold text-lg mb-2">Plan erstellen</h3>
+              <p class="text-sm text-white/80">Individueller Reduktionsplan (2-12 Wochen)</p>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-medless-lg shadow-medless-card p-6 text-center">
+              <div class="text-4xl mb-3">💾</div>
+              <h3 class="font-semibold text-lg mb-2">PDF Download</h3>
+              <p class="text-sm text-white/80">Professioneller Bericht für Arztgespräch</p>
+            </div>
           </div>
         </div>
-      </div>
-
-      <!-- MAIN WIZARD SECTION (NO HERO - direct to tool) -->
-      <main class="py-12 px-4 bg-medless-bg-ultra-light min-h-screen">
-        <div class="max-w-5xl mx-auto">
+      </section>
+      
+      <!-- MAIN WIZARD SECTION -->
+      <main class="py-12 px-4">
+        <div class="max-w-4xl mx-auto">
           
           <!-- WIZARD CARD -->
-          <section id="tool" class="bg-white rounded-xl shadow-sm border border-medless-border-light p-6 md:p-10">
+          <section id="tool" class="bg-white rounded-medless-lg shadow-medless-card p-8">
             
-            <!-- MINIMAL INTRO (inside wizard, not separate hero) -->
-            <div class="mb-8 pb-6 border-b border-medless-border-light">
-              <h1 class="text-2xl md:text-3xl font-semibold text-medless-text-primary mb-2">
-                Orientierungsplan erstellen
-              </h1>
-              <p class="text-medless-text-secondary text-base">
-                5 Schritte zum individuellen Medikationsplan – Angaben vertraulich, keine Datenspeicherung
+            <!-- WIZARD HEADER -->
+            <div class="text-center mb-8">
+              <h2 class="text-2xl font-bold text-medless-primary mb-2">
+                5-Schritte-Wizard
+              </h2>
+              <p class="text-medless-text-secondary">
+                Füllen Sie die Schritte aus, um Ihren persönlichen Orientierungsplan zu erstellen
               </p>
             </div>
             
@@ -3638,39 +3585,6 @@ app.get('/app', (c) => {
       <!-- External Resources -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-      
-      <!-- Mobile Navigation Toggle Script -->
-      <script>
-        // Mobile Nav Toggle
-        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
-        const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
-        const mobileNavClose = document.getElementById('mobile-nav-close');
-        
-        if (mobileNavToggle && mobileNavOverlay && mobileNavClose) {
-          mobileNavToggle.addEventListener('click', () => {
-            mobileNavOverlay.classList.remove('hidden');
-          });
-          
-          mobileNavClose.addEventListener('click', () => {
-            mobileNavOverlay.classList.add('hidden');
-          });
-          
-          // Close on overlay click
-          mobileNavOverlay.addEventListener('click', (e) => {
-            if (e.target === mobileNavOverlay) {
-              mobileNavOverlay.classList.add('hidden');
-            }
-          });
-          
-          // Close when clicking nav links
-          const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-          mobileNavLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              mobileNavOverlay.classList.add('hidden');
-            });
-          });
-        }
-      </script>
       
       <!-- Wizard Logic -->
       <script src="/static/app.js"></script>
