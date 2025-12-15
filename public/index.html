@@ -9,6 +9,7 @@
   <!-- Favicon -->
     <link rel="stylesheet" href="/static/scroll-animations.css">
   <script src="/static/scroll-animations.js" defer></script>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="shortcut icon" href="/favicon.png">
   <link rel="apple-touch-icon" href="/favicon.png">
@@ -33,7 +34,7 @@
   <meta name="twitter:image:alt" content="Medless Orientierungsplan – Beispielansicht">
   
   <!-- MEDLESS Global Styles (Cache-Busted) -->
-  <link rel="stylesheet" href="/styles.css?v1765812038">
+  <link rel="stylesheet" href="/styles.css?v1765812664">
   
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -240,19 +241,11 @@
                 Erfasst Medikamente, zeigt Wechselwirkungen, erstellt einen ärztetauglichen PDF-Bericht.
               </p>
               
-              <div class="mt-4 md:mt-8 flex flex-col sm:flex-row gap-3 items-start">
-                <!-- Primary CTA: Orientierungsplan starten (einziger gefüllter Button) -->
-                <a
-                  href="/app" 
-                  class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-2.5 rounded-medless-button bg-medless-primary text-white text-button-text font-semibold shadow-medless-button transition-all duration-medless active:scale-[0.98] hover:bg-medless-primary-dark hover:-translate-y-0.5 hover:shadow-medless-button-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medless-primary/40"
-                >
-                  <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                  <span>Orientierungsplan starten</span>
-                </a>
-                <!-- Textlink statt Button -->
+              <!-- Optional: Textlink only (no buttons in hero) -->
+              <div class="mt-4 md:mt-6">
                 <a
                   href="/#how-it-works"
-                  class="inline-flex items-center gap-2 text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless text-[15px] font-medium mt-2 sm:mt-3"
+                  class="inline-flex items-center gap-2 text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless text-[15px] font-medium"
                 >
                   <span>Mehr erfahren</span>
                   <i data-lucide="arrow-down" class="w-4 h-4"></i>

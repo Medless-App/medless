@@ -2023,3 +2023,134 @@ main {
   color: var(--medless-primary);
 }
 
+
+/* ============================================
+   APP (SCOPED) - Clean Wizard Layout
+   ============================================ */
+
+/* Scope all App-specific overrides */
+.app-page {
+  /* Already set in body: bg-medless-bg-ultra-light */
+}
+
+/* Remove previous aggressive app styles */
+.app-page .hero {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* App Main Container */
+.app-page main {
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+  padding: 2rem 1rem !important;
+}
+
+/* Wizard Card */
+.app-page #tool {
+  background: white !important;
+  border-radius: 16px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  padding: 2rem 1.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .app-page #tool {
+    padding: 2.5rem 3rem !important;
+  }
+}
+
+/* Stepper: Clean & Minimal */
+.app-page .step-indicator {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 250ms ease !important;
+}
+
+.app-page .step-indicator.active {
+  background: var(--medless-primary) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 0 0 4px rgba(47, 181, 133, 0.15) !important;
+}
+
+.app-page .step-indicator:not(.active) {
+  background: white !important;
+  border: 2px solid var(--medless-border-light) !important;
+  color: var(--medless-text-tertiary) !important;
+}
+
+/* Buttons: Match Landing */
+.app-page button[type="submit"],
+.app-page .btn-primary {
+  background: var(--medless-primary) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 24px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(47, 181, 133, 0.2) !important;
+  transition: all 250ms ease !important;
+}
+
+.app-page button[type="submit"]:hover,
+.app-page .btn-primary:hover {
+  background: #1B9C6E !important;
+  box-shadow: 0 4px 16px rgba(47, 181, 133, 0.3) !important;
+  transform: translateY(-2px) !important;
+}
+
+.app-page button[type="button"],
+.app-page .btn-secondary {
+  background: white !important;
+  color: var(--medless-primary) !important;
+  border: 2px solid rgba(47, 181, 133, 0.3) !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 24px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  transition: all 250ms ease !important;
+}
+
+.app-page button[type="button"]:hover,
+.app-page .btn-secondary:hover {
+  background: rgba(47, 181, 133, 0.05) !important;
+  border-color: var(--medless-primary) !important;
+}
+
+/* Form Inputs */
+.app-page input[type="text"],
+.app-page input[type="email"],
+.app-page input[type="number"],
+.app-page input[type="tel"],
+.app-page select,
+.app-page textarea {
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 12px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 16px !important;
+  color: var(--medless-text-primary) !important;
+  background: white !important;
+  transition: all 250ms ease !important;
+}
+
+.app-page input:focus,
+.app-page select:focus,
+.app-page textarea:focus {
+  outline: none !important;
+  border-color: var(--medless-primary) !important;
+  box-shadow: 0 0 0 3px rgba(47, 181, 133, 0.08) !important;
+}
+
+/* Remove old aggressive hero styles from global scope */
+body:not(.app-page) .hero {
+  /* Landing hero keeps its original styles */
+}
+
