@@ -345,78 +345,77 @@
           So funktioniert Medless
         </h2>
         
-        <!-- Process Steps (Desktop: horizontal with line, Mobile: vertical) -->
+        <!-- Process Steps with continuous timeline -->
         <div class="max-w-5xl mx-auto">
           
-          <!-- Desktop: Grid with 3 columns + 2 connector lines -->
-          <div class="hidden md:grid md:grid-cols-[1fr_auto_1fr_auto_1fr] md:gap-6 md:items-start">
-            
-            <!-- Step 1 -->
-            <div class="text-center space-y-4">
-              <!-- Number -->
-              <div class="text-6xl font-light text-medless-text-secondary/40">
-                01
+          <!-- Desktop: Horizontal with continuous line -->
+          <div class="hidden md:block">
+            <!-- Continuous Process Line (background) -->
+            <div class="relative">
+              <!-- Horizontal timeline -->
+              <div class="absolute top-7 left-0 right-0 h-[0.5px] bg-medless-primary/8"></div>
+              
+              <!-- Steps Grid -->
+              <div class="relative grid grid-cols-3 gap-12">
+                
+                <!-- Step 1 -->
+                <div class="text-center space-y-4">
+                  <!-- Number -->
+                  <div class="text-5xl font-light text-medless-text-secondary/50">
+                    01
+                  </div>
+                  <!-- Title -->
+                  <h3 class="text-xl font-normal text-medless-text-primary">
+                    Erfassen
+                  </h3>
+                  <!-- Description -->
+                  <p class="text-sm text-medless-text-secondary leading-relaxed">
+                    In 3 Minuten Medikamente eingeben.
+                  </p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="text-center space-y-4">
+                  <!-- Number -->
+                  <div class="text-5xl font-light text-medless-text-secondary/50">
+                    02
+                  </div>
+                  <!-- Title -->
+                  <h3 class="text-xl font-normal text-medless-text-primary">
+                    Plan erhalten
+                  </h3>
+                  <!-- Description -->
+                  <p class="text-sm text-medless-text-secondary leading-relaxed">
+                    Sofortiger PDF-Bericht.
+                  </p>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="text-center space-y-4">
+                  <!-- Number -->
+                  <div class="text-5xl font-light text-medless-text-secondary/50">
+                    03
+                  </div>
+                  <!-- Title -->
+                  <h3 class="text-xl font-normal text-medless-text-primary">
+                    Besprechen
+                  </h3>
+                  <!-- Description -->
+                  <p class="text-sm text-medless-text-secondary leading-relaxed">
+                    Bessere Gespräche mit Ihrem Arzt.
+                  </p>
+                </div>
+                
               </div>
-              <!-- Title -->
-              <h3 class="text-xl font-normal text-medless-text-primary">
-                Erfassen
-              </h3>
-              <!-- Description -->
-              <p class="text-sm text-medless-text-secondary leading-relaxed">
-                In 3 Minuten Medikamente eingeben.
-              </p>
             </div>
-            
-            <!-- Connector Line 1 -->
-            <div class="flex items-center justify-center pt-8">
-              <div class="w-16 h-[1px] bg-medless-border-light"></div>
-            </div>
-            
-            <!-- Step 2 -->
-            <div class="text-center space-y-4">
-              <!-- Number -->
-              <div class="text-6xl font-light text-medless-text-secondary/40">
-                02
-              </div>
-              <!-- Title -->
-              <h3 class="text-xl font-normal text-medless-text-primary">
-                Plan erhalten
-              </h3>
-              <!-- Description -->
-              <p class="text-sm text-medless-text-secondary leading-relaxed">
-                Sofortiger PDF-Bericht.
-              </p>
-            </div>
-            
-            <!-- Connector Line 2 -->
-            <div class="flex items-center justify-center pt-8">
-              <div class="w-16 h-[1px] bg-medless-border-light"></div>
-            </div>
-            
-            <!-- Step 3 -->
-            <div class="text-center space-y-4">
-              <!-- Number -->
-              <div class="text-6xl font-light text-medless-text-secondary/40">
-                03
-              </div>
-              <!-- Title -->
-              <h3 class="text-xl font-normal text-medless-text-primary">
-                Besprechen
-              </h3>
-              <!-- Description -->
-              <p class="text-sm text-medless-text-secondary leading-relaxed">
-                Bessere Gespräche mit Ihrem Arzt.
-              </p>
-            </div>
-            
           </div>
           
-          <!-- Mobile: Vertical Stack -->
+          <!-- Mobile: Vertical Stack (no line) -->
           <div class="md:hidden space-y-10">
             
             <!-- Step 1 -->
             <div class="text-center space-y-3">
-              <div class="text-5xl font-light text-medless-text-secondary/40">
+              <div class="text-4xl font-light text-medless-text-secondary/50">
                 01
               </div>
               <h3 class="text-lg font-normal text-medless-text-primary">
@@ -429,7 +428,7 @@
             
             <!-- Step 2 -->
             <div class="text-center space-y-3">
-              <div class="text-5xl font-light text-medless-text-secondary/40">
+              <div class="text-4xl font-light text-medless-text-secondary/50">
                 02
               </div>
               <h3 class="text-lg font-normal text-medless-text-primary">
@@ -442,7 +441,7 @@
             
             <!-- Step 3 -->
             <div class="text-center space-y-3">
-              <div class="text-5xl font-light text-medless-text-secondary/40">
+              <div class="text-4xl font-light text-medless-text-secondary/50">
                 03
               </div>
               <h3 class="text-lg font-normal text-medless-text-primary">
