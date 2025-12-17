@@ -148,12 +148,13 @@
         <li><a href="/fachkreise/" class="text-[15px] text-medless-text-secondary hover:text-medless-primary transition-colors duration-medless">Für Ärzt:innen & Apotheken</a></li>
       </ul>
       
-      <!-- Mobile Menu Button -->
+      <!-- Mobile Menu Button (Green Circle - Enhanced) -->
       <button 
         id="mobile-nav-toggle"
-        class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-medless-border-light text-medless-text-primary hover:bg-medless-bg-ultra-light transition-colors"
+        class="md:hidden inline-flex items-center justify-center w-12 h-12 rounded-full bg-medless-primary shadow-lg text-white hover:bg-medless-primary-dark hover:shadow-xl transition-all active:scale-95 ring-2 ring-medless-primary/20"
+        aria-label="Menü öffnen"
       >
-        <i data-lucide="menu" class="w-5 h-5"></i>
+        <i data-lucide="menu" class="w-6 h-6 stroke-[2]"></i>
       </button>
     </div>
   </header>
@@ -633,4 +634,71 @@
           </div>
           
           <!-- FAQ Item 6 -->
-          <div class="faq-item"
+          <div class="faq-item">
+            <div class="faq-question">
+              <span class="faq-question-text">Muss ich den MEDLESS Plan meinem Arzt zeigen?</span>
+              <i data-lucide="chevron-down" class="faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>Ja, unbedingt. Der MEDLESS Plan ist ausdrücklich dafür gedacht, dass du ihn gemeinsam mit deinem Arzt besprichst. Nur dein Arzt kennt deine vollständige Krankengeschichte und kann entscheiden, welche Anpassungen für dich sinnvoll und sicher sind. Medless ersetzt niemals ein Arztgespräch – es bereitet dich darauf vor.</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- Build Marker -->
+    <div id="build-marker" class="fixed bottom-2 right-2 text-[10px] text-gray-400 bg-white/80 px-2 py-1 rounded shadow-sm backdrop-blur-sm z-50 font-mono">
+      Build: TEST-2025-12-17-A · 15:10
+    </div>
+
+    <script>
+      lucide.createIcons();
+      
+      // FAQ Accordion
+      document.querySelectorAll('.faq-item').forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        
+        question.addEventListener('click', () => {
+          item.classList.toggle('active');
+          if (item.classList.contains('active')) {
+            answer.style.display = 'block';
+            setTimeout(() => lucide.createIcons(), 10);
+          } else {
+            answer.style.display = 'none';
+          }
+        });
+      });
+      
+      // Mobile Navigation
+      const toggle = document.getElementById('mobile-nav-toggle');
+      const overlay = document.getElementById('mobile-nav-overlay');
+      const close = document.getElementById('mobile-nav-close');
+      
+      if (toggle && overlay && close) {
+        toggle.addEventListener('click', () => {
+          overlay.classList.remove('hidden');
+          lucide.createIcons();
+        });
+        
+        close.addEventListener('click', () => {
+          overlay.classList.add('hidden');
+        });
+        
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) {
+            overlay.classList.add('hidden');
+          }
+        });
+        
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+          link.addEventListener('click', () => {
+            overlay.classList.add('hidden');
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
