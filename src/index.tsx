@@ -1549,12 +1549,12 @@ function getCanonicalHeader(activePage: 'home' | 'magazin' | 'fachkreise' | 'app
         Orientierungsplan starten
       </a>
       
-      <!-- Mobile Menu Button -->
+      <!-- Mobile Menu Button (Green Circle) -->
       <button 
         id="mobile-nav-toggle"
-        class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-medless-border-light text-medless-text-primary hover:bg-medless-bg-ultra-light transition-colors"
+        class="md:hidden inline-flex items-center justify-center w-12 h-12 rounded-full bg-medless-primary shadow-md text-white hover:bg-medless-primary-dark transition-all active:scale-95"
       >
-        <i data-lucide="menu" class="w-5 h-5"></i>
+        <i data-lucide="menu" class="w-5 h-5 stroke-[1.5]"></i>
       </button>
     </div>
   </header>
